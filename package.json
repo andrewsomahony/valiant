@@ -3,7 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "preinstall": "../client/scripts/install.sh",
+    "postinstall": "../client/scripts/compile.sh",
     "start": "node ./bin/www"
+  },
+  "engines": {
+    "node": "5.7.0"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
@@ -15,5 +20,6 @@
     "mongoose": "~4.4.5",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0"
-  }
+  },
+  "devDependencies": {}
 }
