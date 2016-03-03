@@ -1,0 +1,19 @@
+{
+	"name": "ejs",
+	"version": "0.1.0",
+	"publisher": "vscode",
+	"engines": { "vscode": "*" },
+	"contributes": {
+		"languages": [{
+			"id": "ejs",
+			"extensions": [ ".ejs" ],
+			"aliases": [ "EJS", "ejs" ],
+			"mimetypes": [ "text/html", "text/x-jshtm", "text/template" ]
+		}],
+		"grammars": [{
+			"scopeName": "text.html.basic",
+			"path": "./syntaxes/EJS.plist"
+		}]
+	}
+
+}
