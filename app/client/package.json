@@ -1,7 +1,9 @@
 {
   "name": "valiant_frontend",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Front-End code for the Valiant website",
-  "author": "Andrew O\'Mahony",
-  "license": "MIT"
+  "author": "Andrew O'Mahony",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
 }
