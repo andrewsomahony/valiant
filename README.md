@@ -15,3 +15,5 @@ gulp.js
 Install with:
 
 npm install -g gulp
+
+heroku run bash --app valiant
