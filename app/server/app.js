@@ -43,6 +43,13 @@ app.use(['/views'], function(request, result, next) {
     next();
 });
 
+app.use('/', function(request, result, next) {
+    result.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    result.header('Expires', '-1');
+    result.header('Pragma', 'no-cache');
+    next();
+})
+
 app.use('/', indexRoute);
 
 // catch 404 and forward to error handler
