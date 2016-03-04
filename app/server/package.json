@@ -2,13 +2,13 @@
   "name": "server",
   "version": "0.0.0",
   "private": true,
+  "repository": "https://github.com/andrewsomahony/valiant.git",
   "scripts": {
-    "preinstall": "../client/scripts/install.sh",
-    "postinstall": "../client/scripts/compile.sh",
     "start": "node ./bin/www"
   },
   "engines": {
-    "node": "5.7.0"
+    "node": "5.7.0",
+    "npm": "3.6.0"
   },
   "dependencies": {
     "body-parser": "~1.13.2",
