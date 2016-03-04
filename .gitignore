@@ -2,3 +2,7 @@
 node_env/*
 app/client/node_modules/*
 app/server/node_modules/*
+
+app/client/_build/*
+app/server/public/javascripts/*
+app/server/public/stylesheets/*
