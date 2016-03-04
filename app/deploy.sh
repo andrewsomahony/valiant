@@ -10,6 +10,6 @@ ROOTDIR=`git rev-parse --show-toplevel`
 
 cd $ROOTDIR
 
-git subtree push --prefix app/server origin production
+git push origin `git subtree split --prefix app/server master`:production --force
 
 cd $OLDDIR
