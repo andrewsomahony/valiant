@@ -36,18 +36,14 @@ var OUTPUT_VIEWS_DIR = "./views"
 var OUTPUT_VIEW_FILE = '_views.js'
 var VIEW_MODULE_NAME = 'app.views'
 
-var installTaskName = '';
-
-if (true === canInstall) {
-    installTaskName = 'install';
-}
-
 gulp.task('install', function() {
-    exec('./scripts/install.sh', function(err, stdout, stderr) {
-        if (err) {
-            util.log(err);
-        }
-    });
+    if (true === canInstall) {
+        exec('./scripts/install.sh', function(err, stdout, stderr) {
+            if (err) {
+                util.log(err);
+            }
+        });
+    }
 })
 
 gulp.task('javascript', ['views'], function() {
@@ -102,12 +98,12 @@ gulp.task('css', function() {
 gulp.task('watch', function() {
    var WATCH_JS = ['./**/*.js', "!./views/*.js", "!./build/**/*.js"]
 
-   gulp.watch(WATCH_JS, ['javascript', installTaskName]);
+   gulp.watch(WATCH_JS, ['javascript', 'install']);
 
    //This will compile the views first
-   gulp.watch(VIEWS, ['javascript', installTaskName]);
-   gulp.watch(CSS, ['css', installTaskName]);
+   gulp.watch(VIEWS, ['javascript', 'install']);
+   gulp.watch(CSS, ['css', 'install']);
 })
 
-gulp.task('default', ['javascript', 'css', installTaskName], function() {
+gulp.task('default', ['javascript', 'css', 'install'], function() {
     });    
