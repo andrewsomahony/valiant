@@ -3,8 +3,7 @@
 OLDDIR=`pwd -P`
 cd -P -- "$(dirname -- "$0")"
 
-./client/scripts/compile.sh
-./client/scripts/install.sh
+./deploy_local.sh
 
 ROOTDIR=`git rev-parse --show-toplevel`
 
