@@ -34,7 +34,7 @@ var OUTPUT_BUILD_DIR = "./_build"
 var OUTPUT_VIEWS_DIR = "./views"
 
 var OUTPUT_VIEW_FILE = '_views.js'
-var VIEW_MODULE_NAME = 'app.views'
+var VIEW_MODULE_NAME = 'valiant.views'
 
 gulp.task('install', function() {
     if (true === canInstall) {
@@ -52,7 +52,7 @@ gulp.task('javascript', ['views'], function() {
       debug: useDebug
    }).bundle().on('error', function(e) {
       util.log(e)
-      this.end()
+      this.emit('end');
    })
 
    code = code.pipe(source(OUTPUT_JS_FILE))

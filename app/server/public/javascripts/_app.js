@@ -1,16 +1,159 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-module.exports = {
-    name: 'valiant'
+'use strict';
+
+require('./module');
+},{"./module":2}],2:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+var appInfo = require('info');
+
+module.exports = angular.module(appInfo.moduleName('animations'), []);
+},{"angular":25,"info":18}],3:[function(require,module,exports){
+'use strict';
+
+var registerController = require('../register');
+
+var name = 'about.about';
+
+registerController(name, ['$scope', function($scope) {
+    
+}]);
+
+module.exports = name;
+},{"../register":9}],4:[function(require,module,exports){
+'use strict';
+
+var registerController = require('../register');
+
+var name = 'about.default';
+
+registerController(name, ['$scope', function($scope) {
+    setTimeout(function() {
+        $scope.$apply(function() {
+            $scope.name = "Pearl";
+        })
+    }, 1000);
+}]);
+
+module.exports = name;
+},{"../register":9}],5:[function(require,module,exports){
+'use strict';
+
+require('./main/main');
+require('./main/default');
+
+require('./about/about');
+require('./about/default');
+},{"./about/about":3,"./about/default":4,"./main/default":6,"./main/main":7}],6:[function(require,module,exports){
+'use strict';
+
+var registerController = require('../register');
+
+var name = 'main.default';
+
+registerController(name, ['$scope', function($scope) {
+    
+}]);
+
+module.exports = name;
+},{"../register":9}],7:[function(require,module,exports){
+'use strict';
+
+var registerController = require('../register');
+
+var name = 'main.main';
+
+registerController(name, ['$scope', function($scope) {
+    
+}]);
+
+module.exports = name;
+},{"../register":9}],8:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+var appInfo = require('info');
+
+module.exports = angular.module(appInfo.moduleName('controllers'), []);
+},{"angular":25,"info":18}],9:[function(require,module,exports){
+'use strict';
+
+var m = require('./module');
+
+module.exports = function(name, params) {
+    m.controller(name, params);
 }
-},{}],2:[function(require,module,exports){
+},{"./module":8}],10:[function(require,module,exports){
+arguments[4][1][0].apply(exports,arguments)
+},{"./module":11,"dup":1}],11:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+var appInfo = require('info');
+
+module.exports = angular.module(appInfo.moduleName('directives'), []);
+},{"angular":25,"info":18}],12:[function(require,module,exports){
+arguments[4][1][0].apply(exports,arguments)
+},{"./module":13,"dup":1}],13:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+var info = require('info');
+
+module.exports = angular.module(info.moduleName('filters'), []);
+},{"angular":25,"info":18}],14:[function(require,module,exports){
+arguments[4][1][0].apply(exports,arguments)
+},{"./module":15,"dup":1}],15:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+var appInfo = require('info');
+
+module.exports = angular.module(appInfo.moduleName('models'), []);
+},{"angular":25,"info":18}],16:[function(require,module,exports){
+arguments[4][1][0].apply(exports,arguments)
+},{"./module":17,"dup":1}],17:[function(require,module,exports){
+'use strict';
+
+var angular = require('angular');
+var appInfo = require('info');
+
+module.exports = angular.module(appInfo.moduleName('services'), []);
+},{"angular":25,"info":18}],18:[function(require,module,exports){
+module.exports = {
+    name: 'valiant',
+    moduleName: function(name) {
+        return this.name + "." + name;
+    }
+}
+},{}],19:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 
-var appInfo = require('../info');
+require('../views/_views');
 
-module.exports = angular.module(appInfo.name, [require('angular-ui-router')]);
-},{"../info":1,"angular":8,"angular-ui-router":6}],3:[function(require,module,exports){
+require('../components/controllers/init');
+require('../components/filters/init');
+require('../components/directives/init');
+require('../components/animations/init');
+require('../components/services/init');
+require('../components/models/init');
+
+var appInfo = require('info');
+
+module.exports = angular.module(appInfo.name, [
+    appInfo.moduleName('controllers'),
+    appInfo.moduleName('filters'),
+    appInfo.moduleName('directives'),
+    appInfo.moduleName('animations'),
+    appInfo.moduleName('services'),
+    appInfo.moduleName('models'),
+    appInfo.moduleName('views'),
+    require('angular-ui-router')
+]);
+},{"../components/animations/init":1,"../components/controllers/init":5,"../components/directives/init":10,"../components/filters/init":12,"../components/models/init":14,"../components/services/init":16,"../views/_views":27,"angular":25,"angular-ui-router":23,"info":18}],20:[function(require,module,exports){
 'use strict';
 
 function boot() {
@@ -23,9 +166,86 @@ function boot() {
 }
 
 module.exports = boot
-},{"../info":1,"./app":2,"./routes":4}],4:[function(require,module,exports){
+},{"../info":18,"./app":19,"./routes":21}],21:[function(require,module,exports){
 'use strict';
-},{}],5:[function(require,module,exports){
+
+var app = require('./app');
+
+function RouteResolver(route) {
+    return {
+        
+    };
+}
+
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+   
+   $urlRouterProvider.otherwise("/");
+
+   // The controllers all export the name of the controller,
+   // so we just have require here to get that
+
+   $stateProvider.state('main', {
+      url: "/",
+      templateUrl: "main.html",
+      abstract: true
+   })
+   
+   .state("main.home", {
+      url: "",
+      abstract: true, 
+       views: {
+          "header@main": {
+            templateUrl: "partials/main/header.html"
+         },
+         "content@main": {
+             templateUrl: "partials/main/main.html",
+             controller: require('../components/controllers/main/main')
+         },
+         "footer@main": {
+            templateUrl: "partials/main/footer.html"
+         }          
+       }               
+   })
+   .state("main.home.default", {
+       resolve: RouteResolver("main.home.default"),
+       url: "",
+       views: {
+         "content@main.home": {
+            templateUrl: "partials/main/content.html",
+            controller: require('../components/controllers/main/default'),
+         },
+      }      
+   })
+   
+   .state("main.about", {
+       url: "about",
+       abstract: true,
+       views: {
+          "header@main": {
+            templateUrl: "partials/main/header.html"
+         },
+         "content@main": {
+             templateUrl: "partials/about/about.html",
+             controller: require('../components/controllers/about/about')
+         },
+         "footer@main": {
+            templateUrl: "partials/main/footer.html"
+         }          
+       } 
+   })
+   
+   .state("main.about.default", {
+       url: "",
+       resolve: RouteResolver("main.about.default"),
+       views: {
+         "content@main.about": {
+             templateUrl: "partials/about/content.html",
+             controller: require('../components/controllers/about/default')
+         },       
+       }       
+   })
+}]);
+},{"../components/controllers/about/about":3,"../components/controllers/about/default":4,"../components/controllers/main/default":6,"../components/controllers/main/main":7,"./app":19}],22:[function(require,module,exports){
 require('domready')(function() {
     console.log("DOM IS READY!");
     
@@ -33,7 +253,7 @@ require('domready')(function() {
     bootFn();
 })
 
-},{"./init/boot":3,"domready":9}],6:[function(require,module,exports){
+},{"./init/boot":20,"domready":26}],23:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.18
@@ -4573,7 +4793,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],7:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -35002,11 +35222,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],8:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":7}],9:[function(require,module,exports){
+},{"./angular":24}],26:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -35038,4 +35258,12 @@ module.exports = angular;
 
 });
 
-},{}]},{},[5]);
+},{}],27:[function(require,module,exports){
+angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("main.html","<div class=\"main\">\n    <div ui-view=\"header\"></div>\n    <div ui-view=\"content\"></div>\n    <div ui-view=\"footer\"></div>\n</div>");
+$templateCache.put("partials/about/about.html","<div ui-view=\"content\" class=\"about\"></div>");
+$templateCache.put("partials/about/content.html","This is about my love for my Beautiful <span ng-bind=\"name\"></span>.");
+$templateCache.put("partials/main/content.html","This is the main page!");
+$templateCache.put("partials/main/footer.html","This is the footer!");
+$templateCache.put("partials/main/header.html","<div>Valiant Athletics</div>\n<a ui-sref=\"main.home.default\">Home</a>\n<a ui-sref=\"main.about.default\">About</a>\n");
+$templateCache.put("partials/main/main.html","<div ui-view=\"content\" class=\"main\"></div>");}]);
+},{}]},{},[22]);
