@@ -24,7 +24,7 @@ var useDebug = yargs.debug || false
 var canInstall = yargs.install || false;
 
 var JS = ['./main.js']
-var CSS = ['./css/*.css', './css/app.scss']
+var CSS = ['./node_modules/bootstrap/dist/css/bootstrap.css', './css/*.css', './css/app.scss']
 var VIEWS = ['./views/**/*.html']
 
 var OUTPUT_JS_FILE = '_app.js'
@@ -91,6 +91,7 @@ gulp.task('views', function() {
 
 gulp.task('css', function() {
    gulp.src(CSS)
+   .pipe(sass().on('error', sass.logError))
    .pipe(concat(OUTPUT_CSS_FILE))
    .pipe(gulp.dest(OUTPUT_BUILD_DIR))
 })

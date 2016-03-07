@@ -10,6 +10,7 @@
   "devDependencies": {
     "angular": "~1.5.0",
     "angular-ui-router": "~0.2.13",
+    "bootstrap": "^3.3.6",
     "browserify": "^13.0.0",
     "browserify-shim": "~3.8.2",
     "browsernizr": "~2.1.0",
