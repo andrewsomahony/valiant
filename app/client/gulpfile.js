@@ -2,8 +2,10 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var uglifyCSS = require('gulp-uglifycss');
 var util = require('gulp-util');
-//var browserify = require('gulp-browserify')
+var gzip = require('gulp-gzip');
+var clean = require('gulp-clean');
 
 var source = require('vinyl-source-stream')
 var buffer = require('vinyl-buffer');
@@ -20,6 +22,7 @@ var yargs = require('yargs').argv
 
 var isProduction = yargs.production || false
 var useDebug = yargs.debug || false
+var isCompressed = yargs.compress || false
 
 var canInstall = yargs.install || false;
 
@@ -44,7 +47,12 @@ gulp.task('install', function() {
             }
         });
     }
-})
+});
+
+gulp.task('clear', function() {
+    gulp.src(OUTPUT_BUILD_DIR, {read: false})
+		.pipe(clean());    
+});
 
 gulp.task('javascript', ['views'], function() {
    var code = browserify({
@@ -58,23 +66,26 @@ gulp.task('javascript', ['views'], function() {
    code = code.pipe(source(OUTPUT_JS_FILE))
               .pipe(buffer())
 
-   if (true === useDebug)
-   {
+   if (true === useDebug) {
       code = code.pipe(sourcemaps.init({loadMaps: true}))
 
-      if (true === isProduction)
-      {
+      if (true === isProduction) {
          code = code.pipe(uglify())
       }
 
+      if (true === isCompressed) {
+          code = code.pipe(gzip());
+      }
+
       code = code.pipe(sourcemaps.write('./'))
-   }
-   else
-   {
-      if (true === isProduction)
-      {
+   } else {
+      if (true === isProduction) {
          code = code.pipe(uglify())
-      }      
+      }
+      
+      if (true === isCompressed) {
+          code = code.pipe(gzip());
+      }
    }
 
    code.pipe(gulp.dest(OUTPUT_BUILD_DIR));
@@ -90,10 +101,19 @@ gulp.task('views', function() {
 })
 
 gulp.task('css', function() {
-   gulp.src(CSS)
+   var code = gulp.src(CSS)
    .pipe(sass().on('error', sass.logError))
    .pipe(concat(OUTPUT_CSS_FILE))
-   .pipe(gulp.dest(OUTPUT_BUILD_DIR))
+   
+   if (true === isProduction) {
+       code = code.pipe(uglifyCSS());
+   }
+   
+   if (true === isCompressed) {
+       code = code.pipe(gzip());
+   }
+   
+   code.pipe(gulp.dest(OUTPUT_BUILD_DIR))
 })
 
 gulp.task('watch', function() {
@@ -106,5 +126,5 @@ gulp.task('watch', function() {
    gulp.watch(CSS, ['css', 'install']);
 })
 
-gulp.task('default', ['javascript', 'css', 'install'], function() {
+gulp.task('default', ['clear', 'javascript', 'css', 'install'], function() {
     });    

@@ -224,7 +224,7 @@ function(id, promise) {
             throw new Error("base.trigger: Invalid event name! " + eventName)
          }
 
-         var self = this
+         var self = this;
          return promise(function(resolve, reject, notify) {
             var returnValue = true;
 
@@ -238,9 +238,9 @@ function(id, promise) {
             }, this)
 
             if (false === returnValue) {
-               reject()
+               reject();
             } else {
-               resolve()
+               resolve();
             }
          })
       },

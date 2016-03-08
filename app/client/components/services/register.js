@@ -10,6 +10,6 @@ module.exports = function(type, name, params) {
     } else if ('provider' === type) {
         m.provider(name, params);
     } else {
-        
+        throw new Error("services.register: Invalid service type! " + name);   
     }
 }

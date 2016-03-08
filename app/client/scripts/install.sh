@@ -4,7 +4,11 @@ echo "Installing front-end on server..."
 PREVDIR=`pwd -P`
 cd -P -- "$(dirname -- "$0")"
 
-cp ../_build/_app.js ../../server/public/javascripts/
-cp ../_build/_app.css ../../server/public/stylesheets/
+rm -f ../../server/public/*.js
+rm -f ../../server/public/*.css
+rm -f ../../server/public/*.js.gz
+rm -f ../../server/public/*.css.gz
+
+cp ../_build/* ../../server/public/
 
 cd $PREVDIR

@@ -18,3 +18,5 @@ npm install -g gulp
 
 heroku config:set NPM_CONFIG_LOGLEVEL=verbose --app valiant
 heroku run bash --app valiant
+
+export NODE_ENV=development

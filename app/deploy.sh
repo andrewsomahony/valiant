@@ -3,7 +3,7 @@
 OLDDIR=`pwd -P`
 cd -P -- "$(dirname -- "$0")"
 
-./deploy_local.sh
+./deploy_local.sh --production --compress
 
 ROOTDIR=`git rev-parse --show-toplevel`
 
