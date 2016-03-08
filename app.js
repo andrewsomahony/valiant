@@ -7,6 +7,9 @@ var bodyParser = require('body-parser');
 
 var ejs = require('ejs');
 
+var fs = require('fs');
+var mime = require('mime');
+
 var indexRoute = require('./routes/index');
 
 var app = express();
@@ -25,23 +28,28 @@ app.use(cookieParser());
 
 // Static Assets
 
-app.use(['/javascripts', '/stylesheets'], function(request, result, next) {
+app.use(['/*.js', '/*.css'], function(request, result, next) {
+    if (request.acceptsEncodings(['gzip'])) {
+        var compressedVersion = __dirname + '/public' + request.originalUrl + ".gz";
+        try {
+            fs.accessSync(compressedVersion, fs.R_OK);
+            request.url += '.gz';
+            
+            result.header('Content-Encoding', 'gzip');
+            result.header('Content-Type', mime.lookup(path.extname(request.originalUrl)));
+        } catch(error) {
+            
+        }
+    }
+    
     result.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     result.header('Expires', '-1');
     result.header('Pragma', 'no-cache');
+    
     next();
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-// View Files
-
-app.use(['/views'], function(request, result, next) {
-    result.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    result.header('Expires', '-1');
-    result.header('Pragma', 'no-cache');
-    next();
-});
 
 app.use('/', function(request, result, next) {
     result.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
