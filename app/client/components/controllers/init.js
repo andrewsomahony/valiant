@@ -1,7 +1,7 @@
 'use strict';
 
-require('./main/main');
-require('./main/default');
+require('./main/home/home');
+require('./main/home/default');
 
-require('./about/about');
-require('./about/default');
+require('./main/about/about');
+require('./main/about/default');

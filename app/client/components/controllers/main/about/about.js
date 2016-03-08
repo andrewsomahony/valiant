@@ -1,8 +1,8 @@
 'use strict';
 
-var registerController = require('../register');
+var registerController = require('../../register');
 
-var name = 'about.about';
+var name = 'main.about';
 
 registerController(name, ['$scope', function($scope) {
     

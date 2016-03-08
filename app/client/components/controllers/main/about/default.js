@@ -1,8 +1,8 @@
 'use strict';
 
-var registerController = require('../register');
+var registerController = require('../../register');
 
-var name = 'about.default';
+var name = 'main.about.default';
 
 registerController(name, ['$scope', function($scope) {
     setTimeout(function() {

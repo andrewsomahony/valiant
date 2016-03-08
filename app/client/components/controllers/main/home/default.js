@@ -1,8 +1,8 @@
 'use strict';
 
-var registerController = require('../register');
+var registerController = require('../../register');
 
-var name = 'main.main';
+var name = 'main.home.default';
 
 registerController(name, ['$scope', function($scope) {
     

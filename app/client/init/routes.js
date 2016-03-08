@@ -26,14 +26,14 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
       abstract: true, 
        views: {
           "header@main": {
-            templateUrl: "partials/main/header.html"
+            templateUrl: "partials/main/home/header.html"
          },
          "content@main": {
-             templateUrl: "partials/main/main.html",
-             controller: require('../components/controllers/main/main')
+             templateUrl: "partials/main/home/home.html",
+             controller: require('../components/controllers/main/home/home')
          },
          "footer@main": {
-            templateUrl: "partials/main/footer.html"
+            templateUrl: "partials/main/home/footer.html"
          }          
        }               
    })
@@ -42,8 +42,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        url: "",
        views: {
          "content@main.home": {
-            templateUrl: "partials/main/content.html",
-            controller: require('../components/controllers/main/default'),
+            templateUrl: "partials/main/home/content.html",
+            controller: require('../components/controllers/main/home/default'),
          },
       }      
    })
@@ -53,15 +53,15 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        abstract: true,
        views: {
           "header@main": {
-            templateUrl: "partials/main/header.html"
+            templateUrl: "partials/main/home/header.html"
          },
          "content@main": {
-             templateUrl: "partials/about/about.html",
-             controller: require('../components/controllers/about/about')
+             templateUrl: "partials/main/about/about.html",
+             controller: require('../components/controllers/main/about/about')
          },
          "footer@main": {
-            templateUrl: "partials/main/footer.html"
-         }          
+            templateUrl: "partials/main/home/footer.html"
+         }      
        } 
    })
    
@@ -70,9 +70,34 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        resolve: RouteResolver("main.about.default"),
        views: {
          "content@main.about": {
-             templateUrl: "partials/about/content.html",
-             controller: require('../components/controllers/about/default')
+             templateUrl: "partials/main/about/content.html",
+             controller: require('../components/controllers/main/about/default')
          },       
        }       
+   })
+   
+   $stateProvider.state("admin", {
+       url: "/admin",
+       abstract: true,
+       templateUrl: "admin.html"
+   })
+   
+   .state("admin.home", {
+       url: "",
+       abstract: true,
+       views: {
+           "content@admin": {
+               templateUrl: "partials/admin/home/home.html"
+           }
+       }
+   })
+   .state("admin.home.default", {
+       url: "",
+       resolve: RouteResolver("admin.home.default"),
+       views: {
+           "content@admin.home": {
+               templateUrl: "partials/admin/home/content.html"
+           }
+       }
    })
 }]);
