@@ -14,6 +14,8 @@ var indexRoute = require('./routes/index');
 
 var app = express();
 
+var connectDb = require('./db/connect');
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -74,25 +76,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// error handlers
+// Connect to our database
 
-// development error handler
-// will print stacktrace
-/*
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-
-});*/
-
+connectDb();
 
 module.exports = app;
