@@ -1,6 +1,6 @@
 var appConfig = require('../config/config');
 var mongoose = require('mongoose');
-var databaseUrl = appConfig('db_url');
+var databaseUrl = appConfig.env('db_url');
 
 mongoose.connection.on('connected', function () {
    console.log('Mongoose connection open to ' + databaseUrl);
