@@ -13,6 +13,7 @@ var mime = require('mime');
 var indexRoute = require('./routes/index');
 
 var app = express();
+var appConfig = require('./config/config');
 
 var connectDb = require('./db/connect');
 
@@ -27,6 +28,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+console.log(appConfig.secure('AWS_ACCESS_KEY_ID'), appConfig.secure('AWS_SECRET_KEY'));
 
 // Static Assets
 
