@@ -8,6 +8,3 @@ putting it here because whenever Visual Studio Code updates, it deletes the fold
 into the plugins folder.
 
 MacOSX Plugins Folder: /Applications/Visual Studio Code.app/Contents/Resources/app/extensions
-
-AWSAccessKeyId=AKIAIY53FOKKGGIWENUQ
-AWSSecretKey=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
