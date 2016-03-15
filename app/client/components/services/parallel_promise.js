@@ -5,10 +5,13 @@ var utils = require('utils')
 
 var name = 'parallelPromiseService';
 
-m.factory(name, [require('./promise'),
-                 require('./progress'),
+var progressClass = require('models/progress');
+
+m.factory(name, [require('services/promise'),
+                 require('services/progress'),
+                 require('models/progress'),
                  '$q',
-function(promise, progress, $q) {
+function(promise, progress, ProgressModel, $q) {
    function parallelPromiseService(promiseFnArray, keepAsArray, supportNotify) {
       keepAsArray = keepAsArray || false
       supportNotify = supportNotify || false
@@ -19,9 +22,9 @@ function(promise, progress, $q) {
          promiseFnArray.forEach(function(promiseFn) {
             var progressObject = promiseFn(true);
 
-            if (false === utils.isClassy(progressObject)) {
+            if (false === utils.objectIsClassy(progressObject) ||
+                false === utils.objectIsKindOfClass(progressObject, ProgressModel)) {
                throw new Error("parallelPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
-               //progressInfoArray.push(progress(0, 0))
             }
             else {
                progressInfoArray.push(progressObject)
@@ -81,13 +84,12 @@ function(promise, progress, $q) {
       promiseFnArray.forEach(function(fn) {
          var progressObject = fn(true);
 
-         if (false === utils.isClassy(progressObject))
-         {
+         if (false === utils.objectIsClassy(progressObject) ||
+             false === utils.objectIsKindOfClass(progressObject, ProgressModel)) {
             throw new Error("parallelPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
             arr.push(progress(0, 0))
          }
-         else
-         {
+         else {
             arr.push(progressObject)
          }
       }) 

@@ -57,7 +57,8 @@ gulp.task('clear', function() {
 gulp.task('javascript', ['views'], function() {
    var code = browserify({
       entries: JS,
-      debug: useDebug
+      debug: useDebug,
+      paths: ['./components/']
    }).bundle().on('error', function(e) {
       util.log(e)
       this.emit('end');

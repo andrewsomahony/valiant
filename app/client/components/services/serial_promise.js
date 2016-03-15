@@ -5,8 +5,10 @@ var utils = require('utils')
 
 var name = 'serialPromiseService'
 
-m.factory(name, [require('./promise'),
-                 require('./progress'),
+var progressClass = require('models/progress');
+
+m.factory(name, [require('services/promise'),
+                 require('services/progress'),
 function(promise, progress) {
    function serialPromiseService(promiseFnArray, keysToDelete, keysToKeep, removeFinalKeyIfAlone, supportNotify) {
       keysToDelete = keysToDelete || []
@@ -23,7 +25,8 @@ function(promise, progress) {
 
             var progressObject = fn(null, -1, true)
 
-            if ('undefined' === typeof progressObject.$ownClass)
+            if (false === utils.objectIsClassy(progressObject) ||
+                false === utils.objectIsKindOfClass(progressObject, progressClass))
             {
                //progressInfoArray.push(progress(0, 0));
                throw new Error("serialPromiseService with supportNotify=true must have ALL functions able to return a progress object!");

@@ -1,15 +1,63 @@
-//Commonly used functions to avoid jQuery
+
+
+/*
+    // CommonJS module
+    if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = Chance;
+        }
+        exports.Chance = Chance;
+    }
+
+    // Register as an anonymous AMD module
+    if (typeof define === 'function' && define.amd) {
+        define([], function () {
+            return Chance;
+        });
+    }
+
+    // if there is a importsScrips object define chance for worker
+    if (typeof importScripts !== 'undefined') {
+        chance = new Chance();
+    }
+
+    // If there is a window object, that at least has a document property,
+    // instantiate and define chance on the window
+    if (typeof window === "object" && typeof window.document === "object") {
+        window.Chance = Chance;
+        window.chance = new Chance();
+    }
+*/
+
+// Replacement for common jQuery functions to reduce our reliance on it
+// Should Work on IE10+
 
 (function() {
 
    var Utils = {
 
-      isClassy: function(object) {
-         return 'object' === typeof object && 'undefined' !== typeof object.$ownClass;
+      objectIsClassy: function(object) {
+         return 'object' === typeof object && false === this.isUndefinedOrNull(object.$ownClass)
+      },
+      
+      objectIsTypeOfClass: function(object, classObject) {
+         return object.$ownClass === classObject;
       },
 
       isArray: function(object) {
          return Array.isArray(object)
+      },
+
+      objectHasKeys: function(object) {
+         return 0 !== Object.keys(object).length
+      },
+
+      getUndefined: function() {
+         return (function() {})()
+      },
+
+      isUndefinedOrNull: function(object) {
+         return undefined === object || null === object || 'undefined' === typeof object
       },
 
       isPlainObject: function(object) {
@@ -41,20 +89,79 @@
       findInArray: function(array, sentinelFn) {
          var returnValue;
          array.every(function(element) {
-            if (true === sentinelFn(element)) {
+            if (true === sentinelFn(element))
+            {
                returnValue = element;
                return false;
-            } else {
+            }
+            else
+            {
                return true;
             }
          })
          return returnValue
       },
 
+      findAllInArray: function(array, sentinelFn) {
+         var returnValue = []
+
+         array.forEach(function(element) {
+            if (true === sentinelFn(element))
+            {
+               returnValue.push(element)
+            }
+         });
+
+         return returnValue
+      },
+
+      indexOf: function(array, sentinelFn) {
+         var returnValue = null;
+
+         array.every(function(element, index) {
+            if (true === sentinelFn(element))
+            {
+               returnValue = index;
+               return false;
+            }
+            else
+            {
+               return true;
+            }
+         })
+
+         return returnValue;
+      },
+
+      inlineDeleteFromArray: function(array, sentinelFn) {
+         var index = this.indexOf(array, sentinelFn)
+
+         if (false === this.isUndefinedOrNull(index)) 
+         {
+            array.splice(index, 1)
+         }
+      },
+
       objectToArray: function(obj) {
-         return Object.keys(obj).map(function (key) {
+
+         if (false === this.isPlainObject(obj))
+         {
+            throw new Error("utils.objectToArray: Obj is not a plain object!")
+         }
+
+         return this.map(Object.keys(obj), function (key) {
             return obj[key]
          });
+      },
+
+      runInArray: function(array, sentinelFn, fn) {
+         sentinelFn = sentinelFn || function(e) {return true;}
+         array.forEach(function(element) {
+            if (true === sentinelFn(element))
+            {
+               fn.call(element)
+            }
+         })
       },
 
       clone: function(obj) {
@@ -69,8 +176,50 @@
          else
          {
             // Always makes a new copy if not an Object or Array type
+            // As Javascript passes only object or array arguments by reference
             return obj;
          }
+      },
+
+      // Sentinel returns true if we want to KEEP it
+      grep: function(array, sentinelFn) {
+         var newArray = []
+
+         array.forEach(function(element) {
+            if (true === sentinelFn(element))
+            {
+               newArray.push(element);
+            }
+         })
+
+         return newArray
+      },
+
+      map: function(array, sentinelFn, thisPointer) {
+         var newArray = []
+         thisPointer = thisPointer || this
+
+         array.forEach(function(element, index) {
+            var obj = sentinelFn.call(thisPointer, element, index)
+
+            if (false === this.isUndefinedOrNull(obj))
+            {
+               newArray.push(obj)
+            }
+         })
+
+         return newArray
+      },
+
+      merge: function(array) {
+         for (var i = 1; i < arguments.length; i++)
+         {
+            var newArray = arguments[i]
+
+            array = array.concat(newArray)
+         }
+
+         return array
       },
 
       extend: function(isDeep, array) {
@@ -120,10 +269,24 @@
          }
 
          return array;
+      },
+
+      toJson: function(obj) {
+         return JSON.stringify(obj);
+      },
+
+      fromJson: function(json) {
+         return JSON.parse(json)
+      },
+
+      round: function(n, places) {
+         return +n.toFixed(places)
       }
    }
 
    module.exports = Utils;
 
-})();
+})()
+
+/*'undefined' !== typeof exports ? ('undefined' !== typeof module ? module.exports : exports) : window*/
 
