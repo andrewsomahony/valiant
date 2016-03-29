@@ -13,7 +13,7 @@ function(PromiseService, ProgressService) {
     }
     
     VideoConverterService.convert = function() {
-        console.log(videoConverter);
+     //   console.log(videoConverter);
     }
     
     return VideoConverterService;
