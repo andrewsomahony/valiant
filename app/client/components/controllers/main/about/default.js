@@ -8,18 +8,20 @@ var name = 'main.about.default';
 registerController(name, ['$scope', 
                           require('models/error'),
                           require('models/progress'),
-                          function($scope, ErrorModel, ProgressModel) {
+                          require('services/video_converter'),
+                          function($scope, ErrorModel, ProgressModel, VideoConverter) {
                               
     var e = new ErrorModel({
         error: "Nothing",
         code: -999
     });
 
-    console.log(utils.objectIsTypeOfClass(e, ErrorModel);
+    console.log(utils.objectIsClassy(e, ErrorModel));
     
     setTimeout(function() {
         $scope.$apply(function() {
             $scope.name = "Pearl";
+            VideoConverter.convert();
         })
     }, 1000);
 }]);

@@ -35,9 +35,12 @@
 (function() {
 
    var Utils = {
-
-      objectIsClassy: function(object) {
-         return 'object' === typeof object && false === this.isUndefinedOrNull(object.$ownClass)
+      objectIsClassy: function(object, classObject) {
+        classObject = classObject || null;
+        
+        return 'object' === typeof object 
+                && false === this.isUndefinedOrNull(object.$ownClass)
+                && (null === classObject || true === this.objectIsTypeOfClass(object, classObject))
       },
       
       objectIsTypeOfClass: function(object, classObject) {

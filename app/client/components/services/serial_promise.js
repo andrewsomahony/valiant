@@ -5,11 +5,10 @@ var utils = require('utils')
 
 var name = 'serialPromiseService'
 
-var progressClass = require('models/progress');
-
 m.factory(name, [require('services/promise'),
                  require('services/progress'),
-function(promise, progress) {
+                 require('models/progress'),
+function(promise, progress, ProgressModel) {
    function serialPromiseService(promiseFnArray, keysToDelete, keysToKeep, removeFinalKeyIfAlone, supportNotify) {
       keysToDelete = keysToDelete || []
       keysToKeep = keysToKeep || []
@@ -18,21 +17,16 @@ function(promise, progress) {
       removeFinalKeyIfAlone = removeFinalKeyIfAlone || false
 
       var allData = {};
-      var progressInfoArray = []
+      var progressInfoArray = [];
 
       if (true === supportNotify) {
          promiseFnArray.forEach(function(fn) {
 
             var progressObject = fn(null, -1, true)
 
-            if (false === utils.objectIsClassy(progressObject) ||
-                false === utils.objectIsKindOfClass(progressObject, progressClass))
-            {
-               //progressInfoArray.push(progress(0, 0));
+            if (false === utils.objectIsClassy(progressObject, ProgressModel)) {
                throw new Error("serialPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
-            }
-            else
-            {
+            } else {
                progressInfoArray.push(progressObject)
             }
          })
@@ -153,13 +147,9 @@ function(promise, progress) {
       promiseFnArray.forEach(function(fn) {
          var progressObject = fn(null, -1, true);
 
-         if (false === utils.isClassy(progressObject))
-         {
+         if (false === utils.objectIsClassy(progressObject, ProgressModel)) {
             throw new Error("serialPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
-            //arr.push(progress(0, 0));
-         }
-         else
-         {
+         } else {
             arr.push(progressObject)
          }
       }) 

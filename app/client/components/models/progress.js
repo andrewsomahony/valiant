@@ -1,11 +1,11 @@
 'use strict'
 
-var m = require('./module')
+var registerModel = require('./register');
 var classy = require('classy')
 
 var name = 'progressModel'
 
-m.factory(name, [require('./base'),
+registerModel(name, [require('./base'),
 function(baseModel) {
    return classy.define({
       extend: baseModel,

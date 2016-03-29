@@ -22,11 +22,9 @@ function(promise, progress, ProgressModel, $q) {
          promiseFnArray.forEach(function(promiseFn) {
             var progressObject = promiseFn(true);
 
-            if (false === utils.objectIsClassy(progressObject) ||
-                false === utils.objectIsKindOfClass(progressObject, ProgressModel)) {
+            if (false === utils.objectIsClassy(progressObject, ProgressModel)) {
                throw new Error("parallelPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
-            }
-            else {
+            } else {
                progressInfoArray.push(progressObject)
             }
          })
@@ -84,12 +82,9 @@ function(promise, progress, ProgressModel, $q) {
       promiseFnArray.forEach(function(fn) {
          var progressObject = fn(true);
 
-         if (false === utils.objectIsClassy(progressObject) ||
-             false === utils.objectIsKindOfClass(progressObject, ProgressModel)) {
+         if (false === utils.objectIsClassy(progressObject, ProgressModel)) {
             throw new Error("parallelPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
-            arr.push(progress(0, 0))
-         }
-         else {
+         } else {
             arr.push(progressObject)
          }
       }) 

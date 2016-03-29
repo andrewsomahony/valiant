@@ -78,7 +78,7 @@ gulp.task('javascript', ['views'], function() {
           code = code.pipe(gzip());
       }
 
-      code = code.pipe(sourcemaps.write('./'))
+      code = code.pipe(sourcemaps.write())
    } else {
       if (true === isProduction) {
          code = code.pipe(uglify())

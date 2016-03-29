@@ -1,10 +1,10 @@
 'use strict';
 
-var m = require('./module')
+var registerService = require('./register');
 
 var name = 'promiseService'
 
-m.factory(name, ['$q',
+registerService('factory', name, ['$q',
 function($q) {
    function promiseService(fn) {
       var deferred = $q.defer();
