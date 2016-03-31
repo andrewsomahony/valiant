@@ -1,0 +1,15 @@
+{
+  "name": "valiant_testbed",
+  "version": "0.0.0",
+  "description": "Testbed for Valiant website technologies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew O'Mahony",
+  "license": "none",
+  "dependencies": {
+    "http-server": "~0.9.0",
+    "gzipme": "0.0.9"
+  }
+}

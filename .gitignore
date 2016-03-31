@@ -1,5 +1,5 @@
 .python-version
-testbed/*
+testbed/testbed_env/*
 node_env/*
 
 app/client/node_modules/*
