@@ -20,23 +20,35 @@
                 <span>Loading converter...</span>
                 <img src="./load.gif" />
             </div>
-            <div class="interface">
-                <input id="filePicker" class="file-picker" type="file" accept="video/\*" name="files[]" \>
-                <button id="convertFile" class="convert-file">Convert</button>
-                <div class="video-information">
+            <div class="interface" style="width:700px;">
+                <div class="interface-div" style="float: left; width:50%">
+                    <div class="file-picker-area">
+                        <input id="filePicker" class="file-picker" type="file" accept="video/\*" name="files[]" \>
+                        <button id="convertFile" class="convert-file">Convert</button>
+                    </div>
+                    
+                    <div class="video-information">
+                        <div class="video-thumbnails">
+                        </div>
+                        
+                        <div class="video-metadata">
+                        </div>
+                    </div>
+                </div>
+                <div class="interface-div" style="float: right; width: 50%">
+                    <div class="interface-output" style="padding-top:21px;">
+                        <video class="converted-video" controls>
+                        </video>
+                    </div> 
                 </div>
             </div>
             
-            <div class="interface-output">
-                <video class="converted-video" controls>
-                </video>
-            </div>
         </div>
         
-        <div class="loading-bar" style="display:none;">
+        <div class="loading-bar" style="display:none;width:256px;">
             <div class="loading-bar-container" style="width:256px;height:64px;z-index:9999;position:relative;overflow:hidden;">
                 <img class="loading-bar-image" style="width:100%;height:100%;">
-                <div class="loading-bar-overlay" style="background-color:#FFFFFF;opacity:0.7;right:0px;width:128px;height:100%;margin-right:0px;top:0;position:absolute;"></div>
+                <div class="loading-bar-overlay" style="background-color:#FFFFFF;opacity:0.7;right:0px;width:256px;height:100%;margin-right:0px;top:0;position:absolute;"></div>
             </div>
             <div class="loading-bar-text" style="text-align:center;font-size:0.9em;"><span class="loading-bar-message"></span><span class="loading-bar-progress"></span></div>
        </div>

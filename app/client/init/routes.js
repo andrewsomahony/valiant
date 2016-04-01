@@ -86,8 +86,14 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        url: "",
        abstract: true,
        views: {
+           "header@admin": {
+               templateUrl: "partials/admin/home/header.html"  
+           },
            "content@admin": {
                templateUrl: "partials/admin/home/home.html"
+           },
+           "footer@admin": {
+               templateUrl: "partials/admin/home/footer.html"
            }
        }
    })

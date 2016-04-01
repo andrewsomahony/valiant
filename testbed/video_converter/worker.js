@@ -3,23 +3,21 @@
 importScripts('./ffmpeg-all-codecs.js');
 //importScripts('./ffmpeg.js');
 
-function print(id, text) {
+function print(text) {
     postMessage({
         type: "stdout",
-        data: text,
-        id: id
+        data: text
     });
 }
 
-function error(id, e) {
+function error(e) {
     postMessage({
         type: "error",
-        data: e,
-        id: id
+        data: e
     });
 }
 
-function runCommand(id, file, args) {
+function runCommand(file, args) {
     var printedData = [];
     
     file = file || null;
@@ -27,7 +25,7 @@ function runCommand(id, file, args) {
     
     var printFn = function(text) {
         printedData.push(text);
-        print(id, text);
+        print(text);
     }
     
     var Module = {
@@ -41,8 +39,7 @@ function runCommand(id, file, args) {
     };
                     
     postMessage({
-        type: "command_start",
-        id: id
+        type: "command_start"
     });
         
     try {
@@ -50,12 +47,11 @@ function runCommand(id, file, args) {
         postMessage({
             type: "command_done",
             status: "success",
-            id: id,
             result: result,
             printedData: printedData.join("")
         });   
    } catch (e) {
-       error(id, e);
+       error(e);
    }
     
   
@@ -108,7 +104,7 @@ onmessage = function(event) {
                     "output_file.mp4"];
         }
         
-        runCommand(message.id, message.file, args);
+        runCommand(message.file, args);
     }
 }
 

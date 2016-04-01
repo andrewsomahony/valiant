@@ -1,0 +1,16 @@
+
+div.admin {
+    div.header {
+        color: black;
+    }
+    
+    div.content {
+        @import "home/home";
+    }
+    
+    div.footer {
+        span.logout-link {
+            font-size: 10px;
+        }
+    }
+}

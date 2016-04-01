@@ -1,11 +1,11 @@
 'use strict'
 
-var m = require('./module')
+var registerModel = require('models/register');
 var classy = require('classy')
 
 var name = 'errorModel'
 
-m.factory(name, [require('./base'),
+registerModel(name, [require('./base'),
 function(baseModel) {
    return classy.define({
       extend: baseModel,
@@ -14,7 +14,7 @@ function(baseModel) {
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
-               error: "",
+               text: "",
                code: 0
             })
          }
@@ -22,6 +22,10 @@ function(baseModel) {
 
       init: function(config, isFromServer) {
          this.callSuper();
+      },
+      
+      toString: function() {
+          return this.text + " (" + this.code + ")";
       }
    })
 }])

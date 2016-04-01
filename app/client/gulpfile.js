@@ -26,18 +26,20 @@ var isCompressed = yargs.compress || false
 
 var canInstall = yargs.install || false;
 
-var JS = ['./main.js']
-var CSS = ['./node_modules/bootstrap/dist/css/bootstrap.css', './css/*.css', './css/app.scss']
-var VIEWS = ['./views/**/*.html']
+var JS = ['./main.js'];
+var CSS = ['./node_modules/bootstrap/dist/css/bootstrap.css', 
+           './node_modules/angular-motion/dist/angular-motion.css', 
+           './css/*.css', './css/app.scss'];
+var VIEWS = ['./views/**/*.html'];
 
-var OUTPUT_JS_FILE = '_app.js'
-var OUTPUT_CSS_FILE = '_app.css'
+var OUTPUT_JS_FILE = '_app.js';
+var OUTPUT_CSS_FILE = '_app.css';
 
-var OUTPUT_BUILD_DIR = "./_build"
-var OUTPUT_VIEWS_DIR = "./views"
+var OUTPUT_BUILD_DIR = "./_build";
+var OUTPUT_VIEWS_DIR = "./views";
 
-var OUTPUT_VIEW_FILE = '_views.js'
-var VIEW_MODULE_NAME = 'valiant.views'
+var OUTPUT_VIEW_FILE = '_views.js';
+var VIEW_MODULE_NAME = 'valiant.views';
 
 gulp.task('install', function() {
     if (true === canInstall) {
@@ -61,7 +63,7 @@ gulp.task('javascript', ['views'], function() {
       paths: ['./components/']
    }).bundle().on('error', function(e) {
       util.log(e)
-      this.emit('end');
+      process.exit(1);
    })
 
    code = code.pipe(source(OUTPUT_JS_FILE))

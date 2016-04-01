@@ -2,6 +2,9 @@
 
 var angular = require('angular');
 
+require('angular-strap');
+require('angular-strap-tpl-modal');
+
 require('../views/_views');
 
 require('../components/controllers/init');
@@ -14,6 +17,7 @@ require('../components/models/init');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.name, [
+    require('angular-animate'),
     appInfo.moduleName('controllers'),
     appInfo.moduleName('filters'),
     appInfo.moduleName('directives'),
@@ -21,5 +25,6 @@ module.exports = angular.module(appInfo.name, [
     appInfo.moduleName('services'),
     appInfo.moduleName('models'),
     appInfo.moduleName('views'),
-    require('angular-ui-router')
+    require('angular-ui-router'),
+    'mgcrea.ngStrap.modal'
 ]);

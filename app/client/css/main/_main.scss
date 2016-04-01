@@ -1,0 +1,17 @@
+
+div.main {
+    div.header {
+        color: black;
+    }
+    
+    div.content {
+        @import "home/home";
+        @import "about/about";
+    }
+    
+    div.footer {
+        span.admin-link {
+            font-size: 10px;
+        }
+    }
+}

@@ -4,12 +4,6 @@ var worker = null;
 
 var currentFile = null;
 
-var currentJobIndex = 0;
-
-var metadataJobId = null;
-var thumbnailJobId = null;
-var convertJobId = null;
-
 var fileReader = new FileReader();
 
 var emptyVideo = {
@@ -158,7 +152,6 @@ function checkConversionProgress(data) {
     if (currentConversionInfoIndex < 3) {
         var match = data.match(conversionRegularExpressions[currentConversionInfoIndex].regex);
         
-        console.log(data, conversionRegularExpressions[currentConversionInfoIndex].regex);
         if (match) {
             console.log(match);
             if (2 === currentConversionInfoIndex) {
@@ -185,9 +178,7 @@ function checkConversionProgress(data) {
             }
             currentConversionInfoIndex++;
         }
-    } else {
-        console.log(currentConversionProgressStatus);
-        
+    } else {        
         // So ffmpeg prints out two different things during conversion...
         // Not sure entirely why, but we need to check them both and get
         // an accurate progress.  If whatever we calculate is less than the current
@@ -284,7 +275,7 @@ function parseProbeData(probeData) {
         currentVideo.title = videoData[2];
     }
     
-    var durationData = probeData.match(/Duration: (\d{2}:\d{2}:\d{2}.\d{2}), start: [\d\.]+, bitrate: (\d+ kb\/s|N\/A)/);
+    var durationData = probeData.match(/\s*Duration:\s*(\d{2}:\d{2}:\d{2}.\d{2}),\s*start:\s*[\d\.]+,\s*bitrate:\s*(\d+\s*kb\/s|N\/A)/);
     console.log(durationData);
     
     if (durationData &&
@@ -292,6 +283,8 @@ function parseProbeData(probeData) {
         currentVideo.duration = durationData[1];
         currentVideo.bitrate = durationData[2];
     }
+    
+    
 }
 
 function initWorker(filename) {
@@ -302,77 +295,7 @@ function initWorker(filename) {
         if ('ready' === message.type) {
             $("div.loading").css('display', 'none');
             $("div.interface").css('display', 'block');
-        } else if ('stdout' === message.type) {
-            console.log(message.data);  
-            
-            if (metadataJobId === message.id) {
-                checkVideoInfoProgress(message.data);
-            } else if (thumbnailJobId === message.id) {
-                checkVideoInfoProgress(message.data);
-            } else if (convertJobId === message.id) {
-                checkConversionProgress(message.data);
-            }
-        } else if ('error' === message.type) {
-            alert("ERROR!");
-        } else if ('command_start' === message.type) {
-            if (metadataJobId === message.id) {
-                videoInfoProgressIndex = 0;
-                showLoadingBar("./swim.png", "Loading metadata...", 256, 64);
-            } else if (thumbnailJobId === message.id) {
-                
-            } else if (convertJobId === message.id) {
-                currentConversionInfoIndex = 0;
-                currentConversionProgressStatus = cleanConversionProgressStatus;
-                
-                showLoadingBar('./swim.png', "Converting Video...", 256, 64);
-            }
-        } else if ('command_done' === message.type) {
-            if (metadataJobId === message.id) {
-                //parseProbeData(message.printedData);        
-                thumbnailJobId = runCommand('get_thumbnails', currentFile);
-            } else if (convertJobId === message.id) {
-                var result = message.result;
-                
-                var file = result[0];
-                currentVideo.newBlob = new Blob([new Uint8Array(file.data)], {type: 'video/mp4'});
-                var newFile = URL.createObjectURL(currentVideo.newBlob);
-
-                var $videoElement = $(".converted-video"); 
-                $videoElement.css('display', 'block');
-                
-                $videoElement.get(0).addEventListener('loadeddata', function() {
-                    URL.revokeObjectURL(newFile);
-                }, false);
-                
-                $videoElement.get(0).src = newFile;
-                
-                hideLoadingBar();
-            } else if (thumbnailJobId === message.id) {
-                var result = message.result;
-                
-                $("div.video-information").find(".video-thumbnail").remove();
-                for (var i = 0; i < result.length; i++) {  
-                    var file = result[i];        
-                    var newFile = URL.createObjectURL(new Blob([new Uint8Array(file.data)], {type: 'image/jpeg'}));
-                    
-                    var $imageElement = $("<img />");
-                    
-                    $imageElement.get(0).onload = function() {
-                        URL.revokeObjectURL(newFile);
-                    }
-                    
-                    $imageElement.addClass('video-thumbnail');
-                    $imageElement.css('display', 'inline');
-                    $imageElement.get(0).src = newFile;
-                    
-                    
-                    $("div.video-information").append($imageElement);
-                }
-                
-                hideLoadingBar();
-                $(".convert-file").css('display', 'inline');
-            }
-        }
+        }        
     }
 }
 
@@ -382,15 +305,114 @@ function runCommand(commandName, file) {
     worker.postMessage({
         type: 'command',
         commandName: commandName,
-        file: file,
-        id: currentJobIndex
+        file: file
     });
+}
+
+function getVideoMetadata() {
+    worker.onmessage = function(event) {
+        var message = event.data;
+        
+        if ('stdout' === message.type) {
+            checkVideoInfoProgress(message.data);
+        } else if ('error' === message.type) {
+            alert("Error with conversion!");
+        } else if ('command_start' === message.type) {
+            videoInfoProgressIndex = 0;
+            showLoadingBar("./swim.png", "Loading metadata...", 256, 64);            
+        } else if ('command_done' === message.type) {
+            parseProbeData(message.printedData);
+            getVideoThumbnails();
+        }
+    }
     
-    var returnValue = currentJobIndex;
+    runCommand('get_metadata', currentFile);
+}
+
+function getVideoThumbnails() {
+    worker.onmessage = function(event) {
+        var message = event.data;
+        
+        if ('stdout' === message.type) {
+            checkVideoInfoProgress(message.data);
+        } else if ('error' === message.type) {
+            alert("Error with thumbnail!");
+        } else if ('command_start' === message.type) {
+        } else if ('command_done' === message.type) {
+            var result = message.result;
+            
+            $("div.video-thumbnails").find(".video-thumbnail").remove();
+            for (var i = 0; i < result.length; i++) {  
+                var file = result[i];        
+                var newFile = URL.createObjectURL(new Blob([new Uint8Array(file.data)], {type: 'image/jpeg'}));
+                
+                var $imageElement = $("<img />");
+                
+                $imageElement.get(0).onload = function() {
+                    URL.revokeObjectURL(newFile);
+                }
+                
+                $imageElement.addClass('video-thumbnail');
+                $imageElement.css('display', 'inline');
+                $imageElement.get(0).src = newFile;
+                
+                
+                $("div.video-thumbnails").append($imageElement);
+            }
+            
+            var $videoMetadataElement = $('.video-metadata');
+            
+            $videoMetadataElement.find('.ul').remove();
+            
+            var $metadataListElement = $('<ul></ul>');
+            
+            $metadataListElement.append($('<li></li>').html("Title: " + currentVideo.title));
+            $metadataListElement.append($('<li></li>').html("Duration: " + currentVideo.duration));
+            
+            $videoMetadataElement.append($metadataListElement);            
+            
+            hideLoadingBar();
+            $(".convert-file").css('display', 'inline');
+        }
+    }  
     
-    currentJobIndex += 1;
+    runCommand('get_thumbnails', currentFile);     
+}
+
+function convertVideo() {
+    worker.onmessage = function(event) {
+        var message = event.data;
+        
+        if ('stdout' === message.type) {
+            checkConversionProgress(message.data);
+        } else if ('error' === message.type) {
+            alert("Error with metadata!");
+        } else if ('command_start' === message.type) {
+            currentConversionInfoIndex = 0;
+            currentConversionProgressStatus = cleanConversionProgressStatus;
+            
+            showLoadingBar('./swim.png', "Converting Video...", 256, 64);           
+        } else if ('command_done' === message.type) {
+            var result = message.result;
+            
+            var file = result[0];
+            currentVideo.newBlob = new Blob([new Uint8Array(file.data)], {type: 'video/mp4'});
+            var newFile = URL.createObjectURL(currentVideo.newBlob);
+
+            var $videoElement = $(".converted-video"); 
+            $videoElement.css('display', 'block');
+            
+            $videoElement.get(0).addEventListener('loadeddata', function() {
+                URL.revokeObjectURL(newFile);
+            }, false);
+            
+            $videoElement.get(0).src = newFile;
+            
+            hideLoadingBar();
+        }
+    }  
     
-    return returnValue;
+    runCommand('convert_video', currentFile);
 }
 
 function showLoadingBar(imageSrc, text, width, height) {
@@ -447,11 +469,11 @@ function setCurrentFile(file) {
     
    // currentVideo.oldBlob = new Blob([file.data]);
 
-    metadataJobId = runCommand('get_metadata', currentFile);
+    getVideoMetadata();
 }
 
 function onConvertFileClicked() {
-    convertJobId = runCommand('convert_video', currentFile);
+    convertVideo();
 }
 
 function onFileInputChanged() {
@@ -483,21 +505,7 @@ function onFileInputChanged() {
 function loadVideoConverter() {
     $("div.loading").css('display', 'block');
     $("div.interface").css('display', 'none');
-    
-    /*showLoadingBar('./swim.png', "Loading website...", 256, 64);
-    
-    var loadingProgress = 0;
-    var i = setInterval(function() {
-        loadingProgress += 2;
-        
-        if (loadingProgress > 100) {
-            clearInterval(i);
-            hideLoadingBar();
-        } else {
-            setLoadingProgress(loadingProgress);
-        }
-        
-    }, 30);*/
+
     initWorker("./worker.js");
 }
 
