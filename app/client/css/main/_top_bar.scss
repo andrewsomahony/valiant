@@ -1,0 +1,12 @@
+div.top-bar {
+    background-color: black;
+    color: white;
+    height: 24px;
+    margin-bottom: 16px;
+    vertical-align: middle;
+    
+    span.user-details {
+        position: absolute;
+        right: 8px;
+    }
+}

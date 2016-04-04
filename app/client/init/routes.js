@@ -25,22 +25,28 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
       url: "",
       abstract: true, 
        views: {
+          "top_bar@main": {
+              templateUrl: "partials/main/top_bar.html"
+          },
           "header@main": {
-            templateUrl: "partials/main/home/header.html"
+            templateUrl: "partials/main/header.html"
          },
          "content@main": {
              templateUrl: "partials/main/home/home.html",
              controller: require('../components/controllers/main/home/home')
          },
-         "footer@main": {
-            templateUrl: "partials/main/home/footer.html"
-         }          
+         /*"footer@main": {
+            templateUrl: "partials/main/footer.html"
+         } */ 
        }               
    })
    .state("main.home.default", {
        resolve: RouteResolver("main.home.default"),
        url: "",
        views: {
+         "nav_bar@main.home": {
+             templateUrl: "partials/main/nav_bar.html"
+         },
          "content@main.home": {
             templateUrl: "partials/main/home/content.html",
             controller: require('../components/controllers/main/home/default'),
@@ -52,16 +58,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        url: "about",
        abstract: true,
        views: {
+          "top_bar@main": {
+              templateUrl: "partials/main/top_bar.html"
+          },           
           "header@main": {
-            templateUrl: "partials/main/home/header.html"
+            templateUrl: "partials/main/header.html"
          },
          "content@main": {
              templateUrl: "partials/main/about/about.html",
              controller: require('../components/controllers/main/about/about')
          },
-         "footer@main": {
-            templateUrl: "partials/main/home/footer.html"
-         }      
+         /*"footer@main": {
+            templateUrl: "partials/main/footer.html"
+         }*/      
        } 
    })
    
@@ -69,6 +78,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        url: "",
        resolve: RouteResolver("main.about.default"),
        views: {
+         "nav_bar@main.about": {
+             templateUrl: "partials/main/nav_bar.html"
+         },           
          "content@main.about": {
              templateUrl: "partials/main/about/content.html",
              controller: require('../components/controllers/main/about/default')
@@ -87,13 +99,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        abstract: true,
        views: {
            "header@admin": {
-               templateUrl: "partials/admin/home/header.html"  
+               templateUrl: "partials/admin/header.html"  
            },
            "content@admin": {
                templateUrl: "partials/admin/home/home.html"
            },
            "footer@admin": {
-               templateUrl: "partials/admin/home/footer.html"
+               templateUrl: "partials/admin/footer.html"
            }
        }
    })

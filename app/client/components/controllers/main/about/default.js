@@ -6,17 +6,12 @@ var utils = require('utils');
 var name = 'main.about.default';
 
 registerController(name, ['$scope', 
-                          require('models/error'),
+                          require('services/error'),
                           require('models/progress'),
                           require('services/error_modal'),
-                          function($scope, ErrorModel, ProgressModel, ErrorModal) {
+                          function($scope, ErrorService, ProgressModel, ErrorModal) {
                               
-    var e = new ErrorModel({
-        text: "Error!!",
-        code: -999
-    });
-    
-    console.log(utils.objectIsClassy(e, ErrorModel));
+    var e = ErrorService.localError("There's an error!");
     
     setTimeout(function() {
         $scope.$apply(function() {

@@ -7,6 +7,8 @@ var name = 'errorService';
 registerService('factory', name, [
     require('models/error'),
 function(ErrorModel) {
+    var localErrorCode = -999;
+    
     function errorService(code, text) {
         var e = new ErrorModel({
             text: text,
@@ -16,5 +18,11 @@ function(ErrorModel) {
         return e;
     }    
     
+    errorService.localError = function(text) {
+        return this(localErrorCode, text);
+    }
+    
     return errorService;
 }]);
+
+module.exports = name;

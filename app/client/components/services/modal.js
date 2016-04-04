@@ -15,6 +15,7 @@ function($modal, $templateCache) {
 
       var modalOptions = {
          container: '.modal-container',
+         placement: 'center',
          contentTemplate: templateUrl,
          animation: 'am-fade-and-scale',
          scope: $scope,
