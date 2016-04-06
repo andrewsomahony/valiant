@@ -1,5 +1,7 @@
 'use strict';
 
+require('./root');
+
 require('./main/top_bar');
 
 require('./main/home/home');

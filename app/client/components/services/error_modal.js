@@ -4,7 +4,7 @@ var registerService = require('services/register');
 
 var utils = require('utils');
 
-var name = 'errorModalService';
+var name = 'services.error_modal';
 
 registerService('factory', 
                 name, 

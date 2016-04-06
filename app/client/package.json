@@ -13,6 +13,7 @@
     "angular-motion": "^0.4.4",
     "angular-strap": "^2.3.8",
     "angular-ui-router": "~0.2.13",
+    "angularjs-facebook": "^0.2.3",
     "bootstrap": "^3.3.6",
     "browserify": "^13.0.0",
     "browserify-shim": "~3.8.2",

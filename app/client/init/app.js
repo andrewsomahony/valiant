@@ -4,6 +4,7 @@ var angular = require('angular');
 
 require('angular-strap');
 require('angular-strap-tpl-modal');
+require('angularjs-facebook');
 
 require('../views/_views');
 
@@ -26,5 +27,6 @@ module.exports = angular.module(appInfo.name, [
     appInfo.moduleName('models'),
     appInfo.moduleName('views'),
     require('angular-ui-router'),
-    'mgcrea.ngStrap.modal'
+    'mgcrea.ngStrap.modal',
+    'facebook'
 ]);

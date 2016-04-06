@@ -11,9 +11,13 @@ registerController(name, ['$scope',
                           require('models/http_response'),
                           require('services/error_modal'),
                           require('services/http_service'),
-                          function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, Http) {
+                          require('services/facebook_service'),
+                          function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, Http, FacebookService) {
                               
     var e = ErrorService.localError("There's an error!");
+    
+    $scope.facebookIsReady = false;
+    $scope.isLoggedIntoFacebook = false;
     
     setTimeout(function() {
         $scope.$apply(function() {
@@ -30,6 +34,20 @@ registerController(name, ['$scope',
             ErrorModal(error);
         });
     }
+    
+    $scope.loginWithFacebook = function() {
+        FacebookService.login(['email', 'public_profile'])
+        .then(function(response) {
+            FacebookService.getProfile()
+            .then(function() {
+                
+            });
+        })
+        .catch(function(error) {
+            ErrorModal(error);
+        })
+    }
+
 }]);
 
 module.exports = name;

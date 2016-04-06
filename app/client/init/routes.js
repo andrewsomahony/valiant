@@ -4,7 +4,6 @@ var app = require('./app');
 
 function RouteResolver(route) {
     return {
-        
     };
 }
 
