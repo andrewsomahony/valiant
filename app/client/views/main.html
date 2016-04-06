@@ -5,23 +5,19 @@
     
     <div class="row">
         <div ui-view="header" class="header"></div>
-    </div>
+    </div>    
     
     <div class="main-content">
         <div class="row row-eq-height" style="height: 640px;">
             <div ui-view="content" class="content col-md-10 col-xs-12"></div>
             <div ui-view="ad_space_right" class="ad-space col-md-2 col-xs-12">
-                <img src="./images/temp_ad.png" />
+                <div class="ad">
+                    <img src="./images/temp_ad.png" />
+                </div>
                 <div class="copyright">
                     Andrew O'Mahony (c) 2016
                 </div>
             </div>
         </div>
     </div>
-    
-    <!--
-    <div class="row">
-        <div ui-view="footer" class="footer col-xs-12 col-md-12 col-lg-12"></div>
-    </div>
-    -->
 </div>

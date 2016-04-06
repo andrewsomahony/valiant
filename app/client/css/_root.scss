@@ -4,6 +4,14 @@ html, body {
     min-height: 100%;
     overflow: hidden;
     position: relative;
+    
+    input[type="text"], input[type="password"] {
+        color: black;
+    }
+    
+    a:hover {
+        cursor: pointer;
+    }  
 }
 
 @import "main/main";

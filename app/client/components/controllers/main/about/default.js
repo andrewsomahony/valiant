@@ -8,17 +8,28 @@ var name = 'main.about.default';
 registerController(name, ['$scope', 
                           require('services/error'),
                           require('models/progress'),
+                          require('models/http_response'),
                           require('services/error_modal'),
-                          function($scope, ErrorService, ProgressModel, ErrorModal) {
+                          require('services/http_service'),
+                          function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, Http) {
                               
     var e = ErrorService.localError("There's an error!");
     
     setTimeout(function() {
         $scope.$apply(function() {
             $scope.name = "Pearl";
-            ErrorModal(e);
         })
     }, 1000);
+    
+    $scope.onTestRequestClick = function() {
+        Http.get('/api/users')
+        .then(function(response) {
+            console.log(response.data);
+        })
+        .catch(function(error) {
+            ErrorModal(error);
+        });
+    }
 }]);
 
 module.exports = name;

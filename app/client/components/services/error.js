@@ -6,7 +6,8 @@ var name = 'errorService';
 
 registerService('factory', name, [
     require('models/error'),
-function(ErrorModel) {
+    require('models/http_response'),
+function(ErrorModel, HttpResponseModel) {
     var localErrorCode = -999;
     
     function errorService(code, text) {
@@ -20,6 +21,10 @@ function(ErrorModel) {
     
     errorService.localError = function(text) {
         return this(localErrorCode, text);
+    }
+    
+    errorService.rejectDeferred = function(text, code, deferredFn) {
+        deferredFn(this(code, text));
     }
     
     return errorService;

@@ -1,3 +1,17 @@
-<span>This is the top bar!</span>
+<div class="social-links"></div>
 
-<span class="user-details">Login</span>
+<div class="user-details">
+    <div class="login-form" ng-if="true === formVisible">
+        <span>
+            <input type="text" placeholder="username" ng-model="loginDetails.username" style="width: 200px;" />
+        </span>
+        <span>
+            <input type="password" placeholder="password" ng-model="loginDetails.password" style="width: 200px;" />
+        </span>
+        <a href="#" class="login-button">Login</a>
+    </div>
+    <div class="login-buttons" ng-if="false === formVisible">
+        <a class="login-button" ng-click="showForm()">Login</a>
+        <a class="login-button">Register</a>
+    </div>
+</div>

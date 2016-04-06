@@ -12,7 +12,7 @@ div.main {
         height: 640px;
         
         div.content {
-            height: 640px;
+            height: 100%;
             padding-left: 24px;
             
             overflow-y: auto;
@@ -23,17 +23,10 @@ div.main {
         }
         
         div.ad-space {
-            height: 640px;
+            height: 100%;
             div.copyright {
+                float: right;
                 font-size: 10px;
-            }
-        }
-        
-        div.footer {
-            height: 14px;
-            text-align: center;
-            span.copyright {
-                font-size: 12px;
             }
         }
     }

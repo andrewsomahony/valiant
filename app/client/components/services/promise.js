@@ -2,7 +2,7 @@
 
 var registerService = require('./register');
 
-var name = 'promiseService'
+var name = 'services.promise';
 
 registerService('factory', name, ['$q',
 function($q) {

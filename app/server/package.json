@@ -20,6 +20,9 @@
     "mongodb": "~2.1.7",
     "mongoose": "~4.4.5",
     "morgan": "~1.6.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose-email": "^0.1.2",
     "q": "^1.4.1",
     "serve-favicon": "~2.3.0"
   },

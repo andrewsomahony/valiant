@@ -11,6 +11,7 @@ var fs = require('fs');
 var mime = require('mime');
 
 var indexRoute = require('./routes/index');
+var userRoute = require('./routes/users');
 
 var app = express();
 var appConfig = require('./config/config');
@@ -84,6 +85,19 @@ if (false === appIsActive) {
     })
 
     app.use('/', indexRoute);
+    
+    app.use('/api', function(request, result, next) {
+        if (!request.accepts('json') ||
+            !request.xhr) {
+            // Error
+            result.status(406).json({error: "API endpoints need to accept json output and be requested by AJAX"})
+        }
+        else {
+            next();
+        }
+    });
+    
+    app.use('/api/users', userRoute);
 
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {

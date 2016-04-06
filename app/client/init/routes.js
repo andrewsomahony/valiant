@@ -21,69 +21,65 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
       abstract: true
    })
    
-   .state("main.home", {
-      url: "",
-      abstract: true, 
+   .state("main.page", {
+       url: "",
+       abstract: true,
        views: {
           "top_bar@main": {
-              templateUrl: "partials/main/top_bar.html"
+              templateUrl: "partials/main/top_bar.html",
+              controller: require('controllers/main/top_bar')
           },
           "header@main": {
             templateUrl: "partials/main/header.html"
          },
+       }
+   })
+   
+   .state("main.page.home", {
+      url: "",
+      abstract: true, 
+       views: {
          "content@main": {
              templateUrl: "partials/main/home/home.html",
-             controller: require('../components/controllers/main/home/home')
-         },
-         /*"footer@main": {
-            templateUrl: "partials/main/footer.html"
-         } */ 
+             controller: require('controllers/main/home/home')
+         }
        }               
    })
-   .state("main.home.default", {
-       resolve: RouteResolver("main.home.default"),
+   .state("main.page.home.default", {
+       resolve: RouteResolver("main.page.home.default"),
        url: "",
        views: {
-         "nav_bar@main.home": {
+         "nav_bar@main.page": {
              templateUrl: "partials/main/nav_bar.html"
          },
-         "content@main.home": {
+         "content@main.page.home": {
             templateUrl: "partials/main/home/content.html",
-            controller: require('../components/controllers/main/home/default'),
+            controller: require('controllers/main/home/default'),
          },
       }      
    })
    
-   .state("main.about", {
+   .state("main.page.about", {
        url: "about",
        abstract: true,
        views: {
-          "top_bar@main": {
-              templateUrl: "partials/main/top_bar.html"
-          },           
-          "header@main": {
-            templateUrl: "partials/main/header.html"
-         },
          "content@main": {
              templateUrl: "partials/main/about/about.html",
-             controller: require('../components/controllers/main/about/about')
-         },
-         /*"footer@main": {
-            templateUrl: "partials/main/footer.html"
-         }*/      
+             controller: require('controllers/main/about/about')
+         }    
        } 
    })
    
-   .state("main.about.default", {
+   .state("main.page.about.default", {
        url: "",
-       resolve: RouteResolver("main.about.default"),
+       resolve: RouteResolver("main.page.about.default"),
        views: {
-         "nav_bar@main.about": {
+         "nav_bar@main.page": {
              templateUrl: "partials/main/nav_bar.html"
          },           
-         "content@main.about": {
+         "content@main.page.about": {
              templateUrl: "partials/main/about/content.html",
-             controller: require('../components/controllers/main/about/default')
+             controller: require('controllers/main/about/default')
          },       
        }       
    })

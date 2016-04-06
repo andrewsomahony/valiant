@@ -3,6 +3,7 @@
 function boot() {
     require('./app');
     require('./routes');
+    require('./config');
     
     var appInfo = require('../info');
     
