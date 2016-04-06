@@ -1,9 +1,29 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+var Q = require('q');
+
+var User = require('../models/user');
+
+router.route('/')
+.get(function(request, result) {
+    result.status(200).json({
+        user: "Something"
+    });
+})
+.post(function(request, result) {
+    
 });
+
+router.route('/:userId')
+.get(function(request, result) {
+    
+})
+.put(function(request, result) {
+    
+})
+.delete(function(request, result) {
+    
+})
 
 module.exports = router;
