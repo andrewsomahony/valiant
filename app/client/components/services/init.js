@@ -1,3 +1,3 @@
 'use strict';
 
-require('./module');
+require('services/data_resolver');

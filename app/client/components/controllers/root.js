@@ -6,7 +6,8 @@ var name = 'controllers.root';
 
 registerController(name, ['$rootScope',
                           require('services/error_modal'),
-function($rootScope, ErrorModal) {
+                          require('services/facebook_service'),
+function($rootScope, ErrorModal, FacebookService) {
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams, options) {
     });
     
@@ -27,6 +28,22 @@ function($rootScope, ErrorModal) {
     $rootScope.$on('$viewContentLoaded', function(e) {
         
     });
+    
+    $rootScope.$on('Facebook:load', function() {
+        console.log("Facebook loaded");
+        FacebookService.getLoginStatus();
+    });
+    
+   /* $rootScope.$on('Facebook:statusChange', function(e, response) {
+        console.log("Status change");
+        if (!response || response.error) {
+            console.log("FACEBOOK ERROR", response.error);
+        } else {
+            console.log("statusChange: ", response);
+            FacebookService.parseLoginStatusResponse(response);
+            FacebookService.setIsReady(true);
+        }
+    });*/
 }]);
 
 module.exports = name;

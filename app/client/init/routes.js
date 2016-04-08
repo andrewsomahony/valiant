@@ -2,8 +2,12 @@
 
 var app = require('./app');
 
-function RouteResolver(route) {
+function RouteResolver(state) {
     return {
+        resolvedState: ['services.data_resolver', '$stateParams',
+                        function(DataResolverService, $stateParams) {
+                            return DataResolverService(state, $stateParams);
+                        }]
     };
 }
 

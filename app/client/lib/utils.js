@@ -50,6 +50,15 @@
       isArray: function(object) {
          return Array.isArray(object)
       },
+      
+      objectHasFunction: function(object, functionName) {
+         if (object[functionName] &&
+             'function' === typeof object[functionName]) {
+            return true;
+         } else {
+            return false;
+         }
+      },
 
       objectHasKeys: function(object) {
          return 0 !== Object.keys(object).length

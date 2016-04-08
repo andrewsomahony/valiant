@@ -1,0 +1,5 @@
+<span class="facebook-button" ng-if="facebookIsReady()">
+    <button ng-if="!isLoggedIn() && !isLoggedIntoFacebook()" ng-click="loginToFacebook()">Login with Facebook</button>
+    <button ng-if="isLoggedIn() && !isLoggedIntoFacebook()" ng-click="connectToFacebook()">Connect to Facebook</button>
+    <button ng-if="isLoggedIn() && isLoggedIntoFacebook()" ng-click="disconnectFromFacebook()">Disconnect with Facebook</button>
+</span>
