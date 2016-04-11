@@ -13,6 +13,7 @@ var mime = require('mime');
 var passport = require('passport');
 
 var indexRoute = require('./routes/index');
+var loginRoute = require('./routes/login');
 var userRoute = require('./routes/users');
 
 var UserModel = require('./models/user');
@@ -58,6 +59,7 @@ if (false === appIsActive) {
     app.use(bodyParser.urlencoded({ extended: false }));
     
     app.use(express.session({secret: sessionSecret}));
+    
     app.use(passport.initialize());
     app.use(passport.session());
 
@@ -99,6 +101,8 @@ if (false === appIsActive) {
     })
 
     app.use('/', indexRoute);
+    
+    app.use('/login', loginRoute);
     
     app.use('/api', function(request, result, next) {
         if (!request.accepts('json') ||
