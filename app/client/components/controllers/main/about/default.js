@@ -3,7 +3,7 @@
 var registerController = require('../../register');
 var utils = require('utils');
 
-var name = 'main.about.default';
+var name = 'controllers.main.about.default';
 
 registerController(name, ['$scope', 
                           require('services/error'),
@@ -12,7 +12,7 @@ registerController(name, ['$scope',
                           require('services/error_modal'),
                           require('services/http_service'),
                           require('services/facebook_service'),
-function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, Http, FacebookService) {
+function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, HttpService, FacebookService) {
                                   
     setTimeout(function() {
         $scope.$apply(function() {
@@ -21,7 +21,7 @@ function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, Htt
     }, 1000);
     
     $scope.onTestRequestClick = function() {
-        Http.get('/api/users')
+        HttpService.get('/api/users')
         .then(function(response) {
             console.log(response.data);
         })

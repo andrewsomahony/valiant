@@ -13,8 +13,7 @@ app.config(['$httpProvider', 'FacebookProvider', function($httpProvider, Faceboo
         
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     
-    FacebookProvider.init({
-                            status: true, 
+    FacebookProvider.init({ 
                             locale: "en_US",
                             appId: '209422946114695'
                           });

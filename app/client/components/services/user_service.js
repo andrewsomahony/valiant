@@ -7,7 +7,10 @@ var name = 'services.user_service';
 registerService('factory', name, [
                                     require('services/facebook_service'),
                                     require('services/promise'),
-function(FacebookService, PromiseService) {
+                                    require('services/http_service'),
+                                    require('models/user'),
+                                    require('services/api_url'),
+function(FacebookService, PromiseService, HttpService, UserModel, ApiUrlService) {
     var isLoggedIn = false;
     
     function UserService() {
@@ -58,6 +61,21 @@ function(FacebookService, PromiseService) {
         return PromiseService(function(resolve, reject, notify) {
             isLoggedIn = false;
             resolve({});
+        });
+    }
+    
+    UserService.registerUser = function(userObject) {
+        // Convert the object to a model
+        var user = new UserModel(userObject);
+        
+        return Promise(function(resolve, reject, notify) {
+            HttpService.post(ApiUrlService('User'), null, {users:[user.toObject(true)]})
+            .then(function(userData) {
+                resolve(userData);
+            })
+            .catch(function(error) {
+                reject(error);
+            });
         });
     }
     

@@ -87,6 +87,56 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }       
    })
    
+   .state("main.page.login", {
+       url: "login",
+       abstract: true,
+       views: {
+           "content@main": {
+               templateUrl: "partials/main/login/login.html",
+               controller: require("controllers/main/login/login")
+           }
+       }
+   })
+   
+   .state("main.page.login.default", {
+       url: "",
+       resolve: RouteResolver("main.page.login.default"),
+       views: {
+           "nav_bar@main.page": {
+               templateUrl: "partials/main/nav_bar.html"     
+           },
+           "content@main.page.login": {
+               templateUrl: "partials/main/login/content.html",
+               controller: require("controllers/main/login/default")
+           }
+       }
+   })
+   
+   .state("main.page.register", {
+       url: "register",
+       abstract: true,
+       views: {
+           "content@main": {
+               templateUrl: "partials/main/register/register.html",
+               controller: require("controllers/main/register/register")
+           }
+       }
+   })
+   
+   .state("main.page.register.default", {
+       url: "",
+       resolve: RouteResolver("main.page.register.default"),
+       views: {
+           "nav_bar@main.page": {
+               templateUrl: "partials/main/nav_bar.html"
+           },
+           "content@main.page.register": {
+               templateUrl: "partials/main/register/content.html",
+               controller: require("controllers/main/register/default")
+           }
+       }
+   })
+   
    $stateProvider.state("admin", {
        url: "/admin",
        abstract: true,

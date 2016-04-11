@@ -31,13 +31,7 @@ function(FacebookService, UserService, PromiseService) {
                 return PromiseService(function(resolve, reject, notify) {
                     FacebookService.login(['email', 'public_profile'])
                     .then(function() {
-                        FacebookService.getProfile()
-                        .then(function() {
-                            resolve({});
-                        })
-                        .catch(function(e) {
-                            reject(e);
-                        })
+                        resolve();
                     })
                     .catch(function(e) {
                         reject(e);
@@ -77,6 +71,7 @@ function(FacebookService, UserService, PromiseService) {
             }
             
             $scope.disconnectFromFacebook = function() {
+                // !!! First disconnect user, then logout?
                 FacebookService.logout()
                 .then(function() {
                     UserService.disconnectFromFacebook()

@@ -13,8 +13,7 @@ m.factory(name, [require('../services/id'),
 function(id, promise) {
 
    function ModelToObject(model, isForServer) {
-      if (true === utils.isClassy(model))
-      {
+      if (true === utils.objectIsClassy(model)) {
          var ret = {}
 
          var fields = model.$ownClass.filterToSerializationFields()
@@ -28,9 +27,7 @@ function(id, promise) {
          });
 
          return ret;
-      }
-      else if (true === utils.isArray(model))
-      {
+      } else if (true === utils.isArray(model)) {
          var ret = []
 
          model.forEach(function(element) {
@@ -38,22 +35,17 @@ function(id, promise) {
          })
 
          return ret;
-      }
-      else if (true === utils.isPlainObject(model))
-      {
+      } else if (true === utils.isPlainObject(model)) {
          var ret = {};
 
          Object.keys(model).forEach(function(key) {
-            if (true === model.hasOwnProperty(key))
-            {
+            if (true === model.hasOwnProperty(key)) {
                ret[key] = ModelToObject(model[key])
             }
          })
 
          return ret;
-      }
-      else
-      {
+      } else {
          return utils.clone(model)
       } 
    }
@@ -69,7 +61,6 @@ function(id, promise) {
          fields: function() {
             return {
                id: "",
-               name: "",
                local_id: ""
             }
          },
@@ -88,7 +79,9 @@ function(id, promise) {
          // key is the key we have
          // value is the value the server wants
          serverMappings: function() {
-            return {}
+            return {
+                "id": "_id"
+            }
          },
 
          validEvents: function() {
@@ -246,14 +239,14 @@ function(id, promise) {
       },
 
       copy: function() {
-         var obj = this.toObject()
-         obj['id'] = ""
+         var obj = this.toObject();
+         obj['id'] = "";
 
-         return new this.$ownClass(obj)
+         return new this.$ownClass(obj);
       },
 
       clone: function() {
-         return new this.$ownClass(this.toObject())
+         return new this.$ownClass(this.toObject());
       },
 
       toObject: function(isForServer) {

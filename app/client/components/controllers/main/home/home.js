@@ -2,7 +2,7 @@
 
 var registerController = require('../../register');
 
-var name = 'main.home';
+var name = 'controllers.main.home';
 
 registerController(name, ['$scope', function($scope) {
     

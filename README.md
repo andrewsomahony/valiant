@@ -20,3 +20,5 @@ heroku config:set NPM_CONFIG_LOGLEVEL=verbose --app valiant
 heroku run bash --app valiant
 
 export NODE_ENV=development
+
+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
