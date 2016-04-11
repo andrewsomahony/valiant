@@ -10,8 +10,12 @@ var ejs = require('ejs');
 var fs = require('fs');
 var mime = require('mime');
 
+var passport = require('passport');
+
 var indexRoute = require('./routes/index');
 var userRoute = require('./routes/users');
+
+var UserModel = require('./models/user');
 
 var app = express();
 var appConfig = require('./config/config');
@@ -20,6 +24,8 @@ var connectDb = require('./db/connect');
 
 var activeVariable = 'EL_THATIS_SATURN';
 var appIsActive = true;
+
+var sessionSecret = 'A_BIT_OFTHE OLD ULTRAVIOLENCE';
 
 try {
     if (!eval(appConfig.secure(activeVariable))) {
@@ -50,7 +56,15 @@ if (false === appIsActive) {
     app.use(logger('dev'));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
-    app.use(cookieParser());
+    
+    app.use(express.session({secret: sessionSecret}));
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    passport.use(User.createStrategy());
+
+    passport.serializeUser(User.serializeUser());
+    passport.deserializeUser(User.deserializeUser());
 
     // Static Assets
 
@@ -99,6 +113,7 @@ if (false === appIsActive) {
     
     app.use('/api/users', userRoute);
 
+/*
     // catch 404 and forward to error handler
     app.use(function(req, res, next) {
         var err = new Error('Not Found');
@@ -111,7 +126,7 @@ if (false === appIsActive) {
         res.render('error', {
             message: err.message
         });
-    });
+    });*/
 
     // Connect to our database
 

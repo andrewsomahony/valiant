@@ -17,6 +17,7 @@
     "debug": "~2.2.0",
     "ejs": "~2.4.1",
     "express": "~4.13.1",
+    "express-session": "^1.13.0",
     "mongodb": "~2.1.7",
     "mongoose": "~4.4.5",
     "morgan": "~1.6.1",
@@ -24,6 +25,7 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose-email": "^0.1.2",
     "q": "^1.4.1",
+    "sendgrid": "^2.0.0",
     "serve-favicon": "~2.3.0"
   },
   "devDependencies": {}
