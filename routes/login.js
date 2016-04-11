@@ -8,5 +8,4 @@ Router.route('/')
    passport.authenticate('local'),
 function(request, response, next) {
    response.status(200);
-   next();
 });
