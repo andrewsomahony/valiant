@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Promise = require('../lib/promise');
-var ValiantError = require('../lib/error');
+var Responder = require('../lib/responder');
 
 var User = require('../models/user');
 
@@ -41,11 +41,12 @@ var Q = require('q');
 
 router.route('/')
 .get(function(request, result) {
+    console.log(request.user);
     User.find(function(error, documents) {
         if (error) {
-            result.status(404).json(error);
+            Responder.withMongooseError(result, 400, error);
         } else {
-            result.status(200).json(documents);
+            Responder(result, 200, documents);
         }
     });
 })
@@ -64,32 +65,64 @@ router.route('/')
                 is_connected_to_facebook: u.is_connected_to_facebook
             });
             
-            User.register(user, u.password, function(error, document) {
+            user.save(function(error, document) {
                 if (error) {
                     reject(error);
                 } else {
                     resolve(document);
                 }
-            })            
+            })        
         });
     }))
     .then(function(documents) {
-        result.status(201).json(documents);
+        Responder(result, 201, documents);
     })
     .catch(function(error) {
-        result.status(400).json(ValiantError.fromMongooseError(error).toObject());
+        Responder.withMongooseError(result, 400, error);
     });
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+});
+
+router.route('/register')
+.get(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+    var u = request.body.user;
+    
+    var user = new User({
+        email: u.email,
+        first_name: u.first_name,
+        last_name: u.last_name,
+        profile_picture_url: u.profile_picture_url,
+        questions: [],
+        facebook_id: u.facebook_id,
+        is_connected_to_facebook: u.is_connected_to_facebook
+    });
+    
+    User.register(user, u.password, function(error, newUser) {
+        if (error) {
+            Responder.withError(result, 400, error.message);
+        } else {
+            Responder(result, 201, newUser);
+        }
+    });
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
 });
 
 router.route('/:userId')
 .get(function(request, result) {
-    
+    Responder.methodNotAllowed(result);
 })
 .put(function(request, result) {
-    
+    Responder.methodNotAllowed(result);
 })
 .delete(function(request, result) {
-    
+    Responder.methodNotAllowed(result);
 })
 
 module.exports = router;

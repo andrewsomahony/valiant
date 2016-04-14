@@ -11,6 +11,7 @@ var fs = require('fs');
 var mime = require('mime');
 
 var passport = require('passport');
+var expressSession = require('express-session');
 
 var indexRoute = require('./routes/index');
 var loginRoute = require('./routes/login');
@@ -58,15 +59,19 @@ if (false === appIsActive) {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     
-    app.use(express.session({secret: sessionSecret}));
+    app.use(expressSession({
+                                secret: sessionSecret,
+                                resave: true, 
+                                saveUninitialized: true
+                           }));
     
     app.use(passport.initialize());
     app.use(passport.session());
 
-    passport.use(User.createStrategy());
+    passport.use(UserModel.createStrategy());
 
-    passport.serializeUser(User.serializeUser());
-    passport.deserializeUser(User.deserializeUser());
+    passport.serializeUser(UserModel.serializeUser());
+    passport.deserializeUser(UserModel.deserializeUser());
 
     // Static Assets
 
