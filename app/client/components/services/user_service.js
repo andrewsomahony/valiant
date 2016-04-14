@@ -10,28 +10,29 @@ registerService('factory', name, [
                                     require('services/http_service'),
                                     require('models/user'),
                                     require('services/api_url'),
-function(FacebookService, PromiseService, HttpService, UserModel, ApiUrlService) {
-    var isLoggedIn = false;
+function(FacebookService, Promise, HttpService, UserModel, ApiUrlService) {    
+    var currentUser = null;
+    
+    var currentUnverifiedUser = null;
     
     function UserService() {
         
     }
     
     UserService.dataResolverFn = function(state, params) {
-        return PromiseService(function(resolve, reject, notify) {
-            isLoggedIn = true;
+        return Promise(function(resolve, reject, notify) {
             resolve({});
         });
     }
     
     UserService.isLoggedIn = function() {
-        return isLoggedIn;
+        return null !== currentUser;
     }
     
+    /*
     UserService.loginToFacebook = function() {
-        return PromiseService(function(resolve, reject, notify) {
+        return Promise(function(resolve, reject, notify) {
             console.log("Is this happening?");
-            isLoggedIn = true;
             resolve({});
         });        
     }
@@ -48,8 +49,7 @@ function(FacebookService, PromiseService, HttpService, UserModel, ApiUrlService)
         // If the call returns that the user does exist,
         // then we simply proceed as normal.
         
-        return PromiseService(function(resolve, reject, notify) {
-            isLoggedIn = true;
+        return Promise(function(resolve, reject, notify) {
             resolve({});
         });
     }
@@ -58,20 +58,61 @@ function(FacebookService, PromiseService, HttpService, UserModel, ApiUrlService)
         // Will make an API call to the server to disconnect
         // the user account from Facebook.
         
-        return PromiseService(function(resolve, reject, notify) {
-            isLoggedIn = false;
+        return Promise(function(resolve, reject, notify) {
             resolve({});
+        });
+    }*/
+    
+    UserService.getCurrentUser = function() {
+        return currentUser;
+    }
+    
+    UserService.getCurrentUnverifiedUser = function() {
+        return currentUnverifiedUser;
+    }
+    
+    UserService.login = function(credentials) {
+        return Promise(function(resolve, reject, notify) {
+            HttpService.post(ApiUrlService('Login', false), null, credentials)
+            .then(function(userData) {
+                currentUser = new UserModel(userData.data, true);
+                currentUnverifiedUser = null;
+                
+                resolve();
+            })
+            .catch(function(error) {
+                currentUser = null;
+                
+                if (403 === error.code) {
+                    currentUnverifiedUser = new UserModel({email: credentials.email});
+                } else {
+                    currentUnverifiedUser = null;
+                }
+                
+                reject(error);
+            });
         });
     }
     
-    UserService.registerUser = function(userObject) {
-        // Convert the object to a model
-        var user = new UserModel(userObject);
+    UserService.logout = function() {
+        if (false === this.isLoggedIn()) {
+            throw new Error("Trying to log out when not logged in!");
+        }
         
+        
+    }
+    
+    UserService.registerUser = function(user) {
+        // Convert the object to a model
         return Promise(function(resolve, reject, notify) {
-            HttpService.post(ApiUrlService('User'), null, {users:[user.toObject(true)]})
-            .then(function(userData) {
-                resolve(userData);
+            HttpService.post(ApiUrlService([{name: 'User'}, {name: 'Register'}]), 
+            null, {
+                    user: user.toObject(true)
+                  })
+            .then(function() {
+                currentUser = null;
+                currentUnverifiedUser = user;
+                resolve();
             })
             .catch(function(error) {
                 reject(error);

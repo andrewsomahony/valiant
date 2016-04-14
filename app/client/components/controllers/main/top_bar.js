@@ -4,10 +4,21 @@ var name = 'controllers.main.top_bar';
 
 registerController(name, ['$scope',
                           require('services/user_service'),
-function($scope, UserService) {
+                          require('services/error_modal'),
+function($scope, UserService, ErrorModal) {
     
     $scope.isLoggedIn = function() {
-        return false;
+        return UserService.isLoggedIn();
+    }
+    
+    $scope.logout = function() {
+        UserService.logout()
+        .then(function() {
+            
+        })
+        .catch(function(error) {
+            ErrorModal(error);
+        })
     }
 
 }]);

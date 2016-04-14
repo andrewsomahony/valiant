@@ -2,6 +2,8 @@
 
 var registerService = require('services/register');
 
+var utils = require('utils');
+
 var name = 'services.api_url';
 
 registerService('factory', name, [function() {
@@ -10,13 +12,20 @@ registerService('factory', name, [function() {
       'User': {
          url: "users",
          sub_api: {
-            
+            'Register': {
+               url: "register"
+            }
          }
+      },
+      'Login': {
+         url: "login"
       }
    };
    
-   function ApiUrlService(resources) {
-      var urlPrefix = "/api"; 
+   function ApiUrlService(resources, isPartOfApi) {
+      isPartOfApi = true === utils.isUndefinedOrNull(isPartOfApi) ? true : isPartOfApi;
+      
+      var urlPrefix = true === isPartOfApi ? "/api" : ""; 
       var slash = "/";  
       var trailingSlash = "/";
       
@@ -33,11 +42,10 @@ registerService('factory', name, [function() {
       
       var apiObject = null;
       resources.forEach(function(resourceObject, index) {
-         if (!api[resourceObject.name]) {
-            throw new Error("ApiUrlService: unknown resource " + resourceObject.name + "!");
-         }
-         
          if (null === apiObject) {
+            if (!api[resourceObject.name]) {
+               throw new Error("ApiUrlService: unknown resource " + resourceObject.name + "!");
+            }
             apiObject = api[resourceObject.name];            
          } else {
             if (!apiObject.sub_api ||
@@ -50,9 +58,11 @@ registerService('factory', name, [function() {
          
          returnUrl += apiObject.url + trailingSlash;
 
-         resourceObject.paramArray.forEach(function(paramName) {
-            returnUrl += paramName + trailingSlash;
-         })
+         if (resourceObject.paramArray) {
+            resourceObject.paramArray.forEach(function(paramName) {
+               returnUrl += paramName + trailingSlash;
+            });
+         }
       });
       
       return returnUrl;

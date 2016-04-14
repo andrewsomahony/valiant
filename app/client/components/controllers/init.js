@@ -12,6 +12,8 @@ require('./main/about/default');
 
 require('./main/login/login');
 require('./main/login/default');
+require('./main/login/unverified');
 
 require('./main/register/register');
 require('./main/register/default');
+require('./main/register/success');

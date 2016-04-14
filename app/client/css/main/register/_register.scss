@@ -1,26 +1,6 @@
 div.register {
-   div.content {
+   div.sub-content {
       div.registration-form {
-         display: table;
-         
-         border-collapse: separate;
-         border-spacing: 30px;
-         
-         font-size: 18px;
-         
-         p {
-            display: table-row;
-            
-            label {
-               display: table-cell;
-            }
-            
-            input {
-               display: table-cell;
-               font-size: 18px;
-               width: 300px;
-            }
-         }
       }
    }
 }

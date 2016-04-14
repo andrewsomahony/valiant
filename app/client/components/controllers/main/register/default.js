@@ -7,7 +7,8 @@ var name = 'controllers.main.register.default';
 registerController(name, ['$scope',
                           require('services/user_service'),
                           require('services/error_modal'),
-function($scope, UserService, ErrorModal) {
+                          require('models/user'),
+function($scope, UserService, ErrorModal, UserModel) {
    $scope.registrationInformation = {
       email: "",
       password: "",
@@ -18,9 +19,11 @@ function($scope, UserService, ErrorModal) {
    };
    
    $scope.registerUser = function() {
-      UserService.registerUser($scope.registrationInformation)
-      .then(function(userData) {
-         console.log("USER DATA!", userData);
+      var user = new UserModel($scope.registrationInformation);
+      
+      UserService.registerUser(user)
+      .then(function() {
+         // Redirect
       })
       .catch(function(error) {
          ErrorModal(error);

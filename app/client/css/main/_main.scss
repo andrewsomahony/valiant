@@ -1,35 +1,63 @@
-@import "top_bar";
-
 div.main {
-    height: 95%;
-    div.header {
-        color: black;
-        height: 128px;
-        @import "nav_bar";
-    }
+   height: 95%;
+   
+   @import "top_bar";
     
-    div.main-content {
-        height: 640px;
-        
-        div.content {
-            height: 95%;
-            padding-left: 24px;
+   div.mobile-scroll {
+      
+      @media screen and (max-width: $min-sm-screen-width) {
+         overflow-y: scroll;
+         overflow-x: hidden;
+         
+         -webkit-overflow-scrolling: touch;
+      }
+      
+      div.mobile-container {
+         @media screen and (min-width: $min-sm-screen-width) {   
+            height: 100%;
+         }         
+
+         @media screen and (max-width: $min-sm-screen-width) {
+            padding-bottom: 48px;
+         }
+      }
+      
+      div.header {
+         color: black;
+         @import "nav_bar";
+      }
+      
+      div.main-content {
+         height: 80%;     
+         
+         div.content {
+            height: 100%;
             
-            overflow-y: auto;
-            overflow-x: hidden;            
-            
+            @media screen and (min-width: $min-sm-screen-width) {   
+               overflow-y: scroll;
+               overflow-x: hidden;
+               
+               -webkit-overflow-scrolling: touch;
+            }
+         
+            @media screen and (max-width: $min-sm-screen-width) {
+               overflow-y: hidden;
+               overflow-x: scroll;
+            }     
+               
             @import "home/home";
             @import "about/about";
             @import "login/login";
             @import "register/register";
-        }
-        
-        div.ad-space {
-            height: 95%;
+         }
+         
+         div.ad-space {
+            height: 100%;
             div.copyright {
-                float: right;
-                font-size: 10px;
+               float: right;
+               font-size: 10px;
             }
-        }
-    }
+         }
+      }
+   }
 }

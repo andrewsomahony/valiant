@@ -99,7 +99,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.login.default", {
-       url: "",
+       url: "/",
        resolve: RouteResolver("main.page.login.default"),
        views: {
            "nav_bar@main.page": {
@@ -109,6 +109,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                templateUrl: "partials/main/login/content.html",
                controller: require("controllers/main/login/default")
            }
+       }
+   })
+   
+   .state("main.page.login.unverified", {
+       url: "/unverified",
+       views: {
+           "nav_bar@main.page": {
+               templateUrl: "partials/main/nav_bar.html"     
+           },
+           "content@main.page.login": {
+               templateUrl: "partials/main/login/unverified.html",
+               controller: require("controllers/main/login/unverified")
+           }           
        }
    })
    
@@ -124,7 +137,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.register.default", {
-       url: "",
+       url: "/",
        resolve: RouteResolver("main.page.register.default"),
        views: {
            "nav_bar@main.page": {
@@ -134,6 +147,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                templateUrl: "partials/main/register/content.html",
                controller: require("controllers/main/register/default")
            }
+       }
+   })
+   
+   .state("main.page.register.success", {
+       url: "/success",
+       views: {
+           "nav_bar@main.page": {
+               templateUrl: "partials/main/nav_bar.html"
+           },
+           "content@main.page.register": {
+               templateUrl: "partials/main/register/success.html",
+               controller: require("controllers/main/register/success")
+           }           
        }
    })
    

@@ -140,8 +140,8 @@ function(id, promise) {
       },
 
       init: function(config, isFromServer) {
-         config = config || {}
-         isFromServer = isFromServer || false
+         config = config || {};
+         isFromServer = true === utils.isUndefinedOrNull(isFromServer) ? false : isFromServer;
 
          var fields = this.$ownClass.fields()
 
