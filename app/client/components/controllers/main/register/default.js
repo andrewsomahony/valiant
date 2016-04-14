@@ -8,7 +8,8 @@ registerController(name, ['$scope',
                           require('services/user_service'),
                           require('services/error_modal'),
                           require('models/user'),
-function($scope, UserService, ErrorModal, UserModel) {
+                          require('services/state_service'),
+function($scope, UserService, ErrorModal, UserModel, StateService) {
    $scope.registrationInformation = {
       email: "",
       password: "",
@@ -24,6 +25,7 @@ function($scope, UserService, ErrorModal, UserModel) {
       UserService.registerUser(user)
       .then(function() {
          // Redirect
+         StateService.go('^.success');
       })
       .catch(function(error) {
          ErrorModal(error);

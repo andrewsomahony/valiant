@@ -8,37 +8,6 @@ var User = require('../models/user');
 
 var Q = require('q');
 
-/*
-    first_name: {
-        type: String, 
-        default: ""
-    },
-    last_name: {
-        type: String,
-        default: ""
-    },
-    profile_picture_url: {
-        type: String,
-        default: ""
-    },
-    access_type: {
-        type: String,
-        default: "public"
-    },
-    questions: {
-        type: Array,
-        default: []
-    },
-    facebook_id: {
-        type: String,
-        default: ""
-    },
-    is_connected_to_facebook: {
-        type: Boolean,
-        default: false
-    }
-*/
-
 router.route('/')
 .get(function(request, result) {
     console.log(request.user);
@@ -89,6 +58,9 @@ router.route('/register')
 .get(function(request, result) {
     Responder.methodNotAllowed(result);
 })
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
 .post(function(request, result) {
     var u = request.body.user;
     
@@ -104,11 +76,58 @@ router.route('/register')
     
     User.register(user, u.password, function(error, newUser) {
         if (error) {
-            Responder.withError(result, 400, error.message);
+            // !!! This could either be a BadRequestError
+            // !!! or a Mongoose error.
+            
+            if (error.name && 'BadRequestError' === error.name) {
+                Responder.withErrorObject(result, 400, error);
+            } else {
+                Responder.withMongooseError(result, 400, error);
+            }
         } else {
-            Responder(result, 201, newUser);
+            newUser.sendAuthenticationEmail(function(error, u) {
+                if (error) {
+                    Responder.withErrorObject(result, 400, error);
+                } else {
+                    Responder(result, 201, u.unregisteredInformationObject());
+                }
+            });
+            
         }
     });
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+});
+
+router.route('/verify')
+.get(function(request, result) {
+    //request.query.authToken;
+    // Redirect to the home page so we run the front-end
+    // code, which will look for the email_verified param
+    // and redirect accordingly.
+    
+    //result.redirect('/?email_verified=true');
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+});
+
+router.route('/resend_email')
+.get(function(request, result) {
+    //request.query.emailToken
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+    Responder.methodNotAllowed(result);
 })
 .delete(function(request, result) {
     Responder.methodNotAllowed(result);
@@ -118,11 +137,14 @@ router.route('/:userId')
 .get(function(request, result) {
     Responder.methodNotAllowed(result);
 })
+.post(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
 .put(function(request, result) {
     Responder.methodNotAllowed(result);
 })
 .delete(function(request, result) {
     Responder.methodNotAllowed(result);
-})
+});
 
 module.exports = router;

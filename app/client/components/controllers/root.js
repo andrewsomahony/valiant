@@ -29,10 +29,10 @@ function($rootScope, ErrorModal, FacebookService) {
         
     });
     
-    $rootScope.$on('Facebook:load', function() {
+    /*$rootScope.$on('Facebook:load', function() {
         console.log("Facebook loaded");
         FacebookService.getLoginStatus();
-    });
+    });*/
     
    /* $rootScope.$on('Facebook:statusChange', function(e, response) {
         console.log("Status change");

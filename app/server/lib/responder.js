@@ -6,6 +6,10 @@ function Responder(responseObject, responseCode, responseData) {
    responseObject.status(responseCode).json(responseData);
 }
 
+Responder.withErrorObject = function(responseObject, responseCode, errorObject) {
+   this(responseObject, responseCode, ValiantError.fromErrorObject(errorObject).toObject());
+}
+
 Responder.withError = function(responseObject, responseCode, responseMessage) {
    this(responseObject, responseCode, new ValiantError(responseMessage).toObject());
 }

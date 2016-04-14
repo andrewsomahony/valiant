@@ -21,7 +21,8 @@ function(BaseModel) {
                password: "",
                profile_picture_url: "",
                facebook_id: "",
-               is_connected_to_facebook: false
+               is_connected_to_facebook: false,
+               email_token: ""
             })
          }
       },

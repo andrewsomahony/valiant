@@ -75,19 +75,20 @@ function(FacebookService, Promise, HttpService, UserModel, ApiUrlService) {
         return Promise(function(resolve, reject, notify) {
             HttpService.post(ApiUrlService('Login', false), null, credentials)
             .then(function(userData) {
-                currentUser = new UserModel(userData.data, true);
-                currentUnverifiedUser = null;
+                if (202 === userData.status) {
+                    currentUnverifiedUser = new UserModel(userData.data, true);
+                    console.log(currentUnverifiedUser);
+                    currentUser = null;
+                } else {
+                    currentUser = new UserModel(userData.data, true);
+                    currentUnverifiedUser = null;
+                }
                 
-                resolve();
+                resolve({status: userData.status});
             })
             .catch(function(error) {
                 currentUser = null;
-                
-                if (403 === error.code) {
-                    currentUnverifiedUser = new UserModel({email: credentials.email});
-                } else {
-                    currentUnverifiedUser = null;
-                }
+                currentUnverifiedUser = null;
                 
                 reject(error);
             });

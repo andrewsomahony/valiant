@@ -44,6 +44,13 @@ div.main {
                overflow-y: hidden;
                overflow-x: scroll;
             }     
+            
+            @media screen and (max-width: $min-sm-screen-width) {
+               img {
+                  max-width: 100%;
+                  height: auto;
+               }
+            }
                
             @import "home/home";
             @import "about/about";

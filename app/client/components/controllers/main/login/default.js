@@ -16,15 +16,15 @@ function($scope, UserService, ErrorModal, StateService) {
    
    $scope.login = function() {
       UserService.login($scope.loginInformation)
-      .then(function() {
-         
-      })
-      .catch(function(e) {
-         if (403 === e.code) {
+      .then(function(status) {
+         if (202 === status.status) {
             StateService.go('^.unverified');
          } else {
-            ErrorModal(e);
+            // Redirect to user profile page
          }
+      })
+      .catch(function(e) {
+         ErrorModal(e);
       });
    }
 }]);
