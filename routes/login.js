@@ -45,7 +45,7 @@ Router.route('/')
                      if (error) {
                         Responder.withErrorObject(response, 401, error);
                      } else {
-                        Responder(response, 200, user);
+                        Responder(response, 200, user.frontEndObject());
                      }
                   });   
                }             

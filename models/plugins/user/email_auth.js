@@ -5,6 +5,8 @@ var ValiantError = require(__base + 'lib/error');
 
 var ValiantEmail = require(__base + 'lib/email');
 
+var hostnameUtil = require(__base + 'lib/hostname');
+
 module.exports = function(schema, options) {
    options = options || {};
    
@@ -56,22 +58,26 @@ module.exports = function(schema, options) {
             var emailToken = buffer.toString('hex');
             self.set(options.emailTokenField, emailToken);
             
-            sendgrid.send({
+            ValiantEmail({
                to: self.email,
-               from: "do-not-reply@valiantathletics.com",
-               subject: "Welcome to Valiant Athletics!",
-               text: "Confirm your e-mail man!"
-            }, function(error, json) {
-               if (error) {
-                  cb(error);
+               from: ValiantEmail.doNotReplyEmailAddress(),
+               fromname: "Valiant Athletics Registration",
+               template: "verify",
+               templateParams: {
+                  first_name: self.first_name,
+                  verify_link: hostnameUtil.constructUrl("/verify/" + self.authToken)//"http://www.yahoo.com"
                }
-            });         
-            
-            self.save(function(error) {
+            }, function(error) {
                if (error) {
                   return cb(error);
                } else {
-                  cb(null, self);
+                  self.save(function(error) {
+                     if (error) {
+                        return cb(error);
+                     } else {
+                        cb(null, self);
+                     }
+                  });
                }
             });
          }
