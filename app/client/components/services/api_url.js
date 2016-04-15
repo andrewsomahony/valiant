@@ -14,6 +14,9 @@ registerService('factory', name, [function() {
          sub_api: {
             'Register': {
                url: "register"
+            },
+            'Reverify': {
+               url: "resend_email"
             }
          }
       },

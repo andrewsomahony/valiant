@@ -6,7 +6,8 @@ var name = 'controllers.main.login.unverified';
 
 registerController(name, ['$scope',
                           require('services/user_service'),
-function($scope, UserService) {
+                          require('services/error_modal'),
+function($scope, UserService, ErrorModal) {
    
    $scope.getCurrentUnverifiedUser = function() {
       return UserService.getCurrentUnverifiedUser();
@@ -15,7 +16,17 @@ function($scope, UserService) {
    $scope.getEmailAddress = function() {
       var u = this.getCurrentUnverifiedUser();      
       return u.email;
-   }   
+   }
+   
+   $scope.resendVerificationEmail = function() {
+      UserService.resendVerificationEmail()
+      .then(function() {
+         // Display some sort of message
+      })
+      .catch(function(error) {
+         ErrorModal(error);
+      });
+   }
    
 }]);
 

@@ -10,10 +10,9 @@ var Q = require('q');
 
 router.route('/')
 .get(function(request, result) {
-    console.log(request.user);
     User.find(function(error, documents) {
         if (error) {
-            Responder.withMongooseError(result, 400, error);
+            Responder.withErrorObject(result, 400, error);
         } else {
             Responder(result, 200, documents);
         }
@@ -47,7 +46,7 @@ router.route('/')
         Responder(result, 201, documents);
     })
     .catch(function(error) {
-        Responder.withMongooseError(result, 400, error);
+        Responder.withErrorObject(result, 400, error);
     });
 })
 .delete(function(request, result) {
@@ -76,14 +75,7 @@ router.route('/register')
     
     User.register(user, u.password, function(error, newUser) {
         if (error) {
-            // !!! This could either be a BadRequestError
-            // !!! or a Mongoose error.
-            
-            if (error.name && 'BadRequestError' === error.name) {
-                Responder.withErrorObject(result, 400, error);
-            } else {
-                Responder.withMongooseError(result, 400, error);
-            }
+            Responder.withErrorObject(result, 400, error);
         } else {
             newUser.sendAuthenticationEmail(function(error, u) {
                 if (error) {
@@ -107,6 +99,20 @@ router.route('/verify')
     // code, which will look for the email_verified param
     // and redirect accordingly.
     
+    var authToken = request.query.authToken;
+    
+    if (!authToken) {
+        result.redirect("/?email_verified=false&notoken=true");
+    } else {
+        User.verifyEmail(authToken, function(error, user) {
+            if (error) {
+                result.redirect("/?email_verified=false&error=true");
+            } else {
+                result.redirect("/?email_verified=true");
+            }
+        });
+    }
+    
     //result.redirect('/?email_verified=true');
 })
 .put(function(request, result) {
@@ -122,6 +128,19 @@ router.route('/verify')
 router.route('/resend_email')
 .get(function(request, result) {
     //request.query.emailToken
+    var emailToken = request.query.emailToken;
+    
+    if (!emailToken) {
+        Responder.withErrorMessage(result, 400, "Missing email token!");
+    } else {
+        User.resendAuthenticationEmail(emailToken, function(error, user) {
+            if (error) {
+                Responder.withErrorObject(result, 400, error);
+            } else {
+                Responder.noContent(result);
+            }
+        })
+    }
 })
 .put(function(request, result) {
     Responder.methodNotAllowed(result);

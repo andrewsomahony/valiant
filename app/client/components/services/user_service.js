@@ -10,7 +10,9 @@ registerService('factory', name, [
                                     require('services/http_service'),
                                     require('models/user'),
                                     require('services/api_url'),
-function(FacebookService, Promise, HttpService, UserModel, ApiUrlService) {    
+                                    require('services/error'),
+function(FacebookService, Promise, HttpService, UserModel, ApiUrlService,
+ErrorService) {    
     var currentUser = null;
     
     var currentUnverifiedUser = null;
@@ -101,6 +103,19 @@ function(FacebookService, Promise, HttpService, UserModel, ApiUrlService) {
         }
         
         
+    }
+    
+    UserService.resendVerificationEmail = function() {
+        return Promise(function(resolve, reject, notify) {
+            var u = this.getCurrentUnverifiedUser();
+            
+            if (!u) {
+                reject(ErrorService.localError("Missing unverified user!"));
+            } else {
+                
+            }         
+        });
+
     }
     
     UserService.registerUser = function(user) {

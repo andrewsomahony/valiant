@@ -3,14 +3,18 @@
 var ValiantError = require('./error');
 
 function Responder(responseObject, responseCode, responseData) {
-   responseObject.status(responseCode).json(responseData);
+   if (responseData) {
+      responseObject.status(responseCode).json(responseData);
+   } else {
+      responseObject.status(responseCode);
+   }
 }
 
 Responder.withErrorObject = function(responseObject, responseCode, errorObject) {
    this(responseObject, responseCode, ValiantError.fromErrorObject(errorObject).toObject());
 }
 
-Responder.withError = function(responseObject, responseCode, responseMessage) {
+Responder.withErrorMessage = function(responseObject, responseCode, responseMessage) {
    this(responseObject, responseCode, new ValiantError(responseMessage).toObject());
 }
 
@@ -20,6 +24,10 @@ Responder.withMongooseError = function(responseObject, responseCode, mongooseErr
 
 Responder.methodNotAllowed = function(responseObject) {
    this(responseObject, 405, ValiantError.methodNotAllowed().toObject());
+}
+
+Responder.noContent = function(responseObject) {
+   this(responseObject, 204);
 }
 
 module.exports = Responder;
