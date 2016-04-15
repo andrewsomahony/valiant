@@ -1,6 +1,9 @@
-var crypto = require('crypto');
+'use strict';
 
-var ValiantError = require('../../../lib/error');
+var crypto = require('crypto');
+var ValiantError = require(__base + 'lib/error');
+
+var ValiantEmail = require(__base + 'lib/email');
 
 module.exports = function(schema, options) {
    options = options || {};
@@ -32,7 +35,7 @@ module.exports = function(schema, options) {
       
       self.findByEmailToken(emailToken, function(error, user) {
          if (error) {
-            return cb(ValiantError.fromMongooseError(error));
+            return cb(error);
          } else {
             if (!user) {
                return cb(ValiantError.withMessage("Invalid e-mail token"));
@@ -48,14 +51,25 @@ module.exports = function(schema, options) {
       
       crypto.randomBytes(48, function(error, buffer) {
          if (error) {
-            return cb(error);
+            return cb(ValiantError.fromErrorObject(error));
          } else {
             var emailToken = buffer.toString('hex');
             self.set(options.emailTokenField, emailToken);
             
+            sendgrid.send({
+               to: self.email,
+               from: "do-not-reply@valiantathletics.com",
+               subject: "Welcome to Valiant Athletics!",
+               text: "Confirm your e-mail man!"
+            }, function(error, json) {
+               if (error) {
+                  cb(error);
+               }
+            });         
+            
             self.save(function(error) {
                if (error) {
-                  return cb(ValiantError.fromMongooseError(error));
+                  return cb(error);
                } else {
                   cb(null, self);
                }

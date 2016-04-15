@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 var passportLocalMongooseEmail = require('passport-local-mongoose-email');
+var extendedPassportLocalMongooseEmail = require('./plugins/user/authenticate');
 var userEmailAuthentication = require('./plugins/user/email_auth');
 var userMethods = require('./plugins/user/methods');
 
@@ -54,12 +55,20 @@ var User = new Schema({
 
 User.plugin(userMethods);
 
-User.plugin(passportLocalMongooseEmail, {
+var userOptions = {
     usernameField: 'email',
     userEmailUnverifiedError: UserLoginService.emailUnverifiedErrorString,
     incorrectPasswordError: UserLoginService.incorrectPasswordErrorString,
     incorrectUsernameError: UserLoginService.incorrectUsernameErrorString    
-});
+};
+
+User.plugin(passportLocalMongooseEmail, userOptions);
+
+// We extend the passportLocalMongooseEmail strategy because
+// it doesn't return the user object if the e-mail is unverified,
+// which I think is incorrect behavior.
+
+User.plugin(extendedPassportLocalMongooseEmail, userOptions);
 
 User.plugin(userEmailAuthentication);
 
