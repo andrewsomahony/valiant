@@ -16,8 +16,14 @@ registerService('factory', name, [function() {
                url: "register"
             },
             'Reverify': {
-               url: "resend_email"
+               url: "resend_email",
+               paramArray: {
+                  emailToken: ""
+               }
             }
+         },
+         paramArray: {
+            userId: ""
          }
       },
       'Login': {

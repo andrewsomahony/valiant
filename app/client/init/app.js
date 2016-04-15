@@ -28,5 +28,6 @@ module.exports = angular.module(appInfo.name, [
     appInfo.moduleName('views'),
     require('angular-ui-router'),
     'mgcrea.ngStrap.modal',
+    require('angular-route'),
     'facebook'
 ]);

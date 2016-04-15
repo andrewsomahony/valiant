@@ -22,6 +22,7 @@ function($scope, UserService, ErrorModal) {
       UserService.resendVerificationEmail()
       .then(function() {
          // Display some sort of message
+         console.log("Verification re-send success");
       })
       .catch(function(error) {
          ErrorModal(error);

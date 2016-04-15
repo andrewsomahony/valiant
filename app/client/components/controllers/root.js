@@ -1,13 +1,16 @@
 'use strict';
 
 var registerController = require('controllers/register');
+var utils = require('utils');
 
 var name = 'controllers.root';
 
 registerController(name, ['$rootScope',
                           require('services/error_modal'),
-                          require('services/facebook_service'),
-function($rootScope, ErrorModal, FacebookService) {
+                          require('services/user_service'),
+                          require('services/state_service'),
+                          '$location',
+function($rootScope, ErrorModal, UserService, StateService, $location) {
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams, options) {
     });
     
@@ -15,6 +18,18 @@ function($rootScope, ErrorModal, FacebookService) {
     });
     
     $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {        
+        var emailVerified = $location.search()['email_verified'];
+        
+        if (false === utils.isUndefinedOrNull(emailVerified)) {
+            if (emailVerified) {
+                StateService.go('main.page.login.default', 
+                            {verificationSuccess: true});
+            } else {
+                //Do something
+            }
+        }
+        
+        console.log("ROUTE PARAMS: ", emailVerified);   
     });
     
     $rootScope.$on('$stateChangeError', function(e, toState, toParams, fromState, fromParams, error) {
@@ -28,22 +43,6 @@ function($rootScope, ErrorModal, FacebookService) {
     $rootScope.$on('$viewContentLoaded', function(e) {
         
     });
-    
-    /*$rootScope.$on('Facebook:load', function() {
-        console.log("Facebook loaded");
-        FacebookService.getLoginStatus();
-    });*/
-    
-   /* $rootScope.$on('Facebook:statusChange', function(e, response) {
-        console.log("Status change");
-        if (!response || response.error) {
-            console.log("FACEBOOK ERROR", response.error);
-        } else {
-            console.log("statusChange: ", response);
-            FacebookService.parseLoginStatusResponse(response);
-            FacebookService.setIsReady(true);
-        }
-    });*/
 }]);
 
 module.exports = name;

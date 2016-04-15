@@ -14,7 +14,6 @@ registerService('factory', name, [
 function(FacebookService, Promise, HttpService, UserModel, ApiUrlService,
 ErrorService) {    
     var currentUser = null;
-    
     var currentUnverifiedUser = null;
     
     function UserService() {
@@ -30,40 +29,6 @@ ErrorService) {
     UserService.isLoggedIn = function() {
         return null !== currentUser;
     }
-    
-    /*
-    UserService.loginToFacebook = function() {
-        return Promise(function(resolve, reject, notify) {
-            console.log("Is this happening?");
-            resolve({});
-        });        
-    }
-    
-    UserService.connectToFacebook = function() {
-        // Will grab the userId from FacebookService
-        // and make an API call.
-        
-        // If the call returns that the user doesn't exist,
-        // then we throw an error and it will redirect to
-        // the registration page, with the user information
-        // filled in.
-        
-        // If the call returns that the user does exist,
-        // then we simply proceed as normal.
-        
-        return Promise(function(resolve, reject, notify) {
-            resolve({});
-        });
-    }
-    
-    UserService.disconnectFromFacebook = function() {
-        // Will make an API call to the server to disconnect
-        // the user account from Facebook.
-        
-        return Promise(function(resolve, reject, notify) {
-            resolve({});
-        });
-    }*/
     
     UserService.getCurrentUser = function() {
         return currentUser;
@@ -107,12 +72,26 @@ ErrorService) {
     
     UserService.resendVerificationEmail = function() {
         return Promise(function(resolve, reject, notify) {
-            var u = this.getCurrentUnverifiedUser();
+            var u = UserService.getCurrentUnverifiedUser();
             
             if (!u) {
                 reject(ErrorService.localError("Missing unverified user!"));
             } else {
-                
+                HttpService.get(ApiUrlService([
+                    {
+                        name: 'User'
+                    },
+                    {
+                        name: 'Reverify',
+                        paramArray: [u.email_token]
+                    }
+                ]))
+                .then(function() {
+                    resolve();
+                })
+                .catch(function(error) {
+                    reject(error);
+                })
             }         
         });
 

@@ -3,11 +3,7 @@
 var ValiantError = require('./error');
 
 function Responder(responseObject, responseCode, responseData) {
-   if (responseData) {
-      responseObject.status(responseCode).json(responseData);
-   } else {
-      responseObject.status(responseCode);
-   }
+   responseObject.status(responseCode).json(responseData || {});
 }
 
 Responder.withErrorObject = function(responseObject, responseCode, errorObject) {

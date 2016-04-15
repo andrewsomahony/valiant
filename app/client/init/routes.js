@@ -99,7 +99,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.login.default", {
-       url: "/",
+       url: "/?verificationSuccess",
        resolve: RouteResolver("main.page.login.default"),
        views: {
            "nav_bar@main.page": {

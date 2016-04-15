@@ -6,6 +6,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var hostnameMiddleware = require('./lib/hostname');
 
 var ejs = require('ejs');
 
@@ -17,6 +18,7 @@ var expressSession = require('express-session');
 
 var indexRoute = require('./routes/index');
 var loginRoute = require('./routes/login');
+var verifyRoute = require('./routes/verify');
 var userRoute = require('./routes/users');
 
 var UserModel = require('./models/user');
@@ -58,6 +60,9 @@ if (false === appIsActive) {
     // uncomment after placing your favicon in /public
     //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
     app.use(logger('dev'));
+        
+    app.use(hostnameMiddleware());
+    
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     
@@ -110,6 +115,7 @@ if (false === appIsActive) {
     app.use('/', indexRoute);
     
     app.use('/login', loginRoute);
+    app.use('/verify', verifyRoute);
     
     app.use('/api', function(request, result, next) {
         if (!request.accepts('json') ||
