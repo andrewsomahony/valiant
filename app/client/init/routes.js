@@ -50,7 +50,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    .state("main.page.home.default", {
        resolve: RouteResolver("main.page.home.default"),
-       url: "",
+       url: "?email_verified&error",
        views: {
          "nav_bar@main.page": {
              templateUrl: "partials/main/nav_bar.html"
@@ -99,7 +99,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.login.default", {
-       url: "/?verificationSuccess",
+       url: "/?verification_success",
        resolve: RouteResolver("main.page.login.default"),
        views: {
            "nav_bar@main.page": {

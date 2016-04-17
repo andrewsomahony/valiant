@@ -1,6 +1,7 @@
 'use strict';
 
 var registerController = require('controllers/register');
+var utils = require('utils');
 
 var name = 'controllers.main.login.default';
 
@@ -26,6 +27,20 @@ function($scope, UserService, ErrorModal, StateService) {
       .catch(function(e) {
          ErrorModal(e);
       });
+   }
+   
+   $scope.verificationSuccessMessage = function() {
+      var verificationSuccess = StateService.params()['verification_success'];
+      
+      if (false === utils.isUndefinedOrNull(verificationSuccess)) {
+         if (verificationSuccess) {
+            return "E-Mail verification succeeded!";
+         } else {
+            return "E-Mail verification failed";
+         }
+      } else {
+         return "";
+      }
    }
 }]);
 

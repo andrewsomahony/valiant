@@ -14,6 +14,10 @@ function($state) {
       return $state.go(name, params, options);
    }
    
+   StateService.params = function() {
+      return $state.params;
+   }
+   
    return StateService;
 }]);
 
