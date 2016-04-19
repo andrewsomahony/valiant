@@ -8,7 +8,6 @@ var User = require(__base + 'models/user');
 
 router.route('/:authToken')
 .get(function(request, result) {
-    //request.query.authToken;
     // Redirect to the home page so we run the front-end
     // code, which will look for the email_verified param
     // and redirect accordingly.
@@ -16,13 +15,13 @@ router.route('/:authToken')
     var authToken = request.params.authToken;
     
     if (!authToken) {
-        result.redirect("/?email_verified=false&notoken=true");
+        result.redirect("/redirect?email_verified=false&notoken=true");
     } else {
         User.verifyEmail(authToken, function(error, user) {
             if (error) {
-                result.redirect("/?email_verified=false&error=true");
+                result.redirect("/redirect?email_verified=false&error=" + ValiantError.fromErrorObject(error).toString());
             } else {
-                result.redirect("/?email_verified=true");
+                result.redirect("/redirect?email_verified=true");
             }
         });
     }

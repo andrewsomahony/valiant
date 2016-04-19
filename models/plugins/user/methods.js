@@ -12,6 +12,7 @@ module.exports = function(schema, options) {
    // We don't need to return everything
    schema.methods.frontEndObject = function() {
       return {
+         _id: this._id,
          email: this.email,
          first_name: this.first_name,
          last_name: this.last_name,

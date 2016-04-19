@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Valiant Athletics Redirect</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    
+    <script type="text/javascript">
+      // We have this here so that we can redirect properly
+      // to a hash fragmented page that Angular can read.
+      // We put the parameters after the hashbang because that's
+      // how our ui-router will read them.
+      
+      window.location = "/#/" + window.location.search;
+    </script>
+    
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+        <div class="error">Sorry, you must have Internet Explorer 10 or higher to view this website</div>
+    <![endif]-->
+</body>
+    
+</html>
