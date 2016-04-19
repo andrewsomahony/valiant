@@ -138,7 +138,13 @@ router.route('/me')
 
 router.route('/:userId')
 .get(function(request, result) {
-    Responder.methodNotAllowed(result);
+    User.findById(request.params.userId, function(error, user) {
+        if (error) {
+            Responder.withErrorObject(result, 404, error);
+        } else {
+            Responder(result, 200, user.frontEndObject());
+        }
+    });
 })
 .post(function(request, result) {
     Responder.methodNotAllowed(result);
