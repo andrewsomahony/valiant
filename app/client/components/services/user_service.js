@@ -15,6 +15,7 @@ function(FacebookService, Promise, HttpService, UserModel, ApiUrlService,
 ErrorService) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
+    var currentRequestedUser = null;
     
     function UserService() {
         
@@ -38,9 +39,13 @@ ErrorService) {
         return currentUnverifiedUser;
     }
     
+    UserService.getCurrentRequestedUser = function() {
+        return currentRequestedUser;
+    }
+    
     UserService.login = function(credentials) {
         return Promise(function(resolve, reject, notify) {
-            HttpService.post(ApiUrlService('Login', false), null, credentials)
+            HttpService.post(ApiUrlService('Login'), null, credentials)
             .then(function(userData) {
                 if (202 === userData.status) {
                     currentUnverifiedUser = new UserModel(userData.data, true);
@@ -63,11 +68,21 @@ ErrorService) {
     }
     
     UserService.logout = function() {
-        if (false === this.isLoggedIn()) {
-            throw new Error("Trying to log out when not logged in!");
-        }
-        
-        
+        return Promise(function(resolve, reject, notify) {
+            if (false === UserService.isLoggedIn()) {
+                reject(ErrorService.localError("Not logged in!"));
+            } else {
+                HttpService.post(ApiUrlService('Logout'))
+                .then(function() {
+                    currentUser = null;
+                    currentUnverifiedUser = null;
+                    resolve();
+                })
+                .catch(function(error) {
+                    reject(error);
+                })
+            }       
+        });
     }
     
     UserService.resendVerificationEmail = function() {
@@ -112,6 +127,21 @@ ErrorService) {
             .catch(function(error) {
                 reject(error);
             });
+        });
+    }
+    
+    UserService.getUser = function(userId) {
+        return Promise(function(resolve, reject, notify) {
+           HttpService.get(ApiUrlService({
+                                            name: 'User', 
+                                            paramArray: [userId]
+                                           }))
+           .then(function(userData) {
+               currentRequestedUser = new User(userData.data);
+           })
+           .catch(function(error) {
+               reject(error);
+           });
         });
     }
     

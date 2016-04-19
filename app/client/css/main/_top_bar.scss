@@ -15,11 +15,13 @@ div.top-bar {
         height: 24px;
         margin-top: -12px;
         
-        div.login-buttons {
-            a.login-button {
-                color: white;
-                margin-left: 8px;
-            }
+        a.login-name {
+           color: white;
+        }
+        
+        a.login-button {
+            color: white;
+            margin-left: 8px;
         }
     }
 }

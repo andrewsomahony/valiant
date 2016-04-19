@@ -12,9 +12,6 @@ registerController(name, ['$rootScope',
                           '$location',
 function($rootScope, ErrorModal, UserService, StateService, $location) {
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams, options) {
-        if (window.location.search) {
-            window.location = "/#/" + window.location.search;
-        }
     });
     
     $rootScope.$on('$stateNotFound', function(e, unfoundState, fromState, fromParams) {        

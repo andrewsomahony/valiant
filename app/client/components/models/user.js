@@ -29,6 +29,10 @@ function(BaseModel) {
 
       init: function(config, isFromServer) {
          this.callSuper()
+      },
+      
+      fullName: function() {
+         return this.first_name + " " + this.last_name;
       }
    })   
 }]);

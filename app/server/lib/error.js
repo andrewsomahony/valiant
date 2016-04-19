@@ -52,4 +52,8 @@ ValiantError.prototype.toObject = function() {
    return {error: this.message};
 }
 
+ValiantError.prototype.toString = function() {
+   return this.message;
+}
+
 module.exports = ValiantError;

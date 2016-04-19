@@ -22,6 +22,7 @@ function($scope, UserService, ErrorModal, StateService) {
             StateService.go('^.unverified');
          } else {
             // Redirect to user profile page
+            StateService.go('main.page.home.default');
          }
       })
       .catch(function(e) {

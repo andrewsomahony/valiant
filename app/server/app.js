@@ -18,6 +18,7 @@ var expressSession = require('express-session');
 
 var indexRoute = require('./routes/index');
 var loginRoute = require('./routes/login');
+var logoutRoute = require('./routes/logout');
 var verifyRoute = require('./routes/verify');
 var userRoute = require('./routes/users');
 
@@ -114,7 +115,13 @@ if (false === appIsActive) {
 
     app.use('/', indexRoute);
     
+    app.use('/redirect', function(request, result, next) {
+        result.render('redirect');
+    });
+    
     app.use('/login', loginRoute);
+    app.use('/logout', logoutRoute);
+    
     app.use('/verify', verifyRoute);
     
     app.use('/api', function(request, result, next) {

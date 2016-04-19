@@ -149,7 +149,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
            }
        }
    })
-   
    .state("main.page.register.success", {
        url: "/success",
        views: {
@@ -162,6 +161,30 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
            }           
        }
    })
+   
+   .state("main.page.user", {
+       url: ":userId",
+       abstract: true,
+       views: {
+           "content@main": {
+               templateUrl: "partials/main/user/user.html",
+               controller: require("controllers/main/user/user")
+           }
+       }
+   })
+   .state("main.page.user.default", {
+     url: "",
+     views: {
+         "nav_bar@main.page": {
+             templateUrl: "partials/main/nav_bar.html"
+         },
+         "content@main.page.user": {
+             templateUrl: "partials/main/user/content.html",
+             controller: require("controllers/main/user/default")
+         }
+     }  
+   })
+   
    
    $stateProvider.state("admin", {
        url: "/admin",
