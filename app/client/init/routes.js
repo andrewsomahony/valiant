@@ -163,7 +163,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.user", {
-       url: ":userId",
+       url: "user",
        abstract: true,
        views: {
            "content@main": {
@@ -173,7 +173,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }
    })
    .state("main.page.user.default", {
-     url: "",
+     url: "/:userId",
+     resolve: RouteResolver("main.page.user.default"),
      views: {
          "nav_bar@main.page": {
              templateUrl: "partials/main/nav_bar.html"

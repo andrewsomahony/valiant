@@ -6,16 +6,17 @@ var name = 'controllers.main.user.default';
 
 registerController(name, ['$scope',
                           require('services/user_service'),
-function($scope, UserService) {
-   $scope.getCurrentUser = function() {
-      return UserService.getCurrentRequestedUser();
-   }
+                          require('models/user'),
+function($scope, UserService, UserModel) {
+   // Clone what we get from the UserService
+   // to allow for editing and such
+   $scope.currentEditingUser = 
+      new UserModel(UserService.getCurrentRequestedUser().toObject());
    
    $scope.isViewingLoggedInUser = function() {
       var currentUser = UserService.getCurrentUser();
-      var requestedUser = UserService.getCurrentRequestedUser();
       
-      return currentUser.id === requestedUser.id;
+      return currentUser.id === $scope.currentEditingUser.id;
    }
 }]);
 

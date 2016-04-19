@@ -61,7 +61,7 @@ registerService('factory', name, [function() {
             var apiPrefix = true === utils.isUndefinedOrNull(apiObject.apiUrlPrefix) ? true
                          : apiObject.apiUrlPrefix;
             
-            returnUrl += apiPrefix ? "/api" : "" + slash;    
+            returnUrl += (apiPrefix ? "/api" : "") + slash;    
          } else {
             if (!apiObject.sub_api ||
                 !apiObject.sub_api[resourceObject.name]) {

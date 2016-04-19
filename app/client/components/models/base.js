@@ -113,9 +113,10 @@ function(id, promise) {
          },
 
          mapKey: function(key, isForServer) {
-            isForServer = isForServer || false
-
-            return true === isForServer && this.serverMappings[key] ? this.serverMappings[key] : key
+            isForServer = utils.isUndefinedOrNull(isForServer) ? false : isForServer;
+             
+            return true === isForServer && 
+                   true === this.serverMappings().hasOwnProperty(key) ? this.serverMappings()[key] : key;
          },
 
          isManualKey: function(key) {

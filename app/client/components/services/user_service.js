@@ -23,7 +23,19 @@ ErrorService) {
     
     UserService.dataResolverFn = function(state, params) {
         return Promise(function(resolve, reject, notify) {
-            resolve({});
+            if ('main.page.user.default' === state) {
+                HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
+                .then(function(user) {
+                   currentRequestedUser = new UserModel(user.data, true);
+                    resolve({});    
+                })
+                .catch(function(error) {
+                    reject(error);
+                });
+            } else {
+                resolve({});
+            }
+            
         });
     }
     
@@ -49,7 +61,6 @@ ErrorService) {
             .then(function(userData) {
                 if (202 === userData.status) {
                     currentUnverifiedUser = new UserModel(userData.data, true);
-                    console.log(currentUnverifiedUser);
                     currentUser = null;
                 } else {
                     currentUser = new UserModel(userData.data, true);

@@ -27,7 +27,7 @@ registerService('factory', name, [
             AddServiceResolverFunction(UserService);
             AddServiceResolverFunction(FacebookService);
             
-            return SerialPromise(promiseFnArray.map(function(fn, index) {
+            return ParallelPromise(promiseFnArray.map(function(fn, index) {
                 return function(existingData, index, forNotify) {
                     if (true === forNotify) {
                         return ProgressService(0, 1);
