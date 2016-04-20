@@ -11,8 +11,10 @@ registerService('factory', name, [
                                     require('models/user'),
                                     require('services/api_url'),
                                     require('services/error'),
+                                    require('services/progress'),
+                                    require('services/serial_promise'),
 function(FacebookService, Promise, HttpService, UserModel, ApiUrlService,
-ErrorService) {    
+ErrorService, ProgressService, SerialPromise) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
     var currentRequestedUser = null;
@@ -23,19 +25,79 @@ ErrorService) {
     
     UserService.dataResolverFn = function(state, params) {
         return Promise(function(resolve, reject, notify) {
-            if ('main.page.user.default' === state) {
-                HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
-                .then(function(user) {
-                   currentRequestedUser = new UserModel(user.data, true);
-                    resolve({});    
-                })
-                .catch(function(error) {
-                    reject(error);
+            var promiseFnArray = [];
+            
+            if (!currentUser) {
+                // If we don't have a user, check to see if
+                // we are logged in and we can get a profile.
+                // This happens mostly on forced page reload.
+                
+                promiseFnArray.push(function(existingData, index, forNotify) {
+                    if (true === forNotify) {
+                        return ProgressService(0, 1);
+                    } else {
+                        return Promise(function(resolve, reject, notify) {
+                            HttpService.get(ApiUrlService([{name: 'User'}, {name: 'Me'}]))
+                            .then(function(user) {
+                                currentUser = new UserModel(user.data, true);
+                                resolve({});
+                            })
+                            .catch(function(error) {
+                                if (403 === error.code) {
+                                    // Means we aren't logged in
+                                    resolve({});
+                                } else {
+                                    reject(error);
+                                }
+                            })
+                        })
+                    }
                 });
-            } else {
-                resolve({});
             }
             
+            if ('main.page.user.default' === state) {
+                if (!params.userId) {
+                    reject(ErrorService.localError("Missing user id!"));
+                } else {  
+                    if (currentUser &&
+                        currentUser.id === params.userId) {
+                        // If the requested user is us, no need
+                        // to hit the server again.
+                        currentRequestedUser = currentUser.clone();
+                    } else {                          
+                        promiseFnArray.push(function(existingData, index, forNotify) {
+                            if (true === forNotify) {
+                                return ProgressService(0, 1);
+                            } else {
+                                return Promise(function(resolve, reject, notify) {
+                                    HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
+                                    .then(function(user) {
+                                        currentRequestedUser = new UserModel(user.data, true);
+                                        resolve({});    
+                                    })
+                                    .catch(function(error) {
+                                        reject(error);
+                                    });                                  
+                                })
+                            
+                            }
+                        });  
+                    }     
+
+                }
+            }
+            
+            if (!promiseFnArray.length) {
+                resolve({});
+            } else {
+                SerialPromise.withNotify(promiseFnArray)
+                .then(function() {
+                    resolve({});
+                })
+                .catch(function(e) {
+                    reject(e);
+                });
+            }
         });
     }
     

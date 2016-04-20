@@ -19,6 +19,9 @@ registerService('factory', name, [function() {
                paramArray: {
                   emailToken: ""
                }
+            },
+            'Me': {
+               url: "me"
             }
          },
          paramArray: {

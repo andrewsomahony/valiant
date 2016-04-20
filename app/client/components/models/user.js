@@ -22,7 +22,9 @@ function(BaseModel) {
                profile_picture_url: "",
                facebook_id: "",
                is_connected_to_facebook: false,
-               email_token: ""
+               email_token: "",
+               is_visible_to_users: true,
+               is_visible_to_public: true
             })
          }
       },

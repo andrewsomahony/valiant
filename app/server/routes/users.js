@@ -3,6 +3,7 @@ var router = express.Router();
 
 var Promise = require(__base + 'lib/promise');
 var Responder = require(__base + 'lib/responder');
+var Permissions = require(__base + 'lib/permissions');
 
 var User = require(__base + 'models/user');
 
@@ -10,44 +11,52 @@ var Q = require('q');
 
 router.route('/')
 .get(function(request, result) {
-    User.find(function(error, documents) {
-        if (error) {
-            Responder.withErrorObject(result, 400, error);
-        } else {
-            Responder(result, 200, documents);
-        }
-    });
+    if (!Permissions.isAdmin(request)) {
+        Responder.forbidden(result);
+    } else {
+        User.find(function(error, documents) {
+            if (error) {
+                Responder.withErrorObject(result, 400, error);
+            } else {
+                Responder(result, 200, documents);
+            }
+        });
+    }
 })
 .post(function(request, result) {
-    var usersArray = request.body.users;
-    
-    Q.all(usersArray.map(function(u) {
-        return Promise(function(resolve, reject, notify) {
-            var user = new User({
-                email: u.email,
-                first_name: u.first_name,
-                last_name: u.last_name,
-                profile_picture_url: u.profile_picture_url,
-                questions: [],
-                facebook_id: u.facebook_id,
-                is_connected_to_facebook: u.is_connected_to_facebook
+    if (!Permissions.isAdmin(request)) {
+        Responder.forbidden(result);
+    } else {    
+        var usersArray = request.body.users;
+        
+        Q.all(usersArray.map(function(u) {
+            return Promise(function(resolve, reject, notify) {
+                var user = new User({
+                    email: u.email,
+                    first_name: u.first_name,
+                    last_name: u.last_name,
+                    profile_picture_url: u.profile_picture_url,
+                    questions: [],
+                    facebook_id: u.facebook_id,
+                    is_connected_to_facebook: u.is_connected_to_facebook
+                });
+                
+                user.save(function(error, document) {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(document);
+                    }
+                })        
             });
-            
-            user.save(function(error, document) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(document);
-                }
-            })        
+        }))
+        .then(function(documents) {
+            Responder(result, 201, documents);
+        })
+        .catch(function(error) {
+            Responder.withErrorObject(result, 400, error);
         });
-    }))
-    .then(function(documents) {
-        Responder(result, 201, documents);
-    })
-    .catch(function(error) {
-        Responder.withErrorObject(result, 400, error);
-    });
+    }
 })
 .delete(function(request, result) {
     Responder.methodNotAllowed(result);
@@ -120,7 +129,18 @@ router.route('/resend_email/:emailToken')
 
 router.route('/me')
 .get(function(request, result) {
-    if (!request.user) {
+    if (!Permissions.isLoggedIn(request)) {
+        // I'm not sure what to do here:
+        // This is a special route that we use to check if we're logged
+        // in and get the logged in user information.
+        
+        // If we aren't logged in, can't we just return a "no content"
+        // success flag instead of a forbidden?
+        
+        // The web browser displays every error in the console, so
+        // visually seeing all those errors is a bit annoying, but
+        // the correct behavior is to return an error.
+        
         Responder.withErrorMessage(result, 403, "Not logged in");
     } else {
         Responder(result, 200, request.user.frontEndObject());
@@ -140,9 +160,13 @@ router.route('/:userId')
 .get(function(request, result) {
     User.findById(request.params.userId, function(error, user) {
         if (error) {
-            Responder.withErrorObject(result, 404, error);
+            Responder.withErrorObject(result, 400, error);
         } else {
-            Responder(result, 200, user.frontEndObject());
+            if (!user) {
+                Responder.withErrorMessage(result, 404, "User not found!");
+            } else {
+                Responder(result, 200, user.frontEndObject());
+            }
         }
     });
 })

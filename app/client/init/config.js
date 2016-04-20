@@ -2,7 +2,7 @@
 
 var app = require('./app');
 
-app.config(['$httpProvider', 'FacebookProvider', function($httpProvider, FacebookProvider) {
+app.config(['$httpProvider', function($httpProvider) {
     
     function newTransform(data, headers) {
         console.log("newTransform: TRYING TO TRANSFORM: ", data);
@@ -13,8 +13,8 @@ app.config(['$httpProvider', 'FacebookProvider', function($httpProvider, Faceboo
         
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     
-    FacebookProvider.init({ 
+    /*FacebookProvider.init({ 
                             locale: "en_US",
                             appId: '209422946114695'
-                          });
+                          });*/
 }]);

@@ -10,19 +10,10 @@ registerController(name, ['$scope',
                           require('models/user'),
                           require('services/state_service'),
 function($scope, UserService, ErrorModal, UserModel, StateService) {
-   $scope.registrationInformation = {
-      email: "",
-      password: "",
-      repeat_password: "",
-      first_name: "",
-      last_name: "",
-      profile_picture_url: ""
-   };
+   $scope.registrationUser = new UserModel();
    
    $scope.registerUser = function() {
-      var user = new UserModel($scope.registrationInformation);
-      
-      UserService.registerUser(user)
+      UserService.registerUser(this.registrationUser)
       .then(function() {
          // Redirect
          StateService.go('^.success');
