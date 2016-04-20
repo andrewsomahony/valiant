@@ -7,6 +7,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hostnameMiddleware = require('./lib/hostname');
+var ajaxMiddleware = require(__base + 'lib/ajax');
+
+var Responder = require(__base + 'lib/responder');
 
 var ejs = require('ejs');
 
@@ -28,6 +31,7 @@ var app = express();
 var appConfig = require('./config/config');
 
 var connectDb = require('./db/connect');
+var connectSessionStore = require('./db/session');
 
 var activeVariable = 'EL_THATIS_SATURN';
 var appIsActive = true;
@@ -63,6 +67,7 @@ if (false === appIsActive) {
     app.use(logger('dev'));
         
     app.use(hostnameMiddleware());
+    app.use(ajaxMiddleware());
     
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
@@ -70,7 +75,8 @@ if (false === appIsActive) {
     app.use(expressSession({
                                 secret: sessionSecret,
                                 resave: true, 
-                                saveUninitialized: true
+                                saveUninitialized: true,
+                                store: connectSessionStore()
                            }));
     
     app.use(passport.initialize());
@@ -112,6 +118,14 @@ if (false === appIsActive) {
         result.header('Pragma', 'no-cache');
         next();
     })
+    
+    app.use(['/login', '/logout', '/api'], function(request, result, next) {
+        if (false === request.isAjax) {
+            result.status(406).json({error: "API endpoints need to accept json output and be requested by AJAX"})            
+        } else {
+            next();
+        } 
+    });
 
     app.use('/', indexRoute);
     
@@ -124,33 +138,16 @@ if (false === appIsActive) {
     
     app.use('/verify', verifyRoute);
     
-    app.use('/api', function(request, result, next) {
-        if (!request.accepts('json') ||
-            !request.xhr) {
-            // Error
-            result.status(406).json({error: "API endpoints need to accept json output and be requested by AJAX"})
-        }
-        else {
-            next();
-        }
-    });
-    
     app.use('/api/users', userRoute);
-
-/*
-    // catch 404 and forward to error handler
-    app.use(function(req, res, next) {
-        var err = new Error('Not Found');
-        err.status = 404;
-        next(err);
+    
+    app.use(function(request, result, next) {
+       if (request.isAjax) {
+           Responder.withErrorMessage(result, 404, "Route not found!");
+       } else {
+           result.status(404);
+           result.render('error', {message: "Route not found!"});
+       }
     });
-
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message
-        });
-    });*/
 
     // Connect to our database
 

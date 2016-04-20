@@ -29,6 +29,14 @@ var User = new Schema({
         type: String,
         default: "public"
     },
+    is_visible_to_public: {
+        type: Boolean,
+        default: true
+    },
+    is_visible_to_users: {
+        type: Boolean,
+        default: true
+    },
     questions: {
         type: Array,
         default: []
