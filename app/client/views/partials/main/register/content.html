@@ -23,25 +23,19 @@
       <div class="form-group"> 
          <label for="registration_last_name">Last Name</label>
          <input type="text" class="form-control" name="registration_last_name" ng-model="registrationUser.last_name" /> 
-      </div>
-      
-      <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
-      
+      </div>       
+            
       <div class="form-group">
-         <div class="checkbox">
-            <label>
-               <input type="checkbox" ng-model="registrationUser.is_visible_to_public" />
-               Visible to the public?
-            </label>
+         <div class="fa-checkbox">
+            <input type="checkbox" class="fa-square-checkbox" ng-model="registrationUser.is_visible_to_public" />
+            <label>Visible to the public?</label>
          </div>
       </div>
 
       <div class="form-group">
-         <div class="checkbox">
-            <label>
-               <input type="checkbox" ng-model="registrationUser.is_visible_to_users" />
-               Visible to other users?
-            </label>
+         <div class="fa-checkbox">
+            <input type="checkbox" class="fa-square-checkbox" ng-model="registrationUser.is_visible_to_users" />
+            <label>Visible to other users?</label>
          </div>
       </div>
       

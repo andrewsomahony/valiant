@@ -10,7 +10,6 @@ registerService('factory', name, [
     require('services/parallel_promise'),
     require('services/serial_promise'),
     require('services/user_service'),
-    require('services/facebook_service'),
     require('services/progress'),
     
     function(ParallelPromise, SerialPromise, UserService, FacebookService, ProgressService) {
@@ -25,7 +24,6 @@ registerService('factory', name, [
             }
             
             AddServiceResolverFunction(UserService);
-            AddServiceResolverFunction(FacebookService);
             
             return ParallelPromise(promiseFnArray.map(function(fn, index) {
                 return function(existingData, index, forNotify) {

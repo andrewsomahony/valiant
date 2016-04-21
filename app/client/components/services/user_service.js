@@ -5,7 +5,6 @@ var registerService = require('services/register');
 var name = 'services.user_service';
 
 registerService('factory', name, [
-                                    require('services/facebook_service'),
                                     require('services/promise'),
                                     require('services/http_service'),
                                     require('models/user'),
@@ -13,7 +12,7 @@ registerService('factory', name, [
                                     require('services/error'),
                                     require('services/progress'),
                                     require('services/serial_promise'),
-function(FacebookService, Promise, HttpService, UserModel, ApiUrlService,
+function(Promise, HttpService, UserModel, ApiUrlService,
 ErrorService, ProgressService, SerialPromise) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
@@ -188,6 +187,7 @@ ErrorService, ProgressService, SerialPromise) {
     UserService.registerUser = function(user) {
         // Convert the object to a model
         return Promise(function(resolve, reject, notify) {
+            console.log(user);
             HttpService.post(ApiUrlService([{name: 'User'}, {name: 'Register'}]), 
             null, {
                     user: user.toObject(true)

@@ -30,7 +30,7 @@ var JS = ['./main.js'];
 var CSS = ['./node_modules/bootstrap/dist/css/bootstrap.css', 
            './node_modules/font-awesome/css/font-awesome.css',
            './node_modules/angular-motion/dist/angular-motion.css', 
-           './css/*.css', './css/app.scss'];
+           './css/**/*.css', './css/app.scss'];
 var VIEWS = ['./views/**/*.html'];
 
 var OUTPUT_JS_FILE = '_app.js';

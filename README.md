@@ -21,4 +21,7 @@ heroku run bash --app valiant
 
 export NODE_ENV=development
 
+EL_THATIS_SATURN
+WHEREARE_MUH_ROADS
+
 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

@@ -1,0 +1,45 @@
+/*
+Borrowed from http://www.bootply.com/H289A4AIGZ#
+*/
+
+.fa-checkbox label {
+    top:2px; 
+    left:14px;
+    margin-right:30px;
+    font-size: 14px;
+    position:relative;     
+}  
+
+input.fa-round-checkbox, input.fa-square-checkbox {
+    visibility: hidden;
+}
+
+input.fa-round-checkbox:checked:after, input.fa-round-checkbox:after,
+input.fa-square-checkbox:checked:after, input.fa-square-checkbox:after {
+  visibility: visible;
+  font-family: FontAwesome;
+  font-size: 21px;
+  height: 17px; 
+  width: 17px;
+  position: relative;
+  top: -3px;
+  left: 0px;
+  background-color:#FFF;
+  display: inline-block;
+}
+
+input.fa-round-checkbox:checked:after {
+  content: '\f058';
+}
+
+input.fa-round-checkbox:after {
+  content: '\f10c';
+}
+
+input.fa-square-checkbox:checked:after {
+  content: '\f046';
+}
+
+input.fa-square-checkbox:after {
+  content: '\f096';
+}

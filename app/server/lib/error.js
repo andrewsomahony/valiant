@@ -17,7 +17,7 @@ ValiantError.withMessage = function(message) {
 
 ValiantError.fromMongooseError = function(mongooseError) {
    if (!mongooseError.name ||
-       'ValidtationError' !== mongooseError.name) {
+       'ValidationError' !== mongooseError.name) {
       throw new Error("ValiantError.fromMongooseError: Invalid mongoose error object!");
    }
    return new this(mongooseError.toString())

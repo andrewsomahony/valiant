@@ -23,7 +23,7 @@ function(id, promise) {
          }
 
          Object.keys(fields).forEach(function(key) {
-            ret[model.$ownClass.mapKey(key, isForServer)] = ModelToObject(model[key] || fields[key])         
+            ret[model.$ownClass.mapKey(key, isForServer)] = ModelToObject(!utils.isUndefinedOrNull(model[key]) ? model[key] : fields[key])         
          });
 
          return ret;
@@ -155,7 +155,8 @@ function(id, promise) {
             if (true === this.$ownClass.isManualKey(key)) {
                this[key] = utils.clone(fields[key])
             } else {
-               this[key] = utils.clone(config[this.$ownClass.mapKey(key, isFromServer)] || fields[key])
+               this[key] = utils.clone(!utils.isUndefinedOrNull(config[this.$ownClass.mapKey(key, isFromServer)]) ?
+               config[this.$ownClass.mapKey(key, isFromServer)] : fields[key])
             }
 
          }, this); 
