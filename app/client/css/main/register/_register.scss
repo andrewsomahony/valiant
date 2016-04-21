@@ -1,9 +1,12 @@
 div.register {
    div.sub-content {
       div.registration-form {
-      }
-      
-      div.checkbox {
+         div.form-group {
+            span.form-errors {
+               color: red;
+               margin-left: 8px;
+            }
+         }
       }
    }
 }

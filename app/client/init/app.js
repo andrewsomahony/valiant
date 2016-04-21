@@ -2,6 +2,8 @@
 
 var angular = require('angular');
 
+require('angular-messages');
+
 require('angular-strap');
 require('angular-strap-tpl-modal');
 require('angularjs-facebook');
@@ -29,5 +31,6 @@ module.exports = angular.module(appInfo.name, [
     require('angular-ui-router'),
     'mgcrea.ngStrap.modal',
     require('angular-route'),
-    'facebook'
+    'facebook',
+    'ngMessages'
 ]);

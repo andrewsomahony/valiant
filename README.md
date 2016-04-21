@@ -19,6 +19,8 @@ npm install -g gulp
 heroku config:set NPM_CONFIG_LOGLEVEL=verbose --app valiant
 heroku run bash --app valiant
 
+mongo ds019628.mlab.com:19628/heroku_fr79ltg7 -u <dbuser> -p <dbpassword>
+
 export NODE_ENV=development
 
 EL_THATIS_SATURN

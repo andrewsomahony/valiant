@@ -1,28 +1,96 @@
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 registration-form">
-   <form>
-      <div class="form-group">
-         <label for="registration_email">E-Mail Address</label>
-         <input type="text" class="form-control" name="registration_email" ng-model="registrationUser.email" />
+   <form name="registrationForm">
+      <div class="form-group"
+           ng-class="{ 'has-error': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }">
+         <label for="registration_email">
+            <span>E-Mail Address</span>
+            <span class="form-errors" 
+                  ng-messages="registrationForm.registration_email.$error"
+                  ng-if="registrationForm.registration_email.$touched">
+               <span ng-messages-include="messages/registration.html"></span>
+            </span>
+         </label>
+         <input type="email" 
+                class="form-control" 
+                name="registration_email" 
+                ng-model="registrationUser.email" 
+                ng-model-options="{updateOn: 'blur'}"
+                email-in-use
+                required />
+      </div>
+ 
+ <!--
+     <span ng-show="registrationForm.registration_email.$pending.emailInUse">Checking if this name is available...</span>
+      -->
+      <div class="form-group"
+           ng-class="{ 'has-error': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }">  
+         <label for="registration_password">
+            <span>Password (6 characters or more)</span>
+            <span class="form-errors" 
+                  ng-messages="registrationForm.registration_password.$error"
+                  ng-if="registrationForm.registration_password.$touched">
+               <span ng-messages-include="messages/registration.html"></span>
+            </span>
+         </label>
+         <input type="password" 
+                class="form-control" 
+                name="registration_password" 
+                ng-model="registrationUser.password"
+                ng-model-options="{updateOn: 'blur'}"
+                minlength="6"
+                required />
+      </div>
+      
+      <div class="form-group"
+           ng-class="{ 'has-error': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }">
+         <label for="registration_password_repeat">
+            <span>Repeat Password</span>
+            <span class="form-errors" 
+                  ng-messages="registrationForm.registration_password_repeat.$error"
+                  ng-if="registrationForm.registration_password_repeat.$touched">
+               <span ng-messages-include="messages/registration.html"></span>
+            </span>
+         </label>
+         <input type="password" 
+                class="form-control" 
+                name="registration_password_repeat" 
+                ng-model="registrationUser.repeat_password"
+                ng-model-options="{updateOn: 'blur'}"
+                compare-to="registrationUser.password" />
       </div>
       
       <div class="form-group">  
-         <label for="registration_password">Password</label>
-         <input type="password" class="form-control" name="registration_password" ng-model="registrationUser.password" />
-      </div>
-      
-      <div class="form-group">
-         <label for="registration_password_repeat">Repeat Password</label>
-         <input type="password" class="form-control" name="registration_password_repeat" ng-model="registrationUser.repeat_password" />
-      </div>
-      
-      <div class="form-group">  
-         <label for="registration_first_name">First Name</label>
-         <input type="text" class="form-control" name="registration_first_name" ng-model="registrationUser.first_name" />
+         <label for="registration_first_name">
+            <span>First Name</span>
+            <span class="form-errors" 
+                  ng-messages="registrationForm.registration_first_name.$error"
+                  ng-if="registrationForm.registration_first_name.$touched">
+               <span ng-messages-include="messages/registration.html"></span>
+            </span>
+         </label>
+         <input type="text" 
+                class="form-control" 
+                name="registration_first_name" 
+                ng-model="registrationUser.first_name"
+                ng-model-options="{updateOn: 'blur'}"
+                required />
       </div>
       
       <div class="form-group"> 
-         <label for="registration_last_name">Last Name</label>
-         <input type="text" class="form-control" name="registration_last_name" ng-model="registrationUser.last_name" /> 
+         <label for="registration_last_name">
+            <span>Last Name</span>
+            <span class="form-errors" 
+                  ng-messages="registrationForm.registration_last_name.$error"
+                  ng-if="registrationForm.registration_last_name.$touched">
+               <span ng-messages-include="messages/registration.html"></span>
+            </span>
+         </label>
+         <input type="text" 
+                class="form-control" 
+                name="registration_last_name" 
+                ng-model="registrationUser.last_name"
+                ng-model-options="{updateOn: 'blur'}"
+                required /> 
       </div>       
             
       <div class="form-group">

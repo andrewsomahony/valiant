@@ -73,7 +73,6 @@ router.route('/register')
     var u = request.body.user;
     
     delete u['_id']; //When we register, we have no ID
-    console.log(u);
     var user = new User(u);
     
     User.register(user, u.password, function(error, newUser) {
@@ -90,6 +89,36 @@ router.route('/register')
             
         }
     });
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+});
+
+router.route('/register/email_available')
+.get(function(request, result) {
+    var emailAddress = request.query.email;
+    
+    if (!emailAddress) {
+        Responder.withErrorMessage(result, 400, "Missing e-mail address!");
+    } else {
+        User.findByUsername(emailAddress, function(error, user) {
+            if (error) {
+                Responder.withErrorObject(result, 400, error);
+            } else {
+                if (!user) {
+                    Responder.withErrorObject(result, 404, {});
+                } else {
+                    Responder.noContent(result);
+                }
+            }
+        });
+    }
+})
+.post(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
 })
 .delete(function(request, result) {
     Responder.methodNotAllowed(result);

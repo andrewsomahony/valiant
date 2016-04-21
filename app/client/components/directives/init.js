@@ -1,3 +1,4 @@
 'use strict';
 
-require('./facebook_button');
+require('./email_in_use');
+require('./compare_to');

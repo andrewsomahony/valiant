@@ -10,6 +10,7 @@
   "devDependencies": {
     "angular": "~1.5.0",
     "angular-animate": "^1.5.3",
+    "angular-messages": "^1.5.5",
     "angular-motion": "^0.4.4",
     "angular-route": "^1.5.3",
     "angular-strap": "^2.3.8",

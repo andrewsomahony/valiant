@@ -12,7 +12,12 @@ registerService('factory', name, [function() {
          url: "users",
          sub_api: {
             'Register': {
-               url: "register"
+               url: "register",
+               sub_api: {
+                   'EmailAvailable': {
+                       url: 'email_available'
+                   }
+               }
             },
             'Reverify': {
                url: "resend_email",
