@@ -15,7 +15,8 @@ function(baseModel) {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
                current: 0,
-               total: 0
+               total: 0,
+               message: ""
             })
          }
       },
@@ -26,6 +27,10 @@ function(baseModel) {
 
       complete: function() {
          this.current = this.total;
+      },
+      
+      percentage: function() {
+         return this.current / this.total;
       }
    })
 }])

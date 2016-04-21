@@ -16,8 +16,8 @@ function($scope, UserService, ErrorModal, StateService) {
         return UserService.getCurrentUser();
     }
     
-    $scope.getFullName = function() {
-        return this.getLoggedInUser().fullName();
+    $scope.getFirstName = function() {
+        return this.getLoggedInUser().first_name;
     }
     
     $scope.logout = function() {

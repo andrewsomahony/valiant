@@ -12,7 +12,11 @@ registerController(name, ['$scope',
 function($scope, UserService, ErrorModal, UserModel, StateService) {
    $scope.registrationUser = new UserModel();
    
+   $scope.registrationInProgress = false;
+   
    $scope.registerUser = function() {
+      $scope.registrationInProgress = true;
+      
       UserService.registerUser(this.registrationUser)
       .then(function() {
          // Redirect
@@ -20,6 +24,9 @@ function($scope, UserService, ErrorModal, UserModel, StateService) {
       })
       .catch(function(error) {
          ErrorModal(error);
+      })
+      .finally(function() {
+         $scope.registrationInProgress = false;
       })
    }
 }]);
