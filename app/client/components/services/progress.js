@@ -6,12 +6,12 @@ var name = 'progressService'
 
 m.factory(name, [require('../models/progress'),
 function(progressModel) {
-   function progressService(current, total) {
-      return new progressModel({current: current, total: total})
+   function progressService(current, total, message) {
+      return new progressModel({current: current, total: total, message: message})
    }
 
-   progressService.notify = function(notify, current, total) {
-      notify(this(current, total));
+   progressService.notify = function(notify, current, total, message) {
+      notify(this(current, total, message));
    }
 
    progressService.sumArray = function(arr) {
