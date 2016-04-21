@@ -108,7 +108,7 @@
       </div>
       
       <div class="form-group">
-         <button ng-click="registerUser()">Sign Up</button>
+         <button ng-disabled="registrationForm.$invalid" ng-click="registerUser()">Sign Up</button>
       </div>
    </form>
 </div>

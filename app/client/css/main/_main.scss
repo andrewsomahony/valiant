@@ -28,7 +28,12 @@ div.main {
       }
       
       div.main-content {
-         height: 80%;     
+         height: 80%;  
+         
+         div.mobile-ad-space {
+            text-align: center;
+            padding-bottom:16px;
+         }   
          
          div.content {
             height: 100%;
