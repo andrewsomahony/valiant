@@ -72,15 +72,9 @@ router.route('/register')
 .post(function(request, result) {
     var u = request.body.user;
     
-    var user = new User({
-        email: u.email,
-        first_name: u.first_name,
-        last_name: u.last_name,
-        profile_picture_url: u.profile_picture_url,
-        questions: [],
-        facebook_id: u.facebook_id,
-        is_connected_to_facebook: u.is_connected_to_facebook
-    });
+    delete u['_id']; //When we register, we have no ID
+    console.log(u);
+    var user = new User(u);
     
     User.register(user, u.password, function(error, newUser) {
         if (error) {
