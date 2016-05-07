@@ -27,6 +27,12 @@ registerService('factory', name, [function() {
             },
             'Me': {
                url: "me"
+            },
+            'ResetPassword': {
+                url: "reset_password"
+            },
+            'ForgotPassword': {
+                url: "forgot_password"
             }
          },
          paramArray: {

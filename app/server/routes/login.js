@@ -5,7 +5,7 @@ var Responder = require('../lib/responder');
 
 var passport = require('passport');
 
-var User = require('../models/user');
+var User = require('../models/user/user');
 var UserLoginService = require('../lib/user_login');
 
 Router.route('/')

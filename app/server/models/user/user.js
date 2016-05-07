@@ -2,11 +2,12 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 var passportLocalMongooseEmail = require('passport-local-mongoose-email');
-var extendedPassportLocalMongooseEmail = require('./plugins/user/authenticate');
-var userEmailAuthentication = require('./plugins/user/email_auth');
-var userMethods = require('./plugins/user/methods');
+var extendedPassportLocalMongooseEmail = require('./plugins/authenticate');
+var userEmailAuthentication = require('./plugins/email_auth');
+var userResetPassword = require('./plugins/reset_password');
+var userMethods = require('./plugins/methods');
 
-var UserLoginService = require('../lib/user_login');
+var UserLoginService = require(__base + 'lib/user_login');
 
 var User = new Schema({
     email: {
@@ -78,6 +79,7 @@ User.plugin(passportLocalMongooseEmail, userOptions);
 
 User.plugin(extendedPassportLocalMongooseEmail, userOptions);
 
-User.plugin(userEmailAuthentication);
+User.plugin(userEmailAuthentication, userOptions);
+User.plugin(userResetPassword, userOptions);
 
 module.exports = mongoose.model('User', User);

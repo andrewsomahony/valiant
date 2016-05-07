@@ -192,27 +192,32 @@
             return obj;
          }
       },
+      
+      forEachKey: function(array, sentinelFn) {
+        Object.keys(array).forEach(function(k) {
+            sentinelFn(k);
+        });
+      },
 
       // Sentinel returns true if we want to KEEP it
       grep: function(array, sentinelFn) {
-         var newArray = []
+         var newArray = [];
 
          array.forEach(function(element) {
-            if (true === sentinelFn(element))
-            {
+            if (true === sentinelFn(element)) {
                newArray.push(element);
             }
          })
 
-         return newArray
+         return newArray;
       },
 
       map: function(array, sentinelFn, thisPointer) {
-         var newArray = []
-         thisPointer = thisPointer || this
+         var newArray = [];
+         thisPointer = thisPointer || this;
 
          array.forEach(function(element, index) {
-            var obj = sentinelFn.call(thisPointer, element, index)
+            var obj = sentinelFn.call(thisPointer, element, index);
 
             if (false === this.isUndefinedOrNull(obj))
             {

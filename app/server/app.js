@@ -25,7 +25,7 @@ var logoutRoute = require('./routes/logout');
 var verifyRoute = require('./routes/verify');
 var userRoute = require('./routes/users');
 
-var UserModel = require('./models/user');
+var UserModel = require('./models/user/user');
 
 var app = express();
 var appConfig = require('./config/config');

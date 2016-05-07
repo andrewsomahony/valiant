@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 var Responder = require(__base + 'lib/responder');
-var User = require(__base + 'models/user');
+var User = require(__base + 'models/user/user');
 
 router.route('/:authToken')
 .get(function(request, result) {

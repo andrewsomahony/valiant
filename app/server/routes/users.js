@@ -5,7 +5,7 @@ var Promise = require(__base + 'lib/promise');
 var Responder = require(__base + 'lib/responder');
 var Permissions = require(__base + 'lib/permissions');
 
-var User = require(__base + 'models/user');
+var User = require(__base + 'models/user/user');
 
 var Q = require('q');
 
@@ -124,9 +124,15 @@ router.route('/register/email_available')
     Responder.methodNotAllowed(result);
 });
 
-router.route('/resend_email/:emailToken')
+router.route('/resend_email')
 .get(function(request, result) {
-    var emailToken = request.params.emailToken;
+    Responder.methodNotAllowed(result);
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+    var emailToken = request.body.emailToken;
     
     if (!emailToken) {
         Responder.withErrorMessage(result, 400, "Missing email token!");
@@ -140,10 +146,63 @@ router.route('/resend_email/:emailToken')
         })
     }
 })
-.put(function(request, result) {
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+});
+
+router.route('/forgot_password')
+.get(function(request, result) {
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {
+    var emailAddress = request.body.emailAddress;
+    
+    if (!emailAddress) {
+        Responder.badRequest(result, "Missing e-mail address!");
+    } else {
+        var u = User.findByUsername(emailAddress, function(error, user) {
+            if (error) {
+                Responder.badRequest(result, error);
+            } else {
+                if (!user) {
+                    Responder.notFound(result, "User not found!");
+                } else {
+                    user.sendPasswordResetEmail(function(error, user) {
+                        if (error) {
+                            Responder.badRequest(result, error);
+                        } else {
+                            Responder.noContent(result);
+                        }
+                    });
+                }
+            }
+        })
+    }
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+});
+
+router.route('/reset_password')
+.get(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+    var newPassword = request.body.password;
+    var token = request.body.token;
+    
+    User.resetPassword(token, newPassword, function(error, user) {
+        if (error) {
+            Responder.badRequest(result, error);
+        } else {
+            Responder.noContent(result);
+        }
+    })
+})
+.put(function(request, result) {
     Responder.methodNotAllowed(result);
 })
 .delete(function(request, result) {

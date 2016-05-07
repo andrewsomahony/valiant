@@ -65,7 +65,7 @@ module.exports = function(schema, options) {
                template: "verify",
                templateParams: {
                   first_name: self.first_name,
-                  verify_link: hostnameUtil.constructUrl("/verify/" + self.authToken)//"http://www.yahoo.com"
+                  verify_link: hostnameUtil.constructUrl("/verify/" + self.authToken)
                }
             }, function(error) {
                if (error) {

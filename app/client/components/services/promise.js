@@ -9,7 +9,10 @@ function($q) {
    function promiseService(fn) {
       var deferred = $q.defer();
 
-      fn(deferred.resolve, deferred.reject, deferred.notify);
+      fn.call(this, 
+              deferred.resolve, 
+              deferred.reject, 
+              deferred.notify);
 
       return deferred.promise;
    }

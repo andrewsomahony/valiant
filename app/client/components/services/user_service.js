@@ -157,6 +157,58 @@ ErrorService, ProgressService, SerialPromise) {
         });
     }
     
+    UserService.forgotPassword = function(emailAddress) {
+        return Promise(function(resolve, reject, notify) {
+            if (!emailAddress) {
+                reject(ErrorService.localError("Missing e-mail address!"));
+            } else {
+                HttpService.post(ApiUrlService([
+                    {
+                        name: 'User'
+                    },
+                    {
+                        name: 'ForgotPassword'
+                    }
+               ]))
+               .then(function() {
+                   resolve();
+               })
+               .catch(function(error) {
+                   reject(error);
+               })
+            }
+        });
+    }
+    
+    UserService.resetPassword = function(newPassword, token) {
+        return Promise(function(resolve, reject, notify) {
+           if (!newPassword) {
+               reject(ErrorService.localError("Missing password!"));
+           } else if (!token) {
+               reject(ErrorService.localError("Missing token!"));
+           } else {
+               HttpService.post(ApiUrlService([
+                   {
+                       name: 'User'
+                   },
+                   {
+                       name: 'ResetPassword'
+                   }
+               ]), null, 
+               {
+                  token: token,
+                  password: newPassword
+               })
+               .then(function() {
+                   resolve();
+               })
+               .catch(function(error) {
+                   reject(error);
+               });
+           }
+        });
+    }
+    
     UserService.resendVerificationEmail = function() {
         return Promise(function(resolve, reject, notify) {
             var u = UserService.getCurrentUnverifiedUser();
@@ -164,15 +216,14 @@ ErrorService, ProgressService, SerialPromise) {
             if (!u) {
                 reject(ErrorService.localError("Missing unverified user!"));
             } else {
-                HttpService.get(ApiUrlService([
+                HttpService.post(ApiUrlService([
                     {
                         name: 'User'
                     },
                     {
-                        name: 'Reverify',
-                        paramArray: [u.email_token]
+                        name: 'Reverify'
                     }
-                ]))
+                ]), null, {emailToken: u.email_token})
                 .then(function() {
                     resolve();
                 })

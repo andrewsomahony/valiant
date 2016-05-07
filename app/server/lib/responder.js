@@ -18,6 +18,22 @@ Responder.withMongooseError = function(responseObject, responseCode, mongooseErr
    this(responseObject, responseCode, ValiantError.fromMongooseError(mongooseError).toObject());
 }
 
+Responder.withError = function(responseObject, responseCode, error) {
+   if ('string' === typeof error) {
+      this.withErrorMessage(responseObject, responseCode, error);
+   } else {
+      this.withErrorObject(responseObject, responseCode, error);
+   }
+}
+
+Responder.badRequest = function(responseObject, error) {
+   this.withError(responseObject, 400, error);
+}
+
+Responder.notFound = function(responseObject, error) {
+   this.withError(responseObject, 404, error);
+}
+
 Responder.methodNotAllowed = function(responseObject) {
    this(responseObject, 405, ValiantError.methodNotAllowed().toObject());
 }
@@ -27,7 +43,7 @@ Responder.noContent = function(responseObject) {
 }
 
 Responder.forbidden = function(responseObject) {
-   this(responseObject, 403, "You don't have permission to do that!");
+   this(responseObject, 403, ValiantError.forbidden().toObject());
 }
 
 module.exports = Responder;

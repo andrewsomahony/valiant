@@ -25,6 +25,8 @@ registerDirective(name, [
             
             var $div = $element.children("div");
             
+            $div.css('display', 'inline');
+            
             if ('spinner' === $scope.type) {
                var $imageElement = angular.element("<img />");
                $imageElement.attr('src', './images/spinner.gif');
@@ -37,8 +39,6 @@ registerDirective(name, [
                }
 
                $div.append($imageElement);
-               
-               $div.css('display', 'inline');
             } else if ('circle' === $scope.type) {
                
             } else if ('image' === $scope.type) {

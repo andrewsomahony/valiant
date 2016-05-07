@@ -6,7 +6,13 @@ function ValiantError(message) {
    Error.call(this);
    Error.captureStackTrace(this, arguments.callee);
    this.name = 'ValiantError';
-   this.message = message || null;
+   if (message && 'string' !== typeof message) {
+       // Just using this to catch whenever I make a mistake
+       // and don't initialize the errors properly.
+       
+       console.log("WARNING: Creating ValiantError with an object instead of a message! " + message);
+   }
+   this.message = message || "Valiant Error";
 }
 
 util.inherits(ValiantError, Error);
@@ -24,28 +30,36 @@ ValiantError.fromMongooseError = function(mongooseError) {
 }
 
 ValiantError.fromErrorObject = function(errorObject) {
-   if ('string' === typeof errorObject) {
-      errorObject = {message: errorObject};
+   if (!errorObject) {
+      return new this();
    } else {
-      if (errorObject.name) {
-         if ('ValiantError' === errorObject.name) {
-            return errorObject;
-         } else if ('ValidationError' === errorObject.name) {
-            // Mongoose error
-            return this.fromMongooseError(errorObject);
-         }
+      if ('string' === typeof errorObject) {
+         errorObject = {message: errorObject};
+      } else {
+         if (errorObject.name) {
+            if ('ValiantError' === errorObject.name) {
+               return errorObject;
+            } else if ('ValidationError' === errorObject.name) {
+               // Mongoose error
+               return this.fromMongooseError(errorObject);
+            }
+        }
       }
-   }
-   
-   if (errorObject.message) {
-      return new this(errorObject.message);
-   } else {
-      return new this(errorObject);   
+    
+      if (errorObject.message) {
+         return new this(errorObject.message);
+      } else {
+         return new this(errorObject);   
+      }
    }
 }
 
 ValiantError.methodNotAllowed = function() {
    return new this("Not allowed");
+}
+
+ValiantError.forbidden = function() {
+    return new this("You don't have permission to do that");
 }
 
 ValiantError.prototype.toObject = function() {
