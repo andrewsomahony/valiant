@@ -11,8 +11,7 @@ registerController(name, ['$scope',
                           require('models/http_response'),
                           require('services/error_modal'),
                           require('services/http_service'),
-                          require('services/facebook_service'),
-function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, HttpService, FacebookService) {
+function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, HttpService) {
                                   
     setTimeout(function() {
         $scope.$apply(function() {

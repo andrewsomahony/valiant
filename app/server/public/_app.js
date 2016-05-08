@@ -9,7 +9,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('animations'), []);
-},{"angular":73,"info":56}],3:[function(require,module,exports){
+},{"angular":72,"info":55}],3:[function(require,module,exports){
 'use strict';
 
 require('./root');
@@ -63,8 +63,7 @@ registerController(name, ['$scope',
                           require('models/http_response'),
                           require('services/error_modal'),
                           require('services/http_service'),
-                          require('services/facebook_service'),
-function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, HttpService, FacebookService) {
+function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, HttpService) {
                                   
     setTimeout(function() {
         $scope.$apply(function() {
@@ -85,7 +84,7 @@ function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, Htt
 }]);
 
 module.exports = name;
-},{"../../register":21,"models/http_response":33,"models/progress":36,"services/error":41,"services/error_modal":42,"services/facebook_service":43,"services/http_service":44,"utils":61}],6:[function(require,module,exports){
+},{"../../register":21,"models/http_response":33,"models/progress":36,"services/error":41,"services/error_modal":42,"services/http_service":43,"utils":60}],6:[function(require,module,exports){
 'use strict';
 
 var registerController = require('../../register');
@@ -173,7 +172,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":42,"services/state_service":54,"services/user_service":55,"utils":61}],9:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":42,"services/state_service":53,"services/user_service":54,"utils":60}],9:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -208,7 +207,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":42,"services/user_service":55}],10:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":42,"services/user_service":54}],10:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -256,7 +255,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":42,"services/user_service":55}],12:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":42,"services/user_service":54}],12:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -291,7 +290,7 @@ function($scope, UserService, ErrorModal, UserModel, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"models/user":38,"services/error_modal":42,"services/state_service":54,"services/user_service":55}],13:[function(require,module,exports){
+},{"controllers/register":21,"models/user":38,"services/error_modal":42,"services/state_service":53,"services/user_service":54}],13:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -326,7 +325,7 @@ function($scope, UserService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/user_service":55}],15:[function(require,module,exports){
+},{"controllers/register":21,"services/user_service":54}],15:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -367,7 +366,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":42,"services/state_service":54,"services/user_service":55}],16:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":42,"services/state_service":53,"services/user_service":54}],16:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -420,7 +419,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":42,"services/state_service":54,"services/user_service":55}],18:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":42,"services/state_service":53,"services/user_service":54}],18:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -444,7 +443,7 @@ function($scope, UserService, UserModel) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"models/user":38,"services/user_service":55}],19:[function(require,module,exports){
+},{"controllers/register":21,"models/user":38,"services/user_service":54}],19:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -464,7 +463,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('controllers'), []);
-},{"angular":73,"info":56}],21:[function(require,module,exports){
+},{"angular":72,"info":55}],21:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -526,7 +525,7 @@ function($rootScope, ErrorModal, UserService, StateService, $location) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":42,"services/state_service":54,"services/user_service":55,"utils":61}],23:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":42,"services/state_service":53,"services/user_service":54,"utils":60}],23:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -592,7 +591,7 @@ function(PromiseService, HttpService, ApiUrlService) {
 }]);
 
 module.exports = name;
-},{"directives/register":28,"services/api_url":39,"services/http_service":44,"services/promise":51}],25:[function(require,module,exports){
+},{"directives/register":28,"services/api_url":39,"services/http_service":43,"services/promise":50}],25:[function(require,module,exports){
 'use strict';
 
 require('./email_in_use');
@@ -660,7 +659,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('directives'), []);
-},{"angular":73,"info":56}],28:[function(require,module,exports){
+},{"angular":72,"info":55}],28:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -677,7 +676,7 @@ var angular = require('angular');
 var info = require('info');
 
 module.exports = angular.module(info.moduleName('filters'), []);
-},{"angular":73,"info":56}],31:[function(require,module,exports){
+},{"angular":72,"info":55}],31:[function(require,module,exports){
 'use strict'
 
 var m = require('./module')
@@ -938,7 +937,7 @@ function(id, promise) {
 }])
 
 module.exports = name
-},{"../services/id":45,"../services/promise":51,"./module":35,"classy":97,"utils":61}],32:[function(require,module,exports){
+},{"../services/id":44,"../services/promise":50,"./module":35,"classy":95,"utils":60}],32:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -972,7 +971,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":31,"classy":97,"models/register":37}],33:[function(require,module,exports){
+},{"./base":31,"classy":95,"models/register":37}],33:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -1027,7 +1026,7 @@ statusText – {string} – HTTP status text of the response.
 }]);
 
 module.exports = name;
-},{"./base":31,"classy":97,"models/register":37}],34:[function(require,module,exports){
+},{"./base":31,"classy":95,"models/register":37}],34:[function(require,module,exports){
 arguments[4][1][0].apply(exports,arguments)
 },{"./module":35,"dup":1}],35:[function(require,module,exports){
 'use strict';
@@ -1036,7 +1035,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('models'), []);
-},{"angular":73,"info":56}],36:[function(require,module,exports){
+},{"angular":72,"info":55}],36:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('./register');
@@ -1075,7 +1074,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":31,"./register":37,"classy":97}],37:[function(require,module,exports){
+},{"./base":31,"./register":37,"classy":95}],37:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -1126,7 +1125,7 @@ function(BaseModel) {
 }]);
 
 module.exports = name;
-},{"classy":97,"models/base":31,"models/register":37}],39:[function(require,module,exports){
+},{"classy":95,"models/base":31,"models/register":37}],39:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1230,7 +1229,7 @@ registerService('factory', name, [function() {
 }]);
 
 module.exports = name;
-},{"services/register":52,"utils":61}],40:[function(require,module,exports){
+},{"services/register":51,"utils":60}],40:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1274,7 +1273,7 @@ registerService('factory', name, [
 ]);
 
 module.exports = name;
-},{"services/parallel_promise":49,"services/progress":50,"services/register":52,"services/serial_promise":53,"services/user_service":55,"utils":61}],41:[function(require,module,exports){
+},{"services/parallel_promise":48,"services/progress":49,"services/register":51,"services/serial_promise":52,"services/user_service":54,"utils":60}],41:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1312,7 +1311,7 @@ function(ErrorModel, HttpResponseModel) {
 }]);
 
 module.exports = name;
-},{"models/error":32,"models/http_response":33,"services/register":52}],42:[function(require,module,exports){
+},{"models/error":32,"models/http_response":33,"services/register":51}],42:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1347,139 +1346,7 @@ function(modalService, ErrorModel, $rootScope) {
 }])
 
 module.exports = name
-},{"models/error":32,"services/modal":47,"services/register":52,"utils":61}],43:[function(require,module,exports){
-'use strict';
-
-var registerService = require('services/register');
-
-var utils = require('utils');
-
-var name = 'services.facebook_service';
-
-registerService('factory', name, ['Facebook',
-                                  require('services/promise'),
-                                  require('services/error'),
-function(Facebook, PromiseService, ErrorService) {
-    var isReady = false;
-    
-    var isLoggedIn = false;
-    var userId = null;
-    
-    var loginStatus = "";
-    
-    var profile = {};
-    
-    function FacebookService() {
-        this.setIsReady(false);
-    }
-    
-    FacebookService.dataResolverFn = function(state, params) {
-        return PromiseService(function(resolve, reject, notify) {
-            resolve({});
-        })
-    }
-            
-    FacebookService.parseLoginStatusResponse = function(response) {
-        loginStatus = response.status;
-        userId = null;
-
-        if ('connected' === response.status) {
-            if (response.authResponse &&
-                response.authResponse.userID) {
-                userId = response.authResponse.userID;         
-            }                    
-        }        
-    }            
-            
-    FacebookService.login = function(permissionsArray) {
-        permissionsArray = permissionsArray || [];
-        var returnScopes = permissionsArray.length > 0 ? true : false;
-        
-        return PromiseService(function(resolve, reject, notify) {
-           Facebook.login(function() {},
-           {
-               scope: permissionsArray.join(","),
-               return_scopes: returnScopes,
-               auth_type: 'rerequest'
-           })
-           .then(function(response) {               
-               FacebookService.parseLoginStatusResponse(response);
-
-               if ('connected' === loginStatus) {
-                   resolve({});
-               } else if ('not_authorized' === loginStatus) {
-                   ErrorService.rejectLocalDeferred("Permissions not authorized, cannot connect with Facebook", reject);
-               } else {
-                   ErrorService.rejectLocalDeferred("Cannot connect with Facebook", reject);
-               }
-           });
-        });
-    }
-    
-    FacebookService.logout = function() {
-        return PromiseService(function(resolve, reject, notify) {
-            Facebook.logout(function() {})
-            .then(function(response) {
-                loginStatus = null;
-                userId = null;
-                
-                resolve({});
-            });
-        });
-    }
-    
-    FacebookService.getLoginStatus = function() {
-        return PromiseService(function(resolve, reject, notify) {
-            Facebook.getLoginStatus(function() {})
-            .then(function(response) {  
-                FacebookService.setIsReady(true); 
-                FacebookService.parseLoginStatusResponse(response);                     
-
-                resolve({});
-            });
-        });
-    }
-    
-    FacebookService.getProfile = function() {
-        return PromiseService(function(resolve, reject, notify) {
-            Facebook.api('/me', 
-                        {
-                            fields: 'email,picture.type(large),last_name,first_name,middle_name,name',
-                        },
-                        function() {})
-            .then(function(response) {
-                profile = utils.extend(true, {}, response);
-                resolve({});
-            });
-        })
-    }
-    
-    FacebookService.isLoggedIn = function() {
-        if ('connected' === loginStatus &&
-            userId) {
-            return true;
-        } else {
-            return false;    
-        }
-    }
-    
-    FacebookService.getUserId = function() {
-        return userId;
-    }
-    
-    FacebookService.isReady = function() {
-        return isReady;
-    }
-    
-    FacebookService.setIsReady = function(ir) {
-        isReady = ir;
-    }
-    
-    return FacebookService;
-}]);
-
-module.exports = name;
-},{"services/error":41,"services/promise":51,"services/register":52,"utils":61}],44:[function(require,module,exports){
+},{"models/error":32,"services/modal":46,"services/register":51,"utils":60}],43:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1565,7 +1432,7 @@ function($http, PromiseService, HttpResponseModel, ErrorService) {
 }]);
 
 module.exports = name;
-},{"models/http_response":33,"services/error":41,"services/promise":51,"services/register":52,"utils":61}],45:[function(require,module,exports){
+},{"models/http_response":33,"services/error":41,"services/promise":50,"services/register":51,"utils":60}],44:[function(require,module,exports){
 var m = require('./module')
 var Chance = require('chance')
 
@@ -1582,11 +1449,11 @@ function() {
 }])
 
 module.exports = name
-},{"./module":48,"chance":78}],46:[function(require,module,exports){
+},{"./module":47,"chance":76}],45:[function(require,module,exports){
 'use strict';
 
 require('services/data_resolver');
-},{"services/data_resolver":40}],47:[function(require,module,exports){
+},{"services/data_resolver":40}],46:[function(require,module,exports){
 var registerService = require('services/register');
 var utils = require('utils');
 
@@ -1619,14 +1486,14 @@ function($modal, $templateCache) {
 }])
 
 module.exports = name
-},{"services/register":52,"utils":61}],48:[function(require,module,exports){
+},{"services/register":51,"utils":60}],47:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('services'), []);
-},{"angular":73,"info":56}],49:[function(require,module,exports){
+},{"angular":72,"info":55}],48:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -1725,7 +1592,7 @@ function(promise, progress, ProgressModel, $q) {
 }])
 
 module.exports = name;
-},{"./module":48,"models/progress":36,"services/progress":50,"services/promise":51,"utils":61}],50:[function(require,module,exports){
+},{"./module":47,"models/progress":36,"services/progress":49,"services/promise":50,"utils":60}],49:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -1758,7 +1625,7 @@ function(progressModel) {
 }])
 
 module.exports = name;
-},{"../models/progress":36,"./module":48}],51:[function(require,module,exports){
+},{"../models/progress":36,"./module":47}],50:[function(require,module,exports){
 'use strict';
 
 var registerService = require('./register');
@@ -1782,7 +1649,7 @@ function($q) {
 }])
 
 module.exports = name;
-},{"./register":52}],52:[function(require,module,exports){
+},{"./register":51}],51:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -1798,7 +1665,7 @@ module.exports = function(type, name, params) {
         throw new Error("services.register: Invalid service type! " + name);   
     }
 }
-},{"./module":48}],53:[function(require,module,exports){
+},{"./module":47}],52:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -1962,7 +1829,7 @@ function(promise, progress, ProgressModel) {
 }])
 
 module.exports = name;
-},{"./module":48,"models/progress":36,"services/progress":50,"services/promise":51,"utils":61}],54:[function(require,module,exports){
+},{"./module":47,"models/progress":36,"services/progress":49,"services/promise":50,"utils":60}],53:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1987,7 +1854,7 @@ function($state) {
 }]);
 
 module.exports = name;
-},{"services/register":52}],55:[function(require,module,exports){
+},{"services/register":51}],54:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -2267,14 +2134,14 @@ ErrorService, ProgressService, SerialPromise) {
 ]);
 
 module.exports = name;
-},{"models/user":38,"services/api_url":39,"services/error":41,"services/http_service":44,"services/progress":50,"services/promise":51,"services/register":52,"services/serial_promise":53}],56:[function(require,module,exports){
+},{"models/user":38,"services/api_url":39,"services/error":41,"services/http_service":43,"services/progress":49,"services/promise":50,"services/register":51,"services/serial_promise":52}],55:[function(require,module,exports){
 module.exports = {
     name: 'valiant',
     moduleName: function(name) {
         return this.name + "." + name;
     }
 }
-},{}],57:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -2283,7 +2150,6 @@ require('angular-messages');
 
 require('angular-strap');
 require('angular-strap-tpl-modal');
-require('angularjs-facebook');
 
 require('../views/_views');
 
@@ -2308,10 +2174,9 @@ module.exports = angular.module(appInfo.name, [
     require('angular-ui-router'),
     'mgcrea.ngStrap.modal',
     require('angular-route'),
-    'facebook',
     'ngMessages'
 ]);
-},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":25,"../components/filters/init":29,"../components/models/init":34,"../components/services/init":46,"../views/_views":118,"angular":73,"angular-animate":64,"angular-messages":66,"angular-route":68,"angular-strap":69,"angular-strap-tpl-modal":70,"angular-ui-router":71,"angularjs-facebook":74,"info":56}],58:[function(require,module,exports){
+},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":25,"../components/filters/init":29,"../components/models/init":34,"../components/services/init":45,"../views/_views":116,"angular":72,"angular-animate":63,"angular-messages":65,"angular-route":67,"angular-strap":68,"angular-strap-tpl-modal":69,"angular-ui-router":70,"info":55}],57:[function(require,module,exports){
 'use strict';
 
 function boot() {
@@ -2325,7 +2190,7 @@ function boot() {
 }
 
 module.exports = boot
-},{"../info":56,"./app":57,"./config":59,"./routes":60}],59:[function(require,module,exports){
+},{"../info":55,"./app":56,"./config":58,"./routes":59}],58:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -2341,7 +2206,7 @@ app.config(['$httpProvider', function($httpProvider) {
         
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
-},{"./app":57}],60:[function(require,module,exports){
+},{"./app":56}],59:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -2599,7 +2464,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }
    })
 }]);
-},{"./app":57,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/home/default":6,"controllers/main/home/home":7,"controllers/main/login/default":8,"controllers/main/login/forgot_password":9,"controllers/main/login/login":10,"controllers/main/login/unverified":11,"controllers/main/register/default":12,"controllers/main/register/register":13,"controllers/main/register/success":14,"controllers/main/reset_password/default":15,"controllers/main/reset_password/reset_password":16,"controllers/main/top_bar":17,"controllers/main/user/default":18,"controllers/main/user/user":19}],61:[function(require,module,exports){
+},{"./app":56,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/home/default":6,"controllers/main/home/home":7,"controllers/main/login/default":8,"controllers/main/login/forgot_password":9,"controllers/main/login/login":10,"controllers/main/login/unverified":11,"controllers/main/register/default":12,"controllers/main/register/register":13,"controllers/main/register/success":14,"controllers/main/reset_password/default":15,"controllers/main/reset_password/reset_password":16,"controllers/main/top_bar":17,"controllers/main/user/default":18,"controllers/main/user/user":19}],60:[function(require,module,exports){
 
 
 /*
@@ -2910,7 +2775,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 /*'undefined' !== typeof exports ? ('undefined' !== typeof module ? module.exports : exports) : window*/
 
 
-},{}],62:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 require('domready')(function() {
     console.log("DOM IS READY!");
     
@@ -2918,7 +2783,7 @@ require('domready')(function() {
     bootFn();
 })
 
-},{"./init/boot":58,"domready":114}],63:[function(require,module,exports){
+},{"./init/boot":57,"domready":112}],62:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -7035,11 +6900,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],64:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":63}],65:[function(require,module,exports){
+},{"./angular-animate":62}],64:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -7763,11 +7628,11 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-},{}],66:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 require('./angular-messages');
 module.exports = 'ngMessages';
 
-},{"./angular-messages":65}],67:[function(require,module,exports){
+},{"./angular-messages":64}],66:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -8791,11 +8656,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],68:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":67}],69:[function(require,module,exports){
+},{"./angular-route":66}],68:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -13134,7 +12999,7 @@ module.exports = 'ngRoute';
   });
   angular.module('mgcrea.ngStrap', [ 'mgcrea.ngStrap.modal', 'mgcrea.ngStrap.aside', 'mgcrea.ngStrap.alert', 'mgcrea.ngStrap.button', 'mgcrea.ngStrap.select', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.timepicker', 'mgcrea.ngStrap.navbar', 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.popover', 'mgcrea.ngStrap.dropdown', 'mgcrea.ngStrap.typeahead', 'mgcrea.ngStrap.scrollspy', 'mgcrea.ngStrap.affix', 'mgcrea.ngStrap.tab', 'mgcrea.ngStrap.collapse' ]);
 })(window, document);
-},{}],70:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -13147,7 +13012,7 @@ module.exports = 'ngRoute';
 angular.module('mgcrea.ngStrap.modal').run([ '$templateCache', function($templateCache) {
   $templateCache.put('modal/modal.tpl.html', '<div class="modal" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header" ng-show="title"><button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" ng-bind="title"></h4></div><div class="modal-body" ng-bind="content"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="$hide()">Close</button></div></div></div></div>');
 } ]);
-},{}],71:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.18
@@ -17687,7 +17552,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],72:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -48116,573 +47981,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],73:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":72}],74:[function(require,module,exports){
-(function(window, angular, undefined) {
-  'use strict';
-
-  // Module global settings.
-  var settings = {};
-
-  // Module global flags.
-  var flags = {
-    sdk: false,
-    ready: false
-  };
-
-  // Deferred Object which will be resolved when the Facebook SDK is ready
-  // and the `fbAsyncInit` function is called.
-  var loadDeferred;
-
-  /**
-   * @name facebook
-   * @kind function
-   * @description
-   * An Angularjs module to take approach of Facebook javascript sdk.
-   *
-   * @author Luis Carlos Osorio Jayk <luiscarlosjayk@gmail.com>
-   */
-  angular.module('facebook', []).
-
-    // Declare module settings value
-    value('settings', settings).
-
-    // Declare module flags value
-    value('flags', flags).
-
-    /**
-     * Facebook provider
-     */
-    provider('Facebook', [
-      function() {
-
-        /**
-         * Facebook appId
-         * @type {Number}
-         */
-        settings.appId = null;
-
-        this.setAppId = function(appId) {
-          settings.appId = appId;
-        };
-
-        this.getAppId = function() {
-          return settings.appId;
-        };
-
-        /**
-         * Locale language, english by default
-         * @type {String}
-         */
-        settings.locale = 'en_US';
-
-        this.setLocale = function(locale) {
-          settings.locale = locale;
-        };
-
-        this.getLocale = function() {
-          return settings.locale;
-        };
-
-        /**
-         * Set if you want to check the authentication status
-         * at the start up of the app
-         * @type {Boolean}
-         */
-        settings.status = true;
-
-        this.setStatus = function(status) {
-          settings.status = status;
-        };
-
-        this.getStatus = function() {
-          return settings.status;
-        };
-
-        /**
-         * Adding a Channel File improves the performance of the javascript SDK,
-         * by addressing issues with cross-domain communication in certain browsers.
-         * @type {String}
-         */
-        settings.channelUrl = null;
-
-        this.setChannel = function(channel) {
-          settings.channelUrl = channel;
-        };
-
-        this.getChannel = function() {
-          return settings.channelUrl;
-        };
-
-        /**
-         * Enable cookies to allow the server to access the session
-         * @type {Boolean}
-         */
-        settings.cookie = true;
-
-        this.setCookie = function(cookie) {
-          settings.cookie = cookie;
-        };
-
-        this.getCookie = function() {
-          return settings.cookie;
-        };
-
-        /**
-         * Parse XFBML
-         * @type {Boolean}
-         */
-        settings.xfbml = true;
-
-        this.setXfbml = function(enable) {
-          settings.xfbml = enable;
-        };
-
-        this.getXfbml = function() {
-          return settings.xfbml;
-        };
-
-        /**
-         * Auth Response
-         * @type {Object}
-         */
-
-        this.setAuthResponse = function(obj) {
-          settings.authResponse = obj || true;
-        };
-
-        this.getAuthResponse = function() {
-          return settings.authResponse;
-        };
-
-        /**
-         * Frictionless Requests
-         * @type {Boolean}
-         */
-        settings.frictionlessRequests = false;
-
-        this.setFrictionlessRequests = function(enable) {
-          settings.frictionlessRequests = enable;
-        };
-
-        this.getFrictionlessRequests = function() {
-          return settings.frictionlessRequests;
-        };
-
-        /**
-         * HideFlashCallback
-         * @type {Object}
-         */
-        settings.hideFlashCallback = null;
-
-        this.setHideFlashCallback = function(obj) {
-          settings.hideFlashCallback = obj || null;
-        };
-
-        this.getHideFlashCallback = function() {
-          return settings.hideFlashCallback;
-        };
-
-        /**
-         * Custom option setting
-         * key @type {String}
-         * value @type {*}
-         * @return {*}
-         */
-        this.setInitCustomOption = function(key, value) {
-          if (!angular.isString(key)) {
-            return false;
-          }
-
-          settings[key] = value;
-          return settings[key];
-        };
-
-        /**
-         * get init option
-         * @param  {String} key
-         * @return {*}
-         */
-        this.getInitOption = function(key) {
-          // If key is not String or If non existing key return null
-          if (!angular.isString(key) || !settings.hasOwnProperty(key)) {
-            return false;
-          }
-
-          return settings[key];
-        };
-
-        /**
-         * load SDK
-         */
-        settings.loadSDK = true;
-
-        this.setLoadSDK = function(a) {
-          settings.loadSDK = !!a;
-        };
-
-        this.getLoadSDK = function() {
-          return settings.loadSDK;
-        };
-
-        /**
-         * SDK version
-         */
-        settings.version = 'v2.0';
-
-        this.setSdkVersion = function(version) {
-          settings.version = version;
-        };
-
-        this.getSdkVersion = function() {
-          return settings.version;
-        };
-
-        /**
-         * Init Facebook API required stuff
-         * This will prepare the app earlier (on settingsuration)
-         * @arg {Object/String} initSettings
-         * @arg {Boolean} _loadSDK (optional, true by default)
-         */
-        this.init = function(initSettings, _loadSDK) {
-          // If string is passed, set it as appId
-          if (angular.isString(initSettings)) {
-            settings.appId = initSettings;
-          }
-
-          if(angular.isNumber(initSettings)) {
-            settings.appId = initSettings.toString();
-          }
-
-          // If object is passed, merge it with app settings
-          if (angular.isObject(initSettings)) {
-            angular.extend(settings, initSettings);
-          }
-
-          // Set if Facebook SDK should be loaded automatically or not.
-          if (angular.isDefined(_loadSDK)) {
-            settings.loadSDK = !!_loadSDK;
-          }
-        };
-
-        /**
-         * This defined the Facebook service
-         */
-        this.$get = [
-          '$q',
-          '$rootScope',
-          '$timeout',
-          '$window',
-          function($q, $rootScope, $timeout, $window) {
-            /**
-             * This is the NgFacebook class to be retrieved on Facebook Service request.
-             */
-            function NgFacebook() {
-              this.appId = settings.appId;
-            }
-
-            /**
-             * Ready state method
-             * @return {Boolean}
-             */
-            NgFacebook.prototype.isReady = function() {
-              return flags.ready;
-            };
-
-            NgFacebook.prototype.login = function () {
-
-              var d = $q.defer(),
-                  args = Array.prototype.slice.call(arguments),
-                  userFn,
-                  userFnIndex; // Converts arguments passed into an array
-
-                // Get user function and it's index in the arguments array,
-                // to replace it with custom function, allowing the usage of promises
-                angular.forEach(args, function(arg, index) {
-                  if (angular.isFunction(arg)) {
-                    userFn = arg;
-                    userFnIndex = index;
-                  }
-                });
-
-                // Replace user function intended to be passed to the Facebook API with a custom one
-                // for being able to use promises.
-                if (angular.isFunction(userFn) && angular.isNumber(userFnIndex)) {
-                  args.splice(userFnIndex, 1, function(response) {
-                    $timeout(function() {
-
-                      if (response && angular.isUndefined(response.error)) {
-                        d.resolve(response);
-                      } else {
-                        d.reject(response);
-                      }
-
-                      if (angular.isFunction(userFn)) {
-                        userFn(response);
-                      }
-                    });
-                  });
-                }
-
-                // review(mrzmyr): generalize behaviour of isReady check
-                if (this.isReady()) {
-                  $window.FB.login.apply($window.FB, args);
-                } else {
-                  $timeout(function() {
-                    d.reject("Facebook.login() called before Facebook SDK has loaded.");
-                  });
-                }
-
-                return d.promise;
-            };
-
-            /**
-             * Map some asynchronous Facebook SDK methods to NgFacebook
-             */
-            angular.forEach([
-              'logout',
-              'api',
-              'ui',
-              'getLoginStatus'
-            ], function(name) {
-              NgFacebook.prototype[name] = function() {
-
-                var d = $q.defer(),
-                    args = Array.prototype.slice.call(arguments), // Converts arguments passed into an array
-                    userFn,
-                    userFnIndex;
-
-                // Get user function and it's index in the arguments array,
-                // to replace it with custom function, allowing the usage of promises
-                angular.forEach(args, function(arg, index) {
-                  if (angular.isFunction(arg)) {
-                    userFn = arg;
-                    userFnIndex = index;
-                  }
-                });
-
-                // Replace user function intended to be passed to the Facebook API with a custom one
-                // for being able to use promises.
-                if (angular.isFunction(userFn) && angular.isNumber(userFnIndex)) {
-                  args.splice(userFnIndex, 1, function(response) {
-                    $timeout(function() {
-
-                      if (response && angular.isUndefined(response.error)) {
-                        d.resolve(response);
-                      } else {
-                        d.reject(response);
-                      }
-
-                      if (angular.isFunction(userFn)) {
-                        userFn(response);
-                      }
-                    });
-                  });
-                }
-
-                $timeout(function() {
-                  // Call when loadDeferred be resolved, meaning Service is ready to be used.
-                  loadDeferred.promise.then(function() {
-                    $window.FB[name].apply(FB, args);
-                  });
-                });
-
-                return d.promise;
-              };
-            });
-
-            /**
-             * Map Facebook sdk XFBML.parse() to NgFacebook.
-             */
-            NgFacebook.prototype.parseXFBML = function() {
-
-              var d = $q.defer();
-
-              $timeout(function() {
-                // Call when loadDeferred be resolved, meaning Service is ready to be used
-                loadDeferred.promise.then(function() {
-                  $window.FB.XFBML.parse();
-                  d.resolve();
-                });
-              });
-
-              return d.promise;
-            };
-
-            /**
-             * Map Facebook SDK subscribe/unsubscribe method to NgFacebook.
-             * Use it as Facebook.subscribe / Facebook.unsubscribe in the service.
-             */
-
-            angular.forEach([
-              'subscribe',
-              'unsubscribe',
-            ], function(name) {
-
-              NgFacebook.prototype[name] = function() {
-
-                var d = $q.defer(),
-                    args = Array.prototype.slice.call(arguments), // Get arguments passed into an array
-                    userFn,
-                    userFnIndex;
-
-                // Get user function and it's index in the arguments array,
-                // to replace it with custom function, allowing the usage of promises
-                angular.forEach(args, function(arg, index) {
-                  if (angular.isFunction(arg)) {
-                    userFn = arg;
-                    userFnIndex = index;
-                  }
-                });
-
-                // Replace user function intended to be passed to the Facebook API with a custom one
-                // for being able to use promises.
-                if (angular.isFunction(userFn) && angular.isNumber(userFnIndex)) {
-                  args.splice(userFnIndex, 1, function(response) {
-
-                    $timeout(function() {
-
-                      if (response && angular.isUndefined(response.error)) {
-                        d.resolve(response);
-                      } else {
-                        d.reject(response);
-                      }
-
-                      if (angular.isFunction(userFn)) {
-                        userFn(response);
-                      }
-                    });
-                  });
-                }
-
-                $timeout(function() {
-                  // Call when loadDeferred be resolved, meaning Service is ready to be used
-                  loadDeferred.promise.then(function() {
-                    $window.FB.Event[name].apply(FB, args);
-                  });
-                });
-
-                return d.promise;
-              };
-            });
-
-            return new NgFacebook(); // Singleton
-          }
-        ];
-
-      }
-    ]).
-
-    /**
-     * Module initialization
-     */
-    run([
-      '$rootScope',
-      '$q',
-      '$window',
-      '$timeout',
-      function($rootScope, $q, $window, $timeout) {
-        // Define global loadDeffered to notify when Service callbacks are safe to use
-        loadDeferred = $q.defer();
-
-        var loadSDK = settings.loadSDK;
-        delete(settings['loadSDK']); // Remove loadSDK from settings since this isn't part from Facebook API.
-
-        /**
-         * Define fbAsyncInit required by Facebook API
-         */
-        $window.fbAsyncInit = function() {
-          // Initialize our Facebook app
-          $timeout(function() {
-            if (!settings.appId) {
-              throw 'Missing appId setting.';
-            }
-
-            FB.init(settings);
-
-            flags.ready = true;
-
-            /**
-             * Subscribe to Facebook API events and broadcast through app.
-             */
-            angular.forEach({
-              'auth.login': 'login',
-              'auth.logout': 'logout',
-              'auth.prompt': 'prompt',
-              'auth.sessionChange': 'sessionChange',
-              'auth.statusChange': 'statusChange',
-              'auth.authResponseChange': 'authResponseChange',
-              'xfbml.render': 'xfbmlRender',
-              'edge.create': 'like',
-              'edge.remove': 'unlike',
-              'comment.create': 'comment',
-              'comment.remove': 'uncomment'
-            }, function(mapped, name) {
-              FB.Event.subscribe(name, function(response) {
-                $timeout(function() {
-                  $rootScope.$broadcast('Facebook:' + mapped, response);
-                });
-              });
-            });
-
-            // Broadcast Facebook:load event
-            $rootScope.$broadcast('Facebook:load');
-
-            loadDeferred.resolve(FB);
-          });
-        };
-
-        /**
-         * Inject Facebook root element in DOM
-         */
-        (function addFBRoot() {
-          var fbroot = document.getElementById('fb-root');
-
-          if (!fbroot) {
-            fbroot = document.createElement('div');
-            fbroot.id = 'fb-root';
-            document.body.insertBefore(fbroot, document.body.childNodes[0]);
-          }
-
-          return fbroot;
-        })();
-
-        /**
-         * SDK script injecting
-         */
-         if(loadSDK) {
-          (function injectScript() {
-            var src           = '//connect.facebook.net/' + settings.locale + '/sdk.js',
-                script        = document.createElement('script');
-                script.id     = 'facebook-jssdk';
-                script.async  = true;
-
-            // Prefix protocol
-            // for sure we don't want to ignore things, but this tests exists,
-            // but it isn't recognized by istanbul, so we give it a 'ignore if'
-            /* istanbul ignore if */
-            if ($window.location.protocol.indexOf('file:') !== -1) {
-              src = 'https:' + src;
-            }
-
-            script.src = src;
-            script.onload = function() {
-              flags.sdk = true;
-            };
-
-            // Fix for IE < 9, and yet supported by latest browsers
-            document.getElementsByTagName('head')[0].appendChild(script);
-          })();
-        }
-      }
-    ]);
-
-})(window, angular);
-
-},{}],75:[function(require,module,exports){
+},{"./angular":71}],73:[function(require,module,exports){
 'use strict'
 
 exports.toByteArray = toByteArray
@@ -48798,7 +48101,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],76:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -50264,14 +49567,14 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":75,"ieee754":115,"isarray":77}],77:[function(require,module,exports){
+},{"base64-js":73,"ieee754":113,"isarray":75}],75:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],78:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 (function (Buffer){
 //  Chance.js 1.0.1
 //  http://chancejs.com
@@ -53363,7 +52666,7 @@ module.exports = Array.isArray || function (arr) {
 })();
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":76}],79:[function(require,module,exports){
+},{"buffer":74}],77:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -53441,9 +52744,9 @@ module.exports = require('./define')({
         }
     }
 })
-},{"./core":87,"./define":90,"./utils/copy":105}],80:[function(require,module,exports){
+},{"./core":85,"./define":88,"./utils/copy":103}],78:[function(require,module,exports){
 module.exports = {}
-},{}],81:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 'use strict'
 
 var copy = require('../utils/copy').copy
@@ -53525,7 +52828,7 @@ var assignClassProperty = function(Class, propName, propDescriptor, config){
 }
 
 module.exports = assignClassProperty
-},{"../utils/copy":105,"./canDefineProperty":83,"./canGetOwnPropertyDescriptor":84,"./modifyFn":88}],82:[function(require,module,exports){
+},{"../utils/copy":103,"./canDefineProperty":81,"./canGetOwnPropertyDescriptor":82,"./modifyFn":86}],80:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -53673,7 +52976,7 @@ module.exports = function(){
         buildOverridenFn : buildOverridenFn
     }
 }()
-},{}],83:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
@@ -53690,13 +52993,13 @@ module.exports = (function(){
     return false
 
 })()
-},{}],84:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
     return 'getOwnPropertyDescriptor' in Object && typeof Object.getOwnPropertyDescriptor == 'function'
 })()
-},{}],85:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 'use strict'
 
 var canGetOwnPropertyDescriptor = require('./canGetOwnPropertyDescriptor')
@@ -53715,7 +53018,7 @@ function copy(source, target){
 }
 
 module.exports = canGetOwnPropertyDescriptor? copy: function(){}
-},{"./canGetOwnPropertyDescriptor":84}],86:[function(require,module,exports){
+},{"./canGetOwnPropertyDescriptor":82}],84:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -53741,7 +53044,7 @@ module.exports = function(){
         return child
     }
 }()
-},{}],87:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -53962,7 +53265,7 @@ module.exports = function(){
         BaseClass        : Base
     }
 }()
-},{"../utils/copy":105,"./assignClassProperty":81,"./canDefineProperty":83,"./canGetOwnPropertyDescriptor":84,"./copyDescriptors":85,"./extend":86,"newify":117}],88:[function(require,module,exports){
+},{"../utils/copy":103,"./assignClassProperty":79,"./canDefineProperty":81,"./canGetOwnPropertyDescriptor":82,"./copyDescriptors":83,"./extend":84,"newify":115}],86:[function(require,module,exports){
 var callSuperRe     = /\bcallSuper|callSuperWith\b/
 var callOverridenRe = /\bcallOverriden|callOverridenWith\b/
 
@@ -53990,7 +53293,7 @@ function modify(name, fn, superTarget, superClass, target, getterSetterConfig){
 }
 
 module.exports = modify
-},{"./buildClassFunctions":82}],89:[function(require,module,exports){
+},{"./buildClassFunctions":80}],87:[function(require,module,exports){
 var SLICE = Array.prototype.slice
 
 var getClass = require('./getClass')
@@ -54023,7 +53326,7 @@ module.exports = function(alias /* args... */){
 
     return newify(Class, args)
 }
-},{"./getClass":94,"newify":117}],90:[function(require,module,exports){
+},{"./getClass":92,"newify":115}],88:[function(require,module,exports){
 var getClass     = require('./getClass')
 var processClass = require('./processClass')
 
@@ -54079,7 +53382,7 @@ module.exports = function(parentClass, classConfig){
         processClass(Class)
     })
 }
-},{"./Registry":80,"./core":87,"./getClass":94,"./processClass":101,"./processors/ClassProcessor":102}],91:[function(require,module,exports){
+},{"./Registry":78,"./core":85,"./getClass":92,"./processClass":99,"./processors/ClassProcessor":100}],89:[function(require,module,exports){
 var define = require('./define')
 var copyIf = require('./utils/copy').copyIf
 
@@ -54089,7 +53392,7 @@ module.exports = function(members){
 
     return define(copyIf({ extend: 'z.mixin'}, members))
 }
-},{"./define":90,"./utils/copy":105}],92:[function(require,module,exports){
+},{"./define":88,"./utils/copy":103}],90:[function(require,module,exports){
 /**
  * @method destroyClass
  *
@@ -54113,7 +53416,7 @@ module.exports = function(Class){
         Class.destroy()
     }
 }
-},{"./core":87,"./getClass":94}],93:[function(require,module,exports){
+},{"./core":85,"./getClass":92}],91:[function(require,module,exports){
 
 module.exports = function(config){
 
@@ -54128,7 +53431,7 @@ module.exports = function(config){
 
     return define(config)
 }
-},{"./define":90}],94:[function(require,module,exports){
+},{"./define":88}],92:[function(require,module,exports){
 /**
  * @method getClass
  *
@@ -54156,7 +53459,7 @@ module.exports = function getClass(alias){
     return REGISTRY[alias]
 
 }
-},{"./Registry":80,"./core":87}],95:[function(require,module,exports){
+},{"./Registry":78,"./core":85}],93:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -54200,7 +53503,7 @@ module.exports = function(config){
 
     return new klass(config)
 }
-},{"./core":87,"./getClass":94}],96:[function(require,module,exports){
+},{"./core":85,"./getClass":92}],94:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -54226,7 +53529,7 @@ module.exports = function(alias){
         return Class
     }
 }
-},{"./core":87,"./getClass":94}],97:[function(require,module,exports){
+},{"./core":85,"./getClass":92}],95:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -54285,7 +53588,7 @@ module.exports = function(){
         isClassLike        : isSameOrSubclassOf
     }
 }()
-},{"./Mixin":79,"./Registry":80,"./core":87,"./create":89,"./define":90,"./defineMixin":91,"./destroyClass":92,"./getClass":94,"./getInstance":95,"./getParentClass":96,"./isSubclassOf":98,"./override":99,"./processors/MixinProcessor":103,"./utils/copy":105}],98:[function(require,module,exports){
+},{"./Mixin":77,"./Registry":78,"./core":85,"./create":87,"./define":88,"./defineMixin":89,"./destroyClass":90,"./getClass":92,"./getInstance":93,"./getParentClass":94,"./isSubclassOf":96,"./override":97,"./processors/MixinProcessor":101,"./utils/copy":103}],96:[function(require,module,exports){
 var getClass = require('./getClass')
 
 module.exports = function(subClass, superClass, config){
@@ -54309,7 +53612,7 @@ module.exports = function(subClass, superClass, config){
 
     return !!subClass
 }
-},{"./getClass":94}],99:[function(require,module,exports){
+},{"./getClass":92}],97:[function(require,module,exports){
 var getClass = require('./getClass')
 
 /**
@@ -54340,7 +53643,7 @@ module.exports = function(Class, classConfig){
 
     return TheClass
 }
-},{"./getClass":94}],100:[function(require,module,exports){
+},{"./getClass":92}],98:[function(require,module,exports){
 module.exports = function(config){
 
     'use strict'
@@ -54348,7 +53651,7 @@ module.exports = function(config){
     //this refers to a Class
     return require('./core').overrideClass(this, config)
 }
-},{"./core":87}],101:[function(require,module,exports){
+},{"./core":85}],99:[function(require,module,exports){
 var copyKeys = require('./utils/copy').copyKeys
 
 function aliasMethods(config){
@@ -54389,7 +53692,7 @@ module.exports = function(Class){
         Class.init()
     }
 }
-},{"./extendClass":93,"./overrideClass":100,"./processors/ClassProcessor":102,"./unregisterClass":104,"./utils/copy":105}],102:[function(require,module,exports){
+},{"./extendClass":91,"./overrideClass":98,"./processors/ClassProcessor":100,"./unregisterClass":102,"./utils/copy":103}],100:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -54430,7 +53733,7 @@ module.exports = function(){
 
     return result
 }()
-},{"./MixinProcessor":103}],103:[function(require,module,exports){
+},{"./MixinProcessor":101}],101:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -54817,7 +54120,7 @@ module.exports = function(){
 
     }
 }()
-},{"../core":87,"../getClass":94,"../utils/copy":105,"../utils/function":106}],104:[function(require,module,exports){
+},{"../core":85,"../getClass":92,"../utils/copy":103,"../utils/function":104}],102:[function(require,module,exports){
 var REGISTRY = require('./Registry')
 
 module.exports = function unregisterClass(){
@@ -54831,7 +54134,7 @@ module.exports = function unregisterClass(){
 
     delete REGISTRY[alias]
 }
-},{"./Registry":80}],105:[function(require,module,exports){
+},{"./Registry":78}],103:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -54843,7 +54146,7 @@ module.exports = function unregisterClass(){
 
  */
 module.exports = require('copy-utils')
-},{"copy-utils":113}],106:[function(require,module,exports){
+},{"copy-utils":111}],104:[function(require,module,exports){
 module.exports = function(){
 
     var SLICE = Array.prototype.slice
@@ -54900,7 +54203,7 @@ module.exports = function(){
         bindArgsArray: bindArgsArray
     }
 }()
-},{}],107:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -54931,7 +54234,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],108:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -54963,7 +54266,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],109:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -55015,7 +54318,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyList":111}],110:[function(require,module,exports){
+},{"./copyList":109}],108:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -55076,7 +54379,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyListIf":112}],111:[function(require,module,exports){
+},{"./copyListIf":110}],109:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -55116,7 +54419,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],112:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -55158,7 +54461,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],113:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -55355,7 +54658,7 @@ module.exports = function(){
     }
 
 }()
-},{"./copy":107,"./copyIf":108,"./copyKeys":109,"./copyKeysIf":110,"./copyList":111,"./copyListIf":112}],114:[function(require,module,exports){
+},{"./copy":105,"./copyIf":106,"./copyKeys":107,"./copyKeysIf":108,"./copyList":109,"./copyListIf":110}],112:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -55387,7 +54690,7 @@ module.exports = function(){
 
 });
 
-},{}],115:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -55473,7 +54776,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],116:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 module.exports = function(){
 
     'use strict';
@@ -55502,13 +54805,13 @@ module.exports = function(){
     }
 
 }()
-},{}],117:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 var getInstantiatorFunction = require('./getInstantiatorFunction')
 
 module.exports = function(fn, args){
 	return getInstantiatorFunction(args.length)(fn, args)
 }
-},{"./getInstantiatorFunction":116}],118:[function(require,module,exports){
+},{"./getInstantiatorFunction":114}],116:[function(require,module,exports){
 angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("admin.html","<div class=\"container admin\">\n    <div class=\"row\">\n        <div ui-view=\"header\" class=\"header\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"content\" class=\"content\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"footer\" class=\"footer\"></div>\n    </div>\n</div>");
 $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div class=\"row\">\n        <div class=\"top-bar col-xs-12 col-md-12 col-lg-12\" ui-view=\"top_bar\"></div>\n    </div>\n    \n    <div class=\"mobile-scroll\" style=\"height:100%;\">\n      <div class=\"mobile-container\">\n         <div class=\"row\">\n            <div ui-view=\"header\" class=\"header\"></div>\n         </div>    \n         \n         <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12 hidden-xs large-header-padding\" style=\"height: 64px;\"></div>\n            <div class=\"hidden-lg hidden-md hidden-sm col-xs-12 mobile-header-padding\" style=\"height: 16px;\"></div>\n         </div>\n         \n         <div class=\"main-content\">\n            <div class=\"row\">\n               <div class=\"mobile-ad-space hidden-lg hidden-md hidden-sm col-xs-12\">\n                  <img src=\"./images/temp_mobile_ad.png\" />\n               </div>\n            </div>\n            \n            <div class=\"row row-eq-height\" style=\"height: 100%;\">\n                  <div class=\"content-padding col-md-1 col-lg-1 col-sm-1 hidden-xs\"></div>\n                  <div ui-view=\"content\" class=\"content col-md-9 col-lg-9 col-sm-9 col-xs-12\" style=\"min-height:100%;\"></div>\n                  <div ui-view=\"ad_space_right\" class=\"ad-space col-lg-2 col-sm-2 col-md-2 hidden-xs\" style=\"min-height:100%;\">\n                     <div class=\"ad\">\n                        <img src=\"./images/temp_ad.png\" />\n                     </div>\n                     <div class=\"copyright\">\n                        Andrew O\'Mahony (c) 2016\n                     </div>\n                  </div>\n            </div>\n         </div>\n      </div>\n    </div>\n</div>");
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
@@ -55536,4 +54839,4 @@ $templateCache.put("partials/main/reset_password/content.html","<div class=\"col
 $templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/user/content.html","<span ng-bind=\"currentEditingUser.fullName()\"></span>");
 $templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
-},{}]},{},[62]);
+},{}]},{},[61]);
