@@ -19,14 +19,24 @@ function($rootScope, ErrorModal, UserService, StateService, $location) {
     
     $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {               
         var emailVerified = toParams['email_verified'];
+        var error = toParams['error'] || "";
+        
         if (false === utils.isUndefinedOrNull(emailVerified)) {
             if (emailVerified) {
                 StateService.go('main.page.login.default', 
                             {verification_success: true});
             } else {
-                //Do something
+                StateService.go('main.page.login.default',
+                {verification_success: false, 
+                    verification_error: error});
             }
-        } 
+        }
+        
+        var resetPasswordToken = toParams['reset_password_token'];
+        if (false === utils.isUndefinedOrNull(resetPasswordToken)) {
+            StateService.go('main.page.reset_password.default',
+            {token: resetPasswordToken});
+        }
     });
     
     $rootScope.$on('$stateChangeError', function(e, toState, toParams, fromState, fromParams, error) {

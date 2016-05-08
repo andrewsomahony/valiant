@@ -35,7 +35,7 @@ function($scope, UserService, ErrorModal, StateService) {
       });
    }
    
-   $scope.verificationSuccessMessage = function() {
+   $scope.statusMessage = function() {
       var verificationSuccess = StateService.params()['verification_success'];
       
       if (false === utils.isUndefinedOrNull(verificationSuccess)) {
@@ -44,9 +44,19 @@ function($scope, UserService, ErrorModal, StateService) {
          } else {
             return "E-Mail verification failed";
          }
-      } else {
-         return "";
       }
+
+      var resetPasswordSuccess = StateService.params()['reset_password_success'];
+      
+      if (false === utils.isUndefinedOrNull(resetPasswordSuccess)) {
+         if (resetPasswordSuccess) {
+            return "Password reset succeeded!"
+         } else {
+            return "Password reset failed"
+         }
+      }
+      
+      return "";     
    }
 }]);
 

@@ -1,9 +1,16 @@
 div.login {
    div.sub-content {
-      div.verification-status-message {
+      div.status-message {
          margin-bottom: 16px;
       }
       div.login-form {     
+      }
+      
+      div.login-links {
+         a {
+            margin-bottom: 4px;
+            display: block;
+         }
       }
       
       @import "forgot_password";

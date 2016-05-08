@@ -9679,8 +9679,11 @@ div.main {
       div.main div.mobile-scroll div.main-content div.content div.about div.sub-content span.about-text {
         font-size: 15px;
         color: red; }
-      div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.verification-status-message {
+      div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.status-message {
         margin-bottom: 16px; }
+      div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.login-links a {
+        margin-bottom: 4px;
+        display: block; }
       div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.requesting-in-progress span.requesting-text {
         margin-left: 16px; }
       div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.form-group span.form-errors {
@@ -9688,6 +9691,12 @@ div.main {
         margin-left: 8px;
         font-size: 13px; }
       div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.registering-in-progress span.registering-text {
+        margin-left: 16px; }
+      div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
+        color: red;
+        margin-left: 8px;
+        font-size: 13px; }
+      div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.resetting-in-progress span.resetting-text {
         margin-left: 16px; }
     div.main div.mobile-scroll div.main-content div.ad-space {
       height: 100%; }

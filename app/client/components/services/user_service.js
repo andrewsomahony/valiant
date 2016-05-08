@@ -169,7 +169,10 @@ ErrorService, ProgressService, SerialPromise) {
                     {
                         name: 'ForgotPassword'
                     }
-               ]))
+               ]), null, 
+               {
+                   email: emailAddress
+               })
                .then(function() {
                    resolve();
                })

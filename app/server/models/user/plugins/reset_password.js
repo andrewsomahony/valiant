@@ -3,6 +3,9 @@
 var crypto = require('crypto');
 
 var ValiantError = require(__base + 'lib/error');
+var ValiantEmail = require(__base + 'lib/email');
+
+var hostnameUtil = require(__base + 'lib/hostname');
 
 module.exports = function(schema, options) {
    options = options || {};
@@ -46,7 +49,15 @@ module.exports = function(schema, options) {
                      if (error) {
                         cb(ValiantError.fromErrorObject(error));
                      } else {
-                        cb(null, user);
+                        user.set(options.resetPasswordTokenField, "");
+                        
+                        user.save(function(error) {
+                           if (error) {
+                              return cb(ValiantError.fromErrorObject(error));
+                           } else {
+                              cb(null, user);
+                           }
+                        });
                      }
                   })
                }
@@ -62,7 +73,8 @@ module.exports = function(schema, options) {
          if (error) {
             cb(ValiantError.fromErrorObject(error));
          } else {
-            self.set(options.resetPasswordTokenField, buffer);
+            var resetPasswordToken = buffer.toString('hex');
+            self.set(options.resetPasswordTokenField, resetPasswordToken);
 
             ValiantEmail({
                to: self.email,
@@ -70,7 +82,7 @@ module.exports = function(schema, options) {
                fromname: "Valiant Athletics",
                template: "forgot_password",
                templateParams: {
-                  reset_password_link: hostnameUtil.constructUrl("/reset_password/?password_reset_token=" + buffer)
+                  reset_password_link: hostnameUtil.constructUrl("/redirect?reset_password_token=" + resetPasswordToken)
                }
             }, function(error) {
                if (error) {
@@ -78,7 +90,7 @@ module.exports = function(schema, options) {
                } else {
                   self.save(function(error) {
                      if (error) {
-                        return cb(error);
+                        return cb(ValiantError.fromErrorObject(error));
                      } else {
                         cb(null, self);
                      }

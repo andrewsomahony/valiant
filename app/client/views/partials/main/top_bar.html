@@ -7,7 +7,7 @@
    </div>
    
    <div class="login-info" ng-if="true === isLoggedIn()">
-      <a class="login-name" ng-bind="getFirstName()"></span>
+      <a class="login-name" ng-bind="getFirstName()" ui-sref="main.page.user.default({userId: getUserId()})"></span>
       <a class="login-button" ng-click="logout()">Logout</a>
    </div>
 </div>

@@ -50,7 +50,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    .state("main.page.home.default", {
        resolve: RouteResolver("main.page.home.default"),
-       url: "?email_verified&error&password_reset_token",
+       url: "?email_verified&error&reset_password_token",
        views: {
          "nav_bar@main.page": {
              templateUrl: "partials/main/nav_bar.html"
@@ -99,7 +99,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.login.default", {
-       url: "/?verification_success",
+       url: "/?verification_success&verification_error&reset_password_success",
        resolve: RouteResolver("main.page.login.default"),
        views: {
            "nav_bar@main.page": {
@@ -172,6 +172,30 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
                templateUrl: "partials/main/register/success.html",
                controller: require("controllers/main/register/success")
            }           
+       }
+   })
+   
+   .state("main.page.reset_password", {
+       url: "reset_password",
+       abstract: true,
+       views: {
+           "content@main": {
+               templateUrl: "partials/main/reset_password/reset_password.html",
+               controller: require("controllers/main/reset_password/reset_password")
+           }
+       }  
+   })
+   
+   .state("main.page.reset_password.default", {
+       url: "/?token",
+       views: {
+           "nav_bar@main.page": {
+               templateUrl: "partials/main/nav_bar.html"
+           },
+           "content@main.page.reset_password": {
+               templateUrl: "partials/main/reset_password/content.html",
+               controller: require("controllers/main/reset_password/default")
+           }
        }
    })
    

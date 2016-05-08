@@ -1,0 +1,49 @@
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form">
+   <form name="resetPasswordForm">
+      <div class="form-group"
+           ng-class="{ 'has-error': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }">
+         <label for="reset_password_password">
+            <span>New Password (6 characters or more)</span>
+            <span class="form-errors" 
+                  ng-messages="resetPasswordForm.reset_password_password.$error"
+                  ng-if="resetPasswordForm.reset_password_password.$touched">
+               <span ng-messages-include="messages/registration.html"></span>
+            </span>
+         </label>
+         <input type="password" 
+                class="form-control" 
+                name="reset_password_password" 
+                ng-model="formData.password"
+                ng-model-options="{updateOn: 'blur'}"
+                minlength="6"
+                required />
+      </div>
+
+      <div class="form-group"
+           ng-class="{ 'has-error': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }">  
+         <label for="reset_password_repeat">
+            <span>Repeat New Password</span>
+            <span class="form-errors" 
+                  ng-messages="resetPasswordForm.reset_password_repeat.$error"
+                  ng-if="resetPasswordForm.reset_password_password.$touched">
+               <span ng-messages-include="messages/registration.html"></span>
+            </span>
+         </label>
+         <input type="password" 
+                class="form-control" 
+                name="reset_password_repeat" 
+                ng-model="formData.repeat_password"
+                ng-model-options="{updateOn: 'keyup'}"
+                compare-to="formData.password" />
+      </div>
+      
+      <div class="form-group" ng-if="!resettingInProgress">
+         <button ng-disabled="resetPasswordForm.$invalid" ng-click="resetPassword()">Set Password</button>
+      </div>
+      
+      <div class="resetting-in-progress" ng-if="resettingInProgress">
+         <span><loading-progress type="spinner"></loading-progress></span>
+         <span class="resetting-text">Setting password...</span>
+      </div>
+   </form>
+</div>

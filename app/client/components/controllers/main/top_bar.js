@@ -20,6 +20,10 @@ function($scope, UserService, ErrorModal, StateService) {
         return this.getLoggedInUser().first_name;
     }
     
+    $scope.getUserId = function() {
+        return this.getLoggedInUser().id;
+    }
+    
     $scope.logout = function() {
         UserService.logout()
         .then(function() {

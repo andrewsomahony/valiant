@@ -13,6 +13,7 @@ registerDirective(name, [function() {
       },
       link: function($scope, $element, $attributes, $modelController) {
          $modelController.$validators.compareTo = function(modelValue, viewValue) {
+            console.log(modelValue, viewValue, $scope.otherValue);
             return modelValue === $scope.otherValue;
          }
          

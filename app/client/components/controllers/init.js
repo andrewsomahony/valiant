@@ -13,6 +13,10 @@ require('./main/about/default');
 require('./main/login/login');
 require('./main/login/default');
 require('./main/login/unverified');
+require('./main/login/forgot_password');
+
+require('./main/reset_password/reset_password');
+require('./main/reset_password/default');
 
 require('./main/register/register');
 require('./main/register/default');
