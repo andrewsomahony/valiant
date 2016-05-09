@@ -33,7 +33,7 @@ var appConfig = require('./config/config');
 var connectDb = require('./db/connect');
 var connectSessionStore = require('./db/session');
 
-var activeVariable = 'EL_THATIS_SATURN';
+var activeVariable = 'VALIANT_IS_ACTIVE';
 var appIsActive = true;
 
 var sessionSecret = 'A_BIT_OFTHE OLD ULTRAVIOLENCE';

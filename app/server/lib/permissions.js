@@ -6,22 +6,24 @@ function Permissions() {
    
 }
 
-// This function is called before we attempt to see 
-// if this userId is a private account.  Basically
-// we want to see if we can even perform a database lookup.
-
-Permissions.ableToSeeUserWithId = function(request, userId) {
-   if (true === this.isLoggedIn()) {
-      if (userId !== request.user.getId() &&
-          false === this.isAdmin()) {
-         return false;       
-      }
-   }
-   
-   // If we are logged in, we still could see this user
-   // if their privacy settings allow it.
-   
-   return true;
+Permissions.ableToSeeUser = function(request, user) {
+    if (false === this.isLoggedIn(request)) {
+        if (true === user.is_visible_to_public) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        if (false === user.is_visible_to_users) {
+            if (true === this.isAdmin(request)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
 }
 
 Permissions.isLoggedIn = function(request) {

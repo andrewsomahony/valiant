@@ -50,9 +50,20 @@ function($scope, UserService, ErrorModal, StateService) {
       
       if (false === utils.isUndefinedOrNull(resetPasswordSuccess)) {
          if (resetPasswordSuccess) {
-            return "Password reset succeeded!"
+            return "Password reset succeeded!";
          } else {
-            return "Password reset failed"
+            return "Password reset failed";
+         }
+      }
+      
+      var requiresLogin = StateService.params()['requires_login'];
+      
+      if (false === utils.isUndefinedOrNull(requiresLogin)) {
+         if (requiresLogin) {
+            return "You need to log in to do that.";
+         } else {
+            // This should never happen
+            return "";
          }
       }
       

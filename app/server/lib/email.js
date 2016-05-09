@@ -3,7 +3,7 @@
 var path = require('path');
 
 var appConfig = require(__base + 'config/config');
-var sendgridKey = 'WHEREARE_MUH_ROADS';
+var sendgridKey = 'VALIANT_SENDGRID_KEY';
 var sendgrid = require('sendgrid')(appConfig.secure(sendgridKey));
 
 var EmailTemplate = require('email-templates').EmailTemplate;

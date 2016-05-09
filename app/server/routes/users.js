@@ -247,7 +247,12 @@ router.route('/:userId')
             if (!user) {
                 Responder.withErrorMessage(result, 404, "User not found!");
             } else {
-                Responder(result, 200, user.frontEndObject());
+                if (true === Permissions.ableToSeeUser(request, user)) {
+                    Responder(result, 200, user.frontEndObject());    
+                } else {
+                    Responder.forbidden(result);
+                }
+                
             }
         }
     });

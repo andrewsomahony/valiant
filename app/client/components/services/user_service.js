@@ -18,6 +18,8 @@ ErrorService, ProgressService, SerialPromise) {
     var currentUnverifiedUser = null;
     var currentRequestedUser = null;
     
+    var currentRequestedUserIsNotAccessible = false;
+    
     function UserService() {
         
     }
@@ -42,7 +44,7 @@ ErrorService, ProgressService, SerialPromise) {
                                 resolve({});
                             })
                             .catch(function(error) {
-                                if (403 === error.code) {
+                                if (true === ErrorService.isForbidden(error)) {
                                     // Means we aren't logged in
                                     resolve({});
                                 } else {
@@ -63,6 +65,7 @@ ErrorService, ProgressService, SerialPromise) {
                         // If the requested user is us, no need
                         // to hit the server again.
                         currentRequestedUser = currentUser.clone();
+                        currentRequestedUserIsNotAccessible = false;
                     } else {                          
                         promiseFnArray.push(function(existingData, index, forNotify) {
                             if (true === forNotify) {
@@ -71,11 +74,29 @@ ErrorService, ProgressService, SerialPromise) {
                                 return Promise(function(resolve, reject, notify) {
                                     HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
                                     .then(function(user) {
+                                        currentRequestedUserIsNotAccessible = false;
                                         currentRequestedUser = new UserModel(user.data, true);
                                         resolve({});    
                                     })
                                     .catch(function(error) {
-                                        reject(error);
+                                        // We need to check the error code:
+                                        // If we are forbidden to view this user
+                                        // for whatever reason, we need to set something
+                                        // within our service so we can figure out what to
+                                        // display on the page.
+                                        
+                                        // Basically, we don't want to reject, as this error
+                                        // doesn't need a modal box displayed, instead it needs
+                                        // something displayed on the page itself, but we need to
+                                        // tell the page controller what to do.
+                                        
+                                        currentRequestedUser = null;
+                                        if (true === ErrorService.isForbidden(error)) {
+                                            currentRequestedUserIsNotAccessible = true;
+                                            resolve({});
+                                        } else {
+                                            reject(error);
+                                        }
                                     });                                  
                                 })
                             
@@ -114,6 +135,14 @@ ErrorService, ProgressService, SerialPromise) {
     
     UserService.getCurrentRequestedUser = function() {
         return currentRequestedUser;
+    }
+    
+    UserService.currentRequestedUserIsNotAccessible = function() {
+        return currentRequestedUserIsNotAccessible;
+    }
+    
+    UserService.getCurrentUserId = function() {
+        return this.getCurrentUser().id;
     }
     
     UserService.login = function(credentials) {

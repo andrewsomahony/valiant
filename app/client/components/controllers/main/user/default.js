@@ -11,9 +11,15 @@ function($scope, UserService, UserModel) {
    // Clone what we get from the UserService
    // to allow for editing and such
    $scope.currentEditingUser = 
-      new UserModel(UserService.getCurrentRequestedUser().toObject());
+      UserService.currentRequestedUserIsNotAccessible() ? 
+      null :
+      UserService.getCurrentRequestedUser().clone();
    
    $scope.isViewingLoggedInUser = function() {
+      if (!this.currentEditingUser) {
+         return false;
+      }
+      
       var currentUser = UserService.getCurrentUser();
       
       return currentUser.id === $scope.currentEditingUser.id;

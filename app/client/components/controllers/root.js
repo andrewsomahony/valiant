@@ -9,8 +9,8 @@ registerController(name, ['$rootScope',
                           require('services/error_modal'),
                           require('services/user_service'),
                           require('services/state_service'),
-                          '$location',
-function($rootScope, ErrorModal, UserService, StateService, $location) {
+                          require('services/permission_service'),
+function($rootScope, ErrorModal, UserService, StateService, PermissionService) {
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams, options) {
     });
     
@@ -18,29 +18,47 @@ function($rootScope, ErrorModal, UserService, StateService, $location) {
     });
     
     $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {               
-        var emailVerified = toParams['email_verified'];
-        var error = toParams['error'] || "";
-        
-        if (false === utils.isUndefinedOrNull(emailVerified)) {
-            if (emailVerified) {
-                StateService.go('main.page.login.default', 
-                            {verification_success: true});
-            } else {
-                StateService.go('main.page.login.default',
-                {verification_success: false, 
-                    verification_error: error});
+        if (true === PermissionService.stateRequiresLogin(toState.name) &&
+            false === UserService.isLoggedIn()) {
+            StateService.go('main.page.login.default', 
+                        {requires_login: true});
+        } else if (true === PermissionService.stateHiddenWithLogin(toState.name) &&
+                   true === UserService.isLoggedIn()) {
+            StateService.go('main.page.user.default',
+                     {userId: UserService.getCurrentUserId()});        
+        } else {
+            var emailVerified = toParams['email_verified'];
+            var error = toParams['error'] || "";
+            
+            if (false === utils.isUndefinedOrNull(emailVerified)) {
+                if (emailVerified) {
+                    StateService.go('main.page.login.default', 
+                                {verification_success: true});
+                } else {
+                    StateService.go('main.page.login.default',
+                    {verification_success: false, 
+                        verification_error: error});
+                }
             }
-        }
-        
-        var resetPasswordToken = toParams['reset_password_token'];
-        if (false === utils.isUndefinedOrNull(resetPasswordToken)) {
-            StateService.go('main.page.reset_password.default',
-            {token: resetPasswordToken});
+            
+            var resetPasswordToken = toParams['reset_password_token'];
+            if (false === utils.isUndefinedOrNull(resetPasswordToken)) {
+                StateService.go('main.page.reset_password.default',
+                {token: resetPasswordToken});
+            }
         }
     });
     
-    $rootScope.$on('$stateChangeError', function(e, toState, toParams, fromState, fromParams, error) {
-        ErrorModal(error);
+    $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+        // We can handle this a few ways...
+        
+        /*if ('main.page.user.default' === toState.name) {
+            if (403 === error.code) {
+                // We tried to access a user we don't have permission to access
+            }
+        } else {*/
+            ErrorModal(error);
+        //}
     });
     
     $rootScope.$on('$viewContentLoading', function(e, viewConfig) {       

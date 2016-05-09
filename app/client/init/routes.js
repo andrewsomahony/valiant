@@ -4,8 +4,13 @@ var app = require('./app');
 
 function RouteResolver(state) {
     return {
+        // For some reason we have to use $stateParams here
+        // instead of our StateService, as our StateService $state
+        // object has the old params, not the new ones.
+        
         resolvedState: ['services.data_resolver', '$stateParams',
                         function(DataResolverService, $stateParams) {
+                            console.log(state);
                             return DataResolverService(state, $stateParams);
                         }]
     };
@@ -99,7 +104,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.login.default", {
-       url: "/?verification_success&verification_error&reset_password_success",
+       url: "/?verification_success&verification_error&reset_password_success&requires_login",
        resolve: RouteResolver("main.page.login.default"),
        views: {
            "nav_bar@main.page": {
@@ -114,6 +119,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    
    .state("main.page.login.unverified", {
        url: "/unverified",
+       resolve: RouteResolver("main.page.login.unverified"),
        views: {
            "nav_bar@main.page": {
                templateUrl: "partials/main/nav_bar.html"     
@@ -127,6 +133,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    
    .state("main.page.login.forgot_password", {
        url: "/forgot_password",
+       resolve: RouteResolver("main.page.login.forgot_password"),
        views: {
            "nav_bar@main.page": {
                templateUrl: "partials/main/nav_bar.html"
@@ -164,6 +171,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    .state("main.page.register.success", {
        url: "/success",
+       resolve: RouteResolver("main.page.register.default"),
        views: {
            "nav_bar@main.page": {
                templateUrl: "partials/main/nav_bar.html"
@@ -188,6 +196,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    
    .state("main.page.reset_password.default", {
        url: "/?token",
+       resolve: RouteResolver("main.page.reset_password.default"),
        views: {
            "nav_bar@main.page": {
                templateUrl: "partials/main/nav_bar.html"
