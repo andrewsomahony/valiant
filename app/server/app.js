@@ -24,6 +24,7 @@ var loginRoute = require('./routes/login');
 var logoutRoute = require('./routes/logout');
 var verifyRoute = require('./routes/verify');
 var userRoute = require('./routes/users');
+var s3Route = require('./routes/s3');
 
 var UserModel = require('./models/user/user');
 
@@ -32,6 +33,8 @@ var appConfig = require('./config/config');
 
 var connectDb = require('./db/connect');
 var connectSessionStore = require('./db/session');
+
+var s3Init = require(__base + 'lib/s3');
 
 var activeVariable = 'VALIANT_IS_ACTIVE';
 var appIsActive = true;
@@ -139,6 +142,7 @@ if (false === appIsActive) {
     app.use('/verify', verifyRoute);
     
     app.use('/api/users', userRoute);
+    app.use('/api/s3', s3Route);
     
     app.use(function(request, result, next) {
        if (request.isAjax) {
@@ -148,6 +152,10 @@ if (false === appIsActive) {
            result.render('error', {message: "Route not found!"});
        }
     });
+
+    // Initialize s3
+    
+    s3Init();
 
     // Connect to our database
 

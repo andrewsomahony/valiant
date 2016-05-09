@@ -26,6 +26,14 @@ Responder.withError = function(responseObject, responseCode, error) {
    }
 }
 
+Responder.ok = function(responseObject, responseData) {
+   this(responseObject, 200, responseData);
+}
+
+Responder.noContent = function(responseObject) {
+   this(responseObject, 204);
+}
+
 Responder.badRequest = function(responseObject, error) {
    this.withError(responseObject, 400, error);
 }
@@ -36,10 +44,6 @@ Responder.notFound = function(responseObject, error) {
 
 Responder.methodNotAllowed = function(responseObject) {
    this(responseObject, 405, ValiantError.methodNotAllowed().toObject());
-}
-
-Responder.noContent = function(responseObject) {
-   this(responseObject, 204);
 }
 
 Responder.forbidden = function(responseObject) {
