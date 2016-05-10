@@ -1,136 +1,151 @@
-<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 registration-form">
+<div class="registration-form">
    <form name="registrationForm">
-      <div class="form-group"
-           ng-class="{ 'has-error': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }">
-         <label for="registration_email">
-            <span>E-Mail Address</span>
-            <span class="form-errors" 
-                  ng-messages="registrationForm.registration_email.$error"
-                  ng-if="registrationForm.registration_email.$touched">
-               <span ng-messages-include="messages/registration.html"></span>
-            </span>
-         </label>
-         <input type="email" 
-                class="form-control" 
-                name="registration_email" 
-                ng-model="registrationUser.email" 
-                ng-model-options="{updateOn: 'blur'}"
-                email-in-use
-                required />
-      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+         <div class="form-group"
+              ng-class="{ 'has-error': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }">
+            <label for="registration_email">
+               <span>E-Mail Address</span>
+               <span class="form-errors" 
+                     ng-messages="registrationForm.registration_email.$error"
+                     ng-if="registrationForm.registration_email.$touched">
+                  <span ng-messages-include="messages/registration.html"></span>
+               </span>
+            </label>
+            <input type="email" 
+                   class="form-control" 
+                   name="registration_email" 
+                   ng-model="registrationUser.email" 
+                   ng-model-options="{updateOn: 'blur'}"
+                   email-in-use
+                   required />
+         </div>
 
-      <div class="form-group"
-           ng-class="{ 'has-error': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }">  
-         <label for="registration_password">
-            <span>Password (6 characters or more)</span>
-            <span class="form-errors" 
-                  ng-messages="registrationForm.registration_password.$error"
-                  ng-if="registrationForm.registration_password.$touched">
-               <span ng-messages-include="messages/registration.html"></span>
-            </span>
-         </label>
-         <input type="password" 
-                class="form-control" 
-                name="registration_password" 
-                ng-model="registrationUser.password"
-                ng-model-options="{updateOn: 'blur'}"
-                minlength="6"
-                required />
-      </div>
+         <div class="form-group"
+              ng-class="{ 'has-error': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }">  
+            <label for="registration_password">
+               <span>Password (6 characters or more)</span>
+               <span class="form-errors" 
+                     ng-messages="registrationForm.registration_password.$error"
+                     ng-if="registrationForm.registration_password.$touched">
+                  <span ng-messages-include="messages/registration.html"></span>
+               </span>
+            </label>
+            <input type="password" 
+                   class="form-control" 
+                   name="registration_password" 
+                   ng-model="registrationUser.password"
+                   ng-model-options="{updateOn: 'blur'}"
+                   minlength="6"
+                   required />
+         </div>
       
-      <div class="form-group"
-           ng-class="{ 'has-error': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }">
-         <label for="registration_password_repeat">
-            <span>Repeat Password</span>
-            <span class="form-errors" 
-                  ng-messages="registrationForm.registration_password_repeat.$error"
-                  ng-if="registrationForm.registration_password_repeat.$touched">
-               <span ng-messages-include="messages/registration.html"></span>
-            </span>
-         </label>
-         <input type="password" 
-                class="form-control" 
-                name="registration_password_repeat" 
-                ng-model="registrationUser.repeat_password"
-                ng-model-options="{updateOn: 'blur'}"
-                compare-to="registrationUser.password" />
-      </div>
+         <div class="form-group"
+              ng-class="{ 'has-error': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }">
+            <label for="registration_password_repeat">
+               <span>Repeat Password</span>
+               <span class="form-errors" 
+                     ng-messages="registrationForm.registration_password_repeat.$error"
+                     ng-if="registrationForm.registration_password_repeat.$touched">
+                  <span ng-messages-include="messages/registration.html"></span>
+               </span>
+            </label>
+            <input type="password" 
+                  class="form-control" 
+                  name="registration_password_repeat" 
+                  ng-model="registrationUser.repeat_password"
+                  ng-model-options="{updateOn: 'blur'}"
+                  compare-to="registrationUser.password" />
+         </div>
       
-      <div class="form-group">  
-         <label for="registration_first_name">
-            <span>First Name</span>
-            <span class="form-errors" 
-                  ng-messages="registrationForm.registration_first_name.$error"
-                  ng-if="registrationForm.registration_first_name.$touched">
-               <span ng-messages-include="messages/registration.html"></span>
-            </span>
-         </label>
-         <input type="text" 
-                class="form-control" 
-                name="registration_first_name" 
-                ng-model="registrationUser.first_name"
-                ng-model-options="{updateOn: 'blur'}"
-                required />
-      </div>
+         <div class="form-group">  
+            <label for="registration_first_name">
+               <span>First Name</span>
+               <span class="form-errors" 
+                     ng-messages="registrationForm.registration_first_name.$error"
+                     ng-if="registrationForm.registration_first_name.$touched">
+                  <span ng-messages-include="messages/registration.html"></span>
+               </span>
+            </label>
+            <input type="text" 
+                  class="form-control" 
+                  name="registration_first_name" 
+                  ng-model="registrationUser.first_name"
+                  ng-model-options="{updateOn: 'blur'}"
+                  required />
+         </div>
       
-      <div class="form-group"> 
-         <label for="registration_last_name">
-            <span>Last Name</span>
-            <span class="form-errors" 
-                  ng-messages="registrationForm.registration_last_name.$error"
-                  ng-if="registrationForm.registration_last_name.$touched">
-               <span ng-messages-include="messages/registration.html"></span>
-            </span>
-         </label>
-         <input type="text" 
-                class="form-control" 
-                name="registration_last_name" 
-                ng-model="registrationUser.last_name"
-                ng-model-options="{updateOn: 'blur'}"
-                required /> 
-      </div>       
+         <div class="form-group"> 
+            <label for="registration_last_name">
+               <span>Last Name</span>
+               <span class="form-errors" 
+                     ng-messages="registrationForm.registration_last_name.$error"
+                     ng-if="registrationForm.registration_last_name.$touched">
+                  <span ng-messages-include="messages/registration.html"></span>
+               </span>
+            </label>
+            <input type="text" 
+                  class="form-control" 
+                  name="registration_last_name" 
+                  ng-model="registrationUser.last_name"
+                  ng-model-options="{updateOn: 'blur'}"
+                  required /> 
+         </div>       
             
-      <div class="form-group">
-         <div class="fa-checkbox">
-            <input type="checkbox" class="fa-square-checkbox" ng-model="registrationUser.is_visible_to_public" />
-            <label>Visible to the public?</label>
+         <div class="form-group">
+            <div class="fa-checkbox">
+               <input type="checkbox" class="fa-square-checkbox" ng-model="registrationUser.is_visible_to_public" />
+               <label>Visible to the public?</label>
+            </div>
+         </div>
+
+         <div class="form-group">
+            <div class="fa-checkbox">
+               <input type="checkbox" class="fa-square-checkbox" ng-model="registrationUser.is_visible_to_users" />
+               <label>Visible to other users?</label>
+            </div>
+         </div>
+      </div>     
+
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+         <div class="profile-picture-input">
+            <div class="profile-picture-display">
+               <profile-picture 
+                  user="registrationUser"
+                  width="90%">
+               </profile_picture>
+            </div>
+            
+            <div class="profile-picture-button">
+               <button ng-click="selectProfilePicture()">
+                  Add a Profile Picture
+               </button>
+            
+               <file-reader 
+                  supportsMultiple="false"
+                  accept="image/\*"
+                  is-active="profilePicturePickerIsActive"
+                  on-files-added="onProfilePictureAdded(files)"
+                  on-files-progress="onProfilePictureProgress(progress)"
+                  on-files-error="onProfilePictureError(error)">
+               </file-reader>
+            </div>
          </div>
       </div>
 
-      <div class="form-group">
-         <div class="fa-checkbox">
-            <input type="checkbox" class="fa-square-checkbox" ng-model="registrationUser.is_visible_to_users" />
-            <label>Visible to other users?</label>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+         <div class="form-group" ng-if="!registrationInProgress">
+            <button ng-disabled="registrationForm.$invalid" ng-click="registerUser()">Sign Up</button>
          </div>
-      </div>
       
-      <div class="form-group" ng-if="!registrationInProgress">
-         <button ng-disabled="registrationForm.$invalid" ng-click="registerUser()">Sign Up</button>
-      </div>
-      
-      <div class="registering-in-progress" ng-if="registrationInProgress">
-         <span><loading-progress type="spinner"></loading-progress></span>
-         <span class="registering-text">Registering...</span>
+         <div class="registering-in-progress" ng-if="registrationInProgress">
+            <span>
+               <loading-progress type="spinner">
+               </loading-progress>
+            </span>
+            <span class="registering-text">
+               Registering...
+            </span>
+         </div>         
       </div>
    </form>
-</div>
-
-<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-      <div>
-         <img ng-src="{{registrationUser.profile_picture_url}}" />
-      </div>
-      <div>
-         <button ng-click="selectProfilePicture()">
-            Add a Profile Picture
-         </button>
-            
-         <file-reader 
-               supportsMultiple="false"
-               accept="image/*"
-               is-active="profilePicturePickerIsActive"
-               on-files-added="onProfilePictureAdded(files)"
-               on-files-progress="onProfilePictureProgress(progress)"
-               on-files-error="onProfilePictureError(error)">
-         </file-reader>
-      </div>
 </div>

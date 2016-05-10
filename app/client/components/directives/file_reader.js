@@ -22,12 +22,12 @@ function(FileModel, Promise, ParallelPromise, ProgressService) {
          onFilesProgress: "&",
          isActive: "=",
       },
-      link: function($scope, $element, $attrs) {
+      link: function($scope, $element, $attributes) {
 
-         $scope.supportsMultiple = $scope.$eval($scope.supportsMultiple) || true
-         $scope.maxFiles = $scope.$eval($scope.maxFiles) || null;
-         $scope.maxFileSizeKb = $scope.$eval($scope.maxFileSizeKb) || null;
-         $scope.accept = $scope.$eval($scope.accept) || "*/*";
+         $scope.supportsMultiple = $scope.$eval($attributes.supportsMultiple) || true
+         $scope.maxFiles = $scope.$eval($attributes.maxFiles) || null;
+         $scope.maxFileSizeKb = $scope.$eval($attributes.maxFileSizeKb) || null;
+         $scope.accept = $attributes.accept || "*/*";
 
          $scope.onFilesProgress = $scope.onFilesProgress || function() {}
          $scope.onFilesError = $scope.onFilesError || function() {}

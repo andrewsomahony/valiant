@@ -270,7 +270,6 @@ ErrorService, ProgressService, SerialPromise) {
     UserService.registerUser = function(user) {
         // Convert the object to a model
         return Promise(function(resolve, reject, notify) {
-            console.log(user);
             HttpService.post(ApiUrlService([{name: 'User'}, {name: 'Register'}]), 
             null, {
                     user: user.toObject(true)

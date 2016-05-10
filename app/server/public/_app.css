@@ -9584,6 +9584,8 @@ html, body {
     left: -7000px; }
   html a:hover, body a:hover {
     cursor: pointer; }
+  html div.profile-picture, body div.profile-picture {
+    display: inline-block; }
 
 /*
 @screen-xs:                  480px;
@@ -9695,6 +9697,14 @@ div.main {
         font-size: 13px; }
       div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.registering-in-progress span.registering-text {
         margin-left: 16px; }
+      @media screen and (min-width: 760px) {
+        div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.profile-picture-input {
+          margin-top: 32px; } }
+      div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.profile-picture-input div.profile-picture-display {
+        text-align: center;
+        margin-bottom: 12px; }
+      div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.profile-picture-input div.profile-picture-button {
+        text-align: center; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;

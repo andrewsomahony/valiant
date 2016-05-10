@@ -6,7 +6,8 @@ var classy = require('classy');
 var name = 'fileModel';
 
 registerModel(name, [require('models/base'),
-function(BaseModel) {
+                     require('services/promise'),
+function(BaseModel, Promise) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -17,9 +18,7 @@ function(BaseModel) {
                name: "",
                type: "",
                size: 0,
-               arrayBuffer: null,
-               text: "",
-               src: ""
+               arrayBuffer: null
             });
          },
          
@@ -33,7 +32,6 @@ function(BaseModel) {
                               type: fileObject.type,
                               size: fileObject.size,
                               name: fileObject.name,
-                              src: src || "",
                               arrayBuffer: arrayBuffer || null
                            });
          },
@@ -50,11 +48,16 @@ function(BaseModel) {
 
             name = name || "textFile." + extension
 
+            var buffer = new Uint8Array(text);
+            for (var i = 0; i < text.length; i++) {
+                  buffer[i] = text.charCodeAt(i);
+            }
+
             return new this({
                type: type,
                size: text.length,
                name: name,
-               text: text
+               arrayBuffer: buffer
             })
          }
       },
@@ -65,27 +68,34 @@ function(BaseModel) {
       
       toBlob: function() {
          if (this.arrayBuffer) {
-            return new Blob([new Uint8Array(this.arrayBuffer)], 
+            return new Blob([this.arrayBuffer], 
                   {type: this.type});
-         } else if (this.src) {
-            // !!! Unimplemented
-            // Need to convert base64 to blob
-         } else if (this.text) {
-            return new Blob([this.text], {type: "text/plain"});
+         } else {
+            return null;
          }
       },
       
       getUrl: function() {
-         if (this.src) {
-            return this.src;
-         } else {
-            var blob = new Blob([this.arrayBuffer], {type: this.type});           
-            var urlCreator = window.URL || window.webkitURL;
-            
-            return urlCreator.createObjectURL(blob);
-         }
-      }
+         var blob = new Blob([this.arrayBuffer], {type: this.type});           
+         var urlCreator = window.URL || window.webkitURL;
       
+         return urlCreator.createObjectURL(blob);
+      },
+      
+      getDataUrl: function() {
+         return Promise(function(resolve, reject, notify) {
+            var fileReader = new FileReader();
+         
+            fileReader.onload = function(e) {
+               resolve(e.target.result);
+            }
+            fileReader.onerror = function(e) {
+               reject();
+            }
+         
+            fileReader.readAsDataUrl(this.toBlob());               
+         });
+      }
    })
 }])
 

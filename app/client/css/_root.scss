@@ -16,7 +16,11 @@ html, body {
     
     a:hover {
         cursor: pointer;
-    }  
+    }
+    
+    div.profile-picture {
+        display: inline-block;
+    }
 }
 
 @import "variables";

@@ -20,12 +20,16 @@ function(BaseModel) {
                email: "",
                password: "",
                profile_picture_url: "",
+               profile_picture_file: null,
                facebook_id: "",
                is_connected_to_facebook: false,
                email_token: "",
                is_visible_to_users: true,
                is_visible_to_public: true
             })
+         },
+         local_fields: function() {
+            return this.staticMerge(this.callSuper(), ['profile_picture_file']);
          }
       },
 
