@@ -1,7 +1,9 @@
 'use strict'
 
 var registerModel = require('./register');
-var classy = require('classy')
+var classy = require('classy');
+
+var baseModel = require('models/base');
 
 var name = 'progressModel'
 
