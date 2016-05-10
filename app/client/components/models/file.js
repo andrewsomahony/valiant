@@ -28,7 +28,7 @@ function(BaseModel) {
             // from FileReader, as the arrayBuffer
             // will always be filled with the correct data,
             // which we get with readAsArrayBuffer
-            
+                        
             return new this({
                               type: fileObject.type,
                               size: fileObject.size,
@@ -72,6 +72,17 @@ function(BaseModel) {
             // Need to convert base64 to blob
          } else if (this.text) {
             return new Blob([this.text], {type: "text/plain"});
+         }
+      },
+      
+      getUrl: function() {
+         if (this.src) {
+            return this.src;
+         } else {
+            var blob = new Blob([this.arrayBuffer], {type: this.type});           
+            var urlCreator = window.URL || window.webkitURL;
+            
+            return urlCreator.createObjectURL(blob);
          }
       }
       

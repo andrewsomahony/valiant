@@ -9579,6 +9579,9 @@ html, body {
   position: relative; }
   html input[type="text"], html input[type="password"], body input[type="text"], body input[type="password"] {
     color: black; }
+  html input.file-reader-picker, body input.file-reader-picker {
+    position: absolute;
+    left: -7000px; }
   html a:hover, body a:hover {
     cursor: pointer; }
 

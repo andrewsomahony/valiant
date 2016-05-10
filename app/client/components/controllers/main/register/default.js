@@ -14,6 +14,10 @@ function($scope, UserService, ErrorModal, UserModel, StateService) {
    
    $scope.registrationInProgress = false;
    
+   $scope.profilePicturePickerIsActive = {
+      active: false
+   };
+   
    $scope.registerUser = function() {
       $scope.registrationInProgress = true;
       
@@ -28,6 +32,23 @@ function($scope, UserService, ErrorModal, UserModel, StateService) {
       .finally(function() {
          $scope.registrationInProgress = false;
       })
+   }
+   
+   $scope.selectProfilePicture = function() {
+      $scope.profilePicturePickerIsActive.active = true;
+   }
+   
+   $scope.onProfilePictureAdded = function(files) {
+      console.log("PROFILE PICTURE ADDED!", files[0]);
+      $scope.registrationUser.profile_picture_url = files[0].getUrl();
+   }
+   
+   $scope.onProfilePictureProgress = function(progress) {
+      
+   }
+   
+   $scope.onProfilePictureError = function(error) {
+      ErrorModal(error);
    }
 }]);
 

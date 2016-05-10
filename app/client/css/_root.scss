@@ -9,6 +9,11 @@ html, body {
         color: black;
     }
     
+    input.file-reader-picker {
+        position: absolute;
+        left: -7000px;
+    }
+    
     a:hover {
         cursor: pointer;
     }  

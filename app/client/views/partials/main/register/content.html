@@ -114,3 +114,23 @@
       </div>
    </form>
 </div>
+
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div>
+         <img ng-src="{{registrationUser.profile_picture_url}}" />
+      </div>
+      <div>
+         <button ng-click="selectProfilePicture()">
+            Add a Profile Picture
+         </button>
+            
+         <file-reader 
+               supportsMultiple="false"
+               accept="image/*"
+               is-active="profilePicturePickerIsActive"
+               on-files-added="onProfilePictureAdded(files)"
+               on-files-progress="onProfilePictureProgress(progress)"
+               on-files-error="onProfilePictureError(error)">
+         </file-reader>
+      </div>
+</div>
