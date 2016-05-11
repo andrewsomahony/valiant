@@ -345,6 +345,10 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         });
     }
     
+    UserService.saveUser = function(user) {
+        var promiseFnArray = [];
+    }
+    
     UserService.getUser = function(userId) {
         return Promise(function(resolve, reject, notify) {
            HttpService.get(ApiUrlService({

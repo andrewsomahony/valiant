@@ -11,6 +11,16 @@
       <br />
       <div class="profile-picture-change" ng-if="isEditing">
          <a ng-click="changeProfilePicture()">Change profile picture</a>
+         <br />
+         <a ng-click="resetProfilePicture()">Reset profile picture</a>
+         <file-reader 
+            supports-multiple="false"
+            accept="image/\*"
+            is-active="profilePicturePickerIsActive"
+            on-files-added="onProfilePictureSelectSuccess(files)"
+            on-files-progress="onProfilePictureSelectProgress(progress)"
+            on-files-error="onProfilePictureSelectError(error)">
+         </file-reader>      
       </div>
    </div>
    <div class="profile-name-container">
@@ -21,8 +31,11 @@
    </div>
    <div class="profile-picture-edit-container">
       <a ng-click="activateEditing()" ng-if="!isEditing">Edit Profile</a>
-      <a ng-if="isEditing">Save Changes</a>
-      <a ng-if="isEditing" ng-click="cancelEditing()">Cancel</a>
+      <a ng-if="isEditing && !isSaving">Save Changes</a>
+      <a ng-if="isEditing && !isSaving" ng-click="cancelEditing()">Cancel</a>
+      <div ng-if="isEditing && isSaving">
+         <span ng-bind="getSavingUserMessage()"></span>
+      </div>
    </div>
 </div>
 

@@ -16,12 +16,15 @@ function($scope, UserService, UserModel) {
       null :
       UserService.getCurrentRequestedUser().clone();
    
-   $scope.profilePicturePickerActive = {
+   $scope.profilePicturePickerIsActive = {
       active: false
    };
    
    $scope.isEditing = false;
+   $scope.isSaving = false;
    
+   $scope.savingProgress = null;
+      
    $scope.isViewingLoggedInUser = function() {
       if (!this.currentEditingUser) {
          return false;
@@ -32,27 +35,49 @@ function($scope, UserService, UserModel) {
       return currentUser.id === $scope.currentEditingUser.id;
    }
    
+   $scope.getSavingUserMessage = function() {
+      if (!$scope.savingProgress) {
+         return "Saving...";
+      } else {
+         return $scope.savingProgress || "Saving...";
+      }
+   }
+   
    $scope.saveProfile = function() {
+      $scope.isSaving = true;
       
+      UserService.saveUser($scope.currentEditingUser)
+      .then(function() {
+         $scope.currentEditingUser = UserService.getCurrentRequestedUser().clone();
+      }, null, function(progress) {
+         $scope.savingProgress = progress;
+      })
+      .catch(function(e) {
+         ErrorModal(e);
+      })
+      .finally(function() {
+         $scope.isSaving = false;
+         $scope.isEditing = false;
+      })
    }
      
    $scope.changeProfilePicture = function() {
-      
+      $scope.profilePicturePickerIsActive.active = true;
    }
    
    $scope.resetProfilePicture = function() {
+      $scope.currentEditingUser.setProfilePictureFile(null);
+   }
+   
+   $scope.onProfilePictureSelectSuccess = function(files) {
+      $scope.currentEditingUser.setProfilePictureFile(files[0]);
+   }
+   
+   $scope.onProfilePictureSelectError = function(error) {
       
    }
    
-   $scope.onProfilePictureChangeSuccess = function(files) {
-      
-   }
-   
-   $scope.onProfilePictureChangeError = function(error) {
-      
-   }
-   
-   $scope.onProfilePictureChangeProgress = function(progress) {
+   $scope.onProfilePictureSelectProgress = function(progress) {
       
    }
    
