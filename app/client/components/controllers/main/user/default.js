@@ -36,6 +36,10 @@ function($scope, UserService, UserModel) {
       
    }
    
+   $scope.resetProfilePicture = function() {
+      
+   }
+   
    $scope.onProfilePictureChangeSuccess = function(file) {
       
    }

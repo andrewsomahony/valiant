@@ -43,7 +43,11 @@ function(BaseModel) {
       
       setProfilePictureFile: function(file) {
          this.profile_picture_file = file;
-         this.profile_picture_url = file.getUrl();
+         if (file) {
+            this.profile_picture_url = file.getUrl();
+         } else {
+            this.profile_picture_url = "";
+         }
       }
    })   
 }]);

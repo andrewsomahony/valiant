@@ -119,6 +119,10 @@
                <button ng-click="selectProfilePicture()">
                   Change Profile Picture
                </button>
+               
+               <button ng-if="registrationUser.profile_picture_url" ng-click="resetProfilePicture()">
+                  Reset Profile Picture
+               </button>
             
                <file-reader 
                   supportsMultiple="false"

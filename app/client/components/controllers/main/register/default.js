@@ -60,6 +60,10 @@ UserModel, StateService, SerialPromise, Promise, ProgressService) {
       $scope.profilePicturePickerIsActive.active = true;
    }
    
+   $scope.resetProfilePicture = function() {
+      $scope.registrationUser.setProfilePictureFile(null);
+   }
+   
    $scope.onProfilePictureAdded = function(files) {
       $scope.registrationUser.setProfilePictureFile(files[0]);
    }
