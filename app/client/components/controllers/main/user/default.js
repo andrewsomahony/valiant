@@ -10,10 +10,17 @@ registerController(name, ['$scope',
 function($scope, UserService, UserModel) {
    // Clone what we get from the UserService
    // to allow for editing and such
+   
    $scope.currentEditingUser = 
       UserService.currentRequestedUserIsNotAccessible() ? 
       null :
       UserService.getCurrentRequestedUser().clone();
+   
+   $scope.profilePicturePickerActive = {
+      active: false
+   };
+   
+   $scope.isEditing = false;
    
    $scope.isViewingLoggedInUser = function() {
       if (!this.currentEditingUser) {
@@ -23,6 +30,30 @@ function($scope, UserService, UserModel) {
       var currentUser = UserService.getCurrentUser();
       
       return currentUser.id === $scope.currentEditingUser.id;
+   }
+   
+   $scope.changeProfilePicture = function() {
+      
+   }
+   
+   $scope.onProfilePictureChangeSuccess = function(file) {
+      
+   }
+   
+   $scope.onProfilePictureChangeError = function(error) {
+      
+   }
+   
+   $scope.onProfilePictureChangeProgress = function(progress) {
+      
+   }
+   
+   $scope.activateEditing = function() {
+      $scope.isEditing = true;
+   }
+   
+   $scope.cancelEditing = function() {
+      $scope.isEditing = false;
    }
 }]);
 

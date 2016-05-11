@@ -39,9 +39,7 @@ function($scope, UserService, ErrorModal, UserModel, StateService) {
    }
    
    $scope.onProfilePictureAdded = function(files) {
-      $scope.registrationUser.profile_picture_file = files[0];
-      // This is so we can use the profile_picture widget
-      $scope.registrationUser.profile_picture_url = files[0].getUrl();
+      $scope.registrationUser.setProfilePictureFile(files[0]);
    }
    
    $scope.onProfilePictureProgress = function(progress) {

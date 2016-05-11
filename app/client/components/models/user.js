@@ -39,6 +39,11 @@ function(BaseModel) {
       
       fullName: function() {
          return this.first_name + " " + this.last_name;
+      },
+      
+      setProfilePictureFile: function(file) {
+         this.profile_picture_file = file;
+         this.profile_picture_url = file.getUrl();
       }
    })   
 }]);

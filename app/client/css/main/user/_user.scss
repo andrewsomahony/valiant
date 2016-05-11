@@ -1,4 +1,41 @@
 div.user {
    div.sub-content {
+      div.profile-picture-container {
+         text-align: center;
+         div.profile-picture-display {
+            border: 1px solid black;
+            display: inline-block;
+         }
+         
+         div.profile-picture-change {
+            display: inline-block;
+            a {
+               font-size: 12px;
+            }
+         }
+      }
+
+      div.profile-name-container {
+         text-align: center;
+         span {
+            font-size: 24px;
+            font-weight: bold;
+         }
+      }
+      
+      div.profile-email-address-container {
+         text-align: center;
+         span {
+            font-size: 16px;
+            font-weight: bold;
+         }
+      }
+      
+      div.profile-picture-edit-container {
+         text-align: center;
+         a {
+            font-size: 12px;
+         }
+      }
    }
 }

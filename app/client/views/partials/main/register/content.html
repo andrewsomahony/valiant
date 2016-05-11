@@ -117,7 +117,7 @@
             
             <div class="profile-picture-button">
                <button ng-click="selectProfilePicture()">
-                  Add a Profile Picture
+                  Change Profile Picture
                </button>
             
                <file-reader 
@@ -133,7 +133,7 @@
       </div>
 
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-         <div class="form-group" ng-if="!registrationInProgress">
+         <div class="sign-up form-group" ng-if="!registrationInProgress">
             <button ng-disabled="registrationForm.$invalid" ng-click="registerUser()">Sign Up</button>
          </div>
       

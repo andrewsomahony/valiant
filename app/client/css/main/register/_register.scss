@@ -29,6 +29,13 @@ div.register {
                text-align: center;
             }
          }
+         
+         div.sign-up {
+            @media screen and (max-width: $min-sm-screen-width) {
+               margin-top: 20px;
+               text-align: center;
+            }            
+         }
       }
    }
 }

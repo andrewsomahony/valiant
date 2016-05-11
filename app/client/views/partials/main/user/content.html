@@ -1,5 +1,29 @@
 <div ng-if="currentEditingUser">
-   <span ng-bind="currentEditingUser.fullName()"></span>
+   <div class="profile-picture-container">
+      <div class="profile-picture-display">
+         <span class="hidden-xs">
+            <profile-picture user="currentEditingUser" width="200px"></profile-picture>
+         </span>
+         <span class="hidden-lg hidden-md hidden-sm">
+            <profile-picture user="currentEditingUser" width="150px"></profile-picture>
+         </span>
+      </div>
+      <br />
+      <div class="profile-picture-change" ng-if="isEditing">
+         <a ng-click="changeProfilePicture()">Change profile picture</a>
+      </div>
+   </div>
+   <div class="profile-name-container">
+      <span ng-bind="currentEditingUser.fullName()"></span>
+   </div>
+   <div class="profile-email-address-container">
+      <span ng-bind="currentEditingUser.email"></span>
+   </div>
+   <div class="profile-picture-edit-container">
+      <a ng-click="activateEditing()" ng-if="!isEditing">Edit Profile</a>
+      <a ng-if="isEditing">Save Changes</a>
+      <a ng-if="isEditing" ng-click="cancelEditing()">Cancel</a>
+   </div>
 </div>
 
 <div ng-if="!currentEditingUser">

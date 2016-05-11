@@ -9630,11 +9630,33 @@ div.main {
       right: 8px;
       height: 24px;
       margin-top: -12px; }
-      div.main div.top-bar div.user-details a.login-name {
-        color: white; }
-      div.main div.top-bar div.user-details a.login-button {
-        color: white;
-        margin-left: 8px; }
+      div.main div.top-bar div.user-details div.login-info {
+        display: inline-block;
+        height: 100%;
+        text-align: right; }
+        div.main div.top-bar div.user-details div.login-info a:hover {
+          background: #333333;
+          text-decoration: none; }
+        div.main div.top-bar div.user-details div.login-info a:focus {
+          text-decoration: none; }
+        div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture {
+          display: inline-block;
+          height: 100%;
+          padding-left: 8px;
+          padding-right: 8px; }
+          div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture span.profile-picture-mini {
+            margin-right: 2px; }
+          div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture span.login-name {
+            vertical-align: middle;
+            color: white; }
+        div.main div.top-bar div.user-details div.login-info a.login-button {
+          display: inline-block;
+          height: 100%;
+          padding-left: 8px;
+          padding-right: 8px;
+          color: white; }
+          div.main div.top-bar div.user-details div.login-info a.login-button span {
+            vertical-align: middle; }
   @media screen and (max-width: 760px) {
     div.main div.mobile-scroll {
       overflow-y: scroll;
@@ -9705,6 +9727,33 @@ div.main {
         margin-bottom: 12px; }
       div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.profile-picture-input div.profile-picture-button {
         text-align: center; }
+      @media screen and (max-width: 760px) {
+        div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.sign-up {
+          margin-top: 20px;
+          text-align: center; } }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container {
+        text-align: center; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-display {
+          border: 1px solid black;
+          display: inline-block; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change {
+          display: inline-block; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change a {
+            font-size: 12px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-name-container {
+        text-align: center; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-name-container span {
+          font-size: 24px;
+          font-weight: bold; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container {
+        text-align: center; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container span {
+          font-size: 16px;
+          font-weight: bold; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-edit-container {
+        text-align: center; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-edit-container a {
+          font-size: 12px; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;

@@ -36,15 +36,23 @@
 
    var Utils = {
       objectIsClassy: function(object, classObject) {
-        classObject = classObject || null;
+        if (!object) {
+           return false;
+        } else {
+           classObject = classObject || null;
         
-        return 'object' === typeof object 
+           return 'object' === typeof object 
                 && false === this.isUndefinedOrNull(object.$ownClass)
                 && (null === classObject || true === this.objectIsTypeOfClass(object, classObject))
-      },
+        } 
+     },
       
       objectIsTypeOfClass: function(object, classObject) {
-         return object.$ownClass === classObject;
+         if (!object) {
+             return false;
+         } else {
+            return object.$ownClass === classObject;
+         }
       },
 
       isArray: function(object) {
