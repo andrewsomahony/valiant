@@ -49,7 +49,8 @@ function signPutRequest(key, contentType, acl, expires) {
          } else {
             resolve({
                signed_url: url,
-               public_url: "https://" + bucket + ".s3.amazonaws.com/" + key
+               public_url: "https://" + bucket + ".s3.amazonaws.com/" + key,
+               acl: acl  
             });  
          }
       });      

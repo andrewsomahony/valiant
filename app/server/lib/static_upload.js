@@ -26,17 +26,18 @@ function getStaticUploadKey(uploadType) {
       'comment_video',
       'comment_picture'
    ];
-   
+
    if (-1 === validOptions.indexOf(uploadType)) {
       return null;
    } else {
       var matchArray = uploadType.match(/(\w+)_(\w+)/);
       
+      console.log(matchArray);
       if (!matchArray ||
           3 !== matchArray.length) {
          return null;       
       } else {
-         return "/" + matchArray[1] + 
+         return matchArray[1] + 
          "/" + matchArray[2] + "/" +
          getStaticUploadFilename();
       }

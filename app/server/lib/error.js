@@ -10,7 +10,7 @@ function ValiantError(message) {
        // Just using this to catch whenever I make a mistake
        // and don't initialize the errors properly.
        
-       console.log("WARNING: Creating ValiantError with an object instead of a message! " + message);
+       console.log("WARNING: Creating ValiantError with an object instead of a message! ", message);
    }
    this.message = message || "Valiant Error";
 }

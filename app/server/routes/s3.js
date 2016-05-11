@@ -8,9 +8,9 @@ var StaticUpload = require(__base + 'lib/static_upload');
 
 var Responder = require(__base + 'lib/responder');
 
-router.route('/upload_url')
+router.route('/signed_url')
 .get(function(request, result) {
-   var uploadType = request.params.upload_type; 
+   var uploadType = request.query.upload_type; 
    /*
       profile_picture, 
       question_video, 
@@ -18,7 +18,7 @@ router.route('/upload_url')
       comment_video, 
       comment_picture
    */
-   var uploadFileType = request.params.file_type;
+   var uploadFileType = request.query.file_type;
    
    var key = StaticUpload.getStaticUploadKey(uploadType);
    

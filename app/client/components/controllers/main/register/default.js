@@ -9,7 +9,11 @@ registerController(name, ['$scope',
                           require('services/error_modal'),
                           require('models/user'),
                           require('services/state_service'),
-function($scope, UserService, ErrorModal, UserModel, StateService) {
+                          require('services/serial_promise'),
+                          require('services/promise'),
+                          require('services/progress'),
+function($scope, UserService, ErrorModal, 
+UserModel, StateService, SerialPromise, Promise, ProgressService) {
    $scope.registrationUser = new UserModel();
    
    $scope.registrationInProgress = false;
@@ -18,16 +22,34 @@ function($scope, UserService, ErrorModal, UserModel, StateService) {
       active: false
    };
    
+   $scope.registrationProgress = null;
+      
    $scope.registerUser = function() {
       $scope.registrationInProgress = true;
       
-      UserService.registerUser(this.registrationUser)
-      .then(function() {
-         // Redirect
-         StateService.go('^.success');
+      var promiseFnArray = [];
+      
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         return UserService.uploadProfilePicture($scope.registrationUser, forNotify);
       })
-      .catch(function(error) {
-         ErrorModal(error);
+
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         if (true === forNotify) {
+            return ProgressService(0, 1);
+         } else {
+            return UserService.registerUser($scope.registrationUser);
+         }
+      });
+      
+      SerialPromise.withNotify(promiseFnArray)
+      .then(function() {
+         StateService.go('^.success');
+      }, null, function(progress) {
+         $scope.registrationProgress = progress;
+         console.log("REGISTER PROGRESS", progress);
+      })
+      .catch(function(e) {
+         ErrorModal(e);
       })
       .finally(function() {
          $scope.registrationInProgress = false;

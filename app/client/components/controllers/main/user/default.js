@@ -53,6 +53,8 @@ function($scope, UserService, UserModel) {
    }
    
    $scope.cancelEditing = function() {
+      $scope.currentEditingUser = 
+         UserService.getCurrentRequestedUser().clone();
       $scope.isEditing = false;
    }
 }]);

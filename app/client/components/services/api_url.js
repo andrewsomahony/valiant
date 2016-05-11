@@ -39,6 +39,14 @@ registerService('factory', name, [function() {
             userId: ""
          }
       },
+      'S3': {
+          url: "s3",
+          sub_api: {
+              'SignedUrl': {
+                  url: "signed_url"
+              }
+          }
+      },
       'Login': {
          url: "login",
          apiUrlPrefix: false

@@ -2,6 +2,8 @@
 
 var registerService = require('services/register');
 
+var utils = require('utils');
+
 var name = 'services.user_service';
 
 registerService('factory', name, [
@@ -12,8 +14,9 @@ registerService('factory', name, [
                                     require('services/error'),
                                     require('services/progress'),
                                     require('services/serial_promise'),
+                                    require('services/s3_uploader_service'),
 function(Promise, HttpService, UserModel, ApiUrlService,
-ErrorService, ProgressService, SerialPromise) {    
+ErrorService, ProgressService, SerialPromise, S3UploaderService) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
     var currentRequestedUser = null;
@@ -264,7 +267,36 @@ ErrorService, ProgressService, SerialPromise) {
                 })
             }         
         });
-
+    }
+    
+    UserService.uploadProfilePicture = function(user, forNotify) {
+        forNotify = utils.isUndefinedOrNull(forNotify) ? false : forNotify;
+        
+        if (true === forNotify) {
+            if (!user.profile_picture_file) {
+                return ProgressService(0, 1);
+            } else {
+                return S3UploaderService.getProgressInfo('profile_picture', user.profile_picture_file);
+            }
+        } else {
+            return Promise(function(resolve, reject, notify) {
+                if (!user.profile_picture_file) {
+                    resolve();
+                } else {
+                    S3UploaderService('profile_picture', user.profile_picture_file)
+                    .then(function(data) {
+                        user.profile_picture_url = data.url;
+                        user.profile_picture_file = null;
+                        resolve();    
+                    }, null, function(progress) {
+                        notify(progress);
+                    })
+                    .catch(function(e) {
+                        reject(e);
+                    })
+                }
+            });
+        }
     }
     
     UserService.registerUser = function(user) {

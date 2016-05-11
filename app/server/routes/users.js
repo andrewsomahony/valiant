@@ -106,7 +106,7 @@ router.route('/register/email_available')
                 Responder.withErrorObject(result, 400, error);
             } else {
                 if (!user) {
-                    Responder.withErrorObject(result, 404, {});
+                    Responder.withErrorObject(result, 404);
                 } else {
                     Responder.noContent(result);
                 }
