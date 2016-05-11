@@ -317,6 +317,34 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         });
     }
     
+    UserService.registerUserWithPicture = function(user) {
+        var promiseFnArray = [];
+      
+        promiseFnArray.push(function(existingData, index, forNotify) {
+           return UserService.uploadProfilePicture(user, forNotify);
+        });
+
+        promiseFnArray.push(function(existingData, index, forNotify) {
+           if (true === forNotify) {
+              return ProgressService(0, 1, "Registering user...");
+           } else {
+              return UserService.registerUser(user);
+           }
+        });
+        
+        return Promise(function(resolve, reject, notify) {
+            SerialPromise.withNotify(promiseFnArray)
+            .then(function() {
+                resolve();
+            }, null, function(progress) {
+                notify(progress);
+            })
+            .catch(function(e) {
+                reject(e);
+            });            
+        });
+    }
+    
     UserService.getUser = function(userId) {
         return Promise(function(resolve, reject, notify) {
            HttpService.get(ApiUrlService({

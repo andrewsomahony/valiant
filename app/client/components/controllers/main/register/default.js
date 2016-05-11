@@ -23,30 +23,15 @@ UserModel, StateService, SerialPromise, Promise, ProgressService) {
    };
    
    $scope.registrationProgress = null;
-      
+         
    $scope.registerUser = function() {
       $scope.registrationInProgress = true;
-      
-      var promiseFnArray = [];
-      
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         return UserService.uploadProfilePicture($scope.registrationUser, forNotify);
-      })
 
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1);
-         } else {
-            return UserService.registerUser($scope.registrationUser);
-         }
-      });
-      
-      SerialPromise.withNotify(promiseFnArray)
+      UserService.registerUserWithPicture($scope.registrationUser)
       .then(function() {
          StateService.go('^.success');
       }, null, function(progress) {
          $scope.registrationProgress = progress;
-         console.log("REGISTER PROGRESS", progress);
       })
       .catch(function(e) {
          ErrorModal(e);
@@ -54,6 +39,14 @@ UserModel, StateService, SerialPromise, Promise, ProgressService) {
       .finally(function() {
          $scope.registrationInProgress = false;
       })
+   }
+   
+   $scope.getRegistrationProgressMessage = function() {
+      if (!$scope.registrationProgress) {
+         return "Registering...";
+      } else {
+         return $scope.registrationProgress.message || "Registering...";
+      }
    }
    
    $scope.selectProfilePicture = function() {

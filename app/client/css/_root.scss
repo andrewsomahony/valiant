@@ -21,6 +21,15 @@ html, body {
     div.profile-picture {
         display: inline-block;
     }
+    
+    div.loading-bar-parent {
+        border-width: 1px;
+        border-style: solid;
+        
+        div.loading-bar {
+            
+        }
+    }
 }
 
 @import "variables";

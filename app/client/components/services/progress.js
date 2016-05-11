@@ -14,7 +14,7 @@ function(progressModel) {
       notify(this(current, total, message));
    }
 
-   progressService.sumArray = function(arr) {
+   progressService.sumArray = function(arr, message) {
       var current = 0;
       var total = 0;
 
@@ -23,7 +23,7 @@ function(progressModel) {
          total += progressModel.total;
       })
 
-      return this(current, total)
+      return this(current, total, message)
    }
 
    return progressService;

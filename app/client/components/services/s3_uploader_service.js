@@ -15,29 +15,6 @@ function(FileModel, S3SignUrlService, Promise,
    SerialPromise, ErrorService, ProgressService) { 
 
    function UploadHelper(fileModel, s3PutUrl, resolve, reject, notify) {
-      /*var bucket = 'al-adbuilder';
-      var defaultAcl = 'public-read';
-
-      var url = 'https://' + bucket + '.s3.amazonaws.com/';
-
-      var s3Filename = AFileUtilService.createRandomFilename(fileModel.name);*/
-
-      /*
-          var xhr = new XMLHttpRequest();
-    xhr.open("PUT", signed_request);
-    xhr.setRequestHeader('x-amz-acl', 'public-read');
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            document.getElementById("preview").src = url;
-            document.getElementById("avatar_url").value = url;
-        }
-    };
-    xhr.onerror = function() {
-        alert("Could not upload file.");
-    };
-    xhr.send(file);
-      */
-
       function uploadProgress(e) {
          notify(ProgressService(e.loaded, e.total))
       }
@@ -57,17 +34,6 @@ function(FileModel, S3SignUrlService, Promise,
          reject(ErrorService.localError("S3 Upload Failed " + xhr.status));
       }
 
-      var fd = new FormData();
-
-      /*fd.append('key', s3Options.key);
-      fd.append('x-amz-storage-class', 'STANDARD');
-      fd.append('acl', s3Options.acl);
-      fd.append('Content-Type', fileModel.type);
-      fd.append('AWSAccessKeyId', s3Options.AWSAccessKeyId);
-      fd.append('policy', s3Options.policy);
-      fd.append('signature', s3Options.signature);
-      fd.append('file', fileModel.toBlob(), s3Filename);*/
-
       var xhr = new XMLHttpRequest();
 
       xhr.upload.addEventListener('progress', uploadProgress, false);
@@ -84,10 +50,8 @@ function(FileModel, S3SignUrlService, Promise,
    function GetS3PromiseFnArray(uploadType, fileModel) {
       var promiseFnArray = [
          function(existingData, index, forNotify) {
-
-            if (true === forNotify)
-            {
-               return ProgressService(0, 1);
+            if (true === forNotify) {
+               return ProgressService(0, 1, "Preparing upload...");
             }
 
             return Promise(function(resolve, reject) {
@@ -109,7 +73,7 @@ function(FileModel, S3SignUrlService, Promise,
                // !!! and such.
 
                // !!! This doesn't affect anything though, just the initial calculation
-               return ProgressService(0, fileModel.size);
+               return ProgressService(0, fileModel.size, "Uploading...");
             }
 
             return Promise(function(resolve, reject, notify) {

@@ -31,8 +31,7 @@ function getStaticUploadKey(uploadType) {
       return null;
    } else {
       var matchArray = uploadType.match(/(\w+)_(\w+)/);
-      
-      console.log(matchArray);
+
       if (!matchArray ||
           3 !== matchArray.length) {
          return null;       

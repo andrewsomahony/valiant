@@ -140,15 +140,17 @@
          <div class="sign-up form-group" ng-if="!registrationInProgress">
             <button ng-disabled="registrationForm.$invalid" ng-click="registerUser()">Sign Up</button>
          </div>
-      
          <div class="registering-in-progress" ng-if="registrationInProgress">
-            <span>
-               <loading-progress type="spinner">
+            <div class="registering-text" ng-bind="getRegistrationProgressMessage()">
+            </div>
+            <div>
+               <loading-progress type="bar"
+                           progress-object="registrationProgress"
+                           width="250px"
+                           height="20px"
+                           color="#333333">
                </loading-progress>
-            </span>
-            <span class="registering-text">
-               Registering...
-            </span>
+            </div>
          </div>         
       </div>
    </form>

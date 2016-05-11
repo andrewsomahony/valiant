@@ -9586,6 +9586,9 @@ html, body {
     cursor: pointer; }
   html div.profile-picture, body div.profile-picture {
     display: inline-block; }
+  html div.loading-bar-parent, body div.loading-bar-parent {
+    border-width: 1px;
+    border-style: solid; }
 
 /*
 @screen-xs:                  480px;
@@ -9627,13 +9630,12 @@ div.main {
     div.main div.top-bar div.user-details {
       position: absolute;
       top: 50%;
-      right: 8px;
+      right: 0px;
       height: 24px;
       margin-top: -12px; }
       div.main div.top-bar div.user-details div.login-info {
         display: inline-block;
-        height: 100%;
-        text-align: right; }
+        height: 100%; }
         div.main div.top-bar div.user-details div.login-info a:hover {
           background: #333333;
           text-decoration: none; }

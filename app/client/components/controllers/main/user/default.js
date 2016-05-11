@@ -32,6 +32,10 @@ function($scope, UserService, UserModel) {
       return currentUser.id === $scope.currentEditingUser.id;
    }
    
+   $scope.saveProfile = function() {
+      
+   }
+     
    $scope.changeProfilePicture = function() {
       
    }
@@ -40,7 +44,7 @@ function($scope, UserService, UserModel) {
       
    }
    
-   $scope.onProfilePictureChangeSuccess = function(file) {
+   $scope.onProfilePictureChangeSuccess = function(files) {
       
    }
    

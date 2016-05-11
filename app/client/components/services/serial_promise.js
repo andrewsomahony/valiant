@@ -57,10 +57,12 @@ function(promise, progress, ProgressModel) {
                   progressInfoArray[index].complete()
 
                   if (parentNotify) {
-                     parentNotify(progress.sumArray(progressInfoArray));
+                     parentNotify(progress.sumArray(progressInfoArray, 
+                        progressInfoArray[index].message));
                   }
                   else {
-                     notify(progress.sumArray(progressInfoArray));
+                     notify(progress.sumArray(progressInfoArray,
+                        progressInfoArray[index].message));
                   }
 
                   if (false === utils.isPlainObject(promiseData)) {
@@ -116,15 +118,20 @@ function(promise, progress, ProgressModel) {
 
                   if (true === supportNotify &&
                       notifyData && 
-                      true === utils.objectIsClassy(notifyData)) {
+                      true === utils.objectIsClassy(notifyData, ProgressModel)) {
+                     
+                     if (!notifyData.message) {
+                         console.log("No notify message", progressInfoArray[index].message);
+                         notifyData.message = progressInfoArray[index].message;
+                     }
                      progressInfoArray[index] = notifyData;
                   }
 
                   if (parentNotify) {
-                     parentNotify(progress.sumArray(progressInfoArray));
+                     parentNotify(progress.sumArray(progressInfoArray, progressInfoArray[index].message));
                   }
                   else {
-                     notify(progress.sumArray(progressInfoArray));
+                     notify(progress.sumArray(progressInfoArray, progressInfoArray[index].message));
                   }
                }) 
                .catch(function(error) {
