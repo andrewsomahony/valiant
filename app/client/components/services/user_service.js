@@ -345,8 +345,62 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         });
     }
     
-    UserService.saveUser = function(user) {
+    // We use a PATCH on the server to save the user,
+    // so we need the previous user.
+    
+    UserService.saveUser = function(user, previousUser) {
         var promiseFnArray = [];
+        
+        if (user.profile_picture_url !== previousUser.profile_picture_url) {
+            promiseFnArray.push(function(existingData, index, forNotify) {
+                return UserService.uploadProfilePicture(user, forNotify);
+            })
+        }
+        
+        promiseFnArray.push(function(existingData, index, forNotify) {
+            // By this point, if we have a profile picture,
+            // the new and correct value is in this user object.
+            
+            // !!! This is kinda...I dunno, it just feels
+            // !!! a bit hackneyed.
+            
+            if (true === forNotify) {
+                return ProgressService(0, 1, "Saving user...");
+            } else {
+                return Promise(function(resolve, reject, notify) {
+                    var patch = user.createPatch(previousUser, true);    
+                    if (!patch.length) {
+                       resolve();    
+                    } else {
+                       HttpService.patch(ApiUrlService([
+                           {
+                               name: 'User',
+                               paramArray: [user.id]
+                           }
+                       ]), null, {data: patch})
+                       .then(function() {
+                           resolve();
+                       })
+                       .catch(function(e) {
+                           reject(e);
+                       })
+                    }                    
+                });
+
+            }
+        });
+
+        return Promise(function(resolve, reject, notify) {
+            SerialPromise.withNotify(promiseFnArray)
+            .then(function() {
+                resolve();
+            }, null, function(progress) {
+                notify(progress);
+            })
+            .catch(function(e) {
+                reject(e);
+            })
+        })
     }
     
     UserService.getUser = function(userId) {

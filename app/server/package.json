@@ -30,7 +30,6 @@
     "passport-local": "^1.0.0",
     "passport-local-mongoose-email": "^0.1.2",
     "q": "^1.4.1",
-    "rfc6902": "^1.2.1",
     "sendgrid": "^2.0.0",
     "serve-favicon": "~2.3.0"
   },

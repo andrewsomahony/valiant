@@ -70,6 +70,15 @@ function($http, PromiseService, HttpResponseModel, ErrorService) {
         });        
     }
     
+    httpService.patch = function(url, params, data) {
+        return this.execute({
+           url: url,
+           params: params,
+           data: data,
+           method: 'PATCH' 
+        });
+    }
+    
     httpService.delete = function(url, params, data) {
         return this.execute({
             url: url,

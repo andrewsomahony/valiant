@@ -16,6 +16,8 @@ function($scope, UserService, UserModel) {
       null :
       UserService.getCurrentRequestedUser().clone();
    
+   $scope.previousEditingUser = null;
+   
    $scope.profilePicturePickerIsActive = {
       active: false
    };
@@ -46,9 +48,12 @@ function($scope, UserService, UserModel) {
    $scope.saveProfile = function() {
       $scope.isSaving = true;
       
-      UserService.saveUser($scope.currentEditingUser)
+      UserService.saveUser($scope.currentEditingUser,
+                  $scope.previousEditingUser)
       .then(function() {
          $scope.currentEditingUser = UserService.getCurrentRequestedUser().clone();
+         $scope.previousEditingUser = null;
+         $scope.isEditing = false;
       }, null, function(progress) {
          $scope.savingProgress = progress;
       })
@@ -57,7 +62,6 @@ function($scope, UserService, UserModel) {
       })
       .finally(function() {
          $scope.isSaving = false;
-         $scope.isEditing = false;
       })
    }
      
@@ -83,11 +87,13 @@ function($scope, UserService, UserModel) {
    
    $scope.activateEditing = function() {
       $scope.isEditing = true;
+      $scope.previousEditingUser = $scope.currentEditingUser.clone();
    }
    
    $scope.cancelEditing = function() {
-      $scope.currentEditingUser = 
-         UserService.getCurrentRequestedUser().clone();
+      $scope.currentEditingUser = $scope.previousEditingUser;
+      
+      $scope.previousEditingUser = null;
       $scope.isEditing = false;
    }
 }]);

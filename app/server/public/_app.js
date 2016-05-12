@@ -488,12 +488,17 @@ function($scope, UserService, UserModel) {
       null :
       UserService.getCurrentRequestedUser().clone();
    
+   $scope.previousEditingUser = null;
+   
    $scope.profilePicturePickerIsActive = {
       active: false
    };
    
    $scope.isEditing = false;
+   $scope.isSaving = false;
    
+   $scope.savingProgress = null;
+      
    $scope.isViewingLoggedInUser = function() {
       if (!this.currentEditingUser) {
          return false;
@@ -504,8 +509,32 @@ function($scope, UserService, UserModel) {
       return currentUser.id === $scope.currentEditingUser.id;
    }
    
+   $scope.getSavingUserMessage = function() {
+      if (!$scope.savingProgress) {
+         return "Saving...";
+      } else {
+         return $scope.savingProgress || "Saving...";
+      }
+   }
+   
    $scope.saveProfile = function() {
+      $scope.isSaving = true;
       
+      UserService.saveUser($scope.currentEditingUser,
+                  $scope.previousEditingUser)
+      .then(function() {
+         $scope.currentEditingUser = UserService.getCurrentRequestedUser().clone();
+         $scope.previousEditingUser = null;
+         $scope.isEditing = false;
+      }, null, function(progress) {
+         $scope.savingProgress = progress;
+      })
+      .catch(function(e) {
+         ErrorModal(e);
+      })
+      .finally(function() {
+         $scope.isSaving = false;
+      })
    }
      
    $scope.changeProfilePicture = function() {
@@ -530,11 +559,13 @@ function($scope, UserService, UserModel) {
    
    $scope.activateEditing = function() {
       $scope.isEditing = true;
+      $scope.previousEditingUser = $scope.currentEditingUser.clone();
    }
    
    $scope.cancelEditing = function() {
-      $scope.currentEditingUser = 
-         UserService.getCurrentRequestedUser().clone();
+      $scope.currentEditingUser = $scope.previousEditingUser;
+      
+      $scope.previousEditingUser = null;
       $scope.isEditing = false;
    }
 }]);
@@ -1008,7 +1039,9 @@ var m = require('./module')
 var classy = require('classy')
 
 //Our own written library with common jQuery functions
-var utils = require('utils')
+var utils = require('utils');
+
+var patchService = require('rfc6902');
 
 var name = 'baseModel'
 
@@ -1257,12 +1290,24 @@ function(id, promise) {
 
       toObject: function(isForServer) {
          return ModelToObject(this, isForServer);
+      },
+      
+      createPatch: function(otherModel, isForServer) {
+         if (false === utils.objectIsClassy(otherModel, this.$ownClass)) {
+            throw new Error("createPatch: Objects not of same type!"); 
+         } else {
+            var ourObject = this.toObject(isForServer);
+            var otherObject = otherModel.toObject(isForServer);
+             
+            return patchService.createPatch(otherObject, 
+                                    ourObject);
+         }
       }
    })   
 }])
 
 module.exports = name
-},{"../services/id":47,"../services/promise":54,"./module":38,"classy":101,"utils":66}],34:[function(require,module,exports){
+},{"../services/id":47,"../services/promise":54,"./module":38,"classy":101,"rfc6902":122,"utils":66}],34:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -1545,7 +1590,7 @@ function(BaseModel) {
                is_visible_to_public: true
             })
          },
-         local_fields: function() {
+         localFields: function() {
             return this.staticMerge(this.callSuper(), ['profile_picture_file']);
          }
       },
@@ -1882,6 +1927,15 @@ function($http, PromiseService, HttpResponseModel, ErrorService) {
             data: data,
             method: 'PUT'
         });        
+    }
+    
+    httpService.patch = function(url, params, data) {
+        return this.execute({
+           url: url,
+           params: params,
+           data: data,
+           method: 'PATCH' 
+        });
     }
     
     httpService.delete = function(url, params, data) {
@@ -2845,6 +2899,21 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         });
     }
     
+    // We use a PATCH on the server to save the user,
+    // so we need the previous user.
+    
+    UserService.saveUser = function(user, previousUser) {
+        var promiseFnArray = [];
+        
+        console.log(user, previousUser);
+        var patch = user.createPatch(previousUser, true);
+        
+        console.log("SAVING USER PATCH", patch);
+        return Promise(function(resolve, reject, notify) {
+            resolve();
+        })
+    }
+    
     UserService.getUser = function(userId) {
         return Promise(function(resolve, reject, notify) {
            HttpService.get(ApiUrlService({
@@ -2907,7 +2976,7 @@ module.exports = angular.module(appInfo.name, [
     require('angular-route'),
     'ngMessages'
 ]);
-},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":26,"../components/filters/init":31,"../components/models/init":37,"../components/services/init":48,"../views/_views":122,"angular":78,"angular-animate":69,"angular-messages":71,"angular-route":73,"angular-strap":74,"angular-strap-tpl-modal":75,"angular-ui-router":76,"info":61}],63:[function(require,module,exports){
+},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":26,"../components/filters/init":31,"../components/models/init":37,"../components/services/init":48,"../views/_views":123,"angular":78,"angular-animate":69,"angular-messages":71,"angular-route":73,"angular-strap":74,"angular-strap-tpl-modal":75,"angular-ui-router":76,"info":61}],63:[function(require,module,exports){
 'use strict';
 
 function boot() {
@@ -55560,17 +55629,763 @@ module.exports = function(fn, args){
 	return getInstantiatorFunction(args.length)(fn, args)
 }
 },{"./getInstantiatorFunction":120}],122:[function(require,module,exports){
+(function (global){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.rfc6902 = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
+"use strict";
+
+var _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) { _arr.push(_step.value); if (i && _arr.length === i) break; } return _arr; } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } };
+
+var _toConsumableArray = function (arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } };
+
+/**
+subtract(a, b) returns the keys in `a` that are not in `b`.
+*/
+exports.subtract = subtract;
+
+/**
+intersection(objects) returns the keys that shared by all given `objects`.
+*/
+exports.intersection = intersection;
+exports.objectType = objectType;
+
+/**
+Array-diffing smarter (levenshtein-like) diffing here
+
+To get from the input ABC to the output AZ we could just delete all the input
+and say "insert A, insert Z" and be done with it. That's what we do if the
+input is empty. But we can be smarter.
+
+          output
+               A   Z
+               -   -
+          [0]  1   2
+input A |  1  [0]  1
+      B |  2  [1]  1
+      C |  3   2  [2]
+
+1) start at 0,0 (+0)
+2) keep A (+0)
+3) remove B (+1)
+4) replace C with Z (+1)
+
+if input (source) is empty, they'll all be in the top row, just a bunch of
+additions. If the output is empty, everything will be in the left column, as a
+bunch of deletions.
+*/
+exports.diffArrays = diffArrays;
+exports.diffObjects = diffObjects;
+exports.diffValues = diffValues;
+exports.diffAny = diffAny;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var compare = _dereq_("./equal").compare;
+
+function subtract(a, b) {
+    var obj = {};
+    for (var add_key in a) {
+        obj[add_key] = 1;
+    }
+    for (var del_key in b) {
+        delete obj[del_key];
+    }
+    return Object.keys(obj);
+}
+
+function intersection(objects) {
+    // initialize like union()
+    var key_counts = {};
+    objects.forEach(function (object) {
+        for (var key in object) {
+            key_counts[key] = (key_counts[key] || 0) + 1;
+        }
+    });
+    // but then, extra requirement: delete less commonly-seen keys
+    var threshold = objects.length;
+    for (var key in key_counts) {
+        if (key_counts[key] < threshold) {
+            delete key_counts[key];
+        }
+    }
+    return Object.keys(key_counts);
+}
+
+function objectType(object) {
+    if (object === undefined) {
+        return "undefined";
+    }
+    if (object === null) {
+        return "null";
+    }
+    if (Array.isArray(object)) {
+        return "array";
+    }
+    return typeof object;
+}
+
+function isArrayAdd(array_operation) {
+    return array_operation.op === "add";
+}
+function isArrayRemove(array_operation) {
+    return array_operation.op === "remove";
+}
+function isArrayReplace(array_operation) {
+    return array_operation.op === "replace";
+}
+function diffArrays(input, output, ptr) {
+    // set up cost matrix (very simple initialization: just a map)
+    var memo = {
+        "0,0": { operations: [], cost: 0 }
+    };
+    /**
+    input[i's] -> output[j's]
+       Given the layout above, i is the row, j is the col
+       returns a list of Operations needed to get to from input.slice(0, i) to
+    output.slice(0, j), the each marked with the total cost of getting there.
+    `cost` is a non-negative integer.
+    Recursive.
+    */
+    function dist(i, j) {
+        // memoized
+        var memoized = memo[i + "," + j];
+        if (memoized === undefined) {
+            if (compare(input[i - 1], output[j - 1])) {
+                // equal (no operations => no cost)
+                memoized = dist(i - 1, j - 1);
+            } else {
+                var alternatives = [];
+                if (i > 0) {
+                    // NOT topmost row
+                    var remove_alternative = dist(i - 1, j);
+                    alternatives.push({
+                        // the new operation must be pushed on the end
+                        operations: remove_alternative.operations.concat({
+                            op: "remove",
+                            index: i - 1 }),
+                        cost: remove_alternative.cost + 1 });
+                }
+                if (j > 0) {
+                    // NOT leftmost column
+                    var add_alternative = dist(i, j - 1);
+                    alternatives.push({
+                        operations: add_alternative.operations.concat({
+                            op: "add",
+                            index: i - 1,
+                            value: output[j - 1] }),
+                        cost: add_alternative.cost + 1 });
+                }
+                if (i > 0 && j > 0) {
+                    // TABLE MIDDLE
+                    // supposing we replaced it, compute the rest of the costs:
+                    var replace_alternative = dist(i - 1, j - 1);
+                    // okay, the general plan is to replace it, but we can be smarter,
+                    // recursing into the structure and replacing only part of it if
+                    // possible, but to do so we'll need the original value
+                    alternatives.push({
+                        operations: replace_alternative.operations.concat({
+                            op: "replace",
+                            index: i - 1,
+                            original: input[i - 1],
+                            value: output[j - 1] }),
+                        cost: replace_alternative.cost + 1 });
+                }
+                // the only other case, i === 0 && j === 0, has already been memoized
+                // the meat of the algorithm:
+                // sort by cost to find the lowest one (might be several ties for lowest)
+                // [4, 6, 7, 1, 2].sort((a, b) => a - b); -> [ 1, 2, 4, 6, 7 ]
+                var best = alternatives.sort(function (a, b) {
+                    return a.cost - b.cost;
+                })[0];
+                memoized = best;
+            }
+            memo[i + "," + j] = memoized;
+        }
+        return memoized;
+    }
+    // handle weird objects masquerading as Arrays that don't have proper length
+    // properties by using 0 for everything but positive numbers
+    var input_length = isNaN(input.length) || input.length <= 0 ? 0 : input.length;
+    var output_length = isNaN(output.length) || output.length <= 0 ? 0 : output.length;
+    var array_operations = dist(input_length, output_length).operations;
+
+    var _array_operations$reduce = array_operations.reduce(function (_ref, array_operation) {
+        var _ref2 = _slicedToArray(_ref, 2);
+
+        var operations = _ref2[0];
+        var padding = _ref2[1];
+
+        if (isArrayAdd(array_operation)) {
+            var padded_index = array_operation.index + 1 + padding;
+            var index_token = padded_index < input_length ? String(padded_index) : "-";
+            var operation = {
+                op: array_operation.op,
+                path: ptr.add(index_token).toString(),
+                value: array_operation.value };
+            // padding++; // maybe only if array_operation.index > -1 ?
+            return [operations.concat(operation), padding + 1];
+        } else if (isArrayRemove(array_operation)) {
+            var operation = {
+                op: array_operation.op,
+                path: ptr.add(String(array_operation.index + padding)).toString() };
+            // padding--;
+            return [operations.concat(operation), padding - 1];
+        } else {
+            var replace_ptr = ptr.add(String(array_operation.index + padding));
+            var replace_operations = diffAny(array_operation.original, array_operation.value, replace_ptr);
+            return [operations.concat.apply(operations, _toConsumableArray(replace_operations)), padding];
+        }
+    }, [[], 0]);
+
+    var _array_operations$reduce2 = _slicedToArray(_array_operations$reduce, 2);
+
+    var operations = _array_operations$reduce2[0];
+    var padding = _array_operations$reduce2[1];
+
+    return operations;
+}
+
+function diffObjects(input, output, ptr) {
+    // if a key is in input but not output -> remove it
+    var operations = [];
+    subtract(input, output).forEach(function (key) {
+        operations.push({ op: "remove", path: ptr.add(key).toString() });
+    });
+    // if a key is in output but not input -> add it
+    subtract(output, input).forEach(function (key) {
+        operations.push({ op: "add", path: ptr.add(key).toString(), value: output[key] });
+    });
+    // if a key is in both, diff it recursively
+    intersection([input, output]).forEach(function (key) {
+        operations.push.apply(operations, _toConsumableArray(diffAny(input[key], output[key], ptr.add(key))));
+    });
+    return operations;
+}
+
+function diffValues(input, output, ptr) {
+    if (!compare(input, output)) {
+        return [{ op: "replace", path: ptr.toString(), value: output }];
+    }
+    return [];
+}
+
+function diffAny(input, output, ptr) {
+    var input_type = objectType(input);
+    var output_type = objectType(output);
+    if (input_type == "array" && output_type == "array") {
+        return diffArrays(input, output, ptr);
+    }
+    if (input_type == "object" && output_type == "object") {
+        return diffObjects(input, output, ptr);
+    }
+    // only pairs of arrays and objects can go down a path to produce a smaller
+    // diff; everything else must be wholesale replaced if inequal
+    return diffValues(input, output, ptr);
+}
+
+},{"./equal":2}],2:[function(_dereq_,module,exports){
+
+/**
+`compare()` returns true if `left` and `right` are materially equal
+(i.e., would produce equivalent JSON), false otherwise.
+
+> Here, "equal" means that the value at the target location and the
+> value conveyed by "value" are of the same JSON type, and that they
+> are considered equal by the following rules for that type:
+> o  strings: are considered equal if they contain the same number of
+>    Unicode characters and their code points are byte-by-byte equal.
+> o  numbers: are considered equal if their values are numerically
+>    equal.
+> o  arrays: are considered equal if they contain the same number of
+>    values, and if each value can be considered equal to the value at
+>    the corresponding position in the other array, using this list of
+>    type-specific rules.
+> o  objects: are considered equal if they contain the same number of
+>    members, and if each member can be considered equal to a member in
+>    the other object, by comparing their keys (as strings) and their
+>    values (using this list of type-specific rules).
+> o  literals (false, true, and null): are considered equal if they are
+>    the same.
+*/
+"use strict";
+
+exports.compare = compare;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/**
+zip(a, b) assumes that a.length === b.length.
+*/
+function zip(a, b) {
+    var zipped = [];
+    for (var i = 0, l = a.length; i < l; i++) {
+        zipped.push([a[i], b[i]]);
+    }
+    return zipped;
+}
+/**
+compareArrays(left, right) assumes that `left` and `right` are both Arrays.
+*/
+function compareArrays(left, right) {
+    if (left.length !== right.length) {
+        return false;
+    }return zip(left, right).every(function (pair) {
+        return compare(pair[0], pair[1]);
+    });
+}
+/**
+compareObjects(left, right) assumes that `left` and `right` are both Objects.
+*/
+function compareObjects(left, right) {
+    var left_keys = Object.keys(left);
+    var right_keys = Object.keys(right);
+    if (!compareArrays(left_keys, right_keys)) {
+        return false;
+    }return left_keys.every(function (key) {
+        return compare(left[key], right[key]);
+    });
+}
+function compare(left, right) {
+    // strict equality handles literals, numbers, and strings (a sufficient but not necessary cause)
+    if (left === right) {
+        return true;
+    } // check arrays
+    if (Array.isArray(left) && Array.isArray(right)) {
+        return compareArrays(left, right);
+    }
+    // check objects
+    if (Object(left) === left && Object(right) === right) {
+        return compareObjects(left, right);
+    }
+    // mismatched arrays & objects, etc., are always inequal
+    return false;
+}
+
+},{}],3:[function(_dereq_,module,exports){
+"use strict";
+
+var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var MissingError = exports.MissingError = (function (_Error) {
+    function MissingError(path) {
+        _classCallCheck(this, MissingError);
+
+        _get(Object.getPrototypeOf(MissingError.prototype), "constructor", this).call(this, "Value required at path: " + path);
+        this.path = path;
+        this.name = this.constructor.name;
+    }
+
+    _inherits(MissingError, _Error);
+
+    return MissingError;
+})(Error);
+
+var InvalidOperationError = exports.InvalidOperationError = (function (_Error2) {
+    function InvalidOperationError(op) {
+        _classCallCheck(this, InvalidOperationError);
+
+        _get(Object.getPrototypeOf(InvalidOperationError.prototype), "constructor", this).call(this, "Invalid operation: " + op);
+        this.op = op;
+        this.name = this.constructor.name;
+    }
+
+    _inherits(InvalidOperationError, _Error2);
+
+    return InvalidOperationError;
+})(Error);
+
+var TestError = exports.TestError = (function (_Error3) {
+    function TestError(actual, expected) {
+        _classCallCheck(this, TestError);
+
+        _get(Object.getPrototypeOf(TestError.prototype), "constructor", this).call(this, "Test failed: " + actual + " != " + expected);
+        this.actual = actual;
+        this.expected = expected;
+        this.name = this.constructor.name;
+        this.actual = actual;
+        this.expected = expected;
+    }
+
+    _inherits(TestError, _Error3);
+
+    return TestError;
+})(Error);
+
+},{}],4:[function(_dereq_,module,exports){
+"use strict";
+
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+
+/**
+Apply a 'application/json-patch+json'-type patch to an object.
+
+`patch` *must* be an array of operations.
+
+> Operation objects MUST have exactly one "op" member, whose value
+> indicates the operation to perform.  Its value MUST be one of "add",
+> "remove", "replace", "move", "copy", or "test"; other values are
+> errors.
+
+This method currently operates on the target object in-place.
+
+Returns list of results, one for each operation.
+  - `null` indicated success.
+  - otherwise, the result will be an instance of one of the Error classe
+    defined in errors.js.
+*/
+exports.applyPatch = applyPatch;
+
+/**
+Produce a 'application/json-patch+json'-type patch to get from one object to
+another.
+
+This does not alter `input` or `output` unless they have a property getter with
+side-effects (which is not a good idea anyway).
+
+Returns list of operations to perform on `input` to produce `output`.
+*/
+exports.createPatch = createPatch;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var InvalidOperationError = _dereq_("./errors").InvalidOperationError;
+
+var Pointer = _dereq_("./pointer").Pointer;
+
+var operationFunctions = _interopRequireWildcard(_dereq_("./patch"));
+
+var diffAny = _dereq_("./diff").diffAny;
+
+function applyPatch(object, patch) {
+    return patch.map(function (operation) {
+        var operationFunction = operationFunctions[operation.op];
+        // speedy exit if we don't recognize the operation name
+        if (operationFunction === undefined) {
+            return new InvalidOperationError(operation.op);
+        }
+        return operationFunction(object, operation);
+    });
+}
+
+function createPatch(input, output) {
+    var ptr = new Pointer();
+    // a new Pointer gets a default path of [''] if not specified
+    return diffAny(input, output, ptr);
+}
+
+},{"./diff":1,"./errors":3,"./patch":5,"./pointer":6}],5:[function(_dereq_,module,exports){
+
+/**
+>  o  If the target location specifies an array index, a new value is
+>     inserted into the array at the specified index.
+>  o  If the target location specifies an object member that does not
+>     already exist, a new member is added to the object.
+>  o  If the target location specifies an object member that does exist,
+>     that member's value is replaced.
+*/
+"use strict";
+
+exports.add = add;
+
+/**
+> The "remove" operation removes the value at the target location.
+> The target location MUST exist for the operation to be successful.
+*/
+exports.remove = remove;
+
+/**
+> The "replace" operation replaces the value at the target location
+> with a new value.  The operation object MUST contain a "value" member
+> whose content specifies the replacement value.
+> The target location MUST exist for the operation to be successful.
+
+> This operation is functionally identical to a "remove" operation for
+> a value, followed immediately by an "add" operation at the same
+> location with the replacement value.
+
+Even more simply, it's like the add operation with an existence check.
+*/
+exports.replace = replace;
+
+/**
+> The "move" operation removes the value at a specified location and
+> adds it to the target location.
+> The operation object MUST contain a "from" member, which is a string
+> containing a JSON Pointer value that references the location in the
+> target document to move the value from.
+> This operation is functionally identical to a "remove" operation on
+> the "from" location, followed immediately by an "add" operation at
+> the target location with the value that was just removed.
+
+> The "from" location MUST NOT be a proper prefix of the "path"
+> location; i.e., a location cannot be moved into one of its children.
+
+TODO: throw if the check described in the previous paragraph fails.
+*/
+exports.move = move;
+
+/**
+> The "copy" operation copies the value at a specified location to the
+> target location.
+> The operation object MUST contain a "from" member, which is a string
+> containing a JSON Pointer value that references the location in the
+> target document to copy the value from.
+> The "from" location MUST exist for the operation to be successful.
+
+> This operation is functionally identical to an "add" operation at the
+> target location using the value specified in the "from" member.
+
+Alternatively, it's like 'move' without the 'remove'.
+*/
+exports.copy = copy;
+
+/**
+> The "test" operation tests that a value at the target location is
+> equal to a specified value.
+> The operation object MUST contain a "value" member that conveys the
+> value to be compared to the target location's value.
+> The target location MUST be equal to the "value" value for the
+> operation to be considered successful.
+*/
+exports.test = test;
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var Pointer = _dereq_("./pointer").Pointer;
+
+var compare = _dereq_("./equal").compare;
+
+var _errors = _dereq_("./errors");
+
+var MissingError = _errors.MissingError;
+var TestError = _errors.TestError;
+
+function _add(object, key, value) {
+    if (Array.isArray(object)) {
+        // `key` must be an index
+        if (key == "-") {
+            object.push(value);
+        } else {
+            object.splice(key, 0, value);
+        }
+    } else {
+        object[key] = value;
+    }
+}
+function _remove(object, key) {
+    if (Array.isArray(object)) {
+        // '-' syntax doesn't make sense when removing
+        object.splice(key, 1);
+    } else {
+        // not sure what the proper behavior is when path = ''
+        delete object[key];
+    }
+}
+function add(object, operation) {
+    var endpoint = Pointer.fromJSON(operation.path).evaluate(object);
+    // it's not exactly a "MissingError" in the same way that `remove` is -- more like a MissingParent, or something
+    if (endpoint.parent === undefined) {
+        return new MissingError(operation.path);
+    }
+    _add(endpoint.parent, endpoint.key, operation.value);
+    return null;
+}
+
+function remove(object, operation) {
+    // endpoint has parent, key, and value properties
+    var endpoint = Pointer.fromJSON(operation.path).evaluate(object);
+    if (endpoint.value === undefined) {
+        return new MissingError(operation.path);
+    }
+    // not sure what the proper behavior is when path = ''
+    _remove(endpoint.parent, endpoint.key);
+    return null;
+}
+
+function replace(object, operation) {
+    var endpoint = Pointer.fromJSON(operation.path).evaluate(object);
+    if (endpoint.value === undefined) {
+        return new MissingError(operation.path);
+    }endpoint.parent[endpoint.key] = operation.value;
+    return null;
+}
+
+function move(object, operation) {
+    var from_endpoint = Pointer.fromJSON(operation.from).evaluate(object);
+    if (from_endpoint.value === undefined) {
+        return new MissingError(operation.from);
+    }var endpoint = Pointer.fromJSON(operation.path).evaluate(object);
+    if (endpoint.parent === undefined) {
+        return new MissingError(operation.path);
+    }_remove(from_endpoint.parent, from_endpoint.key);
+    _add(endpoint.parent, endpoint.key, from_endpoint.value);
+    return null;
+}
+
+function copy(object, operation) {
+    var from_endpoint = Pointer.fromJSON(operation.from).evaluate(object);
+    if (from_endpoint.value === undefined) {
+        return new MissingError(operation.from);
+    }var endpoint = Pointer.fromJSON(operation.path).evaluate(object);
+    if (endpoint.parent === undefined) {
+        return new MissingError(operation.path);
+    }_remove(from_endpoint.parent, from_endpoint.key);
+    _add(endpoint.parent, endpoint.key, from_endpoint.value);
+    return null;
+}
+
+function test(object, operation) {
+    var endpoint = Pointer.fromJSON(operation.path).evaluate(object);
+    var result = compare(endpoint.value, operation.value);
+    if (!result) {
+        return new TestError(endpoint.value, operation.value);
+    }return null;
+}
+
+},{"./equal":2,"./errors":3,"./pointer":6}],6:[function(_dereq_,module,exports){
+"use strict";
+
+var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/**
+Unescape token part of a JSON Pointer string
+
+`token` should *not* contain any '/' characters.
+
+> Evaluation of each reference token begins by decoding any escaped
+> character sequence.  This is performed by first transforming any
+> occurrence of the sequence '~1' to '/', and then transforming any
+> occurrence of the sequence '~0' to '~'.  By performing the
+> substitutions in this order, an implementation avoids the error of
+> turning '~01' first into '~1' and then into '/', which would be
+> incorrect (the string '~01' correctly becomes '~1' after
+> transformation).
+
+Here's my take:
+
+~1 is unescaped with higher priority than ~0 because it is a lower-order escape character.
+I say "lower order" because '/' needs escaping due to the JSON Pointer serialization technique.
+Whereas, '~' is escaped because escaping '/' uses the '~' character.
+*/
+function unescape(token) {
+    return token.replace(/~1/g, "/").replace(/~0/g, "~");
+}
+/** Escape token part of a JSON Pointer string
+
+> '~' needs to be encoded as '~0' and '/'
+> needs to be encoded as '~1' when these characters appear in a
+> reference token.
+
+This is the exact inverse of `unescape()`, so the reverse replacements must take place in reverse order.
+*/
+function escape(token) {
+    return token.replace(/~/g, "~0").replace(/\//g, "~1");
+}
+/**
+JSON Pointer representation
+*/
+
+var Pointer = exports.Pointer = (function () {
+    function Pointer() {
+        var tokens = arguments[0] === undefined ? [""] : arguments[0];
+
+        _classCallCheck(this, Pointer);
+
+        this.tokens = tokens;
+    }
+
+    _createClass(Pointer, {
+        toString: {
+            value: function toString() {
+                return this.tokens.map(escape).join("/");
+            }
+        },
+        evaluate: {
+            /**
+            Returns an object with 'parent', 'key', and 'value' properties.
+            In the special case that pointer = "", parent and key will be null, and `value = obj`
+            Otherwise, parent will be the such that `parent[key] == value`
+            */
+
+            value: function evaluate(object) {
+                var parent = null;
+                var token = null;
+                for (var i = 1, l = this.tokens.length; i < l; i++) {
+                    parent = object;
+                    token = this.tokens[i];
+                    // not sure if this the best way to handle non-existant paths...
+                    object = (parent || {})[token];
+                }
+                return {
+                    parent: parent,
+                    key: token,
+                    value: object };
+            }
+        },
+        push: {
+            value: function push(token) {
+                // mutable
+                this.tokens.push(token);
+            }
+        },
+        add: {
+            /**
+            `token` should be a String. It'll be coerced to one anyway.
+               immutable (shallowly)
+            */
+
+            value: function add(token) {
+                var tokens = this.tokens.concat(String(token));
+                return new Pointer(tokens);
+            }
+        }
+    }, {
+        fromJSON: {
+            /**
+            `path` *must* be a properly escaped string.
+            */
+
+            value: function fromJSON(path) {
+                var tokens = path.split("/").map(unescape);
+                if (tokens[0] !== "") throw new Error("Invalid JSON Pointer: " + path);
+                return new Pointer(tokens);
+            }
+        }
+    });
+
+    return Pointer;
+})();
+
+},{}]},{},[4])(4)
+});
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],123:[function(require,module,exports){
 angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("admin.html","<div class=\"container admin\">\n    <div class=\"row\">\n        <div ui-view=\"header\" class=\"header\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"content\" class=\"content\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"footer\" class=\"footer\"></div>\n    </div>\n</div>");
 $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div class=\"row\">\n        <div class=\"top-bar col-xs-12 col-md-12 col-lg-12\" ui-view=\"top_bar\"></div>\n    </div>\n    \n    <div class=\"mobile-scroll\" style=\"height:100%;\">\n      <div class=\"mobile-container\">\n         <div class=\"row\">\n            <div ui-view=\"header\" class=\"header\"></div>\n         </div>    \n         \n         <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12 hidden-xs large-header-padding\" style=\"height: 64px;\"></div>\n            <div class=\"hidden-lg hidden-md hidden-sm col-xs-12 mobile-header-padding\" style=\"height: 16px;\"></div>\n         </div>\n         \n         <div class=\"main-content\">\n            <div class=\"row\">\n               <div class=\"mobile-ad-space hidden-lg hidden-md hidden-sm col-xs-12\">\n                  <img src=\"./images/temp_mobile_ad.png\" />\n               </div>\n            </div>\n            \n            <div class=\"row row-eq-height\" style=\"height: 100%;\">\n                  <div class=\"content-padding col-md-1 col-lg-1 col-sm-1 hidden-xs\"></div>\n                  <div ui-view=\"content\" class=\"content col-md-9 col-lg-9 col-sm-9 col-xs-12\" style=\"min-height:100%;\"></div>\n                  <div ui-view=\"ad_space_right\" class=\"ad-space col-lg-2 col-sm-2 col-md-2 hidden-xs\" style=\"min-height:100%;\">\n                     <div class=\"ad\">\n                        <img src=\"./images/temp_ad.png\" />\n                     </div>\n                     <div class=\"copyright\">\n                        Andrew O\'Mahony (c) 2016\n                     </div>\n                  </div>\n            </div>\n         </div>\n      </div>\n    </div>\n</div>");
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
 $templateCache.put("directives/profile_picture.html","<div class=\"profile-picture\" ng-style=\"getDivStyle()\">\n   <img ng-src=\"{{getUrl()}}\" ng-style=\"getImageStyle()\" />\n</div>");
 $templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
-$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
 $templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
 $templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
 $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n<div><a ui-sref=\"main.page.home.default\">Valiant Athletics</a></div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
 $templateCache.put("partials/main/nav_bar.html","<nav>\n    <a class=\"link\" ui-sref=\"main.page.about.default\">About</a>\n    <a class=\"link\" ui-sref=\"main.page.blog.default\">Blog</a>\n    <a class=\"link\" ui-sref=\"main.page.coaching.default\">Coaching</a>\n    <a class=\"link\" ui-sref=\"main.page.contact.default\">Contact</a>\n</nav>");
 $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"login-button\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"profile-name-and-picture\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"login-button\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
+$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
 $templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
 $templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
 $templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
@@ -55586,6 +56401,6 @@ $templateCache.put("partials/main/register/register.html","<div class=\"register
 $templateCache.put("partials/main/register/success.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         We have sent a link to your e-mail address, all you need to do\n         is click it, and you\'re good to go!\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a>here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
 $templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div class=\"resetting-in-progress\" ng-if=\"resettingInProgress\">\n         <span><loading-progress type=\"spinner\"></loading-progress></span>\n         <span class=\"resetting-text\">Setting password...</span>\n      </div>\n   </form>\n</div>");
 $templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"200px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditing\">\n         <a ng-click=\"changeProfilePicture()\">Change profile picture</a>\n         <br />\n         <a ng-click=\"resetProfilePicture()\">Reset profile picture</a>\n         <file-reader \n            supports-multiple=\"false\"\n            accept=\"image/\\*\"\n            is-active=\"profilePicturePickerIsActive\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   <div class=\"profile-name-container\">\n      <span ng-bind=\"currentEditingUser.fullName()\"></span>\n   </div>\n   <div class=\"profile-email-address-container\">\n      <span ng-bind=\"currentEditingUser.email\"></span>\n   </div>\n   <div class=\"profile-picture-edit-container\">\n      <a ng-click=\"activateEditing()\" ng-if=\"!isEditing\">Edit Profile</a>\n      <a ng-if=\"isEditing\">Save Changes</a>\n      <a ng-if=\"isEditing\" ng-click=\"cancelEditing()\">Cancel</a>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span>You don\'t have permission to view this user</span>\n</div>");
+$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"200px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditing\">\n         <a ng-click=\"changeProfilePicture()\">Change profile picture</a>\n         <br />\n         <a ng-click=\"resetProfilePicture()\">Reset profile picture</a>\n         <file-reader \n            supports-multiple=\"false\"\n            accept=\"image/\\*\"\n            is-active=\"profilePicturePickerIsActive\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   <div class=\"profile-name-container\">\n      <span ng-bind=\"currentEditingUser.fullName()\"></span>\n   </div>\n   <div class=\"profile-email-address-container\">\n      <span ng-bind=\"currentEditingUser.email\"></span>\n   </div>\n   <div class=\"profile-picture-edit-container\">\n      <a ng-click=\"activateEditing()\" ng-if=\"!isEditing\">Edit Profile</a>\n      <a ng-if=\"isEditing && !isSaving\" ng-click=\"saveProfile()\">Save Changes</a>\n      <a ng-if=\"isEditing && !isSaving\" ng-click=\"cancelEditing()\">Cancel</a>\n      <div ng-if=\"isEditing && isSaving\">\n         <span ng-bind=\"getSavingUserMessage()\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span>You don\'t have permission to view this user</span>\n</div>");
 $templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
 },{}]},{},[67]);

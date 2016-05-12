@@ -31,7 +31,7 @@
    </div>
    <div class="profile-picture-edit-container">
       <a ng-click="activateEditing()" ng-if="!isEditing">Edit Profile</a>
-      <a ng-if="isEditing && !isSaving">Save Changes</a>
+      <a ng-if="isEditing && !isSaving" ng-click="saveProfile()">Save Changes</a>
       <a ng-if="isEditing && !isSaving" ng-click="cancelEditing()">Cancel</a>
       <div ng-if="isEditing && isSaving">
          <span ng-bind="getSavingUserMessage()"></span>

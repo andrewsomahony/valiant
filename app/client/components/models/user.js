@@ -28,7 +28,7 @@ function(BaseModel) {
                is_visible_to_public: true
             })
          },
-         local_fields: function() {
+         localFields: function() {
             return this.staticMerge(this.callSuper(), ['profile_picture_file']);
          }
       },

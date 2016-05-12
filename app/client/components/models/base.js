@@ -4,7 +4,9 @@ var m = require('./module')
 var classy = require('classy')
 
 //Our own written library with common jQuery functions
-var utils = require('utils')
+var utils = require('utils');
+
+var patchService = require('rfc6902');
 
 var name = 'baseModel'
 
@@ -253,6 +255,18 @@ function(id, promise) {
 
       toObject: function(isForServer) {
          return ModelToObject(this, isForServer);
+      },
+      
+      createPatch: function(otherModel, isForServer) {
+         if (false === utils.objectIsClassy(otherModel, this.$ownClass)) {
+            throw new Error("createPatch: Objects not of same type!"); 
+         } else {
+            var ourObject = this.toObject(isForServer);
+            var otherObject = otherModel.toObject(isForServer);
+             
+            return patchService.createPatch(otherObject, 
+                                    ourObject);
+         }
       }
    })   
 }])
