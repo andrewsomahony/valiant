@@ -23,8 +23,10 @@ function($scope, UserService, UserModel, ErrorModal) {
       active: false
    };
    
-   $scope.isEditing = false;
+   $scope.isEditingProfile = false;
    $scope.isChangingPassword = false;
+   $scope.isChangingEmail = false;
+   
    $scope.isSaving = false;
    
    $scope.savingProgress = null;
@@ -33,6 +35,10 @@ function($scope, UserService, UserModel, ErrorModal) {
       old_password: "",
       new_password: "",
       new_password_repeat: ""
+   };
+   
+   $scope.emailChangeData = {
+      email: ""
    };
       
    $scope.isViewingLoggedInUser = function() {
@@ -61,7 +67,7 @@ function($scope, UserService, UserModel, ErrorModal) {
       .then(function(newUser) {
          $scope.currentEditingUser = newUser;
          $scope.previousEditingUser = null;
-         $scope.isEditing = false;
+         $scope.isEditingProfile = false;
       }, null, function(progress) {
          $scope.savingProgress = progress;
       })
@@ -94,7 +100,7 @@ function($scope, UserService, UserModel, ErrorModal) {
    }
    
    $scope.activateEditing = function() {
-      $scope.isEditing = true;
+      $scope.isEditingProfile = true;
       $scope.previousEditingUser = $scope.currentEditingUser.clone();
    }
    
@@ -106,16 +112,26 @@ function($scope, UserService, UserModel, ErrorModal) {
       $scope.passwordChangeData.new_password_repeat = "";
    }
    
+   $scope.activateChangeEmail = function() {
+      $scope.isChangingEmail = true;
+      
+      $scope.emailChangeData.email = "";
+   }
+   
    $scope.cancelEditing = function() {
       $scope.currentEditingUser = $scope.previousEditingUser;
       
       $scope.previousEditingUser = null;
       
-      $scope.isEditing = false;
+      $scope.isEditingProfile = false;
    }
    
    $scope.cancelChangePassword = function() {
       $scope.isChangingPassword = false;
+   }
+   
+   $scope.cancelChangeEmail = function() {
+      $scope.isChangingEmail = false;
    }
 }]);
 

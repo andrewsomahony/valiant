@@ -67,6 +67,18 @@ div.main {
          
          div.ad-space {
             height: 100%;
+            
+            div.ad-container {
+               div.ad {
+                  display: inline-block;
+                  width: 160px;
+                  height: 600px;
+               }
+               
+               div.ad1 {
+                  margin-left: 3px;
+               }
+            }
             div.copyright {
                float: right;
                font-size: 10px;

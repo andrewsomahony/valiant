@@ -2,14 +2,14 @@
    <div class="profile-picture-container">
       <div class="profile-picture-display">
          <span class="hidden-xs">
-            <profile-picture user="currentEditingUser" width="200px"></profile-picture>
+            <profile-picture user="currentEditingUser" width="300px"></profile-picture>
          </span>
          <span class="hidden-lg hidden-md hidden-sm">
             <profile-picture user="currentEditingUser" width="150px"></profile-picture>
          </span>
       </div>
       <br />
-      <div class="profile-picture-change" ng-if="isEditing">
+      <div class="profile-picture-change" ng-if="isEditingProfile">
          <a class="change-profile-picture" ng-click="changeProfilePicture()">Change</a>
          <a class="reset-profile-picture" ng-click="resetProfilePicture()">Reset</a>
          <file-reader 
@@ -22,9 +22,9 @@
          </file-reader>      
       </div>
    </div>
-   <div class="profile-name-container" ng-if="!isChangingPassword">
-      <span ng-if="!isEditing" ng-bind="currentEditingUser.fullName()"></span>
-      <span ng-if="isEditing">
+   <div class="profile-name-container" ng-if="!isChangingPassword && !isChangingEmail">
+      <span ng-if="!isEditingProfile" ng-bind="currentEditingUser.fullName()"></span>
+      <span ng-if="isEditingProfile">
          <input type="text"
                placeholder="First Name"
                class="form-control profile-name-input"
@@ -39,27 +39,28 @@
                required />
       </span>
    </div>
-   <div ng-show="isEditing" class="profile-editing-padding">
-   </div>
    <div class="profile-email-address-container" ng-if="!isChangingPassword">
-      <span ng-if="!isEditing"
+      <span ng-if="!isChangingEmail && !isEditingProfile"
             ng-bind="currentEditingUser.email"></span>
-      <span ng-if="isEditing">
+      <span ng-if="isChangingEmail">
          <input type="email"
-               placeholder="E-Mail"
+               placeholder="E-Mail Address"
                class="form-control profile-email-input"
-               ng-model="currentEditingUser.email"
+               ng-model="emailChangeData.email"
                ng-model-options="{updateOn: 'blur'}"
                required />
       </span>
    </div>
    <div class="profile-edit-container">
-      <span ng-if="!isEditing && !isChangingPassword">
-         <a ng-click="activateEditing()" ng-if="!isEditing">Edit Profile</a>
+      <span ng-if="!isEditingProfile && !isChangingPassword && !isChangingEmail">
+         <a ng-click="activateEditing()" ng-if="!isEditingProfile">Edit Profile</a>
+         &nbsp;|&nbsp;
          <a ng-click="activateChangePassword()">Change Password</a>
+         &nbsp;|&nbsp;
+         <a ng-click="activateChangeEmail()">Change E-Mail</a>
       </span>
       
-      <span ng-if="isEditing && !isSaving">
+      <span ng-if="isEditingProfile && !isSaving">
          <a class="save-changes" ng-click="saveProfile()">Save Changes</a>
          <a class="cancel-edit" ng-click="cancelEditing()">Cancel</a>
       </span>
@@ -69,7 +70,12 @@
          <a class="cancel-change-password" ng-click="cancelChangePassword()">Cancel</a>
       </span>
       
-      <div ng-show="(isEditing || isChangingPassword) && isSaving">
+      <span ng-if="isChangingEmail && !isSaving">
+         <a class="save-email" ng-click="changeEmail()">Change E-Mail</a>
+         <a class="cancel-change-email" ng-click="cancelChangeEmail()">Cancel</a>
+      </span>
+      
+      <div ng-show="isSaving">
          <span ng-bind="getSavingUserMessage()"></span>
       </div>
    </div>
