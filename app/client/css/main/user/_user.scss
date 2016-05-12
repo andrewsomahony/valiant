@@ -28,6 +28,17 @@ div.user {
             font-size: 24px;
             font-weight: bold;
          }
+         
+         input.profile-name-input {
+            display: inline-block;
+            width: 150px;
+            font-size: 14px;
+            height: 30px;
+         }
+      }
+      
+      div.profile-editing-padding {
+         height: 8px;
       }
       
       div.profile-email-address-container {
@@ -36,9 +47,16 @@ div.user {
             font-size: 16px;
             font-weight: bold;
          }
+         
+         input.profile-email-input {
+            display: inline-block;
+            width: 270px;
+            font-size: 14px;
+            height: 30px;
+         }
       }
       
-      div.profile-picture-edit-container {
+      div.profile-edit-container {
          text-align: center;
          a {
             font-size: 12px;

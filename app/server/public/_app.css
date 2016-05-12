@@ -9577,8 +9577,11 @@ html, body {
   min-height: 100%;
   overflow: hidden;
   position: relative; }
-  html input[type="text"], html input[type="password"], body input[type="text"], body input[type="password"] {
-    color: black; }
+  html input[type="text"], html input[type="password"],
+  html input[type="email"], body input[type="text"], body input[type="password"],
+  body input[type="email"] {
+    color: black;
+    font-weight: normal; }
   html input.file-reader-picker, body input.file-reader-picker {
     position: absolute;
     left: -7000px; }
@@ -9751,18 +9754,30 @@ div.main {
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-name-container span {
           font-size: 24px;
           font-weight: bold; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-name-container input.profile-name-input {
+          display: inline-block;
+          width: 150px;
+          font-size: 14px;
+          height: 30px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-editing-padding {
+        height: 8px; }
       div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container span {
           font-size: 16px;
           font-weight: bold; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-edit-container {
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container input.profile-email-input {
+          display: inline-block;
+          width: 270px;
+          font-size: 14px;
+          height: 30px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-edit-container {
         text-align: center; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-edit-container a {
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-edit-container a {
           font-size: 12px; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-edit-container a.save-changes {
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-edit-container a.save-changes {
             margin-right: 4px; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-edit-container a.cancel-edit {
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-edit-container a.cancel-edit {
             margin-left: 4px; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;

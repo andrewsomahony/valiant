@@ -24,9 +24,16 @@ function($scope, UserService, UserModel, ErrorModal) {
    };
    
    $scope.isEditing = false;
+   $scope.isChangingPassword = false;
    $scope.isSaving = false;
    
    $scope.savingProgress = null;
+   
+   $scope.passwordChangeData = {
+      old_password: "",
+      new_password: "",
+      new_password_repeat: ""
+   };
       
    $scope.isViewingLoggedInUser = function() {
       if (!this.currentEditingUser) {
@@ -91,11 +98,24 @@ function($scope, UserService, UserModel, ErrorModal) {
       $scope.previousEditingUser = $scope.currentEditingUser.clone();
    }
    
+   $scope.activateChangePassword = function() {
+      $scope.isChangingPassword = true;
+
+      $scope.passwordChangeData.old_password = "";
+      $scope.passwordChangeData.new_password = "";
+      $scope.passwordChangeData.new_password_repeat = "";
+   }
+   
    $scope.cancelEditing = function() {
       $scope.currentEditingUser = $scope.previousEditingUser;
       
       $scope.previousEditingUser = null;
+      
       $scope.isEditing = false;
+   }
+   
+   $scope.cancelChangePassword = function() {
+      $scope.isChangingPassword = false;
    }
 }]);
 
