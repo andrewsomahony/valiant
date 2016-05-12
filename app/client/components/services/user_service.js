@@ -422,6 +422,9 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         return Promise(function(resolve, reject, notify) {
             SerialPromise.withNotify(promiseFnArray)
             .then(function(data) {
+                // The user gets returned
+                // because the server could update
+                // values that we don't patch (like updated_at)
                 resolve(data.user);
             }, null, function(progress) {
                 notify(progress);

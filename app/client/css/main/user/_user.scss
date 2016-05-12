@@ -11,6 +11,13 @@ div.user {
             display: inline-block;
             a {
                font-size: 12px;
+               
+               &.change-profile-picture {
+                  margin-right: 4px;
+               }
+               &.reset-profile-picture {
+                  margin-left: 4px;
+               }
             }
          }
       }
