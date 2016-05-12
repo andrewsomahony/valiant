@@ -33,6 +33,7 @@ var appConfig = require('./config/config');
 
 var connectDb = require('./db/connect');
 var connectSessionStore = require('./db/session');
+var initializeDbPlugins = require(__base + "db/plugins");
 
 var s3Init = require(__base + 'lib/s3');
 
@@ -160,6 +161,7 @@ if (false === appIsActive) {
     // Connect to our database
 
     connectDb();
+    initalizeDbPlugins();
 }
 
 module.exports = app;

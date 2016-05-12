@@ -257,6 +257,31 @@ router.route('/:userId')
         }
     });
 })
+.patch(function(request, result) {
+    var patchData = request.data;
+    
+    if (!patchData) {
+        Responder.badRequest(result, "Missing patch data!");
+    } else {
+        User.findById(request.params.userId, function(error, user) {
+            if (error) {
+                Responder.badRequest(result, error);
+            } else {
+                if (!user) {
+                   Responder.notFound(result, "Can't find user!");
+                } else {
+                    user.patch(patchData, function(error) {
+                        if (error) {
+                            Responder.badRequest(result, error);
+                        } else {
+                            Responder.ok(result, user.frontEndObject());
+                        }
+                    })
+                }
+            }
+        })
+    }
+})
 .post(function(request, result) {
     Responder.methodNotAllowed(result);
 })

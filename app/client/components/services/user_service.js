@@ -132,12 +132,34 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         return currentUser;
     }
     
+    // Helper method to update our currentUser
+    // object after a user object has been updated.
+    
+    // Basically, it checks to see if the currentUser
+    // is the same user as the one updated (same id),
+    // and if so, sets the currentUser to the updated
+    // user.
+    
+    UserService.updateCurrentUserIfSame = function(user) {
+        if (user.id === currentUser.id) {
+            currentUser = user.clone();
+        }
+    }
+    
     UserService.getCurrentUnverifiedUser = function() {
         return currentUnverifiedUser;
     }
     
     UserService.getCurrentRequestedUser = function() {
         return currentRequestedUser;
+    }
+    
+    // See the comment for updateCurrentUserIfSame
+    
+    UserService.updateCurrentRequestedUserIfSame = function(user) {
+        if (user.id === currentRequestedUser.id) {
+            currentRequestedUser = user.clone();
+        }
     }
     
     UserService.currentRequestedUserIsNotAccessible = function() {
@@ -378,8 +400,16 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
                                paramArray: [user.id]
                            }
                        ]), null, {data: patch})
-                       .then(function() {
-                           resolve();
+                       .then(function(data) {
+                           // The user gets returned
+                           // because the server could update
+                           // values that we don't patch (like updated_at)
+                           var newUser = new User(data.data, true);
+                           
+                           UserService.updateCurrentUserIfSame(newUser);
+                           UserService.updateCurrentRequestedUserIfSame(newUser);
+                           
+                           resolve(newUser);
                        })
                        .catch(function(e) {
                            reject(e);

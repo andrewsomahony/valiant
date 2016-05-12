@@ -50,8 +50,8 @@ function($scope, UserService, UserModel) {
       
       UserService.saveUser($scope.currentEditingUser,
                   $scope.previousEditingUser)
-      .then(function() {
-         $scope.currentEditingUser = UserService.getCurrentRequestedUser().clone();
+      .then(function(newUser) {
+         $scope.currentEditingUser = newUser;
          $scope.previousEditingUser = null;
          $scope.isEditing = false;
       }, null, function(progress) {

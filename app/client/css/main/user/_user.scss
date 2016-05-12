@@ -35,6 +35,12 @@ div.user {
          text-align: center;
          a {
             font-size: 12px;
+            &.save-changes {
+               margin-right: 4px;
+            }
+            &.cancel-edit {
+               margin-left: 4px;
+            }
          }
       }
    }

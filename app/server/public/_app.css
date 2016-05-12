@@ -9756,6 +9756,10 @@ div.main {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-edit-container a {
           font-size: 12px; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-edit-container a.save-changes {
+            margin-right: 4px; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-edit-container a.cancel-edit {
+            margin-left: 4px; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;
