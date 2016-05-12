@@ -258,7 +258,7 @@ router.route('/:userId')
     });
 })
 .patch(function(request, result) {
-    var patchData = request.data;
+    var patchData = request.body.data;
     
     if (!patchData) {
         Responder.badRequest(result, "Missing patch data!");

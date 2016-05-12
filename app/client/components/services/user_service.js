@@ -404,26 +404,25 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
                            // The user gets returned
                            // because the server could update
                            // values that we don't patch (like updated_at)
-                           var newUser = new User(data.data, true);
+                           var newUser = new UserModel(data.data, true);
                            
                            UserService.updateCurrentUserIfSame(newUser);
                            UserService.updateCurrentRequestedUserIfSame(newUser);
                            
-                           resolve(newUser);
+                           resolve({user: newUser});
                        })
                        .catch(function(e) {
                            reject(e);
                        })
                     }                    
                 });
-
             }
         });
 
         return Promise(function(resolve, reject, notify) {
             SerialPromise.withNotify(promiseFnArray)
-            .then(function() {
-                resolve();
+            .then(function(data) {
+                resolve(data.user);
             }, null, function(progress) {
                 notify(progress);
             })

@@ -7,7 +7,8 @@ var name = 'controllers.main.user.default';
 registerController(name, ['$scope',
                           require('services/user_service'),
                           require('models/user'),
-function($scope, UserService, UserModel) {
+                          require('services/error_modal'),
+function($scope, UserService, UserModel, ErrorModal) {
    // Clone what we get from the UserService
    // to allow for editing and such
    
@@ -41,7 +42,7 @@ function($scope, UserService, UserModel) {
       if (!$scope.savingProgress) {
          return "Saving...";
       } else {
-         return $scope.savingProgress || "Saving...";
+         return $scope.savingProgress.message || "Saving...";
       }
    }
    

@@ -161,7 +161,7 @@ if (false === appIsActive) {
     // Connect to our database
 
     connectDb();
-    initalizeDbPlugins();
+    initializeDbPlugins();
 }
 
 module.exports = app;

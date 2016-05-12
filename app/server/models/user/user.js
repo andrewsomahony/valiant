@@ -7,6 +7,8 @@ var userEmailAuthentication = require('./plugins/email_auth');
 var userResetPassword = require('./plugins/reset_password');
 var userMethods = require('./plugins/methods');
 
+var patchPlugin = require('mongoose-json-patch');
+
 var UserLoginService = require(__base + 'lib/user_login');
 
 var User = new Schema({
@@ -81,5 +83,7 @@ User.plugin(extendedPassportLocalMongooseEmail, userOptions);
 
 User.plugin(userEmailAuthentication, userOptions);
 User.plugin(userResetPassword, userOptions);
+
+User.plugin(patchPlugin);
 
 module.exports = mongoose.model('User', User);
