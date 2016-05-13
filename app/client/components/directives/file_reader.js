@@ -8,7 +8,9 @@ registerDirective(name, [require('models/file'),
                          require('services/promise'),
                          require('services/parallel_promise'),
                          require('services/progress'),
-function(FileModel, Promise, ParallelPromise, ProgressService) {
+                         require('services/file_reader_service'),
+function(FileModel, Promise, ParallelPromise, ProgressService,
+FileReaderService) {
    return {
       restrict: 'E',
       template: "",//<input id=\"filePicker\" class=\"file_picker\" type=\"file\" accept=\"image/\*\" name=\"files[]\" ng-disabled=\"disabled\">",
@@ -43,23 +45,20 @@ function(FileModel, Promise, ParallelPromise, ProgressService) {
 
             var promiseFnArray = fileArray.map(function(file) {
                return function(isNotify) {
-                  if (true === isNotify)
-                  {
+                  if (true === isNotify) {
                      return ProgressService(0, file.size, "Loading file...")
                   }
+                  
+                  FileReaderService.processExifData(file);
 
                   return Promise(function(resolve, reject, notify) {
-                     var reader = new FileReader();
-
-                     reader.onprogress = function(e) {
-                        notify(ProgressService(e.loaded, e.total, "Loading file..."))
-                     }
-
-                     reader.onload = function(e) {
-                        resolve(FileModel.fromFileObject(file, null, e.target.result));
-                     }
-
-                     reader.readAsArrayBuffer(file);                  
+                     FileReaderService.readAsArrayBuffer(file)
+                     .then(function(result) {
+                        resolve(FileModel.fromFileObject(file, null, result));
+                     })
+                     .catch(function(e) {
+                        reject(e);
+                     });                
                   })
                }
             })

@@ -6,8 +6,8 @@ var classy = require('classy');
 var name = 'fileModel';
 
 registerModel(name, [require('models/base'),
-                     require('services/promise'),
-function(BaseModel, Promise) {
+                     require('services/file_reader_service'),
+function(BaseModel, FileReaderService) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -35,6 +35,17 @@ function(BaseModel, Promise) {
                               arrayBuffer: arrayBuffer || null
                            });
          },
+         
+         fromBlob: function(blob) {
+            var self = this;
+            FileReaderService.readAsArrayBuffer(blob)
+            .then(function(result) {
+               resolve(self.fromFileObject(blob, null, result));
+            })
+            .catch(function(e) {
+               reject(e);   
+            });
+         },
 
          fromText: function(text, name, type) {
             type = type || "text/plain"
@@ -50,7 +61,7 @@ function(BaseModel, Promise) {
 
             var buffer = new Uint8Array(text);
             for (var i = 0; i < text.length; i++) {
-                  buffer[i] = text.charCodeAt(i);
+               buffer[i] = text.charCodeAt(i);
             }
 
             return new this({
@@ -83,6 +94,8 @@ function(BaseModel, Promise) {
       },
       
       getDataUrl: function() {
+         return FileReaderService.readAsDataUrl(this.toBlob());
+         /*
          return Promise(function(resolve, reject, notify) {
             var fileReader = new FileReader();
          
@@ -94,7 +107,7 @@ function(BaseModel, Promise) {
             }
          
             fileReader.readAsDataUrl(this.toBlob());               
-         });
+         });*/
       }
    })
 }])
