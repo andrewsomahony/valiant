@@ -10,11 +10,12 @@ registerDirective(name, [require('models/file'),
                          require('services/parallel_promise'),
                          require('services/progress'),
                          require('services/file_reader_service'),
+                         require('services/image_service'),
 function(FileModel, Promise, SerialPromise, ParallelPromise, ProgressService,
-FileReaderService) {
+FileReaderService, ImageService) {
    return {
       restrict: 'E',
-      template: "",//<input id=\"filePicker\" class=\"file_picker\" type=\"file\" accept=\"image/\*\" name=\"files[]\" ng-disabled=\"disabled\">",
+      template: "",
       scope: {
          //maxFiles: "@",
          //maxFileSizeKb: "@",
@@ -52,9 +53,9 @@ FileReaderService) {
                            return ProgressService(0, 1, "Processing EXIF data...");
                         } else {
                            return Promise(function(resolve, reject, notify) {
-                              FileReaderService.processExifData(file)
+                              ImageService.processAndStripExifData(file)
                               .then(function(data) {
-                                 resolve({blob: data.blob});
+                                 resolve({blob: data.blob, exifData: data.exifData});
                               })
                               .catch(function(e) {
                                  reject(e);
@@ -72,12 +73,16 @@ FileReaderService) {
                                  // A little trick here, we want to make
                                  // sure the update file model has the correct
                                  // data, post-exif processing.
-                                 console.log("BLOB RESULT", result);
-                                 resolve({file: FileModel.fromFileObject({
+                                 
+                                 var fileModel = FileModel.fromFileObject({
                                     type: existingData.blob.type,
                                     size: existingData.blob.size,
                                     name: file.name
-                                 }, null, result)});
+                                 }, null, result);
+                                 
+                                 fileModel.exifData = existingData.exifData;
+                                 
+                                 resolve({file: fileModel});
                               })
                               .catch(function(e) {
                                  reject(e);
@@ -94,21 +99,6 @@ FileReaderService) {
                      return SerialPromise.withNotify(serialFnArray,
                         null, ['file'], true);
                   }
-
-/*
-                  if (true === isNotify) {
-                     return ProgressService(0, file.size, "Loading file...");
-                  } else {
-                     return Promise(function(resolve, reject, notify) {
-                        FileReaderService.readAsArrayBuffer(file)
-                        .then(function(result) {
-                           resolve(FileModel.fromFileObject(file, null, result));
-                        })
-                        .catch(function(e) {
-                           reject(e);
-                        });                
-                     });
-                  }*/
                }
             })
 

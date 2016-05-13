@@ -2,9 +2,6 @@
 
 var registerService = require('services/register');
 
-var EXIF = require('exif-js');
-var exifOrient = require('exif-orient');
-
 var name = 'services.file_reader_service';
 
 // This service does NOT use FileModel,
@@ -87,75 +84,6 @@ DataUrlService) {
          
          fileReader.readAsDataURL(file);
       });      
-   }
-   
-   FileReaderService.processExifData = function(file) {
-      var promiseFnArray = [];
-      
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1);   
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               FileReaderService.readAsDataUrl(file)
-               .then(function(dataUrl) {
-                  resolve({dataUrl: dataUrl});
-               }) 
-               .catch(function(e) {
-                  reject(e);
-               });         
-            });
-         }
-      });
-      
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1);
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               var image = new Image();
-               image.src = existingData.dataUrl;
-               
-               EXIF.getData(image, function() {
-                  resolve({exifData: image.exifdata});
-               });
-            });
-         }
-      });
-      
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1);
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               if (!existingData.exifData.Orientation) {
-                  // File extends from blob
-                  resolve({blob: file});
-               } else {
-                  exifOrient(existingData.dataUrl, existingData.exifData.Orientation, function(error, canvas) {
-                     if (error) {
-                        reject(ErrorService.localError("Cannot render non-exif image!"));
-                     } else {
-                        var newDataUrl = canvas.toDataURL(file.type);
-                        
-                        if (!newDataUrl) {
-                           reject(ErrorService.localError("Cannot obtain non-exif image!"));
-                        } else {
-                           var blob = DataUrlService.dataUrlToBlob(newDataUrl);
-                           if (!blob) {
-                              reject(ErrorService.localError("Cannot obtain non-exif file data!"))
-                           } else {
-                              resolve({blob: blob});
-                           }
-                        }
-                     }
-                  });
-               }
-            });
-         }
-      });
-      
-      return SerialPromise.withNotify(promiseFnArray);
    }
    
    return FileReaderService;

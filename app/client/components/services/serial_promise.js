@@ -65,6 +65,9 @@ function(promise, progress, ProgressModel) {
                         progressInfoArray[index].message));
                   }
 
+                  promiseData = utils.isUndefinedOrNull(promiseData) ? {}
+                                    : promiseData;
+
                   if (false === utils.isPlainObject(promiseData)) {
                      var newData = {};
                      newData[index] = promiseData;

@@ -19,7 +19,8 @@ function(BaseModel, FileReaderService) {
                type: "",
                size: 0,
                arrayBuffer: null,
-               objectUrl: ""
+               objectUrl: "",
+               exifData: ""
             });
          },
          

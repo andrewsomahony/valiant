@@ -5,7 +5,8 @@ var registerService = require('services/register');
 var name = 'services.data_url';
 
 registerService('factory', name, [require('services/base64_service'),
-function(Base64Service) {
+                                  require('services/promise'),
+function(Base64Service, Promise) {
    function DataUrlService() {
       
    }
@@ -27,6 +28,25 @@ function(Base64Service) {
          return dataUrl.substring(this.getBase64Index(dataUrl) + base64Separator.length);
       }
    }
+   
+   DataUrlService.getFileType = function(dataUrl) {
+      //Attempt to extract it from the base64 data
+      var fileType = "";
+      var dataSeparator = 'data:';
+
+      var index = dataUrl.indexOf(dataSeparator);
+
+      if (dataUrl.indexOf(dataSeparator) > -1 &&
+            dataUrl.indexOf(';') > -1) {
+         var dataString = dataUrl.split(';')[0];
+
+         if (dataString.indexOf(':') > -1) {
+            fileType = dataString.split(':')[1];
+         }
+      }
+      
+      return fileType;
+   }
 
    DataUrlService.dataUrlToBlob = function(dataUrl, dataType) {
 
@@ -35,25 +55,25 @@ function(Base64Service) {
       }
 
       if (!dataType) {
-         //Attempt to extract it from the base64 data
-         var dataSeparator = 'data:';
-
-         var index = dataUrl.indexOf(dataSeparator);
-
-         if (dataUrl.indexOf(dataSeparator) > -1 &&
-             dataUrl.indexOf(';') > -1) {
-            var dataString = dataUrl.split(';')[0];
-
-            if (dataString.indexOf(':') > -1)
-            {
-               dataType = dataString.split(':')[1];
-            }
-         }
+         dataType = this.getFileType(dataUrl);
       }
 
       return new Blob([Base64Service.decodeIntoArrayBuffer(
          this.getDataSubstring(dataUrl))],
          {type: dataType});     
+   }
+   
+   DataUrlService.dataUrlToImage = function(dataUrl) {
+      var image = new Image();
+      image.src = dataUrl;
+      
+      // Because we're using a dataUrl
+      // we can just return the image
+      // without waiting for onLoad
+      
+      // !!! What if there's an error?
+      
+      return image;
    }
    
    return DataUrlService;

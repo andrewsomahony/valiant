@@ -38,6 +38,7 @@
     "gulp-uglify": "~1.1.0",
     "gulp-uglifycss": "^1.0.6",
     "gulp-util": "~3.0.2",
+    "html5-canvas-image-resizer": "^0.1.1",
     "piexifjs": "^1.0.0",
     "q": "~1.4.1",
     "rfc6902": "^1.2.1",
