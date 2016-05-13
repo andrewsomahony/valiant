@@ -95,13 +95,18 @@ function(promise, progress, ProgressModel) {
                             true === removeFinalKeyIfAlone) {
                            var d = finalData[Object.keys(finalData)[0]];
 
+/*
                            var newData = {};
 
                            Object.keys(d).forEach(function(k) {
                               newData[k] = d[k]
-                           })
+                           })*/
+                           // This could be a boolean or int...
+                           // should work the same.
+                           finalData = d;
+   
 
-                           finalData = newData;
+                           //finalData = newData;
                         }
 
                         resolve(finalData);

@@ -6,10 +6,11 @@ var name = 'fileReader';
 
 registerDirective(name, [require('models/file'),
                          require('services/promise'),
+                         require('services/serial_promise'),
                          require('services/parallel_promise'),
                          require('services/progress'),
                          require('services/file_reader_service'),
-function(FileModel, Promise, ParallelPromise, ProgressService,
+function(FileModel, Promise, SerialPromise, ParallelPromise, ProgressService,
 FileReaderService) {
    return {
       restrict: 'E',
@@ -45,26 +46,75 @@ FileReaderService) {
 
             var promiseFnArray = fileArray.map(function(file) {
                return function(isNotify) {
-                  if (true === isNotify) {
-                     return ProgressService(0, file.size, "Loading file...")
-                  }
+                  var serialFnArray = [
+                     function(existingData, index, forNotify) {
+                        if (true === forNotify) {
+                           return ProgressService(0, 1, "Processing EXIF data...");
+                        } else {
+                           return Promise(function(resolve, reject, notify) {
+                              FileReaderService.processExifData(file)
+                              .then(function(data) {
+                                 resolve({blob: data.blob});
+                              })
+                              .catch(function(e) {
+                                 reject(e);
+                              })
+                           });
+                        }
+                     },
+                     function(existingData, index, forNotify) {
+                        if (true === forNotify) {
+                           return ProgressService(0, file.size, "Loading file...");
+                        } else {
+                           return Promise(function(resolve, reject, notify) {
+                              FileReaderService.readAsArrayBuffer(existingData.blob)
+                              .then(function(result) {
+                                 // A little trick here, we want to make
+                                 // sure the update file model has the correct
+                                 // data, post-exif processing.
+                                 console.log("BLOB RESULT", result);
+                                 resolve({file: FileModel.fromFileObject({
+                                    type: existingData.blob.type,
+                                    size: existingData.blob.size,
+                                    name: file.name
+                                 }, null, result)});
+                              })
+                              .catch(function(e) {
+                                 reject(e);
+                              });                
+                           });    
+                        }                    
+                     }
+                  ];
                   
-                  FileReaderService.processExifData(file);
+                  
+                  if (true === isNotify) {
+                     return SerialPromise.getProgressSum(serialFnArray);
+                  } else {
+                     return SerialPromise.withNotify(serialFnArray,
+                        null, ['file'], true);
+                  }
 
-                  return Promise(function(resolve, reject, notify) {
-                     FileReaderService.readAsArrayBuffer(file)
-                     .then(function(result) {
-                        resolve(FileModel.fromFileObject(file, null, result));
-                     })
-                     .catch(function(e) {
-                        reject(e);
-                     });                
-                  })
+/*
+                  if (true === isNotify) {
+                     return ProgressService(0, file.size, "Loading file...");
+                  } else {
+                     return Promise(function(resolve, reject, notify) {
+                        FileReaderService.readAsArrayBuffer(file)
+                        .then(function(result) {
+                           resolve(FileModel.fromFileObject(file, null, result));
+                        })
+                        .catch(function(e) {
+                           reject(e);
+                        });                
+                     });
+                  }*/
                }
             })
 
             ParallelPromise.withNotify(promiseFnArray, true)
             .then(function(files) {
+               console.log(files);
                $scope.onFilesAdded({files: files});
             }, null, function(notifyData) {
                $scope.onFilesProgress({progress: notifyData});

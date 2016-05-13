@@ -9,7 +9,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('animations'), []);
-},{"angular":79,"info":62}],3:[function(require,module,exports){
+},{"angular":81,"info":64}],3:[function(require,module,exports){
 'use strict';
 
 require('./root');
@@ -84,7 +84,7 @@ function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, Htt
 }]);
 
 module.exports = name;
-},{"../../register":21,"models/http_response":36,"models/progress":39,"services/error":44,"services/error_modal":45,"services/http_service":47,"utils":67}],6:[function(require,module,exports){
+},{"../../register":21,"models/http_response":36,"models/progress":39,"services/error":46,"services/error_modal":47,"services/http_service":49,"utils":69}],6:[function(require,module,exports){
 'use strict';
 
 var registerController = require('../../register');
@@ -183,7 +183,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":45,"services/state_service":60,"services/user_service":61,"utils":67}],9:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":47,"services/state_service":62,"services/user_service":63,"utils":69}],9:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -218,7 +218,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":45,"services/user_service":61}],10:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":47,"services/user_service":63}],10:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -266,7 +266,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":45,"services/user_service":61}],12:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":47,"services/user_service":63}],12:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -340,7 +340,7 @@ UserModel, StateService, SerialPromise, Promise, ProgressService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"models/user":41,"services/error_modal":45,"services/progress":54,"services/promise":55,"services/serial_promise":59,"services/state_service":60,"services/user_service":61}],13:[function(require,module,exports){
+},{"controllers/register":21,"models/user":41,"services/error_modal":47,"services/progress":56,"services/promise":57,"services/serial_promise":61,"services/state_service":62,"services/user_service":63}],13:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -375,7 +375,7 @@ function($scope, UserService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/user_service":61}],15:[function(require,module,exports){
+},{"controllers/register":21,"services/user_service":63}],15:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -416,7 +416,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":45,"services/state_service":60,"services/user_service":61}],16:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":47,"services/state_service":62,"services/user_service":63}],16:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -469,7 +469,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":45,"services/state_service":60,"services/user_service":61}],18:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":47,"services/state_service":62,"services/user_service":63}],18:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -608,7 +608,7 @@ function($scope, UserService, UserModel, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"models/user":41,"services/error_modal":45,"services/user_service":61}],19:[function(require,module,exports){
+},{"controllers/register":21,"models/user":41,"services/error_modal":47,"services/user_service":63}],19:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -628,7 +628,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('controllers'), []);
-},{"angular":79,"info":62}],21:[function(require,module,exports){
+},{"angular":81,"info":64}],21:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -708,7 +708,7 @@ function($rootScope, ErrorModal, UserService, StateService, PermissionService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":21,"services/error_modal":45,"services/permission_service":53,"services/state_service":60,"services/user_service":61,"utils":67}],23:[function(require,module,exports){
+},{"controllers/register":21,"services/error_modal":47,"services/permission_service":55,"services/state_service":62,"services/user_service":63,"utils":69}],23:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -774,7 +774,7 @@ function(PromiseService, HttpService, ApiUrlService) {
 }]);
 
 module.exports = name;
-},{"directives/register":30,"services/api_url":42,"services/http_service":47,"services/promise":55}],25:[function(require,module,exports){
+},{"directives/register":30,"services/api_url":42,"services/http_service":49,"services/promise":57}],25:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -783,10 +783,11 @@ var name = 'fileReader';
 
 registerDirective(name, [require('models/file'),
                          require('services/promise'),
+                         require('services/serial_promise'),
                          require('services/parallel_promise'),
                          require('services/progress'),
                          require('services/file_reader_service'),
-function(FileModel, Promise, ParallelPromise, ProgressService,
+function(FileModel, Promise, SerialPromise, ParallelPromise, ProgressService,
 FileReaderService) {
    return {
       restrict: 'E',
@@ -822,36 +823,75 @@ FileReaderService) {
 
             var promiseFnArray = fileArray.map(function(file) {
                return function(isNotify) {
-                  if (true === isNotify)
-                  {
-                     return ProgressService(0, file.size, "Loading file...")
+                  var serialFnArray = [
+                     function(existingData, index, forNotify) {
+                        if (true === forNotify) {
+                           return ProgressService(0, 1, "Processing EXIF data...");
+                        } else {
+                           return Promise(function(resolve, reject, notify) {
+                              FileReaderService.processExifData(file)
+                              .then(function(data) {
+                                 resolve({blob: data.blob});
+                              })
+                              .catch(function(e) {
+                                 reject(e);
+                              })
+                           });
+                        }
+                     },
+                     function(existingData, index, forNotify) {
+                        if (true === forNotify) {
+                           return ProgressService(0, file.size, "Loading file...");
+                        } else {
+                           return Promise(function(resolve, reject, notify) {
+                              FileReaderService.readAsArrayBuffer(existingData.blob)
+                              .then(function(result) {
+                                 // A little trick here, we want to make
+                                 // sure the update file model has the correct
+                                 // data, post-exif processing.
+                                 console.log("BLOB RESULT", result);
+                                 resolve({file: FileModel.fromFileObject({
+                                    type: existingData.blob.type,
+                                    size: existingData.blob.size,
+                                    name: file.name
+                                 }, null, result)});
+                              })
+                              .catch(function(e) {
+                                 reject(e);
+                              });                
+                           });    
+                        }                    
+                     }
+                  ];
+                  
+                  
+                  if (true === isNotify) {
+                     return SerialPromise.getProgressSum(serialFnArray);
+                  } else {
+                     return SerialPromise.withNotify(serialFnArray,
+                        null, ['file'], true);
                   }
 
-                  return Promise(function(resolve, reject, notify) {
-                     FileReaderService.readAsArrayBuffer(file)
-                     .then(function(result) {
-                        resolve(FileModel.fromFileObject(file, null, result));
-                     })
-                     .catch(function(e) {
-                        reject(e);
+/*
+                  if (true === isNotify) {
+                     return ProgressService(0, file.size, "Loading file...");
+                  } else {
+                     return Promise(function(resolve, reject, notify) {
+                        FileReaderService.readAsArrayBuffer(file)
+                        .then(function(result) {
+                           resolve(FileModel.fromFileObject(file, null, result));
+                        })
+                        .catch(function(e) {
+                           reject(e);
+                        });                
                      });
-                     /*var reader = new FileReader();
-
-                     reader.onprogress = function(e) {
-                        notify(ProgressService(e.loaded, e.total, "Loading file..."))
-                     }
-
-                     reader.onload = function(e) {
-                        resolve(FileModel.fromFileObject(file, null, e.target.result));
-                     }
-
-                     reader.readAsArrayBuffer(file); */                 
-                  })
+                  }*/
                }
             })
 
             ParallelPromise.withNotify(promiseFnArray, true)
             .then(function(files) {
+               console.log(files);
                $scope.onFilesAdded({files: files});
             }, null, function(notifyData) {
                $scope.onFilesProgress({progress: notifyData});
@@ -894,7 +934,7 @@ FileReaderService) {
 }])
 
 module.exports = name;
-},{"directives/register":30,"models/file":35,"services/file_reader_service":46,"services/parallel_promise":52,"services/progress":54,"services/promise":55}],26:[function(require,module,exports){
+},{"directives/register":30,"models/file":35,"services/file_reader_service":48,"services/parallel_promise":54,"services/progress":56,"services/promise":57,"services/serial_promise":61}],26:[function(require,module,exports){
 'use strict';
 
 require('./email_in_use');
@@ -1001,14 +1041,14 @@ registerDirective(name, ['$compile',
 ])
 
 module.exports = name;
-},{"directives/register":30,"utils":67}],28:[function(require,module,exports){
+},{"directives/register":30,"utils":69}],28:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('directives'), []);
-},{"angular":79,"info":62}],29:[function(require,module,exports){
+},{"angular":81,"info":64}],29:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1078,7 +1118,7 @@ var angular = require('angular');
 var info = require('info');
 
 module.exports = angular.module(info.moduleName('filters'), []);
-},{"angular":79,"info":62}],33:[function(require,module,exports){
+},{"angular":81,"info":64}],33:[function(require,module,exports){
 'use strict'
 
 var m = require('./module')
@@ -1353,7 +1393,7 @@ function(id, promise) {
 }])
 
 module.exports = name
-},{"../services/id":48,"../services/promise":55,"./module":38,"classy":102,"rfc6902":123,"utils":67}],34:[function(require,module,exports){
+},{"../services/id":50,"../services/promise":57,"./module":38,"classy":104,"rfc6902":127,"utils":69}],34:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -1387,7 +1427,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":33,"classy":102,"models/register":40}],35:[function(require,module,exports){
+},{"./base":33,"classy":104,"models/register":40}],35:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -1396,8 +1436,8 @@ var classy = require('classy');
 var name = 'fileModel';
 
 registerModel(name, [require('models/base'),
-                     require('services/promise'),
-function(BaseModel, Promise) {
+                     require('services/file_reader_service'),
+function(BaseModel, FileReaderService) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -1408,7 +1448,8 @@ function(BaseModel, Promise) {
                name: "",
                type: "",
                size: 0,
-               arrayBuffer: null
+               arrayBuffer: null,
+               objectUrl: ""
             });
          },
          
@@ -1427,19 +1468,13 @@ function(BaseModel, Promise) {
          },
          
          fromBlob: function(blob) {
-            return Promise(function(resolve, reject, notify) {
-               var fileReader = new FileReader();
-                  
-               fileReader.onload = function(e) {
-                  var buffer = e.target.result;
-                  resolve(this.fromFileObject(blob, null, buffer));
-               }
-               
-               fileReader.onerror = function(e) {
-                  
-               }
-                  
-               fileReader.readAsArrayBuffer(blob);                  
+            var self = this;
+            FileReaderService.readAsArrayBuffer(blob)
+            .then(function(result) {
+               resolve(self.fromFileObject(blob, null, result));
+            })
+            .catch(function(e) {
+               reject(e);   
             });
          },
 
@@ -1485,11 +1520,19 @@ function(BaseModel, Promise) {
       getUrl: function() {
          var blob = new Blob([this.arrayBuffer], {type: this.type});           
          var urlCreator = window.URL || window.webkitURL;
+
+         if (this.objectUrl) {
+            urlCreator.revokeObjectURL(this.objectUrl);
+         }      
       
-         return urlCreator.createObjectURL(blob);
+         this.objectUrl = urlCreator.createObjectURL(blob);
+      
+         return this.objectUrl;
       },
       
       getDataUrl: function() {
+         return FileReaderService.readAsDataUrl(this.toBlob());
+         /*
          return Promise(function(resolve, reject, notify) {
             var fileReader = new FileReader();
          
@@ -1501,7 +1544,7 @@ function(BaseModel, Promise) {
             }
          
             fileReader.readAsDataUrl(this.toBlob());               
-         });
+         });*/
       }
    })
 }])
@@ -1509,7 +1552,7 @@ function(BaseModel, Promise) {
 module.exports = name;
 
 
-},{"classy":102,"models/base":33,"models/register":40,"services/promise":55}],36:[function(require,module,exports){
+},{"classy":104,"models/base":33,"models/register":40,"services/file_reader_service":48}],36:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -1564,7 +1607,7 @@ statusText – {string} – HTTP status text of the response.
 }]);
 
 module.exports = name;
-},{"./base":33,"classy":102,"models/register":40}],37:[function(require,module,exports){
+},{"./base":33,"classy":104,"models/register":40}],37:[function(require,module,exports){
 arguments[4][1][0].apply(exports,arguments)
 },{"./module":38,"dup":1}],38:[function(require,module,exports){
 'use strict';
@@ -1573,7 +1616,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('models'), []);
-},{"angular":79,"info":62}],39:[function(require,module,exports){
+},{"angular":81,"info":64}],39:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('./register');
@@ -1614,7 +1657,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":33,"./register":40,"classy":102,"models/base":33}],40:[function(require,module,exports){
+},{"./base":33,"./register":40,"classy":104,"models/base":33}],40:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -1678,7 +1721,7 @@ function(BaseModel) {
 }]);
 
 module.exports = name;
-},{"classy":102,"models/base":33,"models/register":40}],42:[function(require,module,exports){
+},{"classy":104,"models/base":33,"models/register":40}],42:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1790,7 +1833,79 @@ registerService('factory', name, [function() {
 }]);
 
 module.exports = name;
-},{"services/register":56,"utils":67}],43:[function(require,module,exports){
+},{"services/register":58,"utils":69}],43:[function(require,module,exports){
+'use strict';
+
+var registerService = require('services/register');
+
+var name = 'services.base64';
+
+registerService('factory', name, [
+function() {
+   //Adapted for Angular from
+   //https://raw.githubusercontent.com/danguer/blog-examples/master/js/base64-binary.js
+   
+   var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+   function Base64Service() {
+      
+   }
+      
+   Base64Service.decodeIntoArrayBuffer = function(input) {
+      var bytes = (input.length/4) * 3;
+      var ab = new ArrayBuffer(bytes);
+      this.decode(input, ab);
+         
+      return ab;
+   }
+      
+   Base64Service.decode = function(input, arrayBuffer) {
+      //get last chars to see if are valid
+      var lkey1 = _keyStr.indexOf(input.charAt(input.length-1));       
+      var lkey2 = _keyStr.indexOf(input.charAt(input.length-2));       
+   
+      var bytes = (input.length/4) * 3;
+      if (lkey1 == 64) bytes--; //padding chars, so skip
+      if (lkey2 == 64) bytes--; //padding chars, so skip
+      
+      var uarray;
+      var chr1, chr2, chr3;
+      var enc1, enc2, enc3, enc4;
+      var i = 0;
+      var j = 0;
+      
+      if (arrayBuffer) {
+         uarray = new Uint8Array(arrayBuffer);
+      } else {
+         uarray = new Uint8Array(bytes);
+      }
+      
+      input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+      
+      for (i=0; i<bytes; i+=3) { 
+         //get the 3 octects in 4 ascii chars
+         enc1 = _keyStr.indexOf(input.charAt(j++));
+         enc2 = _keyStr.indexOf(input.charAt(j++));
+         enc3 = _keyStr.indexOf(input.charAt(j++));
+         enc4 = _keyStr.indexOf(input.charAt(j++));
+   
+         chr1 = (enc1 << 2) | (enc2 >> 4);
+         chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+         chr3 = ((enc3 & 3) << 6) | enc4;
+   
+         uarray[i] = chr1;       
+         if (enc3 != 64) uarray[i+1] = chr2;
+         if (enc4 != 64) uarray[i+2] = chr3;
+      }
+      return uarray; 
+   }
+
+   return Base64Service;   
+}
+]);
+
+module.exports = name;
+},{"services/register":58}],44:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1834,7 +1949,71 @@ registerService('factory', name, [
 ]);
 
 module.exports = name;
-},{"services/parallel_promise":52,"services/progress":54,"services/register":56,"services/serial_promise":59,"services/user_service":61,"utils":67}],44:[function(require,module,exports){
+},{"services/parallel_promise":54,"services/progress":56,"services/register":58,"services/serial_promise":61,"services/user_service":63,"utils":69}],45:[function(require,module,exports){
+'use strict';
+
+var registerService = require('services/register');
+
+var name = 'services.data_url';
+
+registerService('factory', name, [require('services/base64_service'),
+function(Base64Service) {
+   function DataUrlService() {
+      
+   }
+   
+   var base64Separator = 'base64,';
+   
+   DataUrlService.getBase64Index = function(dataUrl) {
+      return dataUrl.indexOf(base64Separator);
+   }
+
+   DataUrlService.isBase64 = function(dataUrl) {
+      return -1 === this.getBase64Index(dataUrl) ? false : true
+   }
+   
+   DataUrlService.getDataSubstring = function(dataUrl) {
+      if (false === this.isBase64(dataUrl)) {
+         return null;
+      } else {
+         return dataUrl.substring(this.getBase64Index(dataUrl) + base64Separator.length);
+      }
+   }
+
+   DataUrlService.dataUrlToBlob = function(dataUrl, dataType) {
+
+      if (false === this.isBase64(dataUrl)) {
+         return null;
+      }
+
+      if (!dataType) {
+         //Attempt to extract it from the base64 data
+         var dataSeparator = 'data:';
+
+         var index = dataUrl.indexOf(dataSeparator);
+
+         if (dataUrl.indexOf(dataSeparator) > -1 &&
+             dataUrl.indexOf(';') > -1) {
+            var dataString = dataUrl.split(';')[0];
+
+            if (dataString.indexOf(':') > -1)
+            {
+               dataType = dataString.split(':')[1];
+            }
+         }
+      }
+
+      return new Blob([Base64Service.decodeIntoArrayBuffer(
+         this.getDataSubstring(dataUrl))],
+         {type: dataType});     
+   }
+   
+   return DataUrlService;
+}
+])
+
+module.exports = name;
+},{"services/base64_service":43,"services/register":58}],46:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1884,7 +2063,7 @@ function(ErrorModel, HttpResponseModel) {
 }]);
 
 module.exports = name;
-},{"models/error":34,"models/http_response":36,"services/register":56}],45:[function(require,module,exports){
+},{"models/error":34,"models/http_response":36,"services/register":58}],47:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -1919,18 +2098,30 @@ function(modalService, ErrorModel, $rootScope) {
 }])
 
 module.exports = name
-},{"models/error":34,"services/modal":50,"services/register":56,"utils":67}],46:[function(require,module,exports){
+},{"models/error":34,"services/modal":52,"services/register":58,"utils":69}],48:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
 
+var EXIF = require('exif-js');
+var exifOrient = require('exif-orient');
+
 var name = 'services.file_reader_service';
+
+// This service does NOT use FileModel,
+// it's entirely to be used as a wrapper
+// for the HTML File object
 
 registerService('factory', name, 
 [require('services/promise'),
+ require('services/serial_promise'),
+ require('services/parallel_promise'),
  require('services/progress'),
  require('services/error'),
-function(Promise, ProgressService, ErrorService) {
+ require('services/data_url_service'),
+function(Promise, SerialPromise, 
+ParallelPromise, ProgressService, ErrorService,
+DataUrlService) {
    function FileReaderService() {
       
    }
@@ -1983,7 +2174,7 @@ function(Promise, ProgressService, ErrorService) {
       return fileReader;
    }
    
-   FileReaderService.readAsArrayBuffer = function(file) {
+   FileReaderService.readAsArrayBuffer = function(file, processExif) {
       return Promise(function(resolve, reject, notify) {
          var fileReader = FileReaderService.initFileReader(resolve, reject, notify);
          
@@ -1991,12 +2182,81 @@ function(Promise, ProgressService, ErrorService) {
       });
    }
    
-   FileReaderService.readAsDataUrl = function(file) {
+   FileReaderService.readAsDataUrl = function(file, processExif) {
       return Promise(function(resolve, reject, notify) {
          var fileReader = FileReaderService.initFileReader(resolve, reject, notify);
          
-         fileReader.readAsDataUrl(file);
+         fileReader.readAsDataURL(file);
       });      
+   }
+   
+   FileReaderService.processExifData = function(file) {
+      var promiseFnArray = [];
+      
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         if (true === forNotify) {
+            return ProgressService(0, 1);   
+         } else {
+            return Promise(function(resolve, reject, notify) {
+               FileReaderService.readAsDataUrl(file)
+               .then(function(dataUrl) {
+                  resolve({dataUrl: dataUrl});
+               }) 
+               .catch(function(e) {
+                  reject(e);
+               });         
+            });
+         }
+      });
+      
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         if (true === forNotify) {
+            return ProgressService(0, 1);
+         } else {
+            return Promise(function(resolve, reject, notify) {
+               var image = new Image();
+               image.src = existingData.dataUrl;
+               
+               EXIF.getData(image, function() {
+                  resolve({exifData: image.exifdata});
+               });
+            });
+         }
+      });
+      
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         if (true === forNotify) {
+            return ProgressService(0, 1);
+         } else {
+            return Promise(function(resolve, reject, notify) {
+               if (!existingData.exifData.Orientation) {
+                  // File extends from blob
+                  resolve({blob: file});
+               } else {
+                  exifOrient(existingData.dataUrl, existingData.exifData.Orientation, function(error, canvas) {
+                     if (error) {
+                        reject(ErrorService.localError("Cannot render non-exif image!"));
+                     } else {
+                        var newDataUrl = canvas.toDataURL(file.type);
+                        
+                        if (!newDataUrl) {
+                           reject(ErrorService.localError("Cannot obtain non-exif image!"));
+                        } else {
+                           var blob = DataUrlService.dataUrlToBlob(newDataUrl);
+                           if (!blob) {
+                              reject(ErrorService.localError("Cannot obtain non-exif file data!"))
+                           } else {
+                              resolve({blob: blob});
+                           }
+                        }
+                     }
+                  });
+               }
+            });
+         }
+      });
+      
+      return SerialPromise.withNotify(promiseFnArray);
    }
    
    return FileReaderService;
@@ -2004,7 +2264,7 @@ function(Promise, ProgressService, ErrorService) {
 ]);
 
 module.exports = name;
-},{"services/error":44,"services/progress":54,"services/promise":55,"services/register":56}],47:[function(require,module,exports){
+},{"exif-js":122,"exif-orient":123,"services/data_url_service":45,"services/error":46,"services/parallel_promise":54,"services/progress":56,"services/promise":57,"services/register":58,"services/serial_promise":61}],49:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -2099,7 +2359,7 @@ function($http, PromiseService, HttpResponseModel, ErrorService) {
 }]);
 
 module.exports = name;
-},{"models/http_response":36,"services/error":44,"services/promise":55,"services/register":56,"utils":67}],48:[function(require,module,exports){
+},{"models/http_response":36,"services/error":46,"services/promise":57,"services/register":58,"utils":69}],50:[function(require,module,exports){
 var m = require('./module')
 var Chance = require('chance')
 
@@ -2116,11 +2376,11 @@ function() {
 }])
 
 module.exports = name
-},{"./module":51,"chance":83}],49:[function(require,module,exports){
+},{"./module":53,"chance":85}],51:[function(require,module,exports){
 'use strict';
 
 require('services/data_resolver');
-},{"services/data_resolver":43}],50:[function(require,module,exports){
+},{"services/data_resolver":44}],52:[function(require,module,exports){
 var registerService = require('services/register');
 var utils = require('utils');
 
@@ -2153,14 +2413,14 @@ function($modal, $templateCache) {
 }])
 
 module.exports = name
-},{"services/register":56,"utils":67}],51:[function(require,module,exports){
+},{"services/register":58,"utils":69}],53:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('services'), []);
-},{"angular":79,"info":62}],52:[function(require,module,exports){
+},{"angular":81,"info":64}],54:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -2259,7 +2519,7 @@ function(promise, progress, ProgressModel, $q) {
 }])
 
 module.exports = name;
-},{"./module":51,"models/progress":39,"services/progress":54,"services/promise":55,"utils":67}],53:[function(require,module,exports){
+},{"./module":53,"models/progress":39,"services/progress":56,"services/promise":57,"utils":69}],55:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -2285,7 +2545,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":56}],54:[function(require,module,exports){
+},{"services/register":58}],56:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -2318,7 +2578,7 @@ function(progressModel) {
 }])
 
 module.exports = name;
-},{"../models/progress":39,"./module":51}],55:[function(require,module,exports){
+},{"../models/progress":39,"./module":53}],57:[function(require,module,exports){
 'use strict';
 
 var registerService = require('./register');
@@ -2342,7 +2602,7 @@ function($q) {
 }])
 
 module.exports = name;
-},{"./register":56}],56:[function(require,module,exports){
+},{"./register":58}],58:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -2358,7 +2618,7 @@ module.exports = function(type, name, params) {
         throw new Error("services.register: Invalid service type! " + name);   
     }
 }
-},{"./module":51}],57:[function(require,module,exports){
+},{"./module":53}],59:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -2401,7 +2661,7 @@ function(ApiUrlService, Promise, ErrorService, HttpService) {
 }])
 
 module.exports = name;
-},{"services/api_url":42,"services/error":44,"services/http_service":47,"services/promise":55,"services/register":56}],58:[function(require,module,exports){
+},{"services/api_url":42,"services/error":46,"services/http_service":49,"services/promise":57,"services/register":58}],60:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -2503,7 +2763,7 @@ function(FileModel, S3SignUrlService, Promise,
 }]);
 
 module.exports = name;
-},{"models/file":35,"services/error":44,"services/progress":54,"services/promise":55,"services/register":56,"services/s3_sign_url_service":57,"services/serial_promise":59}],59:[function(require,module,exports){
+},{"models/file":35,"services/error":46,"services/progress":56,"services/promise":57,"services/register":58,"services/s3_sign_url_service":59,"services/serial_promise":61}],61:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -2601,13 +2861,18 @@ function(promise, progress, ProgressModel) {
                             true === removeFinalKeyIfAlone) {
                            var d = finalData[Object.keys(finalData)[0]];
 
+/*
                            var newData = {};
 
                            Object.keys(d).forEach(function(k) {
                               newData[k] = d[k]
-                           })
+                           })*/
+                           // This could be a boolean or int...
+                           // should work the same.
+                           finalData = d;
+   
 
-                           finalData = newData;
+                           //finalData = newData;
                         }
 
                         resolve(finalData);
@@ -2674,7 +2939,7 @@ function(promise, progress, ProgressModel) {
 }])
 
 module.exports = name;
-},{"./module":51,"models/progress":39,"services/progress":54,"services/promise":55,"utils":67}],60:[function(require,module,exports){
+},{"./module":53,"models/progress":39,"services/progress":56,"services/promise":57,"utils":69}],62:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -2699,7 +2964,7 @@ function($state) {
 }]);
 
 module.exports = name;
-},{"services/register":56}],61:[function(require,module,exports){
+},{"services/register":58}],63:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3157,14 +3422,14 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
 ]);
 
 module.exports = name;
-},{"models/user":41,"services/api_url":42,"services/error":44,"services/http_service":47,"services/progress":54,"services/promise":55,"services/register":56,"services/s3_uploader_service":58,"services/serial_promise":59,"utils":67}],62:[function(require,module,exports){
+},{"models/user":41,"services/api_url":42,"services/error":46,"services/http_service":49,"services/progress":56,"services/promise":57,"services/register":58,"services/s3_uploader_service":60,"services/serial_promise":61,"utils":69}],64:[function(require,module,exports){
 module.exports = {
     name: 'valiant',
     moduleName: function(name) {
         return this.name + "." + name;
     }
 }
-},{}],63:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -3199,7 +3464,7 @@ module.exports = angular.module(appInfo.name, [
     require('angular-route'),
     'ngMessages'
 ]);
-},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":26,"../components/filters/init":31,"../components/models/init":37,"../components/services/init":49,"../views/_views":124,"angular":79,"angular-animate":70,"angular-messages":72,"angular-route":74,"angular-strap":75,"angular-strap-tpl-modal":76,"angular-ui-router":77,"info":62}],64:[function(require,module,exports){
+},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":26,"../components/filters/init":31,"../components/models/init":37,"../components/services/init":51,"../views/_views":128,"angular":81,"angular-animate":72,"angular-messages":74,"angular-route":76,"angular-strap":77,"angular-strap-tpl-modal":78,"angular-ui-router":79,"info":64}],66:[function(require,module,exports){
 'use strict';
 
 function boot() {
@@ -3213,7 +3478,7 @@ function boot() {
 }
 
 module.exports = boot
-},{"../info":62,"./app":63,"./config":65,"./routes":66}],65:[function(require,module,exports){
+},{"../info":64,"./app":65,"./config":67,"./routes":68}],67:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -3229,7 +3494,7 @@ app.config(['$httpProvider', function($httpProvider) {
         
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
-},{"./app":63}],66:[function(require,module,exports){
+},{"./app":65}],68:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -3496,7 +3761,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }
    })
 }]);
-},{"./app":63,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/home/default":6,"controllers/main/home/home":7,"controllers/main/login/default":8,"controllers/main/login/forgot_password":9,"controllers/main/login/login":10,"controllers/main/login/unverified":11,"controllers/main/register/default":12,"controllers/main/register/register":13,"controllers/main/register/success":14,"controllers/main/reset_password/default":15,"controllers/main/reset_password/reset_password":16,"controllers/main/top_bar":17,"controllers/main/user/default":18,"controllers/main/user/user":19}],67:[function(require,module,exports){
+},{"./app":65,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/home/default":6,"controllers/main/home/home":7,"controllers/main/login/default":8,"controllers/main/login/forgot_password":9,"controllers/main/login/login":10,"controllers/main/login/unverified":11,"controllers/main/register/default":12,"controllers/main/register/register":13,"controllers/main/register/success":14,"controllers/main/reset_password/default":15,"controllers/main/reset_password/reset_password":16,"controllers/main/top_bar":17,"controllers/main/user/default":18,"controllers/main/user/user":19}],69:[function(require,module,exports){
 
 
 /*
@@ -3815,7 +4080,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 /*'undefined' !== typeof exports ? ('undefined' !== typeof module ? module.exports : exports) : window*/
 
 
-},{}],68:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 require('domready')(function() {
     console.log("DOM IS READY!");
     
@@ -3823,7 +4088,7 @@ require('domready')(function() {
     bootFn();
 })
 
-},{"./init/boot":64,"domready":119}],69:[function(require,module,exports){
+},{"./init/boot":66,"domready":121}],71:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -7940,11 +8205,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],70:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":69}],71:[function(require,module,exports){
+},{"./angular-animate":71}],73:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -8668,11 +8933,11 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-},{}],72:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 require('./angular-messages');
 module.exports = 'ngMessages';
 
-},{"./angular-messages":71}],73:[function(require,module,exports){
+},{"./angular-messages":73}],75:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -9696,11 +9961,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],74:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":73}],75:[function(require,module,exports){
+},{"./angular-route":75}],77:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -14039,7 +14304,7 @@ module.exports = 'ngRoute';
   });
   angular.module('mgcrea.ngStrap', [ 'mgcrea.ngStrap.modal', 'mgcrea.ngStrap.aside', 'mgcrea.ngStrap.alert', 'mgcrea.ngStrap.button', 'mgcrea.ngStrap.select', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.timepicker', 'mgcrea.ngStrap.navbar', 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.popover', 'mgcrea.ngStrap.dropdown', 'mgcrea.ngStrap.typeahead', 'mgcrea.ngStrap.scrollspy', 'mgcrea.ngStrap.affix', 'mgcrea.ngStrap.tab', 'mgcrea.ngStrap.collapse' ]);
 })(window, document);
-},{}],76:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -14052,7 +14317,7 @@ module.exports = 'ngRoute';
 angular.module('mgcrea.ngStrap.modal').run([ '$templateCache', function($templateCache) {
   $templateCache.put('modal/modal.tpl.html', '<div class="modal" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header" ng-show="title"><button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" ng-bind="title"></h4></div><div class="modal-body" ng-bind="content"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="$hide()">Close</button></div></div></div></div>');
 } ]);
-},{}],77:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.18
@@ -18592,7 +18857,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],78:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -49021,11 +49286,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],79:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":78}],80:[function(require,module,exports){
+},{"./angular":80}],82:[function(require,module,exports){
 'use strict'
 
 exports.toByteArray = toByteArray
@@ -49141,7 +49406,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],81:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -50607,14 +50872,14 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":80,"ieee754":120,"isarray":82}],82:[function(require,module,exports){
+},{"base64-js":82,"ieee754":124,"isarray":84}],84:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],83:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 (function (Buffer){
 //  Chance.js 1.0.1
 //  http://chancejs.com
@@ -53706,7 +53971,7 @@ module.exports = Array.isArray || function (arr) {
 })();
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":81}],84:[function(require,module,exports){
+},{"buffer":83}],86:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -53784,9 +54049,9 @@ module.exports = require('./define')({
         }
     }
 })
-},{"./core":92,"./define":95,"./utils/copy":110}],85:[function(require,module,exports){
+},{"./core":94,"./define":97,"./utils/copy":112}],87:[function(require,module,exports){
 module.exports = {}
-},{}],86:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 'use strict'
 
 var copy = require('../utils/copy').copy
@@ -53868,7 +54133,7 @@ var assignClassProperty = function(Class, propName, propDescriptor, config){
 }
 
 module.exports = assignClassProperty
-},{"../utils/copy":110,"./canDefineProperty":88,"./canGetOwnPropertyDescriptor":89,"./modifyFn":93}],87:[function(require,module,exports){
+},{"../utils/copy":112,"./canDefineProperty":90,"./canGetOwnPropertyDescriptor":91,"./modifyFn":95}],89:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -54016,7 +54281,7 @@ module.exports = function(){
         buildOverridenFn : buildOverridenFn
     }
 }()
-},{}],88:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
@@ -54033,13 +54298,13 @@ module.exports = (function(){
     return false
 
 })()
-},{}],89:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
     return 'getOwnPropertyDescriptor' in Object && typeof Object.getOwnPropertyDescriptor == 'function'
 })()
-},{}],90:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 'use strict'
 
 var canGetOwnPropertyDescriptor = require('./canGetOwnPropertyDescriptor')
@@ -54058,7 +54323,7 @@ function copy(source, target){
 }
 
 module.exports = canGetOwnPropertyDescriptor? copy: function(){}
-},{"./canGetOwnPropertyDescriptor":89}],91:[function(require,module,exports){
+},{"./canGetOwnPropertyDescriptor":91}],93:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -54084,7 +54349,7 @@ module.exports = function(){
         return child
     }
 }()
-},{}],92:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -54305,7 +54570,7 @@ module.exports = function(){
         BaseClass        : Base
     }
 }()
-},{"../utils/copy":110,"./assignClassProperty":86,"./canDefineProperty":88,"./canGetOwnPropertyDescriptor":89,"./copyDescriptors":90,"./extend":91,"newify":122}],93:[function(require,module,exports){
+},{"../utils/copy":112,"./assignClassProperty":88,"./canDefineProperty":90,"./canGetOwnPropertyDescriptor":91,"./copyDescriptors":92,"./extend":93,"newify":126}],95:[function(require,module,exports){
 var callSuperRe     = /\bcallSuper|callSuperWith\b/
 var callOverridenRe = /\bcallOverriden|callOverridenWith\b/
 
@@ -54333,7 +54598,7 @@ function modify(name, fn, superTarget, superClass, target, getterSetterConfig){
 }
 
 module.exports = modify
-},{"./buildClassFunctions":87}],94:[function(require,module,exports){
+},{"./buildClassFunctions":89}],96:[function(require,module,exports){
 var SLICE = Array.prototype.slice
 
 var getClass = require('./getClass')
@@ -54366,7 +54631,7 @@ module.exports = function(alias /* args... */){
 
     return newify(Class, args)
 }
-},{"./getClass":99,"newify":122}],95:[function(require,module,exports){
+},{"./getClass":101,"newify":126}],97:[function(require,module,exports){
 var getClass     = require('./getClass')
 var processClass = require('./processClass')
 
@@ -54422,7 +54687,7 @@ module.exports = function(parentClass, classConfig){
         processClass(Class)
     })
 }
-},{"./Registry":85,"./core":92,"./getClass":99,"./processClass":106,"./processors/ClassProcessor":107}],96:[function(require,module,exports){
+},{"./Registry":87,"./core":94,"./getClass":101,"./processClass":108,"./processors/ClassProcessor":109}],98:[function(require,module,exports){
 var define = require('./define')
 var copyIf = require('./utils/copy').copyIf
 
@@ -54432,7 +54697,7 @@ module.exports = function(members){
 
     return define(copyIf({ extend: 'z.mixin'}, members))
 }
-},{"./define":95,"./utils/copy":110}],97:[function(require,module,exports){
+},{"./define":97,"./utils/copy":112}],99:[function(require,module,exports){
 /**
  * @method destroyClass
  *
@@ -54456,7 +54721,7 @@ module.exports = function(Class){
         Class.destroy()
     }
 }
-},{"./core":92,"./getClass":99}],98:[function(require,module,exports){
+},{"./core":94,"./getClass":101}],100:[function(require,module,exports){
 
 module.exports = function(config){
 
@@ -54471,7 +54736,7 @@ module.exports = function(config){
 
     return define(config)
 }
-},{"./define":95}],99:[function(require,module,exports){
+},{"./define":97}],101:[function(require,module,exports){
 /**
  * @method getClass
  *
@@ -54499,7 +54764,7 @@ module.exports = function getClass(alias){
     return REGISTRY[alias]
 
 }
-},{"./Registry":85,"./core":92}],100:[function(require,module,exports){
+},{"./Registry":87,"./core":94}],102:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -54543,7 +54808,7 @@ module.exports = function(config){
 
     return new klass(config)
 }
-},{"./core":92,"./getClass":99}],101:[function(require,module,exports){
+},{"./core":94,"./getClass":101}],103:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -54569,7 +54834,7 @@ module.exports = function(alias){
         return Class
     }
 }
-},{"./core":92,"./getClass":99}],102:[function(require,module,exports){
+},{"./core":94,"./getClass":101}],104:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -54628,7 +54893,7 @@ module.exports = function(){
         isClassLike        : isSameOrSubclassOf
     }
 }()
-},{"./Mixin":84,"./Registry":85,"./core":92,"./create":94,"./define":95,"./defineMixin":96,"./destroyClass":97,"./getClass":99,"./getInstance":100,"./getParentClass":101,"./isSubclassOf":103,"./override":104,"./processors/MixinProcessor":108,"./utils/copy":110}],103:[function(require,module,exports){
+},{"./Mixin":86,"./Registry":87,"./core":94,"./create":96,"./define":97,"./defineMixin":98,"./destroyClass":99,"./getClass":101,"./getInstance":102,"./getParentClass":103,"./isSubclassOf":105,"./override":106,"./processors/MixinProcessor":110,"./utils/copy":112}],105:[function(require,module,exports){
 var getClass = require('./getClass')
 
 module.exports = function(subClass, superClass, config){
@@ -54652,7 +54917,7 @@ module.exports = function(subClass, superClass, config){
 
     return !!subClass
 }
-},{"./getClass":99}],104:[function(require,module,exports){
+},{"./getClass":101}],106:[function(require,module,exports){
 var getClass = require('./getClass')
 
 /**
@@ -54683,7 +54948,7 @@ module.exports = function(Class, classConfig){
 
     return TheClass
 }
-},{"./getClass":99}],105:[function(require,module,exports){
+},{"./getClass":101}],107:[function(require,module,exports){
 module.exports = function(config){
 
     'use strict'
@@ -54691,7 +54956,7 @@ module.exports = function(config){
     //this refers to a Class
     return require('./core').overrideClass(this, config)
 }
-},{"./core":92}],106:[function(require,module,exports){
+},{"./core":94}],108:[function(require,module,exports){
 var copyKeys = require('./utils/copy').copyKeys
 
 function aliasMethods(config){
@@ -54732,7 +54997,7 @@ module.exports = function(Class){
         Class.init()
     }
 }
-},{"./extendClass":98,"./overrideClass":105,"./processors/ClassProcessor":107,"./unregisterClass":109,"./utils/copy":110}],107:[function(require,module,exports){
+},{"./extendClass":100,"./overrideClass":107,"./processors/ClassProcessor":109,"./unregisterClass":111,"./utils/copy":112}],109:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -54773,7 +55038,7 @@ module.exports = function(){
 
     return result
 }()
-},{"./MixinProcessor":108}],108:[function(require,module,exports){
+},{"./MixinProcessor":110}],110:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -55160,7 +55425,7 @@ module.exports = function(){
 
     }
 }()
-},{"../core":92,"../getClass":99,"../utils/copy":110,"../utils/function":111}],109:[function(require,module,exports){
+},{"../core":94,"../getClass":101,"../utils/copy":112,"../utils/function":113}],111:[function(require,module,exports){
 var REGISTRY = require('./Registry')
 
 module.exports = function unregisterClass(){
@@ -55174,7 +55439,7 @@ module.exports = function unregisterClass(){
 
     delete REGISTRY[alias]
 }
-},{"./Registry":85}],110:[function(require,module,exports){
+},{"./Registry":87}],112:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -55186,7 +55451,7 @@ module.exports = function unregisterClass(){
 
  */
 module.exports = require('copy-utils')
-},{"copy-utils":118}],111:[function(require,module,exports){
+},{"copy-utils":120}],113:[function(require,module,exports){
 module.exports = function(){
 
     var SLICE = Array.prototype.slice
@@ -55243,7 +55508,7 @@ module.exports = function(){
         bindArgsArray: bindArgsArray
     }
 }()
-},{}],112:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -55274,7 +55539,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],113:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -55306,7 +55571,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],114:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -55358,7 +55623,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyList":116}],115:[function(require,module,exports){
+},{"./copyList":118}],117:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -55419,7 +55684,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyListIf":117}],116:[function(require,module,exports){
+},{"./copyListIf":119}],118:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -55459,7 +55724,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],117:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -55501,7 +55766,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],118:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -55698,7 +55963,7 @@ module.exports = function(){
     }
 
 }()
-},{"./copy":112,"./copyIf":113,"./copyKeys":114,"./copyKeysIf":115,"./copyList":116,"./copyListIf":117}],119:[function(require,module,exports){
+},{"./copy":114,"./copyIf":115,"./copyKeys":116,"./copyKeysIf":117,"./copyList":118,"./copyListIf":119}],121:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -55730,7 +55995,920 @@ module.exports = function(){
 
 });
 
-},{}],120:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
+(function() {
+
+    var debug = false;
+
+    var root = this;
+
+    var EXIF = function(obj) {
+        if (obj instanceof EXIF) return obj;
+        if (!(this instanceof EXIF)) return new EXIF(obj);
+        this.EXIFwrapped = obj;
+    };
+
+    if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = EXIF;
+        }
+        exports.EXIF = EXIF;
+    } else {
+        root.EXIF = EXIF;
+    }
+
+    var ExifTags = EXIF.Tags = {
+
+        // version tags
+        0x9000 : "ExifVersion",             // EXIF version
+        0xA000 : "FlashpixVersion",         // Flashpix format version
+
+        // colorspace tags
+        0xA001 : "ColorSpace",              // Color space information tag
+
+        // image configuration
+        0xA002 : "PixelXDimension",         // Valid width of meaningful image
+        0xA003 : "PixelYDimension",         // Valid height of meaningful image
+        0x9101 : "ComponentsConfiguration", // Information about channels
+        0x9102 : "CompressedBitsPerPixel",  // Compressed bits per pixel
+
+        // user information
+        0x927C : "MakerNote",               // Any desired information written by the manufacturer
+        0x9286 : "UserComment",             // Comments by user
+
+        // related file
+        0xA004 : "RelatedSoundFile",        // Name of related sound file
+
+        // date and time
+        0x9003 : "DateTimeOriginal",        // Date and time when the original image was generated
+        0x9004 : "DateTimeDigitized",       // Date and time when the image was stored digitally
+        0x9290 : "SubsecTime",              // Fractions of seconds for DateTime
+        0x9291 : "SubsecTimeOriginal",      // Fractions of seconds for DateTimeOriginal
+        0x9292 : "SubsecTimeDigitized",     // Fractions of seconds for DateTimeDigitized
+
+        // picture-taking conditions
+        0x829A : "ExposureTime",            // Exposure time (in seconds)
+        0x829D : "FNumber",                 // F number
+        0x8822 : "ExposureProgram",         // Exposure program
+        0x8824 : "SpectralSensitivity",     // Spectral sensitivity
+        0x8827 : "ISOSpeedRatings",         // ISO speed rating
+        0x8828 : "OECF",                    // Optoelectric conversion factor
+        0x9201 : "ShutterSpeedValue",       // Shutter speed
+        0x9202 : "ApertureValue",           // Lens aperture
+        0x9203 : "BrightnessValue",         // Value of brightness
+        0x9204 : "ExposureBias",            // Exposure bias
+        0x9205 : "MaxApertureValue",        // Smallest F number of lens
+        0x9206 : "SubjectDistance",         // Distance to subject in meters
+        0x9207 : "MeteringMode",            // Metering mode
+        0x9208 : "LightSource",             // Kind of light source
+        0x9209 : "Flash",                   // Flash status
+        0x9214 : "SubjectArea",             // Location and area of main subject
+        0x920A : "FocalLength",             // Focal length of the lens in mm
+        0xA20B : "FlashEnergy",             // Strobe energy in BCPS
+        0xA20C : "SpatialFrequencyResponse",    //
+        0xA20E : "FocalPlaneXResolution",   // Number of pixels in width direction per FocalPlaneResolutionUnit
+        0xA20F : "FocalPlaneYResolution",   // Number of pixels in height direction per FocalPlaneResolutionUnit
+        0xA210 : "FocalPlaneResolutionUnit",    // Unit for measuring FocalPlaneXResolution and FocalPlaneYResolution
+        0xA214 : "SubjectLocation",         // Location of subject in image
+        0xA215 : "ExposureIndex",           // Exposure index selected on camera
+        0xA217 : "SensingMethod",           // Image sensor type
+        0xA300 : "FileSource",              // Image source (3 == DSC)
+        0xA301 : "SceneType",               // Scene type (1 == directly photographed)
+        0xA302 : "CFAPattern",              // Color filter array geometric pattern
+        0xA401 : "CustomRendered",          // Special processing
+        0xA402 : "ExposureMode",            // Exposure mode
+        0xA403 : "WhiteBalance",            // 1 = auto white balance, 2 = manual
+        0xA404 : "DigitalZoomRation",       // Digital zoom ratio
+        0xA405 : "FocalLengthIn35mmFilm",   // Equivalent foacl length assuming 35mm film camera (in mm)
+        0xA406 : "SceneCaptureType",        // Type of scene
+        0xA407 : "GainControl",             // Degree of overall image gain adjustment
+        0xA408 : "Contrast",                // Direction of contrast processing applied by camera
+        0xA409 : "Saturation",              // Direction of saturation processing applied by camera
+        0xA40A : "Sharpness",               // Direction of sharpness processing applied by camera
+        0xA40B : "DeviceSettingDescription",    //
+        0xA40C : "SubjectDistanceRange",    // Distance to subject
+
+        // other tags
+        0xA005 : "InteroperabilityIFDPointer",
+        0xA420 : "ImageUniqueID"            // Identifier assigned uniquely to each image
+    };
+
+    var TiffTags = EXIF.TiffTags = {
+        0x0100 : "ImageWidth",
+        0x0101 : "ImageHeight",
+        0x8769 : "ExifIFDPointer",
+        0x8825 : "GPSInfoIFDPointer",
+        0xA005 : "InteroperabilityIFDPointer",
+        0x0102 : "BitsPerSample",
+        0x0103 : "Compression",
+        0x0106 : "PhotometricInterpretation",
+        0x0112 : "Orientation",
+        0x0115 : "SamplesPerPixel",
+        0x011C : "PlanarConfiguration",
+        0x0212 : "YCbCrSubSampling",
+        0x0213 : "YCbCrPositioning",
+        0x011A : "XResolution",
+        0x011B : "YResolution",
+        0x0128 : "ResolutionUnit",
+        0x0111 : "StripOffsets",
+        0x0116 : "RowsPerStrip",
+        0x0117 : "StripByteCounts",
+        0x0201 : "JPEGInterchangeFormat",
+        0x0202 : "JPEGInterchangeFormatLength",
+        0x012D : "TransferFunction",
+        0x013E : "WhitePoint",
+        0x013F : "PrimaryChromaticities",
+        0x0211 : "YCbCrCoefficients",
+        0x0214 : "ReferenceBlackWhite",
+        0x0132 : "DateTime",
+        0x010E : "ImageDescription",
+        0x010F : "Make",
+        0x0110 : "Model",
+        0x0131 : "Software",
+        0x013B : "Artist",
+        0x8298 : "Copyright"
+    };
+
+    var GPSTags = EXIF.GPSTags = {
+        0x0000 : "GPSVersionID",
+        0x0001 : "GPSLatitudeRef",
+        0x0002 : "GPSLatitude",
+        0x0003 : "GPSLongitudeRef",
+        0x0004 : "GPSLongitude",
+        0x0005 : "GPSAltitudeRef",
+        0x0006 : "GPSAltitude",
+        0x0007 : "GPSTimeStamp",
+        0x0008 : "GPSSatellites",
+        0x0009 : "GPSStatus",
+        0x000A : "GPSMeasureMode",
+        0x000B : "GPSDOP",
+        0x000C : "GPSSpeedRef",
+        0x000D : "GPSSpeed",
+        0x000E : "GPSTrackRef",
+        0x000F : "GPSTrack",
+        0x0010 : "GPSImgDirectionRef",
+        0x0011 : "GPSImgDirection",
+        0x0012 : "GPSMapDatum",
+        0x0013 : "GPSDestLatitudeRef",
+        0x0014 : "GPSDestLatitude",
+        0x0015 : "GPSDestLongitudeRef",
+        0x0016 : "GPSDestLongitude",
+        0x0017 : "GPSDestBearingRef",
+        0x0018 : "GPSDestBearing",
+        0x0019 : "GPSDestDistanceRef",
+        0x001A : "GPSDestDistance",
+        0x001B : "GPSProcessingMethod",
+        0x001C : "GPSAreaInformation",
+        0x001D : "GPSDateStamp",
+        0x001E : "GPSDifferential"
+    };
+
+    var StringValues = EXIF.StringValues = {
+        ExposureProgram : {
+            0 : "Not defined",
+            1 : "Manual",
+            2 : "Normal program",
+            3 : "Aperture priority",
+            4 : "Shutter priority",
+            5 : "Creative program",
+            6 : "Action program",
+            7 : "Portrait mode",
+            8 : "Landscape mode"
+        },
+        MeteringMode : {
+            0 : "Unknown",
+            1 : "Average",
+            2 : "CenterWeightedAverage",
+            3 : "Spot",
+            4 : "MultiSpot",
+            5 : "Pattern",
+            6 : "Partial",
+            255 : "Other"
+        },
+        LightSource : {
+            0 : "Unknown",
+            1 : "Daylight",
+            2 : "Fluorescent",
+            3 : "Tungsten (incandescent light)",
+            4 : "Flash",
+            9 : "Fine weather",
+            10 : "Cloudy weather",
+            11 : "Shade",
+            12 : "Daylight fluorescent (D 5700 - 7100K)",
+            13 : "Day white fluorescent (N 4600 - 5400K)",
+            14 : "Cool white fluorescent (W 3900 - 4500K)",
+            15 : "White fluorescent (WW 3200 - 3700K)",
+            17 : "Standard light A",
+            18 : "Standard light B",
+            19 : "Standard light C",
+            20 : "D55",
+            21 : "D65",
+            22 : "D75",
+            23 : "D50",
+            24 : "ISO studio tungsten",
+            255 : "Other"
+        },
+        Flash : {
+            0x0000 : "Flash did not fire",
+            0x0001 : "Flash fired",
+            0x0005 : "Strobe return light not detected",
+            0x0007 : "Strobe return light detected",
+            0x0009 : "Flash fired, compulsory flash mode",
+            0x000D : "Flash fired, compulsory flash mode, return light not detected",
+            0x000F : "Flash fired, compulsory flash mode, return light detected",
+            0x0010 : "Flash did not fire, compulsory flash mode",
+            0x0018 : "Flash did not fire, auto mode",
+            0x0019 : "Flash fired, auto mode",
+            0x001D : "Flash fired, auto mode, return light not detected",
+            0x001F : "Flash fired, auto mode, return light detected",
+            0x0020 : "No flash function",
+            0x0041 : "Flash fired, red-eye reduction mode",
+            0x0045 : "Flash fired, red-eye reduction mode, return light not detected",
+            0x0047 : "Flash fired, red-eye reduction mode, return light detected",
+            0x0049 : "Flash fired, compulsory flash mode, red-eye reduction mode",
+            0x004D : "Flash fired, compulsory flash mode, red-eye reduction mode, return light not detected",
+            0x004F : "Flash fired, compulsory flash mode, red-eye reduction mode, return light detected",
+            0x0059 : "Flash fired, auto mode, red-eye reduction mode",
+            0x005D : "Flash fired, auto mode, return light not detected, red-eye reduction mode",
+            0x005F : "Flash fired, auto mode, return light detected, red-eye reduction mode"
+        },
+        SensingMethod : {
+            1 : "Not defined",
+            2 : "One-chip color area sensor",
+            3 : "Two-chip color area sensor",
+            4 : "Three-chip color area sensor",
+            5 : "Color sequential area sensor",
+            7 : "Trilinear sensor",
+            8 : "Color sequential linear sensor"
+        },
+        SceneCaptureType : {
+            0 : "Standard",
+            1 : "Landscape",
+            2 : "Portrait",
+            3 : "Night scene"
+        },
+        SceneType : {
+            1 : "Directly photographed"
+        },
+        CustomRendered : {
+            0 : "Normal process",
+            1 : "Custom process"
+        },
+        WhiteBalance : {
+            0 : "Auto white balance",
+            1 : "Manual white balance"
+        },
+        GainControl : {
+            0 : "None",
+            1 : "Low gain up",
+            2 : "High gain up",
+            3 : "Low gain down",
+            4 : "High gain down"
+        },
+        Contrast : {
+            0 : "Normal",
+            1 : "Soft",
+            2 : "Hard"
+        },
+        Saturation : {
+            0 : "Normal",
+            1 : "Low saturation",
+            2 : "High saturation"
+        },
+        Sharpness : {
+            0 : "Normal",
+            1 : "Soft",
+            2 : "Hard"
+        },
+        SubjectDistanceRange : {
+            0 : "Unknown",
+            1 : "Macro",
+            2 : "Close view",
+            3 : "Distant view"
+        },
+        FileSource : {
+            3 : "DSC"
+        },
+
+        Components : {
+            0 : "",
+            1 : "Y",
+            2 : "Cb",
+            3 : "Cr",
+            4 : "R",
+            5 : "G",
+            6 : "B"
+        }
+    };
+
+    function addEvent(element, event, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(event, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent("on" + event, handler);
+        }
+    }
+
+    function imageHasData(img) {
+        return !!(img.exifdata);
+    }
+
+
+    function base64ToArrayBuffer(base64, contentType) {
+        contentType = contentType || base64.match(/^data\:([^\;]+)\;base64,/mi)[1] || ''; // e.g. 'data:image/jpeg;base64,...' => 'image/jpeg'
+        base64 = base64.replace(/^data\:([^\;]+)\;base64,/gmi, '');
+        var binary = atob(base64);
+        var len = binary.length;
+        var buffer = new ArrayBuffer(len);
+        var view = new Uint8Array(buffer);
+        for (var i = 0; i < len; i++) {
+            view[i] = binary.charCodeAt(i);
+        }
+        return buffer;
+    }
+
+    function objectURLToBlob(url, callback) {
+        var http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        http.responseType = "blob";
+        http.onload = function(e) {
+            if (this.status == 200 || this.status === 0) {
+                callback(this.response);
+            }
+        };
+        http.send();
+    }
+
+    function getImageData(img, callback) {
+        function handleBinaryFile(binFile) {
+            var data = findEXIFinJPEG(binFile);
+            var iptcdata = findIPTCinJPEG(binFile);
+            img.exifdata = data || {};
+            img.iptcdata = iptcdata || {};
+            if (callback) {
+                callback.call(img);
+            }
+        }
+
+        if (img.src) {
+            if (/^data\:/i.test(img.src)) { // Data URI
+                var arrayBuffer = base64ToArrayBuffer(img.src);
+                handleBinaryFile(arrayBuffer);
+
+            } else if (/^blob\:/i.test(img.src)) { // Object URL
+                var fileReader = new FileReader();
+                fileReader.onload = function(e) {
+                    handleBinaryFile(e.target.result);
+                };
+                objectURLToBlob(img.src, function (blob) {
+                    fileReader.readAsArrayBuffer(blob);
+                });
+            } else {
+                var http = new XMLHttpRequest();
+                http.onload = function() {
+                    if (this.status == 200 || this.status === 0) {
+                        handleBinaryFile(http.response);
+                    } else {
+                        throw "Could not load image";
+                    }
+                    http = null;
+                };
+                http.open("GET", img.src, true);
+                http.responseType = "arraybuffer";
+                http.send(null);
+            }
+        } else if (window.FileReader && (img instanceof window.Blob || img instanceof window.File)) {
+            var fileReader = new FileReader();
+            fileReader.onload = function(e) {
+                if (debug) console.log("Got file of length " + e.target.result.byteLength);
+                handleBinaryFile(e.target.result);
+            };
+
+            fileReader.readAsArrayBuffer(img);
+        }
+    }
+
+    function findEXIFinJPEG(file) {
+        var dataView = new DataView(file);
+
+        if (debug) console.log("Got file of length " + file.byteLength);
+        if ((dataView.getUint8(0) != 0xFF) || (dataView.getUint8(1) != 0xD8)) {
+            if (debug) console.log("Not a valid JPEG");
+            return false; // not a valid jpeg
+        }
+
+        var offset = 2,
+            length = file.byteLength,
+            marker;
+
+        while (offset < length) {
+            if (dataView.getUint8(offset) != 0xFF) {
+                if (debug) console.log("Not a valid marker at offset " + offset + ", found: " + dataView.getUint8(offset));
+                return false; // not a valid marker, something is wrong
+            }
+
+            marker = dataView.getUint8(offset + 1);
+            if (debug) console.log(marker);
+
+            // we could implement handling for other markers here,
+            // but we're only looking for 0xFFE1 for EXIF data
+
+            if (marker == 225) {
+                if (debug) console.log("Found 0xFFE1 marker");
+
+                return readEXIFData(dataView, offset + 4, dataView.getUint16(offset + 2) - 2);
+
+                // offset += 2 + file.getShortAt(offset+2, true);
+
+            } else {
+                offset += 2 + dataView.getUint16(offset+2);
+            }
+
+        }
+
+    }
+
+    function findIPTCinJPEG(file) {
+        var dataView = new DataView(file);
+
+        if (debug) console.log("Got file of length " + file.byteLength);
+        if ((dataView.getUint8(0) != 0xFF) || (dataView.getUint8(1) != 0xD8)) {
+            if (debug) console.log("Not a valid JPEG");
+            return false; // not a valid jpeg
+        }
+
+        var offset = 2,
+            length = file.byteLength;
+
+
+        var isFieldSegmentStart = function(dataView, offset){
+            return (
+                dataView.getUint8(offset) === 0x38 &&
+                dataView.getUint8(offset+1) === 0x42 &&
+                dataView.getUint8(offset+2) === 0x49 &&
+                dataView.getUint8(offset+3) === 0x4D &&
+                dataView.getUint8(offset+4) === 0x04 &&
+                dataView.getUint8(offset+5) === 0x04
+            );
+        };
+
+        while (offset < length) {
+
+            if ( isFieldSegmentStart(dataView, offset )){
+
+                // Get the length of the name header (which is padded to an even number of bytes)
+                var nameHeaderLength = dataView.getUint8(offset+7);
+                if(nameHeaderLength % 2 !== 0) nameHeaderLength += 1;
+                // Check for pre photoshop 6 format
+                if(nameHeaderLength === 0) {
+                    // Always 4
+                    nameHeaderLength = 4;
+                }
+
+                var startOffset = offset + 8 + nameHeaderLength;
+                var sectionLength = dataView.getUint16(offset + 6 + nameHeaderLength);
+
+                return readIPTCData(file, startOffset, sectionLength);
+
+                break;
+
+            }
+
+
+            // Not the marker, continue searching
+            offset++;
+
+        }
+
+    }
+    var IptcFieldMap = {
+        0x78 : 'caption',
+        0x6E : 'credit',
+        0x19 : 'keywords',
+        0x37 : 'dateCreated',
+        0x50 : 'byline',
+        0x55 : 'bylineTitle',
+        0x7A : 'captionWriter',
+        0x69 : 'headline',
+        0x74 : 'copyright',
+        0x0F : 'category'
+    };
+    function readIPTCData(file, startOffset, sectionLength){
+        var dataView = new DataView(file);
+        var data = {};
+        var fieldValue, fieldName, dataSize, segmentType, segmentSize;
+        var segmentStartPos = startOffset;
+        while(segmentStartPos < startOffset+sectionLength) {
+            if(dataView.getUint8(segmentStartPos) === 0x1C && dataView.getUint8(segmentStartPos+1) === 0x02){
+                segmentType = dataView.getUint8(segmentStartPos+2);
+                if(segmentType in IptcFieldMap) {
+                    dataSize = dataView.getInt16(segmentStartPos+3);
+                    segmentSize = dataSize + 5;
+                    fieldName = IptcFieldMap[segmentType];
+                    fieldValue = getStringFromDB(dataView, segmentStartPos+5, dataSize);
+                    // Check if we already stored a value with this name
+                    if(data.hasOwnProperty(fieldName)) {
+                        // Value already stored with this name, create multivalue field
+                        if(data[fieldName] instanceof Array) {
+                            data[fieldName].push(fieldValue);
+                        }
+                        else {
+                            data[fieldName] = [data[fieldName], fieldValue];
+                        }
+                    }
+                    else {
+                        data[fieldName] = fieldValue;
+                    }
+                }
+
+            }
+            segmentStartPos++;
+        }
+        return data;
+    }
+
+
+
+    function readTags(file, tiffStart, dirStart, strings, bigEnd) {
+        var entries = file.getUint16(dirStart, !bigEnd),
+            tags = {},
+            entryOffset, tag,
+            i;
+
+        for (i=0;i<entries;i++) {
+            entryOffset = dirStart + i*12 + 2;
+            tag = strings[file.getUint16(entryOffset, !bigEnd)];
+            if (!tag && debug) console.log("Unknown tag: " + file.getUint16(entryOffset, !bigEnd));
+            tags[tag] = readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd);
+        }
+        return tags;
+    }
+
+
+    function readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd) {
+        var type = file.getUint16(entryOffset+2, !bigEnd),
+            numValues = file.getUint32(entryOffset+4, !bigEnd),
+            valueOffset = file.getUint32(entryOffset+8, !bigEnd) + tiffStart,
+            offset,
+            vals, val, n,
+            numerator, denominator;
+
+        switch (type) {
+            case 1: // byte, 8-bit unsigned int
+            case 7: // undefined, 8-bit byte, value depending on field
+                if (numValues == 1) {
+                    return file.getUint8(entryOffset + 8, !bigEnd);
+                } else {
+                    offset = numValues > 4 ? valueOffset : (entryOffset + 8);
+                    vals = [];
+                    for (n=0;n<numValues;n++) {
+                        vals[n] = file.getUint8(offset + n);
+                    }
+                    return vals;
+                }
+
+            case 2: // ascii, 8-bit byte
+                offset = numValues > 4 ? valueOffset : (entryOffset + 8);
+                return getStringFromDB(file, offset, numValues-1);
+
+            case 3: // short, 16 bit int
+                if (numValues == 1) {
+                    return file.getUint16(entryOffset + 8, !bigEnd);
+                } else {
+                    offset = numValues > 2 ? valueOffset : (entryOffset + 8);
+                    vals = [];
+                    for (n=0;n<numValues;n++) {
+                        vals[n] = file.getUint16(offset + 2*n, !bigEnd);
+                    }
+                    return vals;
+                }
+
+            case 4: // long, 32 bit int
+                if (numValues == 1) {
+                    return file.getUint32(entryOffset + 8, !bigEnd);
+                } else {
+                    vals = [];
+                    for (n=0;n<numValues;n++) {
+                        vals[n] = file.getUint32(valueOffset + 4*n, !bigEnd);
+                    }
+                    return vals;
+                }
+
+            case 5:    // rational = two long values, first is numerator, second is denominator
+                if (numValues == 1) {
+                    numerator = file.getUint32(valueOffset, !bigEnd);
+                    denominator = file.getUint32(valueOffset+4, !bigEnd);
+                    val = new Number(numerator / denominator);
+                    val.numerator = numerator;
+                    val.denominator = denominator;
+                    return val;
+                } else {
+                    vals = [];
+                    for (n=0;n<numValues;n++) {
+                        numerator = file.getUint32(valueOffset + 8*n, !bigEnd);
+                        denominator = file.getUint32(valueOffset+4 + 8*n, !bigEnd);
+                        vals[n] = new Number(numerator / denominator);
+                        vals[n].numerator = numerator;
+                        vals[n].denominator = denominator;
+                    }
+                    return vals;
+                }
+
+            case 9: // slong, 32 bit signed int
+                if (numValues == 1) {
+                    return file.getInt32(entryOffset + 8, !bigEnd);
+                } else {
+                    vals = [];
+                    for (n=0;n<numValues;n++) {
+                        vals[n] = file.getInt32(valueOffset + 4*n, !bigEnd);
+                    }
+                    return vals;
+                }
+
+            case 10: // signed rational, two slongs, first is numerator, second is denominator
+                if (numValues == 1) {
+                    return file.getInt32(valueOffset, !bigEnd) / file.getInt32(valueOffset+4, !bigEnd);
+                } else {
+                    vals = [];
+                    for (n=0;n<numValues;n++) {
+                        vals[n] = file.getInt32(valueOffset + 8*n, !bigEnd) / file.getInt32(valueOffset+4 + 8*n, !bigEnd);
+                    }
+                    return vals;
+                }
+        }
+    }
+
+    function getStringFromDB(buffer, start, length) {
+        var outstr = "";
+        for (n = start; n < start+length; n++) {
+            outstr += String.fromCharCode(buffer.getUint8(n));
+        }
+        return outstr;
+    }
+
+    function readEXIFData(file, start) {
+        if (getStringFromDB(file, start, 4) != "Exif") {
+            if (debug) console.log("Not valid EXIF data! " + getStringFromDB(file, start, 4));
+            return false;
+        }
+
+        var bigEnd,
+            tags, tag,
+            exifData, gpsData,
+            tiffOffset = start + 6;
+
+        // test for TIFF validity and endianness
+        if (file.getUint16(tiffOffset) == 0x4949) {
+            bigEnd = false;
+        } else if (file.getUint16(tiffOffset) == 0x4D4D) {
+            bigEnd = true;
+        } else {
+            if (debug) console.log("Not valid TIFF data! (no 0x4949 or 0x4D4D)");
+            return false;
+        }
+
+        if (file.getUint16(tiffOffset+2, !bigEnd) != 0x002A) {
+            if (debug) console.log("Not valid TIFF data! (no 0x002A)");
+            return false;
+        }
+
+        var firstIFDOffset = file.getUint32(tiffOffset+4, !bigEnd);
+
+        if (firstIFDOffset < 0x00000008) {
+            if (debug) console.log("Not valid TIFF data! (First offset less than 8)", file.getUint32(tiffOffset+4, !bigEnd));
+            return false;
+        }
+
+        tags = readTags(file, tiffOffset, tiffOffset + firstIFDOffset, TiffTags, bigEnd);
+
+        if (tags.ExifIFDPointer) {
+            exifData = readTags(file, tiffOffset, tiffOffset + tags.ExifIFDPointer, ExifTags, bigEnd);
+            for (tag in exifData) {
+                switch (tag) {
+                    case "LightSource" :
+                    case "Flash" :
+                    case "MeteringMode" :
+                    case "ExposureProgram" :
+                    case "SensingMethod" :
+                    case "SceneCaptureType" :
+                    case "SceneType" :
+                    case "CustomRendered" :
+                    case "WhiteBalance" :
+                    case "GainControl" :
+                    case "Contrast" :
+                    case "Saturation" :
+                    case "Sharpness" :
+                    case "SubjectDistanceRange" :
+                    case "FileSource" :
+                        exifData[tag] = StringValues[tag][exifData[tag]];
+                        break;
+
+                    case "ExifVersion" :
+                    case "FlashpixVersion" :
+                        exifData[tag] = String.fromCharCode(exifData[tag][0], exifData[tag][1], exifData[tag][2], exifData[tag][3]);
+                        break;
+
+                    case "ComponentsConfiguration" :
+                        exifData[tag] =
+                            StringValues.Components[exifData[tag][0]] +
+                            StringValues.Components[exifData[tag][1]] +
+                            StringValues.Components[exifData[tag][2]] +
+                            StringValues.Components[exifData[tag][3]];
+                        break;
+                }
+                tags[tag] = exifData[tag];
+            }
+        }
+
+        if (tags.GPSInfoIFDPointer) {
+            gpsData = readTags(file, tiffOffset, tiffOffset + tags.GPSInfoIFDPointer, GPSTags, bigEnd);
+            for (tag in gpsData) {
+                switch (tag) {
+                    case "GPSVersionID" :
+                        gpsData[tag] = gpsData[tag][0] +
+                            "." + gpsData[tag][1] +
+                            "." + gpsData[tag][2] +
+                            "." + gpsData[tag][3];
+                        break;
+                }
+                tags[tag] = gpsData[tag];
+            }
+        }
+
+        return tags;
+    }
+
+    EXIF.getData = function(img, callback) {
+        if ((img instanceof Image || img instanceof HTMLImageElement) && !img.complete) return false;
+
+        if (!imageHasData(img)) {
+            getImageData(img, callback);
+        } else {
+            if (callback) {
+                callback.call(img);
+            }
+        }
+        return true;
+    }
+
+    EXIF.getTag = function(img, tag) {
+        if (!imageHasData(img)) return;
+        return img.exifdata[tag];
+    }
+
+    EXIF.getAllTags = function(img) {
+        if (!imageHasData(img)) return {};
+        var a,
+            data = img.exifdata,
+            tags = {};
+        for (a in data) {
+            if (data.hasOwnProperty(a)) {
+                tags[a] = data[a];
+            }
+        }
+        return tags;
+    }
+
+    EXIF.pretty = function(img) {
+        if (!imageHasData(img)) return "";
+        var a,
+            data = img.exifdata,
+            strPretty = "";
+        for (a in data) {
+            if (data.hasOwnProperty(a)) {
+                if (typeof data[a] == "object") {
+                    if (data[a] instanceof Number) {
+                        strPretty += a + " : " + data[a] + " [" + data[a].numerator + "/" + data[a].denominator + "]\r\n";
+                    } else {
+                        strPretty += a + " : [" + data[a].length + " values]\r\n";
+                    }
+                } else {
+                    strPretty += a + " : " + data[a] + "\r\n";
+                }
+            }
+        }
+        return strPretty;
+    }
+
+    EXIF.readFromBinaryFile = function(file) {
+        return findEXIFinJPEG(file);
+    }
+
+    if (typeof define === 'function' && define.amd) {
+        define('exif-js', [], function() {
+            return EXIF;
+        });
+    }
+}.call(this));
+
+
+},{}],123:[function(require,module,exports){
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], factory)
+  } else if (typeof exports === 'object') {
+    module.exports = factory()
+  } else {
+    root.exifOrient = factory()
+  }
+}(this, function () {
+
+  /**
+   * Orients an image based on Exif orientation and draws it on a canvas.
+   * @param {HTMLImageElement | String} img - the image element or base64.
+   * @param {Number} orientation - the Exif orientation.
+   * @param {Function} cb (optional) - the callback function.
+   * @return {HTMLCanvasElement} a canvas object.
+   */
+  return function exifOrient(img, orientation, cb) {
+    cb = cb || Function()
+
+    if (typeof img === 'string') {
+      var _img = new Image()
+      _img.src = img
+      _img.onerror = cb
+      _img.onload = function () {
+        orient(_img, orientation, cb)
+      }
+    }
+    else if (img instanceof HTMLImageElement) {
+      orient(img, orientation, cb)
+    }
+    else {
+      cb(new Error('Require image or base64 string'))
+    }
+  }
+
+  function orient(img, orientation, cb) {
+    /*    1        2       3      4         5            6           7          8
+     * 888888  888888      88  88      8888888888  88                  88  8888888888
+     * 88          88      88  88      88  88      88  88          88  88      88  88
+     * 8888      8888    8888  8888    88          8888888888  8888888888          88
+     * 88          88      88  88
+     * 88          88  888888  888888
+     * source: http://sylvana.net/jpegcrop/exif_orientation.html
+     */
+    var transforms = [
+    // [flip-x, flip-y, deg]
+      [false, false, 0],   // 1
+      [true,  false, 0],   // 2
+      [false, false, 180], // 3
+      [false, true,  0],   // 4
+      [true,  false, 90],  // 5
+      [false, false, 90],  // 6
+      [true,  false, -90], // 7
+      [false, false, -90]  // 8
+    ]
+
+    var transform = transforms[orientation - 1]
+    var flipX = transform[0]
+    var flipY = transform[1]
+    var deg = transform[2]
+
+    var canvas = document.createElement('canvas')
+    var ctx = canvas.getContext('2d')
+    var width = img.naturalWidth
+    var height = img.naturalHeight
+
+    canvas.width = Math.abs(deg) === 90 ? height : width
+    canvas.height = Math.abs(deg) === 90 ? width : height
+
+    if (flipX || flipY) {
+      flip(canvas, ctx, flipX, flipY)
+    }
+
+    if (deg) {
+      rotate(canvas, ctx, deg)
+    }
+
+    ctx.drawImage(img, 0, 0)
+    cb(null, canvas)
+  }
+
+  function flip(canvas, ctx, flipX, flipY) {
+    ctx.translate(
+      flipX ? canvas.width : 0,
+      flipY ? canvas.height : 0)
+    ctx.scale(
+      flipX ? -1 : 1,
+      flipY ? -1 : 1)
+  }
+
+  function rotate(canvas, ctx, deg) {
+    var width = canvas.width
+    var height = canvas.height
+
+    ctx.translate(width / 2, height / 2)
+    ctx.rotate(deg * (Math.PI / 180))
+    ctx.translate(-width / 2, -height / 2)
+
+    if (Math.abs(deg) === 90) {
+      ctx.translate((width - height) / 2, -(width - height) / 2)
+    }
+  }
+}));
+
+},{}],124:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -55816,7 +56994,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],121:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 module.exports = function(){
 
     'use strict';
@@ -55845,13 +57023,13 @@ module.exports = function(){
     }
 
 }()
-},{}],122:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 var getInstantiatorFunction = require('./getInstantiatorFunction')
 
 module.exports = function(fn, args){
 	return getInstantiatorFunction(args.length)(fn, args)
 }
-},{"./getInstantiatorFunction":121}],123:[function(require,module,exports){
+},{"./getInstantiatorFunction":125}],127:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.rfc6902 = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
@@ -56597,33 +57775,33 @@ var Pointer = exports.Pointer = (function () {
 },{}]},{},[4])(4)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],124:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("admin.html","<div class=\"container admin\">\n    <div class=\"row\">\n        <div ui-view=\"header\" class=\"header\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"content\" class=\"content\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"footer\" class=\"footer\"></div>\n    </div>\n</div>");
 $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div class=\"row\">\n        <div class=\"top-bar col-xs-12 col-md-12 col-lg-12\" ui-view=\"top_bar\"></div>\n    </div>\n    \n    <div class=\"mobile-scroll\" style=\"height:100%;\">\n      <div class=\"mobile-container\">\n         <div class=\"row\">\n            <div ui-view=\"header\" class=\"header\"></div>\n         </div>    \n         \n         <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12 hidden-xs large-header-padding\" style=\"height: 64px;\"></div>\n            <div class=\"hidden-lg hidden-md hidden-sm col-xs-12 mobile-header-padding\" style=\"height: 16px;\"></div>\n         </div>\n         \n         <div class=\"main-content\">\n            <div class=\"row\">\n               <div class=\"mobile-ad-space hidden-lg hidden-md hidden-sm col-xs-12\">\n                  <img src=\"./images/temp_mobile_ad.png\" />\n               </div>\n            </div>\n            \n            <div class=\"row row-eq-height\" style=\"height: 100%;\">\n                  <!--<div class=\"content-padding col-md-1 col-lg-1 col-sm-1 hidden-xs\"></div>-->\n                  <div ui-view=\"content\" class=\"content col-md-9 col-lg-9 col-sm-9 col-xs-12\" style=\"min-height:100%;\"></div>\n                  <div ui-view=\"ad_space_right\" class=\"ad-space col-lg-3 col-sm-3 col-md-3 hidden-xs\" style=\"min-height:100%;\">\n                     <div class=\"ad-container\">\n                        <div class=\"ad\">\n                            <img src=\"./images/temp_ad1.jpg\" />\n                        </div>\n                        <div class=\"ad ad1\">\n                            <img src=\"./images/temp_ad2.png\" />\n                        </div>\n                     </div>\n                     <div class=\"copyright\">\n                        Andrew O\'Mahony (c) 2016\n                     </div>\n                  </div>\n            </div>\n         </div>\n      </div>\n    </div>\n</div>");
-$templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
 $templateCache.put("directives/profile_picture.html","<div class=\"profile-picture\" ng-style=\"getDivStyle()\">\n   <img ng-src=\"{{getUrl()}}\" ng-style=\"getImageStyle()\" />\n</div>");
-$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
+$templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
 $templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
 $templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
+$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
 $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n<div><a ui-sref=\"main.page.home.default\">Valiant Athletics</a></div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
 $templateCache.put("partials/main/nav_bar.html","<nav>\n    <a class=\"link\" ui-sref=\"main.page.about.default\">About</a>\n    <a class=\"link\" ui-sref=\"main.page.blog.default\">Blog</a>\n    <a class=\"link\" ui-sref=\"main.page.coaching.default\">Coaching</a>\n    <a class=\"link\" ui-sref=\"main.page.contact.default\">Contact</a>\n</nav>");
 $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"login-button\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"profile-name-and-picture\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"login-button\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
-$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
-$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
 $templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button ng-click=\"onTestRequestClick()\">Test HTTP</button>\n\n<facebook-button></facebook-button>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
+$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
+$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
 $templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");
 $templateCache.put("partials/main/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/register/content.html","<div class=\"registration-form\">\n   <form name=\"registrationForm\">\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }\">\n            <label for=\"registration_email\">\n               <span>E-Mail Address</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_email.$error\"\n                     ng-if=\"registrationForm.registration_email.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"email\" \n                   class=\"form-control\" \n                   name=\"registration_email\" \n                   ng-model=\"registrationUser.email\" \n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   email-in-use\n                   required />\n         </div>\n\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }\">  \n            <label for=\"registration_password\">\n               <span>Password (6 characters or more)</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password.$error\"\n                     ng-if=\"registrationForm.registration_password.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                   class=\"form-control\" \n                   name=\"registration_password\" \n                   ng-model=\"registrationUser.password\"\n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   minlength=\"6\"\n                   required />\n         </div>\n      \n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }\">\n            <label for=\"registration_password_repeat\">\n               <span>Repeat Password</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password_repeat.$error\"\n                     ng-if=\"registrationForm.registration_password_repeat.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                  class=\"form-control\" \n                  name=\"registration_password_repeat\" \n                  ng-model=\"registrationUser.repeat_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  compare-to=\"registrationUser.password\" />\n         </div>\n      \n         <div class=\"form-group\">  \n            <label for=\"registration_first_name\">\n               <span>First Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_first_name.$error\"\n                     ng-if=\"registrationForm.registration_first_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_first_name\" \n                  ng-model=\"registrationUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      \n         <div class=\"form-group\"> \n            <label for=\"registration_last_name\">\n               <span>Last Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_last_name.$error\"\n                     ng-if=\"registrationForm.registration_last_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_last_name\" \n                  ng-model=\"registrationUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required /> \n         </div>       \n            \n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_public\" />\n               <label>Visible to the public?</label>\n            </div>\n         </div>\n\n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_users\" />\n               <label>Visible to other users?</label>\n            </div>\n         </div>\n      </div>     \n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"profile-picture-input\">\n            <div class=\"profile-picture-display\">\n               <profile-picture \n                  user=\"registrationUser\"\n                  width=\"90%\">\n               </profile_picture>\n            </div>\n            \n            <div class=\"profile-picture-button\">\n               <button ng-click=\"selectProfilePicture()\">\n                  Change Profile Picture\n               </button>\n               \n               <button ng-if=\"registrationUser.profile_picture_url\" ng-click=\"resetProfilePicture()\">\n                  Reset Profile Picture\n               </button>\n            \n               <file-reader \n                  supports-multiple=\"false\"\n                  accept=\"image/\\*\"\n                  is-active=\"profilePicturePickerIsActive\"\n                  on-files-added=\"onProfilePictureAdded(files)\"\n                  on-files-progress=\"onProfilePictureProgress(progress)\"\n                  on-files-error=\"onProfilePictureError(error)\">\n               </file-reader>\n            </div>\n         </div>\n      </div>\n\n      <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n         <div class=\"sign-up form-group\" ng-if=\"!registrationInProgress\">\n            <button ng-disabled=\"registrationForm.$invalid\" ng-click=\"registerUser()\">Sign Up</button>\n         </div>\n         <div class=\"registering-in-progress\" ng-if=\"registrationInProgress\">\n            <div class=\"registering-text\" ng-bind=\"getRegistrationProgressMessage()\">\n            </div>\n            <div>\n               <loading-progress type=\"bar\"\n                           progress-object=\"registrationProgress\"\n                           width=\"250px\"\n                           height=\"20px\"\n                           color=\"#333333\">\n               </loading-progress>\n            </div>\n         </div>         \n      </div>\n   </form>\n</div>");
+$templateCache.put("partials/main/register/register.html","<div class=\"register\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/register/success.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         We have sent a link to your e-mail address, all you need to do\n         is click it, and you\'re good to go!\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a>here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
+$templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div class=\"resetting-in-progress\" ng-if=\"resettingInProgress\">\n         <span><loading-progress type=\"spinner\"></loading-progress></span>\n         <span class=\"resetting-text\">Setting password...</span>\n      </div>\n   </form>\n</div>");
+$templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/login/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n   <div class=\"status-message\" \n         ng-if=\"statusMessage()\"\n         ng-bind=\"statusMessage()\"></div>\n   <div class=\"login-form\">\n      <form>\n            <div class=\"form-group\">\n            <label for=\"login_email\">E-Mail Address</label>\n            <input type=\"text\" class=\"form-control\" name=\"login_email\" autocomplete=\"none\" autocorrect=\"none\" autocapitalize=\"none\" ng-model=\"loginInformation.email\" />\n            </div>\n            \n            <div class=\"form-group\">  \n            <label for=\"login_password\">Password</label>\n            <input type=\"password\" class=\"form-control\" name=\"login_password\" autocomplete=\"none\" autocorrect=\"none\" autocapitalize=\"none\" ng-model=\"loginInformation.password\" />\n            </div>\n            \n            <div class=\"form-group\">\n            <button ng-click=\"login()\">Login</button>\n            </div>\n      </form>\n   </div>\n   <div class=\"login-links\">\n      <a ui-sref=\"main.page.login.forgot_password\">Forgot your password?</a>\n      <a ui-sref=\"main.page.register.default\">Create a new Account</a>\n   </div>\n</div>\n\n");
 $templateCache.put("partials/main/login/forgot_password.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n   <form name=\"forgotPasswordForm\">\n      <div class=\"form-group\"\n         ng-class=\"{ \'has-error\': forgotPasswordForm.forgot_password_email.$touched && forgotPasswordForm.forgot_password_email.$invalid }\">\n         <label for=\"forgot_password_email\">\n            <span>E-Mail Address</span>\n         </label>\n         <input type=\"email\" \n               class=\"form-control\" \n               name=\"forgot_password_email\" \n               ng-model=\"formData.emailAddress\"\n               required />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!isRequestingNewPassword\">\n         <button ng-disabled=\"forgotPasswordForm.$invalid\" ng-click=\"requestNewPassword()\">\n            Request New Password\n         </button>\n      </div>\n      \n      <div class=\"requesting-in-progress\" ng-if=\"isRequestingNewPassword\">\n         <span><loading-progress type=\"spinner\"></loading-progress></span>\n         <span class=\"requesting-text\">Requesting new password...</span>\n      </div>\n   </form>\n   \n   <div ng-if=\"hasRequestedNewPassword\">\n      An e-mail has been sent to this e-mail address.  Please click the link within it to\n      get a new password.\n   </div>\n</div>");
 $templateCache.put("partials/main/login/login.html","<div class=\"login\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/login/unverified.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         It appears you haven\'t verified your account.\n      </p>\n      <p>\n         We sent a link to your e-mail address, all you need to do\n         is click it.\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a ng-click=\"resendVerificationEmail()\">here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
-$templateCache.put("partials/main/register/content.html","<div class=\"registration-form\">\n   <form name=\"registrationForm\">\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }\">\n            <label for=\"registration_email\">\n               <span>E-Mail Address</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_email.$error\"\n                     ng-if=\"registrationForm.registration_email.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"email\" \n                   class=\"form-control\" \n                   name=\"registration_email\" \n                   ng-model=\"registrationUser.email\" \n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   email-in-use\n                   required />\n         </div>\n\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }\">  \n            <label for=\"registration_password\">\n               <span>Password (6 characters or more)</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password.$error\"\n                     ng-if=\"registrationForm.registration_password.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                   class=\"form-control\" \n                   name=\"registration_password\" \n                   ng-model=\"registrationUser.password\"\n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   minlength=\"6\"\n                   required />\n         </div>\n      \n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }\">\n            <label for=\"registration_password_repeat\">\n               <span>Repeat Password</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password_repeat.$error\"\n                     ng-if=\"registrationForm.registration_password_repeat.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                  class=\"form-control\" \n                  name=\"registration_password_repeat\" \n                  ng-model=\"registrationUser.repeat_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  compare-to=\"registrationUser.password\" />\n         </div>\n      \n         <div class=\"form-group\">  \n            <label for=\"registration_first_name\">\n               <span>First Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_first_name.$error\"\n                     ng-if=\"registrationForm.registration_first_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_first_name\" \n                  ng-model=\"registrationUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      \n         <div class=\"form-group\"> \n            <label for=\"registration_last_name\">\n               <span>Last Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_last_name.$error\"\n                     ng-if=\"registrationForm.registration_last_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_last_name\" \n                  ng-model=\"registrationUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required /> \n         </div>       \n            \n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_public\" />\n               <label>Visible to the public?</label>\n            </div>\n         </div>\n\n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_users\" />\n               <label>Visible to other users?</label>\n            </div>\n         </div>\n      </div>     \n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"profile-picture-input\">\n            <div class=\"profile-picture-display\">\n               <profile-picture \n                  user=\"registrationUser\"\n                  width=\"90%\">\n               </profile_picture>\n            </div>\n            \n            <div class=\"profile-picture-button\">\n               <button ng-click=\"selectProfilePicture()\">\n                  Change Profile Picture\n               </button>\n               \n               <button ng-if=\"registrationUser.profile_picture_url\" ng-click=\"resetProfilePicture()\">\n                  Reset Profile Picture\n               </button>\n            \n               <file-reader \n                  supports-multiple=\"false\"\n                  accept=\"image/\\*\"\n                  is-active=\"profilePicturePickerIsActive\"\n                  on-files-added=\"onProfilePictureAdded(files)\"\n                  on-files-progress=\"onProfilePictureProgress(progress)\"\n                  on-files-error=\"onProfilePictureError(error)\">\n               </file-reader>\n            </div>\n         </div>\n      </div>\n\n      <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n         <div class=\"sign-up form-group\" ng-if=\"!registrationInProgress\">\n            <button ng-disabled=\"registrationForm.$invalid\" ng-click=\"registerUser()\">Sign Up</button>\n         </div>\n         <div class=\"registering-in-progress\" ng-if=\"registrationInProgress\">\n            <div class=\"registering-text\" ng-bind=\"getRegistrationProgressMessage()\">\n            </div>\n            <div>\n               <loading-progress type=\"bar\"\n                           progress-object=\"registrationProgress\"\n                           width=\"250px\"\n                           height=\"20px\"\n                           color=\"#333333\">\n               </loading-progress>\n            </div>\n         </div>         \n      </div>\n   </form>\n</div>");
-$templateCache.put("partials/main/register/register.html","<div class=\"register\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/register/success.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         We have sent a link to your e-mail address, all you need to do\n         is click it, and you\'re good to go!\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a>here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
 $templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/\\*\"\n            is-active=\"profilePicturePickerIsActive\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   <div class=\"profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <span ng-if=\"isEditingProfile\">\n         <input type=\"text\"\n               placeholder=\"First Name\"\n               class=\"form-control profile-name-input\"\n               ng-model=\"currentEditingUser.first_name\"\n               ng-model-options=\"{updateOn: \'blur\'}\"\n               required />\n         <input type=\"text\"\n               placeholder=\"Last Name\"\n               class=\"form-control profile-name-input\"\n               ng-model=\"currentEditingUser.last_name\"\n               ng-model-options=\"{updateOn: \'blur\'}\"\n               required />\n      </span>\n   </div>\n   <div class=\"profile-email-address-container\" ng-if=\"!isChangingPassword\">\n      <span ng-if=\"!isChangingEmail && !isEditingProfile\"\n            ng-bind=\"currentEditingUser.email\"></span>\n      <span ng-if=\"isChangingEmail\">\n         <input type=\"email\"\n               placeholder=\"E-Mail Address\"\n               class=\"form-control profile-email-input\"\n               ng-model=\"emailChangeData.email\"\n               ng-model-options=\"{updateOn: \'blur\'}\"\n               required />\n      </span>\n   </div>\n   <div class=\"profile-edit-container\">\n      <span ng-if=\"!isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditing()\" ng-if=\"!isEditingProfile\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-changes\" ng-click=\"saveProfile()\">Save Changes</a>\n         <a class=\"cancel-edit\" ng-click=\"cancelEditing()\">Cancel</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-password\" ng-click=\"changePassword()\">Change Password</a>\n         <a class=\"cancel-change-password\" ng-click=\"cancelChangePassword()\">Cancel</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-email\" ng-click=\"changeEmail()\">Change E-Mail</a>\n         <a class=\"cancel-change-email\" ng-click=\"cancelChangeEmail()\">Cancel</a>\n      </span>\n      \n      <div ng-show=\"isSaving\">\n         <span ng-bind=\"getSavingUserMessage()\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span>You don\'t have permission to view this user</span>\n</div>");
-$templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div class=\"resetting-in-progress\" ng-if=\"resettingInProgress\">\n         <span><loading-progress type=\"spinner\"></loading-progress></span>\n         <span class=\"resetting-text\">Setting password...</span>\n      </div>\n   </form>\n</div>");
-$templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
-},{}]},{},[68]);
+$templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
+},{}]},{},[70]);

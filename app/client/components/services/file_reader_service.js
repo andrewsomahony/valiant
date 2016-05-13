@@ -2,8 +2,7 @@
 
 var registerService = require('services/register');
 
-var ExifReader = require('exif').ExifImage;
-var PiExifReader = require('piexifjs');
+var EXIF = require('exif-js');
 var exifOrient = require('exif-orient');
 
 var name = 'services.file_reader_service';
@@ -18,7 +17,10 @@ registerService('factory', name,
  require('services/parallel_promise'),
  require('services/progress'),
  require('services/error'),
-function(Promise, ProgressService, ErrorService) {
+ require('services/data_url_service'),
+function(Promise, SerialPromise, 
+ParallelPromise, ProgressService, ErrorService,
+DataUrlService) {
    function FileReaderService() {
       
    }
@@ -83,7 +85,7 @@ function(Promise, ProgressService, ErrorService) {
       return Promise(function(resolve, reject, notify) {
          var fileReader = FileReaderService.initFileReader(resolve, reject, notify);
          
-         fileReader.readAsDataUrl(file);
+         fileReader.readAsDataURL(file);
       });      
    }
    
@@ -111,21 +113,12 @@ function(Promise, ProgressService, ErrorService) {
             return ProgressService(0, 1);
          } else {
             return Promise(function(resolve, reject, notify) {
-               /*new ExifReader({image: existingData.arrayBuffer},
-               function(error, exifData) {
-                  if (error) {
-                     reject(error);
-                  } else {
-                     resolve({exifData: exifData});
-                  }
-               });*/
-               try {
-                  resolve({exifData: PiExifReader.load(existingData.dataUrl)});
-               } catch (e) {
-                  // The error messages in this library
-                  // have awful grammar...
-                  reject(ErrorService.localError("Error reading EXIF data"));
-               }
+               var image = new Image();
+               image.src = existingData.dataUrl;
+               
+               EXIF.getData(image, function() {
+                  resolve({exifData: image.exifdata});
+               });
             });
          }
       });
@@ -135,9 +128,29 @@ function(Promise, ProgressService, ErrorService) {
             return ProgressService(0, 1);
          } else {
             return Promise(function(resolve, reject, notify) {
-               console.log("EXIF DATA", existingData.exifData);
-               resolve({});
-               //exifOrient(existingData.dataUrl)
+               if (!existingData.exifData.Orientation) {
+                  // File extends from blob
+                  resolve({blob: file});
+               } else {
+                  exifOrient(existingData.dataUrl, existingData.exifData.Orientation, function(error, canvas) {
+                     if (error) {
+                        reject(ErrorService.localError("Cannot render non-exif image!"));
+                     } else {
+                        var newDataUrl = canvas.toDataURL(file.type);
+                        
+                        if (!newDataUrl) {
+                           reject(ErrorService.localError("Cannot obtain non-exif image!"));
+                        } else {
+                           var blob = DataUrlService.dataUrlToBlob(newDataUrl);
+                           if (!blob) {
+                              reject(ErrorService.localError("Cannot obtain non-exif file data!"))
+                           } else {
+                              resolve({blob: blob});
+                           }
+                        }
+                     }
+                  });
+               }
             });
          }
       });

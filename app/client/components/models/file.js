@@ -18,7 +18,8 @@ function(BaseModel, FileReaderService) {
                name: "",
                type: "",
                size: 0,
-               arrayBuffer: null
+               arrayBuffer: null,
+               objectUrl: ""
             });
          },
          
@@ -89,25 +90,18 @@ function(BaseModel, FileReaderService) {
       getUrl: function() {
          var blob = new Blob([this.arrayBuffer], {type: this.type});           
          var urlCreator = window.URL || window.webkitURL;
+
+         if (this.objectUrl) {
+            urlCreator.revokeObjectURL(this.objectUrl);
+         }      
       
-         return urlCreator.createObjectURL(blob);
+         this.objectUrl = urlCreator.createObjectURL(blob);
+      
+         return this.objectUrl;
       },
       
       getDataUrl: function() {
          return FileReaderService.readAsDataUrl(this.toBlob());
-         /*
-         return Promise(function(resolve, reject, notify) {
-            var fileReader = new FileReader();
-         
-            fileReader.onload = function(e) {
-               resolve(e.target.result);
-            }
-            fileReader.onerror = function(e) {
-               reject();
-            }
-         
-            fileReader.readAsDataUrl(this.toBlob());               
-         });*/
       }
    })
 }])
