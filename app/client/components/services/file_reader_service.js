@@ -70,7 +70,7 @@ DataUrlService) {
       return fileReader;
    }
    
-   FileReaderService.readAsArrayBuffer = function(file, processExif) {
+   FileReaderService.readAsArrayBuffer = function(file) {
       return Promise(function(resolve, reject, notify) {
          var fileReader = FileReaderService.initFileReader(resolve, reject, notify);
          
@@ -78,12 +78,40 @@ DataUrlService) {
       });
    }
    
-   FileReaderService.readAsDataUrl = function(file, processExif) {
+   FileReaderService.readAsDataUrl = function(file) {
       return Promise(function(resolve, reject, notify) {
          var fileReader = FileReaderService.initFileReader(resolve, reject, notify);
          
          fileReader.readAsDataURL(file);
       });      
+   }
+   
+   FileReaderService.readAsDataUrlPromiseHelper = function(file) {
+      return Promise(function(resolve, reject, notify) {
+         FileReaderService.readAsDataUrl(file)
+         .then(function(result) {
+            resolve({dataUrl: result});
+         }, null, function(progress) {
+            notify(progress);
+         })   
+         .catch(function(error) {
+            reject(error);
+         });
+      });
+   }
+   
+   FileReaderService.readAsArrayBufferPromiseHelper = function(file) {
+      return Promise(function(resolve, reject, notify) {
+         FileReaderService.readAsArrayBuffer(file)
+         .then(function(result) {
+            resolve({arrayBuffer: result});
+         }, null, function(progress) {
+            notify(progress);
+         })   
+         .catch(function(error) {
+            reject(error);
+         });
+      });         
    }
    
    return FileReaderService;

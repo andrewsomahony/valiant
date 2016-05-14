@@ -49,7 +49,6 @@ function(Base64Service, Promise) {
    }
 
    DataUrlService.dataUrlToBlob = function(dataUrl, dataType) {
-
       if (false === this.isBase64(dataUrl)) {
          return null;
       }

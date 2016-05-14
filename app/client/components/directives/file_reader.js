@@ -53,7 +53,7 @@ FileReaderService, ImageService) {
                            return ProgressService(0, 1, "Processing EXIF data...");
                         } else {
                            return Promise(function(resolve, reject, notify) {
-                              ImageService.processAndStripExifData(file)
+                              ImageService.processAndStripExifDataFromFile(file)
                               .then(function(data) {
                                  resolve({blob: data.blob, exifData: data.exifData});
                               })

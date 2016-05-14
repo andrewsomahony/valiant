@@ -18,28 +18,17 @@ ProgressService, Promise, ExifService) {
       
    }
    
-   // This function reads the file,
-   // sees if there's any EXIF data that requires
-   // image modification (currently just orientation),
-   // and applies it, then strips ALL the EXIF data
-   // off of the image.
+   // This function scales an image and returns
+   // a new one
    
-   ImageService.processAndStripExifData = function(file) {
+   ImageService.scaleImageFromFile = function(file) {
       var promiseFnArray = [];
       
       promiseFnArray.push(function(existingData, index, forNotify) {
          if (true === forNotify) {
             return ProgressService(0, 1);   
          } else {
-            return Promise(function(resolve, reject, notify) {
-               FileReaderService.readAsDataUrl(file)
-               .then(function(dataUrl) {
-                  resolve({dataUrl: dataUrl});
-               }) 
-               .catch(function(e) {
-                  reject(e);
-               });         
-            });
+            return FileReaderService.readAsDataUrlPromiseHelper(file);
          }
       });
       
@@ -47,8 +36,91 @@ ProgressService, Promise, ExifService) {
          if (true === forNotify) {
             return ProgressService(0, 1);
          } else {
+            return ImageService.scaleImageFromDataUrl(existingData.dataUrl);
+         }
+      });
+      
+      return SerialPromise.withNotify(promiseFnArray);      
+   }
+   
+   ImageService.scaleImageFromDataUrl = function(dataUrl, newWidth, newHeight) {
+      var promiseFnArray = [];
+      
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         if (true === forNotify) {
+            return ProgressService(0, 1, "Resizing image...");
+         } else {
             return Promise(function(resolve, reject, notify) {
-               ExifService.getExifDataFromDataUrl(existingData.dataUrl)
+               var fileType = DataUrlService.getFileType(dataUrl);
+         
+               imageResizer(dataUrl, newWidth, newHeight, 
+                  fileType, function(canvas) {
+                     var newDataUrl = canvas.toDataURL(fileType);
+                     resolve({dataUrl: newDataUrl});
+               });
+            });
+         }
+      });
+      
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         if (true === forNotify) {
+            return ProgressService(0, 1, "Converting image...");
+         } else {
+            return Promise(function(resolve, reject, notify) {
+               if (!existingData.dataUrl) {
+                  reject(ErrorService.localError("Missing data url!"));
+               } else {
+                  var blob = DataUrlService.dataUrlToBlob(existingData.dataUrl);
+                  if (!blob) {
+                     reject(ErrorService.localError("Cannot obtain non-exif file data!"))
+                  } else {
+                     resolve({blob: blob});
+                  }                  
+               }               
+            });
+         }
+      })
+      
+      return SerialPromise.withNotify(promiseFnArray);
+   }
+   
+   // This function reads the file,
+   // sees if there's any EXIF data that requires
+   // image modification (currently just orientation),
+   // and applies it, then strips ALL the EXIF data
+   // off of the image.
+   
+   ImageService.processAndStripExifDataFromFile = function(file) {
+      var promiseFnArray = [];
+      
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         if (true === forNotify) {
+            return ProgressService(0, 1);   
+         } else {
+            return ImageService.readFileAsDataUrl(file);
+         }
+      });
+      
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         if (true === forNotify) {
+            return ProgressService(0, 1);
+         } else {
+            return ImageService.processAndStripExifDataFromDataUrl(existingData.dataUrl);
+         }
+      })
+      
+      return SerialPromise.withNotify(promiseFnArray);
+   }
+   
+   ImageService.processAndStripExifDataFromDataUrl = function(dataUrl) {
+      var promiseFnArray = [];
+      
+      promiseFnArray.push(function(existingData, index, forNotify) {
+         if (true === forNotify) {
+            return ProgressService(0, 1);
+         } else {
+            return Promise(function(resolve, reject, notify) {
+               ExifService.getExifDataFromDataUrl(dataUrl)
                .then(function(data) {
                   resolve({exifData: data.exifData})
                })
@@ -64,7 +136,7 @@ ProgressService, Promise, ExifService) {
             return ProgressService(0, 1);
          } else {
             return Promise(function(resolve, reject, notify) {
-               ExifService.orientImageDataUrl(existingData.dataUrl, existingData.exifData)
+               ExifService.orientImageDataUrl(dataUrl, existingData.exifData)
                .then(function(data) {
                   resolve({dataUrl: data.dataUrl})
                })
@@ -94,7 +166,7 @@ ProgressService, Promise, ExifService) {
          }
       });
       
-      return SerialPromise.withNotify(promiseFnArray);
+      return SerialPromise.withNotify(promiseFnArray);      
    }
    
    return ImageService;

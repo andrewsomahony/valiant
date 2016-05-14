@@ -18,27 +18,13 @@ Promise, ProgressService) {
       
    }
    
-   ExifService.readFile = function(file) {
-      return Promise(function(resolve, reject, notify) {
-         FileReaderService.readAsDataUrl(file)
-         .then(function(dataUrl) {
-            resolve({dataUrl: dataUrl});
-         }, null, function(progress) {
-            notify(progress);
-         })
-         .catch(function(error) {
-            reject(error);
-         })
-      });      
-   }
-   
    ExifService.getExifDataFromFile = function(file) {
       var promiseFnArray = [
          function(existingData, index, forNotify) {
             if (true === forNotify) {
                return ProgressService(0, 1, "Loading file...");
             } else {
-               return ExifService.readFile(file);
+               return FileReaderService.readAsDataUrlPromiseHelper(file);
             }
          },
          function(existingData, index, forNotify) {
@@ -72,7 +58,7 @@ Promise, ProgressService) {
                if (!exifData) {
                   return ExifService.getExifDataFromFile(file);
                } else {
-                  return ExifService.readFile(file);
+                  return FileReaderService.readAsDataUrlPromiseHelper(file);
                }
             }
          },

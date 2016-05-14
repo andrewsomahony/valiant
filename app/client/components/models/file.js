@@ -7,7 +7,11 @@ var name = 'fileModel';
 
 registerModel(name, [require('models/base'),
                      require('services/file_reader_service'),
-function(BaseModel, FileReaderService) {
+                     require('services/data_url_service'),
+                     require('services/promise'),
+                     require('services/error'),
+function(BaseModel, FileReaderService, DataUrlService, Promise,
+ErrorService) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -38,14 +42,40 @@ function(BaseModel, FileReaderService) {
                            });
          },
          
-         fromBlob: function(blob) {
+         fromBlob: function(blob, name) {
+            name = name || "";
+
             var self = this;
-            FileReaderService.readAsArrayBuffer(blob)
-            .then(function(result) {
-               resolve(self.fromFileObject(blob, null, result));
-            })
-            .catch(function(e) {
-               reject(e);   
+            
+            return Promise(function(resolve, reject, notify) {
+               FileReaderService.readAsArrayBuffer(blob)
+               .then(function(arrayBuffer) {
+                  var fileModel = self.fromFileObject(blob, null, arrayBuffer);
+                  fileModel.name = name;
+                  
+                  resolve(FileModel);
+               })
+               .catch(function(e) {
+                  reject(e);   
+               });                  
+            });
+         },
+         
+         fromDataUrl: function(dataUrl, name) {            
+            return Promise(function(resolve, reject, notify) {
+               var blob = DataUrlService.dataUrlToBlob(dataUrl);
+             
+               if (!blob) {
+                  reject(ErrorService.localError("Invalid data url!"));
+               }
+                  
+               this.fromBlob(blob, name)
+               .then(function(file) {
+                  resolve(file);
+               })
+               .catch(function(e) {
+                  reject(e);
+               });                  
             });
          },
 
@@ -54,8 +84,7 @@ function(BaseModel, FileReaderService) {
 
             var extension = type.split('/').pop()
 
-            if ('plain' === extension)
-            {
+            if ('plain' === extension) {
                extension = 'txt'
             }
 
