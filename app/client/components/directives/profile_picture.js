@@ -22,7 +22,7 @@ function(UserModel) {
             var style = {};
             
             if ($scope.width) {
-               style['max-width'] = $scope.width;
+               style['width'] = $scope.width;
             }
             if ($scope.height) {
                style['height'] = "auto";

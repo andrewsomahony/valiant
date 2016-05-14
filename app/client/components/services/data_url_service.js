@@ -62,21 +62,7 @@ function(Base64Service, Promise) {
          {type: dataType});     
    }
    
-   DataUrlService.dataUrlToImage = function(dataUrl) {
-      var image = new Image();
-      image.src = dataUrl;
-      
-      // Because we're using a dataUrl
-      // we can just return the image
-      // without waiting for onLoad
-      
-      // !!! What if there's an error?
-      
-      return image;
-   }
-   
    return DataUrlService;
-}
-])
+}]);
 
 module.exports = name;

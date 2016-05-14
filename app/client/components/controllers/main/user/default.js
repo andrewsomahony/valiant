@@ -8,7 +8,9 @@ registerController(name, ['$scope',
                           require('services/user_service'),
                           require('models/user'),
                           require('services/error_modal'),
-function($scope, UserService, UserModel, ErrorModal) {
+                          require('services/profile_picture_service'),
+function($scope, UserService, UserModel, ErrorModal,
+ProfilePictureService) {
    // Clone what we get from the UserService
    // to allow for editing and such
    
@@ -88,7 +90,13 @@ function($scope, UserService, UserModel, ErrorModal) {
    }
    
    $scope.onProfilePictureSelectSuccess = function(files) {
-      $scope.currentEditingUser.setProfilePictureFile(files[0]);
+      ProfilePictureService.resizeProfilePictureFromFileModel(files[0])
+      .then(function(fileModel) {
+         $scope.currentEditingUser.setProfilePictureFile(fileModel);
+      })
+      .catch(function(error) {
+         ErrorModal(e);
+      })
    }
    
    $scope.onProfilePictureSelectError = function(error) {

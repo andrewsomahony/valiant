@@ -53,7 +53,7 @@ ErrorService) {
                   var fileModel = self.fromFileObject(blob, null, arrayBuffer);
                   fileModel.name = name;
                   
-                  resolve(FileModel);
+                  resolve(fileModel);
                })
                .catch(function(e) {
                   reject(e);   

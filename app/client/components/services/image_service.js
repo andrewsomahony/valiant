@@ -53,9 +53,9 @@ ProgressService, Promise, ExifService) {
             return Promise(function(resolve, reject, notify) {
                var fileType = DataUrlService.getFileType(dataUrl);
          
-               imageResizer(dataUrl, newWidth, newHeight, 
-                  fileType, function(canvas) {
-                     var newDataUrl = canvas.toDataURL(fileType);
+               var resizeFn = imageResizer(document.createElement('canvas'));
+               resizeFn(dataUrl, newWidth, newHeight, 
+                  fileType, function(newDataUrl) {
                      resolve({dataUrl: newDataUrl});
                });
             });
@@ -97,7 +97,7 @@ ProgressService, Promise, ExifService) {
          if (true === forNotify) {
             return ProgressService(0, 1);   
          } else {
-            return ImageService.readFileAsDataUrl(file);
+            return FileReaderService.readAsDataUrlPromiseHelper(file);
          }
       });
       
@@ -170,7 +170,6 @@ ProgressService, Promise, ExifService) {
    }
    
    return ImageService;
-}])
-
+}]);
 
 module.exports = name;

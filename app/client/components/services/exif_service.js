@@ -9,10 +9,11 @@ var name = 'services.exif';
 
 registerService('factory', name, [require('services/file_reader_service'),
                                   require('services/data_url_service'),
+                                  require('services/dom_image_service'),
                                   require('services/serial_promise'),
                                   require('services/promise'),
                                   require('services/progress'),
-function(FileReaderService, DataUrlService, SerialPromise,
+function(FileReaderService, DataUrlService, DOMImageService, SerialPromise,
 Promise, ProgressService) {
    function ExifService() {
       
@@ -41,10 +42,14 @@ Promise, ProgressService) {
    
    ExifService.getExifDataFromDataUrl = function(dataUrl) {
       return Promise(function(resolve, reject, notify) {
-         var image = DataUrlService.dataUrlToImage(dataUrl);
-         
-         EXIF.getData(image, function() {
-            resolve({exifData: image.exifdata});
+         DOMImageService.createImageFromDataUrl(dataUrl)
+         .then(function(image) {
+            EXIF.getData(image, function() {
+               resolve({exifData: image.exifdata});
+            });           
+         })
+         .catch(function(error) {
+            reject(error);
          });
       });
    }
