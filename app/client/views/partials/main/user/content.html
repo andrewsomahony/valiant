@@ -1,5 +1,5 @@
 <div ng-if="currentEditingUser">
-   <div class="profile-picture-container">
+   <div class="edit-container profile-picture-container">
       <div class="profile-picture-display">
          <span class="hidden-xs">
             <profile-picture user="currentEditingUser" width="300px"></profile-picture>
@@ -22,36 +22,77 @@
          </file-reader>      
       </div>
    </div>
-   <div class="profile-name-container" ng-if="!isChangingPassword && !isChangingEmail">
+   
+   <div class="edit-container profile-name-container" ng-if="!isChangingPassword && !isChangingEmail">
       <span ng-if="!isEditingProfile" ng-bind="currentEditingUser.fullName()"></span>
-      <span ng-if="isEditingProfile">
-         <input type="text"
-               placeholder="First Name"
-               class="form-control profile-name-input"
-               ng-model="currentEditingUser.first_name"
-               ng-model-options="{updateOn: 'blur'}"
-               required />
-         <input type="text"
-               placeholder="Last Name"
-               class="form-control profile-name-input"
-               ng-model="currentEditingUser.last_name"
-               ng-model-options="{updateOn: 'blur'}"
-               required />
-      </span>
+      <div class="top-edit-control" ng-if="isEditingProfile">
+         <div>
+            <input type="text"
+                  placeholder="First Name"
+                  class="form-control profile-name-input"
+                  ng-model="currentEditingUser.first_name"
+                  ng-model-options="{updateOn: 'blur'}"
+                  required />
+         </div>
+         <div>
+            <input type="text"
+                  placeholder="Last Name"
+                  class="form-control profile-name-input"
+                  ng-model="currentEditingUser.last_name"
+                  ng-model-options="{updateOn: 'blur'}"
+                  required />
+         </div>
+      </div>
    </div>
-   <div class="profile-email-address-container" ng-if="!isChangingPassword">
-      <span ng-if="!isChangingEmail && !isEditingProfile"
-            ng-bind="currentEditingUser.email"></span>
-      <span ng-if="isChangingEmail">
-         <input type="email"
-               placeholder="E-Mail Address"
-               class="form-control profile-email-input"
-               ng-model="emailChangeData.email"
-               ng-model-options="{updateOn: 'blur'}"
-               required />
-      </span>
+   
+   <div class="edit-container profile-email-address-container" ng-if="!isChangingPassword">
+      <div ng-if="!isChangingEmail">
+         <span class="email-text"
+               ng-if="!isEditingProfile"
+               ng-bind="currentEditingUser.email"></span>
+      </div>
+      <div ng-if="isChangingEmail">
+         <div class="top-edit-control">
+            <input type="email"
+                  placeholder="New E-Mail"
+                  class="form-control profile-email-input"
+                  ng-model="emailChangeData.email"
+                  ng-model-options="{updateOn: 'blur'}"
+                  required />
+         </div>
+      </div>
    </div>
-   <div class="profile-edit-container">
+   
+   <div class="edit-container profile-password-container" ng-if="isChangingPassword">
+      <div class="top-edit-control">
+         <div>
+            <input type="password"
+                  placeholder="Old Password"
+                  class="form-control profile-old-password-input"
+                  ng-model="passwordChangeData.old_password"
+                  ng-model-options="{updateOn: 'blur'}"
+                  required />
+         </div>
+         <div>
+            <input type="password"
+                  placeholder="New Password"
+                  class="form-control profile-new-password-input"
+                  ng-model="passwordChangeData.new_password"
+                  ng-model-options="{updateOn: 'blur'}"
+                  required />
+         </div>
+         <div>       
+            <input type="password"
+                  placeholder="Repeat New Password"
+                  class="form-control profile-repeat-new-password-input"
+                  ng-model="passwordChangeData.new_password_repeat"
+                  ng-model-options="{updateOn: 'blur'}"
+                  required />
+         </div>         
+      </div>
+   </div>
+   
+   <div class="edit-container profile-options-container">
       <span ng-if="!isEditingProfile && !isChangingPassword && !isChangingEmail">
          <a ng-click="activateEditing()" ng-if="!isEditingProfile">Edit Profile</a>
          &nbsp;|&nbsp;
@@ -61,18 +102,18 @@
       </span>
       
       <span ng-if="isEditingProfile && !isSaving">
-         <a class="save-changes" ng-click="saveProfile()">Save Changes</a>
-         <a class="cancel-edit" ng-click="cancelEditing()">Cancel</a>
+         <a class="save-cancel-left save-changes" ng-click="saveProfile()">Save</a>
+         <a class="save-cancel-right cancel-edit" ng-click="cancelEditing()">Cancel</a>
       </span>
       
       <span ng-if="isChangingPassword && !isSaving">
-         <a class="save-password" ng-click="changePassword()">Change Password</a>
-         <a class="cancel-change-password" ng-click="cancelChangePassword()">Cancel</a>
+         <a class="save-cancel-left save-password" ng-click="changePassword()">Change</a>
+         <a class="save-cancel-right cancel-change-password" ng-click="cancelChangePassword()">Cancel</a>
       </span>
       
       <span ng-if="isChangingEmail && !isSaving">
-         <a class="save-email" ng-click="changeEmail()">Change E-Mail</a>
-         <a class="cancel-change-email" ng-click="cancelChangeEmail()">Cancel</a>
+         <a class="save-cancel-left save-email" ng-click="changeEmail()">Change</a>
+         <a class="save-cancel-right cancel-change-email" ng-click="cancelChangeEmail()">Cancel</a>
       </span>
       
       <div ng-show="isSaving">

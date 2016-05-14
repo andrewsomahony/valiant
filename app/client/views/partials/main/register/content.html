@@ -1,5 +1,44 @@
 <div class="registration-form">
    <form name="registrationForm">
+
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+         <div class="profile-picture-input">
+            <div class="profile-picture-display">
+               <div class="hidden-xs">
+                  <profile-picture 
+                        user="registrationUser"
+                        width="80%">
+                  </profile_picture>
+               </div>
+               <div class="hidden-lg hidden-md hidden-sm">
+                  <profile-picture 
+                        user="registrationUser"
+                        width="70%">
+                  </profile_picture>
+               </div> 
+            </div>
+            
+            <div class="profile-picture-button">
+               <a class="profile-picture-link change" ng-click="selectProfilePicture()">
+                  Change
+               </a>
+               
+               <a class="profile-picture-link reset" ng-if="registrationUser.profile_picture_url" ng-click="resetProfilePicture()">
+                  Reset
+               </a>
+            
+               <file-reader 
+                  supports-multiple="false"
+                  accept="image/\*"
+                  is-active="profilePicturePickerIsActive"
+                  on-files-added="onProfilePictureAdded(files)"
+                  on-files-progress="onProfilePictureProgress(progress)"
+                  on-files-error="onProfilePictureError(error)">
+               </file-reader>
+            </div>
+         </div>
+      </div>
+
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
          <div class="form-group"
               ng-class="{ 'has-error': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }">
@@ -104,39 +143,7 @@
                <label>Visible to other users?</label>
             </div>
          </div>
-      </div>     
 
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-         <div class="profile-picture-input">
-            <div class="profile-picture-display">
-               <profile-picture 
-                  user="registrationUser"
-                  width="90%">
-               </profile_picture>
-            </div>
-            
-            <div class="profile-picture-button">
-               <button ng-click="selectProfilePicture()">
-                  Change Profile Picture
-               </button>
-               
-               <button ng-if="registrationUser.profile_picture_url" ng-click="resetProfilePicture()">
-                  Reset Profile Picture
-               </button>
-            
-               <file-reader 
-                  supports-multiple="false"
-                  accept="image/\*"
-                  is-active="profilePicturePickerIsActive"
-                  on-files-added="onProfilePictureAdded(files)"
-                  on-files-progress="onProfilePictureProgress(progress)"
-                  on-files-error="onProfilePictureError(error)">
-               </file-reader>
-            </div>
-         </div>
-      </div>
-
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
          <div class="sign-up form-group" ng-if="!registrationInProgress">
             <button ng-disabled="registrationForm.$invalid" ng-click="registerUser()">Sign Up</button>
          </div>
@@ -151,7 +158,8 @@
                            color="#333333">
                </loading-progress>
             </div>
-         </div>         
-      </div>
+         </div> 
+
+      </div>     
    </form>
 </div>

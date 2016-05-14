@@ -15,11 +15,7 @@ div.register {
             }
          }
          
-         div.profile-picture-input {
-            @media screen and (min-width: $min-sm-screen-width) {
-               margin-top: 32px;
-            }
-            
+         div.profile-picture-input {            
             div.profile-picture-display {
                text-align: center;
                margin-bottom: 12px;
@@ -27,14 +23,23 @@ div.register {
             
             div.profile-picture-button {
                text-align: center;
+               a.profile-picture-link {
+                  &.change {
+                     margin-right: 4px;
+                  }
+                  &.reset {
+                     margin-left: 4px;
+                  }
+               }
             }
          }
          
          div.sign-up {
             @media screen and (max-width: $min-sm-screen-width) {
                margin-top: 20px;
-               text-align: center;
-            }            
+               
+            }  
+            text-align: center;          
          }
       }
    }

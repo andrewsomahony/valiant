@@ -1,5 +1,19 @@
 div.user {
    div.sub-content {
+      
+      div.edit-container {
+         div.top-edit-control {
+            margin-top: 12px;
+         }
+
+         input.form-control {
+            display: inline-block;
+            width: 150px;
+            font-size: 14px;
+            height: 30px;
+         }
+      }
+      
       div.profile-picture-container {
          text-align: center;
          div.profile-picture-display {
@@ -29,11 +43,9 @@ div.user {
             font-weight: bold;
          }
          
-         input.profile-name-input {
-            display: inline-block;
-            width: 150px;
-            font-size: 14px;
-            height: 30px;
+         input.form-control {
+            width: 270px;
+            margin-bottom: 8px;
          }
       }
       
@@ -43,28 +55,36 @@ div.user {
       
       div.profile-email-address-container {
          text-align: center;
-         span {
+         .email-text {
             font-size: 16px;
             font-weight: bold;
          }
          
-         input.profile-email-input {
-            display: inline-block;
+         input.form-control {
             width: 270px;
-            font-size: 14px;
-            height: 30px;
          }
       }
       
-      div.profile-edit-container {
+      div.profile-password-container {
+         text-align: center;
+         
+         input.form-control {
+            width: 270px;
+            margin-bottom: 8px;
+         }
+      }
+      
+      div.profile-options-container {
          text-align: center;
          a {
             font-size: 12px;
-            &.save-changes {
-               margin-right: 4px;
+            font-weight: normal;
+            
+            &.save-cancel-left {
+               margin-right: 3px;
             }
-            &.cancel-edit {
-               margin-left: 4px;
+            &.save-cancel-right {
+               margin-left: 3px;
             }
          }
       }
