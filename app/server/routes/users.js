@@ -209,6 +209,34 @@ router.route('/reset_password')
     Responder.methodNotAllowed(result);
 });
 
+router.route('/change_password')
+.get(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+    
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+});
+
+router.route('/change_email')
+.get(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+    
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.delete(function(request, result) {
+   Responder.methodNotAllowed(result); 
+});
+
 router.route('/me')
 .get(function(request, result) {
     if (!Permissions.isLoggedIn(request)) {

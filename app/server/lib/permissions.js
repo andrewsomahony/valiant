@@ -31,5 +31,9 @@ Permissions.isLoggedIn = function(request) {
 }
 
 Permissions.isAdmin = function(request) {
-   return request.user && request.user.isAdmin();
+   return this.isLoggedIn(request) && request.user.isAdmin();
+}
+
+Permissions.isOwner = function(request) {
+    return this.isLoggedIn(request) && request.user.isOwner();
 }
