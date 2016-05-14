@@ -11,7 +11,7 @@ function(UserModel) {
       scope: {
          user: "<",
          //width: "@",
-         //height: "%@"
+         //height: "@"
       },
       templateUrl: "directives/profile_picture.html",
       link: function($scope, $element, $attributes) {
