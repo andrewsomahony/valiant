@@ -11,19 +11,24 @@ registerService('factory', name, [function() {
       'User': {
          url: "users",
          sub_api: {
+            'EmailAvailable': {
+               url: 'email_available'  
+            },
             'Register': {
                url: "register",
                sub_api: {
-                   'EmailAvailable': {
-                       url: 'email_available'
+                   'ResendEmail': {
+                       url: 'resend_email'
                    }
                }
             },
-            'Reverify': {
-               url: "resend_email",
-               paramArray: {
-                  emailToken: ""
-               }
+            'ChangeEmail': {
+               url: "change_email",
+               sub_api: {
+                   'ResendEmail': {
+                       url: 'resend_email'
+                   }
+               }  
             },
             'Me': {
                url: "me"

@@ -94,7 +94,7 @@ router.route('/register')
     Responder.methodNotAllowed(result);
 });
 
-router.route('/register/email_available')
+router.route('/email_available')
 .get(function(request, result) {
     var emailAddress = request.query.email;
     
@@ -124,7 +124,7 @@ router.route('/register/email_available')
     Responder.methodNotAllowed(result);
 });
 
-router.route('/resend_email')
+router.route('/register/resend_email')
 .get(function(request, result) {
     Responder.methodNotAllowed(result);
 })
@@ -139,7 +139,7 @@ router.route('/resend_email')
     } else {
         User.resendAuthenticationEmail(emailToken, function(error, user) {
             if (error) {
-                Responder.withErrorObject(result, 400, error);
+                Responder.badRequest(result, error);
             } else {
                 Responder.noContent(result);
             }
@@ -214,7 +214,7 @@ router.route('/change_password')
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {
-    
+    Responder.noContent(result);
 })
 .put(function(request, result) {
     Responder.methodNotAllowed(result);
@@ -228,7 +228,7 @@ router.route('/change_email')
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {
-    
+    Responder.noContent(result);
 })
 .put(function(request, result) {
     Responder.methodNotAllowed(result);
@@ -236,6 +236,20 @@ router.route('/change_email')
 .delete(function(request, result) {
    Responder.methodNotAllowed(result); 
 });
+
+router.route('/change_email/resend_email')
+.get(function(request, result) {
+    Responder.methodNotAllowed(result);   
+})
+.post(function(request, result) {
+    
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
 
 router.route('/me')
 .get(function(request, result) {

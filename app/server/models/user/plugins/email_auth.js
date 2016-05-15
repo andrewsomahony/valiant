@@ -48,6 +48,9 @@ module.exports = function(schema, options) {
       })
    }
    
+   // Only called if the user is brand new
+   // or has a valid e-mail token
+      
    schema.methods.sendAuthenticationEmail = function(cb) {
       var self = this;
       

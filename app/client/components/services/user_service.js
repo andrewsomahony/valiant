@@ -278,7 +278,10 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
                         name: 'User'
                     },
                     {
-                        name: 'Reverify'
+                        name: 'Register'
+                    },
+                    {
+                        name: 'ResendEmail'
                     }
                 ]), null, {emailToken: u.email_token})
                 .then(function() {

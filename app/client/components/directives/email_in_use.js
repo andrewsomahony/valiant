@@ -18,8 +18,7 @@ function(PromiseService, HttpService, ApiUrlService) {
            }
            
            return PromiseService(function(resolve, reject, notify) {
-              HttpService.get(ApiUrlService([{name: 'User'},
-                                             {name: 'Register'}, 
+              HttpService.get(ApiUrlService([{name: 'User'}, 
                                              {name: 'EmailAvailable'}]),
                                              {email: modelValue})
               .then(function() {
