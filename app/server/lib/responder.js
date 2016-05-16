@@ -2,69 +2,83 @@
 
 var ValiantError = require('./error');
 
-var response = null;
-
 function Responder() {
-   return function(request, res, next) {
-      response = res;
-      next();
-   }
 }
 
-Responder.respond = function(code, data) {
+Responder.code = function(response, code) {
+   response.status(code);
+}
+
+Responder.render = function(response, view, params) {
+   response.render(view, params);
+}
+
+Responder.header = function(response, headerText) {
+   response.header(headerText);
+}
+
+Responder.redirect = function(response, url) {
+   response.redirect(url);
+}
+
+Responder.respond = function(response, code, data) {
    response.status(code).json(data || {});
 }
 
-Responder.withErrorObject = function(responseObject, responseCode, errorObject) {
-   this.respond(responseCode, ValiantError.fromErrorObject(errorObject).toObject());
+Responder.withErrorObject = function(response, responseCode, errorObject) {
+   this.respond(response, responseCode, ValiantError.fromErrorObject(errorObject).toObject());
 }
 
-Responder.withErrorMessage = function(responseObject, responseCode, responseMessage) {
-   this.respond(responseCode, new ValiantError(responseMessage).toObject());
+Responder.withErrorMessage = function(response, responseCode, responseMessage) {
+   this.respond(response, responseCode, new ValiantError(responseMessage).toObject());
 }
 
-Responder.withError = function(responseObject, responseCode, error) {
+Responder.withError = function(response, responseCode, error) {
    if ('string' === typeof error) {
-      this.withErrorMessage(responseObject, responseCode, error);
+      this.withErrorMessage(response, responseCode, error);
    } else {
-      this.withErrorObject(responseObject, responseCode, error);
+      this.withErrorObject(response, responseCode, error);
    }
 }
 
-Responder.ok = function(responseObject, responseData) {
-   this.respond(200, responseData);
+Responder.ok = function(response, responseData) {
+   this.respond(response, 200, responseData);
 }
 
-Responder.created = function(responseObject, responseData) {
-   this.respond(201, responseData);
+Responder.created = function(response, responseData) {
+   this.respond(response, 201, responseData);
 }
 
-Responder.accepted = function(responseObject, responseData) {
-   this.respond(202, responseData);
+Responder.accepted = function(response, responseData) {
+   this.respond(response, 202, responseData);
 }
 
-Responder.noContent = function(responseObject) {
-   this.respond(204);
+Responder.noContent = function(response) {
+   this.respond(response, 204);
 }
 
-Responder.badRequest = function(responseObject, message) {
-   this.withError(responseObject, 400, message ? message : ValiantError.badRequest());
+Responder.badRequest = function(response, message) {
+   this.withError(response, 400, message ? message : ValiantError.badRequest());
 }
 
-Responder.unauthorized = function(responseObject, message) {
-   this.withError(responseObject, 401, message ? message : ValiantError.unauthorized());
+Responder.unauthorized = function(response, message) {
+   this.withError(response, 401, message ? message : ValiantError.unauthorized());
 }
 
-Responder.notFound = function(responseObject, message) {
-   this.withError(responseObject, 404, message ? message : ValiantError.notFound());
+Responder.notFound = function(response, message) {
+   this.withError(response, 404, message ? message : ValiantError.notFound());
 }
 
-Responder.methodNotAllowed = function(responseObject, message) {
-   this.withError(responseObject, 405, message ? message : ValiantError.methodNotAllowed());
+Responder.methodNotAllowed = function(response, message) {
+   this.withError(response, 405, message ? message : ValiantError.methodNotAllowed());
 }
 
-Responder.forbidden = function(responseObject, message) {
-   this.withError(responseObject, 403, message ? message : ValiantError.forbidden());
+Responder.notAcceptable = function(response, message) {
+   this.withError(response, 406, message ? message : ValiantError.notAcceptable());
+}
+
+Responder.forbidden = function(response, message) {
+   this.withError(response, 403, message ? message : ValiantError.forbidden());
 }
 
 module.exports = Responder;

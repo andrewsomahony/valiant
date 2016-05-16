@@ -7,31 +7,25 @@ module.exports.getBodyVariable = getBodyVariable;
 module.exports.getUrlVariable = getUrlVariable;
 module.exports.getUrlParamVariable = getUrlParamVariable;
 
-var request = null;
-
 function Request() {
-   return function(req, result, next) {
-      request = req;
-      next();
-   };
 }
 
-function getVariable(variable) {
+function getVariable(request, variable) {
    return request[variable];
 }
 
-function getUser() {
-   return getVariable('user');
+function getUser(request) {
+   return getVariable(request, 'user');
 }
 
-function getBodyVariable(variable) {
+function getBodyVariable(request, variable) {
    return request.body[variable];
 }
 
-function getUrlVariable(variable) {
+function getUrlVariable(request, variable) {
    return request.query[variable];
 }
 
-function getUrlParamVariable(variable) {
+function getUrlParamVariable(request, variable) {
    return request.params[variable];
 }

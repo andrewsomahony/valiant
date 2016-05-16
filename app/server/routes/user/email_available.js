@@ -10,7 +10,7 @@ var User = require(__base + 'models/user/user');
 
 router.route('/email_available')
 .get(function(request, result) {
-    var emailAddress = request.query.email;
+    var emailAddress = Request.getUrlVariable(request, 'email');
     
     if (!emailAddress) {
         Responder.badRequest(result, "Missing e-mail address!");

@@ -46,6 +46,11 @@ function($rootScope, ErrorModal, UserService, StateService, PermissionService) {
                 StateService.go('main.page.reset_password.default',
                 {token: resetPasswordToken});
             }
+            
+            var emailChangedToken = toParams['email_changed'];
+            if (false === utils.isUndefinedOrNull(emailChangedToken)) {
+                StateService.go('main.page.user.default');
+            }
         }
     });
     

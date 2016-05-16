@@ -9,8 +9,7 @@ var bodyParser = require('body-parser');
 var hostnameMiddleware = require('./lib/hostname');
 var ajaxMiddleware = require(__base + 'lib/ajax');
 
-var responderMiddleware = require(__base + 'lib/responder');
-var requestMiddleware = require(__base + 'lib/request');
+var Responder = require(__base + 'lib/responder');
 
 var ejs = require('ejs');
 
@@ -72,8 +71,6 @@ if (false === appIsActive) {
     app.use(logger('dev'));
         
     app.use(hostnameMiddleware());
-    app.use(requestMiddleware());
-    app.use(responderMiddleware());
     app.use(ajaxMiddleware());
     
     app.use(bodyParser.json());
@@ -103,16 +100,16 @@ if (false === appIsActive) {
                 fs.accessSync(compressedVersion, fs.R_OK);
                 request.url += '.gz';
                 
-                result.header('Content-Encoding', 'gzip');
-                result.header('Content-Type', mime.lookup(path.extname(request.originalUrl)));
+                Responder.header(result, 'Content-Encoding', 'gzip');
+                Responder.header(result, 'Content-Type', mime.lookup(path.extname(request.originalUrl)));
             } catch(error) {
                 
             }
         }
         
-        result.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        result.header('Expires', '-1');
-        result.header('Pragma', 'no-cache');
+        Responder.header(result, 'Cache-Control', 'private, no-cache, no-store, must-revalidate');
+        Responder.header(result, 'Expires', '-1');
+        Responder.header(result, 'Pragma', 'no-cache');
         
         next();
     });
@@ -120,15 +117,15 @@ if (false === appIsActive) {
     app.use(express.static(path.join(__dirname, 'public')));
 
     app.use('/', function(request, result, next) {
-        result.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        result.header('Expires', '-1');
-        result.header('Pragma', 'no-cache');
+        Responder.header(result, 'Cache-Control', 'private, no-cache, no-store, must-revalidate');
+        Responder.header(result, 'Expires', '-1');
+        Responder.header(result, 'Pragma', 'no-cache');
         next();
     })
     
     app.use(['/login', '/logout', '/api'], function(request, result, next) {
         if (false === request.isAjax) {
-            result.status(406).json({error: "API endpoints need to accept json output and be requested by AJAX"})            
+            Responder.notAcceptable(result);
         } else {
             next();
         } 
@@ -137,7 +134,7 @@ if (false === appIsActive) {
     app.use('/', indexRoute);
     
     app.use('/redirect', function(request, result, next) {
-        result.render('redirect');
+        Responder.render(result, 'redirect');
     });
     
     app.use('/login', loginRoute);
@@ -150,10 +147,10 @@ if (false === appIsActive) {
     
     app.use(function(request, result, next) {
        if (request.isAjax) {
-           responderMiddleware.notFound(null, "Route not found!");
+           Responder.notFound(result, "Route not found!");
        } else {
-           result.status(404);
-           result.render('error', {message: "Route not found!"});
+           Responder.code(result, 404);
+           Responder.render(result, 'error', {message: "Route not found!"});
        }
     });
 

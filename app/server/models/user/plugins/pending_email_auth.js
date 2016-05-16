@@ -38,7 +38,7 @@ module.exports = function(schema, options) {
       }
    }
    
-   schema.statics.findByPendingEmailAuthToken = function(pendingEmailAuthToken) {
+   schema.statics.findByPendingEmailAuthToken = function(pendingEmailAuthToken, cb) {
       var queryParameters = {};
       
       queryParameters[options.pendingEmailAuthTokenField] = pendingEmailAuthToken;
@@ -80,7 +80,7 @@ module.exports = function(schema, options) {
       
       token.createToken(48, true)
       .then(function(pendingEmailToken) {
-         self.set(options.pendingEmailTokenField, pendignEmailToken);
+         self.set(options.pendingEmailTokenField, pendingEmailToken);
          
          token.createToken(48, true)
          .then(function(pendingEmailAuthToken) {
@@ -91,13 +91,15 @@ module.exports = function(schema, options) {
                   cb(ValiantError.fromErrorObject(error));
                } else {
                   ValiantEmail({
-                     to: self.email,
+                     to: self.pending_email,
                      from: ValiantEmail.doNotReplyEmailAddress(),
                      fromname: "Valiant Athletics",
                      template: "verify-pending-email",
                      templateParams: {
                         first_name: self.first_name,
-                        verify_link: hostnameUtil.constructUrl("/verify/pending_email/" + self.authToken)
+                        pending_email: self.pending_email,
+                        email: self.email,
+                        verify_link: hostnameUtil.constructUrl("/verify/pending_email/" + pendingEmailAuthToken)
                      }
                   }, function(error) {
                      if (error) {

@@ -13,7 +13,7 @@ router.route('/forgot_password')
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {
-    var emailAddress = Request.getBodyVariable('email');//request.body.email;
+    var emailAddress = Request.getBodyVariable(request, 'email');//request.body.email;
     
     if (!emailAddress) {
         Responder.badRequest(result, "Missing e-mail address!");
@@ -53,8 +53,8 @@ router.route('/forgot_password/reset')
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {
-    var newPassword = Request.getBodyVariable('password');//request.body.password;
-    var token = Request.getBodyVariable('token');//request.body.token;
+    var newPassword = Request.getBodyVariable(request, 'password');
+    var token = Request.getBodyVariable(request, 'token');
     
     User.resetPassword(token, newPassword, function(error, user) {
         if (error) {

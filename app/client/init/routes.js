@@ -55,7 +55,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    .state("main.page.home.default", {
        resolve: RouteResolver("main.page.home.default"),
-       url: "?email_verified&error&reset_password_token",
+       url: "?email_changed&email_verified&error&reset_password_token",
        views: {
          "nav_bar@main.page": {
              templateUrl: "partials/main/nav_bar.html"

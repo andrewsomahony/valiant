@@ -442,6 +442,29 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         })
     }
     
+    UserService.changeEmail = function(newEmail) {
+        return Promise(function(resolve, reject, notify) {
+            HttpService.post(ApiUrlService([
+                {
+                    name: 'User'
+                },
+                {
+                    name: 'ChangeEmail'
+                }
+            ]), null, {email: newEmail})
+            .then(function(data) {
+                var user = new UserModel(data.data, true);
+                UserService.updateCurrentRequestedUserIfSame(user);
+                UserService.updateCurrentUserIfSame(user);
+                
+                resolve(user);
+            })
+            .catch(function(error) {
+                reject(error);
+            })
+        })
+    }
+    
     UserService.getUser = function(userId) {
         return Promise(function(resolve, reject, notify) {
            HttpService.get(ApiUrlService({

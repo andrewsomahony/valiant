@@ -11,7 +11,7 @@ var Responder = require(__base + 'lib/responder');
 
 router.route('/signed_url')
 .get(function(request, result) {
-   var uploadType = Request.getUrlParameter('upload_type');//request.query.upload_type; 
+   var uploadType = Request.getUrlParameter(request, 'upload_type');//request.query.upload_type; 
    /*
       profile_picture, 
       question_video, 
@@ -19,7 +19,7 @@ router.route('/signed_url')
       comment_video, 
       comment_picture
    */
-   var uploadFileType = Request.getUrlParameter('file_type');//request.query.file_type;
+   var uploadFileType = Request.getUrlParameter(request, 'file_type');//request.query.file_type;
    
    var key = StaticUpload.getStaticUploadKey(uploadType);
    

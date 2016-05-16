@@ -16,14 +16,14 @@ router.route('/change_email')
 })
 .post(function(request, result) {
    
-    var newEmailAddress = Request.getBodyVariable('email');//request.body.email;
+    var newEmailAddress = Request.getBodyVariable(request, 'email');//request.body.email;
     
-    if (!Permissions.isLoggedIn()) {
+    if (!Permissions.isLoggedIn(request)) {
         Responder.forbidden(result);
     } else {
-        var user = Request.getUser();
-        
-        if (true === Permissions.ableToEditUser(user)) {        
+        var user = Request.getUser(request);
+
+        if (true === Permissions.ableToEditUser(request, user)) {        
             user.changeEmailAddress(newEmailAddress, function(error, user) {
                 if (error) {
                     Responder.badRequest(result, error);
@@ -31,6 +31,8 @@ router.route('/change_email')
                     Responder.ok(result, user.frontEndObject());
                 }
             });
+        } else {
+            Responder.forbidden(result);
         }
     }
 })
@@ -46,7 +48,7 @@ router.route('/change_email/resend_email')
     Responder.methodNotAllowed(result);   
 })
 .post(function(request, result) {
-    var token = Request.getBodyVariable('token');//request.body.token;
+    var token = Request.getBodyVariable(request, 'token');//request.body.token;
     
     User.findByPendingEmailToken(token, function(error, user) {
         if (error) {

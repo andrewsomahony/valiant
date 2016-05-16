@@ -14,7 +14,7 @@ var Q = require('q');
 
 router.route('/')
 .get(function(request, result) {
-    if (!Permissions.isAdmin()) {
+    if (!Permissions.isAdmin(request)) {
         Responder.forbidden(result);
     } else {
         User.find(function(error, documents) {
@@ -27,10 +27,10 @@ router.route('/')
     }
 })
 .post(function(request, result) {
-    if (!Permissions.isAdmin()) {
+    if (!Permissions.isAdmin(request)) {
         Responder.forbidden(result);
     } else {
-        var usersArray = Request.getBodyVariable('users');
+        var usersArray = Request.getBodyVariable(request, 'users');
         
         Q.all(usersArray.map(function(u) {
             return Promise(function(resolve, reject, notify) {
@@ -74,14 +74,14 @@ router.use(require('./me'));
 
 router.route('/:userId')
 .get(function(request, result) {
-    User.findById(Request.getUrlParamVariable('userId'), function(error, user) {
+    User.findById(Request.getUrlParamVariable(request, 'userId'), function(error, user) {
         if (error) {
             Responder.badRequest(result, error);
         } else {
             if (!user) {
                 Responder.notFound(result, "User not found!");
             } else {
-                if (true === Permissions.ableToSeeUser(user)) {
+                if (true === Permissions.ableToSeeUser(request, user)) {
                     Responder.ok(result, user.frontEndObject());    
                 } else {
                     Responder.forbidden(result);
@@ -94,19 +94,19 @@ router.route('/:userId')
 .patch(function(request, result) {
     //var patchData = request.body.data;
     
-    var patchData = Request.getBodyVariable('data');
+    var patchData = Request.getBodyVariable(request, 'data');
     
     if (!patchData) {
         Responder.badRequest(result, "Missing patch data!");
     } else {
-        User.findById(Request.getUrlParamVariable('userId'), function(error, user) {
+        User.findById(Request.getUrlParamVariable(request, 'userId'), function(error, user) {
             if (error) {
                 Responder.badRequest(result, error);
             } else {
                 if (!user) {
                    Responder.notFound(result, "Can't find user!");
                 } else {
-                   if (false === Permissions.ableToEditUser(user)) {
+                   if (false === Permissions.ableToEditUser(request, user)) {
                       Responder.forbidden(result);
                    } else {
                       user.patch(patchData, function(error) {

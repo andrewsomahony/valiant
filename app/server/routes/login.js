@@ -10,23 +10,23 @@ var UserLoginService = require('../lib/user_login');
 
 Router.route('/')
 .post(
-   function(request, response, next) {
+   function(request, result, next) {
       passport.authenticate('local', function(error, user, info) {
          if (error) {
-            Responder.badRequest(response, error.message);
+            Responder.badRequest(result, error.message);
          } else {
             if (!user) {
                if (info && info.message) {                  
                   // This means there's an error
                   if (info.message === UserLoginService.incorrectUsernameErrorString) {
-                     Responder.unauthorized(response, "Incorrect username or password");
+                     Responder.unauthorized(result, "Incorrect username or password");
                   } else if (info.message === UserLoginService.incorrectPasswordErrorString) {
-                     Responder.unauthorized(response, "Incorrect username or password");
+                     Responder.unauthorized(result, "Incorrect username or password");
                   } else {
-                     Responder.unauthorized(response, info.message);
+                     Responder.unauthorized(result, info.message);
                   }
                } else {
-                  Responder.unauthorized(response, "Cannot login");
+                  Responder.unauthorized(result, "Cannot login");
                }
             } else {
                if (info && 
@@ -39,20 +39,20 @@ Router.route('/')
                   // watch for this message and return the right status code, so the front-end
                   // can deal with it properly.
                   
-                  Responder.accepted(response, user.frontEndObject());
+                  Responder.accepted(result, user.frontEndObject());
                } else {
                   request.login(user, function(error) {
                      if (error) {
-                        Responder.unauthorized(response, error);
+                        Responder.unauthorized(result, error);
                      } else {
-                        Responder.ok(response, user.frontEndObject());
+                        Responder.ok(result, user.frontEndObject());
                      }
                   });   
                }             
             }
          }
          
-      })(request, response, next);
+      })(request, result, next);
    }
 );
 

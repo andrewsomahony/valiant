@@ -7,6 +7,8 @@ var Responder = require(__base + 'lib/responder');
 var User = require(__base + 'models/user/user');
 var Request = require(__base + 'lib/request');
 
+var ValiantError = require(__base + 'lib/error');
+
 router.route('/:authToken')
 .get(function(request, result) {
     // Redirect to the home page so we run the front-end
@@ -16,13 +18,13 @@ router.route('/:authToken')
     var authToken = Request.getUrlParamVariable('authToken');//request.params.authToken;
     
     if (!authToken) {
-        result.redirect("/redirect?email_verified=false&notoken=true");
+        Responder.redirect(result, "/redirect?email_verified=false&notoken=true");
     } else {
         User.verifyEmail(authToken, function(error, user) {
             if (error) {
-                result.redirect("/redirect?email_verified=false&error=" + ValiantError.fromErrorObject(error).toString());
+                Responder.redirect(result, "/redirect?email_verified=false&error=" + ValiantError.fromErrorObject(error).toString());
             } else {
-                result.redirect("/redirect?email_verified=true");
+                Responder.redirect(result, "/redirect?email_verified=true");
             }
         });
     }
@@ -42,13 +44,13 @@ router.route('/pending_email/:authToken')
     var authToken = Request.getUrlParamVariable('authToken');//request.params.authToken;
     
     if (!authToken) {
-        result.redirect("/redirect?email_changed=false&notoken=true");
+        Responder.redirect(result, "/redirect?email_changed=false&notoken=true");
     } else {
         User.setNewEmailAddressWithToken(authToken, function(error, user) {
             if (error) {
-                result.redirect("/redirect?email_changed=false&error=" + ValiantError.fromErrorObject(error).toString());
+                Responder.redirect(result, "/redirect?email_changed=false&error=" + ValiantError.fromErrorObject(error).toString());
             } else {
-                result.redirect("/redirect?email_changed=true");
+                Responder.redirect(result, "/redirect?email_changed=true");
             }
         });
     }    

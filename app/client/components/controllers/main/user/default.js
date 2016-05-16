@@ -31,6 +31,8 @@ ProfilePictureService) {
    
    $scope.isSaving = false;
    
+   $scope.hasChangedEmail = false;
+   
    $scope.savingProgress = null;
    
    $scope.passwordChangeData = {
@@ -51,6 +53,10 @@ ProfilePictureService) {
       var currentUser = UserService.getCurrentUser();
       
       return currentUser.id === $scope.currentEditingUser.id;
+   }
+   
+   $scope.canChangeUser = function() {
+      return this.isViewingLoggedInUser();
    }
    
    $scope.getSavingUserMessage = function() {
@@ -79,6 +85,25 @@ ProfilePictureService) {
       .finally(function() {
          $scope.isSaving = false;
       })
+   }
+   
+   $scope.changeEmail = function() {
+      $scope.isSaving = true;
+      
+      UserService.changeEmail($scope.emailChangeData.email)
+      .then(function(newUser) {
+         $scope.currentEditingUser = newUser;
+         $scope.previousEditingUser = null;
+         $scope.isEditingProfile = false;
+      }, null, function(progress) {
+         $scope.savingProgress = progress;
+      })
+      .catch(function(error) {
+         ErrorModal(error);
+      })
+      .finally(function() {
+         $scope.isSaving = false;
+      });
    }
      
    $scope.changeProfilePicture = function() {

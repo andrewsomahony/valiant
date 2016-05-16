@@ -9775,6 +9775,12 @@ div.main {
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .email-text {
           font-size: 16px;
           font-weight: bold; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text {
+          font-size: 12px;
+          font-weight: bold; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-link-text {
+          font-size: 11px;
+          font-weight: normal; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container input.form-control {
           width: 270px; }
       div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-password-container {

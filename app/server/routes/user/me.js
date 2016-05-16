@@ -12,7 +12,7 @@ var User = require(__base + 'models/user/user');
 
 router.route('/me')
 .get(function(request, result) {
-    if (!Permissions.isLoggedIn()) {
+    if (!Permissions.isLoggedIn(request)) {
         // I'm not sure what to do here:
         // This is a special route that we use to check if we're logged
         // in and get the logged in user information.
@@ -26,7 +26,7 @@ router.route('/me')
         
         Responder.forbidden(result, "Not logged in");
     } else {
-        Responder.ok(result, Request.getUser().frontEndObject());
+        Responder.ok(result, Request.getUser(request).frontEndObject());
     }
 })
 .post(function(request, result) {

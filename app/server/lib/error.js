@@ -62,6 +62,10 @@ ValiantError.notFound = function() {
     return new this("Not found");
 }
 
+ValiantError.notAcceptable = function() {
+    return new this("Not Acceptable");
+}
+
 ValiantError.methodNotAllowed = function() {
    return new this("Not allowed");
 }

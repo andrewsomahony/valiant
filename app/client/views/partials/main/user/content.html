@@ -45,11 +45,19 @@
       </div>
    </div>
    
-   <div class="edit-container profile-email-address-container" ng-if="!isChangingPassword">
+   <div class="edit-container profile-email-address-container" ng-if="!isChangingProfile && !isChangingPassword">
       <div ng-if="!isChangingEmail">
          <span class="email-text"
-               ng-if="!isEditingProfile"
                ng-bind="currentEditingUser.email"></span>
+      </div>
+      <div ng-if="currentEditingUser.pending_email">
+         <span class="pending-email-text"
+               ng-bind="currentEditingUser.pending_email"></span>
+         <span class="pending-email-text">*</span>
+         <div class="pending-email-link-text">
+               (*Pending.  Click <a ng-click="resendPendingVerificationEmail()">here</a> 
+               to re-send verification e-mail.)
+         </div>
       </div>
       <div ng-if="isChangingEmail">
          <div class="top-edit-control">
@@ -93,7 +101,7 @@
    </div>
    
    <div class="edit-container profile-options-container">
-      <span ng-if="!isEditingProfile && !isChangingPassword && !isChangingEmail">
+      <span ng-if="canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail">
          <a ng-click="activateEditing()" ng-if="!isEditingProfile">Edit Profile</a>
          &nbsp;|&nbsp;
          <a ng-click="activateChangePassword()">Change Password</a>
