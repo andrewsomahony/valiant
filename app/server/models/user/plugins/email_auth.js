@@ -56,6 +56,11 @@ module.exports = function(schema, options) {
    schema.methods.sendAuthenticationEmail = function(cb) {
       var self = this;
       
+      // The pending e-mail auth creates
+      // a token for the authentication because
+      // I'm using a library to do this authentication,
+      // and kinda just leaving it alone for now.  
+      
       token.createToken(48, true)
       .then(function(emailToken) {
          self.set(options.emailTokenField, emailToken);
@@ -86,13 +91,5 @@ module.exports = function(schema, options) {
       .catch(function(error) {
          cb(error);
       });
-      /*
-      crypto.randomBytes(48, function(error, buffer) {
-         if (error) {
-            return cb(ValiantError.fromErrorObject(error));
-         } else {
-            
-         }
-      })*/
    }
 }

@@ -51,4 +51,45 @@ module.exports = function(schema, options) {
          return query;
       }      
    }
+   
+   schema.statics.resendPendingEmailAuthenticationEmail = function(pendingEmailToken, cb) {
+      this.findByPendingEmailToken(pendingEmailToken, function(error, user) {
+         if (error) {
+            cb(ValiantError.fromErrorObject(error));
+         } else {
+            if (!user) {
+               return cb(ValiantError.withMessage("Invalid e-mail token!"));
+            } else {
+               user.sendPendingEmailAuthenticationEmail(cb);
+            }
+         }
+      })
+   }
+   
+   schema.methods.sendPendingEmailAuthenticationEmail = function(cb) {
+      var self = this;
+      
+      // The regular e-mail auth doesn't create
+      // a token for the authentication because
+      // I'm using a library to do it, so I'm leaving
+      // it alone for now.
+      
+      token.createToken(48, true)
+      .then(function(pendingEmailToken) {
+         self.set(options.pendingEmailTokenField, pendignEmailToken);
+         
+         token.createToken(48, true)
+         .then(function(pendingEmailAuthToken) {
+            self.set(options.pendingEmailAuthTokenField, pendingEmailAuthToken);
+            
+            
+         })
+         .catch(function(error) {
+            cb(error);
+         })
+      })
+      .catch(function(error) {
+         cb(error);
+      })
+   }
 }
