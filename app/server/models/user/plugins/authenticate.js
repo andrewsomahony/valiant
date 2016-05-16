@@ -28,6 +28,19 @@ module.exports = function(schema, options) {
       }
    }
    
+   schema.methods.setEmailAddress = function(email, cb) {
+      var self = this;
+      
+      self.set(options.usernameField, email);
+      self.save(function(error) {
+         if (error) {
+            cb(ValiantError.fromErrorObject(error));
+         } else {
+            cb(null, self);
+         }
+      })
+   }
+   
    schema.statics.createStrategy = function() {
       return new LocalStrategy(options, this.extendAuthenticate());
    }

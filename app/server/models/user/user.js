@@ -6,6 +6,7 @@ var extendedPassportLocalMongooseEmail = require('./plugins/authenticate');
 var userEmailAuthentication = require('./plugins/email_auth');
 var userResetPassword = require('./plugins/reset_password');
 var userMethods = require('./plugins/methods');
+var userPendingEmailAuthentication = require('./plugins/pending_email_auth');
 
 var patchPlugin = require('mongoose-json-patch');
 
@@ -82,6 +83,7 @@ User.plugin(passportLocalMongooseEmail, userOptions);
 User.plugin(extendedPassportLocalMongooseEmail, userOptions);
 
 User.plugin(userEmailAuthentication, userOptions);
+User.plugin(userPendingEmailAuthentication, userOptions);
 User.plugin(userResetPassword, userOptions);
 
 User.plugin(patchPlugin);

@@ -36,4 +36,30 @@ router.route('/:authToken')
     Responder.methodNotAllowed(result);
 });
 
+router.route('/pending_email/:authToken')
+.get(function(request, result) {
+    var authToken = request.params.authToken;
+    
+    if (!authToken) {
+        result.redirect("/redirect?email_changed=false&notoken=true");
+    } else {
+        User.setNewEmailAddressWithToken(authToken, function(error, user) {
+            if (error) {
+                result.redirect("/redirect?email_changed=false&error=" + ValiantError.fromErrorObject(error).toString());
+            } else {
+                result.redirect("/redirect?email_changed=true");
+            }
+        });
+    }    
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+
 module.exports = router;

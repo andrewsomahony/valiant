@@ -64,8 +64,36 @@ module.exports = function(schema, options) {
       token.createToken(48, true)
       .then(function(emailToken) {
          self.set(options.emailTokenField, emailToken);
+         
+         self.save(function(error) {
+            if (error) {
+               cb(ValiantError.fromErrorObject(error));
+            } else {
+               ValiantEmail({
+                  to: self.email,
+                  from: ValiantEmail.doNotReplyEmailAddress(),
+                  fromname: "Valiant Athletics Registration",
+                  template: "verify",
+                  templateParams: {
+                     first_name: self.first_name,
+                     verify_link: hostnameUtil.constructUrl("/verify/" + self.authToken)
+                  }
+               }, function(error) {
+                  if (error) {
+                     console.log("Error in sending user authentication e-mail!");
+                  }
+                  
+                  // Silently fail if the e-mail doesn't send.
+                  // IF it doesn't send, the user can just click the link
+                  // for another one, I just need to be able to track
+                  // these failures in the logs.
+                  
+                  cb(null, self);
+               });         
+            }
+         })
             
-         ValiantEmail({
+        /* ValiantEmail({
             to: self.email,
             from: ValiantEmail.doNotReplyEmailAddress(),
             fromname: "Valiant Athletics Registration",
@@ -86,7 +114,7 @@ module.exports = function(schema, options) {
                   }
                });
             }
-         });         
+         });*/         
       })
       .catch(function(error) {
          cb(error);

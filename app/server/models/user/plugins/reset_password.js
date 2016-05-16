@@ -53,7 +53,7 @@ module.exports = function(schema, options) {
                            
                         user.save(function(error) {
                            if (error) {
-                              return cb(ValiantError.fromErrorObject(error));
+                              cb(ValiantError.fromErrorObject(error));
                            } else {
                               cb(null, user);
                            }
