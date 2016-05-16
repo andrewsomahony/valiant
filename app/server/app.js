@@ -9,7 +9,8 @@ var bodyParser = require('body-parser');
 var hostnameMiddleware = require('./lib/hostname');
 var ajaxMiddleware = require(__base + 'lib/ajax');
 
-var Responder = require(__base + 'lib/responder');
+var responderMiddleware = require(__base + 'lib/responder');
+var requestMiddleware = require(__base + 'lib/request');
 
 var ejs = require('ejs');
 
@@ -23,7 +24,7 @@ var indexRoute = require('./routes/index');
 var loginRoute = require('./routes/login');
 var logoutRoute = require('./routes/logout');
 var verifyRoute = require('./routes/verify');
-var userRoute = require('./routes/users');
+var userRoute = require('./routes/user/root');//require('./routes/users');
 var s3Route = require('./routes/s3');
 
 var UserModel = require('./models/user/user');
@@ -71,6 +72,8 @@ if (false === appIsActive) {
     app.use(logger('dev'));
         
     app.use(hostnameMiddleware());
+    app.use(requestMiddleware());
+    app.use(responderMiddleware());
     app.use(ajaxMiddleware());
     
     app.use(bodyParser.json());
@@ -147,7 +150,7 @@ if (false === appIsActive) {
     
     app.use(function(request, result, next) {
        if (request.isAjax) {
-           Responder.withErrorMessage(result, 404, "Route not found!");
+           responderMiddleware.notFound(null, "Route not found!");
        } else {
            result.status(404);
            result.render('error', {message: "Route not found!"});

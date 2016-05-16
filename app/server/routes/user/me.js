@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 
@@ -8,11 +10,9 @@ var Request = require(__base + 'lib/request');
 
 var User = require(__base + 'models/user/user');
 
-var Q = require('q');
-
 router.route('/me')
 .get(function(request, result) {
-    if (!Permissions.isLoggedIn(request)) {
+    if (!Permissions.isLoggedIn()) {
         // I'm not sure what to do here:
         // This is a special route that we use to check if we're logged
         // in and get the logged in user information.
@@ -24,9 +24,9 @@ router.route('/me')
         // visually seeing all those errors is a bit annoying, but
         // the correct behavior is to return an error.
         
-        Responder.withErrorMessage(result, 403, "Not logged in");
+        Responder.forbidden(result, "Not logged in");
     } else {
-        Responder(result, 200, request.user.frontEndObject());
+        Responder.ok(result, Request.getUser().frontEndObject());
     }
 })
 .post(function(request, result) {

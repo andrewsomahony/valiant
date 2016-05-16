@@ -13,20 +13,20 @@ Router.route('/')
    function(request, response, next) {
       passport.authenticate('local', function(error, user, info) {
          if (error) {
-            Responder.withErrorMessage(response, 400, error.message);
+            Responder.badRequest(response, error.message);
          } else {
             if (!user) {
                if (info && info.message) {                  
                   // This means there's an error
                   if (info.message === UserLoginService.incorrectUsernameErrorString) {
-                     Responder.withErrorMessage(response, 401, "Incorrect username or password");
+                     Responder.unauthorized(response, "Incorrect username or password");
                   } else if (info.message === UserLoginService.incorrectPasswordErrorString) {
-                     Responder.withErrorMessage(response, 401, "Incorrect username or password");
+                     Responder.unauthorized(response, "Incorrect username or password");
                   } else {
-                     Responder.withErrorMessage(response, 401, info.message);
+                     Responder.unauthorized(response, info.message);
                   }
                } else {
-                  Responder.withErrorMessage(response, 401, "Cannot login");
+                  Responder.unauthorized(response, "Cannot login");
                }
             } else {
                if (info && 
@@ -39,13 +39,13 @@ Router.route('/')
                   // watch for this message and return the right status code, so the front-end
                   // can deal with it properly.
                   
-                  Responder(response, 202, user.frontEndObject());
+                  Responder.accepted(response, user.frontEndObject());
                } else {
                   request.login(user, function(error) {
                      if (error) {
-                        Responder.withErrorObject(response, 401, error);
+                        Responder.unauthorized(response, error);
                      } else {
-                        Responder(response, 200, user.frontEndObject());
+                        Responder.ok(response, user.frontEndObject());
                      }
                   });   
                }             

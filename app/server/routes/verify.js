@@ -5,6 +5,7 @@ var router = express.Router();
 
 var Responder = require(__base + 'lib/responder');
 var User = require(__base + 'models/user/user');
+var Request = require(__base + 'lib/request');
 
 router.route('/:authToken')
 .get(function(request, result) {
@@ -12,7 +13,7 @@ router.route('/:authToken')
     // code, which will look for the email_verified param
     // and redirect accordingly.
     
-    var authToken = request.params.authToken;
+    var authToken = Request.getUrlParamVariable('authToken');//request.params.authToken;
     
     if (!authToken) {
         result.redirect("/redirect?email_verified=false&notoken=true");
@@ -38,7 +39,7 @@ router.route('/:authToken')
 
 router.route('/pending_email/:authToken')
 .get(function(request, result) {
-    var authToken = request.params.authToken;
+    var authToken = Request.getUrlParamVariable('authToken');//request.params.authToken;
     
     if (!authToken) {
         result.redirect("/redirect?email_changed=false&notoken=true");

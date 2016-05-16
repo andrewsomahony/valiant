@@ -52,6 +52,10 @@ module.exports = function(schema, options) {
       }      
    }
    
+   // We might not actually need this, as we 
+   // need to look up the user in the main method handler
+   // to make sure the permissions and such are ok.
+   
    schema.statics.resendPendingEmailAuthenticationEmail = function(pendingEmailToken, cb) {
       this.findByPendingEmailToken(pendingEmailToken, function(error, user) {
          if (error) {

@@ -6,11 +6,12 @@ var router = express.Router();
 var s3 = require(__base + 'lib/s3');
 var StaticUpload = require(__base + 'lib/static_upload');
 
+var Request = require(__base + 'lib/request');
 var Responder = require(__base + 'lib/responder');
 
 router.route('/signed_url')
 .get(function(request, result) {
-   var uploadType = request.query.upload_type; 
+   var uploadType = Request.getUrlParameter('upload_type');//request.query.upload_type; 
    /*
       profile_picture, 
       question_video, 
@@ -18,7 +19,7 @@ router.route('/signed_url')
       comment_video, 
       comment_picture
    */
-   var uploadFileType = request.query.file_type;
+   var uploadFileType = Request.getUrlParameter('file_type');//request.query.file_type;
    
    var key = StaticUpload.getStaticUploadKey(uploadType);
    

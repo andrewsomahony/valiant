@@ -249,6 +249,9 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
                        name: 'User'
                    },
                    {
+                       name: 'ForgotPassword'
+                   },
+                   {
                        name: 'ResetPassword'
                    }
                ]), null, 
@@ -283,7 +286,7 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
                     {
                         name: 'ResendEmail'
                     }
-                ]), null, {emailToken: u.email_token})
+                ]), null, {token: u.email_token})
                 .then(function(data) {
                     currentUnverifiedUser = new UserModel(data.data, true)
                     resolve();

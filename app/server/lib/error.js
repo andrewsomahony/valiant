@@ -54,12 +54,24 @@ ValiantError.fromErrorObject = function(errorObject) {
    }
 }
 
+ValiantError.badRequest = function() {
+    return new this("Bad request");
+}
+
+ValiantError.notFound = function() {
+    return new this("Not found");
+}
+
 ValiantError.methodNotAllowed = function() {
    return new this("Not allowed");
 }
 
 ValiantError.forbidden = function() {
     return new this("You don't have permission to do that");
+}
+
+ValiantError.unauthorized = function() {
+    return new this("Unauthorized");
 }
 
 ValiantError.prototype.toObject = function() {

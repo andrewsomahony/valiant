@@ -5,6 +5,14 @@ module.exports = function(schema, options) {
       return this._id;
    }
    
+   schema.methods.hasPendingEmail = function() {
+      return this.pending_email;
+   }
+   
+   schema.methods.isUser = function(otherUser) {
+      return this.getId().equals(otherUser.getId());
+   }
+   
    // We don't need to return everything
    schema.methods.frontEndObject = function() {
       if (!this.isAuthenticated) {
@@ -14,7 +22,7 @@ module.exports = function(schema, options) {
             created_at: this.created_at
          };
       } else {
-         return {
+         var object = {
             _id: this.getId(),
             email: this.email,
             first_name: this.first_name,
@@ -28,6 +36,13 @@ module.exports = function(schema, options) {
             is_visible_to_public: this.is_visible_to_public,
             is_admin: this.isAdmin()
          };
+         
+         if (this.hasPendingEmail()) {
+            object['pending_email'] = this.pending_email;
+            object['pending_email_token'] = this.pending_email_token;
+         }
+         
+         return object;
       }
    }
    

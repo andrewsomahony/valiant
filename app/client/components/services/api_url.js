@@ -30,14 +30,19 @@ registerService('factory', name, [function() {
                    }
                }  
             },
+            'ChangePassword': {
+              url: "change_password"  
+            },
             'Me': {
                url: "me"
             },
-            'ResetPassword': {
-                url: "reset_password"
-            },
             'ForgotPassword': {
-                url: "forgot_password"
+                url: "forgot_password",
+                sub_api: {
+                    'ResetPassword': {
+                        url: "reset"
+                    }
+                }
             }
          },
          paramArray: {
