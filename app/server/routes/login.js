@@ -39,7 +39,7 @@ Router.route('/')
                   // watch for this message and return the right status code, so the front-end
                   // can deal with it properly.
                   
-                  Responder(response, 202, user.unregisteredInformationObject());
+                  Responder(response, 202, user.frontEndObject());
                } else {
                   request.login(user, function(error) {
                      if (error) {

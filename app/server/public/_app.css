@@ -9717,7 +9717,9 @@ div.main {
         margin-bottom: 4px;
         display: block; }
       div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.requesting-in-progress span.requesting-text {
-        margin-left: 16px; }
+        margin-left: 8px; }
+      div.main div.mobile-scroll div.main-content div.content div.login div.sub-content p.resending-in-progress span.resending-text {
+        margin-left: 12px; }
       div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;

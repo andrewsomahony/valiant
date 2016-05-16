@@ -20,7 +20,6 @@ require('./main/reset_password/default');
 
 require('./main/register/register');
 require('./main/register/default');
-require('./main/register/success');
 
 require('./main/user/user');
 require('./main/user/default');

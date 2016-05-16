@@ -83,7 +83,7 @@ router.route('/register')
                 if (error) {
                     Responder.withErrorObject(result, 400, error);
                 } else {
-                    Responder(result, 201, u.unregisteredInformationObject());
+                    Responder(result, 201, u.frontEndObject());
                 }
             });
             
@@ -141,7 +141,7 @@ router.route('/register/resend_email')
             if (error) {
                 Responder.badRequest(result, error);
             } else {
-                Responder.noContent(result);
+                Responder.ok(result, user.frontEndObject());
             }
         })
     }
@@ -167,13 +167,17 @@ router.route('/forgot_password')
                 if (!user) {
                     Responder.notFound(result, "User not found!");
                 } else {
-                    user.sendPasswordResetEmail(function(error, user) {
-                        if (error) {
-                            Responder.badRequest(result, error);
-                        } else {
-                            Responder.noContent(result);
-                        }
-                    });
+                    if (!user.isAuthenticated) {
+                       Responder.forbidden(result, "This e-mail address is registered but not authorized.");
+                    } else {
+                        user.sendPasswordResetEmail(function(error, user) {
+                            if (error) {
+                                Responder.badRequest(result, error);
+                            } else {
+                                Responder.noContent(result);
+                            }
+                        });
+                    }
                 }
             }
         })

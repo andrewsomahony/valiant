@@ -4,16 +4,31 @@
          Hello <span ng-bind="getEmailAddress()"></span>!
       </p>
       <p>
-         It appears you haven't verified your account.
+         You just need to verify your account now.
       </p>
       <p>
-         We sent a link to your e-mail address, all you need to do
-         is click it.
+         We have sent a link to your e-mail address, all you need to do
+         is click it, and you're good to go!
       </p>
       <p>
          Didn't get an e-mail?  Click <a ng-click="resendVerificationEmail()">here</a> to resend it.  Make
          sure to check your spam folder if it isn't in your main inbox.
       </p>
+
+      <p ng-if="isSendingEmail" class="resending-in-progress">
+         <span>
+            <loading-progress type="spinner">
+            </loading-progress>
+         </span>
+         <span class="resending-text">
+            Resending E-Mail...
+         </span>
+      </p>
+      
+      <p ng-if="hasSentEmail">
+         E-Mail sent successfully!
+      </p>
+
    </div>
 </div>
 

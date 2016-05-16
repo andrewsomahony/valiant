@@ -169,19 +169,6 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
            }
        }
    })
-   .state("main.page.register.success", {
-       url: "/success",
-       resolve: RouteResolver("main.page.register.default"),
-       views: {
-           "nav_bar@main.page": {
-               templateUrl: "partials/main/nav_bar.html"
-           },
-           "content@main.page.register": {
-               templateUrl: "partials/main/register/success.html",
-               controller: require("controllers/main/register/success")
-           }           
-       }
-   })
    
    .state("main.page.reset_password", {
        url: "reset_password",

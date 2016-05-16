@@ -31,7 +31,7 @@ ProfilePictureService) {
 
       UserService.registerUserWithPicture($scope.registrationUser)
       .then(function() {
-         StateService.go('^.success');
+         StateService.go('main.page.login.unverified');
       }, null, function(progress) {
          $scope.registrationProgress = progress;
       })

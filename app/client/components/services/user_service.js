@@ -284,7 +284,8 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
                         name: 'ResendEmail'
                     }
                 ]), null, {emailToken: u.email_token})
-                .then(function() {
+                .then(function(data) {
+                    currentUnverifiedUser = new UserModel(data.data, true)
                     resolve();
                 })
                 .catch(function(error) {
@@ -331,9 +332,9 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
             null, {
                     user: user.toObject(true)
                   })
-            .then(function() {
+            .then(function(data) {
                 currentUser = null;
-                currentUnverifiedUser = user;
+                currentUnverifiedUser = new UserModel(data.data, true);
                 resolve();
             })
             .catch(function(error) {

@@ -46,8 +46,8 @@ Responder.methodNotAllowed = function(responseObject) {
    this(responseObject, 405, ValiantError.methodNotAllowed().toObject());
 }
 
-Responder.forbidden = function(responseObject) {
-   this(responseObject, 403, ValiantError.forbidden().toObject());
+Responder.forbidden = function(responseObject, message) {
+   this.withError(responseObject, 403, message ? message : ValiantError.forbidden().toObject());
 }
 
 module.exports = Responder;

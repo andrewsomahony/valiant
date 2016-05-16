@@ -9,6 +9,9 @@ registerController(name, ['$scope',
                           require('services/error_modal'),
 function($scope, UserService, ErrorModal) {
    
+   $scope.isSendingEmail = false;
+   $scope.hasSentEmail = false;
+   
    $scope.getCurrentUnverifiedUser = function() {
       return UserService.getCurrentUnverifiedUser();
    }
@@ -19,14 +22,20 @@ function($scope, UserService, ErrorModal) {
    }
    
    $scope.resendVerificationEmail = function() {
+      $scope.isSendingEmail = true;
+      $scope.hasSentEmail = false;
+      
       UserService.resendVerificationEmail()
       .then(function() {
          // Display some sort of message
-         console.log("Verification re-send success");
+         $scope.hasSentEmail = true;
       })
       .catch(function(error) {
          ErrorModal(error);
-      });
+      })
+      .finally(function() {
+         $scope.isSendingEmail = false;
+      })
    }
    
 }]);

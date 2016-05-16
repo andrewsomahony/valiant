@@ -1,6 +1,6 @@
 'use strict';
 
-var crypto = require('crypto');
+var token = require(__base + 'lib/token');
 
 var ValiantError = require(__base + 'lib/error');
 var ValiantEmail = require(__base + 'lib/email');
@@ -69,6 +69,37 @@ module.exports = function(schema, options) {
    schema.methods.sendPasswordResetEmail = function(cb) {
       var self = this;
       
+      token.createToken(48, true)
+      .then(function(resetPasswordToken) {
+         self.set(options.resetPasswordTokenField, resetPasswordToken);
+
+         ValiantEmail({
+            to: self.email,
+            from: ValiantEmail.doNotReplyEmailAddress(),
+            fromname: "Valiant Athletics",
+            template: "forgot_password",
+            templateParams: {
+               reset_password_link: hostnameUtil.constructUrl("/redirect?reset_password_token=" + resetPasswordToken)
+            }
+         }, function(error) {
+            if (error) {
+               return cb(error);
+            } else {
+               self.save(function(error) {
+                  if (error) {
+                     return cb(ValiantError.fromErrorObject(error));
+                  } else {
+                     cb(null, self);
+                  }
+               });
+            }
+         });         
+      })
+      .catch(function(error) {
+         cb(error);
+      })
+      
+      /*
       crypto.randomBytes(48, function(error, buffer) {
          if (error) {
             cb(ValiantError.fromErrorObject(error));
@@ -98,6 +129,6 @@ module.exports = function(schema, options) {
                }
             });
          }
-      });
+      });*/
    }
 }
