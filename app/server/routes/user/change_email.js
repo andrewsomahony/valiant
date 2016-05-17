@@ -43,7 +43,7 @@ router.route('/change_email')
    Responder.methodNotAllowed(result); 
 });
 
-router.route('/change_email/resend_email')
+router.route('/change_email/resend')
 .get(function(request, result) {
     Responder.methodNotAllowed(result);   
 })

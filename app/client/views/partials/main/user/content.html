@@ -50,16 +50,24 @@
          <span class="email-text"
                ng-bind="currentEditingUser.email"></span>
       </div>
-      <div ng-if="currentEditingUser.pending_email">
-         <span class="pending-email-text"
-               ng-bind="currentEditingUser.pending_email"></span>
-         <span class="pending-email-text">*</span>
-         <div class="pending-email-link-text">
-               (*Pending.  Click <a ng-click="resendPendingVerificationEmail()">here</a> 
-               to re-send verification e-mail.)
-         </div>
-      </div>
+
       <div ng-if="isChangingEmail">
+         <div ng-if="currentEditingUser.pending_email">
+            <span class="pending-email-text"
+                  ng-bind="currentEditingUser.pending_email">
+            </span>
+            <span class="pending-email-text">
+               *
+            </span>
+            <div class="pending-email-link-text">
+               (*Pending Change.  Click <a ng-click="resendPendingEmailVerificationEmail()">here</a> 
+                  to re-send verification e-mail.)
+            </div>
+            <div class="has-resent-verification-email" ng-if="hasResentVerificationEmail">
+                  Verification e-mail resent
+            </div>
+         </div>
+
          <div class="top-edit-control">
             <input type="email"
                   placeholder="New E-Mail"
@@ -67,6 +75,9 @@
                   ng-model="emailChangeData.email"
                   ng-model-options="{updateOn: 'blur'}"
                   required />
+         </div>
+         <div class="has-changed-email" ng-if="hasChangedEmail">
+            Success.  Check this e-mail address for further instructions.
          </div>
       </div>
    </div>

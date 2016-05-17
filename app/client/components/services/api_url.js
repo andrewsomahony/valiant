@@ -26,7 +26,7 @@ registerService('factory', name, [function() {
                url: "change_email",
                sub_api: {
                    'ResendEmail': {
-                       url: 'resend_email'
+                       url: 'resend'
                    }
                }  
             },

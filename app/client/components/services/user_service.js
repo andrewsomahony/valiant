@@ -162,6 +162,11 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         }
     }
     
+    UserService.updateCurrentAndRequestedUsersIfSame = function(user) {
+        this.updateCurrentUserIfSame(user);
+        this.updateCurrentRequestedUserIfSame(user);
+    }
+    
     UserService.currentRequestedUserIsNotAccessible = function() {
         return currentRequestedUserIsNotAccessible;
     }
@@ -413,8 +418,7 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
                            // values that we don't patch (like updated_at)
                            var newUser = new UserModel(data.data, true);
                            
-                           UserService.updateCurrentUserIfSame(newUser);
-                           UserService.updateCurrentRequestedUserIfSame(newUser);
+                           UserService.updateCurrentAndRequestedUsersIfSame(newUser);
                            
                            resolve({user: newUser});
                        })
@@ -454,15 +458,43 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
             ]), null, {email: newEmail})
             .then(function(data) {
                 var user = new UserModel(data.data, true);
-                UserService.updateCurrentRequestedUserIfSame(user);
-                UserService.updateCurrentUserIfSame(user);
-                
+                UserService.updateCurrentAndRequestedUsersIfSame(user);                
                 resolve(user);
             })
             .catch(function(error) {
                 reject(error);
             })
         })
+    }
+    
+    UserService.resendPendingEmailVerificationEmail = function(user) {
+        return Promise(function(resolve, reject, notify) {
+           var pendingEmailToken = user.pending_email_token;
+           
+           if (!pendingEmailToken) {
+               reject(ErrorService.localError("User doesn't have a pending e-mail token!"));
+           } else {           
+              HttpService.post(ApiUrlService([
+                   {
+                      name: 'User'
+                   },
+                   {
+                      name: 'ChangeEmail'
+                   },
+                   {
+                      name: 'ResendEmail'
+                   }
+             ]), null, {token: pendingEmailToken})
+               .then(function(data) {
+                   var newUser = new UserModel(data.data, true);
+                   UserService.updateCurrentAndRequestedUsersIfSame(newUser);
+                   resolve(newUser);
+               })
+               .catch(function(error) {
+                   reject(error);
+               });
+           }
+        });
     }
     
     UserService.getUser = function(userId) {

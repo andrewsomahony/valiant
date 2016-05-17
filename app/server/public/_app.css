@@ -9776,13 +9776,19 @@ div.main {
           font-size: 16px;
           font-weight: bold; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text {
-          font-size: 12px;
+          font-size: 14px;
           font-weight: bold; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-link-text {
-          font-size: 11px;
+          font-size: 13px;
           font-weight: normal; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container input.form-control {
           width: 270px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .has-changed-email {
+          font-size: 12px;
+          font-weight: normal; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .has-resent-verification-email {
+          font-size: 12px;
+          font-weight: normal; }
       div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-password-container {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-password-container input.form-control {

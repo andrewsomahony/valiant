@@ -15,7 +15,7 @@ router.route('/:authToken')
     // code, which will look for the email_verified param
     // and redirect accordingly.
     
-    var authToken = Request.getUrlParamVariable('authToken');//request.params.authToken;
+    var authToken = Request.getUrlParamVariable(request, 'authToken');//request.params.authToken;
     
     if (!authToken) {
         Responder.redirect(result, "/redirect?email_verified=false&notoken=true");
@@ -41,7 +41,7 @@ router.route('/:authToken')
 
 router.route('/pending_email/:authToken')
 .get(function(request, result) {
-    var authToken = Request.getUrlParamVariable('authToken');//request.params.authToken;
+    var authToken = Request.getUrlParamVariable(request, 'authToken');//request.params.authToken;
     
     if (!authToken) {
         Responder.redirect(result, "/redirect?email_changed=false&notoken=true");

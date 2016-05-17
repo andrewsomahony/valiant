@@ -30,8 +30,10 @@ ProfilePictureService) {
    $scope.isChangingEmail = false;
    
    $scope.isSaving = false;
+   $scope.savingMessage = "";
    
    $scope.hasChangedEmail = false;
+   $scope.hasResentVerificationEmail = false;
    
    $scope.savingProgress = null;
    
@@ -55,20 +57,29 @@ ProfilePictureService) {
       return currentUser.id === $scope.currentEditingUser.id;
    }
    
+   $scope.setIsSaving = function(isSaving, message) {
+      $scope.isSaving = isSaving;
+      if (isSaving) {
+         $scope.savingMessage = message || "Saving...";
+      } else {
+         $scope.savingMessage = "";
+      }
+   }
+   
    $scope.canChangeUser = function() {
       return this.isViewingLoggedInUser();
    }
    
    $scope.getSavingUserMessage = function() {
       if (!$scope.savingProgress) {
-         return "Saving...";
+         return $scope.savingMessage || "Saving...";
       } else {
-         return $scope.savingProgress.message || "Saving...";
+         return $scope.savingProgress.message || $scope.savingMessage || "Saving...";
       }
    }
    
    $scope.saveProfile = function() {
-      $scope.isSaving = true;
+      $scope.setIsSaving(true);
       
       UserService.saveUser($scope.currentEditingUser,
                   $scope.previousEditingUser)
@@ -83,18 +94,22 @@ ProfilePictureService) {
          ErrorModal(e);
       })
       .finally(function() {
-         $scope.isSaving = false;
+         $scope.setIsSaving(false);
       })
    }
    
    $scope.changeEmail = function() {
-      $scope.isSaving = true;
+      $scope.setIsSaving(true, "Changing E-mail...");
+      $scope.hasChangedEmail = false;
       
       UserService.changeEmail($scope.emailChangeData.email)
       .then(function(newUser) {
          $scope.currentEditingUser = newUser;
          $scope.previousEditingUser = null;
          $scope.isEditingProfile = false;
+         
+         $scope.hasChangedEmail = true;
+         
       }, null, function(progress) {
          $scope.savingProgress = progress;
       })
@@ -102,8 +117,28 @@ ProfilePictureService) {
          ErrorModal(error);
       })
       .finally(function() {
-         $scope.isSaving = false;
+         $scope.setIsSaving(false);
       });
+   }
+   
+   $scope.resendPendingEmailVerificationEmail = function() {
+      $scope.setIsSaving(true, "Resending...");
+      $scope.hasResentVerificationEmail = false;
+      
+      UserService.resendPendingEmailVerificationEmail($scope.currentEditingUser)
+      .then(function(newUser) {
+         $scope.currentEditingUser = newUser;
+         $scope.previousEditingUser = null;
+         $scope.isEditingProfile = false;
+         
+         $scope.hasResentVerificationEmail = true;                  
+      })
+      .catch(function(error) {
+         ErrorModal(error);
+      })
+      .finally(function() {
+         $scope.setIsSaving(false);
+      })
    }
      
    $scope.changeProfilePicture = function() {
