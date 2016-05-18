@@ -79,4 +79,40 @@ router.route('/change_email/resend')
     Responder.methodNotAllowed(result);
 });
 
+router.route('/change_email/cancel')
+.get(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+    var token = Request.getBodyVariable(request, 'token');
+    
+    User.findByPendingEmailToken(token, function(error, user) {
+        if (error) {
+           Responder.badRequest(result, error);
+        } else {
+            if (!user) {
+                Responder.notFound(result);
+            } else {
+                if (false === Permissions.ableToEditUser(request, user)) {
+                   Responder.forbidden(result);
+                } else {
+                   user.cancelEmailAddressChange(function(error, user) {
+                      if (error) {
+                         Responder.badRequest(result, error);     
+                      } else {
+                         Responder.ok(result, user.frontEndObject());
+                      }
+                   })
+                }
+            }
+        }
+    })
+})
+.put(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+.delete(function(request, result) {
+    Responder.methodNotAllowed(result);
+})
+
 module.exports = router;

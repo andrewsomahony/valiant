@@ -32,8 +32,7 @@ ProfilePictureService) {
    $scope.isSaving = false;
    $scope.savingMessage = "";
    
-   $scope.hasChangedEmail = false;
-   $scope.hasResentVerificationEmail = false;
+   $scope.postSavingMessage = "";
    
    $scope.savingProgress = null;
    
@@ -66,6 +65,15 @@ ProfilePictureService) {
       }
    }
    
+   $scope.setPostSavingMessage = function(message) {
+      $scope.postSavingMessage = message;
+   }
+   
+   $scope.finishEditing = function(newUser) {
+      $scope.currentEditingUser = newUser;
+      $scope.previousEditingUser = null;
+   }
+   
    $scope.canChangeUser = function() {
       return this.isViewingLoggedInUser();
    }
@@ -78,14 +86,22 @@ ProfilePictureService) {
       }
    }
    
+   $scope.getEmailEditControlClass = function() {
+      if ($scope.currentEditingUser.pending_email) {
+         return "";
+      } else {
+         return "top-edit-control";
+      }
+   }
+   
    $scope.saveProfile = function() {
       $scope.setIsSaving(true);
+      $scope.setPostSavingMessage(null);
       
       UserService.saveUser($scope.currentEditingUser,
                   $scope.previousEditingUser)
       .then(function(newUser) {
-         $scope.currentEditingUser = newUser;
-         $scope.previousEditingUser = null;
+         $scope.finishEditing(newUser);
          $scope.isEditingProfile = false;
       }, null, function(progress) {
          $scope.savingProgress = progress;
@@ -98,17 +114,32 @@ ProfilePictureService) {
       })
    }
    
+   $scope.changePassword = function() {
+      $scope.setIsSaving(true, "Changing password...");
+      $scope.setPostSavingMessage(null);
+      
+      UserService.changePassword($scope.passwordChangeData.old_password,
+            $scope.passwordChangeData.new_password)
+      .then(function(newUser) {
+         $scope.finishEditing(newUser);
+         $scope.setPostSavingMessage("Password changed successfully");
+      })
+      .catch(function(error) {
+         ErrorModal(error);
+      })
+      .finally(function() {
+         $scope.setIsSaving(false);
+      })
+   }
+   
    $scope.changeEmail = function() {
       $scope.setIsSaving(true, "Changing E-mail...");
-      $scope.hasChangedEmail = false;
+      $scope.setPostSavingMessage(null);
       
       UserService.changeEmail($scope.emailChangeData.email)
       .then(function(newUser) {
-         $scope.currentEditingUser = newUser;
-         $scope.previousEditingUser = null;
-         $scope.isEditingProfile = false;
-         
-         $scope.hasChangedEmail = true;
+         $scope.finishEditing(newUser);
+         $scope.setPostSavingMessage("Success.  Check the new e-mail address for further instructions.");
          
       }, null, function(progress) {
          $scope.savingProgress = progress;
@@ -123,15 +154,11 @@ ProfilePictureService) {
    
    $scope.resendPendingEmailVerificationEmail = function() {
       $scope.setIsSaving(true, "Resending...");
-      $scope.hasResentVerificationEmail = false;
       
       UserService.resendPendingEmailVerificationEmail($scope.currentEditingUser)
       .then(function(newUser) {
          $scope.currentEditingUser = newUser;
-         $scope.previousEditingUser = null;
-         $scope.isEditingProfile = false;
-         
-         $scope.hasResentVerificationEmail = true;                  
+         $scope.setPostSavingMessage("Verification e-mail resent");                 
       })
       .catch(function(error) {
          ErrorModal(error);
@@ -139,6 +166,21 @@ ProfilePictureService) {
       .finally(function() {
          $scope.setIsSaving(false);
       })
+   }
+   
+   $scope.cancelPendingEmailVerification = function() {
+      $scope.setIsSaving(true, "Cancelling...");
+      
+      UserService.cancelPendingEmailVerification($scope.currentEditingUser)
+      .then(function(newUser) {
+         $scope.currentEditingUser = newUser;
+      })
+      .catch(function(error) {
+         ErrorModal(error);
+      })
+      .finally(function() {
+         $scope.setIsSaving(false);
+      });
    }
      
    $scope.changeProfilePicture = function() {
@@ -168,8 +210,12 @@ ProfilePictureService) {
    }
    
    $scope.activateEditing = function() {
-      $scope.isEditingProfile = true;
       $scope.previousEditingUser = $scope.currentEditingUser.clone();
+   }
+   
+   $scope.activateEditingProfile = function() {
+      $scope.isEditingProfile = true;
+      $scope.activateEditing();
    }
    
    $scope.activateChangePassword = function() {
@@ -178,28 +224,34 @@ ProfilePictureService) {
       $scope.passwordChangeData.old_password = "";
       $scope.passwordChangeData.new_password = "";
       $scope.passwordChangeData.new_password_repeat = "";
+      
+      $scope.activateEditing();
    }
    
    $scope.activateChangeEmail = function() {
       $scope.isChangingEmail = true;
       
       $scope.emailChangeData.email = "";
+      
+      $scope.activateEditing();
    }
    
    $scope.cancelEditing = function() {
       $scope.currentEditingUser = $scope.previousEditingUser;
-      
       $scope.previousEditingUser = null;
       
       $scope.isEditingProfile = false;
+      $scope.setPostSavingMessage(null);
    }
    
    $scope.cancelChangePassword = function() {
       $scope.isChangingPassword = false;
+      $scope.setPostSavingMessage(null);
    }
    
    $scope.cancelChangeEmail = function() {
       $scope.isChangingEmail = false;
+      $scope.setPostSavingMessage(null);
    }
 }]);
 

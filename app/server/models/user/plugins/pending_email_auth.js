@@ -125,6 +125,22 @@ module.exports = function(schema, options) {
       })
    }
    
+   schema.methods.cancelEmailAddressChange = function(cb) {
+      var self = this;
+      
+      self.set(options.pendingEmailField, "");
+      self.set(options.pendingEmailTokenField, "");
+      self.set(options.pendingEmailAuthTokenField, "");
+      
+      self.save(function(error, user) {
+         if (error) {
+            cb(ValiantError.fromErrorObject(error));  
+         } else {
+            cb(null, user);
+         }
+      })
+   }
+   
    schema.methods.changeEmailAddress = function(newEmail, cb) {
       var self = this;
       

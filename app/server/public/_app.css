@@ -9776,11 +9776,20 @@ div.main {
           font-size: 16px;
           font-weight: bold; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text {
-          font-size: 14px;
+          font-size: 12px;
           font-weight: bold; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-link-text {
-          font-size: 13px;
-          font-weight: normal; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text::before {
+            content: "<"; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text::after {
+            content: ">"; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text span {
+            margin-right: 2px; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text a {
+            font-weight: normal; }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text a.left {
+              margin-right: 2px; }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text a.right {
+              margin-left: 2px; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container input.form-control {
           width: 270px; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .has-changed-email {
@@ -9803,6 +9812,12 @@ div.main {
             margin-right: 3px; }
           div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container a.save-cancel-right {
             margin-left: 3px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.saving-message {
+          font-size: 13px;
+          font-weight: normal; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.post-saving-message {
+          font-size: 13px;
+          font-weight: normal; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;

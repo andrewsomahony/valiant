@@ -61,13 +61,30 @@ div.user {
          }
          
          .pending-email-text {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
-         }
-         
-         .pending-email-link-text {
-            font-size: 13px;
-            font-weight: normal;
+            
+            &::before {
+               content: "<";
+            }
+            &::after {
+               content: ">";
+            }
+            
+            span {
+               margin-right: 2px;
+            }
+            
+            a {
+               font-weight: normal;
+               
+               &.left {
+                  margin-right: 2px;
+               }
+               &.right {
+                  margin-left: 2px;
+               }
+            }
          }
          
          input.form-control {
@@ -106,6 +123,16 @@ div.user {
             &.save-cancel-right {
                margin-left: 3px;
             }
+         }
+         
+         div.saving-message {
+            font-size: 13px;
+            font-weight: normal;
+         }
+         
+         div.post-saving-message {
+            font-size: 13px;
+            font-weight: normal;  
          }
       }
    }

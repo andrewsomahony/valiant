@@ -497,6 +497,36 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         });
     }
     
+    UserService.cancelPendingEmailVerification = function(user) {
+        return Promise(function(resolve, reject, notify) {
+           var pendingEmailToken = user.pending_email_token;
+           
+           if (!pendingEmailToken) {
+               reject(ErrorService.localError("User doesn't have a pending e-mail token!"));
+           } else {           
+              HttpService.post(ApiUrlService([
+                   {
+                      name: 'User'
+                   },
+                   {
+                      name: 'ChangeEmail'
+                   },
+                   {
+                      name: 'Cancel'
+                   }
+             ]), null, {token: pendingEmailToken})
+               .then(function(data) {
+                   var newUser = new UserModel(data.data, true);
+                   UserService.updateCurrentAndRequestedUsersIfSame(newUser);
+                   resolve(newUser);
+               })
+               .catch(function(error) {
+                   reject(error);
+               });
+           }
+        });        
+    }
+    
     UserService.getUser = function(userId) {
         return Promise(function(resolve, reject, notify) {
            HttpService.get(ApiUrlService({

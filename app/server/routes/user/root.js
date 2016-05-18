@@ -79,14 +79,13 @@ router.route('/:userId')
             Responder.badRequest(result, error);
         } else {
             if (!user) {
-                Responder.notFound(result, "User not found!");
+                Responder.notFound(result);
             } else {
                 if (true === Permissions.ableToSeeUser(request, user)) {
                     Responder.ok(result, user.frontEndObject());    
                 } else {
                     Responder.forbidden(result);
                 }
-                
             }
         }
     });

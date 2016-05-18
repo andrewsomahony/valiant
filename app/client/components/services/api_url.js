@@ -27,6 +27,9 @@ registerService('factory', name, [function() {
                sub_api: {
                    'ResendEmail': {
                        url: 'resend'
+                   },
+                   'Cancel': {
+                       url: 'cancel'
                    }
                }  
             },

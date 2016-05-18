@@ -45,30 +45,22 @@
       </div>
    </div>
    
-   <div class="edit-container profile-email-address-container" ng-if="!isChangingProfile && !isChangingPassword">
+   <div class="edit-container profile-email-address-container" ng-if="!isEditingProfile && !isChangingPassword">
       <div ng-if="!isChangingEmail">
          <span class="email-text"
                ng-bind="currentEditingUser.email"></span>
       </div>
 
+      <div ng-if="currentEditingUser.pending_email">
+         <span class="pending-email-text">
+            <span ng-bind="currentEditingUser.pending_email"></span>
+            <a class="left" ng-click="resendPendingEmailVerificationEmail()">Resend</a>
+            <a class="right" ng-click="cancelPendingEmailVerification()">Cancel</a>
+         </span>
+      </div>     
+      
       <div ng-if="isChangingEmail">
-         <div ng-if="currentEditingUser.pending_email">
-            <span class="pending-email-text"
-                  ng-bind="currentEditingUser.pending_email">
-            </span>
-            <span class="pending-email-text">
-               *
-            </span>
-            <div class="pending-email-link-text">
-               (*Pending Change.  Click <a ng-click="resendPendingEmailVerificationEmail()">here</a> 
-                  to re-send verification e-mail.)
-            </div>
-            <div class="has-resent-verification-email" ng-if="hasResentVerificationEmail">
-                  Verification e-mail resent
-            </div>
-         </div>
-
-         <div class="top-edit-control">
+         <div ng-class="getEmailEditControlClass()">
             <input type="email"
                   placeholder="New E-Mail"
                   class="form-control profile-email-input"
@@ -76,10 +68,8 @@
                   ng-model-options="{updateOn: 'blur'}"
                   required />
          </div>
-         <div class="has-changed-email" ng-if="hasChangedEmail">
-            Success.  Check this e-mail address for further instructions.
-         </div>
       </div>
+      
    </div>
    
    <div class="edit-container profile-password-container" ng-if="isChangingPassword">
@@ -113,7 +103,7 @@
    
    <div class="edit-container profile-options-container">
       <span ng-if="canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail">
-         <a ng-click="activateEditing()" ng-if="!isEditingProfile">Edit Profile</a>
+         <a ng-click="activateEditingProfile()">Edit Profile</a>
          &nbsp;|&nbsp;
          <a ng-click="activateChangePassword()">Change Password</a>
          &nbsp;|&nbsp;
@@ -122,21 +112,25 @@
       
       <span ng-if="isEditingProfile && !isSaving">
          <a class="save-cancel-left save-changes" ng-click="saveProfile()">Save</a>
-         <a class="save-cancel-right cancel-edit" ng-click="cancelEditing()">Cancel</a>
+         <a class="save-cancel-right cancel-edit" ng-click="cancelEditing()">Back</a>
       </span>
       
       <span ng-if="isChangingPassword && !isSaving">
          <a class="save-cancel-left save-password" ng-click="changePassword()">Change</a>
-         <a class="save-cancel-right cancel-change-password" ng-click="cancelChangePassword()">Cancel</a>
+         <a class="save-cancel-right cancel-change-password" ng-click="cancelChangePassword()">Back</a>
       </span>
       
       <span ng-if="isChangingEmail && !isSaving">
          <a class="save-cancel-left save-email" ng-click="changeEmail()">Change</a>
-         <a class="save-cancel-right cancel-change-email" ng-click="cancelChangeEmail()">Cancel</a>
+         <a class="save-cancel-right cancel-change-email" ng-click="cancelChangeEmail()">Back</a>
       </span>
       
-      <div ng-show="isSaving">
+      <div ng-if="isSaving" class="saving-message">
          <span ng-bind="getSavingUserMessage()"></span>
+      </div>
+      
+      <div ng-if="postSavingMessage" class="post-saving-message">
+         <span ng-bind="postSavingMessage"></span>
       </div>
    </div>
 </div>
