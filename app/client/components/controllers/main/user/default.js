@@ -123,6 +123,7 @@ ProfilePictureService) {
       .then(function(newUser) {
          $scope.finishEditing(newUser);
          $scope.setPostSavingMessage("Password changed successfully");
+         $scope.clearPasswordFields();
       })
       .catch(function(error) {
          ErrorModal(error);
@@ -140,7 +141,7 @@ ProfilePictureService) {
       .then(function(newUser) {
          $scope.finishEditing(newUser);
          $scope.setPostSavingMessage("Success.  Check the new e-mail address for further instructions.");
-         
+         $scope.clearEmailFields();
       }, null, function(progress) {
          $scope.savingProgress = progress;
       })
@@ -209,6 +210,16 @@ ProfilePictureService) {
       
    }
    
+   $scope.clearPasswordFields = function() {
+      $scope.passwordChangeData.old_password = "";
+      $scope.passwordChangeData.new_password = "";
+      $scope.passwordChangeData.new_password_repeat = "";      
+   }
+   
+   $scope.clearEmailFields = function() {
+      $scope.emailChangeData.email = "";      
+   }
+   
    $scope.activateEditing = function() {
       $scope.previousEditingUser = $scope.currentEditingUser.clone();
    }
@@ -220,18 +231,14 @@ ProfilePictureService) {
    
    $scope.activateChangePassword = function() {
       $scope.isChangingPassword = true;
+      $scope.clearPasswordFields();
 
-      $scope.passwordChangeData.old_password = "";
-      $scope.passwordChangeData.new_password = "";
-      $scope.passwordChangeData.new_password_repeat = "";
-      
       $scope.activateEditing();
    }
    
    $scope.activateChangeEmail = function() {
       $scope.isChangingEmail = true;
-      
-      $scope.emailChangeData.email = "";
+      $scope.clearEmailFields();
       
       $scope.activateEditing();
    }

@@ -1,0 +1,38 @@
+User:
+first_name: String
+last_name: String
+email: String
+notifications: [Notification]
+
+Question:
+text: String
+videos: [Video]
+pictures: [Picture]
+preview_picture: Picture
+comments: [Comment]
+user_id: Reference<User>
+
+Comment:
+text: String
+video: Video
+picture: Picture
+
+Notification:
+text: String
+
+Video:
+url: String
+description: String
+metadata: {
+   width: String
+   height: String,
+   duration: String
+}
+
+Picture:
+url: String
+description: String
+metadata: {
+   width: String,
+   height: String
+}

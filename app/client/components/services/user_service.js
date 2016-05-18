@@ -446,6 +446,27 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
         })
     }
     
+    UserService.changePassword = function(oldPassword, newPassword) {
+       return Promise(function(resolve, reject, notify) {
+          HttpService.post(ApiUrlService([
+              {
+                  name: 'User'
+              },
+              {
+                  name: 'ChangePassword'
+              }
+          ]), null, {old_password: oldPassword, new_password: newPassword})
+          .then(function(data) {
+              var user = new UserModel(data.data, true);
+              UserService.updateCurrentAndRequestedUsersIfSame(user);
+              resolve(user);
+          })
+          .catch(function(error) {
+              reject(error);
+          })
+       });  
+    }
+    
     UserService.changeEmail = function(newEmail) {
         return Promise(function(resolve, reject, notify) {
             HttpService.post(ApiUrlService([

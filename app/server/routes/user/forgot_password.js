@@ -13,7 +13,7 @@ router.route('/forgot_password')
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {
-    var emailAddress = Request.getBodyVariable(request, 'email');//request.body.email;
+    var emailAddress = Request.getBodyVariable(request, 'email');
     
     if (!emailAddress) {
         Responder.badRequest(result, "Missing e-mail address!");
