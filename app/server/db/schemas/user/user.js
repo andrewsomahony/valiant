@@ -1,6 +1,9 @@
+'use strict';
+
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
+
 var passportLocalMongooseEmail = require('passport-local-mongoose-email');
 var extendedPassportLocalMongooseEmail = require('./plugins/authenticate');
 var userEmailAuthentication = require('./plugins/email_auth');
@@ -13,7 +16,11 @@ var patchPlugin = require('mongoose-json-patch');
 
 var UserLoginService = require(__base + 'lib/user_login');
 
-var User = new Schema({
+var NotificationSchema = require(__base + 'db/schemas/notification/notification');
+
+var PictureSchema = require(__base + 'db/schemas/picture/picture');
+
+var UserSchema = new Schema({
     email: {
         type: String,
         required: true
@@ -26,10 +33,7 @@ var User = new Schema({
         type: String,
         default: ""
     },
-    profile_picture_url: {
-        type: String,
-        default: ""
-    },
+    profile_picture: PictureSchema,
     access_type: {
         type: String,
         default: "public"
@@ -43,11 +47,14 @@ var User = new Schema({
         default: true
     },
     questions: {
-        type: Array,
+        type: [{
+                 type: Schema.Types.ObjectId, 
+                 ref: 'Question' 
+              }],
         default: []
     },
     notifications: {
-        type: Array,
+        type: [NotificationSchema],
         default: []
     },
     facebook_id: {
@@ -66,7 +73,7 @@ var User = new Schema({
     }
 });
 
-User.plugin(userMethods);
+UserSchema.plugin(userMethods);
 
 var userOptions = {
     usernameField: 'email',
@@ -75,19 +82,19 @@ var userOptions = {
     incorrectUsernameError: UserLoginService.incorrectUsernameErrorString    
 };
 
-User.plugin(passportLocalMongooseEmail, userOptions);
+UserSchema.plugin(passportLocalMongooseEmail, userOptions);
 
 // We extend the passportLocalMongooseEmail strategy because
 // it doesn't return the user object if the e-mail is unverified,
 // which I think is incorrect behavior.
 
-User.plugin(extendedPassportLocalMongooseEmail, userOptions);
+UserSchema.plugin(extendedPassportLocalMongooseEmail, userOptions);
 
-User.plugin(userEmailAuthentication, userOptions);
-User.plugin(userPendingEmailAuthentication, userOptions);
-User.plugin(userResetPassword, userOptions);
-User.plugin(userChangePassword, userOptions);
+UserSchema.plugin(userEmailAuthentication, userOptions);
+UserSchema.plugin(userPendingEmailAuthentication, userOptions);
+UserSchema.plugin(userResetPassword, userOptions);
+UserSchema.plugin(userChangePassword, userOptions);
 
-User.plugin(patchPlugin);
+UserSchema.plugin(patchPlugin);
 
-module.exports = mongoose.model('User', User);
+module.exports = UserSchema;

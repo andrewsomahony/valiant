@@ -15,8 +15,10 @@ registerService('factory', name, [
                                     require('services/progress'),
                                     require('services/serial_promise'),
                                     require('services/s3_uploader_service'),
+                                    require('models/picture'),
 function(Promise, HttpService, UserModel, ApiUrlService,
-ErrorService, ProgressService, SerialPromise, S3UploaderService) {    
+ErrorService, ProgressService, SerialPromise, S3UploaderService,
+PictureModel) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
     var currentRequestedUser = null;
@@ -319,7 +321,7 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
                 } else {
                     S3UploaderService('profile_picture', user.profile_picture_file)
                     .then(function(data) {
-                        user.profile_picture_url = data.url;
+                        user.profile_picture.url = data.url;
                         user.profile_picture_file = null;
                         resolve();    
                     }, null, function(progress) {
@@ -385,7 +387,7 @@ ErrorService, ProgressService, SerialPromise, S3UploaderService) {
     UserService.saveUser = function(user, previousUser) {
         var promiseFnArray = [];
         
-        if (user.profile_picture_url !== previousUser.profile_picture_url) {
+        if (user.profile_picture.url !== previousUser.profile_picture.url) {
             promiseFnArray.push(function(existingData, index, forNotify) {
                 return UserService.uploadProfilePicture(user, forNotify);
             })

@@ -7,7 +7,7 @@ var Promise = require(__base + 'lib/promise');
 var Responder = require(__base + 'lib/responder');
 var Request = require(__base + 'lib/request');
 
-var User = require(__base + 'models/user/user');
+var User = require(__base + 'db/models/user/user');
 
 router.route('/register')
 .get(function(request, result) {
@@ -17,11 +17,10 @@ router.route('/register')
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {
-    var u = Request.getBodyVariable('user');
+    var u = Request.getBodyVariable(request, 'user');
     
-    delete u['_id']; //When we register, we have no ID
     var user = new User(u);
-    
+        
     User.register(user, u.password, function(error, newUser) {
         if (error) {
             Responder.badRequest(result, error);

@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 var Responder = require(__base + 'lib/responder');
-var User = require(__base + 'models/user/user');
+var User = require(__base + 'db/models/user/user');
 var Request = require(__base + 'lib/request');
 
 var ValiantError = require(__base + 'lib/error');

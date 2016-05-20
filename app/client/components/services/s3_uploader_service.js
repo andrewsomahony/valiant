@@ -11,8 +11,11 @@ registerService('factory', name,
                   require('services/serial_promise'),
                   require('services/error'),
                   require('services/progress'),
+                  require('models/video'),
+                  require('models/picture'),
 function(FileModel, S3SignUrlService, Promise, 
-   SerialPromise, ErrorService, ProgressService) { 
+   SerialPromise, ErrorService, ProgressService,
+   VideoModel, PictureModel) { 
 
    function UploadHelper(fileModel, s3PutUrl, resolve, reject, notify) {
       function uploadProgress(e) {
@@ -65,8 +68,7 @@ function(FileModel, S3SignUrlService, Promise,
             })
          },
          function(existingData, index, forNotify) {
-            if (true === forNotify)
-            {
+            if (true === forNotify) {
                // !!! Technically, this doesn't quite work:
                // !!! the file size is not the full size of the AJAX request
                // !!! that we are doing to make, as it includes MIME data
@@ -74,11 +76,11 @@ function(FileModel, S3SignUrlService, Promise,
 
                // !!! This doesn't affect anything though, just the initial calculation
                return ProgressService(0, fileModel.size, "Uploading...");
+            } else {
+               return Promise(function(resolve, reject, notify) {
+                  UploadHelper(fileModel, existingData.s3Options, resolve, reject, notify)
+               });
             }
-
-            return Promise(function(resolve, reject, notify) {
-               UploadHelper(fileModel, existingData.s3Options, resolve, reject, notify)
-            })
          }
       ];
       

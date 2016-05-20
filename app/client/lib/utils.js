@@ -206,6 +206,18 @@
             sentinelFn(k);
         });
       },
+      
+      hasKey: function(array, keyName) {
+         var returnValue = false;
+          
+         this.forEachKey(array, function(key) {
+             if (key === keyName) {
+                returnValue = true;
+             }
+         });
+         
+         return returnValue;
+      },
 
       // Sentinel returns true if we want to KEEP it
       grep: function(array, sentinelFn) {

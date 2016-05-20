@@ -8,7 +8,7 @@ var Responder = require(__base + 'lib/responder');
 var Permissions = require(__base + 'lib/permissions');
 var Request = require(__base + 'lib/request');
 
-var User = require(__base + 'models/user/user');
+var User = require(__base + 'db/models/user/user');
 
 router.route('/change_email')
 .get(function(request, result) {
@@ -16,7 +16,7 @@ router.route('/change_email')
 })
 .post(function(request, result) {
    
-    var newEmailAddress = Request.getBodyVariable(request, 'email');//request.body.email;
+    var newEmailAddress = Request.getBodyVariable(request, 'email');
     
     if (!Permissions.isLoggedIn(request)) {
         Responder.forbidden(result);

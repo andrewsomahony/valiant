@@ -7,7 +7,8 @@ var classy = require('classy');
 var name = 'models.user';
 
 registerModel(name, [require('models/base'),
-function(BaseModel) {
+                     require('models/picture'),
+function(BaseModel, PictureModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -19,8 +20,8 @@ function(BaseModel) {
                last_name: "",
                email: "",
                password: "",
-               profile_picture_url: "",
                profile_picture_file: null,
+               profile_picture: {__alias__: 'pictureModel'},
                facebook_id: "",
                is_connected_to_facebook: false,
                email_token: "",
@@ -46,9 +47,9 @@ function(BaseModel) {
       setProfilePictureFile: function(file) {
          this.profile_picture_file = file;
          if (file) {
-            this.profile_picture_url = file.getUrl();
+            this.profile_picture.url = file.getUrl();
          } else {
-            this.profile_picture_url = "";
+            this.profile_picture.url = "";
          }
       }
    })   

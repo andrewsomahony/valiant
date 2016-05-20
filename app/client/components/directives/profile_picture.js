@@ -39,10 +39,11 @@ function(UserModel) {
          }
          
          $scope.getUrl = function() {
-            if (!$scope.user.profile_picture_url) {
+            console.log($scope.user.profile_picture);
+            if (!$scope.user.profile_picture.url) {
                return "images/profile_picture_placeholder.jpg";
             } else {
-               return $scope.user.profile_picture_url;
+               return $scope.user.profile_picture.url;
             }
          }
       }

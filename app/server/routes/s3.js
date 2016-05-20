@@ -13,33 +13,29 @@ var Responder = require(__base + 'lib/responder');
 
 router.route('/signed_url')
 .get(function(request, result) {
-   if (false === Permissions.isLoggedIn(request)) {
-      Responder.forbidden(result);
-   } else {
-      var uploadType = Request.getUrlVariable(request, 'upload_type');//request.query.upload_type; 
-      /*
-         profile_picture, 
-         question_video, 
-         question_picture, 
-         comment_video, 
-         comment_picture
-      */
-      var uploadFileType = Request.getUrlVariable(request, 'file_type');//request.query.file_type;
+   var uploadType = Request.getUrlVariable(request, 'upload_type');//request.query.upload_type; 
+   /*
+      profile_picture, 
+      question_video, 
+      question_picture, 
+      comment_video, 
+      comment_picture
+   */
+   var uploadFileType = Request.getUrlVariable(request, 'file_type');//request.query.file_type;
 
-      var key = StaticUpload.getStaticUploadKey(uploadType);
+   var key = StaticUpload.getStaticUploadKey(uploadType);
 
-      if (!key) {
-         Responder.badRequest(result, "Invalid upload type!");
-      } else {   
-         s3.signPutRequest(key, 
-            uploadFileType, 'public-read')
-         .then(function(data) {
-            Responder.ok(result, data);
-         })
-         .catch(function(error) {
-            Responder.badRequest(result, error);
-         });
-      }
+   if (!key) {
+      Responder.badRequest(result, "Invalid upload type!");
+   } else {   
+      s3.signPutRequest(key, 
+         uploadFileType, 'public-read')
+      .then(function(data) {
+         Responder.ok(result, data);
+      })
+      .catch(function(error) {
+         Responder.badRequest(result, error);
+      });
    }
 })
 .post(function(request, result) {

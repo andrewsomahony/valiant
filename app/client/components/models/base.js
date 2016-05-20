@@ -25,7 +25,13 @@ function(id, promise) {
          }
 
          Object.keys(fields).forEach(function(key) {
-            ret[model.$ownClass.mapKey(key, isForServer)] = ModelToObject(!utils.isUndefinedOrNull(model[key]) ? model[key] : fields[key])         
+            if (true === isForServer && 
+                ('id' === key)) {
+               if (!model[key]) {
+                   return true;
+               }
+            }
+            ret[model.$ownClass.mapKey(key, isForServer)] = ModelToObject(model.$ownClass.mapValue(model[key], fields[key], isForServer), isForServer);//!utils.isUndefinedOrNull(model[key]) ? model[key] : fields[key], isForServer)         
          });
 
          return ret;
@@ -33,7 +39,7 @@ function(id, promise) {
          var ret = []
 
          model.forEach(function(element) {
-            ret.push(ModelToObject(element))
+            ret.push(ModelToObject(element, isForServer))
          })
 
          return ret;
@@ -42,7 +48,7 @@ function(id, promise) {
 
          Object.keys(model).forEach(function(key) {
             if (true === model.hasOwnProperty(key)) {
-               ret[key] = ModelToObject(model[key])
+               ret[key] = ModelToObject(model[key], isForServer)
             }
          })
 
@@ -56,6 +62,80 @@ function(id, promise) {
       alias: name,
 
       statics: {
+         classyAliasKey: "__alias__",
+         
+         /*fieldIsClassyObject: function(field) {
+            var objectToCheckForClass = null;
+            var classAlias = null;
+            
+            if (true === utils.isArray(field)) {
+                if (field.length &&
+                    true === utils.isPlainObject(field[0])) {
+                    objectToCheckForClass = field[0];    
+                }       
+            } else if (true === utils.isPlainObject(field)) {
+                objectToCheckForClass = field;
+            }   
+
+            if (objectToCheckForClass) {
+                if (utils.hasKey(objectToCheckForClass, this.classyAliasKey)) {
+                    classAlias = objectToCheckForClass[this.classyAliasKey];
+                }
+            }
+            
+            return classAlias;        
+         },*/
+         
+         getClassyField: function(field) {
+            var classAlias = null;
+            var objectToCheckForClass = null;
+            
+            if (true === utils.isArray(field)) {
+                if (field.length &&
+                    true === utils.isPlainObject(field[0])) {
+                    objectToCheckForClass = field[0];    
+                }       
+            } else if (true === utils.isPlainObject(field)) {
+                objectToCheckForClass = field;
+            }
+            
+            if (objectToCheckForClass) {
+                if (utils.hasKey(objectToCheckForClass, this.classyAliasKey)) {
+                    classAlias = objectToCheckForClass[this.classyAliasKey];
+                }
+            }
+            
+            return classAlias;         
+         },
+         
+         mapValue: function(value, defaultValue, isServer) {
+            isServer = utils.isUndefinedOrNull(isServer) ? false : isServer;
+            var classAlias = this.getClassyField(defaultValue);
+            var isUndefined = utils.isUndefinedOrNull(value);
+
+           // console.log(value, defaultValue, classAlias, isUndefined);
+
+            if (classAlias) {
+                var Class = classy.getClass(classAlias);
+                if (true === utils.isArray(value)) {
+                    var newArray = [];
+                    
+                    if (!isUndefined) {
+                       value.forEach(function(element) {
+                           newArray.push(new Class(element, true)); 
+                       });
+                    }
+                    
+                    return newArray;
+                } else {
+                    return isUndefined ? new Class({}, isServer) : 
+                        (utils.objectIsClassy(value, Class) ? value.clone() : new Class(value, isServer));
+                }
+            } else {
+               return isUndefined ? defaultValue : value;
+            }         
+         },
+          
          // Utility function so each class doesn't need to require utils
          staticMerge: function(superFields, fields) {
             return utils.extend(true, superFields, fields)
@@ -63,7 +143,9 @@ function(id, promise) {
          fields: function() {
             return {
                id: "",
-               local_id: ""
+               local_id: "",
+               created_at: "",
+               updated_at: ""
             }
          },
          // Fields NOT to send to the server
@@ -157,8 +239,51 @@ function(id, promise) {
             if (true === this.$ownClass.isManualKey(key)) {
                this[key] = utils.clone(fields[key])
             } else {
-               this[key] = utils.clone(!utils.isUndefinedOrNull(config[this.$ownClass.mapKey(key, isFromServer)]) ?
-               config[this.$ownClass.mapKey(key, isFromServer)] : fields[key])
+               /*var classAlias = null;
+               var objectToCheckForClass = null;
+               
+               var field = fields[key];
+               if (true === utils.isArray(field)) {
+                  if (field.length &&
+                      true === utils.isPlainObject(field[0])) {
+                     objectToCheckForClass = field[0];    
+                  }       
+               } else if (true === utils.isPlainObject(field)) {
+                  objectToCheckForClass = field;
+               }
+               
+               if (objectToCheckForClass) {
+                  if (utils.hasKey(objectToCheckForClass, this.$ownClass.classyAliasKey)) {
+                      classAlias = objectToCheckForClass[this.$ownClass.classyAliasKey];
+                  }
+               }*/
+               
+              // var classAlias = this.$ownClass.getClassyField(fields[key]);
+               
+               //var configVariable = config[this.$ownClass.mapKey(key, isFromServer)];
+                
+               this[key] = utils.clone(this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer)); 
+                
+                /*
+               this[key] = utils.clone(!utils.isUndefinedOrNull(configVariable) ?
+                     configVariable : fields[key])                
+                
+               if (classAlias) {
+                  var isUndefined = utils.isUndefinedOrNull(configVariable);
+                  var Class = classy.getClass(classAlias);
+                  if (true === utils.isArray(this[key])) {
+                     var newArray = [];
+                     
+                     if (!isUndefined) {
+                        this[key].forEach(function(element) {
+                            newArray.push(new Class(element, true)); 
+                        });
+                     }
+                     this[key] = newArray;
+                  } else {
+                     this[key] = isUndefined ? null : new Class(this[key], true);
+                  }
+               }*/
             }
 
          }, this); 
@@ -254,6 +379,7 @@ function(id, promise) {
       },
 
       toObject: function(isForServer) {
+         isForServer = utils.isUndefinedOrNull(isForServer) ? false : isForServer;
          return ModelToObject(this, isForServer);
       },
       

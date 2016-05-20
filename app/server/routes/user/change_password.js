@@ -6,7 +6,7 @@ var router = express.Router();
 var Responder = require(__base + 'lib/responder');
 var Permissions = require(__base + 'lib/permissions');
 var Request = require(__base + 'lib/request');
-var User = require(__base + 'models/user/user');
+var User = require(__base + 'db/models/user/user');
 
 router.route('/change_password')
 .get(function(request, result) {

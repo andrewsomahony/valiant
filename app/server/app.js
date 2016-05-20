@@ -26,7 +26,7 @@ var verifyRoute = require('./routes/verify');
 var userRoute = require('./routes/user/root');//require('./routes/users');
 var s3Route = require('./routes/s3');
 
-var UserModel = require('./models/user/user');
+var UserModel = require('./db/models/user/user');
 
 var app = express();
 var appConfig = require('./config/config');

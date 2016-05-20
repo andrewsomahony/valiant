@@ -8,7 +8,9 @@ var Responder = require(__base + 'lib/responder');
 var Permissions = require(__base + 'lib/permissions');
 var Request = require(__base + 'lib/request');
 
-var User = require(__base + 'models/user/user');
+var User = require(__base + 'db/models/user/user');
+
+var QuestionModel = require(__base + 'db/models/question/question');
 
 var Q = require('q');
 
@@ -82,7 +84,7 @@ router.route('/:userId')
                 Responder.notFound(result);
             } else {
                 if (true === Permissions.ableToSeeUser(request, user)) {
-                    Responder.ok(result, user.frontEndObject());    
+                   Responder.ok(result, user.frontEndObject());    
                 } else {
                     Responder.forbidden(result);
                 }
@@ -91,8 +93,6 @@ router.route('/:userId')
     });
 })
 .patch(function(request, result) {
-    //var patchData = request.body.data;
-    
     var patchData = Request.getBodyVariable(request, 'data');
     
     if (!patchData) {
