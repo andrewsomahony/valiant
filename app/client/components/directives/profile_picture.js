@@ -39,7 +39,6 @@ function(UserModel) {
          }
          
          $scope.getUrl = function() {
-            console.log($scope.user.profile_picture);
             if (!$scope.user.profile_picture.url) {
                return "images/profile_picture_placeholder.jpg";
             } else {

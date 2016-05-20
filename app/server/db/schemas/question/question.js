@@ -9,8 +9,13 @@ var PictureSchema = require(__base + 'db/schemas/picture/picture');
 var CommentSchema = require(__base + 'db/schemas/comment/comment');
 
 var QuestionSchema = new Schema({
+   topic: {
+     type: String,
+     default: ""  
+   },
    text: {
       type: String,
+      default: ""
    },
    videos: {
       type: [VideoSchema],

@@ -1,9 +1,10 @@
 'use strict';
 
-var registerModel = require('./register');
+var registerModel = require('models/register');
+
 var classy = require('classy');
 
-var name = 'models.picture';
+var name = 'models.notification';
 
 registerModel(name, [require('models/base'),
 function(BaseModel) {
@@ -14,11 +15,8 @@ function(BaseModel) {
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
-               url: "",
-               description: "",
-               metadata: {}
+               text: ""
             });
-         }
       },
       
       init: function(config, isFromServer) {

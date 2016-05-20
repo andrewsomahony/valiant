@@ -1,9 +1,10 @@
 'use strict';
 
-var registerModel = require('./register');
+var registerModel = require('models/register');
+
 var classy = require('classy');
 
-var name = 'models.picture';
+var name = 'models.question';
 
 registerModel(name, [require('models/base'),
 function(BaseModel) {
@@ -14,9 +15,12 @@ function(BaseModel) {
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
-               url: "",
-               description: "",
-               metadata: {}
+               topic: "",
+               text: "",
+               videos: [{__alias__: 'models.video'}],
+               pictures: [{__alias__: 'models.picture'}],
+               comments: [{__alias__: 'models.comment'}],
+               preview_pictures: [{__alias__: 'models.picture'}]
             });
          }
       },
@@ -24,7 +28,8 @@ function(BaseModel) {
       init: function(config, isFromServer) {
          this.callSuper();
       }
-   });
-}])
+   })
+}
+]);
 
 module.exports = name;

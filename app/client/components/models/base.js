@@ -27,6 +27,9 @@ function(id, promise) {
          Object.keys(fields).forEach(function(key) {
             if (true === isForServer && 
                 ('id' === key)) {
+               // If our "id" is empty, we don't
+               // want to send it.
+               
                if (!model[key]) {
                    return true;
                }
@@ -64,28 +67,6 @@ function(id, promise) {
       statics: {
          classyAliasKey: "__alias__",
          
-         /*fieldIsClassyObject: function(field) {
-            var objectToCheckForClass = null;
-            var classAlias = null;
-            
-            if (true === utils.isArray(field)) {
-                if (field.length &&
-                    true === utils.isPlainObject(field[0])) {
-                    objectToCheckForClass = field[0];    
-                }       
-            } else if (true === utils.isPlainObject(field)) {
-                objectToCheckForClass = field;
-            }   
-
-            if (objectToCheckForClass) {
-                if (utils.hasKey(objectToCheckForClass, this.classyAliasKey)) {
-                    classAlias = objectToCheckForClass[this.classyAliasKey];
-                }
-            }
-            
-            return classAlias;        
-         },*/
-         
          getClassyField: function(field) {
             var classAlias = null;
             var objectToCheckForClass = null;
@@ -113,8 +94,6 @@ function(id, promise) {
             var classAlias = this.getClassyField(defaultValue);
             var isUndefined = utils.isUndefinedOrNull(value);
 
-           // console.log(value, defaultValue, classAlias, isUndefined);
-
             if (classAlias) {
                 var Class = classy.getClass(classAlias);
                 if (true === utils.isArray(value)) {
@@ -128,7 +107,7 @@ function(id, promise) {
                     
                     return newArray;
                 } else {
-                    return isUndefined ? new Class({}, isServer) : 
+                    return isUndefined ? new Class() : 
                         (utils.objectIsClassy(value, Class) ? value.clone() : new Class(value, isServer));
                 }
             } else {

@@ -25,7 +25,8 @@ var CommentSchema = new Schema({
     timestamps: {
         createdAt: 'created_at',
         updatedAt: 'updated_at'
-    }
+    },
+    _id: false
 });
 
 module.exports = CommentSchema;

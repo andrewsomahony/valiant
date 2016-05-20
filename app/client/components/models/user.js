@@ -7,8 +7,7 @@ var classy = require('classy');
 var name = 'models.user';
 
 registerModel(name, [require('models/base'),
-                     require('models/picture'),
-function(BaseModel, PictureModel) {
+function(BaseModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -21,7 +20,7 @@ function(BaseModel, PictureModel) {
                email: "",
                password: "",
                profile_picture_file: null,
-               profile_picture: {__alias__: 'pictureModel'},
+               profile_picture: {__alias__: 'models.picture'},
                facebook_id: "",
                is_connected_to_facebook: false,
                email_token: "",
@@ -29,7 +28,7 @@ function(BaseModel, PictureModel) {
                is_visible_to_public: true,
                pending_email: "",
                pending_email_token: ""
-            })
+            });
          },
          localFields: function() {
             return this.staticMerge(this.callSuper(), ['profile_picture_file']);
