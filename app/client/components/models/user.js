@@ -7,7 +7,9 @@ var classy = require('classy');
 var name = 'models.user';
 
 registerModel(name, [require('models/base'),
-function(BaseModel) {
+                     require('models/question'),
+                     require('models/notification'),
+function(BaseModel, QuestionModel, NotificationModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,

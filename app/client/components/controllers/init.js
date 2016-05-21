@@ -23,3 +23,7 @@ require('./main/register/default');
 
 require('./main/user/user');
 require('./main/user/default');
+
+require('./main/question/question');
+require('./main/question/default');
+require('./main/question/ask');

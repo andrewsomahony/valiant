@@ -219,6 +219,42 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
      }  
    })
    
+   .state("main.page.question", {
+      url: "question",
+      abstract: true,
+      views: {
+         "content@main": {
+            templateUrl: "partials/main/question/question.html",
+            controller: require("controllers/main/question/question")
+         }
+      }
+   })
+   .state("main.page.question.ask", {
+      url: "/ask",
+      resolve: RouteResolver("main.page.question.ask"),
+      views: {
+         "nav_bar@main.page": {
+            templateUrl: "partials/main/nav_bar.html"
+         },
+         "content@main.page.question": {
+            templateUrl: "partials/main/question/ask.html",
+            controller: require("controllers/main/question/ask")
+         }
+      }
+   })   
+   .state("main.page.question.default", {
+       url: "/:questionId",
+       resolve: RouteResolver("main.page.question.default"),
+       views: {
+         "nav_bar@main.page": {
+            templateUrl: "partials/main/nav_bar.html"
+         },
+          "content@main.page.question": {
+             templateUrl: "partials/main/question/content.html",
+             controller: require("controllers/main/question/default")
+          }
+       }
+   })
    
    $stateProvider.state("admin", {
        url: "/admin",

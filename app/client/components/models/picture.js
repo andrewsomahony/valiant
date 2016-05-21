@@ -1,12 +1,13 @@
 'use strict';
 
-var registerModel = require('./register');
+var registerModel = require('models/register');
 var classy = require('classy');
 
 var name = 'models.picture';
 
 registerModel(name, [require('models/base'),
 function(BaseModel) {
+   console.log("REGISTERING PICTURE");
    return classy.define({
       extend: BaseModel,
       alias: name,

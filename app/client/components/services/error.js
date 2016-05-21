@@ -31,12 +31,16 @@ function(ErrorModel, HttpResponseModel) {
         deferredFn(this(code, text));
     }
     
+    errorService.badRequest = function(error) {
+        return 400 === error.code;
+    }
+    
     errorService.isForbidden = function(error) {
         return 403 === error.code;
     }
     
     errorService.isNotFound = function(error) {
-        return 400 === error.code;
+        return 404 === error.code;
     }
     
     errorService.isUnauthorized = function(error) {

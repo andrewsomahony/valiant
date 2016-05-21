@@ -24,6 +24,7 @@ PictureModel) {
     var currentRequestedUser = null;
     
     var currentRequestedUserIsNotAccessible = false;
+    var currentRequestedUserIsNotFound = false;
     
     function UserService() {
         
@@ -71,6 +72,7 @@ PictureModel) {
                         // to hit the server again.
                         currentRequestedUser = currentUser.clone();
                         currentRequestedUserIsNotAccessible = false;
+                        currentRequestedUserIsNotFound = false;
                     } else {                          
                         promiseFnArray.push(function(existingData, index, forNotify) {
                             if (true === forNotify) {
@@ -80,6 +82,8 @@ PictureModel) {
                                     HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
                                     .then(function(user) {
                                         currentRequestedUserIsNotAccessible = false;
+                                        currentRequestedUserIsNotFound = false;
+                                        
                                         currentRequestedUser = new UserModel(user.data, true);
                                         resolve({});    
                                     })
@@ -99,6 +103,9 @@ PictureModel) {
                                         if (true === ErrorService.isForbidden(error)) {
                                             currentRequestedUserIsNotAccessible = true;
                                             resolve({});
+                                        } else if (true === ErrorService.isNotFound(error)) {
+                                            currentRequestedUserIsNotFound = true;
+                                            resolve();
                                         } else {
                                             reject(error);
                                         }
@@ -171,6 +178,10 @@ PictureModel) {
     
     UserService.currentRequestedUserIsNotAccessible = function() {
         return currentRequestedUserIsNotAccessible;
+    }
+    
+    UserService.currentRequestedUserIsNotFound = function() {
+        return currentRequestedUserIsNotFound;
     }
     
     UserService.getCurrentUserId = function() {

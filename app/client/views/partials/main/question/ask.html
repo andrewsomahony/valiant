@@ -1,0 +1,21 @@
+<div class="ask-content">
+   <div>
+      <p>
+         What's the topic of your question?
+      </p>
+      <p>
+         <select ng-model="currentQuestion.topic" 
+               ng-options="name for name in questionTopicOptions">
+         </select>
+      </p>
+      <p>
+         or
+      </p>
+      <p>
+         Enter your own topic here
+      </p>
+      <p>
+         <input type="text" ng-model="currentQuestionOverrides.topic" />
+      </p>
+   </div>
+</div>

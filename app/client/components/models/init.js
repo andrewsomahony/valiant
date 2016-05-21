@@ -1,3 +1,7 @@
 'use strict';
 
-require('./module');
+require('./user');
+require('./video');
+require('./picture');
+require('./notification');
+require('./comment');

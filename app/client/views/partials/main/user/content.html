@@ -135,5 +135,5 @@
 </div>
 
 <div ng-if="!currentEditingUser">
-   <span>You don't have permission to view this user</span>
+   <span ng-bind="getStaticErrorMessage()"></span>
 </div>

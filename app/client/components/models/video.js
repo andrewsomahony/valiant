@@ -3,7 +3,7 @@
 var registerModel = require('./register');
 var classy = require('classy');
 
-var name = 'videoModel';
+var name = 'models.video';
 
 registerModel(name, [require('models/base'),
 function(BaseModel) {
@@ -16,6 +16,7 @@ function(BaseModel) {
             return this.staticMerge(this.callSuper(), {
                url: "",
                description: "",
+               title: "",
                metadata: {}
             });
          }

@@ -9824,6 +9824,8 @@ div.main {
         font-size: 13px; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.resetting-in-progress span.resetting-text {
         margin-left: 16px; }
+      div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask-content {
+        text-align: center; }
     div.main div.mobile-scroll div.main-content div.ad-space {
       height: 100%; }
       div.main div.mobile-scroll div.main-content div.ad-space div.ad-container div.ad {

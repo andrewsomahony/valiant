@@ -89,19 +89,20 @@ function(id, promise) {
             return classAlias;         
          },
          
-         mapValue: function(value, defaultValue, isServer) {
+        mapValue: function(value, defaultValue, isServer) {
             isServer = utils.isUndefinedOrNull(isServer) ? false : isServer;
             var classAlias = this.getClassyField(defaultValue);
             var isUndefined = utils.isUndefinedOrNull(value);
 
             if (classAlias) {
                 var Class = classy.getClass(classAlias);
+                console.log(classAlias, Class);
                 if (true === utils.isArray(value)) {
                     var newArray = [];
                     
                     if (!isUndefined) {
                        value.forEach(function(element) {
-                           newArray.push(new Class(element, true)); 
+                           newArray.push(new Class(element, isServer)); 
                        });
                     }
                     

@@ -7,7 +7,10 @@ var classy = require('classy');
 var name = 'models.question';
 
 registerModel(name, [require('models/base'),
-function(BaseModel) {
+                     require('models/video'),
+                     require('models/picture'),
+                     require('models/comment'),
+function(BaseModel, VideoModel, PictureModel, CommentModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,

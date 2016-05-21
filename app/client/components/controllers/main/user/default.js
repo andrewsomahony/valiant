@@ -15,7 +15,7 @@ ProfilePictureService) {
    // to allow for editing and such
    
    $scope.currentEditingUser = 
-      UserService.currentRequestedUserIsNotAccessible() ? 
+      !UserService.getCurrentRequestedUser() ? 
       null :
       UserService.getCurrentRequestedUser().clone();
    
@@ -261,6 +261,20 @@ ProfilePictureService) {
    $scope.cancelChangeEmail = function() {
       $scope.isChangingEmail = false;
       $scope.setPostSavingMessage(null);
+   }
+   
+   $scope.getStaticErrorMessage = function() {
+      if ($scope.currentEditingUser) {
+         return "";
+      } else {
+         if (UserService.currentRequestedUserIsNotAccessible()) {
+            return "You don't have permission to view this user."   
+         } else if (UserService.currentRequestedUserIsNotFound()) {
+            return "User not found."   
+         } else {
+            return "Unknown error";   
+         }
+      }
    }
 }]);
 

@@ -17,6 +17,7 @@ function(BaseModel) {
             return this.staticMerge(this.callSuper(), {
                text: ""
             });
+         }
       },
       
       init: function(config, isFromServer) {

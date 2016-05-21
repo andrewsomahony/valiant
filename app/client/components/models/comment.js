@@ -1,7 +1,6 @@
 'use strict';
 
 var registerModel = require('models/register');
-
 var classy = require('classy');
 
 var name = 'models.comment';
@@ -14,7 +13,7 @@ function(BaseModel) {
       
       statics: {
          fields: function() {
-            return this.staticMerge(this.callSuper, {
+            return this.staticMerge(this.callSuper(), {
                text: "",
                videos: [{__alias__: "models.video"}],
                pictures: [{__alias__: "models.picture"}]
