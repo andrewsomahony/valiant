@@ -8,10 +8,14 @@ registerController(name, ['$scope',
                           require('services/question_service'),
                           require('models/question'),
 function($scope, QuestionService, QuestionModel) {
-   $scope.currentQuestion = new QuestionModel();
    $scope.questionTopicOptions = QuestionService.getSelectableQuestionTypes();
-  
-   $scope.currentQuestion.topic = $scope.questionTopicOptions[0];
+
+   $scope.allocateNewQuestion = function() {
+      $scope.currentQuestion = new QuestionModel();  
+      $scope.currentQuestion.topic = $scope.questionTopicOptions[0];
+   }
+   
+   $scope.allocateNewQuestion();
 }]);
 
 module.exports = name;
