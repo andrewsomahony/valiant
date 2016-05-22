@@ -22,6 +22,7 @@
     "browsernizr": "~2.1.0",
     "chance": "^1.0.1",
     "classy": "^1.4.10",
+    "device-detector": "^0.1.32",
     "domready": "~1.0.8",
     "exif": "^0.6.0",
     "exif-js": "^2.1.1",

@@ -66,6 +66,7 @@ function(id, promise) {
 
       statics: {
          classyAliasKey: "__alias__",
+         classyModelKey: "__model__", // Unused
          
          getClassyField: function(field) {
             var classAlias = null;
@@ -96,7 +97,6 @@ function(id, promise) {
 
             if (classAlias) {
                 var Class = classy.getClass(classAlias);
-                console.log(classAlias, Class);
                 if (true === utils.isArray(value)) {
                     var newArray = [];
                     
@@ -114,6 +114,26 @@ function(id, promise) {
             } else {
                return isUndefined ? defaultValue : value;
             }         
+         },
+         
+         allocateChildArrayOfClasses: function(variableName, length, isServer) {
+             var defaultValue = this.fields()[variableName];
+             
+             if (!defaultValue) {
+                throw new Error("allocateChildArrayOfClasses: Missing field ", variableName);
+             } else {
+                // Make a dummy array filled with empty
+                // objects, so our mapValue method
+                // will properly call the class constructors
+                // for whatever variable we want to allocate
+                var arr = new Array(length);
+                
+                for (var i = 0; i < length; i++) {
+                   arr[i] = {};
+                }
+                
+                return this.mapValue(arr, defaultValue, isServer);
+             }
          },
           
          // Utility function so each class doesn't need to require utils

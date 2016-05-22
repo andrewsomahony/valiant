@@ -37,6 +37,14 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
       
       init: function(config, isFromServer) {
          this.callSuper();
+      },
+      
+      allocateVideos: function(numberOfVideos) {
+         this.videos = this.$ownClass.allocateChildArrayOfClasses('videos', numberOfVideos);
+      },
+      
+      allocatePictures: function(numberOfPictures) {
+         this.pictures = this.$ownClass.allocateChildArrayOfClasses('pictures', numberOfPictures, false);
       }
    })
 }
