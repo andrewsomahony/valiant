@@ -1,7 +1,5 @@
 div.question {
-   div.sub-content {
-      div.ask-content {
-         text-align: center;
-      }
+   div.sub-content {      
+      @import "ask";
    }
 }

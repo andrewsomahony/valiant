@@ -1,21 +1,42 @@
 <div class="ask-content">
-   <div>
-      <p>
-         What's the topic of your question?
-      </p>
-      <p>
-         <select ng-model="currentQuestion.topic" 
-               ng-options="name for name in questionTopicOptions">
-         </select>
-      </p>
-      <p>
+   <div class="ask-topic ask-group">
+      <div class="ask-header">
+         What's your question about?
+      </div>
+      <div class="ask-element">
+         <label class="dropdown">
+            <select ng-model="currentQuestion.topic" 
+                  ng-options="name for name in questionTopicOptions">
+            </select>
+         </label>
+      </div>
+      <div class="ask-element ask-sub-header ask-or">
          or
-      </p>
-      <p>
-         Enter your own topic here
-      </p>
-      <p>
-         <input type="text" ng-model="currentQuestionOverrides.topic" />
-      </p>
+      </div>
+      <div>
+         <input type="text" class="form-control" placeholder="Tell me" ng-model="currentQuestion.custom_topic" />
+      </div>
+   </div>
+   
+   <div class="ask-question ask-group">
+      <div class="ask-question-enter ask-header">
+         What's your question?
+      </div>
+      <div class="ask-sub-header ask-question-details">
+         (Use as much detail as you like)
+      </div>
+      
+      <textarea class="form-control"
+                ng-model="currentQuestion.text"></textarea>
+   </div>
+   
+   <div class="ask-media ask-group">
+      <div class="ask-header">
+         Any photos or videos?
+      </div>
+   </div>
+   
+   <div class="ask-submit">
+      <button>Ask Question</button>
    </div>
 </div>

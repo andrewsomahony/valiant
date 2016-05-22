@@ -11,10 +11,6 @@ function($scope, QuestionService, QuestionModel) {
    $scope.currentQuestion = new QuestionModel();
    $scope.questionTopicOptions = QuestionService.getSelectableQuestionTypes();
   
-   $scope.currentQuestionOverrides = {
-      topic: ""
-   };
-  
    $scope.currentQuestion.topic = $scope.questionTopicOptions[0];
 }]);
 

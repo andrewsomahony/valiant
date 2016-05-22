@@ -13,6 +13,10 @@ var QuestionSchema = new Schema({
      type: String,
      default: ""  
    },
+   custom_topic: {
+     type: String,
+     default: ""  
+   },
    text: {
       type: String,
       default: ""

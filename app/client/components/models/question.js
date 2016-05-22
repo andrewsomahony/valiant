@@ -19,6 +19,13 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
                topic: "",
+               // IF someone has a question about something
+               // that's not in my default drop-down,
+               // they can use this one.
+               
+               // This also can show me how people use
+               // the question page. 
+               custom_topic: "",
                text: "",
                videos: [{__alias__: 'models.video'}],
                pictures: [{__alias__: 'models.picture'}],
