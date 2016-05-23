@@ -104,7 +104,6 @@ FileReaderService, ImageService) {
 
             ParallelPromise.withNotify(promiseFnArray, true)
             .then(function(files) {
-               console.log(files);
                $scope.onFilesAdded({files: files});
             }, null, function(notifyData) {
                $scope.onFilesProgress({progress: notifyData});

@@ -12,10 +12,41 @@ registerService('factory', name, [require('services/data_url_service'),
                                   require('services/progress'),
                                   require('services/promise'),
                                   require('services/exif_service'),
+                                  require('services/dom_image_service'),
 function(DataUrlService, FileReaderService, SerialPromise,
-ProgressService, Promise, ExifService) {
+ProgressService, Promise, ExifService, DOMImageService) {
    function ImageService() {
       
+   }
+   
+   ImageService.getImageDimensionsFromFile = function(file) {
+      return Promise(function(resolve, reject, notify) {
+         DOMImageService.createImageFromFile(file)
+         .then(function(image) {
+            resolve({
+               width: image.width,
+               height: image.height   
+            });
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });
+   }
+   
+   ImageService.getImageDimensionsFromDataUrl = function(dataUrl) {
+      return Promise(function(resolve, reject, notify) {
+         DOMImageService.createImageFromDataUrl(dataUrl)
+         .then(function(image) {
+            resolve({
+               width: image.width,
+               height: image.height   
+            });
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });         
    }
    
    // This function scales an image and returns
@@ -89,6 +120,8 @@ ProgressService, Promise, ExifService) {
    // image modification (currently just orientation),
    // and applies it, then strips ALL the EXIF data
    // off of the image.
+   
+   // This does return the EXIF data for metadata reasons
    
    ImageService.processAndStripExifDataFromFile = function(file) {
       var promiseFnArray = [];

@@ -21,7 +21,6 @@ function(BaseModel, QuestionModel, NotificationModel) {
                last_name: "",
                email: "",
                password: "",
-               profile_picture_file: null,
                profile_picture: {__alias__: 'models.picture'},
                facebook_id: "",
                is_connected_to_facebook: false,
@@ -31,9 +30,6 @@ function(BaseModel, QuestionModel, NotificationModel) {
                pending_email: "",
                pending_email_token: ""
             });
-         },
-         localFields: function() {
-            return this.staticMerge(this.callSuper(), ['profile_picture_file']);
          }
       },
 
@@ -45,12 +41,16 @@ function(BaseModel, QuestionModel, NotificationModel) {
          return this.first_name + " " + this.last_name;
       },
       
-      setProfilePictureFile: function(file) {
-         this.profile_picture_file = file;
+      setProfilePictureFile: function(file, metadata) {
+         this.profile_picture.file_model = file;
          if (file) {
             this.profile_picture.url = file.getUrl();
          } else {
             this.profile_picture.url = "";
+         }
+         
+         if (metadata) {
+            this.profile_picture.setMetadata(metadata);
          }
       }
    })   

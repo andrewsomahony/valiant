@@ -406,11 +406,11 @@ ProfilePictureService) {
    
    $scope.onProfilePictureAdded = function(files) {
       ProfilePictureService.resizeProfilePictureFromFileModel(files[0])
-      .then(function(fileModel) {
-         $scope.registrationUser.setProfilePictureFile(fileModel);
+      .then(function(data) {
+         $scope.registrationUser.setProfilePictureFile(data.fileModel, data.metadata);
       })
       .catch(function(error) {
-         ErrorModal(e);
+         ErrorModal(error);
       })
    }
    
@@ -728,11 +728,12 @@ ProfilePictureService) {
    
    $scope.onProfilePictureSelectSuccess = function(files) {
       ProfilePictureService.resizeProfilePictureFromFileModel(files[0])
-      .then(function(fileModel) {
-         $scope.currentEditingUser.setProfilePictureFile(fileModel);
+      .then(function(data) {
+         console.log(data);
+         $scope.currentEditingUser.setProfilePictureFile(data.fileModel, data.metadata);
       })
       .catch(function(error) {
-         ErrorModal(e);
+         ErrorModal(error);
       })
    }
    
@@ -1090,7 +1091,6 @@ FileReaderService, ImageService) {
 
             ParallelPromise.withNotify(promiseFnArray, true)
             .then(function(files) {
-               console.log(files);
                $scope.onFilesAdded({files: files});
             }, null, function(notifyData) {
                $scope.onFilesProgress({progress: notifyData});
@@ -1386,6 +1386,7 @@ function(id, promise) {
 
       statics: {
          classyAliasKey: "__alias__",
+         classyModelKey: "__model__", // Unused
          
          getClassyField: function(field) {
             var classAlias = null;
@@ -1441,6 +1442,10 @@ function(id, promise) {
              if (!defaultValue) {
                 throw new Error("allocateChildArrayOfClasses: Missing field ", variableName);
              } else {
+                // Make a dummy array filled with empty
+                // objects, so our mapValue method
+                // will properly call the class constructors
+                // for whatever variable we want to allocate
                 var arr = new Array(length);
                 
                 for (var i = 0; i < length; i++) {
@@ -2040,13 +2045,52 @@ function(BaseModel) {
             return this.staticMerge(this.callSuper(), {
                url: "",
                description: "",
-               metadata: {}
+               metadata: {},
+               file_model: null
             });
+         },
+         
+         localFields: function() {
+            return this.staticMerge(this.callSuper(), [
+               'file_model'
+            ]);
          }
       },
       
       init: function(config, isFromServer) {
          this.callSuper();
+      },
+      
+      // Basically, this function just looks
+      // for keys that it understands, and
+      // sets our metadata object's keys
+      
+      // metadata can be an exif data variable
+      // from our exif service as well.
+      
+      setMetadata: function(metadata) {
+         if (metadata['width']) {
+            this.metadata['width'] = metadata['width'];
+         }
+         if (metadata['height']) {
+            this.metadata['height'] = metadata['height']
+         }
+      },
+      
+      getWidth: function() {
+         if (this.metadata['width']) {
+            return this.metadata['width'];
+         } else {
+            return -1;
+         }
+      },
+      
+      getHeight: function() {
+         if (this.metadata['height']) {
+            return this.metadata['height'];
+         } else {
+            return -1;
+         }
       }
    });
 }])
@@ -2179,7 +2223,6 @@ function(BaseModel, QuestionModel, NotificationModel) {
                last_name: "",
                email: "",
                password: "",
-               profile_picture_file: null,
                profile_picture: {__alias__: 'models.picture'},
                facebook_id: "",
                is_connected_to_facebook: false,
@@ -2189,9 +2232,6 @@ function(BaseModel, QuestionModel, NotificationModel) {
                pending_email: "",
                pending_email_token: ""
             });
-         },
-         localFields: function() {
-            return this.staticMerge(this.callSuper(), ['profile_picture_file']);
          }
       },
 
@@ -2203,12 +2243,16 @@ function(BaseModel, QuestionModel, NotificationModel) {
          return this.first_name + " " + this.last_name;
       },
       
-      setProfilePictureFile: function(file) {
-         this.profile_picture_file = file;
+      setProfilePictureFile: function(file, metadata) {
+         this.profile_picture.file_model = file;
          if (file) {
             this.profile_picture.url = file.getUrl();
          } else {
             this.profile_picture.url = "";
+         }
+         
+         if (metadata) {
+            this.profile_picture.setMetadata(metadata);
          }
       }
    })   
@@ -3109,10 +3153,41 @@ registerService('factory', name, [require('services/data_url_service'),
                                   require('services/progress'),
                                   require('services/promise'),
                                   require('services/exif_service'),
+                                  require('services/dom_image_service'),
 function(DataUrlService, FileReaderService, SerialPromise,
-ProgressService, Promise, ExifService) {
+ProgressService, Promise, ExifService, DOMImageService) {
    function ImageService() {
       
+   }
+   
+   ImageService.getImageDimensionsFromFile = function(file) {
+      return Promise(function(resolve, reject, notify) {
+         DOMImageService.createImageFromFile(file)
+         .then(function(image) {
+            resolve({
+               width: image.width,
+               height: image.height   
+            });
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });
+   }
+   
+   ImageService.getImageDimensionsFromDataUrl = function(dataUrl) {
+      return Promise(function(resolve, reject, notify) {
+         DOMImageService.createImageFromDataUrl(dataUrl)
+         .then(function(image) {
+            resolve({
+               width: image.width,
+               height: image.height   
+            });
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });         
    }
    
    // This function scales an image and returns
@@ -3186,6 +3261,8 @@ ProgressService, Promise, ExifService) {
    // image modification (currently just orientation),
    // and applies it, then strips ALL the EXIF data
    // off of the image.
+   
+   // This does return the EXIF data for metadata reasons
    
    ImageService.processAndStripExifDataFromFile = function(file) {
       var promiseFnArray = [];
@@ -3271,7 +3348,7 @@ ProgressService, Promise, ExifService) {
 
 module.exports = name;
 
-},{"html5-canvas-image-resizer":140,"services/data_url_service":52,"services/exif_service":57,"services/file_reader_service":58,"services/progress":68,"services/promise":69,"services/register":71,"services/serial_promise":74}],62:[function(require,module,exports){
+},{"html5-canvas-image-resizer":140,"services/data_url_service":52,"services/dom_image_service":54,"services/exif_service":57,"services/file_reader_service":58,"services/progress":68,"services/promise":69,"services/register":71,"services/serial_promise":74}],62:[function(require,module,exports){
 'use strict';
 
 require('services/data_resolver');
@@ -3510,12 +3587,33 @@ SerialPromise, ProgressService) {
             return ProgressService(0, 1);
          } else {
             return Promise(function(resolve, reject, notify) {
-               ImageService.scaleImageFromDataUrl(existingData.dataUrl, maxProfilePictureWidth,
-               calculateHeightForMaxProfilePictureWidth(existingData.domImage.width, 
-                  existingData.domImage.height))
+               var newWidth = maxProfilePictureWidth;
+               var newHeight = calculateHeightForMaxProfilePictureWidth(existingData.domImage.width, 
+                  existingData.domImage.height);
+                  
+               ImageService.scaleImageFromDataUrl(existingData.dataUrl, newWidth, newHeight)
                   .then(function(data) {
+                     FileModel.fromBlob(data.blob, fileModel.name)
+                     .then(function(fileModel) {
+                        resolve({
+                           fileModel: fileModel,
+                           metadata: {
+                              width: newWidth,
+                              height: newHeight
+                           }
+                        });
+                     })
+                     .catch(function(error) {
+                        reject(error);
+                     });
+                     /*
                      resolve({fileModel: 
-                        FileModel.fromBlob(data.blob, fileModel.name)})
+                        FileModel.fromBlob(data.blob, fileModel.name),
+                             metadata: {
+                              width: newWidth,
+                              height: newHeight
+                           }
+                        });*/
                   })
                   .catch(function(error) {
                      reject(error);
@@ -3524,7 +3622,7 @@ SerialPromise, ProgressService) {
          }
       });
 
-      return SerialPromise.withNotify(promiseFnArray, null, ['fileModel'], true);
+      return SerialPromise.withNotify(promiseFnArray);
    }
    
    return ProfilePictureService;
@@ -4302,20 +4400,20 @@ PictureModel) {
         forNotify = utils.isUndefinedOrNull(forNotify) ? false : forNotify;
         
         if (true === forNotify) {
-            if (!user.profile_picture_file) {
+            if (!user.profile_picture.file_model) {
                 return ProgressService(0, 1);
             } else {
-                return S3UploaderService.getProgressInfo('profile_picture', user.profile_picture_file);
+                return S3UploaderService.getProgressInfo('profile_picture', user.profile_picture.file_model);
             }
         } else {
             return Promise(function(resolve, reject, notify) {
-                if (!user.profile_picture_file) {
+                if (!user.profile_picture.file_model) {
                     resolve();
                 } else {
-                    S3UploaderService('profile_picture', user.profile_picture_file)
+                    S3UploaderService('profile_picture', user.profile_picture.file_model)
                     .then(function(data) {
                         user.profile_picture.url = data.url;
-                        user.profile_picture_file = null;
+                        user.profile_picture.file_model = null;
                         resolve();    
                     }, null, function(progress) {
                         notify(progress);
@@ -4329,7 +4427,6 @@ PictureModel) {
     }
     
     UserService.registerUser = function(user) {
-        // Convert the object to a model
         return Promise(function(resolve, reject, notify) {
             HttpService.post(ApiUrlService([{name: 'User'}, {name: 'Register'}]), 
             null, {
@@ -59456,9 +59553,9 @@ $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div c
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
 $templateCache.put("directives/profile_picture.html","<div class=\"profile-picture\" ng-style=\"getDivStyle()\">\n   <img ng-src=\"{{getUrl()}}\" ng-style=\"getImageStyle()\" />\n</div>");
 $templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
-$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
 $templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
 $templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
+$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
 $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n<div><a ui-sref=\"main.page.home.default\">Valiant Athletics</a></div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
 $templateCache.put("partials/main/nav_bar.html","<nav>\n    <a class=\"link\" ui-sref=\"main.page.about.default\">About</a>\n    <a class=\"link\" ui-sref=\"main.page.blog.default\">Blog</a>\n    <a class=\"link\" ui-sref=\"main.page.question.ask\">Coaching</a>\n    <a class=\"link\" ui-sref=\"main.page.contact.default\">Contact</a>\n</nav>");
 $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"login-button\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"profile-name-and-picture\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"login-button\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");

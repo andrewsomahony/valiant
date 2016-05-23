@@ -320,20 +320,20 @@ PictureModel) {
         forNotify = utils.isUndefinedOrNull(forNotify) ? false : forNotify;
         
         if (true === forNotify) {
-            if (!user.profile_picture_file) {
+            if (!user.profile_picture.file_model) {
                 return ProgressService(0, 1);
             } else {
-                return S3UploaderService.getProgressInfo('profile_picture', user.profile_picture_file);
+                return S3UploaderService.getProgressInfo('profile_picture', user.profile_picture.file_model);
             }
         } else {
             return Promise(function(resolve, reject, notify) {
-                if (!user.profile_picture_file) {
+                if (!user.profile_picture.file_model) {
                     resolve();
                 } else {
-                    S3UploaderService('profile_picture', user.profile_picture_file)
+                    S3UploaderService('profile_picture', user.profile_picture.file_model)
                     .then(function(data) {
                         user.profile_picture.url = data.url;
-                        user.profile_picture_file = null;
+                        user.profile_picture.file_model = null;
                         resolve();    
                     }, null, function(progress) {
                         notify(progress);
@@ -347,7 +347,6 @@ PictureModel) {
     }
     
     UserService.registerUser = function(user) {
-        // Convert the object to a model
         return Promise(function(resolve, reject, notify) {
             HttpService.post(ApiUrlService([{name: 'User'}, {name: 'Register'}]), 
             null, {

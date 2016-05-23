@@ -67,12 +67,25 @@ SerialPromise, ProgressService) {
             return ProgressService(0, 1);
          } else {
             return Promise(function(resolve, reject, notify) {
-               ImageService.scaleImageFromDataUrl(existingData.dataUrl, maxProfilePictureWidth,
-               calculateHeightForMaxProfilePictureWidth(existingData.domImage.width, 
-                  existingData.domImage.height))
+               var newWidth = maxProfilePictureWidth;
+               var newHeight = calculateHeightForMaxProfilePictureWidth(existingData.domImage.width, 
+                  existingData.domImage.height);
+                  
+               ImageService.scaleImageFromDataUrl(existingData.dataUrl, newWidth, newHeight)
                   .then(function(data) {
-                     resolve({fileModel: 
-                        FileModel.fromBlob(data.blob, fileModel.name)})
+                     FileModel.fromBlob(data.blob, fileModel.name)
+                     .then(function(fileModel) {
+                        resolve({
+                           fileModel: fileModel,
+                           metadata: {
+                              width: newWidth,
+                              height: newHeight
+                           }
+                        });
+                     })
+                     .catch(function(error) {
+                        reject(error);
+                     });
                   })
                   .catch(function(error) {
                      reject(error);
@@ -81,7 +94,7 @@ SerialPromise, ProgressService) {
          }
       });
 
-      return SerialPromise.withNotify(promiseFnArray, null, ['fileModel'], true);
+      return SerialPromise.withNotify(promiseFnArray);
    }
    
    return ProfilePictureService;
