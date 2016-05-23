@@ -28,6 +28,14 @@ var PictureSchema = new Schema({
     _id: false
 });
 
+PictureSchema.pre('save', function(next) {
+   // This is a mixed field, so we need to
+   // save it all the time.
+   
+   this.markModified('metadata');
+   next();
+})
+
 PictureSchema.plugin(patchPlugin);
 
 module.exports = PictureSchema;

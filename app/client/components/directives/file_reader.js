@@ -21,6 +21,7 @@ FileReaderService, ImageService) {
          //maxFileSizeKb: "@",
          //supportsMultiple: "@",
          //accept: "@",
+         //processExif: "@",
          onFilesAdded: "&",
          onFilesError: "&",
          onFilesProgress: "&",
@@ -32,6 +33,8 @@ FileReaderService, ImageService) {
          $scope.maxFiles = $scope.$eval($attributes.maxFiles) || null;
          $scope.maxFileSizeKb = $scope.$eval($attributes.maxFileSizeKb) || null;
          $scope.accept = $attributes.accept || "*/*";
+
+         $scope.processExif = $scope.$eval($attributes.processExif) || true;
 
          $scope.onFilesProgress = $scope.onFilesProgress || function() {}
          $scope.onFilesError = $scope.onFilesError || function() {}
@@ -79,7 +82,7 @@ FileReaderService, ImageService) {
                                     size: existingData.blob.size,
                                     name: file.name
                                  }, null, result);
-                                 
+                                                                  
                                  fileModel.exifData = existingData.exifData;
                                  
                                  resolve({file: fileModel});

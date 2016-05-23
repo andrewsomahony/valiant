@@ -195,7 +195,6 @@ ProfilePictureService) {
    $scope.onProfilePictureSelectSuccess = function(files) {
       ProfilePictureService.resizeProfilePictureFromFileModel(files[0])
       .then(function(data) {
-         console.log(data);
          $scope.currentEditingUser.setProfilePictureFile(data.fileModel, data.metadata);
       })
       .catch(function(error) {

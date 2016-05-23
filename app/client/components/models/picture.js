@@ -7,7 +7,6 @@ var name = 'models.picture';
 
 registerModel(name, [require('models/base'),
 function(BaseModel) {
-   console.log("REGISTERING PICTURE");
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -47,6 +46,13 @@ function(BaseModel) {
          if (metadata['height']) {
             this.metadata['height'] = metadata['height']
          }
+         if (metadata['type']) {
+            this.metadata['type'] = metadata['type'];
+         }
+      },
+      
+      setType: function(type) {
+         this.setMetadata({type: type});
       },
       
       getWidth: function() {

@@ -52,6 +52,15 @@ function(BaseModel, QuestionModel, NotificationModel) {
          if (metadata) {
             this.profile_picture.setMetadata(metadata);
          }
+         
+         if (file.exifData) {
+            console.log("EXIF, ", file.exifData);
+            this.profile_picture.setMetadata(file.exifData);
+         }
+         
+         if (file.type) {
+            this.profile_picture.setType(file.type);
+         }
       }
    })   
 }]);
