@@ -73,7 +73,7 @@ SerialPromise, ProgressService) {
                   
                ImageService.scaleImageFromDataUrl(existingData.dataUrl, newWidth, newHeight)
                   .then(function(data) {
-                     FileModel.fromBlob(data.blob, fileModel.name)
+                     FileModel.fromBlob(data.blob, fileModel.name, fileModel.exifData)
                      .then(function(fileModel) {
                         resolve({
                            fileModel: fileModel,

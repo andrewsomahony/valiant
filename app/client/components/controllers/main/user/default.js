@@ -223,7 +223,6 @@ ProfilePictureService) {
    $scope.activateEditing = function() {
       console.log($scope.currentEditingUser);
       $scope.previousEditingUser = $scope.currentEditingUser.clone();
-      console.log("PREVIOUS USER", $scope.previousEditingUser);
    }
    
    $scope.activateEditingProfile = function() {

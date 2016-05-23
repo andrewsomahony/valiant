@@ -101,6 +101,39 @@ Promise, ProgressService) {
       });
    }
    
+   // Parsing services
+   
+   ExifService.parseLatitudeAndLongitude = function(exifData) {
+      var latitudes = exifData['GPSLatitude'];
+      var latitudeRef = exifData['GPSLatitudeRef'];
+      
+      var longitudes = exifData['GPSLongitude'];
+      var longitudeRef = exifData['GPSLongitudeRef'];
+      
+      if (!latitudes || !longitudes ||
+          !latitudeRef || !longitudeRef) {
+         return null;       
+      }
+      
+      var latitude = latitudes[0] + 
+                     latitudes[1] / 60 + 
+                     latitudes[2] / 3600;
+      
+      if ("N" !== latitudeRef) {
+         latitude = 0 - latitude;
+      }              
+                     
+      var longitude = longitudes[0] +
+                      longitudes[1] / 60 +
+                      longitudes[2] / 3600;
+   
+      if ("E" !== longitudeRef) {
+         longitude = 0 - longitude;
+      }
+   
+      return "" + latitude + "," + longitude;
+   }
+   
    return ExifService;
 }]);
 

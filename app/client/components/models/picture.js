@@ -6,7 +6,8 @@ var classy = require('classy');
 var name = 'models.picture';
 
 registerModel(name, [require('models/base'),
-function(BaseModel) {
+                     require('services/exif_service'),
+function(BaseModel, ExifService) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -48,6 +49,12 @@ function(BaseModel) {
          }
          if (metadata['type']) {
             this.metadata['type'] = metadata['type'];
+         }
+         
+         var latitudeLongitudeString = ExifService.parseLatitudeAndLongitude(metadata);
+         
+         if (latitudeLongitudeString) {
+            this.metadata['position'] = latitudeLongitudeString;
          }
       },
       

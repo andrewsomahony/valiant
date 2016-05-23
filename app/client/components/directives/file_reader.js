@@ -11,8 +11,9 @@ registerDirective(name, [require('models/file'),
                          require('services/progress'),
                          require('services/file_reader_service'),
                          require('services/image_service'),
+                         require('services/mime_service'),
 function(FileModel, Promise, SerialPromise, ParallelPromise, ProgressService,
-FileReaderService, ImageService) {
+FileReaderService, ImageService, MimeService) {
    return {
       restrict: 'E',
       template: "",
@@ -47,23 +48,34 @@ FileReaderService, ImageService) {
             }
 
             var fileProgress = 0;
-
+                        
             var promiseFnArray = fileArray.map(function(file) {
                return function(isNotify) {
                   var serialFnArray = [
                      function(existingData, index, forNotify) {
-                        if (true === forNotify) {
-                           return ProgressService(0, 1, "Processing EXIF data...");
+                        if (false === $scope.processExif ||
+                            false === MimeService.isBaseMimeType(file.type, "image")) {
+                           if (true === forNotify) {
+                              return ProgressService(0, 1);  
+                           } else {
+                              return Promise(function(resolve) {
+                                  resolve({blob: file});
+                              })
+                           }
                         } else {
-                           return Promise(function(resolve, reject, notify) {
-                              ImageService.processAndStripExifDataFromFile(file)
-                              .then(function(data) {
-                                 resolve({blob: data.blob, exifData: data.exifData});
-                              })
-                              .catch(function(e) {
-                                 reject(e);
-                              })
-                           });
+                           if (true === forNotify) {
+                              return ProgressService(0, 1, "Processing EXIF data...");
+                           } else {
+                              return Promise(function(resolve, reject, notify) {
+                                  ImageService.processAndStripExifDataFromFile(file)
+                                  .then(function(data) {
+                                     resolve({blob: data.blob, exifData: data.exifData});
+                                  })
+                                  .catch(function(e) {
+                                     reject(e);
+                                  })
+                               });
+                           }
                         }
                      },
                      function(existingData, index, forNotify) {
@@ -104,7 +116,7 @@ FileReaderService, ImageService) {
                   }
                }
             })
-
+            
             ParallelPromise.withNotify(promiseFnArray, true)
             .then(function(files) {
                $scope.onFilesAdded({files: files});

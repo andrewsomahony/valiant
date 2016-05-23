@@ -42,8 +42,16 @@ ErrorService) {
                            });
          },
          
-         fromBlob: function(blob, name) {
+         // This function takes a blob and returns
+         // a file model initialized with an array buffer.
+         
+         // We pass in an optional name and exif data, as
+         // this method generally is used when a file
+         // is modified by a function that returns a blob
+         
+         fromBlob: function(blob, name, exifData) {
             name = name || "";
+            exifData = exifData || {};
 
             var self = this;
             
@@ -52,6 +60,7 @@ ErrorService) {
                .then(function(arrayBuffer) {
                   var fileModel = self.fromFileObject(blob, null, arrayBuffer);
                   fileModel.name = name;
+                  fileModel.exifData = exifData;
                   
                   resolve(fileModel);
                })

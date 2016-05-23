@@ -14,7 +14,8 @@
          <a class="reset-profile-picture" ng-click="resetProfilePicture()">Reset</a>
          <file-reader
             supports-multiple="false"
-            accept="image/\*"
+            accept="image/*"
+            process-exif="true"
             is-active="profilePicturePickerIsActive"
             on-files-added="onProfilePictureSelectSuccess(files)"
             on-files-progress="onProfilePictureSelectProgress(progress)"

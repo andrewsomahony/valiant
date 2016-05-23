@@ -47,7 +47,13 @@ function(FileModel, S3SignUrlService, Promise,
       xhr.open('PUT', s3PutUrl.signed_url);
       xhr.setRequestHeader('x-amz-acl', s3PutUrl.acl);
 
-      xhr.send(fileModel.toBlob());      
+      var blob = fileModel.toBlob();
+      
+      if (!blob) {
+         reject(ErrorService.localError("Cannot convert file to blob!"));
+      }
+
+      xhr.send(blob);      
    }
 
    function GetS3PromiseFnArray(uploadType, fileModel) {
