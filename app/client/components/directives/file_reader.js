@@ -2,6 +2,8 @@
 
 var registerDirective = require('directives/register');
 
+var utils = require('utils');
+
 var name = 'fileReader';
 
 registerDirective(name, [require('models/file'),
@@ -36,7 +38,7 @@ FileReaderService, ImageService, MimeService, ErrorService) {
          $scope.maxFileSizeKb = $scope.$eval($attributes.maxFileSizeKb) || null;
          $scope.accept = $attributes.accept || "*/*";
 
-         $scope.processExif = $scope.$eval($attributes.processExif) || true;
+         $scope.processExif = $scope.$eval(utils.isUndefinedOrNull($attributes.processExif) ? "true" : $attributes.processExif);
 
          $scope.onFilesProgress = $scope.onFilesProgress || function() {}
          $scope.onFilesError = $scope.onFilesError || function() {}
@@ -55,23 +57,15 @@ FileReaderService, ImageService, MimeService, ErrorService) {
                   var serialFnArray = [
                      function(existingData, index, forNotify) { 
                         if (false === MimeService.checkMimeType(file.type, $scope.accept)) {
-                           if (true === forNotify) {
-                              return ProgressService(0, 1);
-                           } else {
-                              return Promise(function(resolve, reject) {
-                                 reject(ErrorService.localError("Invalid file type!"));
-                              })   
-                           }
+                           return Promise(function(resolve, reject) {
+                              reject(ErrorService.localError("Invalid file type!"));
+                           });   
                         } else {
                            if (false === $scope.processExif ||
                                false === MimeService.isBaseMimeType(file.type, "image")) {
-                              if (true === forNotify) {
-                                 return ProgressService(0, 1);  
-                              } else {
-                                 return Promise(function(resolve) {
-                                    resolve({blob: file});
-                                 });
-                              }
+                              return Promise(function(resolve) {
+                                 resolve({blob: file});
+                              });
                            } else {
                               if (true === forNotify) {
                                  return ProgressService(0, 1, "Processing EXIF data...");

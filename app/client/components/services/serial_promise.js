@@ -25,7 +25,8 @@ function(promise, progress, ProgressModel) {
             var progressObject = fn(null, -1, true)
 
             if (false === utils.objectIsClassy(progressObject, ProgressModel)) {
-               throw new Error("serialPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
+               progressInfoArray.push(progress(0, 1));
+               //throw new Error("serialPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
             } else {
                progressInfoArray.push(progressObject)
             }
@@ -35,7 +36,7 @@ function(promise, progress, ProgressModel) {
          progressInfoArray = new Array(promiseFnArray.length);
 
          for (var i = 0; i < promiseFnArray.length; i++) {
-            progressInfoArray[i] = progress(0, 0);
+            progressInfoArray[i] = progress(0, 1);
          }
       }
 
@@ -163,7 +164,8 @@ function(promise, progress, ProgressModel) {
          var progressObject = fn(null, -1, true);
 
          if (false === utils.objectIsClassy(progressObject, ProgressModel)) {
-            throw new Error("serialPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
+            arr.push(progress(0, 1));
+            //throw new Error("serialPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
          } else {
             arr.push(progressObject)
          }

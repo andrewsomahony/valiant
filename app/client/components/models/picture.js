@@ -40,6 +40,10 @@ function(BaseModel, ExifService) {
       // metadata can be an exif data variable
       // from our exif service as well.
       
+      clearMetadata: function() {
+         this.metadata = {};
+      },
+      
       setMetadata: function(metadata) {
          if (metadata['width']) {
             this.metadata['width'] = metadata['width'];

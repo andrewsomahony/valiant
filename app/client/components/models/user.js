@@ -49,6 +49,8 @@ function(BaseModel, QuestionModel, NotificationModel) {
             this.profile_picture.url = "";
          }
          
+         this.profile_picture.clearMetadata();
+         
          if (metadata) {
             this.profile_picture.setMetadata(metadata);
          }

@@ -23,7 +23,7 @@ function(promise, progress, ProgressModel, $q) {
             var progressObject = promiseFn(true);
 
             if (false === utils.objectIsClassy(progressObject, ProgressModel)) {
-               throw new Error("parallelPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
+               progressInfoArray.push(progress(0, 1));
             } else {
                progressInfoArray.push(progressObject)
             }
@@ -33,7 +33,7 @@ function(promise, progress, ProgressModel, $q) {
          progressInfoArray = new Array(promiseFnArray.length);
 
          for (var i = 0; i < promiseFnArray.length; i++) {
-            progressInfoArray[i] = progress(0, 0);
+            progressInfoArray[i] = progress(0, 1);
          }
       }
 
@@ -83,7 +83,8 @@ function(promise, progress, ProgressModel, $q) {
          var progressObject = fn(true);
 
          if (false === utils.objectIsClassy(progressObject, ProgressModel)) {
-            throw new Error("parallelPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
+            arr.push(progress(0, 1));
+            //throw new Error("parallelPromiseService with supportNotify=true must have ALL functions able to return a progress object!");
          } else {
             arr.push(progressObject)
          }
