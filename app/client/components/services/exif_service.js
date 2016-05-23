@@ -42,6 +42,7 @@ Promise, ProgressService) {
    
    ExifService.getExifDataFromDataUrl = function(dataUrl) {
       return Promise(function(resolve, reject, notify) {
+         console.log("Trying DOM image");
          DOMImageService.createImageFromDataUrl(dataUrl)
          .then(function(image) {
             EXIF.getData(image, function() {

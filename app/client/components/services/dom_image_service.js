@@ -8,10 +8,20 @@ registerService('factory', name, [require('services/file_reader_service'),
                                   require('services/promise'),
                                   require('services/progress'),
                                   require('services/serial_promise'),
-function(FileReaderService, Promise, ProgressService, SerialPromise) {
+                                  require('services/error'),
+function(FileReaderService, Promise, ProgressService, SerialPromise,
+ErrorService) {
 
    function DOMImageService() {
       
+   }
+   
+   DOMImageService.isValidImageFile = function(file) {
+      return DOMImageService.createImageFromFile(file);
+   }
+   
+   DOMImageService.isValidImageDataUrl = function(dataUrl) {
+      return DOMImageService.createImageFromDataUrl(dataUrl);
    }
 
    DOMImageService.createImageFromFile = function(file) {
@@ -41,9 +51,18 @@ function(FileReaderService, Promise, ProgressService, SerialPromise) {
          var image = new Image();
          
          image.onload = function() {
-            resolve(image);
+            if (!image.width &&
+                !image.height) {
+               reject(ErrorService.localError("Cannot create image!"));       
+            } else {
+               resolve(image);
+            }
          }
          
+         image.onerror = function() {
+            reject(ErrorService.localError("Cannot create image!"));
+         }
+
          image.src = dataUrl;
       });
    }

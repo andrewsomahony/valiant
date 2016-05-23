@@ -203,7 +203,7 @@ ProfilePictureService) {
    }
    
    $scope.onProfilePictureSelectError = function(error) {
-      
+      ErrorModal(error);
    }
    
    $scope.onProfilePictureSelectProgress = function(progress) {
