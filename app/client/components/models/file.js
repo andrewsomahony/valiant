@@ -24,7 +24,8 @@ ErrorService) {
                size: 0,
                arrayBuffer: null,
                objectUrl: "",
-               exifData: ""
+               exifData: {},
+               metadata: {}
             });
          },
          
@@ -49,9 +50,8 @@ ErrorService) {
          // this method generally is used when a file
          // is modified by a function that returns a blob
          
-         fromBlob: function(blob, name, exifData) {
+         fromBlob: function(blob, name) {
             name = name || "";
-            exifData = exifData || {};
 
             var self = this;
             
@@ -60,7 +60,6 @@ ErrorService) {
                .then(function(arrayBuffer) {
                   var fileModel = self.fromFileObject(blob, null, arrayBuffer);
                   fileModel.name = name;
-                  fileModel.exifData = exifData;
                   
                   resolve(fileModel);
                })

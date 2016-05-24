@@ -1,6 +1,37 @@
-<div class="no-media" ng-if="!model.url" ng-style="getRootNoMediaDivStyle()">
+<div class="no-media" 
+     ng-if="!model.url" 
+     ng-style="getRootNoMediaDivStyle()"
+     ng-click="activatePicturePicker()">
    <div class="icon-container">
       <span></span>
       <i class="fa fa-picture-o fa-5x"></i>
    </div>   
 </div>
+
+<div class="has-media" ng-if="model.url" ng-style="getHasMediaDivStyle()">
+   <div class="picture-container">
+      <div class="picture-container-image" ng-style="getHasMediaImageContainerStyle()">
+         <img ng-src="{{model.url}}" ng-style="getHasMediaImageStyle()" />
+      </div>
+      
+      <div class="picture-container-options">
+         <span class="picture-container-option-left">
+            <a ng-click="activatePicturePicker()">Change</a>
+         </span>
+         <span class="picture-container-option-right">
+            <a ng-click="deletePicture()">Delete</a>
+         </span>
+      </div>
+   </div>
+
+</div>
+
+<file-reader
+   supports-multiple="false"
+   accept="image/*"
+   process-exif="true"
+   is-active="picturePickerIsActive"
+   on-files-added="onPictureSelectSuccess(files)"
+   on-files-progress="onPictureSelectProgress(progress)"
+   on-files-error="onPictureSelectError(error)">
+</file-reader> 

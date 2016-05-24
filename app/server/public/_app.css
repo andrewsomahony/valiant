@@ -9675,6 +9675,17 @@ html, body {
     html div.media-picker div.no-media div.icon-container i, body div.media-picker div.no-media div.icon-container i {
       display: inline-block;
       vertical-align: middle; }
+  html div.media-picker div.has-media div.picture-container, body div.media-picker div.has-media div.picture-container {
+    width: 100%;
+    height: 100%;
+    margin-top: 8px;
+    margin-bottom: 4px; }
+    html div.media-picker div.has-media div.picture-container div.picture-container-image, body div.media-picker div.has-media div.picture-container div.picture-container-image {
+      display: inline-block; }
+    html div.media-picker div.has-media div.picture-container div.picture-container-options span.picture-container-option-left, body div.media-picker div.has-media div.picture-container div.picture-container-options span.picture-container-option-left {
+      margin-right: 4px; }
+    html div.media-picker div.has-media div.picture-container div.picture-container-options span.picture-container-option-right, body div.media-picker div.has-media div.picture-container div.picture-container-options span.picture-container-option-right {
+      margin-left: 4px; }
 
 /*
 @screen-xs:                  480px;
@@ -9930,7 +9941,7 @@ div.main {
           display: inline-block;
           width: 300px;
           font-size: 14px; }
-        div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask-content div.ask-question div.ask-question-enter {
+        div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask-content div.ask-question div.ask-question-header {
           margin-bottom: 0px; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask-content div.ask-question textarea {
           resize: none;
@@ -9944,6 +9955,14 @@ div.main {
           @media screen and (max-width: 760px) {
             div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask-content div.ask-question textarea {
               width: 300px; } }
+        div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask-content div.ask-media div.ask-media-header {
+          margin-bottom: 0px; }
+        div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask-content div.ask-media div.media-picker-container-row {
+          margin-bottom: 12px; }
+        div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask-content div.ask-media div.media-picker-container {
+          margin-right: 12px;
+          display: inline-block;
+          vertical-align: top; }
       div.main div.mobile-scroll div.main-content div.content div.ask-content {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.ask-content label {
@@ -9967,7 +9986,7 @@ div.main {
           display: inline-block;
           width: 300px;
           font-size: 14px; }
-        div.main div.mobile-scroll div.main-content div.content div.ask-content div.ask-question div.ask-question-enter {
+        div.main div.mobile-scroll div.main-content div.content div.ask-content div.ask-question div.ask-question-header {
           margin-bottom: 0px; }
         div.main div.mobile-scroll div.main-content div.content div.ask-content div.ask-question textarea {
           resize: none;
@@ -9981,6 +10000,14 @@ div.main {
           @media screen and (max-width: 760px) {
             div.main div.mobile-scroll div.main-content div.content div.ask-content div.ask-question textarea {
               width: 300px; } }
+        div.main div.mobile-scroll div.main-content div.content div.ask-content div.ask-media div.ask-media-header {
+          margin-bottom: 0px; }
+        div.main div.mobile-scroll div.main-content div.content div.ask-content div.ask-media div.media-picker-container-row {
+          margin-bottom: 12px; }
+        div.main div.mobile-scroll div.main-content div.content div.ask-content div.ask-media div.media-picker-container {
+          margin-right: 12px;
+          display: inline-block;
+          vertical-align: top; }
     div.main div.mobile-scroll div.main-content div.ad-space {
       height: 100%; }
       div.main div.mobile-scroll div.main-content div.ad-space div.ad-container div.ad {

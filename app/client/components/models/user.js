@@ -41,28 +41,8 @@ function(BaseModel, QuestionModel, NotificationModel) {
          return this.first_name + " " + this.last_name;
       },
       
-      setProfilePictureFile: function(file, metadata) {
-         this.profile_picture.file_model = file;
-         if (file) {
-            this.profile_picture.url = file.getUrl();
-         } else {
-            this.profile_picture.url = "";
-         }
-         
-         this.profile_picture.clearMetadata();
-         
-         if (metadata) {
-            this.profile_picture.setMetadata(metadata);
-         }
-         
-         if (file.exifData) {
-            console.log("EXIF, ", file.exifData);
-            this.profile_picture.setMetadata(file.exifData);
-         }
-         
-         if (file.type) {
-            this.profile_picture.setType(file.type);
-         }
+      setProfilePictureFile: function(file, metadata) {         
+         this.profile_picture.setFileModel(file, metadata);
       }
    })   
 }]);

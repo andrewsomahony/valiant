@@ -62,7 +62,7 @@ ProfilePictureService) {
    $scope.onProfilePictureAdded = function(files) {
       ProfilePictureService.resizeProfilePictureFromFileModel(files[0])
       .then(function(data) {
-         $scope.registrationUser.setProfilePictureFile(data.fileModel, data.metadata);
+         $scope.registrationUser.setProfilePictureFile(data.fileModel);
       })
       .catch(function(error) {
          ErrorModal(error);

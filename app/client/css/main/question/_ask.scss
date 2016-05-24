@@ -41,7 +41,7 @@ div.ask-content {
    }
    
    div.ask-question {
-      div.ask-question-enter {
+      div.ask-question-header {
          margin-bottom: 0px;
       }
       
@@ -61,6 +61,22 @@ div.ask-content {
          }
          
          height: 200px;
+      }
+   }
+   
+   div.ask-media {
+      div.ask-media-header {
+         margin-bottom: 0px;
+      }
+      
+      div.media-picker-container-row {
+         margin-bottom: 12px;
+      }
+      
+      div.media-picker-container {
+         margin-right: 12px;
+         display: inline-block;
+         vertical-align: top;
       }
    }
 }

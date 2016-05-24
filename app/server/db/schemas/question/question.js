@@ -21,6 +21,7 @@ var QuestionSchema = new Schema({
       type: String,
       default: ""
    },
+   youtube_video: VideoSchema,
    videos: {
       type: [VideoSchema],
       default: []

@@ -30,7 +30,8 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
                videos: [{__alias__: 'models.video'}],
                pictures: [{__alias__: 'models.picture'}],
                comments: [{__alias__: 'models.comment'}],
-               preview_pictures: [{__alias__: 'models.picture'}]
+               preview_pictures: [{__alias__: 'models.picture'}],
+               youtube_video: {__alias__: 'models.video'}
             });
          }
       },

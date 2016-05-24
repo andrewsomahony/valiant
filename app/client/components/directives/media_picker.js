@@ -17,9 +17,6 @@ function() {
       },
       templateUrl: "directives/media_picker.html",
       link: function($scope, $element, $attributes) {
-         console.log($scope.width);
-         console.log($scope.height);
-         
          $scope.width = $scope.width || "200px";
          $scope.height = $scope.height || "200px";
          
@@ -28,6 +25,9 @@ function() {
          }
          $scope.isVideo = function() {
             return 'video' === $scope.type;
+         }
+         $scope.isYoutube = function() {
+            return 'youtube' === $scope.type;
          }
          
          $scope.getRootNoMediaDivStyle = function() {

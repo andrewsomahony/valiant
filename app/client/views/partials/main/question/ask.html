@@ -19,7 +19,7 @@
    </div>
    
    <div class="ask-question ask-group">
-      <div class="ask-question-enter ask-header">
+      <div class="ask-question-header ask-header">
          What's your question?
       </div>
       <div class="ask-sub-header ask-question-details">
@@ -31,12 +31,15 @@
    </div>
    
    <div class="ask-media ask-group">
-      <div class="ask-header">
+      <div class="ask-header ask-media-header">
          Any photos or videos?
       </div>
+      <div class="ask-sub-header">
+         (If video upload fails, use the Youtube button below)
+      </div>
       
-      <div style="margin-bottom: 12px;">
-        <div style="display: inline-block;margin-right: 12px;" ng-repeat="videoModel in currentQuestion.videos">
+      <div class="media-picker-container-row">
+        <div class="media-picker-container" ng-repeat="videoModel in currentQuestion.videos">
             <media-picker 
                     type="video" 
                     model="videoModel"
@@ -44,11 +47,19 @@
                     height="150px">
             </media-picker>
         </div>
-      
+        
+        <div class="media-picker-container">
+            <media-picker 
+                    type="youtube" 
+                    model="currentQuestion.youtube_video"
+                    width="150px"
+                    height="150px">
+            </media-picker>
+        </div>
       </div>
       
-      <div>
-        <div style="display: inline-block;margin-right:12px;" ng-repeat="pictureModel in currentQuestion.pictures">
+      <div class="media-picker-container-row">
+        <div class="media-picker-container" ng-repeat="pictureModel in currentQuestion.pictures">
             <media-picker 
                     type="picture" 
                     model="pictureModel"
@@ -57,7 +68,7 @@
             </media-picker>
         </div>
       </div>
-   </div>
+   </div>  
    
    <div class="ask-submit">
       <button>Ask Question</button>

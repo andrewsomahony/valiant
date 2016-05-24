@@ -9,3 +9,4 @@ require('./profile_picture');
 require('./media_picker');
 require('./picture_media_picker');
 require('./video_media_picker');
+require('./youtube_media_picker');
