@@ -1,0 +1,21 @@
+div.media-picker {
+   div.no-media {
+      div.icon-container {
+         position: relative;
+         width: 100%;
+         height: 100%;
+         text-align: center;
+         
+         span {
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+         }
+         
+         i {
+            display: inline-block;
+            vertical-align: middle;
+         }
+      }
+   }
+}

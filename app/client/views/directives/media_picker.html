@@ -1,3 +1,8 @@
-<div ng-if="isPicture()">
-   <picture-media-picker></picture-media-picker>
+<div class="media-picker">
+   <div ng-if="isPicture()">
+      <picture-media-picker></picture-media-picker>
+   </div>
+   <div ng-if="isVideo()">
+      <video-media-picker></video-media-picker>
+   </div>
 </div>
