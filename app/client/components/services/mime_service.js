@@ -26,11 +26,11 @@ function() {
       if (!MimeService.isValidMimeType(mimeType)) {
          return false;
       } else {
-         acceptableMimeType = acceptableMimeType.replace( /[\-\[\]\/\{\}\(\)\+\?\.\\\^\$\|]/g, "\\$&" )
-                           .replace( /,/g, "|" )
-                           .replace( "\/*", "/.*" );
+         acceptableMimeType = acceptableMimeType.replace(/[\-\[\]\/\{\}\(\)\+\?\.\\\^\$\|]/g, "\\$&")
+                           .replace(/,/g, "|")
+                           .replace("\/*", "/.*");
       
-         var regex = new RegExp( ".?(" + acceptableMimeType + ")$", "i" );
+         var regex = new RegExp(".?(" + acceptableMimeType + ")$", "i");
          
          if (!mimeType.match(regex)) {
             return false;
@@ -40,18 +40,23 @@ function() {
       }
    }
    
-   MimeService.isBaseMimeType = function(mimeType, baseType) {
-      var regex = new RegExp(".?(" + baseType + ")\/.*", "i");
+   MimeService.getBaseMimeType = function(mimeType) {
+      var regex = new RegExp("(.*?)\/.*", "i");
       
-      if (!mimeType.match(regex)) {
-         return false;
+      var matchResult = mimeType.match(regex);
+      if (!matchResult) {
+         return null;
       } else {
-         return true;
+         return matchResult[1];
       }
    }
    
+   MimeService.isBaseMimeType = function(mimeType, baseType) {
+      var testBaseMimeType = MimeService.getBaseMimeType(mimeType);
+      return testBaseMimeType && testBaseMimeType === baseType;
+   }
+   
    return MimeService;
-}
-])
+}]);
 
 module.exports = name;

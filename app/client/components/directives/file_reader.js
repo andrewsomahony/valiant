@@ -13,10 +13,11 @@ registerDirective(name, [require('models/file'),
                          require('services/progress'),
                          require('services/file_reader_service'),
                          require('services/image_service'),
+                         require('services/file_type_validator_service'),
                          require('services/mime_service'),
                          require('services/error'),
 function(FileModel, Promise, SerialPromise, ParallelPromise, ProgressService,
-FileReaderService, ImageService, MimeService, ErrorService) {
+FileReaderService, ImageService, FileTypeValidatorService, MimeService, ErrorService) {
    return {
       restrict: 'E',
       template: "",
@@ -45,41 +46,43 @@ FileReaderService, ImageService, MimeService, ErrorService) {
 
          function onInputChange() {
             var fileArray = []
-            for (var i = 0; i < this.files.length; i++)
-            {
+            for (var i = 0; i < this.files.length; i++) {
                fileArray.push(this.files.item(i))
             }
-
-            var fileProgress = 0;
                         
             var promiseFnArray = fileArray.map(function(file) {
                return function(isNotify) {
                   var serialFnArray = [
+                     function(existingData, index, forNotify) {
+                        return Promise(function(resolve, reject) {
+                           FileTypeValidatorService.validateFile(file, $scope.accept)
+                           .then(function() {
+                               resolve();
+                           }) 
+                           .catch(function() {
+                               reject(ErrorService.localError("File type not accepted! " + file.name))
+                           })
+                        });
+                     },
                      function(existingData, index, forNotify) { 
-                        if (false === MimeService.checkMimeType(file.type, $scope.accept)) {
-                           return Promise(function(resolve, reject) {
-                              reject(ErrorService.localError("Invalid file type!"));
-                           });   
-                        } else {
-                           if (false === $scope.processExif ||
-                               false === MimeService.isBaseMimeType(file.type, "image")) {
-                              return Promise(function(resolve) {
+                        if (false === $scope.processExif ||
+                            false === MimeService.isBaseMimeType(file.type, "image")) {
+                           return Promise(function(resolve) {
                                  resolve({blob: file});
-                              });
+                           });
+                        } else {
+                           if (true === forNotify) {
+                              return ProgressService(0, 1, "Processing EXIF data...");
                            } else {
-                              if (true === forNotify) {
-                                 return ProgressService(0, 1, "Processing EXIF data...");
-                              } else {
-                                 return Promise(function(resolve, reject, notify) {
-                                    ImageService.processAndStripExifDataFromFile(file)
-                                    .then(function(data) {
-                                       resolve({blob: data.blob, exifData: data.exifData});
-                                    })
-                                    .catch(function(e) {
-                                       reject(e);
-                                    })
-                                 });
-                              }
+                              return Promise(function(resolve, reject, notify) {
+                                 ImageService.processAndStripExifDataFromFile(file)
+                                 .then(function(data) {
+                                    resolve({blob: data.blob, exifData: data.exifData});
+                                 })
+                                 .catch(function(e) {
+                                     reject(e);
+                                 })
+                              });
                            }
                         }
                      },
@@ -93,9 +96,7 @@ FileReaderService, ImageService, MimeService, ErrorService) {
                                  // A little trick here, we want to make
                                  // sure the update file model has the correct
                                  // data, post-exif processing.
-                                 
-                                 console.log("Are we here?!");
-                                 
+                                                                  
                                  var fileModel = FileModel.fromFileObject({
                                     type: existingData.blob.type,
                                     size: existingData.blob.size,

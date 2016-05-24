@@ -53,7 +53,7 @@ ProfilePictureService) {
       
       var currentUser = UserService.getCurrentUser();
       
-      return currentUser.id === $scope.currentEditingUser.id;
+      return currentUser && currentUser.id === $scope.currentEditingUser.id;
    }
    
    $scope.setIsSaving = function(isSaving, message) {

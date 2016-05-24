@@ -39,8 +39,11 @@
          Video
       </div>
       
-      <div ng-repeat="picture in currentQuestion.pictures">
-          Picture
+      <div ng-repeat="pictureModel in currentQuestion.pictures">
+          <media-picker type="picture" model="pictureModel">
+          </media-picker>
+          
+          <span ng-bind="pictureModel.url"></span>
       </div>
    </div>
    
