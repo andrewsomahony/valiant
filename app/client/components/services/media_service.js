@@ -48,6 +48,7 @@ Promise, Progress) {
                      notify(progress);
                   })
                   .catch(function(error) {
+                     mediaModel.upload_progress = null;
                      reject(error);
                   })
                }

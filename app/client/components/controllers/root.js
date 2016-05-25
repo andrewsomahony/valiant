@@ -27,10 +27,11 @@ function($rootScope, ErrorModal, UserService, StateService, PermissionService) {
             StateService.go('main.page.user.default',
                      {userId: UserService.getCurrentUserId()});        
         } else {
-            var emailVerified = utils.stringToBoolean(toParams['email_verified']);
+            var emailVerified = toParams['email_verified'];
             var error = toParams['error'] || "";
             
             if (false === utils.isUndefinedOrNull(emailVerified)) {
+                emailVerified = utils.stringToBoolean(emailVerified);
                 if (emailVerified) {
                     StateService.go('main.page.login.default', 
                                 {verification_success: true});
