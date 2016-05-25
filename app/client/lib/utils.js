@@ -317,7 +317,7 @@
       },
 
       round: function(n, places) {
-         if (true === utils.isUndefinedOrNull(places)) {
+         if (true === this.isUndefinedOrNull(places)) {
              places = 0;
          }
          

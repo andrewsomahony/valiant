@@ -1,7 +1,9 @@
 div.loading-progress {
+   div {
+       box-sizing: content-box;
+   }
    .timer {
       position: relative;
-      //font-size: 50px; // Make dynamic
       width: 1em;
       height: 1em;
    }
@@ -28,7 +30,6 @@ div.loading-progress {
 
    .timer > .slice > .pie {
       border: 0.1em solid;
-      //border-color: #000000; //Make dynamic
       position:absolute;
       width: 0.8em;
       height: 0.8em;
@@ -52,7 +53,6 @@ div.loading-progress {
 
    .timer.fill > .slice > .pie {
       border: transparent;
-      //background-color: #000000; // Make dynamic
       width: 1em;
       height: 1em;
    }

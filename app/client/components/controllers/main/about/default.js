@@ -7,18 +7,11 @@ var name = 'controllers.main.about.default';
 
 registerController(name, ['$scope', 
                           require('services/error'),
-                          require('models/progress'),
+                          require('services/progress'),
                           require('models/http_response'),
                           require('services/error_modal'),
                           require('services/http_service'),
-function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, HttpService) {
-                                  
-    setTimeout(function() {
-        $scope.$apply(function() {
-            $scope.name = "Pearl";
-        })
-    }, 1000);
-    
+function($scope, ErrorService, Progress, HttpResponseModel, ErrorModal, HttpService) {
     $scope.onTestRequestClick = function() {
         HttpService.get('/api/users')
         .then(function(response) {
@@ -28,6 +21,23 @@ function($scope, ErrorService, ProgressModel, HttpResponseModel, ErrorModal, Htt
             ErrorModal(error);
         });
     }
+    
+    $scope.testProgressModel = Progress(0, 100);
+    
+    var interval = setInterval(function() {
+        $scope.$apply(function() {
+            $scope.testProgressModel.current += 1;
+        });
+        
+        
+        if ($scope.testProgressModel.current === 100) {
+           clearInterval(interval);
+           
+           $scope.$apply(function() {
+               $scope.name = "Pearl";
+           })
+        }
+    }, 10);
 
 }]);
 

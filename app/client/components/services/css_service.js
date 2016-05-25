@@ -13,10 +13,10 @@ function() {
    CSSService.addRotationToStyleObject = function(styleObject, degrees) {
       var rotateString = "rotate(" + degrees + "deg)";
       
-      style['-moz-transform'] = rotateString;
-      style['-webkit-transform'] = rotateString;
-      style['-o-transform'] = rotateString;
-      style['transform'] = rotateString;
+      styleObject['-moz-transform'] = rotateString;
+      styleObject['-webkit-transform'] = rotateString;
+      styleObject['-o-transform'] = rotateString;
+      styleObject['transform'] = rotateString;
    }
    
    return CSSService;

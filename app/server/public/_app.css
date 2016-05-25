@@ -10053,3 +10053,52 @@ div.media-picker div.has-media div.picture-container {
     margin-right: 4px; }
   div.media-picker div.has-media div.picture-container div.picture-container-options span.picture-container-option-right {
     margin-left: 4px; }
+
+div.loading-progress div {
+  box-sizing: content-box; }
+
+div.loading-progress .timer {
+  position: relative;
+  width: 1em;
+  height: 1em; }
+
+div.loading-progress .timer > .percent {
+  position: absolute;
+  top: 1.05em;
+  left: 0;
+  width: 3.33em;
+  font-size: 0.3em;
+  text-align: center; }
+
+div.loading-progress .timer > .slice {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  clip: rect(0px, 1em, 1em, 0.5em); }
+
+div.loading-progress .timer > .slice.gt50 {
+  clip: rect(auto, auto, auto, auto); }
+
+div.loading-progress .timer > .slice > .pie {
+  border: 0.1em solid;
+  position: absolute;
+  width: 0.8em;
+  height: 0.8em;
+  clip: rect(0em, 0.5em, 1em, 0em);
+  -moz-border-radius: 0.5em;
+  -webkit-border-radius: 0.5em;
+  border-radius: 0.5em; }
+
+div.loading-progress .timer > .slice > .pie.fill {
+  -moz-transform: rotate(180deg) !important;
+  -webkit-transform: rotate(180deg) !important;
+  -o-transform: rotate(180deg) !important;
+  transform: rotate(180deg) !important; }
+
+div.loading-progress .timer.fill > .percent {
+  display: none; }
+
+div.loading-progress .timer.fill > .slice > .pie {
+  border: transparent;
+  width: 1em;
+  height: 1em; }

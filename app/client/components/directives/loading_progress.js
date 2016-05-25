@@ -21,6 +21,7 @@ registerDirective(name, ['$compile',
          },
          template: "<div></div>",
          link: function($scope, $element, $attributes) {
+           
             $scope.type = $attributes.type || "spinner";
             $scope.imageUrl = $attributes.imageUrl || null;
             
@@ -76,6 +77,10 @@ registerDirective(name, ['$compile',
             $scope.getCircleRootStyle = function() {
                var style = {};
                
+               // !!! This has to be an even number,
+               // !!! or else we get a white line
+               // !!! in the middle of the spinner.
+               
                if ($scope.width) {
                   style['font-size'] = $scope.width;
                }
@@ -92,9 +97,9 @@ registerDirective(name, ['$compile',
                var percent = $scope.getLoadingPercentageAsInt();
                
                if (percent > 50) {
-                  return ["gt50"];
+                  return "gt50";
                } else {
-                  return [];
+                  return "";
                }
             }
             
@@ -106,7 +111,6 @@ registerDirective(name, ['$compile',
                CSSService.addRotationToStyleObject(style,
                      $scope.getCircleDegrees());
                  
-               //style['border-color'] = $scope.color;
                style['background-color'] = $scope.color;
                
                return style;
@@ -134,6 +138,7 @@ registerDirective(name, ['$compile',
                
                if (percent > 50) {
                   style['display'] = 'block';
+                  style['background-color'] = $scope.color;
                   
                   CSSService.addRotationToStyleObject(style,
                            $scope.getCircleDegrees()); 
@@ -160,6 +165,7 @@ registerDirective(name, ['$compile',
                var $loadingElement = angular.element("<div></div>");
                
                $loadingElement.addClass('timer');
+               $loadingElement.attr('ng-style', 'getCircleRootStyle()');
                
                if ('pie' === $scope.type) {
                   $loadingElement.addClass('fill');
@@ -171,6 +177,32 @@ registerDirective(name, ['$compile',
                   
                   $loadingElement.append(percentDiv);
                }
+               
+               var $sliceDiv = angular.element("<div></div>");
+               $sliceDiv.addClass('slice');
+               $sliceDiv.attr('ng-class', 'getCircleSliceClass()');
+               
+               var $pieDiv = angular.element("<div></div>");
+               $pieDiv.addClass('pie');
+               
+               if ('pie' === $scope.type) {
+                  $pieDiv.attr('ng-style', 'getFilledCirclePieStyle()');
+               } else {
+                  $pieDiv.attr('ng-style', 'getCirclePieStyle()');
+               }
+               
+               $sliceDiv.append($pieDiv);
+               
+               var $pieFillDiv = angular.element("<div></div>");
+               $pieFillDiv.addClass('pie');
+               $pieFillDiv.addClass('fill');
+               $pieFillDiv.attr('ng-style', 'getCirclePieFillStyle()');
+               
+               $sliceDiv.append($pieFillDiv);
+               
+               $loadingElement.append($sliceDiv);
+               
+               $div.append($compile($loadingElement)($scope));
                
                /*
                   <div class="percent">
