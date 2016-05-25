@@ -13,12 +13,17 @@ function() {
          model: "=",
          width: "@",
          height: "@",
-         size: "@"
+         size: "@",
+         mediaContainerWidth: "@",
+         mediaContainerHeight: "@"
       },
       templateUrl: "directives/media_picker.html",
       link: function($scope, $element, $attributes) {
          $scope.width = $scope.width || "200px";
          $scope.height = $scope.height || "200px";
+         
+         $scope.mediaContainerWidth = $scope.mediaContainerWidth || "300px";
+         $scope.mediaContainerHeight = $scope.mediaContainerHeight || "300px";
          
          $scope.isPicture = function() {
             return 'picture' === $scope.type;

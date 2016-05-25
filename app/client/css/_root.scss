@@ -32,11 +32,11 @@ html, body {
             
         }
     }
-    
-    @import "directives/media_picker";
 }
 
 @import "variables";
 
 @import "main/main";
 @import "admin/admin";
+
+@import "directives/media_picker";

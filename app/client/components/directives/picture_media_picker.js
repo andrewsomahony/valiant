@@ -22,30 +22,12 @@ function(PictureProportionalResizeService) {
          $scope.getHasMediaDivStyle = function() {
             return {
                display: 'inline-block',
-               width: '300px',
-               height: '300px',
+               width: $scope.mediaContainerWidth,//'300px',
+               height: $scope.mediaContainerHeight, //'300px',
                cursor: 'default',
                border: '1px solid black',
                'vertical-align': 'top'
             };
-         }
-         
-         $scope.getHasMediaImageContainerStyle = function() {
-            var style = {};
-            
-            style['height'] = '75%';
-            style['width'] = '100%';
-            
-            /*
-            if ($scope.model.getWidth() > $scope.model.getHeight()) {
-               style['height'] = 'auto';
-               style['width'] = '75%';
-               //style
-            } else {
-               style['width'] = 'auto';
-               style['height'] = '75%';
-            }*/
-            return style;
          }
          
          $scope.getHasMediaImageStyle = function() {
@@ -57,7 +39,7 @@ function(PictureProportionalResizeService) {
                //style
             } else {
                style['width'] = 'auto';
-               style['height'] = '100%';
+               style['height'] = '98%';
             }  
             
             return style;          

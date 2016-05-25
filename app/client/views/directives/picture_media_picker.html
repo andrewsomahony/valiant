@@ -10,17 +10,24 @@
 
 <div class="has-media" ng-if="model.url" ng-style="getHasMediaDivStyle()">
    <div class="picture-container">
-      <div class="picture-container-image" ng-style="getHasMediaImageContainerStyle()">
+      <div class="picture-container-image">
          <img ng-src="{{model.url}}" ng-style="getHasMediaImageStyle()" />
       </div>
       
       <div class="picture-container-options">
-         <span class="picture-container-option-left">
-            <a ng-click="activatePicturePicker()">Change</a>
-         </span>
-         <span class="picture-container-option-right">
-            <a ng-click="deletePicture()">Delete</a>
-         </span>
+         <div class="picture-container-option-description">
+            <input class="form-control" 
+                   ng-model="model.description"
+                   placeholder="Quick Description" />
+         </div>
+         <div>
+            <span class="picture-container-option-left">
+               <a ng-click="activatePicturePicker()">Change</a>
+            </span>
+            <span class="picture-container-option-right">
+               <a ng-click="deletePicture()">Delete</a>
+            </span>
+         </div>
       </div>
    </div>
 
