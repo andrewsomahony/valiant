@@ -12,12 +12,13 @@ registerDirective(name, ['$compile',
       return {
          restrict: 'A',
          scope: {
-            //type: "@", (spinner, circle, pie, image, bar)
+            //type: "@", (spinner, circle, pie, image, bar, overlay)
             progressObject: "<",
             //width: "@",
             //height: "@",
             //imageUrl: "@",
-            //color: "@"
+            //color: "@",
+            //showPercentage: "@"
          },
          link: function($scope, $element, $attributes) {
            
@@ -29,6 +30,9 @@ registerDirective(name, ['$compile',
             
             $scope.color = $attributes.color || "blue";
             
+            $scope.showPercentage = $attributes.showPercentage ? ('true' === $attributes.showPercentage ? true : false)
+                                     : true;
+            
             $scope.getLoadingBarParentStyle = function() {
                return {
                   'border-color': $scope.color,
@@ -39,11 +43,19 @@ registerDirective(name, ['$compile',
             
             // Returns number from 0-100
             $scope.getLoadingPercentageAsInt = function() {
-               return utils.round($scope.progressObject.percentage() * 100, 0)
+               if (!$scope.progressObject) {
+                  return 0;
+               } else {
+                  return utils.round($scope.progressObject.percentage() * 100, 0);
+               }
             }
             
             $scope.getCircleDegrees = function() {
-               return utils.round(360 * $scope.progressObject.percentage(), 0);
+               return utils.round(360 * ($scope.getLoadingPercentageAsInt() / 100), 0);
+            }
+            
+            $scope.getOverlayWidth = function() {
+               return "" + (100 - $scope.getLoadingPercentageAsInt()) + "%";
             }
             
             $scope.getLoadingBarStyle = function() {
@@ -72,6 +84,11 @@ registerDirective(name, ['$compile',
                
                return style;
             }
+            
+            //circle/pie style/class methods
+            // What on earth do I name these things
+            // to distinguish?!  The root style names
+            // are a bit odd.
             
             $scope.getCircleRootStyle = function() {
                var style = {};
@@ -128,8 +145,8 @@ registerDirective(name, ['$compile',
                return style;               
             }
             
-            $scope.getCirclePieFillStyle = function() {
-               // .pie.fill
+            $scope.getPieFillStyle = function() {
+               // .timer.fill > .pie.fill
                
                var percent = $scope.getLoadingPercentageAsInt();
                
@@ -137,10 +154,28 @@ registerDirective(name, ['$compile',
                
                if (percent > 50) {
                   style['display'] = 'block';
-                  style['background-color'] = $scope.color;
                   
+                  style['background-color'] = $scope.color;
                   CSSService.addRotationToStyleObject(style,
                            $scope.getCircleDegrees()); 
+               } else {
+                  style['display'] = 'none';
+               }
+               
+               return style;
+            }
+
+            $scope.getCircleFillStyle = function() {
+               // .timer > .pie.fill
+               
+               var percent = $scope.getLoadingPercentageAsInt();
+               
+               var style = {};
+               
+               if (percent > 50) {
+                  style['display'] = 'block';
+                  
+                  style['border-color'] = $scope.color;
                } else {
                   style['display'] = 'none';
                }
@@ -159,7 +194,18 @@ registerDirective(name, ['$compile',
                $div.append($compile($imageElement)($scope));
             } else if ('circle' === $scope.type ||
                        'pie' === $scope.type) {
+               if (!$scope.width) {
+                  if ($scope.height) {
+                     $scope.width = $scope.height;
+                  } else {
+                     $scope.width = "50px";
+                  }
+               }              
+                             
                var $loadingElement = angular.element("<div></div>");
+               
+               $div.css('width', $scope.width);
+               $div.css('height', $scope.width);
                
                $loadingElement.addClass('timer');
                $loadingElement.attr('ng-style', 'getCircleRootStyle()');
@@ -168,7 +214,8 @@ registerDirective(name, ['$compile',
                   $loadingElement.addClass('fill');
                }
                
-               if ('circle' === $scope.type) {
+               if ('circle' === $scope.type &&
+                   true === $scope.showPercentage) {
                   var $percentDiv = angular.element("<div></div>");
                   $percentDiv.addClass('percent');
                   
@@ -193,7 +240,12 @@ registerDirective(name, ['$compile',
                var $pieFillDiv = angular.element("<div></div>");
                $pieFillDiv.addClass('pie');
                $pieFillDiv.addClass('fill');
-               $pieFillDiv.attr('ng-style', 'getCirclePieFillStyle()');
+               
+               if ('pie' === $scope.type) {
+                  $pieFillDiv.attr('ng-style', 'getPieFillStyle()');
+               } else {
+                  $pieFillDiv.attr('ng-style', 'getCircleFillStyle()');
+               }
                
                $sliceDiv.append($pieFillDiv);
                
@@ -214,6 +266,19 @@ registerDirective(name, ['$compile',
                $barElement.append($loadingBarElement);
                
                $div.append($compile($barElement)($scope));
+            } else if ('overlay' === $scope.type) {
+               $div.css('position', 'absolute'); 
+               $div.css('width', '100%');
+               $div.css('height', '100%');
+               $div.css('left', '0px');
+               $div.css('top', '0px');  
+                  
+               var $overlayElement = angular.element("<div></div>");
+               $overlayElement.attr('overlay', '');
+               $overlayElement.attr('width', 'getOverlayWidth()');
+               $overlayElement.css('right', '0px');
+               
+               $div.append($compile($overlayElement)($scope));
             }
          }
       };

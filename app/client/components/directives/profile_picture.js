@@ -5,7 +5,8 @@ var registerDirective = require('directives/register');
 var name = 'profilePicture';
 
 registerDirective(name, [require('models/user'),
-function(UserModel) {
+require('services/progress'),
+function(UserModel, Progress) {
    return {
       restrict: 'E',
       scope: {
@@ -24,10 +25,9 @@ function(UserModel) {
             if ($scope.width) {
                style['width'] = $scope.width;
             }
-            if ($scope.height) {
-               style['height'] = "auto";
-            }
+            style['height'] = "auto";
             
+            style['vertical-align'] = 'middle';
             style['position'] = 'relative';
             
             return style;
@@ -47,6 +47,18 @@ function(UserModel) {
                return $scope.user.profile_picture.url;
             }
          }
+         
+         $scope.testProgressObject = Progress(0, 100);
+         var interval = setInterval(function() {
+            $scope.$apply(function() {
+               $scope.testProgressObject.current += 1;
+            });
+            
+            if ($scope.testProgressObject.current === 100) {
+               clearInterval(interval);
+            }
+            
+         }, 50)
       }
    }
 }])

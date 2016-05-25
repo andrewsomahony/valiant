@@ -1226,12 +1226,13 @@ registerDirective(name, ['$compile',
       return {
          restrict: 'A',
          scope: {
-            //type: "@", (spinner, circle, pie, image, bar)
+            //type: "@", (spinner, circle, pie, image, bar, overlay)
             progressObject: "<",
             //width: "@",
             //height: "@",
             //imageUrl: "@",
-            //color: "@"
+            //color: "@",
+            //showPercentage: "@"
          },
          link: function($scope, $element, $attributes) {
            
@@ -1243,6 +1244,9 @@ registerDirective(name, ['$compile',
             
             $scope.color = $attributes.color || "blue";
             
+            $scope.showPercentage = $attributes.showPercentage ? ('true' === $attributes.showPercentage ? true : false)
+                                     : true;
+            
             $scope.getLoadingBarParentStyle = function() {
                return {
                   'border-color': $scope.color,
@@ -1253,11 +1257,19 @@ registerDirective(name, ['$compile',
             
             // Returns number from 0-100
             $scope.getLoadingPercentageAsInt = function() {
-               return utils.round($scope.progressObject.percentage() * 100, 0)
+               if (!$scope.progressObject) {
+                  return 0;
+               } else {
+                  return utils.round($scope.progressObject.percentage() * 100, 0);
+               }
             }
             
             $scope.getCircleDegrees = function() {
-               return utils.round(360 * $scope.progressObject.percentage(), 0);
+               return utils.round(360 * ($scope.getLoadingPercentageAsInt() / 100), 0);
+            }
+            
+            $scope.getOverlayWidth = function() {
+               return "" + (100 - $scope.getLoadingPercentageAsInt()) + "%";
             }
             
             $scope.getLoadingBarStyle = function() {
@@ -1286,6 +1298,11 @@ registerDirective(name, ['$compile',
                
                return style;
             }
+            
+            //circle/pie style/class methods
+            // What on earth do I name these things
+            // to distinguish?!  The root style names
+            // are a bit odd.
             
             $scope.getCircleRootStyle = function() {
                var style = {};
@@ -1342,8 +1359,8 @@ registerDirective(name, ['$compile',
                return style;               
             }
             
-            $scope.getCirclePieFillStyle = function() {
-               // .pie.fill
+            $scope.getPieFillStyle = function() {
+               // .timer.fill > .pie.fill
                
                var percent = $scope.getLoadingPercentageAsInt();
                
@@ -1351,10 +1368,28 @@ registerDirective(name, ['$compile',
                
                if (percent > 50) {
                   style['display'] = 'block';
-                  style['background-color'] = $scope.color;
                   
+                  style['background-color'] = $scope.color;
                   CSSService.addRotationToStyleObject(style,
                            $scope.getCircleDegrees()); 
+               } else {
+                  style['display'] = 'none';
+               }
+               
+               return style;
+            }
+
+            $scope.getCircleFillStyle = function() {
+               // .timer > .pie.fill
+               
+               var percent = $scope.getLoadingPercentageAsInt();
+               
+               var style = {};
+               
+               if (percent > 50) {
+                  style['display'] = 'block';
+                  
+                  style['border-color'] = $scope.color;
                } else {
                   style['display'] = 'none';
                }
@@ -1373,7 +1408,18 @@ registerDirective(name, ['$compile',
                $div.append($compile($imageElement)($scope));
             } else if ('circle' === $scope.type ||
                        'pie' === $scope.type) {
+               if (!$scope.width) {
+                  if ($scope.height) {
+                     $scope.width = $scope.height;
+                  } else {
+                     $scope.width = "50px";
+                  }
+               }              
+                             
                var $loadingElement = angular.element("<div></div>");
+               
+               $div.css('width', $scope.width);
+               $div.css('height', $scope.width);
                
                $loadingElement.addClass('timer');
                $loadingElement.attr('ng-style', 'getCircleRootStyle()');
@@ -1382,7 +1428,8 @@ registerDirective(name, ['$compile',
                   $loadingElement.addClass('fill');
                }
                
-               if ('circle' === $scope.type) {
+               if ('circle' === $scope.type &&
+                   true === $scope.showPercentage) {
                   var $percentDiv = angular.element("<div></div>");
                   $percentDiv.addClass('percent');
                   
@@ -1407,7 +1454,12 @@ registerDirective(name, ['$compile',
                var $pieFillDiv = angular.element("<div></div>");
                $pieFillDiv.addClass('pie');
                $pieFillDiv.addClass('fill');
-               $pieFillDiv.attr('ng-style', 'getCirclePieFillStyle()');
+               
+               if ('pie' === $scope.type) {
+                  $pieFillDiv.attr('ng-style', 'getPieFillStyle()');
+               } else {
+                  $pieFillDiv.attr('ng-style', 'getCircleFillStyle()');
+               }
                
                $sliceDiv.append($pieFillDiv);
                
@@ -1428,6 +1480,19 @@ registerDirective(name, ['$compile',
                $barElement.append($loadingBarElement);
                
                $div.append($compile($barElement)($scope));
+            } else if ('overlay' === $scope.type) {
+               $div.css('position', 'absolute'); 
+               $div.css('width', '100%');
+               $div.css('height', '100%');
+               $div.css('left', '0px');
+               $div.css('top', '0px');  
+                  
+               var $overlayElement = angular.element("<div></div>");
+               $overlayElement.attr('overlay', '');
+               $overlayElement.attr('width', 'getOverlayWidth()');
+               $overlayElement.css('right', '0px');
+               
+               $div.append($compile($overlayElement)($scope));
             }
          }
       };
@@ -1505,26 +1570,39 @@ registerDirective(name, [
 function() {
    return {
       restrict: "A",
-      scope: {
-         color: "@",
-         width: "@",
-         height: "@",
-         opacity: "@"
-      },
       link: function($scope, $element, $attributes) {
-         $scope.color = $scope.color || '#FFFFFF';
-         $scope.width = $scope.width || '100%';
-         $scope.height = $scope.height || '100%';
-         $scope.opacity = $scope.opacity || '0.7';
-         
-         $element.css('background-color', $scope.color);
-         $element.css('opacity', $scope.opacity);
-         $element.css('right', '0px');
-         $element.css('width', $scope.width);
-         $element.css('height', $scope.height);
+         //$element.css('right', '0px');
          $element.css('margin', '0');
          $element.css('top', '0px');
          $element.css('position', 'absolute');
+         
+         $scope.$watch($attributes.width, function(value) {
+            if (!value) {
+               value = "100%";
+            }
+            $element.css('width', value);
+         });
+         
+         $scope.$watch($attributes.height, function(value) {
+            if (!value) {
+               value = "100%";
+            }
+            $element.css('height', value);            
+         });
+         
+         $scope.$watch($attributes.color, function(value) {
+            if (!value) {
+               value = "#FFFFFF";
+            }
+            $element.css('background-color', value);
+         });
+         
+         $scope.$watch($attributes.opacity, function(value) {
+            if (!value) {
+               value = "0.7";
+            }
+            $element.css('opacity', value);
+         })
       }
    }
 }
@@ -1635,7 +1713,8 @@ var registerDirective = require('directives/register');
 var name = 'profilePicture';
 
 registerDirective(name, [require('models/user'),
-function(UserModel) {
+require('services/progress'),
+function(UserModel, Progress) {
    return {
       restrict: 'E',
       scope: {
@@ -1654,10 +1733,9 @@ function(UserModel) {
             if ($scope.width) {
                style['width'] = $scope.width;
             }
-            if ($scope.height) {
-               style['height'] = "auto";
-            }
+            style['height'] = "auto";
             
+            style['vertical-align'] = 'middle';
             style['position'] = 'relative';
             
             return style;
@@ -1677,12 +1755,24 @@ function(UserModel) {
                return $scope.user.profile_picture.url;
             }
          }
+         
+         $scope.testProgressObject = Progress(0, 100);
+         var interval = setInterval(function() {
+            $scope.$apply(function() {
+               $scope.testProgressObject.current += 1;
+            });
+            
+            if ($scope.testProgressObject.current === 100) {
+               clearInterval(interval);
+            }
+            
+         }, 50)
       }
    }
 }])
 
 module.exports = name;
-},{"directives/register":35,"models/user":52}],35:[function(require,module,exports){
+},{"directives/register":35,"models/user":52,"services/progress":78}],35:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -60309,7 +60399,7 @@ $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div c
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
 $templateCache.put("directives/media_picker.html","<div class=\"media-picker\">\n   <div ng-if=\"isPicture()\">\n      <picture-media-picker></picture-media-picker>\n   </div>\n   <div ng-if=\"isVideo()\">\n      <video-media-picker></video-media-picker>\n   </div>\n   \n   <div ng-if=\"isYoutube()\">\n      <youtube-media-picker></youtube-media-picker>\n   </div>\n</div>");
 $templateCache.put("directives/picture_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!model.url\" \n     ng-style=\"getRootNoMediaDivStyle()\"\n     ng-click=\"activatePicturePicker()\">\n   <div class=\"icon-container\">\n      <span></span>\n      <i class=\"fa fa-picture-o fa-5x\"></i>\n   </div>   \n</div>\n\n<div class=\"has-media\" ng-if=\"model.url\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"picture-container\">\n      <div class=\"picture-container-image\">\n         <img ng-src=\"{{model.url}}\" ng-style=\"getHasMediaImageStyle()\" />\n      </div> \n      <div class=\"picture-container-options\">\n         <div class=\"picture-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   placeholder=\"Quick Description\" />\n         </div>\n         <div>\n            <span class=\"picture-container-option-left\">\n               <a ng-click=\"activatePicturePicker()\">Change</a>\n            </span>\n            <span class=\"picture-container-option-right\">\n               <a ng-click=\"deletePicture()\">Delete</a>\n            </span>\n         </div>\n      </div>\n   </div>\n\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"image/*\"\n   process-exif=\"true\"\n   is-active=\"picturePickerIsActive\"\n   on-files-added=\"onPictureSelectSuccess(files)\"\n   on-files-progress=\"onPictureSelectProgress(progress)\"\n   on-files-error=\"onPictureSelectError(error)\">\n</file-reader> ");
-$templateCache.put("directives/profile_picture.html","<div class=\"profile-picture\" ng-style=\"getDivStyle()\">\n   <img ng-src=\"{{getUrl()}}\" ng-style=\"getImageStyle()\" />\n   \n   <div overlay></div>\n   <!--\n   <div style=\"background-color:#FFFFFF;opacity:0.7;right:0px;width:100%;height:100%;margin-right:0px;top:0;position:absolute;\"></div>\n   -->\n</div>");
+$templateCache.put("directives/profile_picture.html","<div class=\"profile-picture\" ng-style=\"getDivStyle()\">\n   <img ng-src=\"{{getUrl()}}\" ng-style=\"getImageStyle()\" />\n   \n   <!--\n      <div loading-progress\n      type=\"overlay\" progress-object=\"testProgressObject\">\n      </div> -->\n      <div overlay></div>\n      <div loading-progress\n            type=\"pie\"\n            show-percentage=\"false\"\n            style=\"position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;\"\n            width=\"40px\"\n            color=\"#404040\"\n            progress-object=\"testProgressObject\"\n       ></div>\n</div>");
 $templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" ng-if=\"!model.url\" ng-style=\"getRootNoMediaDivStyle()\">\n   <div class=\"icon-container\">\n      <span></span>\n      <i class=\"fa fa-video-camera fa-5x\"></i>\n   </div>   \n</div>");
 $templateCache.put("directives/youtube_media_picker.html","<div class=\"no-media\" ng-if=\"!model.url\" ng-style=\"getRootNoMediaDivStyle()\">\n   <div class=\"icon-container\">\n      <span></span>\n      <i class=\"fa fa-youtube fa-5x\"></i>\n   </div>   \n</div>");
 $templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
@@ -60332,7 +60422,7 @@ $templateCache.put("partials/main/login/unverified.html","<div class=\"row\" ng-
 $templateCache.put("partials/main/question/ask.html","<div class=\"ask-content\">\n   <div class=\"ask-topic ask-group\">\n      <div class=\"ask-header\">\n         What\'s your question about?\n      </div>\n      <div class=\"ask-element\">\n         <label class=\"dropdown\">\n            <select ng-model=\"currentQuestion.topic\" \n                  ng-options=\"name for name in questionTopicOptions\">\n            </select>\n         </label>\n      </div>\n      <div class=\"ask-element ask-sub-header ask-or\">\n         or\n      </div>\n      <div>\n         <input type=\"text\" class=\"form-control\" placeholder=\"Tell me\" ng-model=\"currentQuestion.custom_topic\" />\n      </div>\n   </div>\n   \n   <div class=\"ask-question ask-group\">\n      <div class=\"ask-question-header ask-header\">\n         What\'s your question?\n      </div>\n      <div class=\"ask-sub-header ask-question-details\">\n         (Use as much detail as you like)\n      </div>\n      \n      <textarea class=\"form-control\"\n                ng-model=\"currentQuestion.text\"></textarea>\n   </div>\n   \n   <div class=\"ask-media ask-group\">\n      <div class=\"ask-header ask-media-header\">\n         Any photos or videos?\n      </div>\n      <div class=\"ask-sub-header\">\n         (If video upload fails, use the Youtube button below)\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"videoModel in currentQuestion.videos\">\n            <media-picker \n                    type=\"video\" \n                    model=\"videoModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n        \n        <div class=\"media-picker-container\">\n            <media-picker \n                    type=\"youtube\" \n                    model=\"currentQuestion.youtube_video\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"pictureModel in currentQuestion.pictures\">\n            <media-picker \n                    type=\"picture\" \n                    model=\"pictureModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n   </div>  \n   \n   <div class=\"ask-submit\">\n      <button>Ask Question</button>\n   </div>\n</div>\n");
 $templateCache.put("partials/main/question/content.html","This is the question view page!");
 $templateCache.put("partials/main/question/question.html","<div class=\"question\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/register/content.html","<div class=\"registration-form\">\n   <form name=\"registrationForm\">\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"profile-picture-input\">\n            <div class=\"profile-picture-display\">\n               <div class=\"hidden-xs\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"80%\">\n                  </profile_picture>\n               </div>\n               <div class=\"hidden-lg hidden-md hidden-sm\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"70%\">\n                  </profile_picture>\n               </div> \n            </div>\n            \n            <div class=\"profile-picture-button\">\n               <a class=\"profile-picture-link change\" ng-click=\"selectProfilePicture()\">\n                  Change\n               </a>\n               \n               <a class=\"profile-picture-link reset\" ng-if=\"registrationUser.profile_picture_url\" ng-click=\"resetProfilePicture()\">\n                  Reset\n               </a>\n            \n               <file-reader \n                  supports-multiple=\"false\"\n                  accept=\"image/*\"\n                  process-exif=\"true\"\n                  is-active=\"profilePicturePickerIsActive\"\n                  on-files-added=\"onProfilePictureAdded(files)\"\n                  on-files-progress=\"onProfilePictureProgress(progress)\"\n                  on-files-error=\"onProfilePictureError(error)\">\n               </file-reader>\n            </div>\n         </div>\n      </div>\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }\">\n            <label for=\"registration_email\">\n               <span>E-Mail Address</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_email.$error\"\n                     ng-if=\"registrationForm.registration_email.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"email\" \n                   class=\"form-control\" \n                   name=\"registration_email\" \n                   ng-model=\"registrationUser.email\" \n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   email-in-use\n                   required />\n         </div>\n\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }\">  \n            <label for=\"registration_password\">\n               <span>Password (6 characters or more)</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password.$error\"\n                     ng-if=\"registrationForm.registration_password.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                   class=\"form-control\" \n                   name=\"registration_password\" \n                   ng-model=\"registrationUser.password\"\n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   minlength=\"6\"\n                   required />\n         </div>\n      \n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }\">\n            <label for=\"registration_password_repeat\">\n               <span>Repeat Password</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password_repeat.$error\"\n                     ng-if=\"registrationForm.registration_password_repeat.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                  class=\"form-control\" \n                  name=\"registration_password_repeat\" \n                  ng-model=\"registrationUser.repeat_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  compare-to=\"registrationUser.password\" />\n         </div>\n      \n         <div class=\"form-group\">  \n            <label for=\"registration_first_name\">\n               <span>First Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_first_name.$error\"\n                     ng-if=\"registrationForm.registration_first_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_first_name\" \n                  ng-model=\"registrationUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      \n         <div class=\"form-group\"> \n            <label for=\"registration_last_name\">\n               <span>Last Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_last_name.$error\"\n                     ng-if=\"registrationForm.registration_last_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_last_name\" \n                  ng-model=\"registrationUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required /> \n         </div>       \n            \n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_public\" />\n               <label>Visible to the public?</label>\n            </div>\n         </div>\n\n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_users\" />\n               <label>Visible to other users?</label>\n            </div>\n         </div>\n\n         <div class=\"sign-up form-group\" ng-if=\"!registrationInProgress\">\n            <button ng-disabled=\"registrationForm.$invalid\" ng-click=\"registerUser()\">Sign Up</button>\n         </div>\n         <div class=\"registering-in-progress\" ng-if=\"registrationInProgress\">\n            <div class=\"registering-text\" ng-bind=\"getRegistrationProgressMessage()\">\n            </div>\n            <div>\n               <div loading-progress type=\"bar\"\n                           progress-object=\"registrationProgress\"\n                           width=\"250px\"\n                           height=\"20px\"\n                           color=\"#333333\">\n               </div>\n            </div>\n         </div> \n\n      </div>     \n   </form>\n</div>");
+$templateCache.put("partials/main/register/content.html","<div class=\"registration-form\">\n   <form name=\"registrationForm\">\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"profile-picture-input\">\n            <div class=\"profile-picture-display\">\n               <div class=\"hidden-xs\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"80%\">\n                  </profile-picture>\n               </div>\n               <div class=\"hidden-lg hidden-md hidden-sm\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"70%\">\n                  </profile-picture>\n               </div>\n            </div>\n            \n            <div class=\"profile-picture-button\">\n               <a class=\"profile-picture-link change\" ng-click=\"selectProfilePicture()\">\n                  Change\n               </a>\n               \n               <a class=\"profile-picture-link reset\" ng-if=\"registrationUser.profile_picture_url\" ng-click=\"resetProfilePicture()\">\n                  Reset\n               </a>\n            \n               <file-reader \n                  supports-multiple=\"false\"\n                  accept=\"image/*\"\n                  process-exif=\"true\"\n                  is-active=\"profilePicturePickerIsActive\"\n                  on-files-added=\"onProfilePictureAdded(files)\"\n                  on-files-progress=\"onProfilePictureProgress(progress)\"\n                  on-files-error=\"onProfilePictureError(error)\">\n               </file-reader>\n            </div>\n         </div>\n      </div>\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }\">\n            <label for=\"registration_email\">\n               <span>E-Mail Address</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_email.$error\"\n                     ng-if=\"registrationForm.registration_email.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"email\" \n                   class=\"form-control\" \n                   name=\"registration_email\" \n                   ng-model=\"registrationUser.email\" \n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   email-in-use\n                   required />\n         </div>\n\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }\">  \n            <label for=\"registration_password\">\n               <span>Password (6 characters or more)</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password.$error\"\n                     ng-if=\"registrationForm.registration_password.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                   class=\"form-control\" \n                   name=\"registration_password\" \n                   ng-model=\"registrationUser.password\"\n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   minlength=\"6\"\n                   required />\n         </div>\n      \n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }\">\n            <label for=\"registration_password_repeat\">\n               <span>Repeat Password</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password_repeat.$error\"\n                     ng-if=\"registrationForm.registration_password_repeat.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                  class=\"form-control\" \n                  name=\"registration_password_repeat\" \n                  ng-model=\"registrationUser.repeat_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  compare-to=\"registrationUser.password\" />\n         </div>\n      \n         <div class=\"form-group\">  \n            <label for=\"registration_first_name\">\n               <span>First Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_first_name.$error\"\n                     ng-if=\"registrationForm.registration_first_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_first_name\" \n                  ng-model=\"registrationUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      \n         <div class=\"form-group\"> \n            <label for=\"registration_last_name\">\n               <span>Last Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_last_name.$error\"\n                     ng-if=\"registrationForm.registration_last_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_last_name\" \n                  ng-model=\"registrationUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required /> \n         </div>       \n            \n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_public\" />\n               <label>Visible to the public?</label>\n            </div>\n         </div>\n\n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_users\" />\n               <label>Visible to other users?</label>\n            </div>\n         </div>\n\n         <div class=\"sign-up form-group\" ng-if=\"!registrationInProgress\">\n            <button ng-disabled=\"registrationForm.$invalid\" ng-click=\"registerUser()\">Sign Up</button>\n         </div>\n         <div class=\"registering-in-progress\" ng-if=\"registrationInProgress\">\n            <div class=\"registering-text\" ng-bind=\"getRegistrationProgressMessage()\">\n            </div>\n            <div>\n               <div loading-progress type=\"bar\"\n                           progress-object=\"registrationProgress\"\n                           width=\"250px\"\n                           height=\"20px\"\n                           color=\"#333333\">\n               </div>\n            </div>\n         </div> \n\n      </div>     \n   </form>\n</div>");
 $templateCache.put("partials/main/register/register.html","<div class=\"register\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/register/success.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         We have sent a link to your e-mail address, all you need to do\n         is click it, and you\'re good to go!\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a ng-click=\"resendVerificationEmail()\">here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n      \n      <p ng-if=\"isSendingEmail\" class=\"resending-in-progress\">\n         <span>\n            <div loading-progress \n                 type=\"spinner\">\n            </div>\n         </span>\n         <span class=\"resending-text\">\n            Resending E-Mail...\n         </span>\n      </p>\n      \n      <p ng-if=\"hasSentEmail\">\n         E-Mail sent successfully!\n      </p>\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
 $templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div class=\"resetting-in-progress\" ng-if=\"resettingInProgress\">\n         <span><div loading-progress type=\"spinner\"></div></span>\n         <span class=\"resetting-text\">Setting password...</span>\n      </div>\n   </form>\n</div>");
