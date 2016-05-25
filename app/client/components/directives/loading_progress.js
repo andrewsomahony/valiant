@@ -7,11 +7,12 @@ var utils = require('utils');
 var name = 'loadingProgress';
 
 registerDirective(name, ['$compile',
-   function($compile) {
+                         require('services/css_service'),
+   function($compile, CSSService) {
       return {
          restrict: 'E',
          scope: {
-            //type: "@", (spinner, circle, image, bar)
+            //type: "@", (spinner, circle, pie, image, bar)
             progressObject: "<",
             //width: "@",
             //height: "@",
@@ -34,6 +35,15 @@ registerDirective(name, ['$compile',
                   'width': $scope.width,
                   'height': $scope.height
                }
+            }
+            
+            // Returns number from 0-100
+            $scope.getLoadingPercentageAsInt = function() {
+               return utils.round($scope.progressObject.percentage() * 100, 0)
+            }
+            
+            $scope.getCircleDegrees = function() {
+               return utils.round(360 * $scope.progressObject.percentage(), 0);
             }
             
             $scope.getLoadingBarStyle = function() {
@@ -63,9 +73,81 @@ registerDirective(name, ['$compile',
                return style;
             }
             
+            $scope.getCircleRootStyle = function() {
+               var style = {};
+               
+               if ($scope.width) {
+                  style['font-size'] = $scope.width;
+               }
+               if ($scope.height) {
+                  style['font-size'] = $scope.height;
+               }
+               
+               return style;
+            }
+            
+            $scope.getCircleSliceClass = function() {
+               // .slice
+               
+               var percent = $scope.getLoadingPercentageAsInt();
+               
+               if (percent > 50) {
+                  return ["gt50"];
+               } else {
+                  return [];
+               }
+            }
+            
+            $scope.getFilledCirclePieStyle = function() {
+               // .timer.fill > .slice > .pie
+               
+               var style = {};
+               
+               CSSService.addRotationToStyleObject(style,
+                     $scope.getCircleDegrees());
+                 
+               //style['border-color'] = $scope.color;
+               style['background-color'] = $scope.color;
+               
+               return style;
+            }
+            
+            $scope.getCirclePieStyle = function() {
+               // .timer > .slice > .pie
+               
+               var style = {};
+               
+               CSSService.addRotationToStyleObject(style,
+                     $scope.getCircleDegrees());
+                 
+               style['border-color'] = $scope.color;
+               
+               return style;               
+            }
+            
+            $scope.getCirclePieFillStyle = function() {
+               // .pie.fill
+               
+               var percent = $scope.getLoadingPercentageAsInt();
+               
+               var style = {};
+               
+               if (percent > 50) {
+                  style['display'] = 'block';
+                  
+                  CSSService.addRotationToStyleObject(style,
+                           $scope.getCircleDegrees()); 
+               } else {
+                  style['display'] = 'none';
+               }
+               
+               return style;
+            }
+            
             var $div = $element.children("div");
             
             $div.css('display', 'inline-block');
+            $div.addClass('loading-progress');
                         
             if ('spinner' === $scope.type) {
                var $imageElement = angular.element("<img />");
@@ -73,7 +155,31 @@ registerDirective(name, ['$compile',
                $imageElement.attr('ng-style', 'getSpinnerStyle()');
 
                $div.append($compile($imageElement)($scope));
-            } else if ('circle' === $scope.type) {
+            } else if ('circle' === $scope.type ||
+                       'pie' === $scope.type) {
+               var $loadingElement = angular.element("<div></div>");
+               
+               $loadingElement.addClass('timer');
+               
+               if ('pie' === $scope.type) {
+                  $loadingElement.addClass('fill');
+               }
+               
+               if ('circle' === $scope.type) {
+                  var $percentDiv = angular.element("<div></div>");
+                  $percentDiv.addClass('percent');
+                  
+                  $loadingElement.append(percentDiv);
+               }
+               
+               /*
+                  <div class="percent">
+                  </div>
+                  <div class="slice"'+(percent > 50?' class="gt50"':'')+'>
+                     <div class="pie"></div>
+                     (percent > 50 ? <div class="pie fill"></div>)
+                  </div>               
+               */
                
             } else if ('image' === $scope.type) {
                

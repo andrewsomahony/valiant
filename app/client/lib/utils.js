@@ -317,6 +317,10 @@
       },
 
       round: function(n, places) {
+         if (true === utils.isUndefinedOrNull(places)) {
+             places = 0;
+         }
+         
          return +n.toFixed(places)
       }
    }
