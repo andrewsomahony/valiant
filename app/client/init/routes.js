@@ -104,7 +104,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.login.default", {
-       url: "/?verification_success&verification_error&reset_password_success&requires_login",
+       url: "/?verification_success&error&reset_password_success&requires_login",
        resolve: RouteResolver("main.page.login.default"),
        views: {
            "nav_bar@main.page": {

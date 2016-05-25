@@ -79,11 +79,7 @@ ProfilePictureService) {
    }
    
    $scope.getSavingUserMessage = function() {
-      if (!$scope.savingProgress) {
-         return $scope.savingMessage || "Saving...";
-      } else {
-         return $scope.savingProgress.message || $scope.savingMessage || "Saving...";
-      }
+      return $scope.savingMessage || "Saving...";
    }
    
    $scope.getEmailEditControlClass = function() {

@@ -47,18 +47,6 @@ function(UserModel, Progress) {
                return $scope.user.profile_picture.url;
             }
          }
-         
-         $scope.testProgressObject = Progress(0, 100);
-         var interval = setInterval(function() {
-            $scope.$apply(function() {
-               $scope.testProgressObject.current += 1;
-            });
-            
-            if ($scope.testProgressObject.current === 100) {
-               clearInterval(interval);
-            }
-            
-         }, 50)
       }
    }
 }])

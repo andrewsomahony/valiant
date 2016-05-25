@@ -322,6 +322,10 @@
          }
          
          return +n.toFixed(places)
+      },
+      
+      stringToBoolean: function(string) {
+         return !!this.fromJson(string.toLowerCase());
       }
    }
 

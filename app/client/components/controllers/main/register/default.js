@@ -44,11 +44,7 @@ ProfilePictureService) {
    }
    
    $scope.getRegistrationProgressMessage = function() {
-      if (!$scope.registrationProgress) {
-         return "Registering...";
-      } else {
-         return $scope.registrationProgress.message || "Registering...";
-      }
+      return "Registering...";
    }
    
    $scope.selectProfilePicture = function() {

@@ -91,33 +91,39 @@ module.exports = function(schema, options) {
                   cb(null, self);
                });         
             }
-         })
-            
-        /* ValiantEmail({
-            to: self.email,
-            from: ValiantEmail.doNotReplyEmailAddress(),
-            fromname: "Valiant Athletics Registration",
-            template: "verify",
-            templateParams: {
-               first_name: self.first_name,
-               verify_link: hostnameUtil.constructUrl("/verify/" + self.authToken)
-            }
-         }, function(error) {
-            if (error) {
-               return cb(error);
-            } else {
-               self.save(function(error) {
-                  if (error) {
-                     return cb(error);
-                  } else {
-                     cb(null, self);
-                  }
-               });
-            }
-         });*/         
+         })       
       })
       .catch(function(error) {
          cb(error);
       });
    }
+   
+   // This is utterly ridiculous...
+   // We need to extend this because the plugin we
+   // got from npm does not take into account
+   // that the user with the token isn't in the database,
+   // so it just hangs and never does anything...
+
+   schema.statics.verifyEmail = function(authToken, cb) {
+      var self = this;
+      self.findByAuthToken(authToken, function(error, user) {
+         if (error) { 
+            return cb(ValiantError.fromErrorObject(error)); 
+         } else {
+            if (!user) {
+               return cb(ValiantError.notFound()); 
+            } else {
+               user.isAuthenticated = true;
+               user.save(function(error, newUser) {
+                   if (error) {
+                      return cb(ValiantError.fromErrorObject(error));
+                   } else {
+                      return cb(null, user);
+                   }
+               })
+            }
+         }
+      });
+   };
+
 }

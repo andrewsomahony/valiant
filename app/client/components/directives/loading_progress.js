@@ -14,6 +14,7 @@ registerDirective(name, ['$compile',
          scope: {
             //type: "@", (spinner, circle, pie, image, bar, overlay)
             progressObject: "<",
+            message: "<"
             //width: "@",
             //height: "@",
             //imageUrl: "@",
@@ -187,11 +188,22 @@ registerDirective(name, ['$compile',
             $div.addClass('loading-progress');
                         
             if ('spinner' === $scope.type) {
+               var $imageSpan = angular.element("<span></span>");
+               
                var $imageElement = angular.element("<img />");
                $imageElement.attr('src', './images/spinner.gif');
-               $imageElement.attr('ng-style', 'getSpinnerStyle()');
+               $imageElement.attr('ng-style', 'getSpinnerStyle()');               
+               
+               $imageSpan.append($imageElement);
+               
+               var $messageSpan = angular.element("<span></span>");   
+               $messageSpan.attr('ng-bind', 'message');
+               $messageSpan.css('margin-left', '10px');
+               
+               $div.append($compile($imageSpan)($scope));
+               $div.append($compile($messageSpan)($scope));
 
-               $div.append($compile($imageElement)($scope));
+               //$div.append($compile($imageElement)($scope));
             } else if ('circle' === $scope.type ||
                        'pie' === $scope.type) {
                if (!$scope.width) {

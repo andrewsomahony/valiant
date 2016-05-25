@@ -23,9 +23,7 @@ function($scope, UserService, ErrorModal, StateService) {
          } else {
             // Redirect to user profile page
             var currentUser = UserService.getCurrentUser();
-            
-            console.log(currentUser);
-            
+                        
             StateService.go('main.page.user.default',
             {userId: currentUser.id});
          }
@@ -36,13 +34,14 @@ function($scope, UserService, ErrorModal, StateService) {
    }
    
    $scope.statusMessage = function() {
-      var verificationSuccess = StateService.params()['verification_success'];
+      var verificationSuccess = utils.stringToBoolean(StateService.params()['verification_success']);
       
       if (false === utils.isUndefinedOrNull(verificationSuccess)) {
          if (verificationSuccess) {
             return "E-Mail verification succeeded!";
-         } else {
-            return "E-Mail verification failed";
+      } else {
+            var error = StateService.params()['error'];
+            return "E-Mail verification failed! (" + error + ")";
          }
       }
 

@@ -27,7 +27,7 @@ function($rootScope, ErrorModal, UserService, StateService, PermissionService) {
             StateService.go('main.page.user.default',
                      {userId: UserService.getCurrentUserId()});        
         } else {
-            var emailVerified = toParams['email_verified'];
+            var emailVerified = utils.stringToBoolean(toParams['email_verified']);
             var error = toParams['error'] || "";
             
             if (false === utils.isUndefinedOrNull(emailVerified)) {
@@ -37,7 +37,7 @@ function($rootScope, ErrorModal, UserService, StateService, PermissionService) {
                 } else {
                     StateService.go('main.page.login.default',
                     {verification_success: false, 
-                        verification_error: error});
+                        error: error});
                 }
             }
             
@@ -47,9 +47,16 @@ function($rootScope, ErrorModal, UserService, StateService, PermissionService) {
                 {token: resetPasswordToken});
             }
             
-            var emailChangedToken = toParams['email_changed'];
-            if (false === utils.isUndefinedOrNull(emailChangedToken)) {
-                StateService.go('main.page.user.default');
+            var emailChanged = toParams['email_changed'];
+            if (false === utils.isUndefinedOrNull(emailChanged)) {
+                if (emailChanged) {
+                    StateService.go('main.page.user.default');
+                } else {
+                    // We need to redirect to some sort of a default
+                    // error page here.
+                    throw new Error("Cannot change e-mail!");
+                    //StateService.go('main.page.user.default')
+                }
             }
         }
     });
