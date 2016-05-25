@@ -9660,6 +9660,8 @@ html, body {
     cursor: pointer; }
   html div.profile-picture, body div.profile-picture {
     display: inline-block; }
+  html div.loading-progress, body div.loading-progress {
+    display: inline-block; }
   html div.loading-bar-parent, body div.loading-bar-parent {
     border-width: 1px;
     border-style: solid; }

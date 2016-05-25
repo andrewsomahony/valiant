@@ -6,6 +6,8 @@ require('./loading_progress');
 require('./file_reader');
 require('./profile_picture');
 
+require('./overlay');
+
 require('./media_picker');
 require('./picture_media_picker');
 require('./video_media_picker');

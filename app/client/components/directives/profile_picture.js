@@ -28,6 +28,8 @@ function(UserModel) {
                style['height'] = "auto";
             }
             
+            style['position'] = 'relative';
+            
             return style;
          }
          

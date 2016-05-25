@@ -30,19 +30,37 @@ function(PictureProportionalResizeService) {
             };
          }
          
+         $scope.getHasMediaImageContainerStyle = function() {
+            // !!! UNUSED
+            // !!! Trying to figure out how to have a div
+            // container that has the exact dimensions of
+            // the underlying image.
+            
+            var style = {};
+            
+            if ($scope.model.getWidth() > $scope.model.getHeight()) {
+               style['height'] = 'auto';
+               style['width'] = '75%';
+            } else {
+               style['width'] = 'auto';
+               style['height'] = '98%';
+            }  
+            
+            return style;            
+         }
+         
          $scope.getHasMediaImageStyle = function() {
             var style = {};
             
             if ($scope.model.getWidth() > $scope.model.getHeight()) {
                style['height'] = 'auto';
                style['width'] = '75%';
-               //style
             } else {
                style['width'] = 'auto';
                style['height'] = '98%';
             }  
             
-            return style;          
+            return style;  
          }
          
          $scope.deletePicture = function() {

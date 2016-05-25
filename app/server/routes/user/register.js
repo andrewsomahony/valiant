@@ -48,7 +48,7 @@ router.route('/register/resend_email')
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {
-    var emailToken = Request.getBodyVariable('token');
+    var emailToken = Request.getBodyVariable(request, 'token');
     
     if (!emailToken) {
         Responder.badRequest(result, "Missing email token!");

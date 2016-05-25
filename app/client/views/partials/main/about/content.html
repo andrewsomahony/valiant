@@ -2,10 +2,13 @@
 
 <button ng-click="onTestRequestClick()">Test HTTP</button>
 
-<loading-progress type="pie" 
+<div loading-progress 
+   type="pie" 
    color="black" 
    width="50px"
-   progress-object="testProgressModel"></loading-progress>
+   progress-object="testProgressModel"
+   style="display: inline-block;">
+</div>
 
 <div>
 <img src="./images/temp_image.jpg" />

@@ -10,7 +10,7 @@ registerDirective(name, ['$compile',
                          require('services/css_service'),
    function($compile, CSSService) {
       return {
-         restrict: 'E',
+         restrict: 'A',
          scope: {
             //type: "@", (spinner, circle, pie, image, bar)
             progressObject: "<",
@@ -19,7 +19,6 @@ registerDirective(name, ['$compile',
             //imageUrl: "@",
             //color: "@"
          },
-         template: "<div></div>",
          link: function($scope, $element, $attributes) {
            
             $scope.type = $attributes.type || "spinner";
@@ -149,9 +148,7 @@ registerDirective(name, ['$compile',
                return style;
             }
             
-            var $div = $element.children("div");
-            
-            $div.css('display', 'inline-block');
+            var $div = $element;
             $div.addClass('loading-progress');
                         
             if ('spinner' === $scope.type) {
@@ -202,17 +199,7 @@ registerDirective(name, ['$compile',
                
                $loadingElement.append($sliceDiv);
                
-               $div.append($compile($loadingElement)($scope));
-               
-               /*
-                  <div class="percent">
-                  </div>
-                  <div class="slice"'+(percent > 50?' class="gt50"':'')+'>
-                     <div class="pie"></div>
-                     (percent > 50 ? <div class="pie fill"></div>)
-                  </div>               
-               */
-               
+               $div.append($compile($loadingElement)($scope));               
             } else if ('image' === $scope.type) {
                
             } else if ('bar' === $scope.type) {

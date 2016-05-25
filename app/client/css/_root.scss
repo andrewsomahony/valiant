@@ -24,6 +24,10 @@ html, body {
         display: inline-block;
     }
     
+    div.loading-progress {
+       display: inline-block;
+    }    
+    
     div.loading-bar-parent {
         border-width: 1px;
         border-style: solid;

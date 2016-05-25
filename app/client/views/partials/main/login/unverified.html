@@ -15,15 +15,15 @@
          sure to check your spam folder if it isn't in your main inbox.
       </p>
 
-      <p ng-if="isSendingEmail" class="resending-in-progress">
+      <div ng-if="isSendingEmail" class="resending-in-progress">
          <span>
-            <loading-progress type="spinner">
-            </loading-progress>
+            <div loading-progress type="spinner">
+            </div>
          </span>
          <span class="resending-text">
             Resending E-Mail...
          </span>
-      </p>
+      </div>
       
       <p ng-if="hasSentEmail">
          E-Mail sent successfully!
