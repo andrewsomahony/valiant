@@ -18,13 +18,14 @@ function(BaseModel, ExifService) {
                url: "",
                description: "",
                metadata: {},
-               file_model: null
+               file_model: null,
+               upload_progress: null
             });
          },
          
          localFields: function() {
             return this.staticMerge(this.callSuper(), [
-               'file_model'
+               'file_model', 's3_upload_progress'
             ]);
          }
       },
@@ -33,16 +34,16 @@ function(BaseModel, ExifService) {
          this.callSuper();
       },
       
+      clearMetadata: function() {
+         this.metadata = {};
+      },
+
       // Basically, this function just looks
       // for keys that it understands, and
       // sets our metadata object's keys
       
       // metadata can be an exif data variable
       // from our exif service as well.
-      
-      clearMetadata: function() {
-         this.metadata = {};
-      },
       
       setMetadata: function(metadata) {
          if (metadata['width']) {

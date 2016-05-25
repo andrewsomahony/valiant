@@ -16,9 +16,16 @@ function(BaseModel) {
             return this.staticMerge(this.callSuper(), {
                url: "",
                description: "",
-               title: "",
-               metadata: {}
+               metadata: {},
+               file_model: null,
+               upload_progress: null
             });
+         },
+         
+         localFields: function() {
+            return this.staticMerge(this.callSuper(), [
+               'file_model', 's3_upload_progress'
+            ]);
          }
       },
       

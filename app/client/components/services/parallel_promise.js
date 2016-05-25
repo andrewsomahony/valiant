@@ -51,6 +51,9 @@ function(promise, progress, ProgressModel, $q) {
                progressInfoArray[index] = progressData;
                notify(progress.sumArray(progressInfoArray))
             })
+            .catch(function(error) {
+               reject(error);
+            })
          }))
          .then(function(results) {
             if (false === keepAsArray)

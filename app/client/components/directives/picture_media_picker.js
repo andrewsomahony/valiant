@@ -22,8 +22,8 @@ function(PictureProportionalResizeService) {
          $scope.getHasMediaDivStyle = function() {
             return {
                display: 'inline-block',
-               width: $scope.mediaContainerWidth,//'300px',
-               height: $scope.mediaContainerHeight, //'300px',
+               width: $scope.mediaContainerWidth,
+               height: $scope.mediaContainerHeight,
                cursor: 'default',
                border: '1px solid black',
                'vertical-align': 'top'

@@ -16,9 +16,10 @@ registerService('factory', name, [
                                     require('services/serial_promise'),
                                     require('services/s3_uploader_service'),
                                     require('models/picture'),
+                                    require('services/media_service'),
 function(Promise, HttpService, UserModel, ApiUrlService,
 ErrorService, ProgressService, SerialPromise, S3UploaderService,
-PictureModel) {    
+PictureModel, MediaService) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
     var currentRequestedUser = null;
@@ -317,33 +318,7 @@ PictureModel) {
     }
     
     UserService.uploadProfilePicture = function(user, forNotify) {
-        forNotify = utils.isUndefinedOrNull(forNotify) ? false : forNotify;
-        
-        if (true === forNotify) {
-            if (!user.profile_picture.file_model) {
-                return ProgressService(0, 1);
-            } else {
-                return S3UploaderService.getProgressInfo('profile_picture', user.profile_picture.file_model);
-            }
-        } else {
-            return Promise(function(resolve, reject, notify) {
-                if (!user.profile_picture.file_model) {
-                    resolve();
-                } else {
-                    S3UploaderService('profile_picture', user.profile_picture.file_model)
-                    .then(function(data) {
-                        user.profile_picture.url = data.url;
-                        user.profile_picture.file_model = null;
-                        resolve();    
-                    }, null, function(progress) {
-                        notify(progress);
-                    })
-                    .catch(function(e) {
-                        reject(e);
-                    })
-                }
-            });
-        }
+        return MediaService.uploadMedia('profile_picture', user.profile_picture, forNotify);
     }
     
     UserService.registerUser = function(user) {
