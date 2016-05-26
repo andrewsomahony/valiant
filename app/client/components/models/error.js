@@ -1,7 +1,9 @@
 'use strict'
 
 var registerModel = require('models/register');
-var classy = require('classy')
+var classy = require('classy');
+
+var utils = require('utils');
 
 var name = 'errorModel'
 
@@ -24,8 +26,11 @@ function(baseModel) {
          this.callSuper();
       },
       
-      toString: function() {
-          return this.text + " (" + this.code + ")";
+      toString: function(withCode) {
+          if (true === utils.isUndefinedOrNull(withCode)) {
+             withCode = true;
+          }
+          return this.text + (withCode ? " (" + this.code + ")" : "");
       }
    })
 }])

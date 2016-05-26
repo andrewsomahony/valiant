@@ -79,10 +79,13 @@
       isUndefinedOrNull: function(object) {
          return undefined === object || null === object || 'undefined' === typeof object
       },
+      
+      isString: function(object) {
+         return 'string' === typeof object;
+      },
 
       isPlainObject: function(object) {
-         if (!object || 'object' !== typeof object)
-         {
+         if (!object || 'object' !== typeof object) {
             return false;
          }
 

@@ -52,25 +52,24 @@ ErrorPageService) {
             
             var emailChanged = toParams['email_changed'];
             if (false === utils.isUndefinedOrNull(emailChanged)) {
+                emailChanged = utils.stringToBoolean(emailChanged);
                 if (emailChanged) {
-                    StateService.go('main.page.user.default');
+                    StateService.go('main.page.user.default', 
+                        {userId: UserService.getCurrentUserId()});
                 } else {
-                    ErrorPageService.go(error);
+                    if (true === UserService.isLoggedIn()) {
+                      StateService.go('main.page.user.default', 
+                            {error: error})  
+                    } else {
+                       ErrorPageService.go(error);
+                    }
                 }
             }
         }
     });
     
     $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-        // We can handle this a few ways...
-        
-        /*if ('main.page.user.default' === toState.name) {
-            if (403 === error.code) {
-                // We tried to access a user we don't have permission to access
-            }
-        } else {*/
-            ErrorModal(error);
-        //}
+       ErrorModal(error);
     });
     
     $rootScope.$on('$viewContentLoading', function(e, viewConfig) {       

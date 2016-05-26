@@ -7,9 +7,9 @@ var name = 'controllers.main.user.default';
 registerController(name, ['$scope',
                           require('services/user_service'),
                           require('models/user'),
-                          require('services/error_modal'),
+                          require('services/state_service'),
                           require('services/profile_picture_service'),
-function($scope, UserService, UserModel, ErrorModal,
+function($scope, UserService, UserModel, StateService,
 ProfilePictureService) {
    // Clone what we get from the UserService
    // to allow for editing and such
@@ -34,6 +34,8 @@ ProfilePictureService) {
    
    $scope.postSavingMessage = "";
    
+   $scope.errorMessage = StateService.params()['error'];
+   
    $scope.savingProgress = null;
    
    $scope.passwordChangeData = {
@@ -45,6 +47,10 @@ ProfilePictureService) {
    $scope.emailChangeData = {
       email: ""
    };
+   
+   $scope.error = function(errorObject) {
+      $scope.errorMessage = errorObject.toString(false);
+   }
       
    $scope.isViewingLoggedInUser = function() {
       if (!this.currentEditingUser) {
@@ -103,7 +109,7 @@ ProfilePictureService) {
          $scope.savingProgress = progress;
       })
       .catch(function(e) {
-         ErrorModal(e);
+         $scope.error(e);
       })
       .finally(function() {
          $scope.setIsSaving(false);
@@ -122,7 +128,7 @@ ProfilePictureService) {
          $scope.clearPasswordFields();
       })
       .catch(function(error) {
-         ErrorModal(error);
+         $scope.error(error);
       })
       .finally(function() {
          $scope.setIsSaving(false);
@@ -142,7 +148,7 @@ ProfilePictureService) {
          $scope.savingProgress = progress;
       })
       .catch(function(error) {
-         ErrorModal(error);
+         $scope.error(error);
       })
       .finally(function() {
          $scope.setIsSaving(false);
@@ -158,7 +164,7 @@ ProfilePictureService) {
          $scope.setPostSavingMessage("Verification e-mail resent");                 
       })
       .catch(function(error) {
-         ErrorModal(error);
+         $scope.error(error);
       })
       .finally(function() {
          $scope.setIsSaving(false);
@@ -173,7 +179,7 @@ ProfilePictureService) {
          $scope.currentEditingUser = newUser;
       })
       .catch(function(error) {
-         ErrorModal(error);
+         $scope.error(error);
       })
       .finally(function() {
          $scope.setIsSaving(false);
@@ -194,12 +200,12 @@ ProfilePictureService) {
          $scope.currentEditingUser.setProfilePictureFile(data.fileModel);
       })
       .catch(function(error) {
-         ErrorModal(error);
+         $scope.error(error);
       })
    }
    
    $scope.onProfilePictureSelectError = function(error) {
-      ErrorModal(error);
+      $scope.error(error);
    }
    
    $scope.onProfilePictureSelectProgress = function(progress) {

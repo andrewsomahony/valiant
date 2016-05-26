@@ -9890,7 +9890,13 @@ div.main {
           font-weight: normal; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.post-saving-message {
           font-size: 13px;
-          font-weight: normal; }
+          font-weight: normal;
+          margin-top: 8px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.saving-error-message {
+          font-size: 13px;
+          font-weight: bold;
+          color: red;
+          margin-top: 8px; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;
@@ -9989,6 +9995,19 @@ div.main {
           vertical-align: top; }
       div.main div.mobile-scroll div.main-content div.content div.error div.sub-content {
         text-align: center; }
+        div.main div.mobile-scroll div.main-content div.content div.error div.sub-content div.error-header {
+          font-size: 19px;
+          font-weight: bold;
+          margin-top: 40px;
+          margin-bottom: 20px; }
+        div.main div.mobile-scroll div.main-content div.content div.error div.sub-content div.error-message {
+          margin-top: 20px;
+          font-size: 16px;
+          color: red;
+          font-weight: bold; }
+        div.main div.mobile-scroll div.main-content div.content div.error div.sub-content div.error-navigate {
+          margin-top: 10px;
+          font-size: 13px; }
     div.main div.mobile-scroll div.main-content div.ad-space {
       height: 100%; }
       div.main div.mobile-scroll div.main-content div.ad-space div.ad-container div.ad {

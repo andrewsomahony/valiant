@@ -133,6 +133,14 @@ div.user {
          div.post-saving-message {
             font-size: 13px;
             font-weight: normal;  
+            margin-top: 8px;
+         }
+         
+         div.saving-error-message {
+            font-size: 13px;
+            font-weight: bold;
+            color: red;
+            margin-top: 8px;
          }
       }
    }

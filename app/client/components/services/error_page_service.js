@@ -15,7 +15,12 @@ function(StateService, ErrorService) {
    var errorObject = null;
    
    ErrorPageService.go = function(errorMessage) {
-      errorObject = ErrorService.localError(errorMessage);
+      if (errorMessage) {
+         errorObject = ErrorService.localError(errorMessage);
+      } else {
+         errorObject = null;
+      }
+      
       StateService.go('main.page.error.default');
    }
    
@@ -23,7 +28,7 @@ function(StateService, ErrorService) {
       if (!errorObject) {
          return "";
       } else {
-         return errorObject.message;
+         return errorObject.toString(false);
       }
    }
    

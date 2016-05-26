@@ -68,7 +68,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.error", {
-      url: "",
+      url: "error",
       abstract: true,
       views: {
           "content@main": {
@@ -78,7 +78,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
       }
    })
    .state("main.page.error.default", {
-       url: "error",
+       url: "/",
        resolve: RouteResolver("main.page.error.default"),
        views: {
           "nav_bar@main.page": {
@@ -103,7 +103,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.about.default", {
-       url: "",
+       url: "/",
        resolve: RouteResolver("main.page.about.default"),
        views: {
          "nav_bar@main.page": {
@@ -230,7 +230,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }
    })
    .state("main.page.user.default", {
-     url: "/",
+     url: "/?error",
      resolve: RouteResolver("main.page.user.default"),
      views: {
          "nav_bar@main.page": {
