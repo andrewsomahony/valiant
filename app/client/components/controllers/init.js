@@ -7,6 +7,9 @@ require('./main/top_bar');
 require('./main/home/home');
 require('./main/home/default');
 
+require('./main/error/error');
+require('./main/error/default');
+
 require('./main/about/about');
 require('./main/about/default');
 

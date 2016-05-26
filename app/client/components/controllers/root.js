@@ -10,7 +10,9 @@ registerController(name, ['$rootScope',
                           require('services/user_service'),
                           require('services/state_service'),
                           require('services/permission_service'),
-function($rootScope, ErrorModal, UserService, StateService, PermissionService) {
+                          require('services/error_page_service'),
+function($rootScope, ErrorModal, UserService, StateService, PermissionService,
+ErrorPageService) {
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams, options) {
     });
     
@@ -53,10 +55,7 @@ function($rootScope, ErrorModal, UserService, StateService, PermissionService) {
                 if (emailChanged) {
                     StateService.go('main.page.user.default');
                 } else {
-                    // We need to redirect to some sort of a default
-                    // error page here.
-                    throw new Error("Cannot change e-mail!");
-                    //StateService.go('main.page.user.default')
+                    ErrorPageService.go(error);
                 }
             }
         }

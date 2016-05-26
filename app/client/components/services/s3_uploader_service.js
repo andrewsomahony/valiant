@@ -34,7 +34,7 @@ function(FileModel, S3SignUrlService, Promise,
 
       function uploadCancelled(e) {
          var xhr = e.srcElement || e.target;
-         reject(ErrorService.localError("S3 Upload Failed " + xhr.status));
+         reject(ErrorService.localError("S3 Upload Cancelled " + xhr.status));
       }
 
       var xhr = new XMLHttpRequest();

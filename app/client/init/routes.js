@@ -67,6 +67,30 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
       }      
    })
    
+   .state("main.page.error", {
+      url: "",
+      abstract: true,
+      views: {
+          "content@main": {
+              templateUrl: "partials/main/error/error.html",
+              controller: require('controllers/main/error/error')
+          }
+      }
+   })
+   .state("main.page.error.default", {
+       url: "error",
+       resolve: RouteResolver("main.page.error.default"),
+       views: {
+          "nav_bar@main.page": {
+             templateUrl: "partials/main/nav_bar.html"
+          },           
+          "content@main.page.error": {
+             templateUrl: "partials/main/error/content.html",
+             controller: require('controllers/main/error/default')    
+          }
+       }
+   })
+   
    .state("main.page.about", {
        url: "about",
        abstract: true,

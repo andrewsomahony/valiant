@@ -9987,6 +9987,8 @@ div.main {
           margin-right: 12px;
           display: inline-block;
           vertical-align: top; }
+      div.main div.mobile-scroll div.main-content div.content div.error div.sub-content {
+        text-align: center; }
     div.main div.mobile-scroll div.main-content div.ad-space {
       height: 100%; }
       div.main div.mobile-scroll div.main-content div.ad-space div.ad-container div.ad {
