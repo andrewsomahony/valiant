@@ -21,7 +21,7 @@ function(StateService, ErrorService) {
          errorObject = null;
       }
       
-      StateService.go('main.page.error.default');
+      StateService.go('main.error');
    }
    
    ErrorPageService.getErrorMessage = function() {

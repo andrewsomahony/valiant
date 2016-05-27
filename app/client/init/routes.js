@@ -265,7 +265,22 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             controller: require("controllers/main/question/ask")
          }
       }
+   })
+   
+   .state("main.page.question.unauthorized", {
+      url: "/unauthorized",
+      resolve: RouteResolver("main.page.question.unauthorized"),
+      views: {
+          "nav_bar@main.page": {
+             templateUrl: "partials/main/nav_bar.html"
+          },
+          "content@main.page.question": {
+             templateUrl: "partials/main/question/unauthorized.html",
+             controller: require("controllers/main/question/unauthorized")
+          }
+      }
    })   
+      
    .state("main.page.question.default", {
        url: "/:questionId",
        resolve: RouteResolver("main.page.question.default"),

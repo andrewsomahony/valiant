@@ -12,43 +12,79 @@ function($state) {
       
    }
    
+   // We can have a root state but then
+   // a bunch of abstract states for layout
+   // purposes.
+   
+   // main.home
+   // main.login
+   // main.error
+   // main.login.unverified
+   
+   // admin.home
+   
    var rootStateNameMap = {
       'main': 'main.page',
       'admin': 'admin'
    };
    
-   // Alias 'home' to 'main'.
-   rootStateNameMap['home'] = rootStateNameMap['main'];
-   
    var defaultPageStateName = '.default';
-   var defaultSubState = '.home' + defaultPageStateName;
    
-   function parseState(stateObject) {
+   function getStateObject(state, context) {
+      context = context || null;
       
+      var stateObject = $state.get(state, context);
+      if (stateObject) {
+         return stateObject;
+      }
+      
+      var stateString = "";
+      
+      var stateArray = state.split('.');
+      if (!stateArray) {
+         return null;
+      }
+      
+      var trueRootState = rootStateNameMap[stateArray[0]];
+      
+      if (!trueRootState) {
+         return null;
+      }
+      
+      stateString += trueRootState;
+      
+      for (var i = 1; i < stateArray.length; i++) {
+         stateString += "." + stateArray[i];
+      }
+      
+      stateObject = $state.get(stateString, context);
+      
+      if (!stateObject ||
+          true === stateObject.abstract) {
+         // Try to append the default string
+         stateString += defaultPageStateName;
+         stateObject = $state.get(stateString, context);
+      }
+      
+      return stateObject;
    }
    
-   console.log("STATE ", $state.get('main.page'));
-   
+   StateService.hasState = function(name) {
+      return getStateObject(name, $state.$current) ? true : false;
+   }
+      
    StateService.go = function(name, params, options) {
-      if (utils.isPlainObject(name)) {
-         name = parseState(name);
-      }
-
-      var stateObject = $state.get(name);
+      var stateObject = getStateObject(name, $state.$current);
          
       if (!stateObject) {
-         name = parseState(name);
-         
-         if (!name) {
-            throw new Error("StateService.go: Invalid state! " + name);
-         }
+         throw new Error("StateService.go: Invalid state! " + name);
       } else {
          if (true === stateObject.abstract) {
             throw new Error("StateService.go: Cannot go to an abstract state! " + name);
          }
       }
       
-      return $state.go(name, params, options);
+      return $state.go(stateObject.name, params, options);
    }
    
    StateService.params = function() {

@@ -22,11 +22,16 @@ ErrorPageService) {
     $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {               
         if (true === PermissionService.stateRequiresLogin(toState.name) &&
             false === UserService.isLoggedIn()) {
-            StateService.go('main.page.login.default', 
-                        {requires_login: true});
+                
+            if (StateService.hasState('^.unauthorized')) {
+               StateService.go('^.unauthorized');
+            } else {
+               StateService.go('main.login', 
+                           {requires_login: true});
+            }
         } else if (true === PermissionService.stateHiddenWithLogin(toState.name) &&
                    true === UserService.isLoggedIn()) {
-            StateService.go('main.page.user.default',
+            StateService.go('main.user',
                      {userId: UserService.getCurrentUserId()});        
         } else {
             var emailVerified = toParams['email_verified'];
@@ -35,10 +40,10 @@ ErrorPageService) {
             if (false === utils.isUndefinedOrNull(emailVerified)) {
                 emailVerified = utils.stringToBoolean(emailVerified);
                 if (emailVerified) {
-                    StateService.go('main.page.login.default', 
+                    StateService.go('main.login', 
                                 {verification_success: true});
                 } else {
-                    StateService.go('main.page.login.default',
+                    StateService.go('main.login',
                     {verification_success: false, 
                         error: error});
                 }
@@ -46,7 +51,7 @@ ErrorPageService) {
             
             var resetPasswordToken = toParams['reset_password_token'];
             if (false === utils.isUndefinedOrNull(resetPasswordToken)) {
-                StateService.go('main.page.reset_password.default',
+                StateService.go('main.reset_password',
                 {token: resetPasswordToken});
             }
             
@@ -54,12 +59,12 @@ ErrorPageService) {
             if (false === utils.isUndefinedOrNull(emailChanged)) {
                 emailChanged = utils.stringToBoolean(emailChanged);
                 if (emailChanged) {
-                    StateService.go('main.page.user.default', 
+                    StateService.go('main.user', 
                         {userId: UserService.getCurrentUserId()});
                 } else {
                     if (true === UserService.isLoggedIn()) {
-                      StateService.go('main.page.user.default', 
-                            {error: error})  
+                      StateService.go('main.user', 
+                            {error: error, userId: UserService.getCurrentUserId()});  
                     } else {
                        ErrorPageService.go(error);
                     }

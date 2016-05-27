@@ -1,16 +1,49 @@
 div.nav-bar {
-    padding-top: 16px;
-    nav {
-        a.link {
-            @media screen and (max-width: $min-sm-screen-width) {
-                font-size: 16px;
-                margin-right: 20px;
-            }
+    @media screen and (max-width: $min-sm-screen-width) {
+       margin-top: 20px;
+    }
+    
+    @media screen and (min-width: $min-sm-screen-width) {
+       margin-top: 50px;
+    }
+
+    div.nav-container {
+       @media screen and (max-width: $min-sm-screen-width) {
+           text-align: center;
+           width: 100%;
+       }
+       div.nav-sub-container {
+          @media screen and (max-width: $min-sm-screen-width) {
+             display: inline-block;
+             text-align: left;
+             width: 90%;
+          }
+
+          nav {
+             a.link {
+                @media screen and (max-width: $min-sm-screen-width) {
+                   font-size: 16px;
+                   //margin-right: 20px;
+                   
+                   display: inline-block;
+                   
+                   &.about {
+                      width: 25%;
+                   }
+                   &.blog {
+                      width: 22%;
+                   }
+                   &.question {
+                      width: 31%; 
+                   }
+                }
             
-            @media screen and (min-width: $min-sm-screen-width) {
-                font-size: 18px;
-                margin-right: 28px;
-            }
-        }
+                @media screen and (min-width: $min-sm-screen-width) {
+                   font-size: 20px;
+                   margin-right: 30px;
+                }
+             }
+          }  
+       }      
     }
 }

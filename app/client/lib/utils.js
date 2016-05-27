@@ -89,17 +89,14 @@
             return false;
          }
 
-         try 
-         {
+         try {
             if (object.constructor &&
                 false === object.hasOwnProperty("constructor") &&
-                false === object.constructor.prototype.hasOwnProperty("isPrototypeOf"))
-            {
+                false === object.constructor.prototype.hasOwnProperty("isPrototypeOf")) {
                return false;
             }
          } 
-         catch(e) 
-         {
+         catch(e) {
             return false;
          }
 
