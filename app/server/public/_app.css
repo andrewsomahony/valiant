@@ -9981,7 +9981,15 @@ div.main {
       div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.unauthorized {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.unauthorized div.unauthorized-header {
-          font-size: 16px; }
+          font-size: 16px;
+          margin-bottom: 20px; }
+        div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.unauthorized div.unauthorized-login {
+          font-size: 15px;
+          margin-bottom: 50px; }
+        div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.unauthorized div.unauthorized-register {
+          font-size: 14px; }
+          div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.unauthorized div.unauthorized-register div.unauthorized-noproblem {
+            margin-bottom: 20px; }
       div.main div.mobile-scroll div.main-content div.content div.ask {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.ask label {

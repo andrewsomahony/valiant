@@ -12,13 +12,14 @@ registerDirective(name, ['$compile',
       return {
          restrict: 'A',
          scope: {
-            //type: "@", (spinner, circle, pie, image, bar, overlay)
+            //type: "@", (spinner, circle, pie, image, bar, overlay, overlay_circle)
             progressObject: "<",
             message: "<"
             //width: "@",
             //height: "@",
             //imageUrl: "@",
             //color: "@",
+            //opacity: "@",
             //showPercentage: "@"
          },
          link: function($scope, $element, $attributes) {
@@ -278,7 +279,8 @@ registerDirective(name, ['$compile',
                $barElement.append($loadingBarElement);
                
                $div.append($compile($barElement)($scope));
-            } else if ('overlay' === $scope.type) {
+            } else if ('overlay' === $scope.type ||
+                       'overlay_circle' === $scope.type) {
                $div.css('position', 'absolute'); 
                $div.css('width', '100%');
                $div.css('height', '100%');
@@ -287,10 +289,38 @@ registerDirective(name, ['$compile',
                   
                var $overlayElement = angular.element("<div></div>");
                $overlayElement.attr('overlay', '');
-               $overlayElement.attr('width', 'getOverlayWidth()');
-               $overlayElement.css('right', '0px');
+               
+               if ('overlay' === $scope.type) {
+                  $overlayElement.attr('width', 'getOverlayWidth()');
+                  $overlayElement.css('right', '0px');
+               }
                
                $div.append($compile($overlayElement)($scope));
+               
+               if ('overlay_circle' === $scope.type) {
+                  // !!! There's currently no way to set
+                  // !!! the circle color here, as it's a default
+                  // !!! color scheme of a white-transparent overlay
+                  // !!! with a complementary color for the circle.    
+                     
+                  var $loadingProgressDiv = angular.element("<div></div>");
+                  $loadingProgressDiv.attr('loading-progress', '');
+                  
+                  $loadingProgressDiv.attr('type', 'circle');
+                  $loadingProgressDiv.attr('show-percentage', $scope.showPercentage ? "true" : "false");
+                  $loadingProgressDiv.attr('width', $scope.width ? $scope.width : '40px');
+                  $loadingProgressDiv.attr('color', "#51a39d");
+                  $loadingProgressDiv.attr('progress-object', "progressObject");
+                  
+                  $loadingProgressDiv.css('position', 'absolute');
+                  $loadingProgressDiv.css('top', '0');
+                  $loadingProgressDiv.css('left', '0');
+                  $loadingProgressDiv.css('right', '0');
+                  $loadingProgressDiv.css('bottom', '0');
+                  $loadingProgressDiv.css('margin', 'auto');
+                  
+                  $div.append($compile($loadingProgressDiv)($scope));    
+               }
             }
          }
       };
