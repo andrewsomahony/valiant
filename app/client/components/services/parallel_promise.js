@@ -13,8 +13,8 @@ m.factory(name, [require('services/promise'),
                  '$q',
 function(promise, progress, ProgressModel, $q) {
    function parallelPromiseService(promiseFnArray, keepAsArray, supportNotify) {
-      keepAsArray = keepAsArray || false
-      supportNotify = supportNotify || false
+      keepAsArray = false === utils.isUndefinedOrNull(keepAsArray) ? keepAsArray : false;
+      supportNotify = false === utils.isUndefinedOrNull(supportNotify) ? supportNotify : false;
 
       var progressInfoArray = []
 

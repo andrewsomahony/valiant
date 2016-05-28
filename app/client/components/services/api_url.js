@@ -67,6 +67,17 @@ registerService('factory', name, [function() {
       'Logout': {
          url: "logout",
          apiUrlPrefix: false
+      },
+      'Question': {
+         url: "question",
+         sub_api: {
+            'Ask': {
+               url: "ask"
+            }
+         },
+         paramArray: {
+            questionId: ""
+         }
       }
    };
 
