@@ -47,6 +47,9 @@ function(PictureProportionalResizeService) {
                style['height'] = '98%';
             }
             
+            style['max-width'] = '100%';
+            style['max-height'] = '100%';
+            
             return style;  
          }
          

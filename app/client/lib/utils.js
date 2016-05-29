@@ -324,7 +324,11 @@
       },
       
       stringToBoolean: function(string) {
-         return !!this.fromJson(string.toLowerCase());
+         if (!string) {
+             return false;
+         } else {
+            return !!this.fromJson(string.toLowerCase());
+         }
       }
    }
 
