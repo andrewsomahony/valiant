@@ -12,9 +12,9 @@ function(promise, progress, ProgressModel) {
    function serialPromiseService(promiseFnArray, keysToDelete, keysToKeep, removeFinalKeyIfAlone, supportNotify) {
       keysToDelete = keysToDelete || []
       keysToKeep = keysToKeep || []
-      supportNotify = supportNotify || false
+      supportNotify = false === utils.isUndefinedOrNull(supportNotify) ? supportNotify : false;
 
-      removeFinalKeyIfAlone = removeFinalKeyIfAlone || false
+      removeFinalKeyIfAlone = false === utils.isUndefinedOrNull(removeFinalKeyIfAlone) ? removeFinalKeyIfAlone : false;
 
       var allData = {};
       var progressInfoArray = [];

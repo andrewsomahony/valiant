@@ -12,15 +12,6 @@
    <div class="picture-container">
       <div class="picture-container-image">
          <img ng-src="{{model.url}}" ng-style="getHasMediaImageStyle()" />
-
-         <div ng-if="model.upload_progress">
-            <div loading-progress
-                 type="overlay_circle"
-                 show-percentage="false"
-                 progress-object="model.upload_progress">
-            </div>
-        </div>
-
       </div> 
       <div class="picture-container-options">
          <div class="picture-container-option-description">
@@ -37,6 +28,15 @@
             </span>
          </div>
       </div>
+      
+      <div ng-if="model.upload_progress">
+         <div loading-progress
+              type="overlay_circle"
+              show-percentage="false"
+              progress-object="model.upload_progress">
+         </div>
+      </div>
+              
    </div>
 
 </div>

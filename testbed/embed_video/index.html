@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+   
+<head>
+   <title>Embedding HTML5 Video Test</title>
+   
+   <style type="text/css">
+      div.video-container {
+         width: 300px;
+         height: 200px;
+      }
+      
+      div.video-container video {
+         width: 90%;
+         height: auto;
+      }
+      
+      div.youtube-container {
+         width: 300px;
+         height: 200px;
+      }
+      
+      div.youtube-container iframe {
+         width: 90%;
+         height: auto;
+      }
+   </style>
+</head>
+
+<body>
+   <div class="video-container">
+      <video controls src="soccer_small.m4v">
+      </video>
+   </div>
+   
+   <div class="youtube-container">
+      <iframe
+         src="http://www.youtube.com/embed/PekRc5Ufp10?fs=1&playinline=0">
+      </iframe>
+   </div>
+   
+   <!-- https://www.youtube.com/watch?v=PekRc5Ufp10 -->
+</body>
+
+</html>

@@ -67,6 +67,10 @@ function(BaseModel, ExifService) {
          this.setMetadata({type: type});
       },
       
+      getType: function() {
+         return this.metadata['type'] || "";
+      },
+      
       setFileModel: function(fileModel) {
          this.clearMetadata();
 

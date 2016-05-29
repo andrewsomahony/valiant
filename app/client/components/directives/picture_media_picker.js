@@ -25,40 +25,27 @@ function(PictureProportionalResizeService) {
                width: $scope.mediaContainerWidth,
                height: $scope.mediaContainerHeight,
                cursor: 'default',
-               border: '1px solid black',
                'vertical-align': 'top'
             };
          }
          
-         $scope.getHasMediaImageContainerStyle = function() {
-            // !!! UNUSED
-            // !!! Trying to figure out how to have a div
-            // container that has the exact dimensions of
-            // the underlying image.
-            
-            var style = {};
-            
-            if ($scope.model.getWidth() > $scope.model.getHeight()) {
-               style['height'] = 'auto';
-               style['width'] = '75%';
-            } else {
-               style['width'] = 'auto';
-               style['height'] = '98%';
-            }  
-            
-            return style;            
-         }
+         // I would really like to have a generic
+         // "picture" widget and use that for everything,
+         // but CSS these days doesn't really vertically center
+         // divs with width or height being auto.  Furthermore,
+         // if the width is auto, we seem to run into a problem
+         // with sizing proportionally, so here we are.
          
          $scope.getHasMediaImageStyle = function() {
             var style = {};
-            
+           
             if ($scope.model.getWidth() > $scope.model.getHeight()) {
                style['height'] = 'auto';
-               style['width'] = '75%';
+               style['width'] = '88%';
             } else {
                style['width'] = 'auto';
                style['height'] = '98%';
-            }  
+            }
             
             return style;  
          }
