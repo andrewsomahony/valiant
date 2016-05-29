@@ -4,8 +4,8 @@ var registerDirective = require('directives/register');
 
 var name = 'mediaPicker';
 
-registerDirective(name, [
-function() {
+registerDirective(name, [require('services/scope_service'),
+function(ScopeService) {
    return {
       restrict: 'E',
       scope: {
@@ -15,7 +15,8 @@ function() {
          height: "@",
          size: "@",
          mediaContainerWidth: "@",
-         mediaContainerHeight: "@"
+         mediaContainerHeight: "@",
+        // isReadOnly: "@"
       },
       templateUrl: "directives/media_picker.html",
       link: function($scope, $element, $attributes) {
@@ -24,6 +25,8 @@ function() {
          
          $scope.mediaContainerWidth = $scope.mediaContainerWidth || "300px";
          $scope.mediaContainerHeight = $scope.mediaContainerHeight || "300px";
+         
+         $scope.isReadOnly = ScopeService.parseBool($attributes.isReadOnly, false);
          
          $scope.isPicture = function() {
             return 'picture' === $scope.type;
@@ -36,13 +39,20 @@ function() {
          }
          
          $scope.getRootNoMediaDivStyle = function() {
-            return {
+            var style = {
                display: 'inline-block',
                width: $scope.width,
                height: $scope.height,
-               border: "1px solid black",
-               cursor: "pointer"
+               border: "1px solid black"
+            };
+                        
+            if (true === $scope.isReadOnly) {
+               style['cursor'] = 'default';
+            } else {
+               style['cursor'] = 'pointer';
             }
+            
+            return style;
          }
       }
    }

@@ -4,3 +4,31 @@
       <i class="fa fa-youtube fa-5x"></i>
    </div>   
 </div>
+
+<div class="has-media" ng-if="model.url" ng-style="getHasMediaDivStyle()">
+   <div class="media-container youtube-container">
+      <!--
+      <div class="picture-container-image">
+         <img ng-src="{{model.url}}" ng-style="getHasMediaImageStyle()" />
+      </div>
+      
+      -->
+      <div class="media-container-options youtube-container-options">
+         <div class="media-container-option-description">
+            <input class="form-control" 
+                   ng-model="model.description"
+                   ng-if="!isReadOnly"
+                   placeholder="Quick Description" />
+            <span ng-if="isReadOnly" ng-bind="model.description"></span>
+         </div>
+         <div ng-if="!isReadOnly">
+            <span class="picture-container-option-left">
+               <a ng-click="activatePicturePicker()">Change</a>
+            </span>
+            <span class="picture-container-option-right">
+               <a ng-click="deletePicture()">Delete</a>
+            </span>
+         </div>
+      </div>  
+   </div>
+</div>

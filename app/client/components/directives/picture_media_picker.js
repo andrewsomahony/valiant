@@ -55,7 +55,9 @@ function(PictureProportionalResizeService) {
          }
       
          $scope.activatePicturePicker = function() {
-            $scope.picturePickerIsActive.active = true;
+            if (false === $scope.isReadOnly) {
+               $scope.picturePickerIsActive.active = true;
+            }
          }
       
          $scope.onPictureSelectSuccess = function(files) {

@@ -9,21 +9,23 @@
 </div>
 
 <div class="has-media" ng-if="model.url" ng-style="getHasMediaDivStyle()">
-   <div class="picture-container">
+   <div class="media-container picture-container">
       <div class="picture-container-image">
          <img ng-src="{{model.url}}" ng-style="getHasMediaImageStyle()" />
       </div> 
-      <div class="picture-container-options">
-         <div class="picture-container-option-description">
+      <div class="media-container-options picture-container-options">
+         <div class="media-container-option-description">
             <input class="form-control" 
                    ng-model="model.description"
+                   ng-if="!isReadOnly"
                    placeholder="Quick Description" />
+            <span ng-if="isReadOnly" ng-bind="model.description"></span>
          </div>
-         <div>
-            <span class="picture-container-option-left">
+         <div ng-if="!isReadOnly">
+            <span class="media-container-option-left">
                <a ng-click="activatePicturePicker()">Change</a>
             </span>
-            <span class="picture-container-option-right">
+            <span class="media-container-option-right">
                <a ng-click="deletePicture()">Delete</a>
             </span>
          </div>
