@@ -39,7 +39,7 @@ function($scope, UserService, ErrorModal, StateService) {
       if (false === utils.isUndefinedOrNull(verificationSuccess)) {
          if (verificationSuccess) {
             return "E-Mail verification succeeded!";
-      } else {
+         } else {
             var error = StateService.params()['error'];
             return "E-Mail verification failed! (" + error + ")";
          }

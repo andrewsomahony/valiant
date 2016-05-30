@@ -71,7 +71,7 @@
          height: 75%;
       }
       
-      div.image-container div.image-static {
+      div.image-container div.image-fitted {
          width: 90%;
          height: 60%;
          
@@ -82,7 +82,7 @@
          vertical-align: top;
       }
       
-      div.image-static img {
+      div.image-fitted img {
          width: auto;
          height: 100%;
          
@@ -90,7 +90,7 @@
          max-height: 100%;
       }      
       
-      div.image-dynamic {
+      div.image {
          width: 200px;
          height: auto;
          
@@ -101,7 +101,7 @@
          display: inline-block;
       }
       
-      div.image-dynamic img {
+      div.image img {
          width: 100%;
          height: 100%;
       }
@@ -135,7 +135,7 @@
    
    <!-- 
       
-      A static picture display scales the image based on which dimension
+      A fitted picture display scales the image based on which dimension
       is greater, then places it just within the parent element, with an optional
       parameter for centering it.
       
@@ -145,19 +145,18 @@
    -->
    
    <div class="image-container media-container">
-      <div class="image-static">
-         <picture-display type="static" centered="true">
-            <img src="./test3.jpg" class="centered" />
-         </picture-display>
+      <div media-type="picture" model="user.profilePicture" fitted="true" centered="true" class="image-fitted">
+         <!-- This is inserted by the directive -->
+         <img src="./test3.jpg" class="centered" />
       </div>
    </div>
    
    <div class="image-container media-container">
-      <picture-display type="dynamic" width="200px">
-         <div class="image-dynamic">
-            <img src="./test2.jpg" />
-         </div>
-      </picture-display>
+      <!-- The directive will set width and height to a dimension or auto on the root element -->
+      <div media-type="picture" model="user.profilePicture" width="200px" class="image">
+         <!-- This is inserted by the directive -->
+         <img src="./test2.jpg" />
+      </div>
    </div>
 </body>
 

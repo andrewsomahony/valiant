@@ -19,10 +19,7 @@ function() {
          if ('boolean' === typeof bool) {
             return bool;
          } else {
-            if ('string' !== typeof bool) {
-               throw new Error("ScopeService.parseBool: Variable is not a string!");
-            }
-            return 'false' !== bool.toLowerCase();
+            return utils.stringToBoolean(bool);
          }
       }
    }

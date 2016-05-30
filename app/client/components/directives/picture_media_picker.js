@@ -38,7 +38,7 @@ function(PictureProportionalResizeService) {
          
          $scope.getHasMediaImageStyle = function() {
             var style = {};
-           
+ 
             if ($scope.model.getWidth() > $scope.model.getHeight()) {
                style['height'] = 'auto';
                style['width'] = '88%';

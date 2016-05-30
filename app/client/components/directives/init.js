@@ -12,3 +12,6 @@ require('./media_picker');
 require('./picture_media_picker');
 require('./video_media_picker');
 require('./youtube_media_picker');
+
+require('./media_renderer');
+require('./picture_renderer');

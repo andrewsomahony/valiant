@@ -25,6 +25,9 @@ ProfilePictureService) {
       active: false
    };
    
+   $scope.tempWidth = "40%";
+   $scope.tempHeight = "40%";
+   
    $scope.isEditingProfile = false;
    $scope.isChangingPassword = false;
    $scope.isChangingEmail = false;
@@ -228,6 +231,8 @@ ProfilePictureService) {
    }
    
    $scope.activateEditingProfile = function() {
+         $scope.tempWidth = "50%";
+         $scope.tempHeight = "60%";
       $scope.isEditingProfile = true;
       $scope.activateEditing();
    }

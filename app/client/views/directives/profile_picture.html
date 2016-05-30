@@ -1,10 +1,5 @@
-<div class="profile-picture" ng-style="getDivStyle()">
-   <img ng-src="{{getUrl()}}" ng-style="getImageStyle()" />
-   <div ng-if="user.profile_picture.upload_progress">
-      <div loading-progress
-            type="overlay_circle"
-            show-percentage="false"
-            progress-object="user.profile_picture.upload_progress">
-      </div>
-   </div>
-</div>
+<div media-renderer="picture"
+     model="getProfilePicture()"
+     width="{{width}}"
+     show-loading="true"
+     fitted="false"></div>

@@ -325,8 +325,11 @@
       
       stringToBoolean: function(string) {
          if (!string) {
-             return false;
+             return null;
          } else {
+            if ('string' !== typeof string) {
+               throw new Error("utils.stringToBoolean: parameter is not a string!");
+            }
             return !!this.fromJson(string.toLowerCase());
          }
       }
