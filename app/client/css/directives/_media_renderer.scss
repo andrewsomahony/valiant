@@ -1,28 +1,37 @@
 .media-renderer {
+   display: inline-block;
+   position: relative;
+ 
    &.picture-renderer {
-      display: inline-block;
-      position: relative;
-      
       // Maybe don't need this
       vertical-align: middle;
-      
-      &.fitted {
-         .centered {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            margin: auto;      
-         }
-      }
-      
-      &:not(.fitted) {
-         img {
-            width: 100%;
-            height: 100%;
-         }
-      }
-      
    }
+   
+   &.fitted {
+      .centered {
+         position: absolute;
+         top: 0;
+         right: 0;
+         bottom: 0;
+         left: 0;
+         margin: auto;      
+      }
+   }   
+   
+   &:not(.fitted) {
+      img {
+         width: 100%;
+         height: 100%;
+      }
+      
+      video {
+         width: 100%;
+         height: 100%;
+      }
+      
+      iframe {
+         width: 100%;
+         height: 100%;
+      }
+   }   
 }

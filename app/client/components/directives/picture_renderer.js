@@ -91,7 +91,6 @@ function(ScopeService, $compile) {
          $element.attr('ng-style', 'getElementStyle()');
          $element.attr('ng-class', 'getElementClass()');
          
-         
          var $imageElement = angular.element('<img />');
          $imageElement.attr('ng-src', "{{model.url}}");
          $imageElement.attr('ng-class', 'getImageClass()');

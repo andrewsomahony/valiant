@@ -29,30 +29,6 @@ function(PictureProportionalResizeService) {
             };
          }
          
-         // I would really like to have a generic
-         // "picture" widget and use that for everything,
-         // but CSS these days doesn't really vertically center
-         // divs with width or height being auto.  Furthermore,
-         // if the width is auto, we seem to run into a problem
-         // with sizing proportionally, so here we are.
-         
-         $scope.getHasMediaImageStyle = function() {
-            var style = {};
- 
-            if ($scope.model.getWidth() > $scope.model.getHeight()) {
-               style['height'] = 'auto';
-               style['width'] = '88%';
-            } else {
-               style['width'] = 'auto';
-               style['height'] = '98%';
-            }
-            
-            style['max-width'] = '100%';
-            style['max-height'] = '100%';
-            
-            return style;  
-         }
-         
          $scope.deletePicture = function() {
             $scope.model.setFileModel(null);
          }

@@ -9,10 +9,15 @@
 </div>
 
 <div class="has-media" ng-if="model.url" ng-style="getHasMediaDivStyle()">
-   <div class="media-container picture-container">
-      <div class="picture-container-image">
-         <img ng-src="{{model.url}}" ng-style="getHasMediaImageStyle()" />
-      </div> 
+   <div class="media-container">
+      <div media-renderer="picture"
+           model="model"
+           width="88%"
+           height="98%"
+           fitted="true"
+           centered="true"
+           class="picture-container">
+      </div>
       <div class="media-container-options picture-container-options">
          <div class="media-container-option-description">
             <input class="form-control" 
