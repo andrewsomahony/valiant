@@ -52,7 +52,6 @@
   "browser": {
     "info": "./info.js",
     "utils": "./lib/utils.js",
-    "video_converter": "./lib/video_converter.js",
     "angular-strap-tpl-modal": "./node_modules/angular-strap/dist/modules/modal.tpl.js"
   }
 }
