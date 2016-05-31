@@ -52,7 +52,11 @@ ProfilePictureService) {
    };
    
    $scope.error = function(errorObject) {
-      $scope.errorMessage = errorObject.toString(false);
+      if (!errorObject) {
+         $scope.errorMessage = "";      
+      } else {
+         $scope.errorMessage = errorObject.toString(false);
+      }
    }
       
    $scope.isViewingLoggedInUser = function() {
@@ -108,6 +112,7 @@ ProfilePictureService) {
       .then(function(newUser) {
          $scope.finishEditing(newUser);
          $scope.isEditingProfile = false;
+         $scope.error(null);
       }, null, function(progress) {
          $scope.savingProgress = progress;
       })

@@ -30,6 +30,10 @@ function(ScopeService, $compile) {
                // image to a proportion, and sizes
                // with that image.
                               
+               // With images we can scale width or
+               // height as auto, but with video, only
+               // width seems to work.                
+                              
                if ($scope.width) {
                   style['width'] = $scope.width;
                   style['height'] = 'auto';

@@ -4,8 +4,11 @@ var registerDirective = require('directives/register');
 
 var name = 'mediaRenderer';
 
+var utils = require('utils');
+
 registerDirective(name, ['$compile',
-function($compile) {
+                         require('services/scope_service'),
+function($compile, ScopeService) {
    return {
       restrict: 'A',
       compile: function($element, $attributes) {
@@ -16,7 +19,6 @@ function($compile) {
                throw new Error("Missing media type for media-renderer directive!");
             }
             
-            $element.removeAttr('media-renderer');
             $element.addClass('media-renderer');
             
             if ('picture' === mediaType) {
@@ -28,13 +30,13 @@ function($compile) {
             } else {
                throw new Error("Unknown media type for media-renderer directive: ", mediaType);
             }
-         }
+         }  
          
          return {
             pre: function($scope, $element, $attributes) {
-               
             },
             post: function($scope, $element, $attributes) {
+               $element.removeAttr('media-renderer');        
                $compile($element)($scope);
             }
          };

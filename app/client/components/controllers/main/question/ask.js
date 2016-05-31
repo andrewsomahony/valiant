@@ -13,8 +13,10 @@ registerController(name, ['$scope',
                           require('services/s3_uploader_service'),
                           require('services/promise'),
                           require('services/parallel_promise'),
+                          require('services/video_converter_service'),
 function($scope, QuestionService, QuestionModel,
-DeviceService, S3UploaderService, Promise, ParallelPromise) {
+DeviceService, S3UploaderService, Promise, ParallelPromise,
+VideoConverterService) {
    $scope.questionTopicOptions = QuestionService.getSelectableQuestionTypes();
 
    $scope.allocateNewQuestion = function() {
@@ -36,31 +38,15 @@ DeviceService, S3UploaderService, Promise, ParallelPromise) {
    }
    
    $scope.askQuestion = function() {
-      /*var promiseFnArray = [];
-      
-      promiseFnArray.merge(utils.map($scope.currentQuestion.pictures, function(pictureModel) {
-         return function(forNotify) {
-            if (true === forNotify) {
-               return S3UploaderService.getProgressInfo('question_picture', pictureModel.file_model);
-            } else {
-               return Promise(function(resolve, reject, notify) {
-                  S3UploaderService('question_picture', pictureModel.file_model)
-                  .then(function(data) {
-                     pictureModel.url = data.url;
-                     pictureModel.fileModel = null;
-                     pictureModel.s3_upload_progress = null;
-                     resolve();
-                  }, null, function(progress) {
-                     pictureModel.s3_upload_progress = progress;
-                     notify(progress);
-                  })
-                  .catch(function(error) {
-                     reject(error);
-                  });
-               });
-            }
-         }
-      }));*/
+   }
+   
+   $scope.tempWebWorkerReady = false;
+   
+   $scope.tempConvertVideo = function() {
+      VideoConverterService.load()
+      .then(function() {
+         $scope.tempWebWorkerReady = true;
+      })
    }
    
    $scope.allocateNewQuestion();
