@@ -35,10 +35,7 @@ ScopeService) {
       },
       link: function($scope, $element, $attributes) {
          $scope.supportsMultiple = ScopeService.parseBool($attributes.supportsMultiple, false);
-         //$scope.maxFiles = $scope.$eval($attributes.maxFiles) || null;
-         //$scope.maxFileSizeKb = $attributes.maxFileSizeKb || null;
-         //$scope.accept = $attributes.accept || "*/*";
-
+         
          $scope.onFilesProgress = $scope.onFilesProgress || function() {}
          $scope.onFilesError = $scope.onFilesError || function() {}
 
@@ -118,9 +115,7 @@ ScopeService) {
 
                   if (true === $scope.supportsMultiple) {
                      $inputElement.attr('multiple', '');
-                  } /*else {
-                     $inputElement.attr('multiple', 'false');
-                  }*/
+                  }
                   $inputElement.attr('accept', $scope.accept);
                   
                   var event = new MouseEvent('click', {
