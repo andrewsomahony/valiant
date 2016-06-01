@@ -47,50 +47,24 @@ ScopeService) {
                         
             var promiseFnArray = fileArray.map(function(file) {
                return function(isNotify) {
-                  var serialFnArray = [
-                     function(existingData, index, forNotify) {
-                        return Promise(function(resolve, reject) {
-                            // We validate because I'm not sure which browsers
-                            // support the "accept" tag on the file reader,
-                            // and because the browser only uses the extension of the file
-                            // to see if it's ok to load.
-                            
-                           FileTypeValidatorService.validateFile(file, $scope.accept)
-                           .then(function() {
-                               resolve();
-                           }) 
-                           .catch(function() {
-                               reject(ErrorService.localError("File type not accepted! " + file.name))
-                           })
-                        });
-                     },
-                     function(existingData, index, forNotify) {
-                        if (true === forNotify) {
-                           return ProgressService(0, file.size, "Loading file...");
-                        } else {
-                           return Promise(function(resolve, reject, notify) {
-                              FileReaderService.readAsArrayBuffer(file)
-                              .then(function(result) {                                 
-                                 var fileModel = FileModel.fromFileObject(file, null, result);
-                                 resolve({file: fileModel});
-                              })
-                              .catch(function(e) {
-                                 reject(e);
-                              });                
-                           });
-                        }                    
-                     }
-                  ];
-                  
-                  
-                  if (true === isNotify) {
-                     return SerialPromise.getProgressSum(serialFnArray);
-                  } else {
-                     return SerialPromise.withNotify(serialFnArray,
-                        null, ['file'], true);
-                  }
+                  return Promise(function(resolve, reject) {
+                     // We validate because I'm not sure which browsers
+                     // support the "accept" tag on the file reader,
+                     // and because the browser only uses the extension of the file
+                     // to see if it's ok to load.
+                    
+                     var fileModel = FileModel.fromFileObject(file);
+                     
+                     FileTypeValidatorService.validateFileModel(fileModel, $scope.accept)
+                     .then(function() {
+                        resolve(fileModel);
+                     }) 
+                     .catch(function() {
+                        reject(ErrorService.localError("File type not accepted! " + file.name))
+                     })
+                  });
                }
-            })
+            });
             
             ParallelPromise.withNotify(promiseFnArray, true)
             .then(function(files) {

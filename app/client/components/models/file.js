@@ -34,54 +34,19 @@ ErrorService) {
          },
          
          fromFileObject: function(fileObject) {
-            // We probably won't use readAsText
-            // from FileReader, as the arrayBuffer
-            // will always be filled with the correct data,
-            // which we get with readAsArrayBuffer
-            
             var fileModel = new this();
             fileModel.setBlob(fileObject);
             
             return fileModel;
-                        
-            /*return new this({
-                              type: fileObject.type,
-                              size: fileObject.size,
-                              name: fileObject.name,
-                              blob: fileObject
-                           });*/
          },
-         
-         // This function takes a blob and returns
-         // a file model initialized with an array buffer.
-         
-         // We pass in an optional name and exif data, as
-         // this method generally is used when a file
-         // is modified by a function that returns a blob
          
          fromBlob: function(blob, name) {
             name = name || "";
-
-            //var self = this;
             
             var fileModel = this.fromFileObject(blob);
             fileModel.name = name;
             
             return fileModel;
-            
-            /*
-            return Promise(function(resolve, reject, notify) {
-               FileReaderService.readAsArrayBuffer(blob)
-               .then(function(arrayBuffer) {
-                  var fileModel = self.fromFileObject(blob, null, arrayBuffer);
-                  fileModel.name = name;
-                  
-                  resolve(fileModel);
-               })
-               .catch(function(e) {
-                  reject(e);   
-               });                  
-            });*/
          },
          
          fromDataUrl: function(dataUrl, name) { 
@@ -93,22 +58,6 @@ ErrorService) {
             fileModel.name = name;  
             
             return fileModel;
-            /*       
-            return Promise(function(resolve, reject, notify) {
-               var blob = DataUrlService.dataUrlToBlob(dataUrl);
-             
-               if (!blob) {
-                  reject(ErrorService.localError("Invalid data url!"));
-               }
-                  
-               this.fromBlob(blob, name)
-               .then(function(fileModel) {
-                  resolve(fileModel);
-               })
-               .catch(function(e) {
-                  reject(e);
-               });                  
-            });*/
          },
 
          fromText: function(text, name, type) {
@@ -128,16 +77,9 @@ ErrorService) {
             }
             
             var fileModel = new FileModel();
-            fileModel.setBlob(new Blob([buffer], type), name);
+            fileModel.setBlob(new Blob([buffer], {type: type}), name);
 
             return fileModel;
-            /*
-            return new this({
-               type: type,
-               size: text.length,
-               name: name,
-               arrayBuffer: buffer.buffer
-            })*/
          }
       },
       
@@ -153,27 +95,18 @@ ErrorService) {
          this.name = blob.name || name;
          this.blob = blob;
       },
-      /*
-      
-      toBlob: function() {
-         if (this.arrayBuffer) {
-            return new Blob([this.arrayBuffer], 
-                  {type: this.type});
-         } else {
-            return null;
-         }
-      },*/
       
       getArrayBuffer: function() {
          return FileReaderService.readAsArrayBuffer(this.blob);
       },
       
       setArrayBuffer: function(arrayBuffer, name) {
+         var blob = new Blob([arrayBuffer]);
          
+         this.setBlob(blob, name);
       },
       
       getUrl: function() {
-         //var blob = this.toBlob();//new Blob([this.arrayBuffer], {type: this.type});           
          var urlCreator = window.URL || window.webkitURL;
 
          if (this.objectUrl) {
@@ -186,28 +119,13 @@ ErrorService) {
       },
       
       getDataUrl: function() {
-         return FileReaderService.readAsDataUrlPromiseHelper(this.toBlob());
+         return FileReaderService.readAsDataUrlPromiseHelper(this.blob);
       },
       
       setDataUrl: function(dataUrl, name) {
          var blob = DataUrlService.dataUrlToBlob(dataUrl);
          
          this.setBlob(blob, name);
-         /*return Promise(function(resolve, reject, notify) {
-            
-            
-            if (!blob) {
-               reject(ErrorService.localError("Invalid data url!"));
-            }
-            
-            this.fromBlob(blob, name)
-            .then(function(fileModel) {
-               resolve(fileModel);
-            })
-            .catch(function(e) {
-               reject(e);
-            });                  
-         });*/
       }
    })
 }])

@@ -12,15 +12,15 @@ function(MimeService, Promise, DOMImageService) {
       
    }
    
-   FileTypeValidatorService.validateFile = function(file, mimeType) {
+   FileTypeValidatorService.validateFileModel = function(fileModel, mimeType) {
       return Promise(function(resolve, reject, notify) {
-         if (!MimeService.checkMimeType(file.type, mimeType)) {
+         if (!MimeService.checkMimeType(fileModel.type, mimeType)) {
             reject();
          } else {
-            var baseType = MimeService.getBaseMimeType(file.type);
+            var baseType = MimeService.getBaseMimeType(fileModel.type);
             
             if ('image' === baseType) {
-               DOMImageService.isValidImageFile(file)
+               DOMImageService.isValidImageFileModel(fileModel)
                .then(function() {
                   resolve();
                })

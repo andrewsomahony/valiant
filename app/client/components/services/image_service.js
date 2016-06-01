@@ -14,9 +14,10 @@ registerService('factory', name, [require('services/data_url_service'),
                                   require('services/exif_service'),
                                   require('services/dom_image_service'),
                                   require('services/error'),
+                                  require('models/file'),
 function(DataUrlService, FileReaderService, SerialPromise,
 ProgressService, Promise, ExifService, DOMImageService,
-ErrorService) {
+ErrorService, FileModel) {
    function ImageService() {
       
    }
@@ -61,7 +62,7 @@ ErrorService) {
          if (true === forNotify) {
             return ProgressService(0, 1);   
          } else {
-            return fileModel.getDataUrl();//FileReaderService.readAsDataUrlPromiseHelper(file);
+            return fileModel.getDataUrl();
          }
       });
       
@@ -70,27 +71,22 @@ ErrorService) {
             return ProgressService(0, 1);
          } else {
             return Promise(function(resolve, reject, notify) {
-               ImageService.scaleImageFromDataUrl(existingData.dataUrl)
+               ImageService.scaleImageFromDataUrl(existingData.dataUrl, newWidth, newHeight)
                .then(function(data) {
                   var newFileModel = FileModel.fromDataUrl(data.dataUrl, fileModel.name);
-                  
-                  //fileModel.setDataUrl(data.dataUrl);
                   resolve({fileModel: newFileModel});
                })   
                .catch(function(error) {
                   reject(error);
                })
             });
-            //return ImageService.scaleImageFromDataUrl(existingData.dataUrl, newWidth, newHeight);
          }
       });
       
       return SerialPromise.withNotify(promiseFnArray, null, ['fileModel'], true);      
    }
    
-   ImageService.scaleImageFromDataUrl = function(dataUrl, newWidth, newHeight) {
-      //var promiseFnArray = [];
-      
+   ImageService.scaleImageFromDataUrl = function(dataUrl, newWidth, newHeight) {      
       return Promise(function(resolve, reject, notify) {
          var fileType = DataUrlService.getFileType(dataUrl).split("/")[1];
 
@@ -102,43 +98,6 @@ ErrorService) {
                resolve({dataUrl: newDataUrl});
             });            
       });
-      /*
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1, "Resizing image...");
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               var fileType = DataUrlService.getFileType(dataUrl).split("/")[1];
-         
-               var resizeFn = imageResizer(document.createElement('canvas'));
-               resizeFn(dataUrl, newWidth, newHeight, 
-                  fileType, function(newDataUrl) {
-                     resolve({dataUrl: newDataUrl});
-               });
-            });
-         }
-      });*/
-      
-      /*promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1, "Converting image...");
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               if (!existingData.dataUrl) {
-                  reject(ErrorService.localError("Missing data url!"));
-               } else {
-                  var blob = DataUrlService.dataUrlToBlob(existingData.dataUrl);
-                  if (!blob) {
-                     reject(ErrorService.localError("Cannot obtain non-exif file data!"))
-                  } else {
-                     resolve({blob: blob});
-                  }                  
-               }               
-            });
-         }
-      })
-      
-      return SerialPromise.withNotify(promiseFnArray);*/
    }
    
    // This function reads the file,
@@ -157,7 +116,6 @@ ErrorService) {
             return ProgressService(0, 1);   
          } else {
             return fileModel.getDataUrl();
-            //return FileReaderService.readAsDataUrlPromiseHelper(file);
          }
       });
       
@@ -169,12 +127,10 @@ ErrorService) {
                ImageService.processAndStripExifDataFromDataUrl(existingData.dataUrl)
                .then(function(data) {
                   var newFileModel = FileModel.fromDataUrl(data.dataUrl, fileModel.name);
-                  //fileModel.setDataUrl(data.dataUrl);
                   resolve({exifData: data.exifData, 
                            fileModel: newFileModel});
                })  
             });
-            //return ImageService.processAndStripExifDataFromDataUrl(existingData.dataUrl);
          }
       })
       
@@ -218,25 +174,6 @@ ErrorService) {
             });
          }
       });
-      
-      /*promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1);
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               if (!existingData.dataUrl) {
-                  reject(ErrorService.localError("Missing data url!"));
-               } else {
-                  var blob = DataUrlService.dataUrlToBlob(existingData.dataUrl);
-                  if (!blob) {
-                     reject(ErrorService.localError("Cannot obtain non-exif file data!"))
-                  } else {
-                     resolve({blob: blob});
-                  }                  
-               }
-            });
-         }
-      });*/
       
       return SerialPromise.withNotify(promiseFnArray);      
    }

@@ -14,8 +14,9 @@ registerService('factory', name, [require('services/file_reader_service'),
                                   require('services/serial_promise'),
                                   require('services/promise'),
                                   require('services/progress'),
+                                  require('models/file'),
 function(FileReaderService, DataUrlService, DOMImageService, SerialPromise,
-Promise, ProgressService) {
+Promise, ProgressService, FileModel) {
    function ExifService() {
       
    }
@@ -27,20 +28,12 @@ Promise, ProgressService) {
                return ProgressService(0, 1, "Loading file...");
             } else {
                return fileModel.getDataUrl();
-               /*
-               return FileReaderService.readAsDataUrlPromiseHelper(file);*/
             }
          },
          function(existingData, index, forNotify) {
             if (true === forNotify) {
                return ProgressService(0, 1, "Extracting EXIF data...");
             } else {
-               /*return Promise(function(resolve, reject, notify) {
-                  ExifService.getExifDataFromDataUrl(existingData.dataUrl)
-                  .then(function(data) {
-                     
-                  })
-               })*/
                return ExifService.getExifDataFromDataUrl(existingData.dataUrl);
             }
          }
@@ -58,7 +51,7 @@ Promise, ProgressService) {
                
                exifData.position_string = ExifService.parseLatitudeAndLongitude(image.exifdata);
                 
-               resolve({exifData: exifData});
+               resolve(exifData);
             });           
          })
          .catch(function(error) {
@@ -89,7 +82,6 @@ Promise, ProgressService) {
                   ExifService.orientImageDataUrl(existingData.dataUrl, exifData || existingData.exifData)
                    .then(function(data) {
                       var newFileModel = FileModel.fromDataUrl(data.dataUrl, fileModel.name);
-                      //fileModel.setDataUrl(data.dataUrl);
                       resolve({fileModel: newFileModel});
                    })
                    .catch(function(error) {

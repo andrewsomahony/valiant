@@ -32,7 +32,6 @@ ErrorService) {
             return ProgressService(0, 1);
          } else {
             return fileModel.getDataUrl();
-            //return FileReaderService.readAsDataUrlPromiseHelper(file);
          }
       });
      

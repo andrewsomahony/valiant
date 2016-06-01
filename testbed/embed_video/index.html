@@ -183,6 +183,37 @@
          video.appendChild(track);
       }
       
+      function loadSubtitles(input) {
+         var file = input.files[0];
+         
+         var fileReader = new FileReader();
+         
+         fileReader.onload = function(event) {
+            var arrayBuffer = event.target.result;
+            
+            var blob = new Blob([arrayBuffer], 
+                  {type: "text/vtt"})            
+            
+            var urlCreator = window.URL || window.webkitURL;     
+         
+            var url = urlCreator.createObjectURL(blob);
+
+            var video = input.parentNode.parentNode.querySelectorAll("video")[0];
+            
+            var track = document.createElement('track');
+            
+            track.src = url;
+            track.setAttribute('kind', 'subtitles');
+            track.setAttribute('srclang', 'en');
+            track.setAttribute('label', 'English');
+            track.setAttribute('default', '');
+            
+            video.appendChild(track);            
+         }
+         
+         fileReader.readAsArrayBuffer(file);
+      }
+      
    </script>
    
 </head>
@@ -196,6 +227,7 @@
       <div class="video-button">
          <button onclick="doVideo(this)">Do Video</button>
          <button onclick="addSubtitles(this)">Add Subtitles</button>
+         <input type="file" onchange="loadSubtitles(this)" accept="text/vtt" />
       </div>
    </div>
    
@@ -207,6 +239,7 @@
       <div class="video-button">
          <button onclick="doVideo(this)">Do Video</button>
          <button onclick="addSubtitles(this)">Add Subtitles</button>
+         <input type="file" onchange="loadSubtitles(this)" accept="text/vtt" />
       </div>
    </div>   
    

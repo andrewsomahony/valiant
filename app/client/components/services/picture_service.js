@@ -18,9 +18,6 @@ SerialPromise, ProgressService, FileReaderService) {
    }
    
    PictureService.getPictureFromFileModel = function(fileModel) {
-      var picture = new PictureModel();
-      //var blob = fileModel.toBlob();
-      
       var promiseFnArray = [
          // We do the EXIF stuff first, so that
          // if there's some sort of orientation
@@ -63,27 +60,14 @@ SerialPromise, ProgressService, FileReaderService) {
             if (true === forNotify) {
                return ProgressService(0, 1);
             } else {
-               return Promise(function(resolve, reject, notify) {
-                  var newFileModel = existingData.fileModel;
-                  
-                  /*(FileReaderService.readAsArrayBuffer(newBlob)
-                  .then(function(arrayBuffer) {
-                     fileModel = FileModel.fromFileObject({
-                        type: newBlob.type,
-                        size: newBlob.size,
-                        name: fileModel.name
-                     }, null, arrayBuffer);*/
-                                          
-                     picture.setFileModel(existingData.fileModel);
-                     picture.setMetadata(existingData.exifData);
-                     picture.setMetadata(existingData.dimensions);
-                     //picture.setType(fileModel.type);
-                     
-                     resolve({picture: picture});                 
-                  /*})
-                  .catch(function(error) {
-                     reject(error);
-                  });*/
+               return Promise(function(resolve, reject, notify) {                  
+                  var picture = new PictureModel();
+                                       
+                  picture.setFileModel(existingData.fileModel);
+                  picture.setMetadata(existingData.exifData);
+                  picture.setMetadata(existingData.dimensions);
+                                       
+                  resolve({picture: picture});                 
                });
             }
          }

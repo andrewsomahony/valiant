@@ -1130,50 +1130,24 @@ ScopeService) {
                         
             var promiseFnArray = fileArray.map(function(file) {
                return function(isNotify) {
-                  var serialFnArray = [
-                     function(existingData, index, forNotify) {
-                        return Promise(function(resolve, reject) {
-                            // We validate because I'm not sure which browsers
-                            // support the "accept" tag on the file reader,
-                            // and because the browser only uses the extension of the file
-                            // to see if it's ok to load.
-                            
-                           FileTypeValidatorService.validateFile(file, $scope.accept)
-                           .then(function() {
-                               resolve();
-                           }) 
-                           .catch(function() {
-                               reject(ErrorService.localError("File type not accepted! " + file.name))
-                           })
-                        });
-                     },
-                     function(existingData, index, forNotify) {
-                        if (true === forNotify) {
-                           return ProgressService(0, file.size, "Loading file...");
-                        } else {
-                           return Promise(function(resolve, reject, notify) {
-                              FileReaderService.readAsArrayBuffer(file)
-                              .then(function(result) {                                 
-                                 var fileModel = FileModel.fromFileObject(file, null, result);
-                                 resolve({file: fileModel});
-                              })
-                              .catch(function(e) {
-                                 reject(e);
-                              });                
-                           });
-                        }                    
-                     }
-                  ];
-                  
-                  
-                  if (true === isNotify) {
-                     return SerialPromise.getProgressSum(serialFnArray);
-                  } else {
-                     return SerialPromise.withNotify(serialFnArray,
-                        null, ['file'], true);
-                  }
+                  return Promise(function(resolve, reject) {
+                     // We validate because I'm not sure which browsers
+                     // support the "accept" tag on the file reader,
+                     // and because the browser only uses the extension of the file
+                     // to see if it's ok to load.
+                    
+                     var fileModel = FileModel.fromFileObject(file);
+                     
+                     FileTypeValidatorService.validateFileModel(fileModel, $scope.accept)
+                     .then(function() {
+                        resolve(fileModel);
+                     }) 
+                     .catch(function() {
+                        reject(ErrorService.localError("File type not accepted! " + file.name))
+                     })
+                  });
                }
-            })
+            });
             
             ParallelPromise.withNotify(promiseFnArray, true)
             .then(function(files) {
@@ -2537,67 +2511,36 @@ ErrorService) {
                name: "",
                type: "",
                size: 0,
-               arrayBuffer: null,
+               blob: null,
                objectUrl: ""
             });
          },
          
-         fromFileObject: function(fileObject, src, arrayBuffer) {
-            // We probably won't use readAsText
-            // from FileReader, as the arrayBuffer
-            // will always be filled with the correct data,
-            // which we get with readAsArrayBuffer
-                        
-            return new this({
-                              type: fileObject.type,
-                              size: fileObject.size,
-                              name: fileObject.name,
-                              arrayBuffer: arrayBuffer || null
-                           });
+         fromFileObject: function(fileObject) {
+            var fileModel = new this();
+            fileModel.setBlob(fileObject);
+            
+            return fileModel;
          },
-         
-         // This function takes a blob and returns
-         // a file model initialized with an array buffer.
-         
-         // We pass in an optional name and exif data, as
-         // this method generally is used when a file
-         // is modified by a function that returns a blob
          
          fromBlob: function(blob, name) {
             name = name || "";
-
-            var self = this;
             
-            return Promise(function(resolve, reject, notify) {
-               FileReaderService.readAsArrayBuffer(blob)
-               .then(function(arrayBuffer) {
-                  var fileModel = self.fromFileObject(blob, null, arrayBuffer);
-                  fileModel.name = name;
-                  
-                  resolve(fileModel);
-               })
-               .catch(function(e) {
-                  reject(e);   
-               });                  
-            });
+            var fileModel = this.fromFileObject(blob);
+            fileModel.name = name;
+            
+            return fileModel;
          },
          
-         fromDataUrl: function(dataUrl, name) {            
-            return Promise(function(resolve, reject, notify) {
-               var blob = DataUrlService.dataUrlToBlob(dataUrl);
-             
-               if (!blob) {
-                  reject(ErrorService.localError("Invalid data url!"));
-               }
-                  
-               this.fromBlob(blob, name)
-               .then(function(file) {
-                  resolve(file);
-               })
-               .catch(function(e) {
-                  reject(e);
-               });                  
-            });
+         fromDataUrl: function(dataUrl, name) { 
+            name = name || "";
+            
+            var fileModel = new this();
+            
+            fileModel.setDataUrl(dataUrl);
+            fileModel.name = name;  
+            
+            return fileModel;
          },
 
          fromText: function(text, name, type) {
@@ -2615,13 +2558,11 @@ ErrorService) {
             for (var i = 0; i < text.length; i++) {
                buffer[i] = text.charCodeAt(i);
             }
+            
+            var fileModel = new FileModel();
+            fileModel.setBlob(new Blob([buffer], {type: type}), name);
 
-            return new this({
-               type: type,
-               size: text.length,
-               name: name,
-               arrayBuffer: buffer
-            })
+            return fileModel;
          }
       },
       
@@ -2629,30 +2570,45 @@ ErrorService) {
          this.callSuper();
       },
       
-      toBlob: function() {
-         if (this.arrayBuffer) {
-            return new Blob([this.arrayBuffer], 
-                  {type: this.type});
-         } else {
-            return null;
-         }
+      setBlob: function(blob, name) {
+         name = name || this.name || "";
+         
+         this.type = blob.type;
+         this.size = blob.size;
+         this.name = blob.name || name;
+         this.blob = blob;
+      },
+      
+      getArrayBuffer: function() {
+         return FileReaderService.readAsArrayBuffer(this.blob);
+      },
+      
+      setArrayBuffer: function(arrayBuffer, name) {
+         var blob = new Blob([arrayBuffer]);
+         
+         this.setBlob(blob, name);
       },
       
       getUrl: function() {
-         var blob = this.toBlob();//new Blob([this.arrayBuffer], {type: this.type});           
          var urlCreator = window.URL || window.webkitURL;
 
          if (this.objectUrl) {
             urlCreator.revokeObjectURL(this.objectUrl);
          }      
       
-         this.objectUrl = urlCreator.createObjectURL(blob);
+         this.objectUrl = urlCreator.createObjectURL(this.blob);
       
          return this.objectUrl;
       },
       
       getDataUrl: function() {
-         return FileReaderService.readAsDataUrl(this.toBlob());
+         return FileReaderService.readAsDataUrlPromiseHelper(this.blob);
+      },
+      
+      setDataUrl: function(dataUrl, name) {
+         var blob = DataUrlService.dataUrlToBlob(dataUrl);
+         
+         this.setBlob(blob, name);
       }
    })
 }])
@@ -2769,8 +2725,7 @@ var classy = require('classy');
 var name = 'models.picture';
 
 registerModel(name, [require('models/base'),
-                     require('services/exif_service'),
-function(BaseModel, ExifService) {
+function(BaseModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -2823,9 +2778,7 @@ function(BaseModel, ExifService) {
          if (metadata['type']) {
             this.metadata['type'] = metadata['type'];
          }
-         
-        // var latitudeLongitudeString = ExifService.parseLatitudeAndLongitude(metadata);
-         
+                  
          if (metadata['position_string']) {
             this.metadata['position'] = metadata['position_string'];
          }
@@ -2868,7 +2821,7 @@ function(BaseModel, ExifService) {
 }])
 
 module.exports = name;
-},{"classy":136,"models/base":45,"models/register":56,"services/exif_service":69}],54:[function(require,module,exports){
+},{"classy":136,"models/base":45,"models/register":56}],54:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('./register');
@@ -3487,22 +3440,22 @@ ErrorService) {
       
    }
    
-   DOMImageService.isValidImageFile = function(file) {
-      return DOMImageService.createImageFromFile(file);
+   DOMImageService.isValidImageFileModel = function(fileModel) {
+      return DOMImageService.createImageFromFileModel(fileModel);
    }
    
    DOMImageService.isValidImageDataUrl = function(dataUrl) {
       return DOMImageService.createImageFromDataUrl(dataUrl);
    }
 
-   DOMImageService.createImageFromFile = function(file) {
+   DOMImageService.createImageFromFileModel = function(fileModel) {
       var promiseFnArray = [];
       
       promiseFnArray.push(function(existingData, index, forNotify) {
          if (true === forNotify) {
             return ProgressService(0, 1);
          } else {
-            return FileReaderService.readAsDataUrlPromiseHelper(file);
+            return fileModel.getDataUrl();
          }
       });
      
@@ -3692,19 +3645,20 @@ registerService('factory', name, [require('services/file_reader_service'),
                                   require('services/serial_promise'),
                                   require('services/promise'),
                                   require('services/progress'),
+                                  require('models/file'),
 function(FileReaderService, DataUrlService, DOMImageService, SerialPromise,
-Promise, ProgressService) {
+Promise, ProgressService, FileModel) {
    function ExifService() {
       
    }
    
-   ExifService.getExifDataFromFile = function(file) {
+   ExifService.getExifDataFromFileModel = function(fileModel) {
       var promiseFnArray = [
          function(existingData, index, forNotify) {
             if (true === forNotify) {
                return ProgressService(0, 1, "Loading file...");
             } else {
-               return FileReaderService.readAsDataUrlPromiseHelper(file);
+               return fileModel.getDataUrl();
             }
          },
          function(existingData, index, forNotify) {
@@ -3716,7 +3670,7 @@ Promise, ProgressService) {
          }
       ];
       
-      return SerialPromise.withNotify(promiseFnArray);
+      return SerialPromise.withNotify(promiseFnArray, null, ['exifData'], true);
    }
    
    ExifService.getExifDataFromDataUrl = function(dataUrl) {
@@ -3728,7 +3682,7 @@ Promise, ProgressService) {
                
                exifData.position_string = ExifService.parseLatitudeAndLongitude(image.exifdata);
                 
-               resolve({exifData: exifData});
+               resolve(exifData);
             });           
          })
          .catch(function(error) {
@@ -3737,7 +3691,7 @@ Promise, ProgressService) {
       });
    }
    
-   ExifService.orientImageFile = function(file, exifData) {
+   ExifService.orientImageFileModel = function(fileModel, exifData) {
       var promiseFnArray = [
          function(existingData, index, forNotify) {
             if (true === forNotify) {
@@ -3746,7 +3700,8 @@ Promise, ProgressService) {
                if (!exifData) {
                   return ExifService.getExifDataFromFile(file);
                } else {
-                  return FileReaderService.readAsDataUrlPromiseHelper(file);
+                  return fileModel.getDataUrl();
+                  //return FileReaderService.readAsDataUrlPromiseHelper(file);
                }
             }
          },
@@ -3754,12 +3709,21 @@ Promise, ProgressService) {
             if (true === forNotify) {
                return ProgressService(0, 1, "Orienting image...");
             } else {
-               return ExifService.orientImageDataUrl(existingData.dataUrl, exifData || existingData.exifData);
+               return Promise(function(resolve, reject, notify) {
+                  ExifService.orientImageDataUrl(existingData.dataUrl, exifData || existingData.exifData)
+                   .then(function(data) {
+                      var newFileModel = FileModel.fromDataUrl(data.dataUrl, fileModel.name);
+                      resolve({fileModel: newFileModel});
+                   })
+                   .catch(function(error) {
+                      reject(error);
+                   });                   
+               });
             }
          }
       ];
       
-      return SerialPromise.withNotify(promiseFnArray);
+      return SerialPromise.withNotify(promiseFnArray, null, ['fileModel'], true);
    }
    
    ExifService.orientImageDataUrl = function(dataUrl, exifData) {
@@ -3821,7 +3785,7 @@ Promise, ProgressService) {
 }]);
 
 module.exports = name;
-},{"exif-js":157,"exif-orient":158,"services/data_url_service":63,"services/dom_image_service":65,"services/file_reader_service":70,"services/progress":85,"services/promise":86,"services/register":88,"services/serial_promise":92,"utils":101}],70:[function(require,module,exports){
+},{"exif-js":157,"exif-orient":158,"models/file":48,"services/data_url_service":63,"services/dom_image_service":65,"services/file_reader_service":70,"services/progress":85,"services/promise":86,"services/register":88,"services/serial_promise":92,"utils":101}],70:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3958,15 +3922,15 @@ function(MimeService, Promise, DOMImageService) {
       
    }
    
-   FileTypeValidatorService.validateFile = function(file, mimeType) {
+   FileTypeValidatorService.validateFileModel = function(fileModel, mimeType) {
       return Promise(function(resolve, reject, notify) {
-         if (!MimeService.checkMimeType(file.type, mimeType)) {
+         if (!MimeService.checkMimeType(fileModel.type, mimeType)) {
             reject();
          } else {
-            var baseType = MimeService.getBaseMimeType(file.type);
+            var baseType = MimeService.getBaseMimeType(fileModel.type);
             
             if ('image' === baseType) {
-               DOMImageService.isValidImageFile(file)
+               DOMImageService.isValidImageFileModel(fileModel)
                .then(function() {
                   resolve();
                })
@@ -4119,16 +4083,17 @@ registerService('factory', name, [require('services/data_url_service'),
                                   require('services/exif_service'),
                                   require('services/dom_image_service'),
                                   require('services/error'),
+                                  require('models/file'),
 function(DataUrlService, FileReaderService, SerialPromise,
 ProgressService, Promise, ExifService, DOMImageService,
-ErrorService) {
+ErrorService, FileModel) {
    function ImageService() {
       
    }
    
-   ImageService.getImageDimensionsFromFile = function(file) {
+   ImageService.getImageDimensionsFromFileModel = function(fileModel) {
       return Promise(function(resolve, reject, notify) {
-         DOMImageService.createImageFromFile(file)
+         DOMImageService.createImageFromFileModel(fileModel)
          .then(function(image) {
             resolve({
                width: image.width,
@@ -4159,14 +4124,14 @@ ErrorService) {
    // This function scales an image and returns
    // a new one
    
-   ImageService.scaleImageFromFile = function(file, newWidth, newHeight) {
+   ImageService.scaleImageFromFileModel = function(fileModel, newWidth, newHeight) {
       var promiseFnArray = [];
       
       promiseFnArray.push(function(existingData, index, forNotify) {
          if (true === forNotify) {
             return ProgressService(0, 1);   
          } else {
-            return FileReaderService.readAsDataUrlPromiseHelper(file);
+            return fileModel.getDataUrl();
          }
       });
       
@@ -4174,52 +4139,34 @@ ErrorService) {
          if (true === forNotify) {
             return ProgressService(0, 1);
          } else {
-            return ImageService.scaleImageFromDataUrl(existingData.dataUrl, newWidth, newHeight);
+            return Promise(function(resolve, reject, notify) {
+               ImageService.scaleImageFromDataUrl(existingData.dataUrl, newWidth, newHeight)
+               .then(function(data) {
+                  var newFileModel = FileModel.fromDataUrl(data.dataUrl, fileModel.name);
+                  resolve({fileModel: newFileModel});
+               })   
+               .catch(function(error) {
+                  reject(error);
+               })
+            });
          }
       });
       
-      return SerialPromise.withNotify(promiseFnArray);      
+      return SerialPromise.withNotify(promiseFnArray, null, ['fileModel'], true);      
    }
    
-   ImageService.scaleImageFromDataUrl = function(dataUrl, newWidth, newHeight) {
-      var promiseFnArray = [];
-      
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1, "Resizing image...");
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               var fileType = DataUrlService.getFileType(dataUrl).split("/")[1];
+   ImageService.scaleImageFromDataUrl = function(dataUrl, newWidth, newHeight) {      
+      return Promise(function(resolve, reject, notify) {
+         var fileType = DataUrlService.getFileType(dataUrl).split("/")[1];
+
+         var resizeFn = imageResizer(document.createElement('canvas'));
          
-               var resizeFn = imageResizer(document.createElement('canvas'));
-               resizeFn(dataUrl, newWidth, newHeight, 
-                  fileType, function(newDataUrl) {
-                     resolve({dataUrl: newDataUrl});
-               });
-            });
-         }
+         resizeFn(dataUrl, newWidth, newHeight, 
+            fileType, 
+            function(newDataUrl) {
+               resolve({dataUrl: newDataUrl});
+            });            
       });
-      
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1, "Converting image...");
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               if (!existingData.dataUrl) {
-                  reject(ErrorService.localError("Missing data url!"));
-               } else {
-                  var blob = DataUrlService.dataUrlToBlob(existingData.dataUrl);
-                  if (!blob) {
-                     reject(ErrorService.localError("Cannot obtain non-exif file data!"))
-                  } else {
-                     resolve({blob: blob});
-                  }                  
-               }               
-            });
-         }
-      })
-      
-      return SerialPromise.withNotify(promiseFnArray);
    }
    
    // This function reads the file,
@@ -4230,14 +4177,14 @@ ErrorService) {
    
    // This does return the EXIF data for metadata reasons
    
-   ImageService.processAndStripExifDataFromFile = function(file) {
+   ImageService.processAndStripExifDataFromFileModel = function(fileModel) {
       var promiseFnArray = [];
       
       promiseFnArray.push(function(existingData, index, forNotify) {
          if (true === forNotify) {
             return ProgressService(0, 1);   
          } else {
-            return FileReaderService.readAsDataUrlPromiseHelper(file);
+            return fileModel.getDataUrl();
          }
       });
       
@@ -4245,7 +4192,14 @@ ErrorService) {
          if (true === forNotify) {
             return ProgressService(0, 1);
          } else {
-            return ImageService.processAndStripExifDataFromDataUrl(existingData.dataUrl);
+            return Promise(function(resolve, reject, notify) {
+               ImageService.processAndStripExifDataFromDataUrl(existingData.dataUrl)
+               .then(function(data) {
+                  var newFileModel = FileModel.fromDataUrl(data.dataUrl, fileModel.name);
+                  resolve({exifData: data.exifData, 
+                           fileModel: newFileModel});
+               })  
+            });
          }
       })
       
@@ -4261,8 +4215,8 @@ ErrorService) {
          } else {
             return Promise(function(resolve, reject, notify) {
                ExifService.getExifDataFromDataUrl(dataUrl)
-               .then(function(data) {
-                  resolve({exifData: data.exifData})
+               .then(function(exifData) {
+                  resolve({exifData: exifData})
                })
                .catch(function(error) {
                   reject(error);
@@ -4290,25 +4244,6 @@ ErrorService) {
          }
       });
       
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1);
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               if (!existingData.dataUrl) {
-                  reject(ErrorService.localError("Missing data url!"));
-               } else {
-                  var blob = DataUrlService.dataUrlToBlob(existingData.dataUrl);
-                  if (!blob) {
-                     reject(ErrorService.localError("Cannot obtain non-exif file data!"))
-                  } else {
-                     resolve({blob: blob});
-                  }                  
-               }
-            });
-         }
-      });
-      
       return SerialPromise.withNotify(promiseFnArray);      
    }
    
@@ -4317,7 +4252,7 @@ ErrorService) {
 
 module.exports = name;
 
-},{"html5-canvas-image-resizer":159,"services/data_url_service":63,"services/dom_image_service":65,"services/error":66,"services/exif_service":69,"services/file_reader_service":70,"services/progress":85,"services/promise":86,"services/register":88,"services/serial_promise":92}],75:[function(require,module,exports){
+},{"html5-canvas-image-resizer":159,"models/file":48,"services/data_url_service":63,"services/dom_image_service":65,"services/error":66,"services/exif_service":69,"services/file_reader_service":70,"services/progress":85,"services/promise":86,"services/register":88,"services/serial_promise":92}],75:[function(require,module,exports){
 'use strict';
 
 require('services/data_resolver');
@@ -4669,13 +4604,12 @@ SerialPromise, ProgressService, ErrorService) {
          } else {
             reject(ErrorService.localError("PictureProportionalResizeService: newWidth and newHeight both null!"));
          }
-            
-         var blob = picture.file_model.toBlob();
-                              
-         ImageService.scaleImageFromFile(blob, newWidth, newHeight)
-            .then(function(data) {
-               FileModel.fromBlob(data.blob)
-               .then(function(newFileModel) {
+                                          
+         ImageService.scaleImageFromFileModel(picture.file_model, newWidth, newHeight)
+            .then(function(newFileModel) {
+               //var newFileModel = FileModel.fromBlob(data.blob, fileModel.name);
+               /*FileModel.fromBlob(data.blob)
+               .then(function(newFileModel) {*/
                   picture.setFileModel(newFileModel);
                   picture.setMetadata({
                      width: newWidth,
@@ -4683,10 +4617,10 @@ SerialPromise, ProgressService, ErrorService) {
                   });
             
                   resolve(picture);
-               })
+               /*})
                .catch(function(error) {
                   reject(error);
-               });
+               });*/
             })
             .catch(function(error) {
                reject(error);
@@ -4721,9 +4655,6 @@ SerialPromise, ProgressService, FileReaderService) {
    }
    
    PictureService.getPictureFromFileModel = function(fileModel) {
-      var picture = new PictureModel();
-      var blob = fileModel.toBlob();
-      
       var promiseFnArray = [
          // We do the EXIF stuff first, so that
          // if there's some sort of orientation
@@ -4735,9 +4666,9 @@ SerialPromise, ProgressService, FileReaderService) {
                return ProgressService(0, 1);
             } else {
                return Promise(function(resolve, reject, notify) {
-                  ImageService.processAndStripExifDataFromFile(blob)
+                  ImageService.processAndStripExifDataFromFileModel(fileModel)
                   .then(function(data) {
-                     resolve({exif: data});
+                     resolve(data);
                   })
                   .catch(function(error) {
                      reject(error);
@@ -4751,7 +4682,7 @@ SerialPromise, ProgressService, FileReaderService) {
                return ProgressService(0, 1);
             } else {
                return Promise(function(resolve, reject, notify) {
-                  ImageService.getImageDimensionsFromFile(existingData.exif.blob)
+                  ImageService.getImageDimensionsFromFileModel(existingData.fileModel)
                   .then(function(data) {
                      resolve({dimensions: data});
                   })
@@ -4766,27 +4697,14 @@ SerialPromise, ProgressService, FileReaderService) {
             if (true === forNotify) {
                return ProgressService(0, 1);
             } else {
-               return Promise(function(resolve, reject, notify) {
-                  var newBlob = existingData.exif.blob;
-                  
-                  FileReaderService.readAsArrayBuffer(newBlob)
-                  .then(function(arrayBuffer) {
-                     fileModel = FileModel.fromFileObject({
-                        type: newBlob.type,
-                        size: newBlob.size,
-                        name: fileModel.name
-                     }, null, arrayBuffer);
-                                          
-                     picture.setFileModel(fileModel);
-                     picture.setMetadata(existingData.exif.exifData);
-                     picture.setMetadata(existingData.dimensions);
-                     picture.setType(newBlob.type);
-                     
-                     resolve({picture: picture});                 
-                  })
-                  .catch(function(error) {
-                     reject(error);
-                  });
+               return Promise(function(resolve, reject, notify) {                  
+                  var picture = new PictureModel();
+                                       
+                  picture.setFileModel(existingData.fileModel);
+                  picture.setMetadata(existingData.exifData);
+                  picture.setMetadata(existingData.dimensions);
+                                       
+                  resolve({picture: picture});                 
                });
             }
          }
@@ -5052,14 +4970,12 @@ function(FileModel, S3SignUrlService, Promise,
 
       xhr.open('PUT', s3PutUrl.signed_url);
       xhr.setRequestHeader('x-amz-acl', s3PutUrl.acl);
-
-      var blob = fileModel.toBlob();
       
-      if (!blob) {
+      if (!fileModel.blob) {
          reject(ErrorService.localError("Cannot convert file to blob!"));
       }
 
-      xhr.send(blob);      
+      xhr.send(fileModel.blob);      
    }
 
    function GetS3PromiseFnArray(uploadType, fileModel) {
@@ -60974,18 +60890,12 @@ $templateCache.put("directives/profile_picture.html","<div media-renderer=\"pict
 $templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" ng-if=\"!model.url\" ng-style=\"getRootNoMediaDivStyle()\">\n   <div class=\"icon-container\">\n      <span></span>\n      <i class=\"fa fa-video-camera fa-5x\"></i>\n   </div>   \n</div>");
 $templateCache.put("directives/youtube_media_picker.html","<div class=\"no-media\" ng-if=\"!model.url\" ng-style=\"getRootNoMediaDivStyle()\">\n   <div class=\"icon-container\">\n      <span></span>\n      <i class=\"fa fa-youtube fa-5x\"></i>\n   </div>   \n</div>\n\n<div class=\"has-media\" ng-if=\"model.url\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container youtube-container\">\n      <!--\n      <div class=\"picture-container-image\">\n         <img ng-src=\"{{model.url}}\" ng-style=\"getHasMediaImageStyle()\" />\n      </div>\n      \n      -->\n      <div class=\"media-container-options youtube-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"picture-container-option-left\">\n               <a ng-click=\"activatePicturePicker()\">Change</a>\n            </span>\n            <span class=\"picture-container-option-right\">\n               <a ng-click=\"deletePicture()\">Delete</a>\n            </span>\n         </div>\n      </div>  \n   </div>\n</div>");
 $templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
+$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
 $templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
 $templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
-$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
 $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n   <div class=\"logo-container\">\n      <a ui-sref=\"main.page.home.default\">\n          <img class=\"logo\" src=\"images/temp_logo.jpg\" />\n      </a>\n   </div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
 $templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n   <div class=\"nav-sub-container\">\n      <nav>\n         <a class=\"link about\" ui-sref=\"main.page.about.default\">About</a>\n         <a class=\"link blog\" ui-sref=\"main.page.blog.default\">Blog</a>\n         <a class=\"link question\" ui-sref=\"main.page.question.ask\">Coaching</a>\n         <a class=\"link contact\" ui-sref=\"main.page.contact.default\">Contact</a>\n      </nav>\n      \n      <!-- \n          \n<nav>\n         <a class=\"link\" ui-sref=\"main.page.about.default\" href=\"#/about/\" style=\"/* text-align: le */\n/* position: absolute; */\n/* left: 0px; */\n/* margin-right: 40px; */\nwidth:25%;\ndisplay:inline-block;\">About</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.blog.default\" style=\"/* position: relative; */\n/* left: -20px; */\nwidth:22%;\ndisplay: inline-block;\">Blog</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.question.ask\" href=\"#/question/ask\" style=\"/* position: relative; */\n/* left: 12px; */\ndisplay: inline-block;\nwidth: 31%;\">Coaching</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.contact.default\" style=\"/* position: absolute; */\n/* right: 0px; */\">Contact</a>\n   </nav>          \n          \n          -->\n   </div>\n</div>");
 $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"login-button\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"profile-name-and-picture\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"login-button\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
-$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
-$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
-$templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button ng-click=\"onTestRequestClick()\">Test HTTP</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
-$templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
-$templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");
 $templateCache.put("partials/main/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/login/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n   <div class=\"status-message\" \n         ng-if=\"statusMessage()\"\n         ng-bind=\"statusMessage()\"></div>\n   <div class=\"login-form\">\n      <form>\n            <div class=\"form-group\">\n            <label for=\"login_email\">E-Mail Address</label>\n            <input type=\"text\" class=\"form-control\" name=\"login_email\" autocomplete=\"none\" autocorrect=\"none\" autocapitalize=\"none\" ng-model=\"loginInformation.email\" />\n            </div>\n            \n            <div class=\"form-group\">  \n            <label for=\"login_password\">Password</label>\n            <input type=\"password\" class=\"form-control\" name=\"login_password\" autocomplete=\"none\" autocorrect=\"none\" autocapitalize=\"none\" ng-model=\"loginInformation.password\" />\n            </div>\n            \n            <div class=\"form-group\">\n            <button ng-click=\"login()\">Login</button>\n            </div>\n      </form>\n   </div>\n   <div class=\"login-links\">\n      <a ui-sref=\"main.page.login.forgot_password\">Forgot your password?</a>\n      <a ui-sref=\"main.page.register.default\">Create a new Account</a>\n   </div>\n</div>\n\n");
@@ -61002,5 +60912,11 @@ $templateCache.put("partials/main/register/success.html","<div class=\"row\" ng-
 $templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div class=\"resetting-in-progress\" ng-if=\"resettingInProgress\">\n         <span><div loading-progress type=\"spinner\"></div></span>\n         <span class=\"resetting-text\">Setting password...</span>\n      </div>\n   </form>\n</div>");
 $templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"edit-container profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/*\"\n            process-exif=\"true\"\n            is-active=\"profilePicturePickerIsActive\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n         <div>\n            <input type=\"text\"\n                  placeholder=\"First Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"text\"\n                  placeholder=\"Last Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword\">\n      <div ng-if=\"!isChangingEmail\">\n         <span class=\"email-text\"\n               ng-bind=\"currentEditingUser.email\"></span>\n      </div>\n\n      <div ng-if=\"currentEditingUser.pending_email\">\n         <span class=\"pending-email-text\">\n            <span ng-bind=\"currentEditingUser.pending_email\"></span>\n            <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n            <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n         </span>\n      </div>     \n      \n      <div ng-if=\"isChangingEmail\">\n         <div ng-class=\"getEmailEditControlClass()\">\n            <input type=\"email\"\n                  placeholder=\"New E-Mail\"\n                  class=\"form-control profile-email-input\"\n                  ng-model=\"emailChangeData.email\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n      <div class=\"top-edit-control\">\n         <div>\n            <input type=\"password\"\n                  placeholder=\"Old Password\"\n                  class=\"form-control profile-old-password-input\"\n                  ng-model=\"passwordChangeData.old_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"password\"\n                  placeholder=\"New Password\"\n                  class=\"form-control profile-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>       \n            <input type=\"password\"\n                  placeholder=\"Repeat New Password\"\n                  class=\"form-control profile-repeat-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password_repeat\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>         \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-options-container\">\n      <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n         <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n      </span>\n      \n      <div ng-if=\"isSaving\" class=\"saving-message\">\n         <div loading-progress \n               type=\"spinner\"\n               message=\"getSavingUserMessage()\">\n         </div>\n      </div>\n      \n      <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n         <span ng-bind=\"postSavingMessage\"></span>\n      </div>\n      \n      <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n         <span ng-bind=\"errorMessage\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
-$templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
+$templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button ng-click=\"onTestRequestClick()\">Test HTTP</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
+$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
+$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
+$templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
+$templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
 },{}]},{},[102]);

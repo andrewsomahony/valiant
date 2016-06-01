@@ -48,13 +48,12 @@ SerialPromise, ProgressService, ErrorService) {
          } else {
             reject(ErrorService.localError("PictureProportionalResizeService: newWidth and newHeight both null!"));
          }
-            
-         var blob = picture.file_model.toBlob();
-                              
-         ImageService.scaleImageFromFile(blob, newWidth, newHeight)
-            .then(function(data) {
-               FileModel.fromBlob(data.blob)
-               .then(function(newFileModel) {
+                                          
+         ImageService.scaleImageFromFileModel(picture.file_model, newWidth, newHeight)
+            .then(function(newFileModel) {
+               //var newFileModel = FileModel.fromBlob(data.blob, fileModel.name);
+               /*FileModel.fromBlob(data.blob)
+               .then(function(newFileModel) {*/
                   picture.setFileModel(newFileModel);
                   picture.setMetadata({
                      width: newWidth,
@@ -62,10 +61,10 @@ SerialPromise, ProgressService, ErrorService) {
                   });
             
                   resolve(picture);
-               })
+               /*})
                .catch(function(error) {
                   reject(error);
-               });
+               });*/
             })
             .catch(function(error) {
                reject(error);
