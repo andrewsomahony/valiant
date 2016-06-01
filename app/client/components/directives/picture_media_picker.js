@@ -5,7 +5,8 @@ var registerDirective = require('directives/register');
 var name = 'pictureMediaPicker';
 
 registerDirective(name, [require('services/picture_proportional_resize_service'),
-function(PictureProportionalResizeService) {
+                         require('services/picture_service'),
+function(PictureProportionalResizeService, PictureService) {
    return {
       // We just want to use our parent's scope,
       // so we inherit the model variable
@@ -30,7 +31,7 @@ function(PictureProportionalResizeService) {
          }
          
          $scope.deletePicture = function() {
-            $scope.model.setFileModel(null);
+            $scope.model.reset();
          }
       
          $scope.activatePicturePicker = function() {
@@ -40,13 +41,17 @@ function(PictureProportionalResizeService) {
          }
       
          $scope.onPictureSelectSuccess = function(files) {
-            PictureProportionalResizeService.resizePictureFromFileModel(files[0], maxPictureWidth)
-            .then(function(data) {
-               $scope.model.setFileModel(data.fileModel);
+            PictureService.getPictureFromFileModel(files[0])
+            .then(function(picture) {
+               PictureProportionalResizeService.resizePicture(picture, maxPictureWidth)
+               .then(function(newPicture) {
+                  $scope.model = newPicture;
+               })
+               .catch(function(error) {
+                  
+               });             
             })
-            .catch(function(error) {
-               
-            })
+
          }
          
          $scope.onPictureSelectError = function(error) {

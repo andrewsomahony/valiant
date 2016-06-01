@@ -37,82 +37,40 @@ SerialPromise, ProgressService, ErrorService) {
       }
    }
    
-   PictureProportionalResizeService.resizePictureFromFileModel = function(fileModel, newWidth, newHeight) {
-      var promiseFnArray = [];
-      
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1);
+   PictureProportionalResizeService.resizePicture = function(picture, newWidth, newHeight) {
+      return Promise(function(resolve, reject, notify) {
+         if (newWidth) {
+            newHeight = calculateHeightForPictureWidth(picture.getWidth(), 
+                  picture.getHeight(), newWidth);
+         } else if (newHeight) {
+            newWidth = calculateWidthForPictureHeight(picture.getWidth(),
+                  picture.getHeight(), newHeight);
          } else {
-            return Promise(function(resolve, reject, notify) {
-               fileModel.getDataUrl()
-               .then(function(dataUrl) {
-                  resolve({dataUrl: dataUrl});
+            reject(ErrorService.localError("PictureProportionalResizeService: newWidth and newHeight both null!"));
+         }
+            
+         var blob = picture.file_model.toBlob();
+                              
+         ImageService.scaleImageFromFile(blob, newWidth, newHeight)
+            .then(function(data) {
+               FileModel.fromBlob(data.blob)
+               .then(function(newFileModel) {
+                  picture.setFileModel(newFileModel);
+                  picture.setMetadata({
+                     width: newWidth,
+                     height: newHeight
+                  });
+            
+                  resolve(picture);
                })
                .catch(function(error) {
                   reject(error);
-               })
+               });
+            })
+            .catch(function(error) {
+               reject(error);
             });
-         }
       });
-      
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1);
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               DOMImageService.createImageFromDataUrl(existingData.dataUrl)
-               .then(function(domImage) {
-                  resolve({domImage: domImage});
-               })
-               .catch(function(error) {
-                  reject(error);
-               })
-            });
-         }
-      });
-      
-      promiseFnArray.push(function(existingData, index, forNotify) {
-         if (true === forNotify) {
-            return ProgressService(0, 1);
-         } else {
-            return Promise(function(resolve, reject, notify) {
-               if (newWidth) {
-                  newHeight = calculateHeightForPictureWidth(existingData.domImage.width, 
-                     existingData.domImage.height, newWidth);
-               } else if (newHeight) {
-                  newWidth = calculateWidthForPictureHeight(existingData.domImage.width,
-                     existingData.domImage.height, newHeight);
-               } else {
-                  reject(ErrorService.localError("PictureProportionalResizeService: newWidth and newHeight both null!"));
-               }
-                  
-               ImageService.scaleImageFromDataUrl(existingData.dataUrl, newWidth, newHeight)
-                  .then(function(data) {
-                     FileModel.fromBlob(data.blob, fileModel.name)
-                     .then(function(newFileModel) {
-                        newFileModel.metadata = {
-                           width: newWidth,
-                           height: newHeight
-                        };
-                        newFileModel.exifData = fileModel.exifData;
-                        
-                        resolve({
-                           fileModel: newFileModel,
-                        });
-                     })
-                     .catch(function(error) {
-                        reject(error);
-                     });
-                  })
-                  .catch(function(error) {
-                     reject(error);
-                  })
-            });
-         }
-      });
-
-      return SerialPromise.withNotify(promiseFnArray);
    }
    
    return PictureProportionalResizeService;

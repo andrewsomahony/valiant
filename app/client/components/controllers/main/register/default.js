@@ -13,9 +13,10 @@ registerController(name, ['$scope',
                           require('services/promise'),
                           require('services/progress'),
                           require('services/profile_picture_service'),
+                          require('services/picture_service'),
 function($scope, UserService, ErrorModal, 
 UserModel, StateService, SerialPromise, Promise, ProgressService,
-ProfilePictureService) {
+ProfilePictureService, PictureService) {
    $scope.registrationUser = new UserModel();
    
    $scope.registrationInProgress = false;
@@ -52,17 +53,20 @@ ProfilePictureService) {
    }
    
    $scope.resetProfilePicture = function() {
-      $scope.registrationUser.setProfilePictureFile(null);
+      $scope.registrationUser.setProfilePicture(null);
    }
    
    $scope.onProfilePictureAdded = function(files) {
-      ProfilePictureService.resizeProfilePictureFromFileModel(files[0])
-      .then(function(data) {
-         $scope.registrationUser.setProfilePictureFile(data.fileModel);
-      })
-      .catch(function(error) {
-         ErrorModal(error);
-      })
+      PictureService.getPictureFromFileModel(files[0])
+      .then(function(picture) {
+         ProfilePictureService.resizeProfilePicture(picture)
+         .then(function(newPicture) {
+            $scope.registrationUser.setProfilePicture(newPicture);
+         })
+         .catch(function(error) {
+            ErrorModal(error);
+         })         
+      });
    }
    
    $scope.onProfilePictureProgress = function(progress) {

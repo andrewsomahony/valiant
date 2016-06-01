@@ -32,13 +32,11 @@
          display: inline-block;
          vertical-align: top;
          position: relative;
-      }
-   
-      div.video-container {
-         margin-right: 20px;
+         margin-right: 8px;
+         margin-bottom: 8px;
       }
       
-      div.video-container .video {
+      div.video-container .video-fitted {
          width: 100%;
          height: 70%;
          
@@ -48,7 +46,7 @@
       }
       
       /* Make this one into the Angular directive for Valiant*/
-      div.video video {
+      div.video-fitted video {
          width: 95%;
          height: auto;
          
@@ -56,7 +54,36 @@
          max-height: 100%;         
       }
       
+      div.video-container .video {
+         width: 250px;
+         height: auto;
+         
+         display: inline-block;
+      }
+      
+      div.video video {
+         width: 100%;
+         height: 100%;
+      }
+      
+      /*
+         We have to manage the aspect ratio ourselves here
+         About 1.809
+      */      
+      
       div.youtube-container .youtube-video {
+         width: 100%;
+         height: 55.2%;
+         
+         display: inline-block;
+      }
+      
+      div.youtube-video iframe {
+         width: 100%;
+         height: 100%;
+      }
+      
+      div.youtube-container .youtube-video-fitted {
          width: 100%;
          height: 70%;
          
@@ -65,10 +92,21 @@
          vertical-align: top;
       }
       
-      /* Make this one into the Angular directive for Valiant*/
-      div.youtube-video iframe {
+      /*
+         We have to manage the aspect ratio ourselves here
+         About 1.809
+      */
+      div.youtube-video-fitted iframe {
          width: 95%;
          height: 75%;
+      }
+      
+      div.image-container {
+         text-align: center;
+      }
+      
+      div.image-container div.image-button {
+         text-align: center;
       }
       
       div.image-container div.image-fitted {
@@ -105,33 +143,89 @@
          width: 100%;
          height: 100%;
       }
-      
-
    </style>
+   
+   <script type="text/javascript">
+      var possibleImages = ['./test1.jpg', './test2.jpg', './test3.jpg'];
+   
+      function switchImage(button) {
+         var image = button.parentNode.parentNode.querySelectorAll('img')[0];
+         
+         var rootSrc = "./" + image.src.split('://')[1].split('/')[1];
+         var currentIndex = possibleImages.indexOf(rootSrc);
+         if (possibleImages.length - 1 === currentIndex) {
+            currentIndex = 0;
+         } else {
+            currentIndex += 1;
+         }
+         
+         image.src = possibleImages[currentIndex];
+      }
+      
+      function doVideo(button) {
+         var video = button.parentNode.parentNode.querySelectorAll("video")[0];
+         
+         console.log(button.parentNode.parentNode.querySelectorAll("video"));
+         video.currentTime = 3;
+      } 
+      
+      function addSubtitles(button) {
+         var video = button.parentNode.parentNode.querySelectorAll("video")[0];
+         
+         var track = document.createElement('track');
+         
+         track.src = './subtitles.vtt';
+         track.setAttribute('kind', 'subtitles');
+         track.setAttribute('srclang', 'en');
+         track.setAttribute('label', 'English');
+         track.setAttribute('default', '');
+         
+         video.appendChild(track);
+      }
+      
+   </script>
+   
 </head>
 
 <body>
    <div class="video-container media-container">
-      <div class="video">
-         <video-display>
-            <video controls src="./soccer_small.m4v" class="centered">
-               <track src="./subtitles.vtt" kind="subtitles" srclang="en" label="English" default>
-               </track>
-            </video>
-         </video-display>
+      <div video-display class="video-fitted" centered="true" fitted="true" width="95%">
+         <video controls src="./soccer_small.m4v" class="centered" preload="metadata">
+         </video>
+      </div>
+      <div class="video-button">
+         <button onclick="doVideo(this)">Do Video</button>
+         <button onclick="addSubtitles(this)">Add Subtitles</button>
+      </div>
+   </div>
+   
+   <div class="video-container media-container">
+      <div video-display class="video" width="250px">
+         <video controls src="./soccer_small.m4v"">
+         </video>
+      </div>
+      <div class="video-button">
+         <button onclick="doVideo(this)">Do Video</button>
+         <button onclick="addSubtitles(this)">Add Subtitles</button>
+      </div>
+   </div>   
+   
+   <div class="youtube-container media-container">
+      <div youtube-display class="youtube-video-fitted" centered="true" fitted="true" width="95%">
+         <iframe
+            src="http://www.youtube.com/embed/PekRc5Ufp10?fs=1&playinline=0&modestbranding=1"
+            class="centered">
+         </iframe>
       </div>
    </div>
    
    <div class="youtube-container media-container">
-      <div class="youtube-video">
-         <youtube-display>
-            <iframe
-               src="http://www.youtube.com/embed/PekRc5Ufp10?fs=1&playinline=0&modestbranding=1"
-               class="centered">
-            </iframe>
-         </youtube-display>
+      <div youtube-display class="youtube-video" width="100%">
+         <iframe
+            src="http://www.youtube.com/embed/PekRc5Ufp10?fs=1&playinline=0&modestbranding=1">
+         </iframe>
       </div>
-   </div>
+   </div>   
    
    <!-- 
       
@@ -149,6 +243,9 @@
          <!-- This is inserted by the directive -->
          <img src="./test3.jpg" class="centered" />
       </div>
+      <div class="image-button">
+         <button onclick="switchImage(this)">Switch Image</button>
+      </div>
    </div>
    
    <div class="image-container media-container">
@@ -157,6 +254,9 @@
          <!-- This is inserted by the directive -->
          <img src="./test2.jpg" />
       </div>
+      <div class="image-button">
+         <button onclick="switchImage(this)">Switch Image</button>
+      </div>      
    </div>
 </body>
 

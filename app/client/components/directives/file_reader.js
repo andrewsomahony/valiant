@@ -55,6 +55,11 @@ FileReaderService, ImageService, FileTypeValidatorService, MimeService, ErrorSer
                   var serialFnArray = [
                      function(existingData, index, forNotify) {
                         return Promise(function(resolve, reject) {
+                            // We validate because I'm not sure which browsers
+                            // support the "accept" tag on the file reader,
+                            // and because the browser only uses the extension of the file
+                            // to see if it's ok to load.
+                            
                            FileTypeValidatorService.validateFile(file, $scope.accept)
                            .then(function() {
                                resolve();
@@ -64,53 +69,20 @@ FileReaderService, ImageService, FileTypeValidatorService, MimeService, ErrorSer
                            })
                         });
                      },
-                     function(existingData, index, forNotify) { 
-                        if (false === $scope.processExif ||
-                            false === MimeService.isBaseMimeType(file.type, "image")) {
-                           return Promise(function(resolve) {
-                                 resolve({blob: file});
-                           });
-                        } else {
-                           if (true === forNotify) {
-                              return ProgressService(0, 1, "Processing EXIF data...");
-                           } else {
-                              return Promise(function(resolve, reject, notify) {
-                                 ImageService.processAndStripExifDataFromFile(file)
-                                 .then(function(data) {
-                                    resolve({blob: data.blob, exifData: data.exifData});
-                                 })
-                                 .catch(function(e) {
-                                     reject(e);
-                                 })
-                              });
-                           }
-                        }
-                     },
                      function(existingData, index, forNotify) {
                         if (true === forNotify) {
                            return ProgressService(0, file.size, "Loading file...");
                         } else {
                            return Promise(function(resolve, reject, notify) {
-                              FileReaderService.readAsArrayBuffer(existingData.blob)
-                              .then(function(result) {
-                                 // A little trick here, we want to make
-                                 // sure the update file model has the correct
-                                 // data, post-exif processing.
-                                                                  
-                                 var fileModel = FileModel.fromFileObject({
-                                    type: existingData.blob.type,
-                                    size: existingData.blob.size,
-                                    name: file.name
-                                 }, null, result);
-                                                                  
-                                 fileModel.exifData = existingData.exifData;
-                                 
+                              FileReaderService.readAsArrayBuffer(file)
+                              .then(function(result) {                                 
+                                 var fileModel = FileModel.fromFileObject(file, null, result);
                                  resolve({file: fileModel});
                               })
                               .catch(function(e) {
                                  reject(e);
                               });                
-                           });    
+                           });
                         }                    
                      }
                   ];

@@ -9,7 +9,9 @@ var name = 'models.user';
 registerModel(name, [require('models/base'),
                      require('models/question'),
                      require('models/notification'),
-function(BaseModel, QuestionModel, NotificationModel) {
+                     require('models/picture'),
+function(BaseModel, QuestionModel, NotificationModel,
+PictureModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -41,8 +43,12 @@ function(BaseModel, QuestionModel, NotificationModel) {
          return this.first_name + " " + this.last_name;
       },
       
-      setProfilePictureFile: function(file, metadata) {         
-         this.profile_picture.setFileModel(file, metadata);
+      setProfilePicture: function(picture) {
+         if (!picture) {
+            this.profile_picture = new PictureModel();
+         } else {
+            this.profile_picture = picture;
+         }
       }
    })   
 }]);

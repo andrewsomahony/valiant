@@ -9,8 +9,9 @@ registerController(name, ['$scope',
                           require('models/user'),
                           require('services/state_service'),
                           require('services/profile_picture_service'),
+                          require('services/picture_service'),
 function($scope, UserService, UserModel, StateService,
-ProfilePictureService) {
+ProfilePictureService, PictureService) {
    // Clone what we get from the UserService
    // to allow for editing and such
    
@@ -199,17 +200,20 @@ ProfilePictureService) {
    }
    
    $scope.resetProfilePicture = function() {
-      $scope.currentEditingUser.setProfilePictureFile(null);
+      $scope.currentEditingUser.setProfilePicture(null);
    }
    
    $scope.onProfilePictureSelectSuccess = function(files) {
-      ProfilePictureService.resizeProfilePictureFromFileModel(files[0])
-      .then(function(data) {
-         $scope.currentEditingUser.setProfilePictureFile(data.fileModel);
-      })
-      .catch(function(error) {
-         $scope.error(error);
-      })
+      PictureService.getPictureFromFileModel(files[0])
+      .then(function(picture) {
+         ProfilePictureService.resizeProfilePicture(picture)
+         .then(function(newPicture) {
+            $scope.currentEditingUser.setProfilePicture(newPicture);
+         })
+         .catch(function(error) {
+            $scope.error(error);
+         });         
+      });
    }
    
    $scope.onProfilePictureSelectError = function(error) {

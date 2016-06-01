@@ -12,8 +12,8 @@ function(PictureProportionalResizeService) {
    
    var maxProfilePictureWidth = 300;
    
-   ProfilePictureService.resizeProfilePictureFromFileModel = function(fileModel) {
-      return PictureProportionalResizeService.resizePictureFromFileModel(fileModel, 
+   ProfilePictureService.resizeProfilePicture = function(picture) {
+      return PictureProportionalResizeService.resizePicture(picture, 
                   maxProfilePictureWidth);
    }
    

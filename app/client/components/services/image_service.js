@@ -13,8 +13,10 @@ registerService('factory', name, [require('services/data_url_service'),
                                   require('services/promise'),
                                   require('services/exif_service'),
                                   require('services/dom_image_service'),
+                                  require('services/error'),
 function(DataUrlService, FileReaderService, SerialPromise,
-ProgressService, Promise, ExifService, DOMImageService) {
+ProgressService, Promise, ExifService, DOMImageService,
+ErrorService) {
    function ImageService() {
       
    }
@@ -52,7 +54,7 @@ ProgressService, Promise, ExifService, DOMImageService) {
    // This function scales an image and returns
    // a new one
    
-   ImageService.scaleImageFromFile = function(file) {
+   ImageService.scaleImageFromFile = function(file, newWidth, newHeight) {
       var promiseFnArray = [];
       
       promiseFnArray.push(function(existingData, index, forNotify) {
@@ -67,7 +69,7 @@ ProgressService, Promise, ExifService, DOMImageService) {
          if (true === forNotify) {
             return ProgressService(0, 1);
          } else {
-            return ImageService.scaleImageFromDataUrl(existingData.dataUrl);
+            return ImageService.scaleImageFromDataUrl(existingData.dataUrl, newWidth, newHeight);
          }
       });
       
@@ -82,7 +84,7 @@ ProgressService, Promise, ExifService, DOMImageService) {
             return ProgressService(0, 1, "Resizing image...");
          } else {
             return Promise(function(resolve, reject, notify) {
-               var fileType = DataUrlService.getFileType(dataUrl);
+               var fileType = DataUrlService.getFileType(dataUrl).split("/")[1];
          
                var resizeFn = imageResizer(document.createElement('canvas'));
                resizeFn(dataUrl, newWidth, newHeight, 
@@ -163,6 +165,9 @@ ProgressService, Promise, ExifService, DOMImageService) {
             });
          }
       });
+      
+      // This doubles as orienting as well as getting
+      // rid of all the EXIF data.
       
       promiseFnArray.push(function(existingData, index, forNotify) {
          if (true === forNotify) {

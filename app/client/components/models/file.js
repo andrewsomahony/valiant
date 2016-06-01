@@ -24,8 +24,8 @@ ErrorService) {
                size: 0,
                arrayBuffer: null,
                objectUrl: "",
-               exifData: {},
-               metadata: {}
+               //exifData: {},
+               //metadata: {}
             });
          },
          

@@ -34,6 +34,11 @@ function(BaseModel, ExifService) {
          this.callSuper();
       },
       
+      reset: function() {
+         this.setFileModel(null);
+         this.clearMetadata();
+      },
+      
       clearMetadata: function() {
          this.metadata = {};
       },
@@ -72,25 +77,10 @@ function(BaseModel, ExifService) {
       },
       
       setFileModel: function(fileModel) {
-         this.clearMetadata();
-
          this.file_model = fileModel;
          if (fileModel) {
             this.url = fileModel.getUrl();
-            
-            if (fileModel.metadata) {
-               console.log("METADATA, ", fileModel.metadata);
-               this.setMetadata(fileModel.metadata);
-            }
-            
-            if (fileModel.exifData) {
-               console.log("EXIF, ", fileModel.exifData);
-               this.setMetadata(fileModel.exifData);
-            }
-            
-            if (fileModel.type) {
-               this.setType(fileModel.type);
-            } 
+            this.setType(fileModel.type);
          } else {
             this.url = "";
          }

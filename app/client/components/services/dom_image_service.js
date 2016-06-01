@@ -39,11 +39,16 @@ ErrorService) {
          if (true === forNotify) {
             return ProgressService(0, 1);
          } else {
-            return DOMImageService.createImageFromDataUrl(existingData.dataUrl);
+            return Promise(function(resolve, reject, notify) {
+               DOMImageService.createImageFromDataUrl(existingData.dataUrl) 
+               .then(function(image) {
+                   resolve({image: image});
+               })
+            });
          }
       });
       
-      return SerialPromise.withNotify(promiseFnArray);
+      return SerialPromise.withNotify(promiseFnArray, null, ['image'], true);
    }
    
    DOMImageService.createImageFromDataUrl = function(dataUrl) {
