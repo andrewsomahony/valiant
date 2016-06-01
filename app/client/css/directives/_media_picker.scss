@@ -31,10 +31,12 @@ div.media-picker {
          margin-top: 4px;
          margin-bottom: 4px;
 
-         div.picture-container {
+         div.picture-container,
+         div.video-container,
+         div.youtube-container {
             width: 100%;
             height: 70%;
-         }
+         }        
 
          div.media-container-options {
             div.media-container-option-description {

@@ -1,6 +1,59 @@
-<div class="no-media" ng-if="!model.url" ng-style="getRootNoMediaDivStyle()">
+<div class="no-media" 
+     ng-if="!model.url"
+     ng-click="activateVideoPicker()" 
+     ng-style="getRootNoMediaDivStyle()">
    <div class="icon-container">
       <span></span>
       <i class="fa fa-video-camera fa-5x"></i>
    </div>   
 </div>
+
+
+<div class="has-media" ng-if="model.url" ng-style="getHasMediaDivStyle()">
+   <div class="media-container">
+      <div media-renderer="video"
+           model="model"
+           width="88%"
+           height="98%"
+           fitted="true"
+           centered="true"
+           class="video-container">
+      </div>
+      <div class="media-container-options picture-container-options">
+         <div class="media-container-option-description">
+            <input class="form-control" 
+                   ng-model="model.description"
+                   ng-if="!isReadOnly"
+                   placeholder="Quick Description" />
+            <span ng-if="isReadOnly" ng-bind="model.description"></span>
+         </div>
+         <div ng-if="!isReadOnly">
+            <span class="media-container-option-left">
+               <a ng-click="activateVideoPicker()">Change</a>
+            </span>
+            <span class="media-container-option-right">
+               <a ng-click="deleteVideo()">Delete</a>
+            </span>
+         </div>
+      </div>
+      
+      <div ng-if="model.upload_progress">
+         <div loading-progress
+              type="overlay_circle"
+              show-percentage="false"
+              progress-object="model.upload_progress">
+         </div>
+      </div>
+              
+   </div>
+
+</div>
+
+<file-reader
+   supports-multiple="false"
+   accept="video/mp4,video/x-m4v,video/*"
+   is-active="videoPickerIsActive"
+   on-files-added="onVideoSelectSuccess(files)"
+   on-files-progress="onVideoSelectProgress(progress)"
+   on-files-error="onVideoSelectError(error)">
+</file-reader> 

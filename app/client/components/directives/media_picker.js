@@ -40,7 +40,7 @@ function(ScopeService) {
          
          $scope.getRootNoMediaDivStyle = function() {
             var style = {
-               display: 'inline-block',
+               //display: 'inline-block',
                width: $scope.width,
                height: $scope.height,
                border: "1px solid black"

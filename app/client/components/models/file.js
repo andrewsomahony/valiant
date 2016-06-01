@@ -97,7 +97,7 @@ ErrorService) {
       },
       
       getArrayBuffer: function() {
-         return FileReaderService.readAsArrayBuffer(this.blob);
+         return FileReaderService.readAsArrayBufferPromiseHelper(this.blob);
       },
       
       setArrayBuffer: function(arrayBuffer, name) {

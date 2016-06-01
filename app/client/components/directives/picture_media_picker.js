@@ -22,7 +22,7 @@ function(PictureProportionalResizeService, PictureService) {
       
          $scope.getHasMediaDivStyle = function() {
             return {
-               display: 'inline-block',
+               //display: 'inline-block',
                width: $scope.mediaContainerWidth,
                height: $scope.mediaContainerHeight,
                cursor: 'default',

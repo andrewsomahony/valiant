@@ -34,12 +34,44 @@ function(BaseModel) {
          this.callSuper();
       },
       
-      getWidth: function() {
+      reset: function() {
+         this.clearMetadata();
+         this.setFileModel(null);
+      },
+      
+      setFileModel: function(fileModel) {
+         this.file_model = fileModel;
+         
+         if (fileModel) {
+            this.url = fileModel.getUrl();
+            console.log(this.url);
+         } else {
+            this.url = "";
+         }
+      },
+      
+      clearMetadata: function() {
+         this.metadata = {};
+      },
+      
+      setMetadata: function(metadata) {
          
       },
       
+      getWidth: function() {
+         if (this.metadata['width']) {
+            return this.metadata['width'];
+         } else {
+            return -1;
+         }
+      },
+      
       getHeight: function() {
-         
+         if (this.metadata['height']) {
+            return this.metadata['height'];
+         } else {
+            return -1;
+         }         
       }
    });
 }])
