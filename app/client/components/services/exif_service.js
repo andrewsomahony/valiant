@@ -4,6 +4,7 @@ var registerService = require('services/register');
 
 var EXIF = require('exif-js');
 var exifOrient = require('exif-orient');
+var utils = require('utils');
 
 var name = 'services.exif';
 
@@ -19,34 +20,45 @@ Promise, ProgressService) {
       
    }
    
-   ExifService.getExifDataFromFile = function(file) {
+   ExifService.getExifDataFromFileModel = function(fileModel) {
       var promiseFnArray = [
          function(existingData, index, forNotify) {
             if (true === forNotify) {
                return ProgressService(0, 1, "Loading file...");
             } else {
-               return FileReaderService.readAsDataUrlPromiseHelper(file);
+               return fileModel.getDataUrl();
+               /*
+               return FileReaderService.readAsDataUrlPromiseHelper(file);*/
             }
          },
          function(existingData, index, forNotify) {
             if (true === forNotify) {
                return ProgressService(0, 1, "Extracting EXIF data...");
             } else {
+               /*return Promise(function(resolve, reject, notify) {
+                  ExifService.getExifDataFromDataUrl(existingData.dataUrl)
+                  .then(function(data) {
+                     
+                  })
+               })*/
                return ExifService.getExifDataFromDataUrl(existingData.dataUrl);
             }
          }
       ];
       
-      return SerialPromise.withNotify(promiseFnArray);
+      return SerialPromise.withNotify(promiseFnArray, null, ['exifData'], true);
    }
    
    ExifService.getExifDataFromDataUrl = function(dataUrl) {
       return Promise(function(resolve, reject, notify) {
-         console.log("Trying DOM image");
          DOMImageService.createImageFromDataUrl(dataUrl)
          .then(function(image) {
             EXIF.getData(image, function() {
-               resolve({exifData: image.exifdata});
+               var exifData = utils.clone(image.exifdata); 
+               
+               exifData.position_string = ExifService.parseLatitudeAndLongitude(image.exifdata);
+                
+               resolve({exifData: exifData});
             });           
          })
          .catch(function(error) {
@@ -55,7 +67,7 @@ Promise, ProgressService) {
       });
    }
    
-   ExifService.orientImageFile = function(file, exifData) {
+   ExifService.orientImageFileModel = function(fileModel, exifData) {
       var promiseFnArray = [
          function(existingData, index, forNotify) {
             if (true === forNotify) {
@@ -64,7 +76,8 @@ Promise, ProgressService) {
                if (!exifData) {
                   return ExifService.getExifDataFromFile(file);
                } else {
-                  return FileReaderService.readAsDataUrlPromiseHelper(file);
+                  return fileModel.getDataUrl();
+                  //return FileReaderService.readAsDataUrlPromiseHelper(file);
                }
             }
          },
@@ -72,12 +85,22 @@ Promise, ProgressService) {
             if (true === forNotify) {
                return ProgressService(0, 1, "Orienting image...");
             } else {
-               return ExifService.orientImageDataUrl(existingData.dataUrl, exifData || existingData.exifData);
+               return Promise(function(resolve, reject, notify) {
+                  ExifService.orientImageDataUrl(existingData.dataUrl, exifData || existingData.exifData)
+                   .then(function(data) {
+                      var newFileModel = FileModel.fromDataUrl(data.dataUrl, fileModel.name);
+                      //fileModel.setDataUrl(data.dataUrl);
+                      resolve({fileModel: newFileModel});
+                   })
+                   .catch(function(error) {
+                      reject(error);
+                   });                   
+               });
             }
          }
       ];
       
-      return SerialPromise.withNotify(promiseFnArray);
+      return SerialPromise.withNotify(promiseFnArray, null, ['fileModel'], true);
    }
    
    ExifService.orientImageDataUrl = function(dataUrl, exifData) {

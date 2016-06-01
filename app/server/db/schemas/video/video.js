@@ -9,6 +9,10 @@ var VideoSchema = new Schema({
       type: String,
       default: ""
    },
+   subtitle_url: {
+      type: String,
+      default: ""  
+   },
    description: {
       type: String,
       default: ""

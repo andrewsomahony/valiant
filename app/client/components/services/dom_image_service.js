@@ -16,22 +16,23 @@ ErrorService) {
       
    }
    
-   DOMImageService.isValidImageFile = function(file) {
-      return DOMImageService.createImageFromFile(file);
+   DOMImageService.isValidImageFileModel = function(fileModel) {
+      return DOMImageService.createImageFromFileModel(fileModel);
    }
    
    DOMImageService.isValidImageDataUrl = function(dataUrl) {
       return DOMImageService.createImageFromDataUrl(dataUrl);
    }
 
-   DOMImageService.createImageFromFile = function(file) {
+   DOMImageService.createImageFromFileModel = function(fileModel) {
       var promiseFnArray = [];
       
       promiseFnArray.push(function(existingData, index, forNotify) {
          if (true === forNotify) {
             return ProgressService(0, 1);
          } else {
-            return FileReaderService.readAsDataUrlPromiseHelper(file);
+            return fileModel.getDataUrl();
+            //return FileReaderService.readAsDataUrlPromiseHelper(file);
          }
       });
      

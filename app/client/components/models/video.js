@@ -15,6 +15,7 @@ function(BaseModel) {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
                url: "",
+               subtitle_url: "",
                description: "",
                metadata: {},
                file_model: null,

@@ -2525,6 +2525,12 @@ ErrorService) {
       extend: BaseModel,
       alias: name,
       
+      // I don't really like how I structured this:
+      // Storing a pointless array buffer instead of
+      // the blob/file object is really silly, but
+      // to change everything now is a bit of a headache,
+      // but it seems like I'll have to :-/
+      
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
@@ -2532,9 +2538,7 @@ ErrorService) {
                type: "",
                size: 0,
                arrayBuffer: null,
-               objectUrl: "",
-               //exifData: {},
-               //metadata: {}
+               objectUrl: ""
             });
          },
          
@@ -2635,7 +2639,7 @@ ErrorService) {
       },
       
       getUrl: function() {
-         var blob = new Blob([this.arrayBuffer], {type: this.type});           
+         var blob = this.toBlob();//new Blob([this.arrayBuffer], {type: this.type});           
          var urlCreator = window.URL || window.webkitURL;
 
          if (this.objectUrl) {
@@ -2820,10 +2824,10 @@ function(BaseModel, ExifService) {
             this.metadata['type'] = metadata['type'];
          }
          
-         var latitudeLongitudeString = ExifService.parseLatitudeAndLongitude(metadata);
+        // var latitudeLongitudeString = ExifService.parseLatitudeAndLongitude(metadata);
          
-         if (latitudeLongitudeString) {
-            this.metadata['position'] = latitudeLongitudeString;
+         if (metadata['position_string']) {
+            this.metadata['position'] = metadata['position_string'];
          }
       },
       
@@ -3043,6 +3047,7 @@ function(BaseModel) {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
                url: "",
+               subtitle_url: "",
                description: "",
                metadata: {},
                file_model: null,
@@ -3677,6 +3682,7 @@ var registerService = require('services/register');
 
 var EXIF = require('exif-js');
 var exifOrient = require('exif-orient');
+var utils = require('utils');
 
 var name = 'services.exif';
 
@@ -3715,11 +3721,14 @@ Promise, ProgressService) {
    
    ExifService.getExifDataFromDataUrl = function(dataUrl) {
       return Promise(function(resolve, reject, notify) {
-         console.log("Trying DOM image");
          DOMImageService.createImageFromDataUrl(dataUrl)
          .then(function(image) {
             EXIF.getData(image, function() {
-               resolve({exifData: image.exifdata});
+               var exifData = utils.clone(image.exifdata); 
+               
+               exifData.position_string = ExifService.parseLatitudeAndLongitude(image.exifdata);
+                
+               resolve({exifData: exifData});
             });           
          })
          .catch(function(error) {
@@ -3812,7 +3821,7 @@ Promise, ProgressService) {
 }]);
 
 module.exports = name;
-},{"exif-js":157,"exif-orient":158,"services/data_url_service":63,"services/dom_image_service":65,"services/file_reader_service":70,"services/progress":85,"services/promise":86,"services/register":88,"services/serial_promise":92}],70:[function(require,module,exports){
+},{"exif-js":157,"exif-orient":158,"services/data_url_service":63,"services/dom_image_service":65,"services/file_reader_service":70,"services/progress":85,"services/promise":86,"services/register":88,"services/serial_promise":92,"utils":101}],70:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');

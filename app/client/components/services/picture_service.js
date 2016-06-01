@@ -19,7 +19,7 @@ SerialPromise, ProgressService, FileReaderService) {
    
    PictureService.getPictureFromFileModel = function(fileModel) {
       var picture = new PictureModel();
-      var blob = fileModel.toBlob();
+      //var blob = fileModel.toBlob();
       
       var promiseFnArray = [
          // We do the EXIF stuff first, so that
@@ -32,9 +32,9 @@ SerialPromise, ProgressService, FileReaderService) {
                return ProgressService(0, 1);
             } else {
                return Promise(function(resolve, reject, notify) {
-                  ImageService.processAndStripExifDataFromFile(blob)
+                  ImageService.processAndStripExifDataFromFileModel(fileModel)
                   .then(function(data) {
-                     resolve({exif: data});
+                     resolve(data);
                   })
                   .catch(function(error) {
                      reject(error);
@@ -48,7 +48,7 @@ SerialPromise, ProgressService, FileReaderService) {
                return ProgressService(0, 1);
             } else {
                return Promise(function(resolve, reject, notify) {
-                  ImageService.getImageDimensionsFromFile(existingData.exif.blob)
+                  ImageService.getImageDimensionsFromFileModel(existingData.fileModel)
                   .then(function(data) {
                      resolve({dimensions: data});
                   })
@@ -64,26 +64,26 @@ SerialPromise, ProgressService, FileReaderService) {
                return ProgressService(0, 1);
             } else {
                return Promise(function(resolve, reject, notify) {
-                  var newBlob = existingData.exif.blob;
+                  var newFileModel = existingData.fileModel;
                   
-                  FileReaderService.readAsArrayBuffer(newBlob)
+                  /*(FileReaderService.readAsArrayBuffer(newBlob)
                   .then(function(arrayBuffer) {
                      fileModel = FileModel.fromFileObject({
                         type: newBlob.type,
                         size: newBlob.size,
                         name: fileModel.name
-                     }, null, arrayBuffer);
+                     }, null, arrayBuffer);*/
                                           
-                     picture.setFileModel(fileModel);
-                     picture.setMetadata(existingData.exif.exifData);
+                     picture.setFileModel(existingData.fileModel);
+                     picture.setMetadata(existingData.exifData);
                      picture.setMetadata(existingData.dimensions);
-                     picture.setType(newBlob.type);
+                     //picture.setType(fileModel.type);
                      
                      resolve({picture: picture});                 
-                  })
+                  /*})
                   .catch(function(error) {
                      reject(error);
-                  });
+                  });*/
                });
             }
          }
