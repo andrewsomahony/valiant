@@ -16,30 +16,28 @@ registerDirective(name, [require('models/file'),
                          require('services/file_type_validator_service'),
                          require('services/mime_service'),
                          require('services/error'),
+                         require('services/scope_service'),
 function(FileModel, Promise, SerialPromise, ParallelPromise, ProgressService,
-FileReaderService, ImageService, FileTypeValidatorService, MimeService, ErrorService) {
+FileReaderService, ImageService, FileTypeValidatorService, MimeService, ErrorService,
+ScopeService) {
    return {
       restrict: 'E',
       template: "",
       scope: {
-         //maxFiles: "@",
-         //maxFileSizeKb: "@",
+         maxFiles: "@",
+         maxFileSizeKb: "@",
          //supportsMultiple: "@",
-         //accept: "@",
-         //processExif: "@",
+         accept: "@",
          onFilesAdded: "&",
          onFilesError: "&",
          onFilesProgress: "&",
          isActive: "=",
       },
       link: function($scope, $element, $attributes) {
-
-         $scope.supportsMultiple = $scope.$eval($attributes.supportsMultiple) || true
-         $scope.maxFiles = $scope.$eval($attributes.maxFiles) || null;
-         $scope.maxFileSizeKb = $scope.$eval($attributes.maxFileSizeKb) || null;
-         $scope.accept = $attributes.accept || "*/*";
-
-         $scope.processExif = $scope.$eval(utils.isUndefinedOrNull($attributes.processExif) ? "true" : $attributes.processExif);
+         $scope.supportsMultiple = ScopeService.parseBool($attributes.supportsMultiple, false);
+         //$scope.maxFiles = $scope.$eval($attributes.maxFiles) || null;
+         //$scope.maxFileSizeKb = $attributes.maxFileSizeKb || null;
+         //$scope.accept = $attributes.accept || "*/*";
 
          $scope.onFilesProgress = $scope.onFilesProgress || function() {}
          $scope.onFilesError = $scope.onFilesError || function() {}
@@ -119,10 +117,10 @@ FileReaderService, ImageService, FileTypeValidatorService, MimeService, ErrorSer
                   $inputElement.on('change', onInputChange)
 
                   if (true === $scope.supportsMultiple) {
-                     $inputElement.attr('multiple', 'true');
-                  } else {
+                     $inputElement.attr('multiple', '');
+                  } /*else {
                      $inputElement.attr('multiple', 'false');
-                  }
+                  }*/
                   $inputElement.attr('accept', $scope.accept);
                   
                   var event = new MouseEvent('click', {
