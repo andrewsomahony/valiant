@@ -2,12 +2,12 @@
      ng-if="!hasMedia()" 
      ng-style="getRootNoMediaDivStyle()"
      ng-click="activateFileReader()">
-   <div ng-if="!isLoadingPicture" class="picture-icon icon-container">
+   <div ng-if="!isLoadingMedia" class="picture-icon icon-container">
       <span></span>
       <i class="fa fa-picture-o fa-5x"></i>
    </div>   
    
-   <div ng-if="isLoadingPicture" class="loading-icon icon-container">
+   <div ng-if="isLoadingMedia" class="loading-icon icon-container">
       <span></span>
       <i class="fa fa-refresh fa-spin fa-4x fa-fw"></i>
    </div>

@@ -24,6 +24,8 @@ function(VideoService) {
          }
       
          $scope.onVideoSelectSuccess = function(files) {
+            $scope.isLoadingMedia = true;
+            
             VideoService.getVideoFromFileModel(files[0])
             .then(function(video) {
                // Convert here?
@@ -31,6 +33,9 @@ function(VideoService) {
             })
             .catch(function(error) {
                $scope.error(error);
+            })
+            .finally(function() {
+               $scope.isLoadingMedia = false;
             });
          }
          

@@ -28,7 +28,7 @@ function(PictureProportionalResizeService, PictureService) {
          }                
       
          $scope.onPictureSelectSuccess = function(files) {
-            $scope.isLoadingPicture = true;
+            $scope.isLoadingMedia = true;
             
             PictureService.getPictureFromFileModel(files[0])
             .then(function(picture) {
@@ -44,7 +44,7 @@ function(PictureProportionalResizeService, PictureService) {
                $scope.error(error);
             })
             .finally(function() {
-               $scope.isLoadingPicture = false;
+               $scope.isLoadingMedia = false;
             });
          }
          

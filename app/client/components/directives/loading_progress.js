@@ -185,26 +185,31 @@ registerDirective(name, ['$compile',
                return style;
             }
             
+            $scope.getPercentageString = function() {
+               return "" + $scope.getLoadingPercentageAsInt() + "%";
+            }
+            
             var $div = $element;
             $div.addClass('loading-progress');
                         
             if ('spinner' === $scope.type) {
                var $imageSpan = angular.element("<span></span>");
                
-               var $imageElement = angular.element("<img />");
-               $imageElement.attr('src', './images/spinner.gif');
-               $imageElement.attr('ng-style', 'getSpinnerStyle()');               
+               var $iconElement = angular.element("<i></i>");
                
-               $imageSpan.append($imageElement);
+               $iconElement.addClass('fa');
+               $iconElement.addClass('fa-refresh');
+               $iconElement.addClass('fa-spin');
+               $iconElement.addClass('fa-fw');
+               
+               $imageSpan.append($iconElement);
                
                var $messageSpan = angular.element("<span></span>");   
                $messageSpan.attr('ng-bind', 'message');
-               $messageSpan.css('margin-left', '10px');
+               $messageSpan.css('margin-left', '7px');
                
                $div.append($compile($imageSpan)($scope));
                $div.append($compile($messageSpan)($scope));
-
-               //$div.append($compile($imageElement)($scope));
             } else if ('circle' === $scope.type ||
                        'pie' === $scope.type) {
                if (!$scope.width) {
@@ -231,8 +236,9 @@ registerDirective(name, ['$compile',
                    true === $scope.showPercentage) {
                   var $percentDiv = angular.element("<div></div>");
                   $percentDiv.addClass('percent');
+                  $percentDiv.attr('ng-bind', 'getPercentageString()');
                   
-                  $loadingElement.append(percentDiv);
+                  $loadingElement.append($percentDiv);
                }
                
                var $sliceDiv = angular.element("<div></div>");
