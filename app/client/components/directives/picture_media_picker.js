@@ -53,9 +53,7 @@ function(PictureProportionalResizeService, PictureService) {
          
          $scope.onPictureSelectProgress = function(progress) {
             
-         }
-         
-         $scope.error({text: "Hello this is a really long string to test"});
+         }  
       }
    }
 }])

@@ -30,12 +30,12 @@ function(VideoService) {
                $scope.setModel(video);
             })
             .catch(function(error) {
-               
+               $scope.error(error);
             });
          }
          
          $scope.onVideoSelectError = function(error) {
-            
+            $scope.error(error);
          }
          
          $scope.onVideoSelectProgress = function(progress) {

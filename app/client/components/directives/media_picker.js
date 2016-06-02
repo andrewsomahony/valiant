@@ -56,7 +56,7 @@ function(ScopeService, FileReaderActivatorService) {
             if (!errorObject) {
                $scope.errorMessage = "";
             } else {
-               $scope.errorMessage = errorObject.text;
+               $scope.errorMessage = errorObject.toString(false);
             }
          }         
          
