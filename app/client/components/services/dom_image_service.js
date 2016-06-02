@@ -44,6 +44,9 @@ ErrorService) {
                .then(function(image) {
                    resolve({image: image});
                })
+               .catch(function(error) {
+                   reject(error);
+               })
             });
          }
       });

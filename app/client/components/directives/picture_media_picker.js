@@ -33,9 +33,20 @@ function(PictureProportionalResizeService, PictureService) {
          $scope.deletePicture = function() {
             $scope.model.reset();
          }
-      
+         
+         // TODO: We need to activate the input
+         // differently on Android: we need to activate it
+         // directly from this event, as it occurs as per an action
+         // by the user, as opposed to setting the .active variable,
+         // which is an event caused programatically.
+         
+         // PS: Android Browser is the worst browser ever written.
+         
+         //$scope.picturePickerIsActive.active = true;
+               
          $scope.activatePicturePicker = function() {
             if (false === $scope.isReadOnly) {
+               //$element.find('input')[0].click();
                $scope.picturePickerIsActive.active = true;
             }
          }

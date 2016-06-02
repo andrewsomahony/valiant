@@ -52,7 +52,7 @@ ScopeService) {
                      // support the "accept" tag on the file reader,
                      // and because the browser only uses the extension of the file
                      // to see if it's ok to load.
-                    
+
                      var fileModel = FileModel.fromFileObject(file);
                      
                      FileTypeValidatorService.validateFileModel(fileModel, $scope.accept)
@@ -91,13 +91,14 @@ ScopeService) {
                      $inputElement.attr('multiple', '');
                   }
                   $inputElement.attr('accept', $scope.accept);
+                 // $inputElement.attr('capture', 'camera');
                   
                   var event = new MouseEvent('click', {
                      'view': window,
                      'bubbles': true,
                      'cancelable': true
                   });
-
+                  
                   $inputElement[0].dispatchEvent(event);
                   $scope.isActive.active = false;
                }
