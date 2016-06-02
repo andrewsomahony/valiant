@@ -1,16 +1,21 @@
-var m = require('./module')
+'use strict';
+
+var registerService = require('services/register');
+
 var Chance = require('chance')
 
-var name = 'idService'
+var name = 'services.id'
 
-m.factory(name, [
+registerService('factory', name, [
 function() {
-   function id(length) {
+   function IdService(length) {
+      length = length || 32;
+
       var filenameChars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      return new Chance(Math.Random).string({length: 32, pool: filenameChars})  
+      return new Chance().string({length: length, pool: filenameChars}); 
    }
 
-   return id;
+   return IdService;
 }])
 
 module.exports = name

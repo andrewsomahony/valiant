@@ -45,13 +45,13 @@
       </div>
               
    </div>
-
 </div>
 
 <file-reader
    supports-multiple="false"
    accept="image/*"
-   is-active="picturePickerIsActive"
+   create="picturePicker"
+   on-created="onPictureSelectCreated(elementId)"
    on-files-added="onPictureSelectSuccess(files)"
    on-files-progress="onPictureSelectProgress(progress)"
    on-files-error="onPictureSelectError(error)">

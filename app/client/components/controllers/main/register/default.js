@@ -14,16 +14,16 @@ registerController(name, ['$scope',
                           require('services/progress'),
                           require('services/profile_picture_service'),
                           require('services/picture_service'),
+                          require('services/file_reader_activator_service'),
 function($scope, UserService, ErrorModal, 
 UserModel, StateService, SerialPromise, Promise, ProgressService,
-ProfilePictureService, PictureService) {
+ProfilePictureService, PictureService,
+FileReaderActivatorService) {
    $scope.registrationUser = new UserModel();
    
    $scope.registrationInProgress = false;
    
-   $scope.profilePicturePickerIsActive = {
-      active: false
-   };
+   $scope.profilePicturePicker = FileReaderActivatorService.makeCreationObject();
    
    $scope.registrationProgress = null;
          
@@ -49,11 +49,17 @@ ProfilePictureService, PictureService) {
    }
    
    $scope.selectProfilePicture = function() {
-      $scope.profilePicturePickerIsActive.active = true;
+      FileReaderActivatorService.activateFileReader($scope.profilePicturePicker);
    }
    
    $scope.resetProfilePicture = function() {
       $scope.registrationUser.setProfilePicture(null);
+   }
+   
+   FileReaderActivatorService.createFileReader($scope.profilePicturePicker);
+   
+   $scope.onProfilePicturePickerCreated = function(elementId) {
+      FileReaderActivatorService.fileReaderCreated($scope.profilePicturePicker, elementId);
    }
    
    $scope.onProfilePictureAdded = function(files) {

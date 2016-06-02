@@ -23,7 +23,7 @@
                   Change
                </a>
                
-               <a class="profile-picture-link reset" ng-if="registrationUser.profile_picture_url" ng-click="resetProfilePicture()">
+               <a class="profile-picture-link reset" ng-if="registrationUser.profile_picture.url" ng-click="resetProfilePicture()">
                   Reset
                </a>
             
@@ -31,7 +31,8 @@
                   supports-multiple="false"
                   accept="image/*"
                   process-exif="true"
-                  is-active="profilePicturePickerIsActive"
+                  create="profilePicturePicker"
+                  on-created="onProfilePicturePickerCreated(elementId)"
                   on-files-added="onProfilePictureAdded(files)"
                   on-files-progress="onProfilePictureProgress(progress)"
                   on-files-error="onProfilePictureError(error)">

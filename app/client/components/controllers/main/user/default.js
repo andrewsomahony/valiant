@@ -10,8 +10,10 @@ registerController(name, ['$scope',
                           require('services/state_service'),
                           require('services/profile_picture_service'),
                           require('services/picture_service'),
+                          require('services/file_reader_activator_service'),
 function($scope, UserService, UserModel, StateService,
-ProfilePictureService, PictureService) {
+ProfilePictureService, PictureService,
+FileReaderActivatorService) {
    // Clone what we get from the UserService
    // to allow for editing and such
    
@@ -22,9 +24,10 @@ ProfilePictureService, PictureService) {
    
    $scope.previousEditingUser = null;
    
-   $scope.profilePicturePickerIsActive = {
+   $scope.profilePicturePicker = FileReaderActivatorService.makeCreationObject();
+   /*{
       active: false
-   };
+   };*/
    
    $scope.tempWidth = "40%";
    $scope.tempHeight = "40%";
@@ -196,11 +199,17 @@ ProfilePictureService, PictureService) {
    }
      
    $scope.changeProfilePicture = function() {
-      $scope.profilePicturePickerIsActive.active = true;
+      FileReaderActivatorService.activateFileReader($scope.profilePicturePicker);
+      //$scope.profilePicturePickerIsActive.active = true;
    }
    
    $scope.resetProfilePicture = function() {
       $scope.currentEditingUser.setProfilePicture(null);
+   }
+      
+   $scope.onProfilePictureSelectCreated = function(elementId) {
+      console.log("NEW ELEMENT ID", elementId);
+      FileReaderActivatorService.fileReaderCreated($scope.profilePicturePicker, elementId);
    }
    
    $scope.onProfilePictureSelectSuccess = function(files) {
@@ -235,13 +244,11 @@ ProfilePictureService, PictureService) {
    }
    
    $scope.activateEditing = function() {
-      console.log($scope.currentEditingUser);
+      FileReaderActivatorService.createFileReader($scope.profilePicturePicker);   
       $scope.previousEditingUser = $scope.currentEditingUser.clone();
    }
    
    $scope.activateEditingProfile = function() {
-         $scope.tempWidth = "50%";
-         $scope.tempHeight = "60%";
       $scope.isEditingProfile = true;
       $scope.activateEditing();
    }

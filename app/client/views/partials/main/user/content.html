@@ -16,7 +16,8 @@
             supports-multiple="false"
             accept="image/*"
             process-exif="true"
-            is-active="profilePicturePickerIsActive"
+            create="profilePicturePicker"
+            on-created="onProfilePictureSelectCreated(elementId)"
             on-files-added="onProfilePictureSelectSuccess(files)"
             on-files-progress="onProfilePictureSelectProgress(progress)"
             on-files-error="onProfilePictureSelectError(error)">

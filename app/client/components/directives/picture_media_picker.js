@@ -6,7 +6,9 @@ var name = 'pictureMediaPicker';
 
 registerDirective(name, [require('services/picture_proportional_resize_service'),
                          require('services/picture_service'),
-function(PictureProportionalResizeService, PictureService) {
+                         require('services/file_reader_activator_service'),
+function(PictureProportionalResizeService, PictureService,
+FileReaderActivatorService) {
    return {
       // We just want to use our parent's scope,
       // so we inherit the model variable
@@ -18,7 +20,7 @@ function(PictureProportionalResizeService, PictureService) {
           
          var maxPictureWidth = 800; 
           
-         $scope.picturePickerIsActive = {active: false};
+         $scope.picturePicker = FileReaderActivatorService.makeCreationObject();//{active: false};
       
          $scope.getHasMediaDivStyle = function() {
             return {
@@ -41,14 +43,17 @@ function(PictureProportionalResizeService, PictureService) {
          // which is an event caused programatically.
          
          // PS: Android Browser is the worst browser ever written.
-         
-         //$scope.picturePickerIsActive.active = true;
-               
+                        
          $scope.activatePicturePicker = function() {
             if (false === $scope.isReadOnly) {
-               //$element.find('input')[0].click();
-               $scope.picturePickerIsActive.active = true;
+               FileReaderActivatorService.activateFileReader($scope.picturePicker);
             }
+         }
+                  
+         FileReaderActivatorService.createFileReader($scope.picturePicker);
+                  
+         $scope.onPictureSelectCreated = function(elementId) {
+            FileReaderActivatorService.fileReaderCreated($scope.picturePicker, elementId);
          }
       
          $scope.onPictureSelectSuccess = function(files) {
@@ -56,13 +61,12 @@ function(PictureProportionalResizeService, PictureService) {
             .then(function(picture) {
                PictureProportionalResizeService.resizePicture(picture, maxPictureWidth)
                .then(function(newPicture) {
-                  $scope.model = newPicture;
+                  $scope.model = newPicture
                })
                .catch(function(error) {
                   
-               });             
-            })
-
+               });           
+            });
          }
          
          $scope.onPictureSelectError = function(error) {

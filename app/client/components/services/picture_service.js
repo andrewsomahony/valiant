@@ -66,7 +66,7 @@ SerialPromise, ProgressService, FileReaderService) {
                   picture.setFileModel(existingData.fileModel);
                   picture.setMetadata(existingData.exifData);
                   picture.setMetadata(existingData.dimensions);
-                                       
+
                   resolve({picture: picture});                 
                });
             }

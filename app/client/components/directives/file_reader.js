@@ -17,9 +17,10 @@ registerDirective(name, [require('models/file'),
                          require('services/mime_service'),
                          require('services/error'),
                          require('services/scope_service'),
+                         require('services/id'),
 function(FileModel, Promise, SerialPromise, ParallelPromise, ProgressService,
 FileReaderService, ImageService, FileTypeValidatorService, MimeService, ErrorService,
-ScopeService) {
+ScopeService, IdService) {
    return {
       restrict: 'E',
       template: "",
@@ -31,7 +32,8 @@ ScopeService) {
          onFilesAdded: "&",
          onFilesError: "&",
          onFilesProgress: "&",
-         isActive: "=",
+         onCreated: "&",
+         create: "=",
       },
       link: function($scope, $element, $attributes) {
          $scope.supportsMultiple = ScopeService.parseBool($attributes.supportsMultiple, false);
@@ -74,36 +76,37 @@ ScopeService) {
             })
             .catch(function(error) {
                $scope.onFilesError({error: error});
-            })              
+            })  
+            .finally(function() {
+               makeInputElement();
+            })            
+         }
+         
+         function makeInputElement() {
+            $element.find('input').remove()
+            $element.append(angular.element("<input class=\"file-reader-picker\" type=\"file\" name=\"files[]\" ng-disabled=\"disabled\">"))
+            
+            var $inputElement = $element.find('input');
+            
+            $inputElement.on('change', onInputChange)
+
+            if (true === $scope.supportsMultiple) {
+               $inputElement.attr('multiple', '');
+            }
+            $inputElement.attr('accept', $scope.accept);
+            $inputElement.attr('id', IdService());
+      
+            $scope.onCreated({elementId: $inputElement.attr('id')});           
          }
 
-         $scope.$watch('isActive', function(newValue, oldValue) {
+         $scope.$watch('create', function(newValue, oldValue) {
             if (newValue) {
-               if (true === newValue.active) {
-                  $element.find('input').remove()
-                  $element.append(angular.element("<input class=\"file-reader-picker\" type=\"file\" name=\"files[]\" ng-disabled=\"disabled\">"))
-                  
-                  var $inputElement = $element.find('input');
-                  
-                  $inputElement.on('change', onInputChange)
-
-                  if (true === $scope.supportsMultiple) {
-                     $inputElement.attr('multiple', '');
-                  }
-                  $inputElement.attr('accept', $scope.accept);
-                 // $inputElement.attr('capture', 'camera');
-                  
-                  var event = new MouseEvent('click', {
-                     'view': window,
-                     'bubbles': true,
-                     'cancelable': true
-                  });
-                  
-                  $inputElement[0].dispatchEvent(event);
-                  $scope.isActive.active = false;
+               if (true === newValue.create) {
+                  makeInputElement();
+                  $scope.create.create = false;
                }
             }
-         }, true)
+         }, true);
       }
    }
 }])

@@ -52,7 +52,8 @@
 <file-reader
    supports-multiple="false"
    accept="video/mp4,video/x-m4v,video/*"
-   is-active="videoPickerIsActive"
+   create="videoPicker"
+   on-created="onVideoSelectCreated(elementId)"
    on-files-added="onVideoSelectSuccess(files)"
    on-files-progress="onVideoSelectProgress(progress)"
    on-files-error="onVideoSelectError(error)">

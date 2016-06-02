@@ -5,7 +5,8 @@ var registerDirective = require('directives/register');
 var name = 'videoMediaPicker';
 
 registerDirective(name, [require('services/video_service'),
-function(VideoService) {
+                         require('services/file_reader_activator_service'),
+function(VideoService, FileReaderActivatorService) {
    return {
       // We just want to use our parent's scope,
       // so we inherit the model variable
@@ -14,7 +15,7 @@ function(VideoService) {
       restrict: "E",
       templateUrl: "directives/video_media_picker.html",
       link: function($scope, $element, $attribues) {
-         $scope.videoPickerIsActive = {active: false};
+         $scope.videoPicker = FileReaderActivatorService.makeCreationObject();//{active: false};
       
          $scope.getHasMediaDivStyle = function() {
             return {
@@ -28,11 +29,18 @@ function(VideoService) {
          $scope.deleteVideo = function() {
             $scope.model.reset();
          }
+         
+         FileReaderActivatorService.createFileReader($scope.videoPicker);
       
          $scope.activateVideoPicker = function() {
             if (false === $scope.isReadOnly) {
-               $scope.videoPickerIsActive.active = true;
+               FileReaderActivatorService.activateFileReader($scope.videoPicker);
+               //$scope.videoPickerIsActive.active = true;
             }
+         }
+         
+         $scope.onVideoSelectCreated = function(elementId) {
+            FileReaderActivatorService.fileReaderCreated($scope.videoPicker, elementId);
          }
       
          $scope.onVideoSelectSuccess = function(files) {
