@@ -5,7 +5,8 @@ var registerDirective = require('directives/register');
 var name = 'mediaPicker';
 
 registerDirective(name, [require('services/scope_service'),
-function(ScopeService) {
+                         require('services/file_reader_activator_service'),
+function(ScopeService, FileReaderActivatorService) {
    return {
       restrict: 'E',
       scope: {
@@ -28,6 +29,11 @@ function(ScopeService) {
          
          $scope.isReadOnly = ScopeService.parseBool($attributes.isReadOnly, false);
          
+         $scope.isLoadingMedia = false;
+         $scope.errorMessage = "";     
+         
+         $scope.fileReaderCreator = FileReaderActivatorService.makeCreationObject(); 
+         
          $scope.isPicture = function() {
             return 'picture' === $scope.type;
          }
@@ -37,6 +43,22 @@ function(ScopeService) {
          $scope.isYoutube = function() {
             return 'youtube' === $scope.type;
          }
+
+         $scope.deleteModel = function() {
+            $scope.model.reset();
+         }
+         
+         $scope.setModel = function(m) {
+            $scope.model.fromModel(m);
+         }      
+         
+         $scope.error = function(errorObject) {
+            if (!errorObject) {
+               $scope.errorMessage = "";
+            } else {
+               $scope.errorMessage = errorObject.text;
+            }
+         }         
          
          $scope.getRootNoMediaDivStyle = function() {
             var style = {
@@ -54,7 +76,35 @@ function(ScopeService) {
             
             return style;
          }
-      }
+
+         $scope.hasMedia = function() {
+            return $scope.model.url ? true : false;
+         }          
+         
+         $scope.getErrorStyle = function() {
+            var style = {};
+            
+            if ($scope.hasMedia()) {
+               style['max-width'] = $scope.mediaContainerWidth;
+            } else {
+               style['max-width'] = $scope.width;
+            }
+            
+            return style;
+         } 
+         
+         $scope.activateFileReader = function() {
+            if (false === $scope.isReadOnly) {
+               FileReaderActivatorService.activateFileReader($scope.fileReaderCreator);
+            }
+         }
+         
+         FileReaderActivatorService.createFileReader($scope.fileReaderCreator);  
+         
+         $scope.onFileReaderCreated = function(elementId) {
+            FileReaderActivatorService.fileReaderCreated($scope.fileReaderCreator, elementId);
+         }      
+      }     
    }
 }]);
 

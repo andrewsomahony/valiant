@@ -1,14 +1,14 @@
 <div class="no-media" 
-     ng-if="!model.url" 
+     ng-if="!hasMedia()" 
      ng-style="getRootNoMediaDivStyle()"
-     ng-click="activatePicturePicker()">
+     ng-click="activateFileReader()">
    <div class="icon-container">
       <span></span>
       <i class="fa fa-picture-o fa-5x"></i>
    </div>   
 </div>
 
-<div class="has-media" ng-if="model.url" ng-style="getHasMediaDivStyle()">
+<div class="has-media" ng-if="hasMedia()" ng-style="getHasMediaDivStyle()">
    <div class="media-container">
       <div media-renderer="picture"
            model="model"
@@ -28,10 +28,10 @@
          </div>
          <div ng-if="!isReadOnly">
             <span class="media-container-option-left">
-               <a ng-click="activatePicturePicker()">Change</a>
+               <a ng-click="activateFileReader()">Change</a>
             </span>
             <span class="media-container-option-right">
-               <a ng-click="deletePicture()">Delete</a>
+               <a ng-click="deleteModel()">Delete</a>
             </span>
          </div>
       </div>
@@ -50,8 +50,8 @@
 <file-reader
    supports-multiple="false"
    accept="image/*"
-   create="picturePicker"
-   on-created="onPictureSelectCreated(elementId)"
+   create="fileReaderCreator"
+   on-created="onFileReaderCreated(elementId)"
    on-files-added="onPictureSelectSuccess(files)"
    on-files-progress="onPictureSelectProgress(progress)"
    on-files-error="onPictureSelectError(error)">

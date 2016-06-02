@@ -225,6 +225,8 @@ function(id, promise) {
       },
 
       init: function(config, isFromServer) {
+         this.fromObject(config, isFromServer);
+         /*
          config = config || {};
          isFromServer = true === utils.isUndefinedOrNull(isFromServer) ? false : isFromServer;
 
@@ -238,58 +240,43 @@ function(id, promise) {
 
             if (true === this.$ownClass.isManualKey(key)) {
                this[key] = utils.clone(fields[key])
-            } else {
-               /*var classAlias = null;
-               var objectToCheckForClass = null;
-               
-               var field = fields[key];
-               if (true === utils.isArray(field)) {
-                  if (field.length &&
-                      true === utils.isPlainObject(field[0])) {
-                     objectToCheckForClass = field[0];    
-                  }       
-               } else if (true === utils.isPlainObject(field)) {
-                  objectToCheckForClass = field;
-               }
-               
-               if (objectToCheckForClass) {
-                  if (utils.hasKey(objectToCheckForClass, this.$ownClass.classyAliasKey)) {
-                      classAlias = objectToCheckForClass[this.$ownClass.classyAliasKey];
-                  }
-               }*/
-               
-              // var classAlias = this.$ownClass.getClassyField(fields[key]);
-               
-               //var configVariable = config[this.$ownClass.mapKey(key, isFromServer)];
-                
+            } else {                
                this[key] = utils.clone(this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer)); 
-                
-                /*
-               this[key] = utils.clone(!utils.isUndefinedOrNull(configVariable) ?
-                     configVariable : fields[key])                
-                
-               if (classAlias) {
-                  var isUndefined = utils.isUndefinedOrNull(configVariable);
-                  var Class = classy.getClass(classAlias);
-                  if (true === utils.isArray(this[key])) {
-                     var newArray = [];
-                     
-                     if (!isUndefined) {
-                        this[key].forEach(function(element) {
-                            newArray.push(new Class(element, true)); 
-                        });
-                     }
-                     this[key] = newArray;
-                  } else {
-                     this[key] = isUndefined ? null : new Class(this[key], true);
-                  }
-               }*/
             }
 
-         }, this); 
+         }, this);*/
 
          this['event_handlers'] = {}
          this['local_id'] = id()
+      },
+      
+      fromObject: function(config, isFromServer) {
+         config = config || {};
+         isFromServer = true === utils.isUndefinedOrNull(isFromServer) ? false : isFromServer;
+
+         var fields = this.$ownClass.fields()
+
+         Object.keys(fields).forEach(function(key) {
+            // We clone because the static properties can be empty arrays or objects,
+            // and we want a fresh copy of the array or object for each new object
+
+            // NOTE: BACKBONE AND UNDERSCORE DO NOT CLONE (BUG)
+
+            if (true === this.$ownClass.isManualKey(key)) {
+               this[key] = utils.clone(fields[key])
+            } else {                
+               this[key] = utils.clone(this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer)); 
+            }
+
+         }, this);           
+      },
+      
+      fromModel: function(model) {
+         if (!utils.objectIsClassy(model, this.$ownClass)) {
+            throw new Exception("base.fromModel: Incompatible class!", model.$ownClass);
+         } else {
+            this.fromObject(model.toObject());
+         }
       },
 
       bind: function(eventName, handlerFn, callbackObj) {

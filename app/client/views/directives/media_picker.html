@@ -9,4 +9,8 @@
    <div ng-if="isYoutube()">
       <youtube-media-picker></youtube-media-picker>
    </div>
+   
+   <div class="error" ng-style="getErrorStyle()">
+     <span ng-bind="errorMessage"></span>
+   </div>   
 </div>

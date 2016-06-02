@@ -38,6 +38,7 @@ VideoConverterService) {
    }
    
    $scope.askQuestion = function() {
+      console.log($scope.currentQuestion);
    }
    
    $scope.tempWebWorkerReady = false;

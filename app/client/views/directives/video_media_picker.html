@@ -1,6 +1,6 @@
 <div class="no-media" 
-     ng-if="!model.url"
-     ng-click="activateVideoPicker()" 
+     ng-if="!hasMedia()"
+     ng-click="activateFileReader()" 
      ng-style="getRootNoMediaDivStyle()">
    <div class="icon-container">
       <span></span>
@@ -9,7 +9,7 @@
 </div>
 
 
-<div class="has-media" ng-if="model.url" ng-style="getHasMediaDivStyle()">
+<div class="has-media" ng-if="hasMedia()" ng-style="getHasMediaDivStyle()">
    <div class="media-container">
       <div media-renderer="video"
            model="model"
@@ -29,10 +29,10 @@
          </div>
          <div ng-if="!isReadOnly">
             <span class="media-container-option-left">
-               <a ng-click="activateVideoPicker()">Change</a>
+               <a ng-click="activateFileReader()">Change</a>
             </span>
             <span class="media-container-option-right">
-               <a ng-click="deleteVideo()">Delete</a>
+               <a ng-click="deleteModel()">Delete</a>
             </span>
          </div>
       </div>
@@ -46,14 +46,13 @@
       </div>
               
    </div>
-
 </div>
 
 <file-reader
    supports-multiple="false"
    accept="video/mp4,video/x-m4v,video/*"
-   create="videoPicker"
-   on-created="onVideoSelectCreated(elementId)"
+   create="fileReaderCreator"
+   on-created="onFileReaderCreated(elementId)"
    on-files-added="onVideoSelectSuccess(files)"
    on-files-progress="onVideoSelectProgress(progress)"
    on-files-error="onVideoSelectError(error)">

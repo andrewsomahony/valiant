@@ -1,5 +1,9 @@
 div.media-picker {
+   display: inline-block;
+   
    div.no-media {
+      display: inline-block;
+      
       div.icon-container {
          position: relative;
          width: 100%;
@@ -20,6 +24,7 @@ div.media-picker {
    }
    
    div.has-media {
+      display: inline-block;
       // Mobile needs some padding
       @media screen and (max-width: $min-sm-screen-width) {
          margin-bottom: 4px;
@@ -58,5 +63,12 @@ div.media-picker {
             }
          }
       }
+   }
+   
+   div.error {
+      font-size: 13px;
+      color: red;
+      font-weight: bold;
+      word-wrap: break-word;
    }
 }
