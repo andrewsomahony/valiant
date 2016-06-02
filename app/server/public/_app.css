@@ -9746,6 +9746,10 @@ div.main {
   @media screen and (max-width: 760px) {
     div.main div.mobile-scroll div.mobile-container {
       padding-bottom: 48px; } }
+  div.main div.mobile-scroll div.mobile-container div.large-header-padding {
+    height: 48px; }
+  div.main div.mobile-scroll div.mobile-container div.mobile-header-padding {
+    height: 16px; }
   div.main div.mobile-scroll div.header {
     color: black; }
     @media screen and (max-width: 760px) {
