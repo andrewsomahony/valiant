@@ -29,6 +29,7 @@ function(PictureProportionalResizeService, PictureService) {
       
          $scope.onPictureSelectSuccess = function(files) {
             $scope.isLoadingPicture = true;
+            
             PictureService.getPictureFromFileModel(files[0])
             .then(function(picture) {
                PictureProportionalResizeService.resizePicture(picture, maxPictureWidth)
