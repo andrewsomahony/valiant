@@ -6,13 +6,25 @@ var name = 'services.ffmpeg_service';
 
 registerService('factory', name, [require('services/promise'),
                                   require('services/progress'),
-function(Promise, ProgressService) {
+                                  require('models/file'),
+function(Promise, ProgressService, FileModel) {
     
     function FFMpegService() {
         
     }
     
     var worker = null;
+
+    function createWorkerMessage(messageType, data) {
+       return {
+          type: messageType,
+          data: data
+       };
+    }
+    
+    function sendMessageToWorker(message) {
+       worker.postMessage(message);
+    }
     
     FFMpegService.load = function() {
       return Promise(function(resolve, reject, notify) {
@@ -21,13 +33,13 @@ function(Promise, ProgressService) {
         } else {
           worker = new Worker('/scripts/ffmpeg_util.js');
 
-          worker.addEventListener('message', function(event) {
+          worker.onmessage = function(event) {
             var message = event.data;
             
             if ('ready' === message.type) {
               resolve();
             }
-          });          
+          };          
         }
       });
     }

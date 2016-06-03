@@ -96,6 +96,16 @@ ErrorService) {
          this.blob = blob;
       },
       
+      getUint8Array: function() {
+         this.getArrayBuffer()
+         .then(function(data) {
+            resolve(new Uint8Array(data.arrayBuffer));
+         }) 
+         .catch(function(error) {
+            reject(error);
+         })
+      },
+      
       getArrayBuffer: function() {
          return FileReaderService.readAsArrayBufferPromiseHelper(this.blob);
       },
