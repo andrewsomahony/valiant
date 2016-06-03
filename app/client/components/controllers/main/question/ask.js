@@ -13,10 +13,10 @@ registerController(name, ['$scope',
                           require('services/s3_uploader_service'),
                           require('services/promise'),
                           require('services/parallel_promise'),
-                          require('services/video_converter_service'),
+                          require('services/ffmpeg_service'),
 function($scope, QuestionService, QuestionModel,
 DeviceService, S3UploaderService, Promise, ParallelPromise,
-VideoConverterService) {
+FFMpegService) {
    $scope.questionTopicOptions = QuestionService.getSelectableQuestionTypes();
 
    $scope.allocateNewQuestion = function() {
@@ -44,7 +44,7 @@ VideoConverterService) {
    $scope.tempWebWorkerReady = false;
    
    $scope.tempConvertVideo = function() {
-      VideoConverterService.load()
+      FFMpegService.load()
       .then(function() {
          $scope.tempWebWorkerReady = true;
       })

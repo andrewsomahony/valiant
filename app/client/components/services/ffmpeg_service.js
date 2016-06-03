@@ -2,24 +2,24 @@
 
 var registerService = require('services/register');
 
-var name = 'services.video_converter';
+var name = 'services.ffmpeg_service';
 
 registerService('factory', name, [require('services/promise'),
                                   require('services/progress'),
 function(Promise, ProgressService) {
     
-    function VideoConverterService() {
+    function FFMpegService() {
         
     }
     
     var worker = null;
     
-    VideoConverterService.load = function() {
+    FFMpegService.load = function() {
       return Promise(function(resolve, reject, notify) {
         if (worker) {
           resolve();
         } else {
-          worker = new Worker('/scripts/video_converter.js');
+          worker = new Worker('/scripts/ffmpeg_util.js');
 
           worker.addEventListener('message', function(event) {
             var message = event.data;
@@ -32,7 +32,7 @@ function(Promise, ProgressService) {
       });
     }
  
-    return VideoConverterService;
+    return FFMpegService;
     
 }]);
 
