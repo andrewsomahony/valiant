@@ -8,22 +8,27 @@ var name = 'videoRenderer';
 // out how to inherit a scope properly
 
 registerDirective(name, [require('services/scope_service'),
+                         require('services/progress'),
                          '$compile',
-function(ScopeService, $compile) {
+function(ScopeService, ProgressService, $compile) {
    return {
      restrict: 'A',
       scope: {
          model: "<",
+         information: "=",
+         onEvent: "&",
          //fitted: "@",
          //centered: "@",
          width: "@",
          height: "@",
-        // showLoading: "@"
+         //canPreload: "@"
+        // showLoading: "@",
       }, 
       link: function($scope, $element, $attributes) {
          $scope.fitted = ScopeService.parseBool($attributes.fitted, false);
          $scope.centered = ScopeService.parseBool($attributes.centered, false);
-         $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);         
+         $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);
+         $scope.canPreload = ScopeService.parseBool($attributes.canPreload, false);
          
          $scope.getElementStyle = function() {
             var style = {};
@@ -84,6 +89,95 @@ function(ScopeService, $compile) {
             
             return style;           
          }
+         
+         function setVideoInformation(key, object) {
+            if ($scope.information) {
+               $scope.information[key] = object;
+            }
+         }
+         
+         function sendVideoEvent(name) {
+            if ($scope.onEvent) {
+               $scope.onEvent({name: name});
+            }
+         }
+         
+         function getVideoEventTarget(event) {
+            return event.target;
+         }
+         
+         function bindVideoEvents($element) {
+            var videoElement = $element.get(0);
+            
+            videoElement.addEventListener('loadstart', function(event) {
+                console.log("VIDEO LOAD START", event);
+            });
+            
+            videoElement.addEventListener('loadedmetadata', function(event) {
+                console.log("VIDEO METADATA LOADED", event);
+                
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                   setVideoInformation('width', target.videoWidth);
+                   setVideoInformation('height', target.videoHeight);
+                   setVideoInformation('duration', target.duration);
+                });
+            });
+            
+            videoElement.addEventListener('progress', function(event) {
+                console.log("VIDEO LOAD PROGRESS", event);
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                  
+                   var buffered = target.buffered;
+                  
+                   if (buffered.length) {
+                      setVideoInformation('load_progress', ProgressService(buffered.start(0), buffered.end(0)));
+                   }
+                   sendVideoEvent('progress');
+                });
+            });
+            
+            videoElement.addEventListener('timeupdate', function(event) {
+                console.log("TIME UPDATE", event);
+                
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                   setVideoInformation('current_time', target.currentTime);
+                   sendVideoEvent('timeupdate');
+                });
+            });
+            
+            videoElement.addEventListener('seeking', function(event) {
+                console.log("SEEKING", event);
+
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                   setVideoInformation('current_time', target.currentTime);
+                   sendVideoEvent('seeking');
+                });
+            });
+            
+            videoElement.addEventListener('seeked', function(event) {
+                console.log("SEEKED", event);
+
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                   setVideoInformation('current_time', target.currentTime);
+                   sendVideoEvent('seeked');
+                });
+            });
+            
+            videoElement.addEventListener('pause', function(event) {
+                console.log("VIDEO PAUSED", event);
+
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                   setVideoInformation('current_time', target.currentTime);
+                   sendVideoEvent('pause');
+                });
+            });
+         }
                   
          $element.attr('ng-style', 'getElementStyle()');
          $element.attr('ng-class', 'getElementClass()');
@@ -93,6 +187,14 @@ function(ScopeService, $compile) {
          $videoElement.attr('ng-class', 'getVideoClass()');
          $videoElement.attr('ng-style', 'getVideoStyle()');
          $videoElement.attr('controls', '');
+         
+         if (true === $scope.canPreload) {
+            $videoElement.attr('preload', 'auto');
+         } else {
+            $videoElement.attr('preload', 'metadata');
+         }
+         
+         bindVideoEvents($videoElement);
          
          $element.append($compile($videoElement)($scope));
          

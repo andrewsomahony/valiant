@@ -148,6 +148,10 @@
    <script type="text/javascript">
       var possibleImages = ['./test1.jpg', './test2.jpg', './test3.jpg'];
    
+      function getEventTarget(event) {
+         return event.target;
+      }
+   
       function switchImage(button) {
          var image = button.parentNode.parentNode.querySelectorAll('img')[0];
          
@@ -160,6 +164,58 @@
          }
          
          image.src = possibleImages[currentIndex];
+      }
+      
+      function addVideo(button) {
+         var div = button.parentNode.parentNode.querySelectorAll("div[video-display]");
+         
+         var existingVideoElement = div[0].querySelectorAll('video');
+         if (existingVideoElement) {
+            div[0].removeChild(existingVideoElement[0]);
+         }
+         
+         var videoElement = document.createElement('video');
+         
+         videoElement.setAttribute('controls', '');
+         videoElement.setAttribute('preload', 'metadata');
+         videoElement.src = "./soccer_small.m4v";
+         
+         videoElement.addEventListener('loadstart', function(event) {
+            console.log("VIDEO LOAD START", event);
+         });
+         
+         videoElement.addEventListener('loadedmetadata', function(event) {
+            console.log("VIDEO METADATA LOADED", event);
+         });
+         
+         videoElement.addEventListener('progress', function(event) {
+            console.log("VIDEO LOAD PROGRESS", event);
+            var target = getEventTarget(event);
+            
+            var buffered = target.buffered;
+            
+            if (buffered.length) {
+               console.log(buffered.start(0), buffered.end(0));
+            }
+         });
+         
+         videoElement.addEventListener('timeupdate', function(event) {
+            console.log("TIME UPDATE", event);
+         });
+         
+         videoElement.addEventListener('seeking', function(event) {
+            console.log("SEEKING", event);
+         });
+         
+         videoElement.addEventListener('seeked', function(event) {
+            console.log("SEEKED", event);
+         });
+         
+         videoElement.addEventListener('pause', function(event) {
+            console.log("VIDEO PAUSED", event);
+         });
+         
+         div[0].appendChild(videoElement);
       }
       
       function doVideo(button) {
@@ -225,6 +281,7 @@
          </video>
       </div>
       <div class="video-button">
+         <button onclick="addVideo(this)">Add Video</button>
          <button onclick="doVideo(this)">Do Video</button>
          <button onclick="addSubtitles(this)">Add Subtitles</button>
          <input type="file" onchange="loadSubtitles(this)" accept="text/vtt" />
