@@ -16,3 +16,5 @@ require('./youtube_media_picker');
 require('./media_renderer');
 require('./picture_renderer');
 require('./video_renderer');
+
+require('./font_awesome_centered_icon');

@@ -15,6 +15,8 @@ function() {
       templateUrl: "directives/youtube_media_picker.html",
       link: function($scope, $element, $attribues) {
 
+         $scope.isLoadingMedia = false;
+
          $scope.getHasMediaDivStyle = function() {
             return {
                display: 'inline-block',

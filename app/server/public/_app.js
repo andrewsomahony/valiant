@@ -9,7 +9,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('animations'), []);
-},{"angular":118,"info":101}],3:[function(require,module,exports){
+},{"angular":119,"info":102}],3:[function(require,module,exports){
 'use strict';
 
 require('./root');
@@ -101,7 +101,7 @@ function($scope, ErrorService, Progress, HttpResponseModel, ErrorModal, HttpServ
 }]);
 
 module.exports = name;
-},{"../../register":26,"models/http_response":52,"services/error":69,"services/error_modal":70,"services/http_service":76,"services/progress":89,"utils":106}],6:[function(require,module,exports){
+},{"../../register":26,"models/http_response":53,"services/error":70,"services/error_modal":71,"services/http_service":77,"services/progress":90,"utils":107}],6:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -115,7 +115,7 @@ function($scope, ErrorPageService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_page_service":71}],7:[function(require,module,exports){
+},{"controllers/register":26,"services/error_page_service":72}],7:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -226,7 +226,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":70,"services/state_service":97,"services/user_service":98,"utils":106}],11:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":71,"services/state_service":98,"services/user_service":99,"utils":107}],11:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -261,7 +261,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":70,"services/user_service":98}],12:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":71,"services/user_service":99}],12:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -318,7 +318,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":70,"services/user_service":98}],14:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":71,"services/user_service":99}],14:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -375,7 +375,7 @@ VideoConverterService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"models/question":58,"services/device_service":67,"services/parallel_promise":84,"services/promise":90,"services/question_service":91,"services/s3_uploader_service":94,"services/video_converter_service":99,"utils":106}],15:[function(require,module,exports){
+},{"controllers/register":26,"models/question":59,"services/device_service":68,"services/parallel_promise":85,"services/promise":91,"services/question_service":92,"services/s3_uploader_service":95,"services/video_converter_service":100,"utils":107}],15:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -502,7 +502,7 @@ FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"models/user":60,"services/error_modal":70,"services/file_reader_activator_service":73,"services/picture_service":87,"services/profile_picture_service":88,"services/progress":89,"services/promise":90,"services/serial_promise":96,"services/state_service":97,"services/user_service":98}],19:[function(require,module,exports){
+},{"controllers/register":26,"models/user":61,"services/error_modal":71,"services/file_reader_activator_service":74,"services/picture_service":88,"services/profile_picture_service":89,"services/progress":90,"services/promise":91,"services/serial_promise":97,"services/state_service":98,"services/user_service":99}],19:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -556,7 +556,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":70,"services/state_service":97,"services/user_service":98}],21:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":71,"services/state_service":98,"services/user_service":99}],21:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -609,7 +609,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":70,"services/state_service":97,"services/user_service":98}],23:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":71,"services/state_service":98,"services/user_service":99}],23:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -913,7 +913,7 @@ FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"models/user":60,"services/file_reader_activator_service":73,"services/picture_service":87,"services/profile_picture_service":88,"services/state_service":97,"services/user_service":98}],24:[function(require,module,exports){
+},{"controllers/register":26,"models/user":61,"services/file_reader_activator_service":74,"services/picture_service":88,"services/profile_picture_service":89,"services/state_service":98,"services/user_service":99}],24:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -933,7 +933,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('controllers'), []);
-},{"angular":118,"info":101}],26:[function(require,module,exports){
+},{"angular":119,"info":102}],26:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -1029,7 +1029,7 @@ ErrorPageService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":70,"services/error_page_service":71,"services/permission_service":85,"services/state_service":97,"services/user_service":98,"utils":106}],28:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":71,"services/error_page_service":72,"services/permission_service":86,"services/state_service":98,"services/user_service":99,"utils":107}],28:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1057,7 +1057,7 @@ registerDirective(name, [function() {
 }]);
 
 module.exports = name;
-},{"directives/register":40}],29:[function(require,module,exports){
+},{"directives/register":41}],29:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1094,7 +1094,7 @@ function(PromiseService, HttpService, ApiUrlService) {
 }]);
 
 module.exports = name;
-},{"directives/register":40,"services/api_url":62,"services/http_service":76,"services/promise":90}],30:[function(require,module,exports){
+},{"directives/register":41,"services/api_url":63,"services/http_service":77,"services/promise":91}],30:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1209,7 +1209,42 @@ ScopeService, IdService) {
 }])
 
 module.exports = name;
-},{"directives/register":40,"models/file":51,"services/error":69,"services/file_reader_service":74,"services/file_type_validator_service":75,"services/id":77,"services/image_service":78,"services/mime_service":81,"services/parallel_promise":84,"services/progress":89,"services/promise":90,"services/scope_service":95,"services/serial_promise":96,"utils":106}],31:[function(require,module,exports){
+},{"directives/register":41,"models/file":52,"services/error":70,"services/file_reader_service":75,"services/file_type_validator_service":76,"services/id":78,"services/image_service":79,"services/mime_service":82,"services/parallel_promise":85,"services/progress":90,"services/promise":91,"services/scope_service":96,"services/serial_promise":97,"utils":107}],31:[function(require,module,exports){
+'use strict';
+
+var registerDirective = require('directives/register');
+
+var name = 'fontAwesomeCenteredIcon';
+
+registerDirective(name, ['$compile',
+function($compile) {
+   return {
+      restrict: 'A',
+      scope: {
+         fontAwesomeParams: "@" 
+      },
+      link: function($scope, $element, $attributes) {
+         $scope.getIconClass = function() {
+            return $scope.fontAwesomeParams;
+         }
+         
+         $element.addClass('font-awesome-centered-icon');
+         
+         var $spanElement = angular.element("<span></span>");
+         
+         $element.append($spanElement);
+         
+         var $iconElement = angular.element("<i></i>");
+         $iconElement.attr('ng-class', 'getIconClass()');
+         
+         $element.append($compile($iconElement)($scope));
+      }
+   }
+}
+]);
+
+module.exports = name;
+},{"directives/register":41}],32:[function(require,module,exports){
 'use strict';
 
 require('./email_in_use');
@@ -1228,7 +1263,9 @@ require('./youtube_media_picker');
 require('./media_renderer');
 require('./picture_renderer');
 require('./video_renderer');
-},{"./compare_to":28,"./email_in_use":29,"./file_reader":30,"./loading_progress":32,"./media_picker":33,"./media_renderer":34,"./overlay":36,"./picture_media_picker":37,"./picture_renderer":38,"./profile_picture":39,"./video_media_picker":41,"./video_renderer":42,"./youtube_media_picker":43}],32:[function(require,module,exports){
+
+require('./font_awesome_centered_icon');
+},{"./compare_to":28,"./email_in_use":29,"./file_reader":30,"./font_awesome_centered_icon":31,"./loading_progress":33,"./media_picker":34,"./media_renderer":35,"./overlay":37,"./picture_media_picker":38,"./picture_renderer":39,"./profile_picture":40,"./video_media_picker":42,"./video_renderer":43,"./youtube_media_picker":44}],33:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1565,7 +1602,7 @@ registerDirective(name, ['$compile',
 ])
 
 module.exports = name;
-},{"directives/register":40,"services/css_service":64,"utils":106}],33:[function(require,module,exports){
+},{"directives/register":41,"services/css_service":65,"utils":107}],34:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1677,7 +1714,7 @@ function(ScopeService, FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"directives/register":40,"services/file_reader_activator_service":73,"services/scope_service":95}],34:[function(require,module,exports){
+},{"directives/register":41,"services/file_reader_activator_service":74,"services/scope_service":96}],35:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1726,14 +1763,14 @@ function($compile, ScopeService) {
 ]);
 
 module.exports = name;
-},{"directives/register":40,"services/scope_service":95,"utils":106}],35:[function(require,module,exports){
+},{"directives/register":41,"services/scope_service":96,"utils":107}],36:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('directives'), []);
-},{"angular":118,"info":101}],36:[function(require,module,exports){
+},{"angular":119,"info":102}],37:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1783,7 +1820,7 @@ function() {
 ])
 
 module.exports = name;
-},{"directives/register":40}],37:[function(require,module,exports){
+},{"directives/register":41}],38:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1846,7 +1883,7 @@ function(PictureProportionalResizeService, PictureService) {
 }])
 
 module.exports = name;
-},{"directives/register":40,"services/picture_proportional_resize_service":86,"services/picture_service":87}],38:[function(require,module,exports){
+},{"directives/register":41,"services/picture_proportional_resize_service":87,"services/picture_service":88}],39:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1971,7 +2008,7 @@ function(ScopeService, $compile) {
 ]);
 
 module.exports = name;
-},{"directives/register":40,"services/scope_service":95}],39:[function(require,module,exports){
+},{"directives/register":41,"services/scope_service":96}],40:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2006,7 +2043,7 @@ function(PictureModel) {
 }])
 
 module.exports = name;
-},{"directives/register":40,"models/picture":56}],40:[function(require,module,exports){
+},{"directives/register":41,"models/picture":57}],41:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -2014,7 +2051,7 @@ var m = require('./module');
 module.exports = function(name, parameters) {
     m.directive(name, parameters);
 }
-},{"./module":35}],41:[function(require,module,exports){
+},{"./module":36}],42:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2038,6 +2075,12 @@ function(VideoService) {
                cursor: 'default',
                'vertical-align': 'top'
             };
+         }
+         
+         $scope.videoInformation = {};
+         
+         $scope.onVideoEvent = function(name) {
+            console.log("Video event! ", name, $scope.videoInformation);
          }
       
          $scope.onVideoSelectSuccess = function(files) {
@@ -2068,7 +2111,7 @@ function(VideoService) {
 }])
 
 module.exports = name;
-},{"directives/register":40,"services/video_service":100}],42:[function(require,module,exports){
+},{"directives/register":41,"services/video_service":101}],43:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2079,22 +2122,31 @@ var name = 'videoRenderer';
 // out how to inherit a scope properly
 
 registerDirective(name, [require('services/scope_service'),
+                         require('services/progress'),
                          '$compile',
-function(ScopeService, $compile) {
+function(ScopeService, ProgressService, $compile) {
    return {
      restrict: 'A',
       scope: {
          model: "<",
+         information: "=",
+         onEvent: "&",
          //fitted: "@",
          //centered: "@",
          width: "@",
          height: "@",
-        // showLoading: "@"
+         //canPreload: "@",
+         //canHideWhilePreloading: "@"
+        // showLoading: "@",
       }, 
       link: function($scope, $element, $attributes) {
          $scope.fitted = ScopeService.parseBool($attributes.fitted, false);
          $scope.centered = ScopeService.parseBool($attributes.centered, false);
-         $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);         
+         $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);
+         $scope.canPreload = ScopeService.parseBool($attributes.canPreload, false);
+         $scope.canHideWhilePreloading = ScopeService.parseBool($attributes.canHideWhilePreloading, false);
+         
+         $scope.isPreloading = false;
          
          $scope.getElementStyle = function() {
             var style = {};
@@ -2135,10 +2187,15 @@ function(ScopeService, $compile) {
          $scope.getVideoClass = function() {
             var classes = [];
             
-            if (true === $scope.fitted) {
-               if (true === $scope.centered) {
-                  classes.push('centered');
-               } 
+            if (true === $scope.isPreloading &&
+                true === $scope.canHideWhilePreloading) {
+               classes.push('offscreen');     
+            } else {
+               if (true === $scope.fitted) {
+                  if (true === $scope.centered) {
+                     classes.push('centered');
+                  } 
+               }
             }
             
             return classes;
@@ -2155,6 +2212,119 @@ function(ScopeService, $compile) {
             
             return style;           
          }
+         
+         function setVideoInformation(key, object) {
+            if ($scope.information) {
+               $scope.information[key] = object;
+            }
+         }
+         
+         function sendVideoEvent(name) {
+            if ($scope.onEvent) {
+               $scope.onEvent({name: name});
+            }
+         }
+         
+         function getVideoEventTarget(event) {
+            return event.target;
+         }
+         
+         function bindVideoEvents($element) {
+            var videoElement = $element[0];
+            
+            videoElement.addEventListener('loadstart', function(event) {
+                console.log("VIDEO LOAD START", event);
+                
+                $scope.$apply(function() {
+                   sendVideoEvent('loadstart');
+                })
+            });
+            
+            videoElement.addEventListener('loadedmetadata', function(event) {
+                console.log("VIDEO METADATA LOADED", event);
+                
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                   setVideoInformation('width', target.videoWidth);
+                   setVideoInformation('height', target.videoHeight);
+                   setVideoInformation('duration', target.duration);
+                   
+                   sendVideoEvent('loadedmetadata');
+                });
+            });
+            
+            videoElement.addEventListener('progress', function(event) {
+                console.log("VIDEO LOAD PROGRESS", event);
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                  
+                   var buffered = target.buffered;
+                  
+                   if (buffered.length) {
+                      setVideoInformation('load_progress', ProgressService(buffered.start(0), buffered.end(0)));
+                   }
+                   sendVideoEvent('progress');
+                });
+            });
+            
+            videoElement.addEventListener('timeupdate', function(event) {
+                console.log("TIME UPDATE", event);
+                
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                   setVideoInformation('current_time', target.currentTime);
+                   sendVideoEvent('timeupdate');
+                });
+            });
+            
+            videoElement.addEventListener('seeking', function(event) {
+                console.log("SEEKING", event);
+
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                   setVideoInformation('current_time', target.currentTime);
+                   sendVideoEvent('seeking');
+                });
+            });
+            
+            videoElement.addEventListener('seeked', function(event) {
+                console.log("SEEKED", event);
+
+                $scope.$apply(function() {
+                   var target = getVideoEventTarget(event);
+                   setVideoInformation('current_time', target.currentTime);
+                   sendVideoEvent('seeked');
+                });
+            });
+            
+            videoElement.addEventListener('pause', function(event) {
+               console.log("VIDEO PAUSED", event);
+
+               $scope.$apply(function() {
+                  var target = getVideoEventTarget(event);
+                  setVideoInformation('current_time', target.currentTime);
+                  sendVideoEvent('pause');
+               });
+            });
+            
+            videoElement.addEventListener('canplay', function(event) {
+               console.log("VIDEO CAN PLAY", event);
+               
+               $scope.$apply(function() {
+                  sendVideoEvent('canplay');
+               });
+            });
+            
+            videoElement.addEventListener('canplaythrough', function(event) {
+               console.log("VIDEO CAN PLAY THROUGH", event);
+               
+               $scope.$apply(function() {
+                  $scope.isPreloading = false;
+                  sendVideoEvent('canplaythrough');
+               })
+            })
+            
+         }
                   
          $element.attr('ng-style', 'getElementStyle()');
          $element.attr('ng-class', 'getElementClass()');
@@ -2164,6 +2334,33 @@ function(ScopeService, $compile) {
          $videoElement.attr('ng-class', 'getVideoClass()');
          $videoElement.attr('ng-style', 'getVideoStyle()');
          $videoElement.attr('controls', '');
+         
+         if (true === $scope.canPreload) {
+            $videoElement.attr('preload', 'auto');
+            $scope.isPreloading = true;
+            
+            if (true === $scope.canHideWhilePreloading) {
+               /*
+                  <div ng-if="isLoadingMedia"
+        font-awesome-centered-icon
+        font-awesome-params="fa fa-refresh fa-spin fa-4x fa-fw">
+   </div> 
+                */ 
+                
+                var $loadingMediaDiv = angular.element("<div></div>");
+                
+                $loadingMediaDiv.attr('font-awesome-centered-icon', '');
+                $loadingMediaDiv.attr('font-awesome-params', 'fa fa-refresh fa-spin fa-4x fa-fw');
+                $loadingMediaDiv.attr('ng-if', 'isPreloading');
+                
+                $element.append($compile($loadingMediaDiv)($scope));
+            }
+         } else {
+            $videoElement.attr('preload', 'metadata');
+            $scope.isPreloading = false;
+         }
+         
+         bindVideoEvents($videoElement);
          
          $element.append($compile($videoElement)($scope));
          
@@ -2186,7 +2383,7 @@ function(ScopeService, $compile) {
 }]);
 
 module.exports = name;
-},{"directives/register":40,"services/scope_service":95}],43:[function(require,module,exports){
+},{"directives/register":41,"services/progress":90,"services/scope_service":96}],44:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2204,6 +2401,8 @@ function() {
       templateUrl: "directives/youtube_media_picker.html",
       link: function($scope, $element, $attribues) {
 
+         $scope.isLoadingMedia = false;
+
          $scope.getHasMediaDivStyle = function() {
             return {
                display: 'inline-block',
@@ -2219,18 +2418,18 @@ function() {
 }])
 
 module.exports = name;
-},{"directives/register":40}],44:[function(require,module,exports){
+},{"directives/register":41}],45:[function(require,module,exports){
 'use strict';
 
 require('./trusted');
-},{"./trusted":47}],45:[function(require,module,exports){
+},{"./trusted":48}],46:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var info = require('info');
 
 module.exports = angular.module(info.moduleName('filters'), []);
-},{"angular":118,"info":101}],46:[function(require,module,exports){
+},{"angular":119,"info":102}],47:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -2238,7 +2437,7 @@ var m = require('./module');
 module.exports = function(name, params) {
     m.filter(name, params);
 }
-},{"./module":45}],47:[function(require,module,exports){
+},{"./module":46}],48:[function(require,module,exports){
 'use strict';
 
 var registerFilter = require('filters/register');
@@ -2253,7 +2452,7 @@ function($sce) {
 }]);
 
 module.exports = name;
-},{"filters/register":46}],48:[function(require,module,exports){
+},{"filters/register":47}],49:[function(require,module,exports){
 'use strict'
 
 var m = require('./module')
@@ -2641,7 +2840,7 @@ function(id, promise) {
 }])
 
 module.exports = name
-},{"../services/id":77,"../services/promise":90,"./module":54,"classy":141,"rfc6902":168,"utils":106}],49:[function(require,module,exports){
+},{"../services/id":78,"../services/promise":91,"./module":55,"classy":142,"rfc6902":169,"utils":107}],50:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -2672,7 +2871,7 @@ function(BaseModel) {
 }]);
 
 module.exports = name;
-},{"classy":141,"models/base":48,"models/register":59}],50:[function(require,module,exports){
+},{"classy":142,"models/base":49,"models/register":60}],51:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -2711,7 +2910,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":48,"classy":141,"models/register":59,"utils":106}],51:[function(require,module,exports){
+},{"./base":49,"classy":142,"models/register":60,"utils":107}],52:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -2847,7 +3046,7 @@ ErrorService) {
 module.exports = name;
 
 
-},{"classy":141,"models/base":48,"models/register":59,"services/data_url_service":66,"services/error":69,"services/file_reader_service":74,"services/promise":90}],52:[function(require,module,exports){
+},{"classy":142,"models/base":49,"models/register":60,"services/data_url_service":67,"services/error":70,"services/file_reader_service":75,"services/promise":91}],53:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -2902,7 +3101,7 @@ statusText – {string} – HTTP status text of the response.
 }]);
 
 module.exports = name;
-},{"./base":48,"classy":141,"models/register":59}],53:[function(require,module,exports){
+},{"./base":49,"classy":142,"models/register":60}],54:[function(require,module,exports){
 'use strict';
 
 require('./user');
@@ -2910,14 +3109,14 @@ require('./video');
 require('./picture');
 require('./notification');
 require('./comment');
-},{"./comment":49,"./notification":55,"./picture":56,"./user":60,"./video":61}],54:[function(require,module,exports){
+},{"./comment":50,"./notification":56,"./picture":57,"./user":61,"./video":62}],55:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('models'), []);
-},{"angular":118,"info":101}],55:[function(require,module,exports){
+},{"angular":119,"info":102}],56:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -2947,7 +3146,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":141,"models/base":48,"models/register":59}],56:[function(require,module,exports){
+},{"classy":142,"models/base":49,"models/register":60}],57:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3052,7 +3251,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":141,"models/base":48,"models/register":59}],57:[function(require,module,exports){
+},{"classy":142,"models/base":49,"models/register":60}],58:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('./register');
@@ -3093,7 +3292,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":48,"./register":59,"classy":141,"models/base":48}],58:[function(require,module,exports){
+},{"./base":49,"./register":60,"classy":142,"models/base":49}],59:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3148,7 +3347,7 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
 ]);
 
 module.exports = name;
-},{"classy":141,"models/base":48,"models/comment":49,"models/picture":56,"models/register":59,"models/video":61}],59:[function(require,module,exports){
+},{"classy":142,"models/base":49,"models/comment":50,"models/picture":57,"models/register":60,"models/video":62}],60:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -3156,7 +3355,7 @@ var m = require('./module');
 module.exports = function(name, params) {
     m.factory(name, params);
 }
-},{"./module":54}],60:[function(require,module,exports){
+},{"./module":55}],61:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3213,7 +3412,7 @@ PictureModel) {
 }]);
 
 module.exports = name;
-},{"classy":141,"models/base":48,"models/notification":55,"models/picture":56,"models/question":58,"models/register":59}],61:[function(require,module,exports){
+},{"classy":142,"models/base":49,"models/notification":56,"models/picture":57,"models/question":59,"models/register":60}],62:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('./register');
@@ -3293,7 +3492,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"./register":59,"classy":141,"models/base":48}],62:[function(require,module,exports){
+},{"./register":60,"classy":142,"models/base":49}],63:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3429,7 +3628,7 @@ registerService('factory', name, [function() {
 }]);
 
 module.exports = name;
-},{"services/register":92,"utils":106}],63:[function(require,module,exports){
+},{"services/register":93,"utils":107}],64:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3501,7 +3700,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":92}],64:[function(require,module,exports){
+},{"services/register":93}],65:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3528,7 +3727,7 @@ function() {
 ])
 
 module.exports = name;
-},{"services/register":92}],65:[function(require,module,exports){
+},{"services/register":93}],66:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3572,7 +3771,7 @@ registerService('factory', name, [
 ]);
 
 module.exports = name;
-},{"services/parallel_promise":84,"services/progress":89,"services/register":92,"services/serial_promise":96,"services/user_service":98,"utils":106}],66:[function(require,module,exports){
+},{"services/parallel_promise":85,"services/progress":90,"services/register":93,"services/serial_promise":97,"services/user_service":99,"utils":107}],67:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3641,7 +3840,7 @@ function(Base64Service, Promise) {
 }]);
 
 module.exports = name;
-},{"services/base64_service":63,"services/promise":90,"services/register":92}],67:[function(require,module,exports){
+},{"services/base64_service":64,"services/promise":91,"services/register":93}],68:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3684,7 +3883,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"device-detector":158,"services/register":92}],68:[function(require,module,exports){
+},{"device-detector":159,"services/register":93}],69:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3766,7 +3965,7 @@ ErrorService) {
 }]);
 
 module.exports = name;
-},{"services/error":69,"services/file_reader_service":74,"services/progress":89,"services/promise":90,"services/register":92,"services/serial_promise":96}],69:[function(require,module,exports){
+},{"services/error":70,"services/file_reader_service":75,"services/progress":90,"services/promise":91,"services/register":93,"services/serial_promise":97}],70:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3820,7 +4019,7 @@ function(ErrorModel, HttpResponseModel) {
 }]);
 
 module.exports = name;
-},{"models/error":50,"models/http_response":52,"services/register":92}],70:[function(require,module,exports){
+},{"models/error":51,"models/http_response":53,"services/register":93}],71:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3855,7 +4054,7 @@ function(modalService, ErrorModel, $rootScope) {
 }])
 
 module.exports = name
-},{"models/error":50,"services/modal":82,"services/register":92,"utils":106}],71:[function(require,module,exports){
+},{"models/error":51,"services/modal":83,"services/register":93,"utils":107}],72:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -3894,7 +4093,7 @@ function(StateService, ErrorService) {
 }]);
 
 module.exports = name;
-},{"services/error":69,"services/register":92,"services/state_service":97}],72:[function(require,module,exports){
+},{"services/error":70,"services/register":93,"services/state_service":98}],73:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4051,7 +4250,7 @@ Promise, ProgressService, FileModel) {
 }]);
 
 module.exports = name;
-},{"exif-js":162,"exif-orient":163,"models/file":51,"services/data_url_service":66,"services/dom_image_service":68,"services/file_reader_service":74,"services/progress":89,"services/promise":90,"services/register":92,"services/serial_promise":96,"utils":106}],73:[function(require,module,exports){
+},{"exif-js":163,"exif-orient":164,"models/file":52,"services/data_url_service":67,"services/dom_image_service":69,"services/file_reader_service":75,"services/progress":90,"services/promise":91,"services/register":93,"services/serial_promise":97,"utils":107}],74:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4135,7 +4334,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":92}],74:[function(require,module,exports){
+},{"services/register":93}],75:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4257,7 +4456,7 @@ DataUrlService) {
 ]);
 
 module.exports = name;
-},{"services/data_url_service":66,"services/error":69,"services/parallel_promise":84,"services/progress":89,"services/promise":90,"services/register":92,"services/serial_promise":96}],75:[function(require,module,exports){
+},{"services/data_url_service":67,"services/error":70,"services/parallel_promise":85,"services/progress":90,"services/promise":91,"services/register":93,"services/serial_promise":97}],76:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4304,7 +4503,7 @@ function(MimeService, Promise, DOMImageService) {
 }]);
 
 module.exports = name;
-},{"services/dom_image_service":68,"services/mime_service":81,"services/promise":90,"services/register":92}],76:[function(require,module,exports){
+},{"services/dom_image_service":69,"services/mime_service":82,"services/promise":91,"services/register":93}],77:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4399,7 +4598,7 @@ function($http, PromiseService, HttpResponseModel, ErrorService) {
 }]);
 
 module.exports = name;
-},{"models/http_response":52,"services/error":69,"services/promise":90,"services/register":92,"utils":106}],77:[function(require,module,exports){
+},{"models/http_response":53,"services/error":70,"services/promise":91,"services/register":93,"utils":107}],78:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4421,7 +4620,7 @@ function() {
 }])
 
 module.exports = name
-},{"chance":122,"services/register":92}],78:[function(require,module,exports){
+},{"chance":123,"services/register":93}],79:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4607,11 +4806,11 @@ ErrorService, FileModel) {
 
 module.exports = name;
 
-},{"html5-canvas-image-resizer":164,"models/file":51,"services/data_url_service":66,"services/dom_image_service":68,"services/error":69,"services/exif_service":72,"services/file_reader_service":74,"services/progress":89,"services/promise":90,"services/register":92,"services/serial_promise":96}],79:[function(require,module,exports){
+},{"html5-canvas-image-resizer":165,"models/file":52,"services/data_url_service":67,"services/dom_image_service":69,"services/error":70,"services/exif_service":73,"services/file_reader_service":75,"services/progress":90,"services/promise":91,"services/register":93,"services/serial_promise":97}],80:[function(require,module,exports){
 'use strict';
 
 require('services/data_resolver');
-},{"services/data_resolver":65}],80:[function(require,module,exports){
+},{"services/data_resolver":66}],81:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4675,7 +4874,7 @@ Promise, Progress) {
 }])
 
 module.exports = name;
-},{"models/picture":56,"models/video":61,"services/progress":89,"services/promise":90,"services/register":92,"services/s3_uploader_service":94,"utils":106}],81:[function(require,module,exports){
+},{"models/picture":57,"models/video":62,"services/progress":90,"services/promise":91,"services/register":93,"services/s3_uploader_service":95,"utils":107}],82:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4738,7 +4937,7 @@ function() {
 }]);
 
 module.exports = name;
-},{"services/register":92}],82:[function(require,module,exports){
+},{"services/register":93}],83:[function(require,module,exports){
 var registerService = require('services/register');
 var utils = require('utils');
 
@@ -4771,14 +4970,14 @@ function($modal, $templateCache) {
 }])
 
 module.exports = name
-},{"services/register":92,"utils":106}],83:[function(require,module,exports){
+},{"services/register":93,"utils":107}],84:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('services'), []);
-},{"angular":118,"info":101}],84:[function(require,module,exports){
+},{"angular":119,"info":102}],85:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -4881,7 +5080,7 @@ function(promise, progress, ProgressModel, $q) {
 }])
 
 module.exports = name;
-},{"./module":83,"models/progress":57,"services/progress":89,"services/promise":90,"utils":106}],85:[function(require,module,exports){
+},{"./module":84,"models/progress":58,"services/progress":90,"services/promise":91,"utils":107}],86:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4908,7 +5107,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":92}],86:[function(require,module,exports){
+},{"services/register":93}],87:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4989,7 +5188,7 @@ SerialPromise, ProgressService, ErrorService) {
 module.exports = name;
 
 
-},{"models/file":51,"services/dom_image_service":68,"services/error":69,"services/image_service":78,"services/progress":89,"services/promise":90,"services/register":92,"services/serial_promise":96}],87:[function(require,module,exports){
+},{"models/file":52,"services/dom_image_service":69,"services/error":70,"services/image_service":79,"services/progress":90,"services/promise":91,"services/register":93,"services/serial_promise":97}],88:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5072,7 +5271,7 @@ SerialPromise, ProgressService, FileReaderService) {
 }])
 
 module.exports = name;
-},{"models/file":51,"models/picture":56,"services/file_reader_service":74,"services/image_service":78,"services/progress":89,"services/promise":90,"services/register":92,"services/serial_promise":96}],88:[function(require,module,exports){
+},{"models/file":52,"models/picture":57,"services/file_reader_service":75,"services/image_service":79,"services/progress":90,"services/promise":91,"services/register":93,"services/serial_promise":97}],89:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5097,7 +5296,7 @@ function(PictureProportionalResizeService) {
 
 module.exports = name;
 
-},{"services/picture_proportional_resize_service":86,"services/register":92}],89:[function(require,module,exports){
+},{"services/picture_proportional_resize_service":87,"services/register":93}],90:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -5130,7 +5329,7 @@ function(progressModel) {
 }])
 
 module.exports = name;
-},{"../models/progress":57,"./module":83}],90:[function(require,module,exports){
+},{"../models/progress":58,"./module":84}],91:[function(require,module,exports){
 'use strict';
 
 var registerService = require('./register');
@@ -5154,7 +5353,7 @@ function($q) {
 }])
 
 module.exports = name;
-},{"./register":92}],91:[function(require,module,exports){
+},{"./register":93}],92:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5217,7 +5416,7 @@ MediaService) {
 }])
 
 module.exports = name;
-},{"services/http_service":76,"services/media_service":80,"services/parallel_promise":84,"services/progress":89,"services/promise":90,"services/register":92,"services/serial_promise":96}],92:[function(require,module,exports){
+},{"services/http_service":77,"services/media_service":81,"services/parallel_promise":85,"services/progress":90,"services/promise":91,"services/register":93,"services/serial_promise":97}],93:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -5233,7 +5432,7 @@ module.exports = function(type, name, params) {
         throw new Error("services.register: Invalid service type! " + name);   
     }
 }
-},{"./module":83}],93:[function(require,module,exports){
+},{"./module":84}],94:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5276,7 +5475,7 @@ function(ApiUrlService, Promise, ErrorService, HttpService) {
 }])
 
 module.exports = name;
-},{"services/api_url":62,"services/error":69,"services/http_service":76,"services/promise":90,"services/register":92}],94:[function(require,module,exports){
+},{"services/api_url":63,"services/error":70,"services/http_service":77,"services/promise":91,"services/register":93}],95:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5384,7 +5583,7 @@ function(FileModel, S3SignUrlService, Promise,
 }]);
 
 module.exports = name;
-},{"models/file":51,"models/picture":56,"models/video":61,"services/error":69,"services/progress":89,"services/promise":90,"services/register":92,"services/s3_sign_url_service":93,"services/serial_promise":96}],95:[function(require,module,exports){
+},{"models/file":52,"models/picture":57,"models/video":62,"services/error":70,"services/progress":90,"services/promise":91,"services/register":93,"services/s3_sign_url_service":94,"services/serial_promise":97}],96:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5416,7 +5615,7 @@ function() {
 ])
 
 module.exports = name;
-},{"services/register":92,"utils":106}],96:[function(require,module,exports){
+},{"services/register":93,"utils":107}],97:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -5597,7 +5796,7 @@ function(promise, progress, ProgressModel) {
 }])
 
 module.exports = name;
-},{"./module":83,"models/progress":57,"services/progress":89,"services/promise":90,"utils":106}],97:[function(require,module,exports){
+},{"./module":84,"models/progress":58,"services/progress":90,"services/promise":91,"utils":107}],98:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5695,7 +5894,7 @@ function($state) {
 }]);
 
 module.exports = name;
-},{"services/register":92,"utils":106}],98:[function(require,module,exports){
+},{"services/register":93,"utils":107}],99:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6253,7 +6452,7 @@ PictureModel, MediaService) {
 ]);
 
 module.exports = name;
-},{"models/picture":56,"models/user":60,"services/api_url":62,"services/error":69,"services/http_service":76,"services/media_service":80,"services/progress":89,"services/promise":90,"services/register":92,"services/s3_uploader_service":94,"services/serial_promise":96,"utils":106}],99:[function(require,module,exports){
+},{"models/picture":57,"models/user":61,"services/api_url":63,"services/error":70,"services/http_service":77,"services/media_service":81,"services/progress":90,"services/promise":91,"services/register":93,"services/s3_uploader_service":95,"services/serial_promise":97,"utils":107}],100:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6295,7 +6494,7 @@ function(Promise, ProgressService) {
 module.exports = name;
 
 
-},{"services/progress":89,"services/promise":90,"services/register":92}],100:[function(require,module,exports){
+},{"services/progress":90,"services/promise":91,"services/register":93}],101:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6324,14 +6523,14 @@ function(VideoModel, FileModel, Promise) {
 }]);
 
 module.exports = name;
-},{"models/file":51,"models/video":61,"services/promise":90,"services/register":92}],101:[function(require,module,exports){
+},{"models/file":52,"models/video":62,"services/promise":91,"services/register":93}],102:[function(require,module,exports){
 module.exports = {
     name: 'valiant',
     moduleName: function(name) {
         return this.name + "." + name;
     }
 }
-},{}],102:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -6366,7 +6565,7 @@ module.exports = angular.module(appInfo.name, [
     require('angular-route'),
     'ngMessages'
 ]);
-},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":31,"../components/filters/init":44,"../components/models/init":53,"../components/services/init":79,"../views/_views":169,"angular":118,"angular-animate":109,"angular-messages":111,"angular-route":113,"angular-strap":114,"angular-strap-tpl-modal":115,"angular-ui-router":116,"info":101}],103:[function(require,module,exports){
+},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":32,"../components/filters/init":45,"../components/models/init":54,"../components/services/init":80,"../views/_views":170,"angular":119,"angular-animate":110,"angular-messages":112,"angular-route":114,"angular-strap":115,"angular-strap-tpl-modal":116,"angular-ui-router":117,"info":102}],104:[function(require,module,exports){
 'use strict';
 
 function boot() {
@@ -6380,7 +6579,7 @@ function boot() {
 }
 
 module.exports = boot
-},{"../info":101,"./app":102,"./config":104,"./routes":105}],104:[function(require,module,exports){
+},{"../info":102,"./app":103,"./config":105,"./routes":106}],105:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -6396,7 +6595,7 @@ app.config(['$httpProvider', function($httpProvider) {
         
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
-},{"./app":102}],105:[function(require,module,exports){
+},{"./app":103}],106:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -6725,7 +6924,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }
    })
 }]);
-},{"./app":102,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/error/default":6,"controllers/main/error/error":7,"controllers/main/home/default":8,"controllers/main/home/home":9,"controllers/main/login/default":10,"controllers/main/login/forgot_password":11,"controllers/main/login/login":12,"controllers/main/login/unverified":13,"controllers/main/question/ask":14,"controllers/main/question/default":15,"controllers/main/question/question":16,"controllers/main/question/unauthorized":17,"controllers/main/register/default":18,"controllers/main/register/register":19,"controllers/main/reset_password/default":20,"controllers/main/reset_password/reset_password":21,"controllers/main/top_bar":22,"controllers/main/user/default":23,"controllers/main/user/user":24}],106:[function(require,module,exports){
+},{"./app":103,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/error/default":6,"controllers/main/error/error":7,"controllers/main/home/default":8,"controllers/main/home/home":9,"controllers/main/login/default":10,"controllers/main/login/forgot_password":11,"controllers/main/login/login":12,"controllers/main/login/unverified":13,"controllers/main/question/ask":14,"controllers/main/question/default":15,"controllers/main/question/question":16,"controllers/main/question/unauthorized":17,"controllers/main/register/default":18,"controllers/main/register/register":19,"controllers/main/reset_password/default":20,"controllers/main/reset_password/reset_password":21,"controllers/main/top_bar":22,"controllers/main/user/default":23,"controllers/main/user/user":24}],107:[function(require,module,exports){
 
 
 /*
@@ -7070,7 +7269,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 /*'undefined' !== typeof exports ? ('undefined' !== typeof module ? module.exports : exports) : window*/
 
 
-},{}],107:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 require('domready')(function() {
     console.log("DOM IS READY!");
     
@@ -7078,7 +7277,7 @@ require('domready')(function() {
     bootFn();
 })
 
-},{"./init/boot":103,"domready":161}],108:[function(require,module,exports){
+},{"./init/boot":104,"domready":162}],109:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -11195,11 +11394,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],109:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":108}],110:[function(require,module,exports){
+},{"./angular-animate":109}],111:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -11923,11 +12122,11 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-},{}],111:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 require('./angular-messages');
 module.exports = 'ngMessages';
 
-},{"./angular-messages":110}],112:[function(require,module,exports){
+},{"./angular-messages":111}],113:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -12951,11 +13150,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],113:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":112}],114:[function(require,module,exports){
+},{"./angular-route":113}],115:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -17294,7 +17493,7 @@ module.exports = 'ngRoute';
   });
   angular.module('mgcrea.ngStrap', [ 'mgcrea.ngStrap.modal', 'mgcrea.ngStrap.aside', 'mgcrea.ngStrap.alert', 'mgcrea.ngStrap.button', 'mgcrea.ngStrap.select', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.timepicker', 'mgcrea.ngStrap.navbar', 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.popover', 'mgcrea.ngStrap.dropdown', 'mgcrea.ngStrap.typeahead', 'mgcrea.ngStrap.scrollspy', 'mgcrea.ngStrap.affix', 'mgcrea.ngStrap.tab', 'mgcrea.ngStrap.collapse' ]);
 })(window, document);
-},{}],115:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -17307,7 +17506,7 @@ module.exports = 'ngRoute';
 angular.module('mgcrea.ngStrap.modal').run([ '$templateCache', function($templateCache) {
   $templateCache.put('modal/modal.tpl.html', '<div class="modal" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header" ng-show="title"><button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" ng-bind="title"></h4></div><div class="modal-body" ng-bind="content"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="$hide()">Close</button></div></div></div></div>');
 } ]);
-},{}],116:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.18
@@ -21847,7 +22046,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],117:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -52276,11 +52475,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],118:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":117}],119:[function(require,module,exports){
+},{"./angular":118}],120:[function(require,module,exports){
 'use strict'
 
 exports.toByteArray = toByteArray
@@ -52396,7 +52595,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],120:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -53862,14 +54061,14 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":119,"ieee754":165,"isarray":121}],121:[function(require,module,exports){
+},{"base64-js":120,"ieee754":166,"isarray":122}],122:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],122:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 (function (Buffer){
 //  Chance.js 1.0.1
 //  http://chancejs.com
@@ -56961,7 +57160,7 @@ module.exports = Array.isArray || function (arr) {
 })();
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":120}],123:[function(require,module,exports){
+},{"buffer":121}],124:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -57039,9 +57238,9 @@ module.exports = require('./define')({
         }
     }
 })
-},{"./core":131,"./define":134,"./utils/copy":149}],124:[function(require,module,exports){
+},{"./core":132,"./define":135,"./utils/copy":150}],125:[function(require,module,exports){
 module.exports = {}
-},{}],125:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 'use strict'
 
 var copy = require('../utils/copy').copy
@@ -57123,7 +57322,7 @@ var assignClassProperty = function(Class, propName, propDescriptor, config){
 }
 
 module.exports = assignClassProperty
-},{"../utils/copy":149,"./canDefineProperty":127,"./canGetOwnPropertyDescriptor":128,"./modifyFn":132}],126:[function(require,module,exports){
+},{"../utils/copy":150,"./canDefineProperty":128,"./canGetOwnPropertyDescriptor":129,"./modifyFn":133}],127:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -57271,7 +57470,7 @@ module.exports = function(){
         buildOverridenFn : buildOverridenFn
     }
 }()
-},{}],127:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
@@ -57288,13 +57487,13 @@ module.exports = (function(){
     return false
 
 })()
-},{}],128:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
     return 'getOwnPropertyDescriptor' in Object && typeof Object.getOwnPropertyDescriptor == 'function'
 })()
-},{}],129:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 'use strict'
 
 var canGetOwnPropertyDescriptor = require('./canGetOwnPropertyDescriptor')
@@ -57313,7 +57512,7 @@ function copy(source, target){
 }
 
 module.exports = canGetOwnPropertyDescriptor? copy: function(){}
-},{"./canGetOwnPropertyDescriptor":128}],130:[function(require,module,exports){
+},{"./canGetOwnPropertyDescriptor":129}],131:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -57339,7 +57538,7 @@ module.exports = function(){
         return child
     }
 }()
-},{}],131:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -57560,7 +57759,7 @@ module.exports = function(){
         BaseClass        : Base
     }
 }()
-},{"../utils/copy":149,"./assignClassProperty":125,"./canDefineProperty":127,"./canGetOwnPropertyDescriptor":128,"./copyDescriptors":129,"./extend":130,"newify":167}],132:[function(require,module,exports){
+},{"../utils/copy":150,"./assignClassProperty":126,"./canDefineProperty":128,"./canGetOwnPropertyDescriptor":129,"./copyDescriptors":130,"./extend":131,"newify":168}],133:[function(require,module,exports){
 var callSuperRe     = /\bcallSuper|callSuperWith\b/
 var callOverridenRe = /\bcallOverriden|callOverridenWith\b/
 
@@ -57588,7 +57787,7 @@ function modify(name, fn, superTarget, superClass, target, getterSetterConfig){
 }
 
 module.exports = modify
-},{"./buildClassFunctions":126}],133:[function(require,module,exports){
+},{"./buildClassFunctions":127}],134:[function(require,module,exports){
 var SLICE = Array.prototype.slice
 
 var getClass = require('./getClass')
@@ -57621,7 +57820,7 @@ module.exports = function(alias /* args... */){
 
     return newify(Class, args)
 }
-},{"./getClass":138,"newify":167}],134:[function(require,module,exports){
+},{"./getClass":139,"newify":168}],135:[function(require,module,exports){
 var getClass     = require('./getClass')
 var processClass = require('./processClass')
 
@@ -57677,7 +57876,7 @@ module.exports = function(parentClass, classConfig){
         processClass(Class)
     })
 }
-},{"./Registry":124,"./core":131,"./getClass":138,"./processClass":145,"./processors/ClassProcessor":146}],135:[function(require,module,exports){
+},{"./Registry":125,"./core":132,"./getClass":139,"./processClass":146,"./processors/ClassProcessor":147}],136:[function(require,module,exports){
 var define = require('./define')
 var copyIf = require('./utils/copy').copyIf
 
@@ -57687,7 +57886,7 @@ module.exports = function(members){
 
     return define(copyIf({ extend: 'z.mixin'}, members))
 }
-},{"./define":134,"./utils/copy":149}],136:[function(require,module,exports){
+},{"./define":135,"./utils/copy":150}],137:[function(require,module,exports){
 /**
  * @method destroyClass
  *
@@ -57711,7 +57910,7 @@ module.exports = function(Class){
         Class.destroy()
     }
 }
-},{"./core":131,"./getClass":138}],137:[function(require,module,exports){
+},{"./core":132,"./getClass":139}],138:[function(require,module,exports){
 
 module.exports = function(config){
 
@@ -57726,7 +57925,7 @@ module.exports = function(config){
 
     return define(config)
 }
-},{"./define":134}],138:[function(require,module,exports){
+},{"./define":135}],139:[function(require,module,exports){
 /**
  * @method getClass
  *
@@ -57754,7 +57953,7 @@ module.exports = function getClass(alias){
     return REGISTRY[alias]
 
 }
-},{"./Registry":124,"./core":131}],139:[function(require,module,exports){
+},{"./Registry":125,"./core":132}],140:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -57798,7 +57997,7 @@ module.exports = function(config){
 
     return new klass(config)
 }
-},{"./core":131,"./getClass":138}],140:[function(require,module,exports){
+},{"./core":132,"./getClass":139}],141:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -57824,7 +58023,7 @@ module.exports = function(alias){
         return Class
     }
 }
-},{"./core":131,"./getClass":138}],141:[function(require,module,exports){
+},{"./core":132,"./getClass":139}],142:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -57883,7 +58082,7 @@ module.exports = function(){
         isClassLike        : isSameOrSubclassOf
     }
 }()
-},{"./Mixin":123,"./Registry":124,"./core":131,"./create":133,"./define":134,"./defineMixin":135,"./destroyClass":136,"./getClass":138,"./getInstance":139,"./getParentClass":140,"./isSubclassOf":142,"./override":143,"./processors/MixinProcessor":147,"./utils/copy":149}],142:[function(require,module,exports){
+},{"./Mixin":124,"./Registry":125,"./core":132,"./create":134,"./define":135,"./defineMixin":136,"./destroyClass":137,"./getClass":139,"./getInstance":140,"./getParentClass":141,"./isSubclassOf":143,"./override":144,"./processors/MixinProcessor":148,"./utils/copy":150}],143:[function(require,module,exports){
 var getClass = require('./getClass')
 
 module.exports = function(subClass, superClass, config){
@@ -57907,7 +58106,7 @@ module.exports = function(subClass, superClass, config){
 
     return !!subClass
 }
-},{"./getClass":138}],143:[function(require,module,exports){
+},{"./getClass":139}],144:[function(require,module,exports){
 var getClass = require('./getClass')
 
 /**
@@ -57938,7 +58137,7 @@ module.exports = function(Class, classConfig){
 
     return TheClass
 }
-},{"./getClass":138}],144:[function(require,module,exports){
+},{"./getClass":139}],145:[function(require,module,exports){
 module.exports = function(config){
 
     'use strict'
@@ -57946,7 +58145,7 @@ module.exports = function(config){
     //this refers to a Class
     return require('./core').overrideClass(this, config)
 }
-},{"./core":131}],145:[function(require,module,exports){
+},{"./core":132}],146:[function(require,module,exports){
 var copyKeys = require('./utils/copy').copyKeys
 
 function aliasMethods(config){
@@ -57987,7 +58186,7 @@ module.exports = function(Class){
         Class.init()
     }
 }
-},{"./extendClass":137,"./overrideClass":144,"./processors/ClassProcessor":146,"./unregisterClass":148,"./utils/copy":149}],146:[function(require,module,exports){
+},{"./extendClass":138,"./overrideClass":145,"./processors/ClassProcessor":147,"./unregisterClass":149,"./utils/copy":150}],147:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -58028,7 +58227,7 @@ module.exports = function(){
 
     return result
 }()
-},{"./MixinProcessor":147}],147:[function(require,module,exports){
+},{"./MixinProcessor":148}],148:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -58415,7 +58614,7 @@ module.exports = function(){
 
     }
 }()
-},{"../core":131,"../getClass":138,"../utils/copy":149,"../utils/function":150}],148:[function(require,module,exports){
+},{"../core":132,"../getClass":139,"../utils/copy":150,"../utils/function":151}],149:[function(require,module,exports){
 var REGISTRY = require('./Registry')
 
 module.exports = function unregisterClass(){
@@ -58429,7 +58628,7 @@ module.exports = function unregisterClass(){
 
     delete REGISTRY[alias]
 }
-},{"./Registry":124}],149:[function(require,module,exports){
+},{"./Registry":125}],150:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -58441,7 +58640,7 @@ module.exports = function unregisterClass(){
 
  */
 module.exports = require('copy-utils')
-},{"copy-utils":157}],150:[function(require,module,exports){
+},{"copy-utils":158}],151:[function(require,module,exports){
 module.exports = function(){
 
     var SLICE = Array.prototype.slice
@@ -58498,7 +58697,7 @@ module.exports = function(){
         bindArgsArray: bindArgsArray
     }
 }()
-},{}],151:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -58529,7 +58728,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],152:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -58561,7 +58760,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],153:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -58613,7 +58812,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyList":155}],154:[function(require,module,exports){
+},{"./copyList":156}],155:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -58674,7 +58873,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyListIf":156}],155:[function(require,module,exports){
+},{"./copyListIf":157}],156:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -58714,7 +58913,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],156:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -58756,7 +58955,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],157:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -58953,11 +59152,11 @@ module.exports = function(){
     }
 
 }()
-},{"./copy":151,"./copyIf":152,"./copyKeys":153,"./copyKeysIf":154,"./copyList":155,"./copyListIf":156}],158:[function(require,module,exports){
+},{"./copy":152,"./copyIf":153,"./copyKeys":154,"./copyKeysIf":155,"./copyList":156,"./copyListIf":157}],159:[function(require,module,exports){
 exports = module.exports = require('./src/device-detector');
 exports.version = require('./package').version;
 
-},{"./package":159,"./src/device-detector":160}],159:[function(require,module,exports){
+},{"./package":160,"./src/device-detector":161}],160:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -59059,7 +59258,7 @@ module.exports={
   "version": "0.1.32"
 }
 
-},{}],160:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 /**
  * Device Detector
  * GitHub : git@github.com:ndaidong/device-detector.git
@@ -59396,7 +59595,7 @@ module.exports={
   }
 })();
 
-},{}],161:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -59428,7 +59627,7 @@ module.exports={
 
 });
 
-},{}],162:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
 (function() {
 
     var debug = false;
@@ -60235,7 +60434,7 @@ module.exports={
 }.call(this));
 
 
-},{}],163:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory)
@@ -60341,7 +60540,7 @@ module.exports={
   }
 }));
 
-},{}],164:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 // inspired by http://webreflection.blogspot.com/2010/12/100-client-side-image-resizing.html
 /* 
 
@@ -60397,7 +60596,7 @@ module.exports = function (canvas) {
 
 
 
-},{}],165:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -60483,7 +60682,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],166:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 module.exports = function(){
 
     'use strict';
@@ -60512,13 +60711,13 @@ module.exports = function(){
     }
 
 }()
-},{}],167:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 var getInstantiatorFunction = require('./getInstantiatorFunction')
 
 module.exports = function(fn, args){
 	return getInstantiatorFunction(args.length)(fn, args)
 }
-},{"./getInstantiatorFunction":166}],168:[function(require,module,exports){
+},{"./getInstantiatorFunction":167}],169:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.rfc6902 = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
@@ -61264,28 +61463,28 @@ var Pointer = exports.Pointer = (function () {
 },{}]},{},[4])(4)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],169:[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("admin.html","<div class=\"container admin\">\n    <div class=\"row\">\n        <div ui-view=\"header\" class=\"header\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"content\" class=\"content\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"footer\" class=\"footer\"></div>\n    </div>\n</div>");
 $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div class=\"row\">\n        <div class=\"top-bar col-xs-12 col-md-12 col-lg-12\" ui-view=\"top_bar\"></div>\n    </div>\n    \n    <div class=\"mobile-scroll\" style=\"height:100%;\">\n      <div class=\"mobile-container\">\n         <div class=\"row\">\n            <div ui-view=\"header\" class=\"header\"></div>\n         </div>    \n         \n         <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12 hidden-xs large-header-padding\"></div>\n            <div class=\"hidden-lg hidden-md hidden-sm col-xs-12 mobile-header-padding\"></div>\n         </div>\n         \n         <div class=\"main-content\">\n            <div class=\"row\">\n               <div class=\"mobile-ad-space hidden-lg hidden-md hidden-sm col-xs-12\">\n                  <img src=\"./images/temp_mobile_ad.png\" />\n               </div>\n            </div>\n            \n            <div class=\"row row-eq-height\" style=\"height: 100%;\">\n                  <!--<div class=\"content-padding col-md-1 col-lg-1 col-sm-1 hidden-xs\"></div>-->\n                  <div ui-view=\"content\" class=\"content col-md-9 col-lg-9 col-sm-9 col-xs-12\" style=\"min-height:100%;\"></div>\n                  <div ui-view=\"ad_space_right\" class=\"ad-space col-lg-3 col-sm-3 col-md-3 hidden-xs\" style=\"min-height:100%;\">\n                     <div class=\"ad-container\">\n                        <div class=\"ad\">\n                            <img src=\"./images/temp_ad1.jpg\" />\n                        </div>\n                        <div class=\"ad ad1\">\n                            <img src=\"./images/temp_ad2.png\" />\n                        </div>\n                     </div>\n                     <div class=\"copyright\">\n                        Andrew O\'Mahony (c) 2016\n                     </div>\n                  </div>\n            </div>\n         </div>\n      </div>\n    </div>\n</div>");
+$templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
 $templateCache.put("directives/media_picker.html","<div class=\"media-picker\">\n   <div ng-if=\"isPicture()\">\n      <picture-media-picker></picture-media-picker>\n   </div>\n   <div ng-if=\"isVideo()\">\n      <video-media-picker></video-media-picker>\n   </div>\n   \n   <div ng-if=\"isYoutube()\">\n      <youtube-media-picker></youtube-media-picker>\n   </div>\n   \n   <div class=\"error\" ng-style=\"getErrorStyle()\">\n     <span ng-bind=\"errorMessage\"></span>\n   </div>   \n</div>");
-$templateCache.put("directives/picture_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\" \n     ng-style=\"getRootNoMediaDivStyle()\"\n     ng-click=\"activateFileReader()\">\n   <div ng-if=\"!isLoadingMedia\" class=\"picture-icon icon-container\">\n      <span></span>\n      <i class=\"fa fa-picture-o fa-5x\"></i>\n   </div>   \n   \n   <div ng-if=\"isLoadingMedia\" class=\"loading-icon icon-container\">\n      <span></span>\n      <i class=\"fa fa-refresh fa-spin fa-4x fa-fw\"></i>\n   </div>\n</div>\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"picture\"\n           model=\"model\"\n           width=\"88%\"\n           height=\"98%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"picture-container\">\n      </div>\n      <div class=\"media-container-options picture-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"image/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onPictureSelectSuccess(files)\"\n   on-files-progress=\"onPictureSelectProgress(progress)\"\n   on-files-error=\"onPictureSelectError(error)\">\n</file-reader> ");
+$templateCache.put("directives/picture_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\" \n     ng-style=\"getRootNoMediaDivStyle()\"\n     ng-click=\"activateFileReader()\">\n   <div ng-if=\"!isLoadingMedia\" \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-picture-o fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div>\n\n<!--\n   <div ng-if=\"!isLoadingMedia\" class=\"picture-icon icon-container\">\n      <span></span>\n      <i class=\"fa fa-picture-o fa-5x\"></i>\n   </div>   \n   \n   <div ng-if=\"isLoadingMedia\" class=\"loading-icon icon-container\">\n      <span></span>\n      <i class=\"fa fa-refresh fa-spin fa-4x fa-fw\"></i>\n   </div> -->\n</div>\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"picture\"\n           model=\"model\"\n           width=\"88%\"\n           height=\"98%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"picture-container\">\n      </div>\n      <div class=\"media-container-options picture-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"image/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onPictureSelectSuccess(files)\"\n   on-files-progress=\"onPictureSelectProgress(progress)\"\n   on-files-error=\"onPictureSelectError(error)\">\n</file-reader> ");
 $templateCache.put("directives/profile_picture.html","<div media-renderer=\"picture\"\n     model=\"getProfilePicture()\"\n     width=\"{{width}}\"\n     show-loading=\"true\"\n     fitted=\"false\"></div>");
-$templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\"\n     ng-click=\"activateFileReader()\" \n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" class=\"video-icon icon-container\">\n      <span></span>\n      <i class=\"fa fa-video-camera fa-5x\"></i>\n   </div>  \n   \n   <div ng-if=\"isLoadingMedia\" class=\"loading-icon icon-container\">\n      <span></span>\n      <i class=\"fa fa-refresh fa-spin fa-4x fa-fw\"></i>\n   </div>    \n</div>\n\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"video\"\n           model=\"model\"\n           width=\"88%\"\n           height=\"98%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"video-container\">\n      </div>\n      <div class=\"media-container-options picture-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"video/mp4,video/x-m4v,video/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onVideoSelectSuccess(files)\"\n   on-files-progress=\"onVideoSelectProgress(progress)\"\n   on-files-error=\"onVideoSelectError(error)\">\n</file-reader> ");
-$templateCache.put("directives/youtube_media_picker.html","<div class=\"no-media\" ng-if=\"!model.url\" ng-style=\"getRootNoMediaDivStyle()\">\n   <div class=\"icon-container\">\n      <span></span>\n      <i class=\"fa fa-youtube fa-5x\"></i>\n   </div>   \n</div>\n\n<div class=\"has-media\" ng-if=\"model.url\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container youtube-container\">\n      <!--\n      <div class=\"picture-container-image\">\n         <img ng-src=\"{{model.url}}\" ng-style=\"getHasMediaImageStyle()\" />\n      </div>\n      \n      -->\n      <div class=\"media-container-options youtube-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"picture-container-option-left\">\n               <a ng-click=\"activatePicturePicker()\">Change</a>\n            </span>\n            <span class=\"picture-container-option-right\">\n               <a ng-click=\"deletePicture()\">Delete</a>\n            </span>\n         </div>\n      </div>  \n   </div>\n</div>");
-$templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
-$templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
-$templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
-$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
+$templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\"\n     ng-click=\"activateFileReader()\" \n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-video-camera fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div> \n</div>\n\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"video\"\n           model=\"model\"\n           width=\"95%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"video-container\"\n           can-preload=\"true\"\n           can-hide-while-preloading=\"true\"\n           information=\"videoInformation\"\n           on-event=\"onVideoEvent(name)\">\n      </div>\n      <div class=\"media-container-options video-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"video/mp4,video/x-m4v,video/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onVideoSelectSuccess(files)\"\n   on-files-progress=\"onVideoSelectProgress(progress)\"\n   on-files-error=\"onVideoSelectError(error)\">\n</file-reader> ");
+$templateCache.put("directives/youtube_media_picker.html","<div class=\"no-media\" ng-if=\"!model.url\" ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-youtube fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div>\n</div>\n\n<div class=\"has-media\" ng-if=\"model.url\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container youtube-container\">\n      <!--\n      <div class=\"picture-container-image\">\n         <img ng-src=\"{{model.url}}\" ng-style=\"getHasMediaImageStyle()\" />\n      </div>\n      \n      -->\n      <div class=\"media-container-options youtube-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"picture-container-option-left\">\n               <a ng-click=\"activatePicturePicker()\">Change</a>\n            </span>\n            <span class=\"picture-container-option-right\">\n               <a ng-click=\"deletePicture()\">Delete</a>\n            </span>\n         </div>\n      </div>  \n   </div>\n</div>");
 $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n   <div class=\"logo-container\">\n      <a ui-sref=\"main.page.home.default\">\n          <img class=\"logo\" src=\"images/temp_logo.jpg\" />\n      </a>\n   </div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
 $templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n   <div class=\"nav-sub-container\">\n      <nav>\n         <a class=\"link about\" ui-sref=\"main.page.about.default\">About</a>\n         <a class=\"link blog\" ui-sref=\"main.page.blog.default\">Blog</a>\n         <a class=\"link question\" ui-sref=\"main.page.question.ask\">Coaching</a>\n         <a class=\"link contact\" ui-sref=\"main.page.contact.default\">Contact</a>\n      </nav>\n      \n      <!-- \n          \n<nav>\n         <a class=\"link\" ui-sref=\"main.page.about.default\" href=\"#/about/\" style=\"/* text-align: le */\n/* position: absolute; */\n/* left: 0px; */\n/* margin-right: 40px; */\nwidth:25%;\ndisplay:inline-block;\">About</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.blog.default\" style=\"/* position: relative; */\n/* left: -20px; */\nwidth:22%;\ndisplay: inline-block;\">Blog</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.question.ask\" href=\"#/question/ask\" style=\"/* position: relative; */\n/* left: 12px; */\ndisplay: inline-block;\nwidth: 31%;\">Coaching</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.contact.default\" style=\"/* position: absolute; */\n/* right: 0px; */\">Contact</a>\n   </nav>          \n          \n          -->\n   </div>\n</div>");
 $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"login-button\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"profile-name-and-picture\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"login-button\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
-$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
-$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
-$templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");
-$templateCache.put("partials/main/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
+$templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
+$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
 $templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button ng-click=\"onTestRequestClick()\">Test HTTP</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
+$templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");
+$templateCache.put("partials/main/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
+$templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/login/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n   <div class=\"status-message\" \n         ng-if=\"statusMessage()\"\n         ng-bind=\"statusMessage()\"></div>\n   <div class=\"login-form\">\n      <form>\n            <div class=\"form-group\">\n            <label for=\"login_email\">E-Mail Address</label>\n            <input type=\"text\" class=\"form-control\" name=\"login_email\" autocomplete=\"none\" autocorrect=\"none\" autocapitalize=\"none\" ng-model=\"loginInformation.email\" />\n            </div>\n            \n            <div class=\"form-group\">  \n            <label for=\"login_password\">Password</label>\n            <input type=\"password\" class=\"form-control\" name=\"login_password\" autocomplete=\"none\" autocorrect=\"none\" autocapitalize=\"none\" ng-model=\"loginInformation.password\" />\n            </div>\n            \n            <div class=\"form-group\">\n            <button ng-click=\"login()\">Login</button>\n            </div>\n      </form>\n   </div>\n   <div class=\"login-links\">\n      <a ui-sref=\"main.page.login.forgot_password\">Forgot your password?</a>\n      <a ui-sref=\"main.page.register.default\">Create a new Account</a>\n   </div>\n</div>\n\n");
 $templateCache.put("partials/main/login/forgot_password.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n   <form name=\"forgotPasswordForm\">\n      <div class=\"form-group\"\n         ng-class=\"{ \'has-error\': forgotPasswordForm.forgot_password_email.$touched && forgotPasswordForm.forgot_password_email.$invalid }\">\n         <label for=\"forgot_password_email\">\n            <span>E-Mail Address</span>\n         </label>\n         <input type=\"email\" \n               class=\"form-control\" \n               name=\"forgot_password_email\" \n               ng-model=\"formData.emailAddress\"\n               required />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!isRequestingNewPassword\">\n         <button ng-disabled=\"forgotPasswordForm.$invalid\" ng-click=\"requestNewPassword()\">\n            Request New Password\n         </button>\n      </div>\n      \n      <div class=\"requesting-in-progress\" ng-if=\"isRequestingNewPassword\">\n         <span><div loading-progress type=\"spinner\"></div></span>\n         <span class=\"requesting-text\">Requesting new password...</span>\n      </div>\n   </form>\n   \n   <div ng-if=\"hasRequestedNewPassword\">\n      An e-mail has been sent to this e-mail address.  Please click the link within it to\n      get a new password.\n   </div>\n</div>");
 $templateCache.put("partials/main/login/login.html","<div class=\"login\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
@@ -61294,13 +61493,13 @@ $templateCache.put("partials/main/question/ask.html","<div class=\"ask\">\n   <d
 $templateCache.put("partials/main/question/content.html","This is the question view page!");
 $templateCache.put("partials/main/question/question.html","<div class=\"question\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/question/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\">\n      To ask a question, you need to log in first.\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
+$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"edit-container profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/*\"\n            process-exif=\"true\"\n            create=\"profilePicturePicker\"\n            on-created=\"onProfilePictureSelectCreated(elementId)\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n         <div>\n            <input type=\"text\"\n                  placeholder=\"First Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"text\"\n                  placeholder=\"Last Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword\">\n      <div ng-if=\"!isChangingEmail\">\n         <span class=\"email-text\"\n               ng-bind=\"currentEditingUser.email\"></span>\n      </div>\n\n      <div ng-if=\"currentEditingUser.pending_email\">\n         <span class=\"pending-email-text\">\n            <span ng-bind=\"currentEditingUser.pending_email\"></span>\n            <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n            <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n         </span>\n      </div>     \n      \n      <div ng-if=\"isChangingEmail\">\n         <div ng-class=\"getEmailEditControlClass()\">\n            <input type=\"email\"\n                  placeholder=\"New E-Mail\"\n                  class=\"form-control profile-email-input\"\n                  ng-model=\"emailChangeData.email\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n      <div class=\"top-edit-control\">\n         <div>\n            <input type=\"password\"\n                  placeholder=\"Old Password\"\n                  class=\"form-control profile-old-password-input\"\n                  ng-model=\"passwordChangeData.old_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"password\"\n                  placeholder=\"New Password\"\n                  class=\"form-control profile-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>       \n            <input type=\"password\"\n                  placeholder=\"Repeat New Password\"\n                  class=\"form-control profile-repeat-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password_repeat\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>         \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-options-container\">\n      <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n         <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n      </span>\n      \n      <div ng-if=\"isSaving\" class=\"saving-message\">\n         <div loading-progress \n               type=\"spinner\"\n               message=\"getSavingUserMessage()\">\n         </div>\n      </div>\n      \n      <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n         <span ng-bind=\"postSavingMessage\"></span>\n      </div>\n      \n      <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n         <span ng-bind=\"errorMessage\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
+$templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/register/content.html","<div class=\"registration-form\">\n   <form name=\"registrationForm\">\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"profile-picture-input\">\n            <div class=\"profile-picture-display\">\n               <div class=\"hidden-xs\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"80%\">\n                  </profile-picture>\n               </div>\n               <div class=\"hidden-lg hidden-md hidden-sm\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"70%\">\n                  </profile-picture>\n               </div>\n            </div>\n            \n            <div class=\"profile-picture-button\">\n               <a class=\"profile-picture-link change\" ng-click=\"selectProfilePicture()\">\n                  Change\n               </a>\n               \n               <a class=\"profile-picture-link reset\" ng-if=\"registrationUser.profile_picture.url\" ng-click=\"resetProfilePicture()\">\n                  Reset\n               </a>\n            \n               <file-reader \n                  supports-multiple=\"false\"\n                  accept=\"image/*\"\n                  process-exif=\"true\"\n                  create=\"profilePicturePicker\"\n                  on-created=\"onProfilePicturePickerCreated(elementId)\"\n                  on-files-added=\"onProfilePictureAdded(files)\"\n                  on-files-progress=\"onProfilePictureProgress(progress)\"\n                  on-files-error=\"onProfilePictureError(error)\">\n               </file-reader>\n            </div>\n         </div>\n      </div>\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }\">\n            <label for=\"registration_email\">\n               <span>E-Mail Address</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_email.$error\"\n                     ng-if=\"registrationForm.registration_email.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"email\" \n                   class=\"form-control\" \n                   name=\"registration_email\" \n                   ng-model=\"registrationUser.email\" \n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   email-in-use\n                   required />\n         </div>\n\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }\">  \n            <label for=\"registration_password\">\n               <span>Password (6 characters or more)</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password.$error\"\n                     ng-if=\"registrationForm.registration_password.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                   class=\"form-control\" \n                   name=\"registration_password\" \n                   ng-model=\"registrationUser.password\"\n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   minlength=\"6\"\n                   required />\n         </div>\n      \n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }\">\n            <label for=\"registration_password_repeat\">\n               <span>Repeat Password</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password_repeat.$error\"\n                     ng-if=\"registrationForm.registration_password_repeat.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                  class=\"form-control\" \n                  name=\"registration_password_repeat\" \n                  ng-model=\"registrationUser.repeat_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  compare-to=\"registrationUser.password\" />\n         </div>\n      \n         <div class=\"form-group\">  \n            <label for=\"registration_first_name\">\n               <span>First Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_first_name.$error\"\n                     ng-if=\"registrationForm.registration_first_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_first_name\" \n                  ng-model=\"registrationUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      \n         <div class=\"form-group\"> \n            <label for=\"registration_last_name\">\n               <span>Last Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_last_name.$error\"\n                     ng-if=\"registrationForm.registration_last_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_last_name\" \n                  ng-model=\"registrationUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required /> \n         </div>       \n            \n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_public\" />\n               <label>Visible to the public?</label>\n            </div>\n         </div>\n\n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_users\" />\n               <label>Visible to other users?</label>\n            </div>\n         </div>\n\n         <div class=\"sign-up form-group\" ng-if=\"!registrationInProgress\">\n            <button ng-disabled=\"registrationForm.$invalid\" ng-click=\"registerUser()\">Sign Up</button>\n         </div>\n         <div class=\"registering-in-progress\" ng-if=\"registrationInProgress\">\n            <div loading-progress \n            type=\"spinner\"\n            message=\"getRegistrationProgressMessage()\"></div>\n         </div>\n\n      </div>     \n   </form>\n</div>");
 $templateCache.put("partials/main/register/register.html","<div class=\"register\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/register/success.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         We have sent a link to your e-mail address, all you need to do\n         is click it, and you\'re good to go!\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a ng-click=\"resendVerificationEmail()\">here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n      \n      <p ng-if=\"isSendingEmail\" class=\"resending-in-progress\">\n         <span>\n            <div loading-progress \n                 type=\"spinner\">\n            </div>\n         </span>\n         <span class=\"resending-text\">\n            Resending E-Mail...\n         </span>\n      </p>\n      \n      <p ng-if=\"hasSentEmail\">\n         E-Mail sent successfully!\n      </p>\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
 $templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div class=\"resetting-in-progress\" ng-if=\"resettingInProgress\">\n         <span><div loading-progress type=\"spinner\"></div></span>\n         <span class=\"resetting-text\">Setting password...</span>\n      </div>\n   </form>\n</div>");
 $templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
-$templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"edit-container profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/*\"\n            process-exif=\"true\"\n            create=\"profilePicturePicker\"\n            on-created=\"onProfilePictureSelectCreated(elementId)\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n         <div>\n            <input type=\"text\"\n                  placeholder=\"First Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"text\"\n                  placeholder=\"Last Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword\">\n      <div ng-if=\"!isChangingEmail\">\n         <span class=\"email-text\"\n               ng-bind=\"currentEditingUser.email\"></span>\n      </div>\n\n      <div ng-if=\"currentEditingUser.pending_email\">\n         <span class=\"pending-email-text\">\n            <span ng-bind=\"currentEditingUser.pending_email\"></span>\n            <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n            <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n         </span>\n      </div>     \n      \n      <div ng-if=\"isChangingEmail\">\n         <div ng-class=\"getEmailEditControlClass()\">\n            <input type=\"email\"\n                  placeholder=\"New E-Mail\"\n                  class=\"form-control profile-email-input\"\n                  ng-model=\"emailChangeData.email\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n      <div class=\"top-edit-control\">\n         <div>\n            <input type=\"password\"\n                  placeholder=\"Old Password\"\n                  class=\"form-control profile-old-password-input\"\n                  ng-model=\"passwordChangeData.old_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"password\"\n                  placeholder=\"New Password\"\n                  class=\"form-control profile-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>       \n            <input type=\"password\"\n                  placeholder=\"Repeat New Password\"\n                  class=\"form-control profile-repeat-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password_repeat\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>         \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-options-container\">\n      <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n         <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n      </span>\n      \n      <div ng-if=\"isSaving\" class=\"saving-message\">\n         <div loading-progress \n               type=\"spinner\"\n               message=\"getSavingUserMessage()\">\n         </div>\n      </div>\n      \n      <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n         <span ng-bind=\"postSavingMessage\"></span>\n      </div>\n      \n      <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n         <span ng-bind=\"errorMessage\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
-$templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
-},{}]},{},[107]);
+$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
+$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");}]);
+},{}]},{},[108]);

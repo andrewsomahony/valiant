@@ -177,7 +177,7 @@
          var videoElement = document.createElement('video');
          
          videoElement.setAttribute('controls', '');
-         videoElement.setAttribute('preload', 'metadata');
+         videoElement.setAttribute('preload', 'auto');
          videoElement.src = "./soccer_small.m4v";
          
          videoElement.addEventListener('loadstart', function(event) {
@@ -214,6 +214,14 @@
          videoElement.addEventListener('pause', function(event) {
             console.log("VIDEO PAUSED", event);
          });
+         
+         videoElement.addEventListener('canplaythrough', function(event) {
+            var videoElement = getEventTarget(event);
+            
+            videoElement.style.display = 'inline-block';            
+         });
+         
+         videoElement.style.display = 'none';
          
          div[0].appendChild(videoElement);
       }

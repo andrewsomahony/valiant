@@ -22,6 +22,12 @@ function(VideoService) {
                'vertical-align': 'top'
             };
          }
+         
+         $scope.videoInformation = {};
+         
+         $scope.onVideoEvent = function(name) {
+            console.log("Video event! ", name, $scope.videoInformation);
+         }
       
          $scope.onVideoSelectSuccess = function(files) {
             $scope.isLoadingMedia = true;

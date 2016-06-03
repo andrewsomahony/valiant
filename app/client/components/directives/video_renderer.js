@@ -21,7 +21,8 @@ function(ScopeService, ProgressService, $compile) {
          //centered: "@",
          width: "@",
          height: "@",
-         //canPreload: "@"
+         //canPreload: "@",
+         //canHideWhilePreloading: "@"
         // showLoading: "@",
       }, 
       link: function($scope, $element, $attributes) {
@@ -29,6 +30,9 @@ function(ScopeService, ProgressService, $compile) {
          $scope.centered = ScopeService.parseBool($attributes.centered, false);
          $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);
          $scope.canPreload = ScopeService.parseBool($attributes.canPreload, false);
+         $scope.canHideWhilePreloading = ScopeService.parseBool($attributes.canHideWhilePreloading, false);
+         
+         $scope.isPreloading = false;
          
          $scope.getElementStyle = function() {
             var style = {};
@@ -69,10 +73,15 @@ function(ScopeService, ProgressService, $compile) {
          $scope.getVideoClass = function() {
             var classes = [];
             
-            if (true === $scope.fitted) {
-               if (true === $scope.centered) {
-                  classes.push('centered');
-               } 
+            if (true === $scope.isPreloading &&
+                true === $scope.canHideWhilePreloading) {
+               classes.push('offscreen');     
+            } else {
+               if (true === $scope.fitted) {
+                  if (true === $scope.centered) {
+                     classes.push('centered');
+                  } 
+               }
             }
             
             return classes;
@@ -107,10 +116,14 @@ function(ScopeService, ProgressService, $compile) {
          }
          
          function bindVideoEvents($element) {
-            var videoElement = $element.get(0);
+            var videoElement = $element[0];
             
             videoElement.addEventListener('loadstart', function(event) {
                 console.log("VIDEO LOAD START", event);
+                
+                $scope.$apply(function() {
+                   sendVideoEvent('loadstart');
+                })
             });
             
             videoElement.addEventListener('loadedmetadata', function(event) {
@@ -121,6 +134,8 @@ function(ScopeService, ProgressService, $compile) {
                    setVideoInformation('width', target.videoWidth);
                    setVideoInformation('height', target.videoHeight);
                    setVideoInformation('duration', target.duration);
+                   
+                   sendVideoEvent('loadedmetadata');
                 });
             });
             
@@ -169,14 +184,32 @@ function(ScopeService, ProgressService, $compile) {
             });
             
             videoElement.addEventListener('pause', function(event) {
-                console.log("VIDEO PAUSED", event);
+               console.log("VIDEO PAUSED", event);
 
-                $scope.$apply(function() {
-                   var target = getVideoEventTarget(event);
-                   setVideoInformation('current_time', target.currentTime);
-                   sendVideoEvent('pause');
-                });
+               $scope.$apply(function() {
+                  var target = getVideoEventTarget(event);
+                  setVideoInformation('current_time', target.currentTime);
+                  sendVideoEvent('pause');
+               });
             });
+            
+            videoElement.addEventListener('canplay', function(event) {
+               console.log("VIDEO CAN PLAY", event);
+               
+               $scope.$apply(function() {
+                  sendVideoEvent('canplay');
+               });
+            });
+            
+            videoElement.addEventListener('canplaythrough', function(event) {
+               console.log("VIDEO CAN PLAY THROUGH", event);
+               
+               $scope.$apply(function() {
+                  $scope.isPreloading = false;
+                  sendVideoEvent('canplaythrough');
+               })
+            })
+            
          }
                   
          $element.attr('ng-style', 'getElementStyle()');
@@ -190,8 +223,20 @@ function(ScopeService, ProgressService, $compile) {
          
          if (true === $scope.canPreload) {
             $videoElement.attr('preload', 'auto');
+            $scope.isPreloading = true;
+            
+            if (true === $scope.canHideWhilePreloading) {
+               var $loadingMediaDiv = angular.element("<div></div>");
+                
+               $loadingMediaDiv.attr('font-awesome-centered-icon', '');
+               $loadingMediaDiv.attr('font-awesome-params', 'fa fa-refresh fa-spin fa-4x fa-fw');
+               $loadingMediaDiv.attr('ng-if', 'isPreloading');
+                
+               $element.append($compile($loadingMediaDiv)($scope));
+            }
          } else {
             $videoElement.attr('preload', 'metadata');
+            $scope.isPreloading = false;
          }
          
          bindVideoEvents($videoElement);
