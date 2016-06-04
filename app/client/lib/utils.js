@@ -248,8 +248,7 @@
       },
 
       merge: function(array) {
-         for (var i = 1; i < arguments.length; i++)
-         {
+         for (var i = 1; i < arguments.length; i++) {
             var newArray = arguments[i]
 
             array = array.concat(newArray)
@@ -259,45 +258,36 @@
       },
 
       extend: function(isDeep, array) {
-         for (var i = 2; i < arguments.length; i++)
-         {
+         for (var i = 2; i < arguments.length; i++) {
             var object = arguments[i];
 
-            if (!object)
-            {
+            if (!object) {
                continue;
             }
 
-            for (var key in object)
-            {
-               if (true === object.hasOwnProperty(key))
-               {
+            for (var key in object) {
+               if (true === object.hasOwnProperty(key)) {
                   var source = array[key];
                   var isArray = false;
 
-                  if (array === source)
-                  {
+                  if (array === source) {
                      continue;
                   }
 
                   if (true === isDeep &&
-                      (true === this.isPlainObject(object[key]) || (isArray = this.isArray(object[key]))))
-                  {
+                      (true === this.isPlainObject(object[key]) || (isArray = this.isArray(object[key])))) {
                      var newObject;
 
-                     if (true === isArray)
-                     {
+                     if (true === isArray) {
                         newObject = source && true === this.isArray(source) ? source : []
                      }
-                     else
-                     {
+                     else {
                         newObject = source && true === this.isPlainObject(source) ? source : {}
                      }
 
                      array[key] = this.extend(isDeep, newObject, object[key]);
                   }
-                  else
-                  {
+                  else {
                      array[key] = object[key]
                   }
                }

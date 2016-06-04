@@ -21,7 +21,6 @@ function(promise, progress, ProgressModel) {
 
       if (true === supportNotify) {
          promiseFnArray.forEach(function(fn) {
-
             var progressObject = fn(null, -1, true)
 
             if (false === utils.objectIsClassy(progressObject, ProgressModel)) {

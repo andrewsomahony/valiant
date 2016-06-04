@@ -52,6 +52,10 @@ function(ScopeService, FileReaderActivatorService) {
             $scope.model.fromModel(m);
          }      
          
+         $scope.setIsLoadingMedia = function(lm) {
+           $scope.isLoadingMedia = lm;
+         }
+         
          $scope.error = function(errorObject) {
             if (!errorObject) {
                $scope.errorMessage = "";

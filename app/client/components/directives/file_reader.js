@@ -49,22 +49,24 @@ ScopeService, IdService) {
                         
             var promiseFnArray = fileArray.map(function(file) {
                return function(isNotify) {
-                  return Promise(function(resolve, reject) {
-                     // We validate because I'm not sure which browsers
-                     // support the "accept" tag on the file reader,
-                     // and because the browser only uses the extension of the file
-                     // to see if it's ok to load.
+                  if (false === isNotify) {
+                     return Promise(function(resolve, reject) {
+                        // We validate because I'm not sure which browsers
+                        // support the "accept" tag on the file reader,
+                        // and because the browser only uses the extension of the file
+                        // to see if it's ok to load.
 
-                     var fileModel = FileModel.fromFileObject(file);
-                     
-                     FileTypeValidatorService.validateFileModel(fileModel, $scope.accept)
-                     .then(function() {
-                        resolve(fileModel);
-                     }) 
-                     .catch(function() {
-                        reject(ErrorService.localError("File type not accepted! " + file.name))
-                     })
-                  });
+                        var fileModel = FileModel.fromFileObject(file);
+                        
+                        FileTypeValidatorService.validateFileModel(fileModel, $scope.accept)
+                        .then(function() {
+                           resolve(fileModel);
+                        }) 
+                        .catch(function() {
+                           reject(ErrorService.localError("File type not accepted! " + file.name))
+                        })
+                     });
+                  }
                }
             });
             

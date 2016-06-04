@@ -30,7 +30,7 @@ function(VideoService) {
          }
       
          $scope.onVideoSelectSuccess = function(files) {
-            $scope.isLoadingMedia = true;
+            $scope.setIsLoadingMedia(true);
             
             VideoService.getVideoFromFileModel(files[0])
             .then(function(video) {
@@ -41,7 +41,8 @@ function(VideoService) {
                $scope.error(error);
             })
             .finally(function() {
-               $scope.isLoadingMedia = false;
+               console.log("Hello?");
+               $scope.setIsLoadingMedia(false);
             });
          }
          

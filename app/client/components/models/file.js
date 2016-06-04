@@ -97,13 +97,17 @@ ErrorService) {
       },
       
       getUint8Array: function() {
-         this.getArrayBuffer()
-         .then(function(data) {
-            resolve(new Uint8Array(data.arrayBuffer));
-         }) 
-         .catch(function(error) {
-            reject(error);
-         })
+         var self = this;
+         
+         return Promise(function(resolve, reject, notify) {
+            self.getArrayBuffer()
+            .then(function(data) {
+               resolve(new Uint8Array(data.arrayBuffer));
+            }) 
+            .catch(function(error) {
+               reject(error);
+            })            
+         });
       },
       
       getArrayBuffer: function() {
