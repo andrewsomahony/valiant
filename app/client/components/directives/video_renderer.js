@@ -202,6 +202,7 @@ function(ScopeService, ProgressService, $compile) {
                console.log("VIDEO CAN PLAY", event);
                
                $scope.$apply(function() {
+                  $scope.isPreloading = false;
                   sendVideoEvent('canplay');
                });
             });
@@ -210,7 +211,7 @@ function(ScopeService, ProgressService, $compile) {
                console.log("VIDEO CAN PLAY THROUGH", event);
                
                $scope.$apply(function() {
-                  $scope.isPreloading = false;
+                  
                   sendVideoEvent('canplaythrough');
                })
             })

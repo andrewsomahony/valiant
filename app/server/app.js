@@ -99,17 +99,19 @@ if (false === appIsActive) {
             try {
                 fs.accessSync(compressedVersion, fs.R_OK);
                 request.url += '.gz';
-                
-                Responder.header(result, 'Content-Encoding', 'gzip');
-                Responder.header(result, 'Content-Type', mime.lookup(path.extname(request.originalUrl)));
+                                
+                result.header('Content-Encoding', 'gzip');
+                result.header('Content-Type', mime.lookup(path.extname(request.originalUrl)));
             } catch(error) {
-                
+                // Silently fail here, as all this means is that
+                // there is no gzip file and we should just serve the file
+                // as its named.
             }
         }
         
-        Responder.header(result, 'Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        Responder.header(result, 'Expires', '-1');
-        Responder.header(result, 'Pragma', 'no-cache');
+        result.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+        result.header('Expires', '-1');
+        result.header('Pragma', 'no-cache');
         
         next();
     });
@@ -117,9 +119,9 @@ if (false === appIsActive) {
     app.use(express.static(path.join(__dirname, 'public')));
 
     app.use('/', function(request, result, next) {
-        Responder.header(result, 'Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        Responder.header(result, 'Expires', '-1');
-        Responder.header(result, 'Pragma', 'no-cache');
+        result.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+        result.header('Expires', '-1');
+        result.header('Pragma', 'no-cache');
         next();
     })
     
