@@ -3,6 +3,8 @@
 var registerModel = require('./register');
 var classy = require('classy');
 
+var utils = require('utils');
+
 var name = 'models.video';
 
 registerModel(name, [require('models/base'),
@@ -55,7 +57,7 @@ function(BaseModel) {
       },
       
       setMetadata: function(metadata) {
-         
+         utils.extend(true, this.metadata, metadata);
       },
       
       getWidth: function() {

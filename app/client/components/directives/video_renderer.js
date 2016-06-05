@@ -22,7 +22,7 @@ function(ScopeService, ProgressService, $compile) {
          width: "@",
          height: "@",
          //canPreload: "@",
-         //canHideWhilePreloading: "@"
+         //canHideWhileLoading: "@"
         // showLoading: "@",
       }, 
       link: function($scope, $element, $attributes) {
@@ -30,7 +30,7 @@ function(ScopeService, ProgressService, $compile) {
          $scope.centered = ScopeService.parseBool($attributes.centered, false);
          $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);
          $scope.canPreload = ScopeService.parseBool($attributes.canPreload, false);
-         $scope.canHideWhilePreloading = ScopeService.parseBool($attributes.canHideWhilePreloading, false);
+         $scope.canHideWhileLoading = ScopeService.parseBool($attributes.canHideWhileLoading, false);
          
          $scope.isPreloading = false;
          
@@ -74,7 +74,7 @@ function(ScopeService, ProgressService, $compile) {
             var classes = [];
             
             if (true === $scope.isPreloading &&
-                true === $scope.canHideWhilePreloading) {
+                true === $scope.canHideWhileLoading) {
                classes.push('offscreen');     
             } else {
                if (true === $scope.fitted) {
@@ -120,8 +120,9 @@ function(ScopeService, ProgressService, $compile) {
             
             videoElement.addEventListener('loadstart', function(event) {
                 console.log("VIDEO LOAD START", event);
-                
+
                 $scope.$apply(function() {
+                   $scope.isPreloading = true;
                    sendVideoEvent('loadstart');
                 })
             });
@@ -134,6 +135,10 @@ function(ScopeService, ProgressService, $compile) {
                    setVideoInformation('width', target.videoWidth);
                    setVideoInformation('height', target.videoHeight);
                    setVideoInformation('duration', target.duration);
+                   
+                   if (false === $scope.canPreload) {
+                      $scope.isPreloading = false;
+                   }
                    
                    sendVideoEvent('loadedmetadata');
                 });
@@ -222,22 +227,20 @@ function(ScopeService, ProgressService, $compile) {
          $videoElement.attr('controls', '');
          
          if (true === $scope.canPreload) {
-            $videoElement.attr('preload', 'auto');
-            $scope.isPreloading = true;
-            
-            if (true === $scope.canHideWhilePreloading) {
-               var $loadingMediaDiv = angular.element("<div></div>");
-                
-               $loadingMediaDiv.attr('font-awesome-centered-icon', '');
-               $loadingMediaDiv.attr('font-awesome-params', 'fa fa-refresh fa-spin fa-4x fa-fw');
-               $loadingMediaDiv.attr('ng-if', 'isPreloading');
-                
-               $element.append($compile($loadingMediaDiv)($scope));
-            }
+            $videoElement.attr('preload', 'auto');            
          } else {
             $videoElement.attr('preload', 'metadata');
-            $scope.isPreloading = false;
          }
+    
+         if (true === $scope.canHideWhileLoading) {
+            var $loadingMediaDiv = angular.element("<div></div>");
+            
+            $loadingMediaDiv.attr('font-awesome-centered-icon', '');
+            $loadingMediaDiv.attr('font-awesome-params', 'fa fa-refresh fa-spin fa-4x fa-fw');
+            $loadingMediaDiv.attr('ng-if', 'isPreloading');
+            
+            $element.append($compile($loadingMediaDiv)($scope));
+         }    
          
          bindVideoEvents($videoElement);
          

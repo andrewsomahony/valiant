@@ -41,7 +41,6 @@ function(VideoService) {
                $scope.error(error);
             })
             .finally(function() {
-               console.log("Hello?");
                $scope.setIsLoadingMedia(false);
             });
          }
