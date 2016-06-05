@@ -147,7 +147,15 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'soccer_small.m4v':
          Metadata:      
             creation_time   : 2012-07-02 05:15:16      
             handler_name    : Apple Video Media Handler    
-      Stream #0:1(eng): Audio: aac (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 103 kb/s (default)    Metadata:      creation_time   : 2012-07-02 05:15:16      handler_name    : Apple Sound Media Handler[libx264 @ 0xedd110] Warning: not compiled with thread support, using thread emulation[libx264 @ 0xedd110] using cpu capabilities: none![libx264 @ 0xedd110] profile High, level 3.0[libx264 @ 0xedd110] 264 - core 142 - H.264/MPEG-4 AVC codec - Copyright 2003-2014 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=1 lookahead_threads=1 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00[aac @ 0xeddc60] The encoder 'aac' is experimental but experimental codecs are not enabled, add '-strict -2' if you want to use it.
+      Stream #0:1(eng): 
+         Audio: aac (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 103 kb/s (default)    
+         Metadata:      
+            creation_time   : 2012-07-02 05:15:16      
+            handler_name    : Apple Sound Media Handler
+[libx264 @ 0xedd110] Warning: not compiled with thread support, using thread emulation
+[libx264 @ 0xedd110] using cpu capabilities: none!
+[libx264 @ 0xedd110] profile High, level 3.0
+[libx264 @ 0xedd110] 264 - core 142 - H.264/MPEG-4 AVC codec - Copyright 2003-2014 - http://www.videolan.org/x264.html - options: cabac=1 ref=3 deblock=1:0:0 analyse=0x3:0x113 me=hex subme=7 psy=1 psy_rd=1.00:0.00 mixed_ref=1 me_range=16 chroma_me=1 trellis=1 8x8dct=1 cqm=0 deadzone=21,11 fast_pskip=1 chroma_qp_offset=-2 threads=1 lookahead_threads=1 sliced_threads=0 nr=0 decimate=1 interlaced=0 bluray_compat=0 constrained_intra=0 bframes=3 b_pyramid=2 b_adapt=1 b_bias=0 direct=1 weightb=1 open_gop=0 weightp=2 keyint=250 keyint_min=25 scenecut=40 intra_refresh=0 rc_lookahead=40 rc=crf mbtree=1 crf=23.0 qcomp=0.60 qpmin=0 qpmax=69 qpstep=4 ip_ratio=1.40 aq=1:1.00[aac @ 0xeddc60] The encoder 'aac' is experimental but experimental codecs are not enabled, add '-strict -2' if you want to use it.
 
  */     
     }
