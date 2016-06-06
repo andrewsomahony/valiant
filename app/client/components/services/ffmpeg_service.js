@@ -76,22 +76,85 @@ ErrorService) {
     }
     
     function parseMetadataOutput(metadata) {
+        var returnedMetadata = {};
+        
         var metadataString = metadata;
         var inputRegex = /input \#(\d+),\s?([\w\s\,]+),\s?from/gi;
         
         var inputMatch = inputRegex.exec(metadataString)
         while (inputMatch) {
            var nextInputMatch = inputRegex.exec(metadataString);
-           var maxIndex = nextInputMatch ? nextInputMatch.index : null;
-           
-           var inputString = metadata.slice(inputMatch.index, maxIndex ? maxIndex : -1);
+
+           var inputString = utils.sliceStringByRegexMatches(metadataString,
+                                     inputMatch, nextInputMatch);
            
            console.log(inputString);
            
-           var metadataRegex = /metadata:/i;
+           var metadataInfoRegex = /metadata:/i;
            
-           var streamRegex = /stream \#(\d+):(\d+)(\((\w+)\))/i;
+           var streamRegex = /stream \#(\d+):(\d+)(\((\w+)\))/ig;
+            
+           var metadataInfoMatch = metadataInfoRegex.exec(inputString);
+           
+           if (metadataInfoMatch) {
+               // This is the metadata info for the whole
+               // media file.  It's bordered either by a stream
+               // definition or nothing.
+               
+               var metadataInfoString = utils.sliceStringByRegexMatches(inputString,
+                      metadataInfoMatch);
+               var streamBorderMatch = streamRegex.exec(metadataInfoString);
+               streamRegex.lastIndex = 0;
+               
+               metadataInfoString = utils.sliceStringByRegexMatches(metadataInfoString,
+                 null, streamBorderMatch);
+                 
+               console.log(metadataInfoString);
+           }
+           
+           var streamMatch = streamRegex.exec(inputString);
+           while (streamMatch) {
+              var nextStreamMatch = streamRegex.exec(inputString);
+              var metadataInfoMatch = metadataInfoRegex.exec(inputString);
+              
+              var streamInfoString = null;
+              
+              if (!nextStreamMatch &&
+                  !metadataInfoMatch) {
+                 // Nothing after this stream definition area
+                 streamInfoString = utils.sliceStringByRegexMatches(inputString, 
+                                streamMatch);        
+              } else {
+                 if (nextStreamMatch &&
+                     metadataInfoMatch) {
+                    // Both are after this stream definition,
+                    // so see which one is closer
+                    if (metadataInfoMatch.index < nextStreamMatch.index &&
+                        metadataInfoMatch.index > streamMatch.index) {
+                       streamInfoString = utils.sliceStringByRegexMatches(
+                           inputString, streamMatch, metadataInfoMatch
+                       );
+                    } else {
+                       streamInfoString = utils.sliceStringByRegexMatches(
+                           inputString, streamMatch, nextStreamMatch
+                       );                        
+                    }   
+                 } else {
+                    streamInfoString = utils.sliceStringByRegexMatches(
+                        inputString, streamMatch, nextStreamMatch || metadataInfoMatch
+                    );
+                 }
+              }
+              
+              console.log(streamInfoString);
+              
+              streamMatch = nextStreamMatch;
+           }
+           
+           inputMatch = nextInputMatch;
         }
+        
+        return returnedMetadata;
 /*
 ffmpeg version 2.2.1 
 Copyright (c) 2000-2014 the FFmpeg developers  

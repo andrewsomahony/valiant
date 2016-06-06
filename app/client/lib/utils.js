@@ -322,6 +322,23 @@
             }
             return !!this.fromJson(string.toLowerCase());
          }
+      },
+      
+      sliceStringByRegexMatches: function(string, startRegexMatch, endRegexMatch) {
+          var startIndex = 0;
+          var endIndex = string.length - 1;
+          
+          if (startRegexMatch) {
+              startIndex = startRegexMatch.index;
+          }
+          
+          if (endRegexMatch) {
+              if (endRegexMatch.index > startIndex) {
+                 endIndex = endRegexMatch.index;
+              }
+          }
+          
+          return string.slice(startIndex, endIndex);
       }
    }
 
