@@ -78,51 +78,52 @@ ErrorService) {
     function parseMediaMetadataInfoString(metadataInfoString) {
        var returnObject = {};
        
-       /*
-       major_brand     : isom    minor_version   : 512    compatible_brands: isomiso2avc1mp41    title           : 10153463693781788    encoder         : Lavf56.4.101  Duration: 00:01:39.85, start: 0.114694, bitrate: 268 kb/s  
-       */
-       var majorBrandMatch = metadataInfoString.match(/major_brand\s*:\s*([^\s]+)/i);
-       
-       if (majorBrandMatch) {
-          returnObject['major_brand'] = majorBrandMatch[1];
-       }
-       
-       var minorVersionMatch = metadataInfoString.match(/minor_version\s*:\s*([^\s]+)/i)
-       
-       if (minorVersionMatch) {
-          returnObject['minor_version'] = minorVersionMatch[1]; 
-       }
-       
-       var compatibleBrandsMatch = metadataInfoString.match(/compatible_brands\s*:\s*([^\s]+)/i);
-       
-       if (compatibleBrandsMatch) {
-          returnObject['compatible_brands'] = compatibleBrandsMatch[1];
-       }
-       
-       var titleMatch = metadataInfoString.match(/title\s*:\s*([^\s]+)/i);
-       
-       if (titleMatch) {
-          returnObject['title'] = titleMatch[1];
-       }
-       
        var encoderMatch = metadataInfoString.match(/encoder\s*:\s*([^\s]+)/i)
        
        if (encoderMatch) {
           returnObject['encoder'] = encoderMatch[1]; 
        }
        
-       var descriptionMatch = metadataInfoString.match(/description\s*:\s*([^\s]+)/i);
-       
-       if (descriptionMatch) {
-          returnObject['description'] = descriptionMatch[1];
-       }
-       
-       var creationTimeMatch = metadataInfoString.match(/creation_time\s*:\s*([^\s]+)/i);
+       var creationTimeMatch = metadataInfoString.match(/creation_time\s*:\s*(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})/i);
        
        if (creationTimeMatch) {
           returnObject['creation_time'] = creationTimeMatch[1];
        }
        
+       return returnObject;
+    }
+    
+    function parseMediaMetadataOutputFile(text) {
+       //;FFMETADATA1↵major_brand=qt  ↵minor_version=0↵compatible_brands=qt  ↵description=Intro to the swim videos↵title=Swim Video Intro↵
+       
+       var returnObject = {};
+       
+       var signatureMatch = text.match(/^;ffmetadata(\d+)\n/i);
+       
+       if (!signatureMatch) {
+          throw new Error("parseMediaMetadataOutputFile: Invalid metadata output file");
+       }
+       
+       function createMetadataRegexForVariable(variableName) {
+          return new RegExp("" + variableName + "\=(\.+)\s*\n?", "i");
+       }
+       
+       function saveVariable(variableName) {
+          var regex = createMetadataRegexForVariable(variableName);
+          
+          var matchObject = text.match(regex);
+          
+          if (matchObject) {
+             returnObject[variableName] = matchObject[1].trim();
+          }
+       }
+       
+       saveVariable('major_brand');
+       saveVariable('minor_version');
+       saveVariable('compatible_brands');
+       saveVariable('description');
+       saveVariable('title');
+           
        return returnObject;
     }
     
@@ -132,7 +133,7 @@ ErrorService) {
        return returnObject;
     }
     
-    function parseMetadataOutput(metadata) {
+    function parseMetadataOutput(metadata, fileOutput) {
         var returnedMetadata = {};
         
         var metadataString = metadata;
@@ -158,6 +159,11 @@ ErrorService) {
                // media file.  It's bordered either by a stream
                // definition or nothing.
                
+               // We have to parse both the string as well as the file output
+               // we get from running the metadata command.  The title and description
+               // can have spaces, so we can't really parse the raw string, but the file output
+               // doesn't have the encoding or creation time listed for some reason.
+               
                var metadataInfoString = utils.sliceStringByRegexMatches(inputString,
                       metadataInfoMatch);
                var streamBorderMatch = streamRegex.exec(metadataInfoString);
@@ -169,6 +175,8 @@ ErrorService) {
                console.log(metadataInfoString);
                
                returnedMetadata['info'] = parseMediaMetadataInfoString(metadataInfoString);
+               
+               utils.extend(true, returnedMetadata['info'], parseMediaMetadataOutputFile(fileOutput));
            }
            
            returnedMetadata['streams'] = [];
@@ -332,12 +340,11 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'soccer_small.m4v':
                       
                       fileModel.getText()
                       .then(function(text) {
-                         console.log("TEXT?!", text);
-                         resolve({});
+                         var metadata = parseMetadataOutput(getEventMessageDataOutput(data),
+                                    text); 
+                        // console.log("TEXT?!", text);
+                         resolve(metadata);
                       })
-                      
-                     //. var metadata = parseMetadataOutput(getEventMessageDataOutput(data));
-                     // resolve(metadata);
                    }
                 });
              
