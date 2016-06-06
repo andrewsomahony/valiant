@@ -90,6 +90,14 @@ ErrorService) {
           returnObject['creation_time'] = creationTimeMatch[1];
        }
        
+       var durationMatch = metadataInfoString.match(/Duration:\s*(\d{2}:\d{2}:\d{2}.\d{2}),\s*start:\s*([\d\.]+),\s*bitrate:\s*(\d+\s*kb\/s|N\/A)/i);
+       
+       if (durationMatch) {
+          returnObject['duration'] = utils.parseTimeStringToSeconds(durationMatch[1]);
+          returnObject['start'] = parseFloat(durationMatch[2]);
+          returnObject['bitrate'] = durationMatch[3];
+       }
+       
        return returnObject;
     }
     
@@ -129,6 +137,19 @@ ErrorService) {
     
     function parseMediaStreamInfoString(streamInfoString) {
        var returnObject = {};
+       
+       var headerMatch = streamInfoString.match(/stream \#(\d+):(\d+)(\((\w+)\))/i);
+       
+       if (!headerMatch) {
+          throw new Error("parseMediaStreamInfoString: Invalid stream info string! " + streamInfoString); 
+       }
+       
+       returnObject['index'] = parseInt(headerMatch[2]);
+       returnObject['name'] = headerMatch[3];
+       
+       var videoMatch = streamInfoString.match(/video:/i);
+       var audioMatch = streamInfoString.match(/audio:/i);
+       var dataMatch = streamInfoString.match(/data:/i);
        
        return returnObject;
     }
