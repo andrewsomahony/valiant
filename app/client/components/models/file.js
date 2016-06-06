@@ -54,8 +54,16 @@ ErrorService) {
             
             var fileModel = new this();
             
-            fileModel.setDataUrl(dataUrl);
-            fileModel.name = name;  
+            fileModel.setDataUrl(dataUrl, name);
+            
+            return fileModel;
+         },
+         
+         fromArrayBuffer: function(arrayBuffer, name) {
+            name = name || "";
+            
+            var fileModel = new this();
+            fileModel.setArrayBuffer(arrayBuffer, name);
             
             return fileModel;
          },
@@ -94,6 +102,21 @@ ErrorService) {
          this.size = blob.size;
          this.name = blob.name || name;
          this.blob = blob;
+      },
+      
+      getText: function() {
+         var self = this;
+         
+         return Promise(function(resolve, reject, notify) {
+            self.getArrayBuffer()
+            .then(function(data) {
+               resolve(String.fromCharCode.apply(
+                  null, new Uint8Array(data.arrayBuffer)));               
+            })
+            .catch(function(error) {
+               reject(error);
+            })
+         });
       },
       
       getUint8Array: function() {

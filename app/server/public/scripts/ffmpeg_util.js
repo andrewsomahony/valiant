@@ -81,7 +81,7 @@ onmessage = function(event) {
             if (!file) {
                sendErrorMessage("ffmpeg_util.get_metadata: command needs a file!");
             } else {
-               args = ["-i", file.name, outputFileName];
+               args = ["-i", file.name, "-f", "ffmetadata", "metadata.txt"];
             }
          } else {
             sendErrorMessage("ffmpeg_util: Unknown command " + commandType);

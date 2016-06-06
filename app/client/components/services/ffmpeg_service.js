@@ -75,6 +75,63 @@ ErrorService) {
        return data.result;
     }
     
+    function parseMediaMetadataInfoString(metadataInfoString) {
+       var returnObject = {};
+       
+       /*
+       major_brand     : isom    minor_version   : 512    compatible_brands: isomiso2avc1mp41    title           : 10153463693781788    encoder         : Lavf56.4.101  Duration: 00:01:39.85, start: 0.114694, bitrate: 268 kb/s  
+       */
+       var majorBrandMatch = metadataInfoString.match(/major_brand\s*:\s*([^\s]+)/i);
+       
+       if (majorBrandMatch) {
+          returnObject['major_brand'] = majorBrandMatch[1];
+       }
+       
+       var minorVersionMatch = metadataInfoString.match(/minor_version\s*:\s*([^\s]+)/i)
+       
+       if (minorVersionMatch) {
+          returnObject['minor_version'] = minorVersionMatch[1]; 
+       }
+       
+       var compatibleBrandsMatch = metadataInfoString.match(/compatible_brands\s*:\s*([^\s]+)/i);
+       
+       if (compatibleBrandsMatch) {
+          returnObject['compatible_brands'] = compatibleBrandsMatch[1];
+       }
+       
+       var titleMatch = metadataInfoString.match(/title\s*:\s*([^\s]+)/i);
+       
+       if (titleMatch) {
+          returnObject['title'] = titleMatch[1];
+       }
+       
+       var encoderMatch = metadataInfoString.match(/encoder\s*:\s*([^\s]+)/i)
+       
+       if (encoderMatch) {
+          returnObject['encoder'] = encoderMatch[1]; 
+       }
+       
+       var descriptionMatch = metadataInfoString.match(/description\s*:\s*([^\s]+)/i);
+       
+       if (descriptionMatch) {
+          returnObject['description'] = descriptionMatch[1];
+       }
+       
+       var creationTimeMatch = metadataInfoString.match(/creation_time\s*:\s*([^\s]+)/i);
+       
+       if (creationTimeMatch) {
+          returnObject['creation_time'] = creationTimeMatch[1];
+       }
+       
+       return returnObject;
+    }
+    
+    function parseMediaStreamInfoString(streamInfoString) {
+       var returnObject = {};
+       
+       return returnObject;
+    }
+    
     function parseMetadataOutput(metadata) {
         var returnedMetadata = {};
         
@@ -110,7 +167,11 @@ ErrorService) {
                  null, streamBorderMatch);
                  
                console.log(metadataInfoString);
+               
+               returnedMetadata['info'] = parseMediaMetadataInfoString(metadataInfoString);
            }
+           
+           returnedMetadata['streams'] = [];
            
            var streamMatch = streamRegex.exec(inputString);
            while (streamMatch) {
@@ -118,6 +179,10 @@ ErrorService) {
               var metadataInfoMatch = metadataInfoRegex.exec(inputString);
               
               var streamInfoString = null;
+              
+              // Streams can be bordered either by the metadata
+              // info area, or by another stream definition, or by the
+              // end of the metadata string.
               
               if (!nextStreamMatch &&
                   !metadataInfoMatch) {
@@ -147,6 +212,9 @@ ErrorService) {
               }
               
               console.log(streamInfoString);
+              
+              returnedMetadata['streams'].push(
+                  parseMediaStreamInfoString(streamInfoString));
               
               streamMatch = nextStreamMatch;
            }
@@ -258,8 +326,18 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'soccer_small.m4v':
                       console.log("FULL OUTPUT", getEventMessageDataOutput(data));
                       console.log("RESULT", getEventMessageDataResult(data));
                       
-                      var metadata = parseMetadataOutput(getEventMessageDataOutput(data));
-                      resolve({SOMETHING_METADATA: "THIS IS TEMP METADATA"});
+                      var result = getEventMessageDataResult(data);
+                      
+                      var fileModel = FileModel.fromArrayBuffer(result[0].data, result[0].name);
+                      
+                      fileModel.getText()
+                      .then(function(text) {
+                         console.log("TEXT?!", text);
+                         resolve({});
+                      })
+                      
+                     //. var metadata = parseMetadataOutput(getEventMessageDataOutput(data));
+                     // resolve(metadata);
                    }
                 });
              

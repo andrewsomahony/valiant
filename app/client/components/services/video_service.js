@@ -39,6 +39,7 @@ SerialPromise, FFMpegService) {
                video.setFileModel(fileModel);
                video.setMetadata(existingData.metadata);
                
+               console.log(video);
                resolve({video: video});
             });
          }
