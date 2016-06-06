@@ -211,7 +211,6 @@ function(ScopeService, ProgressService, $compile) {
                console.log("VIDEO CAN PLAY THROUGH", event);
                
                $scope.$apply(function() {
-                  
                   sendVideoEvent('canplaythrough');
                })
             })

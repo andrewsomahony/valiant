@@ -75,7 +75,23 @@ ErrorService) {
        return data.result;
     }
     
-    function parseMetadata(metadata) {
+    function parseMetadataOutput(metadata) {
+        var metadataString = metadata;
+        var inputRegex = /input \#(\d+),\s?([\w\s\,]+),\s?from/gi;
+        
+        var inputMatch = inputRegex.exec(metadataString)
+        while (inputMatch) {
+           var nextInputMatch = inputRegex.exec(metadataString);
+           var maxIndex = nextInputMatch ? nextInputMatch.index : null;
+           
+           var inputString = metadata.slice(inputMatch.index, maxIndex ? maxIndex : -1);
+           
+           console.log(inputString);
+           
+           var metadataRegex = /metadata:/i;
+           
+           var streamRegex = /stream \#(\d+):(\d+)(\((\w+)\))/i;
+        }
 /*
 ffmpeg version 2.2.1 
 Copyright (c) 2000-2014 the FFmpeg developers  
@@ -103,14 +119,14 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from '11814676_10153463694786788_781424206_n.
       Duration: 00:01:39.85, 
       start: 0.114694, 
       bitrate: 268 kb/s    
-      Stream #0:0(und): 
-         Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p, 400x222, 215 kb/s, 29.98 fps, 29.98 tbr, 14988 tbn, 59.95 tbc (default)    
-         Metadata:      
-            handler_name    : VideoHandler    
-      Stream #0:1(und): 
-         Audio: aac (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 48 kb/s (default)    
-         Metadata:      
-            handler_name    : SoundHandler
+   Stream #0:0(und): 
+      Video: h264 (Constrained Baseline) (avc1 / 0x31637661), yuv420p, 400x222, 215 kb/s, 29.98 fps, 29.98 tbr, 14988 tbn, 59.95 tbc (default)    
+      Metadata:      
+         handler_name    : VideoHandler    
+   Stream #0:1(und): 
+      Audio: aac (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 48 kb/s (default)    
+      Metadata:      
+         handler_name    : SoundHandler
 [libx264 @ 0xed8f80] Warning: not compiled with thread support, using thread emulation
 [libx264 @ 0xed8f80] using cpu capabilities: none!
 [libx264 @ 0xed8f80] profile High, level 1.3
@@ -179,6 +195,7 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'soccer_small.m4v':
                       console.log("FULL OUTPUT", getEventMessageDataOutput(data));
                       console.log("RESULT", getEventMessageDataResult(data));
                       
+                      var metadata = parseMetadataOutput(getEventMessageDataOutput(data));
                       resolve({SOMETHING_METADATA: "THIS IS TEMP METADATA"});
                    }
                 });
