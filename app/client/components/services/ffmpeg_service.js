@@ -138,20 +138,23 @@ ErrorService) {
     function parseMediaStreamInfoString(streamInfoString) {
        var returnObject = {};
        
-       var headerMatch = streamInfoString.match(/stream \#(\d+):(\d+)(\((\w+)\))/i);
+       var headerMatch = streamInfoString.match(/stream\s*\#(\d+)\:(\d+)(\((\w+)\))?\:/i);
        
        if (!headerMatch) {
           throw new Error("parseMediaStreamInfoString: Invalid stream info string! " + streamInfoString); 
        }
        
        returnObject['index'] = parseInt(headerMatch[2]);
-       returnObject['name'] = headerMatch[3];
+       returnObject['name'] = headerMatch[4];
               
        // Don't you just love these long regexes?
        
        var videoMatch = streamInfoString.match(
-       /video: ([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\),\s*([^\(]+)(\((.+)\))?,\s*((\d+)x(\d+)),\s*(\d+\s*kb\/s|N\/A),\s*([\.0-9]+)\s*fps/i);
-       var audioMatch = streamInfoString.match(/audio:/i);
+       /video\:\s*([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\),\s*([^\(]+)(\((.+)\))?,(\s*((\d+)x(\d+))\s*(\[.+\])?)?,(\s*(\d+\s*kb\/s|N\/A),(\s*([\.0-9]+)\s*fps))?/i
+       );
+       var audioMatch = streamInfoString.match(
+       /audio\:\s*([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\),\s*((\d+)\s*([a-z]+)),\s*([^\s^,]+),\s*([^\s^,]+),\s*(((\d+)\s*([a-z]+\s*\/\s*[a-z]+?))\s*(\((.+?)\))?)?/i  
+       );
        var dataMatch = streamInfoString.match(/data:/i);
 
        if (videoMatch) {
@@ -164,13 +167,25 @@ ErrorService) {
           returnObject['pixel_format'] = videoMatch[6];
           returnObject['pixel_format_option'] = videoMatch[8];
           
-          returnObject['width'] = videoMatch[10];
-          returnObject['height'] = videoMatch[11];
+          returnObject['width'] = parseInt(videoMatch[11]);
+          returnObject['height'] = parseInt(videoMatch[12]);
           
-          returnObject['bitrate'] = videoMatch[12];
-          returnObject['fps'] = videoMatch[13];
+          returnObject['bitrate'] = videoMatch[15];
+          returnObject['fps'] = parseFloat(videoMatch[17]);
        } else if (audioMatch) {
           returnObject['type'] = 'audio';
+          
+          returnObject['codec'] = audioMatch[1];
+          returnObject['codec_option'] = audioMatch[3];
+          returnObject['codec_name'] = audioMatch[4];
+          
+          returnObject['sample_rate'] = audioMatch[6];
+          
+          returnObject['channels'] = audioMatch[9];
+          returnObject['decoder'] = audioMatch[10];
+          
+          returnObject['bitrate'] = audioMatch[12];
+          returnObject['bitrate_option'] = audioMatch[16];
        } else if (dataMatch) {
           returnObject['type'] = 'data';
        }
@@ -195,7 +210,7 @@ ErrorService) {
            
            var metadataInfoRegex = /metadata:/i;
            
-           var streamRegex = /stream \#(\d+):(\d+)(\((\w+)\))/ig;
+           var streamRegex = /stream\s*\#(\d+)\:(\d+)(\((\w+)\))?\:/ig;
             
            var metadataInfoMatch = metadataInfoRegex.exec(inputString);
            
