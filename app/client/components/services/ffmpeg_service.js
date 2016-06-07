@@ -138,6 +138,16 @@ ErrorService) {
     function parseMediaStreamInfoString(streamInfoString) {
        var returnObject = {};
        
+       var outputMatch = /output\s*\#\d+/i.exec(streamInfoString);
+       
+       streamInfoString = utils.sliceStringByRegexMatches(streamInfoString, null, outputMatch);
+       
+       console.log(streamInfoString);
+       
+       // Each stream also has some metadata attached
+       // I'm not parsing this at the moment as it doesn't seem
+       // to contain anything useful for what I need.
+       
        var headerMatch = streamInfoString.match(/stream\s*\#(\d+)\:(\d+)(\((\w+)\))?\:/i);
        
        if (!headerMatch) {
@@ -150,12 +160,14 @@ ErrorService) {
        // Don't you just love these long regexes?
        
        var videoMatch = streamInfoString.match(
-       /video\:\s*([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\),\s*([^\(]+)(\((.+)\))?,(\s*((\d+)x(\d+))\s*(\[.+\])?)?,(\s*(\d+\s*kb\/s|N\/A),(\s*([\.0-9]+)\s*fps))?/i
+       /video\:\s*([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\),\s*([^\(]+)(\((.+)\))?,(\s*((\d+)x(\d+))\s*(\[.+\])?)?,(\s*(\d+\s*kb\/s|N\/A),\s*(.+)?\s*,(\s*([\.0-9]+)\s*fps))?/i
        );
        var audioMatch = streamInfoString.match(
        /audio\:\s*([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\),\s*((\d+)\s*([a-z]+)),\s*([^\s^,]+),\s*([^\s^,]+),\s*(((\d+)\s*([a-z]+\s*\/\s*[a-z]+?))\s*(\((.+?)\))?)?/i  
        );
-       var dataMatch = streamInfoString.match(/data:/i);
+       var dataMatch = streamInfoString.match(
+       /data\:\s*([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\)/i
+       );
 
        if (videoMatch) {
           returnObject['type'] = 'video';
@@ -169,9 +181,12 @@ ErrorService) {
           
           returnObject['width'] = parseInt(videoMatch[11]);
           returnObject['height'] = parseInt(videoMatch[12]);
-          
+
           returnObject['bitrate'] = videoMatch[15];
-          returnObject['fps'] = parseFloat(videoMatch[17]);
+          
+          returnObject['ratios'] = videoMatch[16];
+          
+          returnObject['fps'] = parseFloat(videoMatch[18]);
        } else if (audioMatch) {
           returnObject['type'] = 'audio';
           
@@ -188,6 +203,10 @@ ErrorService) {
           returnObject['bitrate_option'] = audioMatch[16];
        } else if (dataMatch) {
           returnObject['type'] = 'data';
+          
+          returnObject['codec'] = dataMatch[1];
+          returnObject['codec_option'] = dataMatch[3];
+          returnObject['codec_name'] = dataMatch[4];
        }
        
        return returnObject;
@@ -278,8 +297,6 @@ ErrorService) {
                     );
                  }
               }
-              
-              console.log(streamInfoString);
               
               returnedMetadata['streams'].push(
                   parseMediaStreamInfoString(streamInfoString));
@@ -391,19 +408,18 @@ Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'soccer_small.m4v':
                    } else if ('error' === message.type) {
                       reject(ErrorService.localError(data.result));
                    } else if ('done' === message.type) {
-                      console.log("FULL OUTPUT", getEventMessageDataOutput(data));
-                      console.log("RESULT", getEventMessageDataResult(data));
+                      //console.log("FULL OUTPUT", getEventMessageDataOutput(data));
+                      //console.log("RESULT", getEventMessageDataResult(data));
                       
                       var result = getEventMessageDataResult(data);
                       
                       var fileModel = FileModel.fromArrayBuffer(result[0].data, result[0].name);
                       
                       fileModel.getText()
-                      .then(function(text) {
-                         var metadata = parseMetadataOutput(getEventMessageDataOutput(data),
-                                    text); 
+                      .then(function(fileText) {
                         // console.log("TEXT?!", text);
-                         resolve(metadata);
+                         resolve(parseMetadataOutput(getEventMessageDataOutput(data),
+                                    fileText));
                       })
                    }
                 });
