@@ -151,6 +151,14 @@ ErrorService) {
        var audioMatch = streamInfoString.match(/audio:/i);
        var dataMatch = streamInfoString.match(/data:/i);
        
+       if (videoMatch) {
+           
+       } else if (audioMatch) {
+           
+       } else if (dataMatch) {
+          
+       }
+       
        return returnObject;
     }
     
