@@ -146,17 +146,33 @@ ErrorService) {
        
        returnObject['index'] = parseInt(headerMatch[2]);
        returnObject['name'] = headerMatch[3];
+              
+       // Don't you just love these long regexes?
        
-       var videoMatch = streamInfoString.match(/video:/i);
+       var videoMatch = streamInfoString.match(
+       /video: ([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\),\s*([^\(]+)(\((.+)\))?,\s*((\d+)x(\d+)),\s*(\d+\s*kb\/s|N\/A),\s*([\.0-9]+)\s*fps/i);
        var audioMatch = streamInfoString.match(/audio:/i);
        var dataMatch = streamInfoString.match(/data:/i);
-       
+
        if (videoMatch) {
-           
-       } else if (audioMatch) {
-           
-       } else if (dataMatch) {
+          returnObject['type'] = 'video';
           
+          returnObject['codec'] = videoMatch[1];
+          returnObject['codec_option'] = videoMatch[3];
+          returnObject['codec_name'] = videoMatch[4];
+          
+          returnObject['pixel_format'] = videoMatch[6];
+          returnObject['pixel_format_option'] = videoMatch[8];
+          
+          returnObject['width'] = videoMatch[10];
+          returnObject['height'] = videoMatch[11];
+          
+          returnObject['bitrate'] = videoMatch[12];
+          returnObject['fps'] = videoMatch[13];
+       } else if (audioMatch) {
+          returnObject['type'] = 'audio';
+       } else if (dataMatch) {
+          returnObject['type'] = 'data';
        }
        
        return returnObject;
