@@ -17,6 +17,26 @@ ErrorService) {
         
     }
     
+    // Ok, so the way that it works is that only
+    // one request can be using the web worker at
+    // any given time.  I would like to have different
+    // web workers for multiple requests, but I can't seem
+    // to find a way to FULLY guarantee caching of the ffmpeg library
+    // file, so we don't want to keep loading it over and over again.
+    
+    // Once a worker function gets the 'done' or 'error' messages,
+    // it MUST MUST MUST call releaseWorker() right away, so then
+    // if there's another function/request waiting, it can grab the worker
+    // and get going.
+    
+    // reserveWorker is called automatically within getWorker(), either
+    // when it's first created, or when it gets to use the worker.
+    
+    // The getWorker function also has an optional parameter, releaseOnCreation,
+    // which, if set to true, automatically releases the worker for usage once
+    // it's done loading.  This is incase I want to preload it before letting the
+    // user use the features.
+    
     var worker = null;
     var workerIsAvailable = true;
     
@@ -340,6 +360,7 @@ ErrorService) {
                     
                    } else if ('output' === message.type) {
                    } else if ('error' === message.type) {
+                      releaseWorker();
                       reject(ErrorService.localError(data.result));
                    } else if ('done' === message.type) {
                       releaseWorker();
@@ -384,7 +405,9 @@ ErrorService) {
        });
     }
     
-    FFMpegService.getWorker = function() {
+    FFMpegService.getWorker = function(releaseOnCreation) {
+       releaseOnCreation = true === utils.isUndefinedOrNull(releaseOnCreation) ? false : releaseOnCreation;
+       
        return Promise(function(resolve, reject, notify) {
           if (worker) {
              FFMpegService.waitForWorker()
@@ -399,6 +422,9 @@ ErrorService) {
                 var message = getEventMessage(event);
             
                 if ('ready' === message.type) {
+                   if (true === releaseOnCreation) {
+                      releaseWorker();
+                   }
                    resolve();
                 }
              });          
