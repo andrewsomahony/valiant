@@ -44,7 +44,7 @@ FFMpegService) {
    $scope.tempWebWorkerReady = false;
    
    $scope.tempConvertVideo = function() {
-      FFMpegService.load()
+      FFMpegService.getWorker()
       .then(function() {
          $scope.tempWebWorkerReady = true;
       })

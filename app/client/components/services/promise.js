@@ -16,6 +16,10 @@ function($q) {
 
       return deferred.promise;
    }
+   
+   promiseService.deferred = function() {
+      return $q.defer();
+   }
 
    return promiseService;
 }])
