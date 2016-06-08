@@ -362,15 +362,6 @@ FFMpegService) {
       console.log($scope.currentQuestion);
    }
    
-   $scope.tempWebWorkerReady = false;
-   
-   $scope.tempConvertVideo = function() {
-      FFMpegService.getWorker()
-      .then(function() {
-         $scope.tempWebWorkerReady = true;
-      })
-   }
-   
    $scope.allocateNewQuestion();
 }]);
 
@@ -2095,14 +2086,21 @@ function(VideoService) {
             VideoService.getVideoFromFileModel(files[0])
             .then(function(video) {
                // Convert here?
-               $scope.setModel(video);
+               VideoService.getVideoThumbnail(video)
+               .then(function(newVideo) {
+                  console.log(newVideo);
+                  $scope.setModel(newVideo);
+               })
+               .catch(function(error) {
+                  $scope.error(error);
+               })
+               .finally(function() {
+                  $scope.setIsLoadingMedia(false);
+               }); 
             })
             .catch(function(error) {
                $scope.error(error);
             })
-            .finally(function() {
-               $scope.setIsLoadingMedia(false);
-            });
          }
          
          $scope.onVideoSelectError = function(error) {
@@ -2842,7 +2840,7 @@ function(id, promise) {
 }])
 
 module.exports = name
-},{"../services/id":79,"../services/promise":92,"./module":55,"classy":142,"rfc6902":169,"utils":107}],50:[function(require,module,exports){
+},{"../services/id":79,"../services/promise":92,"./module":55,"classy":142,"rfc6902":172,"utils":107}],50:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -2974,11 +2972,12 @@ ErrorService) {
             return fileModel;
          },
          
-         fromArrayBuffer: function(arrayBuffer, name) {
+         fromArrayBuffer: function(arrayBuffer, name, type) {
             name = name || "";
+            type = type || "";
             
             var fileModel = new this();
-            fileModel.setArrayBuffer(arrayBuffer, name);
+            fileModel.setArrayBuffer(arrayBuffer, name, type);
             
             return fileModel;
          },
@@ -3052,8 +3051,10 @@ ErrorService) {
          return FileReaderService.readAsArrayBufferPromiseHelper(this.blob);
       },
       
-      setArrayBuffer: function(arrayBuffer, name) {
-         var blob = new Blob([arrayBuffer]);
+      setArrayBuffer: function(arrayBuffer, name, type) {
+         type = type || "";
+         
+         var blob = new Blob([arrayBuffer], {type: type});
          
          this.setBlob(blob, name);
       },
@@ -3474,6 +3475,7 @@ function(BaseModel) {
                subtitle_url: "",
                description: "",
                metadata: {},
+               thumbnail: {__alias__: "models.picture"},
                file_model: null,
                upload_progress: null
             });
@@ -3493,6 +3495,10 @@ function(BaseModel) {
       reset: function() {
          this.clearMetadata();
          this.setFileModel(null);
+      },
+      
+      setThumbnail: function(thumbnail) {
+         this.thumbnail.fromModel(thumbnail);  
       },
       
       setFileModel: function(fileModel) {
@@ -4371,8 +4377,10 @@ registerService('factory', name, [require('services/promise'),
                                   require('services/progress'),
                                   require('models/file'),
                                   require('services/error'),
+                                  require('services/picture_service'),
+                                  require('services/mime_service'),
 function(Promise, ProgressService, FileModel,
-ErrorService) {
+ErrorService, PictureService, MimeService) {
     
     function FFMpegService() {
         
@@ -4707,6 +4715,60 @@ ErrorService) {
         return returnedMetadata;   
     }
     
+    FFMpegService.getVideoThumbnail = function(video) {
+        return Promise(function(resolve, reject, notify) {
+           if (!video.getDuration()) {
+              reject(ErrorService.localError("FFmpegService.getVideoThumbnail: Video does not have a duration!"));
+           } else {
+              FFMpegService.getWorker()
+              .then(function() {
+                 fileModelToFFMpegFile(video.file_model)
+                 .then(function(file) {
+                    console.log("GETTING THUMBNAIL");
+                    bindWorkerMessageHandler(function(event) {
+                       var message = getEventMessage(event);
+                       var data = getEventMessageData(message); 
+                        
+                       if ('start' === message.type) {
+                                    
+                       } else if ('output' === message.type) {
+                           console.log(getEventMessageDataResult(data));
+                       } else if ('error' === message.type) {
+                          releaseWorker();
+                          reject(ErrorService.localError(
+                             getEventMessageDataResult(data)
+                          ));
+                       } else if ('done' === message.type) {
+                          releaseWorker();
+                           
+                          var result = getEventMessageDataResult(data);
+                                                      
+                          var fileModel = FileModel.fromArrayBuffer(result[0].data, 
+                              result[0].name, MimeService.getMimeTypeFromFilename(result[0].name));
+                           
+                          PictureService.getPictureFromFileModel(fileModel)
+                          .then(function(picture) {
+                             resolve(picture);
+                          })
+                          .catch(function(error) {
+                             reject(error);
+                          })
+                       }
+                    });
+                     
+                    sendCommandToWorker('get_thumbnail', file, {position: video.getDuration() / 2});
+                 })  
+                 .catch(function(error) {
+                    reject(error);
+                 })  
+              })
+              .catch(function(error) {
+                 reject(error);    
+              });
+           }
+        });  
+    }
+    
     FFMpegService.getVideoFileModelMetadata = function(fileModel) {
        return Promise(function(resolve, reject, notify) {
           FFMpegService.getWorker()
@@ -4722,7 +4784,9 @@ ErrorService) {
                    } else if ('output' === message.type) {
                    } else if ('error' === message.type) {
                       releaseWorker();
-                      reject(ErrorService.localError(data.result));
+                      reject(ErrorService.localError(
+                         getEventMessageDataResult(data)
+                      ));
                    } else if ('done' === message.type) {
                       releaseWorker();
                       //console.log("FULL OUTPUT", getEventMessageDataOutput(data));
@@ -4800,7 +4864,7 @@ ErrorService) {
 module.exports = name;
 
 
-},{"models/file":52,"services/error":70,"services/progress":91,"services/promise":92,"services/register":94,"utils":107}],75:[function(require,module,exports){
+},{"models/file":52,"services/error":70,"services/mime_service":83,"services/picture_service":89,"services/progress":91,"services/promise":92,"services/register":94,"utils":107}],75:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5429,6 +5493,8 @@ module.exports = name;
 
 var registerService = require('services/register');
 
+var MimeType = require('mimeType');
+
 var name = 'services.mime_service';
 
 registerService('factory', name, [
@@ -5487,11 +5553,15 @@ function() {
       return testBaseMimeType && testBaseMimeType === baseType;
    }
    
+   MimeService.getMimeTypeFromFilename = function(filename) {
+      return MimeType.lookup(filename) || "";
+   }
+   
    return MimeService;
 }]);
 
 module.exports = name;
-},{"services/register":94}],84:[function(require,module,exports){
+},{"mimeType":167,"services/register":94}],84:[function(require,module,exports){
 var registerService = require('services/register');
 var utils = require('utils');
 
@@ -7060,6 +7130,19 @@ SerialPromise, FFMpegService) {
       return SerialPromise.withNotify(promiseFnArray, null, ['video'], true);
    }
    
+   VideoService.getVideoThumbnail = function(video) {
+      return Promise(function(resolve, reject, notify) {
+         FFMpegService.getVideoThumbnail(video)
+         .then(function(picture) {
+            video.setThumbnail(picture);
+            resolve(video);
+         })
+         .catch(function(error) {
+            reject(error);
+         })         
+      });
+   }
+   
    return VideoService;
 }]);
 
@@ -7106,7 +7189,7 @@ module.exports = angular.module(appInfo.name, [
     require('angular-route'),
     'ngMessages'
 ]);
-},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":32,"../components/filters/init":45,"../components/models/init":54,"../components/services/init":81,"../views/_views":170,"angular":119,"angular-animate":110,"angular-messages":112,"angular-route":114,"angular-strap":115,"angular-strap-tpl-modal":116,"angular-ui-router":117,"info":102}],104:[function(require,module,exports){
+},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":32,"../components/filters/init":45,"../components/models/init":54,"../components/services/init":81,"../views/_views":173,"angular":119,"angular-animate":110,"angular-messages":112,"angular-route":114,"angular-strap":115,"angular-strap-tpl-modal":116,"angular-ui-router":117,"info":102}],104:[function(require,module,exports){
 'use strict';
 
 function boot() {
@@ -58321,7 +58404,7 @@ module.exports = function(){
         BaseClass        : Base
     }
 }()
-},{"../utils/copy":150,"./assignClassProperty":126,"./canDefineProperty":128,"./canGetOwnPropertyDescriptor":129,"./copyDescriptors":130,"./extend":131,"newify":168}],133:[function(require,module,exports){
+},{"../utils/copy":150,"./assignClassProperty":126,"./canDefineProperty":128,"./canGetOwnPropertyDescriptor":129,"./copyDescriptors":130,"./extend":131,"newify":169}],133:[function(require,module,exports){
 var callSuperRe     = /\bcallSuper|callSuperWith\b/
 var callOverridenRe = /\bcallOverriden|callOverridenWith\b/
 
@@ -58382,7 +58465,7 @@ module.exports = function(alias /* args... */){
 
     return newify(Class, args)
 }
-},{"./getClass":139,"newify":168}],135:[function(require,module,exports){
+},{"./getClass":139,"newify":169}],135:[function(require,module,exports){
 var getClass     = require('./getClass')
 var processClass = require('./processClass')
 
@@ -61245,6 +61328,774 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 }
 
 },{}],167:[function(require,module,exports){
+//
+// mimetype.js - A catalog object of mime types based on file extensions
+//
+// @author: R. S. Doiel, <rsdoiel@gmail.com>
+// copyright (c) 2012 all rights reserved
+//
+// Released under New the BSD License.
+// See: http://opensource.org/licenses/bsd-license.php
+//
+/*jslint indent: 4 */
+/*global require, exports */
+(function (self) {
+    "use strict";
+	var path, MimeType;
+	
+	// If we're NodeJS I can use the path module.
+	// If I'm MongoDB shell, not available.
+	if (require !== undefined) {
+		path = require('path');
+	} else {
+		path = {
+			extname: function (filename) {
+				if (filename.lastIndexOf(".") > 0) {
+					return filename.substr(filename.lastIndexOf("."));
+				}
+			}
+		};
+	}
+	
+	if (exports === undefined) {
+		exports = {};
+	}
+
+	MimeType = {
+		charset: 'UTF-8',
+		catalog: {},
+		lookup: function (fname, include_charset, default_mime_type) {
+			var ext, charset = this.charset;
+			
+			if (include_charset === undefined) {
+				include_charset = false;
+			}
+			
+			if (typeof include_charset === "string") {
+				charset = include_charset;
+				include_charset = true;
+			}
+	
+			if (path.extname !== undefined) {
+				ext = path.extname(fname).toLowerCase();
+			} else if (fname.lastIndexOf('.') > 0) {
+				ext = fname.substr(fname.lastIndexOf('.')).toLowerCase();
+			} else {
+				ext = fname;
+			}
+			
+			// Handle the special cases where their is no extension
+			// e..g README, manifest, LICENSE, TODO
+			if (ext === "") {
+				ext = fname;
+			}
+	
+			if (this.catalog[ext] !== undefined) {
+				if (include_charset === true &&
+                        this.catalog[ext].indexOf('text/') === 0 &&
+                        this.catalog[ext].indexOf('charset') < 0) {
+					return this.catalog[ext] + '; charset=' + charset;
+				} else {
+					return this.catalog[ext];
+				}
+			} else if (default_mime_type !== undefined) {
+				if (include_charset === true &&
+                        default_mime_type.indexOf('text/') === 0) {
+					return default_mime_type + '; charset=' + charset;
+				}
+				return default_mime_type;
+			}
+			return false;
+		},
+		set: function (exts, mime_type_string) {
+			var result = true, self = this;
+            //console.log("DEBUG exts.indexOf(',')", typeof exts.indexOf(','), exts.indexOf(','));
+			if (exts.indexOf(',') > -1) {
+				exts.split(',').forEach(function (ext) {
+					ext = ext.trim();
+					self.catalog[ext] = mime_type_string;
+					if (self.catalog[ext] !== mime_type_string) {
+						result = false;
+					}
+				});
+			} else {
+				self.catalog[exts] = mime_type_string;
+			}
+			return result;
+		},
+		del: function (ext) {
+			delete this.catalog[ext];
+			return (this.catalog[ext] === undefined);
+		},
+		forEach: function (callback) {
+			var self = this, ext;
+			// Mongo 2.2. Shell doesn't support Object.keys()
+			for (ext in self.catalog) {
+				if (self.catalog.hasOwnProperty(ext)) {
+					callback(ext, self.catalog[ext]);
+				}
+			}
+			return self.catalog;
+		}
+	};
+	
+	// From Apache project's mime type list.
+	MimeType.set(".ez", "application/andrew-inset");
+	MimeType.set(".aw", "application/applixware");
+	MimeType.set(".atom", "application/atom+xml");
+	MimeType.set(".atomcat", "application/atomcat+xml");
+	MimeType.set(".atomsvc", "application/atomsvc+xml");
+	MimeType.set(".ccxml", "application/ccxml+xml");
+	MimeType.set(".cu", "application/cu-seeme");
+	MimeType.set(".davmount", "application/davmount+xml");
+	MimeType.set(".ecma", "application/ecmascript");
+	MimeType.set(".emma", "application/emma+xml");
+	MimeType.set(".epub", "application/epub+zip");
+	MimeType.set(".pfr", "application/font-tdpfr");
+	MimeType.set(".stk", "application/hyperstudio");
+	MimeType.set(".jar", "application/java-archive");
+	MimeType.set(".ser", "application/java-serialized-object");
+	MimeType.set(".class", "application/java-vm");
+	MimeType.set(".js", "application/javascript");
+	MimeType.set(".json", "application/json");
+	MimeType.set(".lostxml", "application/lost+xml");
+	MimeType.set(".hqx", "application/mac-binhex40");
+	MimeType.set(".cpt", "application/mac-compactpro");
+	MimeType.set(".mrc", "application/marc");
+	MimeType.set(".ma,.nb,.mb", "application/mathematica");
+	MimeType.set(".mathml", "application/mathml+xml");
+	MimeType.set(".mbox", "application/mbox");
+	MimeType.set(".mscml", "application/mediaservercontrol+xml");
+	MimeType.set(".mp4s", "application/mp4");
+	MimeType.set(".doc,.dot", "application/msword");
+	MimeType.set(".mxf", "application/mxf");
+	MimeType.set(".oda", "application/oda");
+	MimeType.set(".opf", "application/oebps-package+xml");
+	MimeType.set(".ogx", "application/ogg");
+	MimeType.set(".onetoc,.onetoc2,.onetmp,.onepkg", "application/onenote");
+	MimeType.set(".xer", "application/patch-ops-error+xml");
+	MimeType.set(".pdf", "application/pdf");
+	MimeType.set(".pgp", "application/pgp-encrypted");
+	MimeType.set(".asc,.sig", "application/pgp-signature");
+	MimeType.set(".prf", "application/pics-rules");
+	MimeType.set(".p10", "application/pkcs10");
+	MimeType.set(".p7m,.p7c", "application/pkcs7-mime");
+	MimeType.set(".p7s", "application/pkcs7-signature");
+	MimeType.set(".cer", "application/pkix-cert");
+	MimeType.set(".crl", "application/pkix-crl");
+	MimeType.set(".pkipath", "application/pkix-pkipath");
+	MimeType.set(".pki", "application/pkixcmp");
+	MimeType.set(".pls", "application/pls+xml");
+	MimeType.set(".ai,.eps,.ps", "application/postscript");
+	MimeType.set(".cww", "application/prs.cww");
+	MimeType.set(".rdf", "application/rdf+xml");
+	MimeType.set(".rif", "application/reginfo+xml");
+	MimeType.set(".rnc", "application/relax-ng-compact-syntax");
+	MimeType.set(".rl", "application/resource-lists+xml");
+	MimeType.set(".rld", "application/resource-lists-diff+xml");
+	MimeType.set(".rs", "application/rls-services+xml");
+	MimeType.set(".rsd", "application/rsd+xml");
+	MimeType.set(".rss", "application/rss+xml");
+	MimeType.set(".rtf", "application/rtf");
+	MimeType.set(".sbml", "application/sbml+xml");
+	MimeType.set(".scq", "application/scvp-cv-request");
+	MimeType.set(".scs", "application/scvp-cv-response");
+	MimeType.set(".spq", "application/scvp-vp-request");
+	MimeType.set(".spp", "application/scvp-vp-response");
+	MimeType.set(".sdp", "application/sdp");
+	MimeType.set(".setpay", "application/set-payment-initiation");
+	MimeType.set(".setreg", "application/set-registration-initiation");
+	MimeType.set(".shf", "application/shf+xml");
+	MimeType.set(".smi,.smil", "application/smil+xml");
+	MimeType.set(".rq", "application/sparql-query");
+	MimeType.set(".srx", "application/sparql-results+xml");
+	MimeType.set(".gram", "application/srgs");
+	MimeType.set(".grxml", "application/srgs+xml");
+	MimeType.set(".ssml", "application/ssml+xml");
+	MimeType.set(".plb", "application/vnd.3gpp.pic-bw-large");
+	MimeType.set(".psb", "application/vnd.3gpp.pic-bw-small");
+	MimeType.set(".pvb", "application/vnd.3gpp.pic-bw-var");
+	MimeType.set(".tcap", "application/vnd.3gpp2.tcap");
+	MimeType.set(".pwn", "application/vnd.3m.post-it-notes");
+	MimeType.set(".aso", "application/vnd.accpac.simply.aso");
+	MimeType.set(".imp", "application/vnd.accpac.simply.imp");
+	MimeType.set(".acu", "application/vnd.acucobol");
+	MimeType.set(".atc,.acutc", "application/vnd.acucorp");
+	MimeType.set(".air", "application/vnd.adobe.air-application-installer-package+zip");
+	MimeType.set(".xdp", "application/vnd.adobe.xdp+xml");
+	MimeType.set(".xfdf", "application/vnd.adobe.xfdf");
+	MimeType.set(".azf", "application/vnd.airzip.filesecure.azf");
+	MimeType.set(".azs", "application/vnd.airzip.filesecure.azs");
+	MimeType.set(".azw", "application/vnd.amazon.ebook");
+	MimeType.set(".acc", "application/vnd.americandynamics.acc");
+	MimeType.set(".ami", "application/vnd.amiga.ami");
+	MimeType.set(".apk", "application/vnd.android.package-archive");
+	MimeType.set(".cii", "application/vnd.anser-web-certificate-issue-initiation");
+	MimeType.set(".fti", "application/vnd.anser-web-funds-transfer-initiation");
+	MimeType.set(".atx", "application/vnd.antix.game-component");
+	MimeType.set(".mpkg", "application/vnd.apple.installer+xml");
+	MimeType.set(".swi", "application/vnd.arastra.swi");
+	MimeType.set(".aep", "application/vnd.audiograph");
+	MimeType.set(".mpm", "application/vnd.blueice.multipass");
+	MimeType.set(".bmi", "application/vnd.bmi");
+	MimeType.set(".rep", "application/vnd.businessobjects");
+	MimeType.set(".cdxml", "application/vnd.chemdraw+xml");
+	MimeType.set(".mmd", "application/vnd.chipnuts.karaoke-mmd");
+	MimeType.set(".cdy", "application/vnd.cinderella");
+	MimeType.set(".cla", "application/vnd.claymore");
+	MimeType.set(".c4g,.c4d,.c4f,.c4p,.c4u", "application/vnd.clonk.c4group");
+	MimeType.set(".csp", "application/vnd.commonspace");
+	MimeType.set(".cdbcmsg", "application/vnd.contact.cmsg");
+	MimeType.set(".cmc", "application/vnd.cosmocaller");
+	MimeType.set(".clkx", "application/vnd.crick.clicker");
+	MimeType.set(".clkk", "application/vnd.crick.clicker.keyboard");
+	MimeType.set(".clkp", "application/vnd.crick.clicker.palette");
+	MimeType.set(".clkt", "application/vnd.crick.clicker.template");
+	MimeType.set(".clkw", "application/vnd.crick.clicker.wordbank");
+	MimeType.set(".wbs", "application/vnd.criticaltools.wbs+xml");
+	MimeType.set(".pml", "application/vnd.ctc-posml");
+	MimeType.set(".ppd", "application/vnd.cups-ppd");
+	MimeType.set(".car", "application/vnd.curl.car");
+	MimeType.set(".pcurl", "application/vnd.curl.pcurl");
+	MimeType.set(".rdz", "application/vnd.data-vision.rdz");
+	MimeType.set(".fe_launch", "application/vnd.denovo.fcselayout-link");
+	MimeType.set(".dna", "application/vnd.dna");
+	MimeType.set(".mlp", "application/vnd.dolby.mlp");
+	MimeType.set(".dpg", "application/vnd.dpgraph");
+	MimeType.set(".dfac", "application/vnd.dreamfactory");
+	MimeType.set(".geo", "application/vnd.dynageo");
+	MimeType.set(".mag", "application/vnd.ecowin.chart");
+	MimeType.set(".nml", "application/vnd.enliven");
+	MimeType.set(".esf", "application/vnd.epson.esf");
+	MimeType.set(".msf", "application/vnd.epson.msf");
+	MimeType.set(".qam", "application/vnd.epson.quickanime");
+	MimeType.set(".slt", "application/vnd.epson.salt");
+	MimeType.set(".ssf", "application/vnd.epson.ssf");
+	MimeType.set(".es3,.et3", "application/vnd.eszigno3+xml");
+	MimeType.set(".ez2", "application/vnd.ezpix-album");
+	MimeType.set(".ez3", "application/vnd.ezpix-package");
+	MimeType.set(".fdf", "application/vnd.fdf");
+	MimeType.set(".mseed", "application/vnd.fdsn.mseed");
+	MimeType.set(".seed,.dataless", "application/vnd.fdsn.seed");
+	MimeType.set(".gph", "application/vnd.flographit");
+	MimeType.set(".ftc", "application/vnd.fluxtime.clip");
+	MimeType.set(".fm,.frame,.maker,.book", "application/vnd.framemaker");
+	MimeType.set(".fnc", "application/vnd.frogans.fnc");
+	MimeType.set(".ltf", "application/vnd.frogans.ltf");
+	MimeType.set(".fsc", "application/vnd.fsc.weblaunch");
+	MimeType.set(".oas", "application/vnd.fujitsu.oasys");
+	MimeType.set(".oa2", "application/vnd.fujitsu.oasys2");
+	MimeType.set(".oa3", "application/vnd.fujitsu.oasys3");
+	MimeType.set(".fg5", "application/vnd.fujitsu.oasysgp");
+	MimeType.set(".bh2", "application/vnd.fujitsu.oasysprs");
+	MimeType.set(".ddd", "application/vnd.fujixerox.ddd");
+	MimeType.set(".xdw", "application/vnd.fujixerox.docuworks");
+	MimeType.set(".xbd", "application/vnd.fujixerox.docuworks.binder");
+	MimeType.set(".fzs", "application/vnd.fuzzysheet");
+	MimeType.set(".txd", "application/vnd.genomatix.tuxedo");
+	MimeType.set(".ggb", "application/vnd.geogebra.file");
+	MimeType.set(".ggt", "application/vnd.geogebra.tool");
+	MimeType.set(".gex,.gre", "application/vnd.geometry-explorer");
+	MimeType.set(".gmx", "application/vnd.gmx");
+	MimeType.set(".kml", "application/vnd.google-earth.kml+xml");
+	MimeType.set(".kmz", "application/vnd.google-earth.kmz");
+	MimeType.set(".gqf,.gqs", "application/vnd.grafeq");
+	MimeType.set(".gac", "application/vnd.groove-account");
+	MimeType.set(".ghf", "application/vnd.groove-help");
+	MimeType.set(".gim", "application/vnd.groove-identity-message");
+	MimeType.set(".grv", "application/vnd.groove-injector");
+	MimeType.set(".gtm", "application/vnd.groove-tool-message");
+	MimeType.set(".tpl", "application/vnd.groove-tool-template");
+	MimeType.set(".vcg", "application/vnd.groove-vcard");
+	MimeType.set(".zmm", "application/vnd.handheld-entertainment+xml");
+	MimeType.set(".hbci", "application/vnd.hbci");
+	MimeType.set(".les", "application/vnd.hhe.lesson-player");
+	MimeType.set(".hpgl", "application/vnd.hp-hpgl");
+	MimeType.set(".hpid", "application/vnd.hp-hpid");
+	MimeType.set(".hps", "application/vnd.hp-hps");
+	MimeType.set(".jlt", "application/vnd.hp-jlyt");
+	MimeType.set(".pcl", "application/vnd.hp-pcl");
+	MimeType.set(".pclxl", "application/vnd.hp-pclxl");
+	MimeType.set(".sfd-hdstx", "application/vnd.hydrostatix.sof-data");
+	MimeType.set(".x3d", "application/vnd.hzn-3d-crossword");
+	MimeType.set(".mpy", "application/vnd.ibm.minipay");
+	MimeType.set(".afp,.listafp,.list3820", "application/vnd.ibm.modcap");
+	MimeType.set(".irm", "application/vnd.ibm.rights-management");
+	MimeType.set(".sc", "application/vnd.ibm.secure-container");
+	MimeType.set(".icc,.icm", "application/vnd.iccprofile");
+	MimeType.set(".igl", "application/vnd.igloader");
+	MimeType.set(".ivp", "application/vnd.immervision-ivp");
+	MimeType.set(".ivu", "application/vnd.immervision-ivu");
+	MimeType.set(".xpw,.xpx", "application/vnd.intercon.formnet");
+	MimeType.set(".qbo", "application/vnd.intu.qbo");
+	MimeType.set(".qfx", "application/vnd.intu.qfx");
+	MimeType.set(".rcprofile", "application/vnd.ipunplugged.rcprofile");
+	MimeType.set(".irp", "application/vnd.irepository.package+xml");
+	MimeType.set(".xpr", "application/vnd.is-xpr");
+	MimeType.set(".jam", "application/vnd.jam");
+	MimeType.set(".rms", "application/vnd.jcp.javame.midlet-rms");
+	MimeType.set(".jisp", "application/vnd.jisp");
+	MimeType.set(".joda", "application/vnd.joost.joda-archive");
+	MimeType.set(".ktz,.ktr", "application/vnd.kahootz");
+	MimeType.set(".karbon", "application/vnd.kde.karbon");
+	MimeType.set(".chrt", "application/vnd.kde.kchart");
+	MimeType.set(".kfo", "application/vnd.kde.kformula");
+	MimeType.set(".flw", "application/vnd.kde.kivio");
+	MimeType.set(".kon", "application/vnd.kde.kontour");
+	MimeType.set(".kpr,.kpt", "application/vnd.kde.kpresenter");
+	MimeType.set(".ksp", "application/vnd.kde.kspread");
+	MimeType.set(".kwd,.kwt", "application/vnd.kde.kword");
+	MimeType.set(".htke", "application/vnd.kenameaapp");
+	MimeType.set(".kia", "application/vnd.kidspiration");
+	MimeType.set(".kne,.knp", "application/vnd.kinar");
+	MimeType.set(".skp,.skd,.skt,.skm", "application/vnd.koan");
+	MimeType.set(".sse", "application/vnd.kodak-descriptor");
+	MimeType.set(".lbd", "application/vnd.llamagraphics.life-balance.desktop");
+	MimeType.set(".lbe", "application/vnd.llamagraphics.life-balance.exchange+xml");
+	MimeType.set(".123", "application/vnd.lotus-1-2-3");
+	MimeType.set(".apr", "application/vnd.lotus-approach");
+	MimeType.set(".pre", "application/vnd.lotus-freelance");
+	MimeType.set(".nsf", "application/vnd.lotus-notes");
+	MimeType.set(".org", "application/vnd.lotus-organizer");
+	MimeType.set(".scm", "application/vnd.lotus-screencam");
+	MimeType.set(".lwp", "application/vnd.lotus-wordpro");
+	MimeType.set(".portpkg", "application/vnd.macports.portpkg");
+	MimeType.set(".mcd", "application/vnd.mcd");
+	MimeType.set(".mc1", "application/vnd.medcalcdata");
+	MimeType.set(".cdkey", "application/vnd.mediastation.cdkey");
+	MimeType.set(".mwf", "application/vnd.mfer");
+	MimeType.set(".mfm", "application/vnd.mfmp");
+	MimeType.set(".flo", "application/vnd.micrografx.flo");
+	MimeType.set(".igx", "application/vnd.micrografx.igx");
+	MimeType.set(".mif", "application/vnd.mif");
+	MimeType.set(".daf", "application/vnd.mobius.daf");
+	MimeType.set(".dis", "application/vnd.mobius.dis");
+	MimeType.set(".mbk", "application/vnd.mobius.mbk");
+	MimeType.set(".mqy", "application/vnd.mobius.mqy");
+	MimeType.set(".msl", "application/vnd.mobius.msl");
+	MimeType.set(".plc", "application/vnd.mobius.plc");
+	MimeType.set(".txf", "application/vnd.mobius.txf");
+	MimeType.set(".mpn", "application/vnd.mophun.application");
+	MimeType.set(".mpc", "application/vnd.mophun.certificate");
+	MimeType.set(".xul", "application/vnd.mozilla.xul+xml");
+	MimeType.set(".cil", "application/vnd.ms-artgalry");
+	MimeType.set(".cab", "application/vnd.ms-cab-compressed");
+	MimeType.set(".xls,.xlm,.xla,.xlc,.xlt,.xlw", "application/vnd.ms-excel");
+	MimeType.set(".xlam", "application/vnd.ms-excel.addin.macroenabled.12");
+	MimeType.set(".xlsb", "application/vnd.ms-excel.sheet.binary.macroenabled.12");
+	MimeType.set(".xlsm", "application/vnd.ms-excel.sheet.macroenabled.12");
+	MimeType.set(".xltm", "application/vnd.ms-excel.template.macroenabled.12");
+	MimeType.set(".eot", "application/vnd.ms-fontobject");
+	MimeType.set(".chm", "application/vnd.ms-htmlhelp");
+	MimeType.set(".ims", "application/vnd.ms-ims");
+	MimeType.set(".lrm", "application/vnd.ms-lrm");
+	MimeType.set(".cat", "application/vnd.ms-pki.seccat");
+	MimeType.set(".stl", "application/vnd.ms-pki.stl");
+	MimeType.set(".ppt,.pps,.pot", "application/vnd.ms-powerpoint");
+	MimeType.set(".ppam", "application/vnd.ms-powerpoint.addin.macroenabled.12");
+	MimeType.set(".pptm", "application/vnd.ms-powerpoint.presentation.macroenabled.12");
+	MimeType.set(".sldm", "application/vnd.ms-powerpoint.slide.macroenabled.12");
+	MimeType.set(".ppsm", "application/vnd.ms-powerpoint.slideshow.macroenabled.12");
+	MimeType.set(".potm", "application/vnd.ms-powerpoint.template.macroenabled.12");
+	MimeType.set(".mpp,.mpt", "application/vnd.ms-project");
+	MimeType.set(".docm", "application/vnd.ms-word.document.macroenabled.12");
+	MimeType.set(".dotm", "application/vnd.ms-word.template.macroenabled.12");
+	MimeType.set(".wps,.wks,.wcm,.wdb", "application/vnd.ms-works");
+	MimeType.set(".wpl", "application/vnd.ms-wpl");
+	MimeType.set(".xps", "application/vnd.ms-xpsdocument");
+	MimeType.set(".mseq", "application/vnd.mseq");
+	MimeType.set(".mus", "application/vnd.musician");
+	MimeType.set(".msty", "application/vnd.muvee.style");
+	MimeType.set(".nlu", "application/vnd.neurolanguage.nlu");
+	MimeType.set(".nnd", "application/vnd.noblenet-directory");
+	MimeType.set(".nns", "application/vnd.noblenet-sealer");
+	MimeType.set(".nnw", "application/vnd.noblenet-web");
+	MimeType.set(".ngdat", "application/vnd.nokia.n-gage.data");
+	MimeType.set(".n-gage", "application/vnd.nokia.n-gage.symbian.install");
+	MimeType.set(".rpst", "application/vnd.nokia.radio-preset");
+	MimeType.set(".rpss", "application/vnd.nokia.radio-presets");
+	MimeType.set(".edm", "application/vnd.novadigm.edm");
+	MimeType.set(".edx", "application/vnd.novadigm.edx");
+	MimeType.set(".ext", "application/vnd.novadigm.ext");
+	MimeType.set(".odc", "application/vnd.oasis.opendocument.chart");
+	MimeType.set(".otc", "application/vnd.oasis.opendocument.chart-template");
+	MimeType.set(".odb", "application/vnd.oasis.opendocument.database");
+	MimeType.set(".odf", "application/vnd.oasis.opendocument.formula");
+	MimeType.set(".odft", "application/vnd.oasis.opendocument.formula-template");
+	MimeType.set(".odg", "application/vnd.oasis.opendocument.graphics");
+	MimeType.set(".otg", "application/vnd.oasis.opendocument.graphics-template");
+	MimeType.set(".odi", "application/vnd.oasis.opendocument.image");
+	MimeType.set(".oti", "application/vnd.oasis.opendocument.image-template");
+	MimeType.set(".odp", "application/vnd.oasis.opendocument.presentation");
+	MimeType.set(".ods", "application/vnd.oasis.opendocument.spreadsheet");
+	MimeType.set(".ots", "application/vnd.oasis.opendocument.spreadsheet-template");
+	MimeType.set(".odt", "application/vnd.oasis.opendocument.text");
+	MimeType.set(".otm", "application/vnd.oasis.opendocument.text-master");
+	MimeType.set(".ott", "application/vnd.oasis.opendocument.text-template");
+	MimeType.set(".oth", "application/vnd.oasis.opendocument.text-web");
+	MimeType.set(".xo", "application/vnd.olpc-sugar");
+	MimeType.set(".dd2", "application/vnd.oma.dd2+xml");
+	MimeType.set(".oxt", "application/vnd.openofficeorg.extension");
+	MimeType.set(".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation");
+	MimeType.set(".sldx", "application/vnd.openxmlformats-officedocument.presentationml.slide");
+	MimeType.set(".ppsx", "application/vnd.openxmlformats-officedocument.presentationml.slideshow");
+	MimeType.set(".potx", "application/vnd.openxmlformats-officedocument.presentationml.template");
+	MimeType.set(".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	MimeType.set(".xltx", "application/vnd.openxmlformats-officedocument.spreadsheetml.template");
+	MimeType.set(".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+	MimeType.set(".dotx", "application/vnd.openxmlformats-officedocument.wordprocessingml.template");
+	MimeType.set(".dp", "application/vnd.osgi.dp");
+	MimeType.set(".pdb,.pqa,.oprc", "application/vnd.palm");
+	MimeType.set(".str", "application/vnd.pg.format");
+	MimeType.set(".ei6", "application/vnd.pg.osasli");
+	MimeType.set(".efif", "application/vnd.picsel");
+	MimeType.set(".plf", "application/vnd.pocketlearn");
+	MimeType.set(".pbd", "application/vnd.powerbuilder6");
+	MimeType.set(".box", "application/vnd.previewsystems.box");
+	MimeType.set(".mgz", "application/vnd.proteus.magazine");
+	MimeType.set(".qps", "application/vnd.publishare-delta-tree");
+	MimeType.set(".ptid", "application/vnd.pvi.ptid1");
+	MimeType.set(".qxd,.qxt,.qwd,.qwt,.qxl,.qxb", "application/vnd.quark.quarkxpress");
+	MimeType.set(".mxl", "application/vnd.recordare.musicxml");
+	MimeType.set(".musicxml", "application/vnd.recordare.musicxml+xml");
+	MimeType.set(".cod", "application/vnd.rim.cod");
+	MimeType.set(".rm", "application/vnd.rn-realmedia");
+	MimeType.set(".link66", "application/vnd.route66.link66+xml");
+	MimeType.set(".see", "application/vnd.seemail");
+	MimeType.set(".sema", "application/vnd.sema");
+	MimeType.set(".semd", "application/vnd.semd");
+	MimeType.set(".semf", "application/vnd.semf");
+	MimeType.set(".ifm", "application/vnd.shana.informed.formdata");
+	MimeType.set(".itp", "application/vnd.shana.informed.formtemplate");
+	MimeType.set(".iif", "application/vnd.shana.informed.interchange");
+	MimeType.set(".ipk", "application/vnd.shana.informed.package");
+	MimeType.set(".twd,.twds", "application/vnd.simtech-mindmapper");
+	MimeType.set(".mmf", "application/vnd.smaf");
+	MimeType.set(".teacher", "application/vnd.smart.teacher");
+	MimeType.set(".sdkm,.sdkd", "application/vnd.solent.sdkm+xml");
+	MimeType.set(".dxp", "application/vnd.spotfire.dxp");
+	MimeType.set(".sfs", "application/vnd.spotfire.sfs");
+	MimeType.set(".sdc", "application/vnd.stardivision.calc");
+	MimeType.set(".sda", "application/vnd.stardivision.draw");
+	MimeType.set(".sdd", "application/vnd.stardivision.impress");
+	MimeType.set(".smf", "application/vnd.stardivision.math");
+	MimeType.set(".sdw", "application/vnd.stardivision.writer");
+	MimeType.set(".vor", "application/vnd.stardivision.writer");
+	MimeType.set(".sgl", "application/vnd.stardivision.writer-global");
+	MimeType.set(".sxc", "application/vnd.sun.xml.calc");
+	MimeType.set(".stc", "application/vnd.sun.xml.calc.template");
+	MimeType.set(".sxd", "application/vnd.sun.xml.draw");
+	MimeType.set(".std", "application/vnd.sun.xml.draw.template");
+	MimeType.set(".sxi", "application/vnd.sun.xml.impress");
+	MimeType.set(".sti", "application/vnd.sun.xml.impress.template");
+	MimeType.set(".sxm", "application/vnd.sun.xml.math");
+	MimeType.set(".sxw", "application/vnd.sun.xml.writer");
+	MimeType.set(".sxg", "application/vnd.sun.xml.writer.global");
+	MimeType.set(".stw", "application/vnd.sun.xml.writer.template");
+	MimeType.set(".sus,.susp", "application/vnd.sus-calendar");
+	MimeType.set(".svd", "application/vnd.svd");
+	MimeType.set(".sis,.sisx", "application/vnd.symbian.install");
+	MimeType.set(".xsm", "application/vnd.syncml+xml");
+	MimeType.set(".bdm", "application/vnd.syncml.dm+wbxml");
+	MimeType.set(".xdm", "application/vnd.syncml.dm+xml");
+	MimeType.set(".tao", "application/vnd.tao.intent-module-archive");
+	MimeType.set(".tmo", "application/vnd.tmobile-livetv");
+	MimeType.set(".tpt", "application/vnd.trid.tpt");
+	MimeType.set(".mxs", "application/vnd.triscape.mxs");
+	MimeType.set(".tra", "application/vnd.trueapp");
+	MimeType.set(".ufd,.ufdl", "application/vnd.ufdl");
+	MimeType.set(".utz", "application/vnd.uiq.theme");
+	MimeType.set(".umj", "application/vnd.umajin");
+	MimeType.set(".unityweb", "application/vnd.unity");
+	MimeType.set(".uoml", "application/vnd.uoml+xml");
+	MimeType.set(".vcx", "application/vnd.vcx");
+	MimeType.set(".vsd,.vst,.vss,.vsw", "application/vnd.visio");
+	MimeType.set(".vis", "application/vnd.visionary");
+	MimeType.set(".vsf", "application/vnd.vsf");
+	MimeType.set(".wbxml", "application/vnd.wap.wbxml");
+	MimeType.set(".wmlc", "application/vnd.wap.wmlc");
+	MimeType.set(".wmlsc", "application/vnd.wap.wmlscriptc");
+	MimeType.set(".wtb", "application/vnd.webturbo");
+	MimeType.set(".wpd", "application/vnd.wordperfect");
+	MimeType.set(".wqd", "application/vnd.wqd");
+	MimeType.set(".stf", "application/vnd.wt.stf");
+	MimeType.set(".xar", "application/vnd.xara");
+	MimeType.set(".xfdl", "application/vnd.xfdl");
+	MimeType.set(".hvd", "application/vnd.yamaha.hv-dic");
+	MimeType.set(".hvs", "application/vnd.yamaha.hv-script");
+	MimeType.set(".hvp", "application/vnd.yamaha.hv-voice");
+	MimeType.set(".osf", "application/vnd.yamaha.openscoreformat");
+	MimeType.set(".osfpvg", "application/vnd.yamaha.openscoreformat.osfpvg+xml");
+	MimeType.set(".saf", "application/vnd.yamaha.smaf-audio");
+	MimeType.set(".spf", "application/vnd.yamaha.smaf-phrase");
+	MimeType.set(".cmp", "application/vnd.yellowriver-custom-menu");
+	MimeType.set(".zir,.zirz", "application/vnd.zul");
+	MimeType.set(".zaz", "application/vnd.zzazz.deck+xml");
+	MimeType.set(".vxml", "application/voicexml+xml");
+	MimeType.set(".hlp", "application/winhlp");
+	MimeType.set(".wsdl", "application/wsdl+xml");
+	MimeType.set(".wspolicy", "application/wspolicy+xml");
+	MimeType.set(".abw", "application/x-abiword");
+	MimeType.set(".ace", "application/x-ace-compressed");
+	MimeType.set(".aab,.x32,.u32,.vox", "application/x-authorware-bin");
+	MimeType.set(".aam", "application/x-authorware-map");
+	MimeType.set(".aas", "application/x-authorware-seg");
+	MimeType.set(".bcpio", "application/x-bcpio");
+	MimeType.set(".torrent", "application/x-bittorrent");
+	MimeType.set(".bz", "application/x-bzip");
+	MimeType.set(".bz2,.boz", "application/x-bzip2");
+	MimeType.set(".vcd", "application/x-cdlink");
+	MimeType.set(".chat", "application/x-chat");
+	MimeType.set(".pgn", "application/x-chess-pgn");
+	MimeType.set(".cpio", "application/x-cpio");
+	MimeType.set(".csh", "application/x-csh");
+	MimeType.set(".deb,.udeb", "application/x-debian-package");
+	MimeType.set(".dir,.dcr,.dxr,.cst,.cct,.cxt,.w3d,.fgd,.swa", "application/x-director");
+	MimeType.set(".wad", "application/x-doom");
+	MimeType.set(".ncx", "application/x-dtbncx+xml");
+	MimeType.set(".dtb", "application/x-dtbook+xml");
+	MimeType.set(".res", "application/x-dtbresource+xml");
+	MimeType.set(".dvi", "application/x-dvi");
+	MimeType.set(".bdf", "application/x-font-bdf");
+	MimeType.set(".gsf", "application/x-font-ghostscript");
+	MimeType.set(".psf", "application/x-font-linux-psf");
+	MimeType.set(".otf", "application/x-font-otf");
+	MimeType.set(".pcf", "application/x-font-pcf");
+	MimeType.set(".snf", "application/x-font-snf");
+	MimeType.set(".ttf,.ttc", "application/x-font-ttf");
+	MimeType.set(".woff", "application/font-woff");
+	MimeType.set(".pfa,.pfb,.pfm,.afm", "application/x-font-type1");
+	MimeType.set(".spl", "application/x-futuresplash");
+	MimeType.set(".gnumeric", "application/x-gnumeric");
+	MimeType.set(".gtar", "application/x-gtar");
+	MimeType.set(".hdf", "application/x-hdf");
+	MimeType.set(".jnlp", "application/x-java-jnlp-file");
+	MimeType.set(".latex", "application/x-latex");
+	MimeType.set(".prc,.mobi", "application/x-mobipocket-ebook");
+	MimeType.set(".application", "application/x-ms-application");
+	MimeType.set(".wmd", "application/x-ms-wmd");
+	MimeType.set(".wmz", "application/x-ms-wmz");
+	MimeType.set(".xbap", "application/x-ms-xbap");
+	MimeType.set(".mdb", "application/x-msaccess");
+	MimeType.set(".obd", "application/x-msbinder");
+	MimeType.set(".crd", "application/x-mscardfile");
+	MimeType.set(".clp", "application/x-msclip");
+	MimeType.set(".exe,.dll,.com,.bat,.msi", "application/x-msdownload");
+	MimeType.set(".mvb,.m13,.m14", "application/x-msmediaview");
+	MimeType.set(".wmf", "application/x-msmetafile");
+	MimeType.set(".mny", "application/x-msmoney");
+	MimeType.set(".pub", "application/x-mspublisher");
+	MimeType.set(".scd", "application/x-msschedule");
+	MimeType.set(".trm", "application/x-msterminal");
+	MimeType.set(".wri", "application/x-mswrite");
+	MimeType.set(".nc,.cdf", "application/x-netcdf");
+	MimeType.set(".p12,.pfx", "application/x-pkcs12");
+	MimeType.set(".p7b,.spc", "application/x-pkcs7-certificates");
+	MimeType.set(".p7r", "application/x-pkcs7-certreqresp");
+	MimeType.set(".rar", "application/x-rar-compressed");
+	MimeType.set(".sh", "application/x-sh");
+	MimeType.set(".shar", "application/x-shar");
+	MimeType.set(".swf", "application/x-shockwave-flash");
+	MimeType.set(".xap", "application/x-silverlight-app");
+	MimeType.set(".sit", "application/x-stuffit");
+	MimeType.set(".sitx", "application/x-stuffitx");
+	MimeType.set(".sv4cpio", "application/x-sv4cpio");
+	MimeType.set(".sv4crc", "application/x-sv4crc");
+	MimeType.set(".tar", "application/x-tar");
+	MimeType.set(".tcl", "application/x-tcl");
+	MimeType.set(".tex", "application/x-tex");
+	MimeType.set(".tfm", "application/x-tex-tfm");
+	MimeType.set(".texinfo,.texi", "application/x-texinfo");
+	MimeType.set(".ustar", "application/x-ustar");
+	MimeType.set(".src", "application/x-wais-source");
+	MimeType.set(".der,.crt", "application/x-x509-ca-cert");
+	MimeType.set(".fig", "application/x-xfig");
+	MimeType.set(".xpi", "application/x-xpinstall");
+	MimeType.set(".xenc", "application/xenc+xml");
+	MimeType.set(".xhtml,.xht", "application/xhtml+xml");
+	MimeType.set(".xml,.xsl", "application/xml");
+	MimeType.set(".dtd", "application/xml-dtd");
+	MimeType.set(".xop", "application/xop+xml");
+	MimeType.set(".xslt", "application/xslt+xml");
+	MimeType.set(".xspf", "application/xspf+xml");
+	MimeType.set(".mxml,.xhvml,.xvml,.xvm", "application/xv+xml");
+	MimeType.set(".zip", "application/zip");
+	MimeType.set(".adp", "audio/adpcm");
+	MimeType.set(".au,.snd", "audio/basic");
+	MimeType.set(".mid,.midi,.kar,.rmi", "audio/midi");
+	MimeType.set(".mp4a", "audio/mp4");
+	MimeType.set(".m4a,.m4p", "audio/mp4a-latm");
+	MimeType.set(".mpga,.mp2,.mp2a,.mp3,.m2a,.m3a", "audio/mpeg");
+	MimeType.set(".oga,.ogg,.spx", "audio/ogg");
+	MimeType.set(".eol", "audio/vnd.digital-winds");
+	MimeType.set(".dts", "audio/vnd.dts");
+	MimeType.set(".dtshd", "audio/vnd.dts.hd");
+	MimeType.set(".lvp", "audio/vnd.lucent.voice");
+	MimeType.set(".pya", "audio/vnd.ms-playready.media.pya");
+	MimeType.set(".ecelp4800", "audio/vnd.nuera.ecelp4800");
+	MimeType.set(".ecelp7470", "audio/vnd.nuera.ecelp7470");
+	MimeType.set(".ecelp9600", "audio/vnd.nuera.ecelp9600");
+	MimeType.set(".aac", "audio/x-aac");
+	MimeType.set(".aif,.aiff,.aifc", "audio/x-aiff");
+	MimeType.set(".m3u", "audio/x-mpegurl");
+	MimeType.set(".wax", "audio/x-ms-wax");
+	MimeType.set(".wma", "audio/x-ms-wma");
+	MimeType.set(".ram,.ra", "audio/x-pn-realaudio");
+	MimeType.set(".rmp", "audio/x-pn-realaudio-plugin");
+	MimeType.set(".wav", "audio/x-wav");
+	MimeType.set(".cdx", "chemical/x-cdx");
+	MimeType.set(".cif", "chemical/x-cif");
+	MimeType.set(".cmdf", "chemical/x-cmdf");
+	MimeType.set(".cml", "chemical/x-cml");
+	MimeType.set(".csml", "chemical/x-csml");
+	MimeType.set(".xyz", "chemical/x-xyz");
+	MimeType.set(".bmp", "image/bmp");
+	MimeType.set(".cgm", "image/cgm");
+	MimeType.set(".g3", "image/g3fax");
+	MimeType.set(".gif", "image/gif");
+	MimeType.set(".ief", "image/ief");
+	MimeType.set(".jp2", "image/jp2");
+	MimeType.set(".jpeg,.jpg,.jpe", "image/jpeg");
+	MimeType.set(".pict,.pic,.pct", "image/pict");
+	MimeType.set(".png", "image/png");
+	MimeType.set(".btif", "image/prs.btif");
+	MimeType.set(".svg,.svgz", "image/svg+xml");
+	MimeType.set(".tiff,.tif", "image/tiff");
+	MimeType.set(".psd", "image/vnd.adobe.photoshop");
+	MimeType.set(".djvu,.djv", "image/vnd.djvu");
+	MimeType.set(".dwg", "image/vnd.dwg");
+	MimeType.set(".dxf", "image/vnd.dxf");
+	MimeType.set(".fbs", "image/vnd.fastbidsheet");
+	MimeType.set(".fpx", "image/vnd.fpx");
+	MimeType.set(".fst", "image/vnd.fst");
+	MimeType.set(".mmr", "image/vnd.fujixerox.edmics-mmr");
+	MimeType.set(".rlc", "image/vnd.fujixerox.edmics-rlc");
+	MimeType.set(".mdi", "image/vnd.ms-modi");
+	MimeType.set(".npx", "image/vnd.net-fpx");
+	MimeType.set(".wbmp", "image/vnd.wap.wbmp");
+	MimeType.set(".xif", "image/vnd.xiff");
+	MimeType.set(".ras", "image/x-cmu-raster");
+	MimeType.set(".cmx", "image/x-cmx");
+	MimeType.set(".fh,.fhc,.fh4,.fh5,.fh7", "image/x-freehand");
+	MimeType.set(".ico", "image/x-icon");
+	MimeType.set(".pntg,.pnt,.mac", "image/x-macpaint");
+	MimeType.set(".pcx", "image/x-pcx");
+	//MimeType.set(".pic,.pct", "image/x-pict");
+	MimeType.set(".pnm", "image/x-portable-anymap");
+	MimeType.set(".pbm", "image/x-portable-bitmap");
+	MimeType.set(".pgm", "image/x-portable-graymap");
+	MimeType.set(".ppm", "image/x-portable-pixmap");
+	MimeType.set(".qtif,.qti", "image/x-quicktime");
+	MimeType.set(".rgb", "image/x-rgb");
+	MimeType.set(".xbm", "image/x-xbitmap");
+	MimeType.set(".xpm", "image/x-xpixmap");
+	MimeType.set(".xwd", "image/x-xwindowdump");
+	MimeType.set(".eml,.mime", "message/rfc822");
+	MimeType.set(".igs,.iges", "model/iges");
+	MimeType.set(".msh,.mesh,.silo", "model/mesh");
+	MimeType.set(".dwf", "model/vnd.dwf");
+	MimeType.set(".gdl", "model/vnd.gdl");
+	MimeType.set(".gtw", "model/vnd.gtw");
+	MimeType.set(".mts", "model/vnd.mts");
+	MimeType.set(".vtu", "model/vnd.vtu");
+	MimeType.set(".wrl,.vrml", "model/vrml");
+	MimeType.set(".ics,.ifb", "text/calendar");
+	MimeType.set(".css", "text/css");
+	MimeType.set(".csv", "text/csv");
+	MimeType.set(".html,.htm", "text/html");
+	MimeType.set(".txt,.text,.conf,.def,.list,.log,.in", "text/plain");
+	MimeType.set(".dsc", "text/prs.lines.tag");
+	MimeType.set(".rtx", "text/richtext");
+	MimeType.set(".sgml,.sgm", "text/sgml");
+	MimeType.set(".tsv", "text/tab-separated-values");
+	MimeType.set(".t,.tr,.roff,.man,.me,.ms", "text/troff");
+	MimeType.set(".uri,.uris,.urls", "text/uri-list");
+	MimeType.set(".curl", "text/vnd.curl");
+	MimeType.set(".dcurl", "text/vnd.curl.dcurl");
+	MimeType.set(".scurl", "text/vnd.curl.scurl");
+	MimeType.set(".mcurl", "text/vnd.curl.mcurl");
+	MimeType.set(".fly", "text/vnd.fly");
+	MimeType.set(".flx", "text/vnd.fmi.flexstor");
+	MimeType.set(".gv", "text/vnd.graphviz");
+	MimeType.set(".3dml", "text/vnd.in3d.3dml");
+	MimeType.set(".spot", "text/vnd.in3d.spot");
+	MimeType.set(".jad", "text/vnd.sun.j2me.app-descriptor");
+	MimeType.set(".wml", "text/vnd.wap.wml");
+	MimeType.set(".wmls", "text/vnd.wap.wmlscript");
+	MimeType.set(".s,.asm", "text/x-asm");
+	MimeType.set(".c,.cc,.cxx,.cpp,.h,.hh,.dic", "text/x-c");
+	MimeType.set(".f,.for,.f77,.f90", "text/x-fortran");
+	MimeType.set(".p,.pas", "text/x-pascal");
+	MimeType.set(".java", "text/x-java-source");
+	MimeType.set(".etx", "text/x-setext");
+	MimeType.set(".uu", "text/x-uuencode");
+	MimeType.set(".vcs", "text/x-vcalendar");
+	MimeType.set(".vcf", "text/x-vcard");
+	MimeType.set(".3gp", "video/3gpp");
+	MimeType.set(".3g2", "video/3gpp2");
+	MimeType.set(".h261", "video/h261");
+	MimeType.set(".h263", "video/h263");
+	MimeType.set(".h264", "video/h264");
+	MimeType.set(".jpgv", "video/jpeg");
+	MimeType.set(".jpm,.jpgm", "video/jpm");
+	MimeType.set(".mj2,.mjp2", "video/mj2");
+	MimeType.set(".mp4,.mp4v,.mpg4,.m4v", "video/mp4");
+	MimeType.set(".webm", "video/webm");
+	MimeType.set(".mpeg,.mpg,.mpe,.m1v,.m2v", "video/mpeg");
+	MimeType.set(".ogv", "video/ogg");
+	MimeType.set(".qt,.mov", "video/quicktime");
+	MimeType.set(".fvt", "video/vnd.fvt");
+	MimeType.set(".mxu,.m4u", "video/vnd.mpegurl");
+	MimeType.set(".pyv", "video/vnd.ms-playready.media.pyv");
+	MimeType.set(".viv", "video/vnd.vivo");
+	MimeType.set(".dv,.dif", "video/x-dv");
+	MimeType.set(".f4v", "video/x-f4v");
+	MimeType.set(".fli", "video/x-fli");
+	MimeType.set(".flv", "video/x-flv");
+	//MimeType.set(".m4v", "video/x-m4v");
+	MimeType.set(".asf,.asx", "video/x-ms-asf");
+	MimeType.set(".wm", "video/x-ms-wm");
+	MimeType.set(".wmv", "video/x-ms-wmv");
+	MimeType.set(".wmx", "video/x-ms-wmx");
+	MimeType.set(".wvx", "video/x-ms-wvx");
+	MimeType.set(".avi", "video/x-msvideo");
+	MimeType.set(".movie", "video/x-sgi-movie");
+	MimeType.set(".ice", "x-conference/x-cooltalk");
+			
+    // Compressed files
+    // Based on notes at http://en.wikipedia.org/wiki/List_of_archive_formats
+    MimeType.set(".gz", "application/x-gzip");
+    MimeType.set(".tgz", "application/x-tar");
+    MimeType.set(".tar", "application/x-tar");
+
+	// Not really sure about these...
+	MimeType.set(".epub", "application/epub+zip");
+	MimeType.set(".mobi", "application/x-mobipocket-ebook");
+
+	// Here's some common special cases without filename extensions
+	MimeType.set("README,LICENSE,COPYING,TODO,ABOUT,AUTHORS,CONTRIBUTORS",
+		"text/plain");
+	MimeType.set("manifest,.manifest,.mf,.appcache", "text/cache-manifest");
+	if (exports !== undefined) {
+		exports.charset = MimeType.charset;
+		exports.catalog = MimeType.catalog;
+		exports.lookup = MimeType.lookup;
+		exports.set = MimeType.set;
+		exports.del = MimeType.del;
+		exports.forEach = MimeType.forEach;
+	}
+    // Note: Chrome now defines window.MimeType, only define for legacy usage.
+    if (self.MimeType === undefined) {
+        self.MimeType = MimeType;
+    }
+    // Note: Per Hypercuded switch to camel case to avoid Chrome issues.
+    if (self.mimeType === undefined) {
+        self.mimeType = MimeType;
+    }
+	return self;
+}(this));
+
+},{"path":170}],168:[function(require,module,exports){
 module.exports = function(){
 
     'use strict';
@@ -61273,13 +62124,334 @@ module.exports = function(){
     }
 
 }()
-},{}],168:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 var getInstantiatorFunction = require('./getInstantiatorFunction')
 
 module.exports = function(fn, args){
 	return getInstantiatorFunction(args.length)(fn, args)
 }
-},{"./getInstantiatorFunction":167}],169:[function(require,module,exports){
+},{"./getInstantiatorFunction":168}],170:[function(require,module,exports){
+(function (process){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// resolves . and .. elements in a path array with directory names there
+// must be no slashes, empty elements, or device names (c:\) in the array
+// (so also no leading and trailing slashes - it does not distinguish
+// relative and absolute paths)
+function normalizeArray(parts, allowAboveRoot) {
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = parts.length - 1; i >= 0; i--) {
+    var last = parts[i];
+    if (last === '.') {
+      parts.splice(i, 1);
+    } else if (last === '..') {
+      parts.splice(i, 1);
+      up++;
+    } else if (up) {
+      parts.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (allowAboveRoot) {
+    for (; up--; up) {
+      parts.unshift('..');
+    }
+  }
+
+  return parts;
+}
+
+// Split a filename into [root, dir, basename, ext], unix version
+// 'root' is just a slash, or nothing.
+var splitPathRe =
+    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+var splitPath = function(filename) {
+  return splitPathRe.exec(filename).slice(1);
+};
+
+// path.resolve([from ...], to)
+// posix version
+exports.resolve = function() {
+  var resolvedPath = '',
+      resolvedAbsolute = false;
+
+  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+    var path = (i >= 0) ? arguments[i] : process.cwd();
+
+    // Skip empty and invalid entries
+    if (typeof path !== 'string') {
+      throw new TypeError('Arguments to path.resolve must be strings');
+    } else if (!path) {
+      continue;
+    }
+
+    resolvedPath = path + '/' + resolvedPath;
+    resolvedAbsolute = path.charAt(0) === '/';
+  }
+
+  // At this point the path should be resolved to a full absolute path, but
+  // handle relative paths to be safe (might happen when process.cwd() fails)
+
+  // Normalize the path
+  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+    return !!p;
+  }), !resolvedAbsolute).join('/');
+
+  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+};
+
+// path.normalize(path)
+// posix version
+exports.normalize = function(path) {
+  var isAbsolute = exports.isAbsolute(path),
+      trailingSlash = substr(path, -1) === '/';
+
+  // Normalize the path
+  path = normalizeArray(filter(path.split('/'), function(p) {
+    return !!p;
+  }), !isAbsolute).join('/');
+
+  if (!path && !isAbsolute) {
+    path = '.';
+  }
+  if (path && trailingSlash) {
+    path += '/';
+  }
+
+  return (isAbsolute ? '/' : '') + path;
+};
+
+// posix version
+exports.isAbsolute = function(path) {
+  return path.charAt(0) === '/';
+};
+
+// posix version
+exports.join = function() {
+  var paths = Array.prototype.slice.call(arguments, 0);
+  return exports.normalize(filter(paths, function(p, index) {
+    if (typeof p !== 'string') {
+      throw new TypeError('Arguments to path.join must be strings');
+    }
+    return p;
+  }).join('/'));
+};
+
+
+// path.relative(from, to)
+// posix version
+exports.relative = function(from, to) {
+  from = exports.resolve(from).substr(1);
+  to = exports.resolve(to).substr(1);
+
+  function trim(arr) {
+    var start = 0;
+    for (; start < arr.length; start++) {
+      if (arr[start] !== '') break;
+    }
+
+    var end = arr.length - 1;
+    for (; end >= 0; end--) {
+      if (arr[end] !== '') break;
+    }
+
+    if (start > end) return [];
+    return arr.slice(start, end - start + 1);
+  }
+
+  var fromParts = trim(from.split('/'));
+  var toParts = trim(to.split('/'));
+
+  var length = Math.min(fromParts.length, toParts.length);
+  var samePartsLength = length;
+  for (var i = 0; i < length; i++) {
+    if (fromParts[i] !== toParts[i]) {
+      samePartsLength = i;
+      break;
+    }
+  }
+
+  var outputParts = [];
+  for (var i = samePartsLength; i < fromParts.length; i++) {
+    outputParts.push('..');
+  }
+
+  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+  return outputParts.join('/');
+};
+
+exports.sep = '/';
+exports.delimiter = ':';
+
+exports.dirname = function(path) {
+  var result = splitPath(path),
+      root = result[0],
+      dir = result[1];
+
+  if (!root && !dir) {
+    // No dirname whatsoever
+    return '.';
+  }
+
+  if (dir) {
+    // It has a dirname, strip trailing slash
+    dir = dir.substr(0, dir.length - 1);
+  }
+
+  return root + dir;
+};
+
+
+exports.basename = function(path, ext) {
+  var f = splitPath(path)[2];
+  // TODO: make this comparison case-insensitive on windows?
+  if (ext && f.substr(-1 * ext.length) === ext) {
+    f = f.substr(0, f.length - ext.length);
+  }
+  return f;
+};
+
+
+exports.extname = function(path) {
+  return splitPath(path)[3];
+};
+
+function filter (xs, f) {
+    if (xs.filter) return xs.filter(f);
+    var res = [];
+    for (var i = 0; i < xs.length; i++) {
+        if (f(xs[i], i, xs)) res.push(xs[i]);
+    }
+    return res;
+}
+
+// String.prototype.substr - negative index don't work in IE8
+var substr = 'ab'.substr(-1) === 'b'
+    ? function (str, start, len) { return str.substr(start, len) }
+    : function (str, start, len) {
+        if (start < 0) start = str.length + start;
+        return str.substr(start, len);
+    }
+;
+
+}).call(this,require('_process'))
+},{"_process":171}],171:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],172:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.rfc6902 = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
@@ -62025,43 +63197,43 @@ var Pointer = exports.Pointer = (function () {
 },{}]},{},[4])(4)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],170:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("admin.html","<div class=\"container admin\">\n    <div class=\"row\">\n        <div ui-view=\"header\" class=\"header\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"content\" class=\"content\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"footer\" class=\"footer\"></div>\n    </div>\n</div>");
 $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div class=\"row\">\n        <div class=\"top-bar col-xs-12 col-md-12 col-lg-12\" ui-view=\"top_bar\"></div>\n    </div>\n    \n    <div class=\"mobile-scroll\" style=\"height:100%;\">\n      <div class=\"mobile-container\">\n         <div class=\"row\">\n            <div ui-view=\"header\" class=\"header\"></div>\n         </div>    \n         \n         <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12 hidden-xs large-header-padding\"></div>\n            <div class=\"hidden-lg hidden-md hidden-sm col-xs-12 mobile-header-padding\"></div>\n         </div>\n         \n         <div class=\"main-content\">\n            <div class=\"row\">\n               <div class=\"mobile-ad-space hidden-lg hidden-md hidden-sm col-xs-12\">\n                  <img src=\"./images/temp_mobile_ad.png\" />\n               </div>\n            </div>\n            \n            <div class=\"row row-eq-height\" style=\"height: 100%;\">\n                  <!--<div class=\"content-padding col-md-1 col-lg-1 col-sm-1 hidden-xs\"></div>-->\n                  <div ui-view=\"content\" class=\"content col-md-9 col-lg-9 col-sm-9 col-xs-12\" style=\"min-height:100%;\"></div>\n                  <div ui-view=\"ad_space_right\" class=\"ad-space col-lg-3 col-sm-3 col-md-3 hidden-xs\" style=\"min-height:100%;\">\n                     <div class=\"ad-container\">\n                        <div class=\"ad\">\n                            <img src=\"./images/temp_ad1.jpg\" />\n                        </div>\n                        <div class=\"ad ad1\">\n                            <img src=\"./images/temp_ad2.png\" />\n                        </div>\n                     </div>\n                     <div class=\"copyright\">\n                        Andrew O\'Mahony (c) 2016\n                     </div>\n                  </div>\n            </div>\n         </div>\n      </div>\n    </div>\n</div>");
-$templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
 $templateCache.put("directives/media_picker.html","<div class=\"media-picker\">\n   <div ng-if=\"isPicture()\">\n      <picture-media-picker></picture-media-picker>\n   </div>\n   <div ng-if=\"isVideo()\">\n      <video-media-picker></video-media-picker>\n   </div>\n   \n   <div ng-if=\"isYoutube()\">\n      <youtube-media-picker></youtube-media-picker>\n   </div>\n   \n   <div class=\"error\" ng-style=\"getErrorStyle()\">\n     <span ng-bind=\"errorMessage\"></span>\n   </div>   \n</div>");
 $templateCache.put("directives/picture_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\" \n     ng-style=\"getRootNoMediaDivStyle()\"\n     ng-click=\"activateFileReader()\">\n   <div ng-if=\"!isLoadingMedia\" \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-picture-o fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div>\n\n<!--\n   <div ng-if=\"!isLoadingMedia\" class=\"picture-icon icon-container\">\n      <span></span>\n      <i class=\"fa fa-picture-o fa-5x\"></i>\n   </div>   \n   \n   <div ng-if=\"isLoadingMedia\" class=\"loading-icon icon-container\">\n      <span></span>\n      <i class=\"fa fa-refresh fa-spin fa-4x fa-fw\"></i>\n   </div> -->\n</div>\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"picture\"\n           model=\"model\"\n           width=\"88%\"\n           height=\"98%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"picture-container\">\n      </div>\n      <div class=\"media-container-options picture-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"image/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onPictureSelectSuccess(files)\"\n   on-files-progress=\"onPictureSelectProgress(progress)\"\n   on-files-error=\"onPictureSelectError(error)\">\n</file-reader> ");
 $templateCache.put("directives/profile_picture.html","<div media-renderer=\"picture\"\n     model=\"getProfilePicture()\"\n     width=\"{{width}}\"\n     show-loading=\"true\"\n     fitted=\"false\"></div>");
-$templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\"\n     ng-click=\"activateFileReader()\" \n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-video-camera fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div> \n</div>\n\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"video\"\n           model=\"model\"\n           width=\"95%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"video-container\"\n           can-preload=\"true\"\n           can-hide-while-loading=\"false\"\n           information=\"videoInformation\"\n           on-event=\"onVideoEvent(name)\">\n      </div>\n      <div class=\"media-container-options video-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"video/mp4,video/x-m4v,video/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onVideoSelectSuccess(files)\"\n   on-files-progress=\"onVideoSelectProgress(progress)\"\n   on-files-error=\"onVideoSelectError(error)\">\n</file-reader> ");
+$templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\"\n     ng-click=\"activateFileReader()\" \n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-video-camera fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div> \n</div>\n\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"video\"\n           model=\"model\"\n           width=\"95%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"video-container\"\n           can-preload=\"true\"\n           can-hide-while-loading=\"false\"\n           information=\"videoInformation\"\n           on-event=\"onVideoEvent(name)\">\n      </div>\n      \n      <div media-renderer=\"picture\"\n           model=\"model.thumbnail\"\n           width=\"100px\"\n           fitted=\"false\"\n           style=\"position:absolute;top:100px;left:100px;\">\n      </div>\n      \n      <div class=\"media-container-options video-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"video/mp4,video/x-m4v,video/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onVideoSelectSuccess(files)\"\n   on-files-progress=\"onVideoSelectProgress(progress)\"\n   on-files-error=\"onVideoSelectError(error)\">\n</file-reader> ");
 $templateCache.put("directives/youtube_media_picker.html","<div class=\"no-media\" ng-if=\"!model.url\" ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-youtube fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div>\n</div>\n\n<div class=\"has-media\" ng-if=\"model.url\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container youtube-container\">\n      <!--\n      <div class=\"picture-container-image\">\n         <img ng-src=\"{{model.url}}\" ng-style=\"getHasMediaImageStyle()\" />\n      </div>\n      \n      -->\n      <div class=\"media-container-options youtube-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"picture-container-option-left\">\n               <a ng-click=\"activatePicturePicker()\">Change</a>\n            </span>\n            <span class=\"picture-container-option-right\">\n               <a ng-click=\"deletePicture()\">Delete</a>\n            </span>\n         </div>\n      </div>  \n   </div>\n</div>");
+$templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
 $templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
+$templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
+$templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
 $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n   <div class=\"logo-container\">\n      <a ui-sref=\"main.page.home.default\">\n          <img class=\"logo\" src=\"images/temp_logo.jpg\" />\n      </a>\n   </div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
 $templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n   <div class=\"nav-sub-container\">\n      <nav>\n         <a class=\"link about\" ui-sref=\"main.page.about.default\">About</a>\n         <a class=\"link blog\" ui-sref=\"main.page.blog.default\">Blog</a>\n         <a class=\"link question\" ui-sref=\"main.page.question.ask\">Coaching</a>\n         <a class=\"link contact\" ui-sref=\"main.page.contact.default\">Contact</a>\n      </nav>\n      \n      <!-- \n          \n<nav>\n         <a class=\"link\" ui-sref=\"main.page.about.default\" href=\"#/about/\" style=\"/* text-align: le */\n/* position: absolute; */\n/* left: 0px; */\n/* margin-right: 40px; */\nwidth:25%;\ndisplay:inline-block;\">About</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.blog.default\" style=\"/* position: relative; */\n/* left: -20px; */\nwidth:22%;\ndisplay: inline-block;\">Blog</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.question.ask\" href=\"#/question/ask\" style=\"/* position: relative; */\n/* left: 12px; */\ndisplay: inline-block;\nwidth: 31%;\">Coaching</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.contact.default\" style=\"/* position: absolute; */\n/* right: 0px; */\">Contact</a>\n   </nav>          \n          \n          -->\n   </div>\n</div>");
 $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"login-button\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"profile-name-and-picture\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"login-button\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
-$templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
-$templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
-$templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
-$templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");
-$templateCache.put("partials/main/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
+$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
+$templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button ng-click=\"onTestRequestClick()\">Test HTTP</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
 $templateCache.put("partials/main/login/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n   <div class=\"status-message\" \n         ng-if=\"statusMessage()\"\n         ng-bind=\"statusMessage()\"></div>\n   <div class=\"login-form\">\n      <form>\n            <div class=\"form-group\">\n            <label for=\"login_email\">E-Mail Address</label>\n            <input type=\"text\" class=\"form-control\" name=\"login_email\" autocomplete=\"none\" autocorrect=\"none\" autocapitalize=\"none\" ng-model=\"loginInformation.email\" />\n            </div>\n            \n            <div class=\"form-group\">  \n            <label for=\"login_password\">Password</label>\n            <input type=\"password\" class=\"form-control\" name=\"login_password\" autocomplete=\"none\" autocorrect=\"none\" autocapitalize=\"none\" ng-model=\"loginInformation.password\" />\n            </div>\n            \n            <div class=\"form-group\">\n            <button ng-click=\"login()\">Login</button>\n            </div>\n      </form>\n   </div>\n   <div class=\"login-links\">\n      <a ui-sref=\"main.page.login.forgot_password\">Forgot your password?</a>\n      <a ui-sref=\"main.page.register.default\">Create a new Account</a>\n   </div>\n</div>\n\n");
 $templateCache.put("partials/main/login/forgot_password.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n   <form name=\"forgotPasswordForm\">\n      <div class=\"form-group\"\n         ng-class=\"{ \'has-error\': forgotPasswordForm.forgot_password_email.$touched && forgotPasswordForm.forgot_password_email.$invalid }\">\n         <label for=\"forgot_password_email\">\n            <span>E-Mail Address</span>\n         </label>\n         <input type=\"email\" \n               class=\"form-control\" \n               name=\"forgot_password_email\" \n               ng-model=\"formData.emailAddress\"\n               required />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!isRequestingNewPassword\">\n         <button ng-disabled=\"forgotPasswordForm.$invalid\" ng-click=\"requestNewPassword()\">\n            Request New Password\n         </button>\n      </div>\n      \n      <div class=\"requesting-in-progress\" ng-if=\"isRequestingNewPassword\">\n         <span><div loading-progress type=\"spinner\"></div></span>\n         <span class=\"requesting-text\">Requesting new password...</span>\n      </div>\n   </form>\n   \n   <div ng-if=\"hasRequestedNewPassword\">\n      An e-mail has been sent to this e-mail address.  Please click the link within it to\n      get a new password.\n   </div>\n</div>");
 $templateCache.put("partials/main/login/login.html","<div class=\"login\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/login/unverified.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         You just need to verify your account now.\n      </p>\n      <p>\n         We have sent a link to your e-mail address, all you need to do\n         is click it, and you\'re good to go!\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a ng-click=\"resendVerificationEmail()\">here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n\n      <div ng-if=\"isSendingEmail\" class=\"resending-in-progress\">\n         <span>\n            <div loading-progress type=\"spinner\">\n            </div>\n         </span>\n         <span class=\"resending-text\">\n            Resending E-Mail...\n         </span>\n      </div>\n      \n      <p ng-if=\"hasSentEmail\">\n         E-Mail sent successfully!\n      </p>\n\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
-$templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button ng-click=\"onTestRequestClick()\">Test HTTP</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
-$templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div class=\"resetting-in-progress\" ng-if=\"resettingInProgress\">\n         <span><div loading-progress type=\"spinner\"></div></span>\n         <span class=\"resetting-text\">Setting password...</span>\n      </div>\n   </form>\n</div>");
-$templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/register/content.html","<div class=\"registration-form\">\n   <form name=\"registrationForm\">\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"profile-picture-input\">\n            <div class=\"profile-picture-display\">\n               <div class=\"hidden-xs\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"80%\">\n                  </profile-picture>\n               </div>\n               <div class=\"hidden-lg hidden-md hidden-sm\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"70%\">\n                  </profile-picture>\n               </div>\n            </div>\n            \n            <div class=\"profile-picture-button\">\n               <a class=\"profile-picture-link change\" ng-click=\"selectProfilePicture()\">\n                  Change\n               </a>\n               \n               <a class=\"profile-picture-link reset\" ng-if=\"registrationUser.profile_picture.url\" ng-click=\"resetProfilePicture()\">\n                  Reset\n               </a>\n            \n               <file-reader \n                  supports-multiple=\"false\"\n                  accept=\"image/*\"\n                  process-exif=\"true\"\n                  create=\"profilePicturePicker\"\n                  on-created=\"onProfilePicturePickerCreated(elementId)\"\n                  on-files-added=\"onProfilePictureAdded(files)\"\n                  on-files-progress=\"onProfilePictureProgress(progress)\"\n                  on-files-error=\"onProfilePictureError(error)\">\n               </file-reader>\n            </div>\n         </div>\n      </div>\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }\">\n            <label for=\"registration_email\">\n               <span>E-Mail Address</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_email.$error\"\n                     ng-if=\"registrationForm.registration_email.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"email\" \n                   class=\"form-control\" \n                   name=\"registration_email\" \n                   ng-model=\"registrationUser.email\" \n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   email-in-use\n                   required />\n         </div>\n\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }\">  \n            <label for=\"registration_password\">\n               <span>Password (6 characters or more)</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password.$error\"\n                     ng-if=\"registrationForm.registration_password.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                   class=\"form-control\" \n                   name=\"registration_password\" \n                   ng-model=\"registrationUser.password\"\n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   minlength=\"6\"\n                   required />\n         </div>\n      \n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }\">\n            <label for=\"registration_password_repeat\">\n               <span>Repeat Password</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password_repeat.$error\"\n                     ng-if=\"registrationForm.registration_password_repeat.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                  class=\"form-control\" \n                  name=\"registration_password_repeat\" \n                  ng-model=\"registrationUser.repeat_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  compare-to=\"registrationUser.password\" />\n         </div>\n      \n         <div class=\"form-group\">  \n            <label for=\"registration_first_name\">\n               <span>First Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_first_name.$error\"\n                     ng-if=\"registrationForm.registration_first_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_first_name\" \n                  ng-model=\"registrationUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      \n         <div class=\"form-group\"> \n            <label for=\"registration_last_name\">\n               <span>Last Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_last_name.$error\"\n                     ng-if=\"registrationForm.registration_last_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_last_name\" \n                  ng-model=\"registrationUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required /> \n         </div>       \n            \n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_public\" />\n               <label>Visible to the public?</label>\n            </div>\n         </div>\n\n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_users\" />\n               <label>Visible to other users?</label>\n            </div>\n         </div>\n\n         <div class=\"sign-up form-group\" ng-if=\"!registrationInProgress\">\n            <button ng-disabled=\"registrationForm.$invalid\" ng-click=\"registerUser()\">Sign Up</button>\n         </div>\n         <div class=\"registering-in-progress\" ng-if=\"registrationInProgress\">\n            <div loading-progress \n            type=\"spinner\"\n            message=\"getRegistrationProgressMessage()\"></div>\n         </div>\n\n      </div>     \n   </form>\n</div>");
-$templateCache.put("partials/main/register/register.html","<div class=\"register\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/register/success.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         We have sent a link to your e-mail address, all you need to do\n         is click it, and you\'re good to go!\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a ng-click=\"resendVerificationEmail()\">here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n      \n      <p ng-if=\"isSendingEmail\" class=\"resending-in-progress\">\n         <span>\n            <div loading-progress \n                 type=\"spinner\">\n            </div>\n         </span>\n         <span class=\"resending-text\">\n            Resending E-Mail...\n         </span>\n      </p>\n      \n      <p ng-if=\"hasSentEmail\">\n         E-Mail sent successfully!\n      </p>\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
-$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"edit-container profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/*\"\n            process-exif=\"true\"\n            create=\"profilePicturePicker\"\n            on-created=\"onProfilePictureSelectCreated(elementId)\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n         <div>\n            <input type=\"text\"\n                  placeholder=\"First Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"text\"\n                  placeholder=\"Last Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword\">\n      <div ng-if=\"!isChangingEmail\">\n         <span class=\"email-text\"\n               ng-bind=\"currentEditingUser.email\"></span>\n      </div>\n\n      <div ng-if=\"currentEditingUser.pending_email\">\n         <span class=\"pending-email-text\">\n            <span ng-bind=\"currentEditingUser.pending_email\"></span>\n            <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n            <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n         </span>\n      </div>     \n      \n      <div ng-if=\"isChangingEmail\">\n         <div ng-class=\"getEmailEditControlClass()\">\n            <input type=\"email\"\n                  placeholder=\"New E-Mail\"\n                  class=\"form-control profile-email-input\"\n                  ng-model=\"emailChangeData.email\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n      <div class=\"top-edit-control\">\n         <div>\n            <input type=\"password\"\n                  placeholder=\"Old Password\"\n                  class=\"form-control profile-old-password-input\"\n                  ng-model=\"passwordChangeData.old_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"password\"\n                  placeholder=\"New Password\"\n                  class=\"form-control profile-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>       \n            <input type=\"password\"\n                  placeholder=\"Repeat New Password\"\n                  class=\"form-control profile-repeat-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password_repeat\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>         \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-options-container\">\n      <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n         <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n      </span>\n      \n      <div ng-if=\"isSaving\" class=\"saving-message\">\n         <div loading-progress \n               type=\"spinner\"\n               message=\"getSavingUserMessage()\">\n         </div>\n      </div>\n      \n      <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n         <span ng-bind=\"postSavingMessage\"></span>\n      </div>\n      \n      <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n         <span ng-bind=\"errorMessage\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
-$templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/question/ask.html","<div class=\"ask\">\n   <div class=\"ask-topic ask-group\">\n       <button ng-click=\"tempConvertVideo()\">Test Converter</button>\n       <div ng-if=\"tempWebWorkerReady\">Web worker ready</div>\n      <div class=\"ask-header\">\n         What\'s your question about?\n      </div>\n      <div class=\"ask-element\">\n         <label class=\"dropdown\">\n            <select ng-model=\"currentQuestion.topic\" \n                  ng-options=\"name for name in questionTopicOptions\">\n            </select>\n         </label>\n      </div>\n      <div class=\"ask-element ask-sub-header ask-or\">\n         or\n      </div>\n      <div>\n         <input type=\"text\" class=\"form-control\" placeholder=\"Tell me\" ng-model=\"currentQuestion.custom_topic\" />\n      </div>\n   </div>\n   \n   <div class=\"ask-question ask-group\">\n      <div class=\"ask-question-header ask-header\">\n         What\'s your question?\n      </div>\n      <div class=\"ask-sub-header ask-question-details\">\n         (Use as much detail as you like)\n      </div>\n      \n      <textarea class=\"form-control\"\n                ng-model=\"currentQuestion.text\"></textarea>\n   </div>\n   \n   <div class=\"ask-media ask-group\">\n      <div class=\"ask-header ask-media-header\">\n         Any photos or videos?\n      </div>\n      <div class=\"ask-sub-header\">\n         (If video upload fails, use the Youtube button below)\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"videoModel in currentQuestion.videos\">\n            <media-picker \n                    type=\"video\" \n                    model=\"videoModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n        \n        <div class=\"media-picker-container\">\n            <media-picker \n                    type=\"youtube\" \n                    model=\"currentQuestion.youtube_video\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"pictureModel in currentQuestion.pictures\">\n            <media-picker \n                    type=\"picture\" \n                    model=\"pictureModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n   </div>  \n   \n   <div class=\"ask-submit\">\n      <button ng-click=\"askQuestion()\">Ask Question</button>\n   </div>\n</div>\n");
+$templateCache.put("partials/main/question/ask.html","<div class=\"ask\">\n   <div class=\"ask-topic ask-group\">\n      <div class=\"ask-header\">\n         What\'s your question about?\n      </div>\n      <div class=\"ask-element\">\n         <label class=\"dropdown\">\n            <select ng-model=\"currentQuestion.topic\" \n                  ng-options=\"name for name in questionTopicOptions\">\n            </select>\n         </label>\n      </div>\n      <div class=\"ask-element ask-sub-header ask-or\">\n         or\n      </div>\n      <div>\n         <input type=\"text\" class=\"form-control\" placeholder=\"Tell me\" ng-model=\"currentQuestion.custom_topic\" />\n      </div>\n   </div>\n   \n   <div class=\"ask-question ask-group\">\n      <div class=\"ask-question-header ask-header\">\n         What\'s your question?\n      </div>\n      <div class=\"ask-sub-header ask-question-details\">\n         (Use as much detail as you like)\n      </div>\n      \n      <textarea class=\"form-control\"\n                ng-model=\"currentQuestion.text\"></textarea>\n   </div>\n   \n   <div class=\"ask-media ask-group\">\n      <div class=\"ask-header ask-media-header\">\n         Any photos or videos?\n      </div>\n      <div class=\"ask-sub-header\">\n         (If video upload fails, use the Youtube button below)\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"videoModel in currentQuestion.videos\">\n            <media-picker \n                    type=\"video\" \n                    model=\"videoModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n        \n        <div class=\"media-picker-container\">\n            <media-picker \n                    type=\"youtube\" \n                    model=\"currentQuestion.youtube_video\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"pictureModel in currentQuestion.pictures\">\n            <media-picker \n                    type=\"picture\" \n                    model=\"pictureModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n   </div>  \n   \n   <div class=\"ask-submit\">\n      <button ng-click=\"askQuestion()\">Ask Question</button>\n   </div>\n</div>\n");
 $templateCache.put("partials/main/question/content.html","This is the question view page!");
 $templateCache.put("partials/main/question/question.html","<div class=\"question\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/question/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\">\n      To ask a question, you need to log in first.\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
-$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
-$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");}]);
+$templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
+$templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/register/content.html","<div class=\"registration-form\">\n   <form name=\"registrationForm\">\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"profile-picture-input\">\n            <div class=\"profile-picture-display\">\n               <div class=\"hidden-xs\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"80%\">\n                  </profile-picture>\n               </div>\n               <div class=\"hidden-lg hidden-md hidden-sm\">\n                  <profile-picture \n                        user=\"registrationUser\"\n                        width=\"70%\">\n                  </profile-picture>\n               </div>\n            </div>\n            \n            <div class=\"profile-picture-button\">\n               <a class=\"profile-picture-link change\" ng-click=\"selectProfilePicture()\">\n                  Change\n               </a>\n               \n               <a class=\"profile-picture-link reset\" ng-if=\"registrationUser.profile_picture.url\" ng-click=\"resetProfilePicture()\">\n                  Reset\n               </a>\n            \n               <file-reader \n                  supports-multiple=\"false\"\n                  accept=\"image/*\"\n                  process-exif=\"true\"\n                  create=\"profilePicturePicker\"\n                  on-created=\"onProfilePicturePickerCreated(elementId)\"\n                  on-files-added=\"onProfilePictureAdded(files)\"\n                  on-files-progress=\"onProfilePictureProgress(progress)\"\n                  on-files-error=\"onProfilePictureError(error)\">\n               </file-reader>\n            </div>\n         </div>\n      </div>\n\n      <div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_email.$touched && registrationForm.registration_email.$invalid }\">\n            <label for=\"registration_email\">\n               <span>E-Mail Address</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_email.$error\"\n                     ng-if=\"registrationForm.registration_email.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"email\" \n                   class=\"form-control\" \n                   name=\"registration_email\" \n                   ng-model=\"registrationUser.email\" \n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   email-in-use\n                   required />\n         </div>\n\n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password.$touched && registrationForm.registration_password.$invalid }\">  \n            <label for=\"registration_password\">\n               <span>Password (6 characters or more)</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password.$error\"\n                     ng-if=\"registrationForm.registration_password.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                   class=\"form-control\" \n                   name=\"registration_password\" \n                   ng-model=\"registrationUser.password\"\n                   ng-model-options=\"{updateOn: \'blur\'}\"\n                   minlength=\"6\"\n                   required />\n         </div>\n      \n         <div class=\"form-group\"\n              ng-class=\"{ \'has-error\': registrationForm.registration_password_repeat.$touched && registrationForm.registration_password_repeat.$invalid }\">\n            <label for=\"registration_password_repeat\">\n               <span>Repeat Password</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_password_repeat.$error\"\n                     ng-if=\"registrationForm.registration_password_repeat.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"password\" \n                  class=\"form-control\" \n                  name=\"registration_password_repeat\" \n                  ng-model=\"registrationUser.repeat_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  compare-to=\"registrationUser.password\" />\n         </div>\n      \n         <div class=\"form-group\">  \n            <label for=\"registration_first_name\">\n               <span>First Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_first_name.$error\"\n                     ng-if=\"registrationForm.registration_first_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_first_name\" \n                  ng-model=\"registrationUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      \n         <div class=\"form-group\"> \n            <label for=\"registration_last_name\">\n               <span>Last Name</span>\n               <span class=\"form-errors\" \n                     ng-messages=\"registrationForm.registration_last_name.$error\"\n                     ng-if=\"registrationForm.registration_last_name.$touched\">\n                  <span ng-messages-include=\"messages/registration.html\"></span>\n               </span>\n            </label>\n            <input type=\"text\" \n                  class=\"form-control\" \n                  name=\"registration_last_name\" \n                  ng-model=\"registrationUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required /> \n         </div>       \n            \n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_public\" />\n               <label>Visible to the public?</label>\n            </div>\n         </div>\n\n         <div class=\"form-group\">\n            <div class=\"fa-checkbox\">\n               <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"registrationUser.is_visible_to_users\" />\n               <label>Visible to other users?</label>\n            </div>\n         </div>\n\n         <div class=\"sign-up form-group\" ng-if=\"!registrationInProgress\">\n            <button ng-disabled=\"registrationForm.$invalid\" ng-click=\"registerUser()\">Sign Up</button>\n         </div>\n         <div class=\"registering-in-progress\" ng-if=\"registrationInProgress\">\n            <div loading-progress \n            type=\"spinner\"\n            message=\"getRegistrationProgressMessage()\"></div>\n         </div>\n\n      </div>     \n   </form>\n</div>");
+$templateCache.put("partials/main/register/register.html","<div class=\"register\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/register/success.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         We have sent a link to your e-mail address, all you need to do\n         is click it, and you\'re good to go!\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a ng-click=\"resendVerificationEmail()\">here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n      \n      <p ng-if=\"isSendingEmail\" class=\"resending-in-progress\">\n         <span>\n            <div loading-progress \n                 type=\"spinner\">\n            </div>\n         </span>\n         <span class=\"resending-text\">\n            Resending E-Mail...\n         </span>\n      </p>\n      \n      <p ng-if=\"hasSentEmail\">\n         E-Mail sent successfully!\n      </p>\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
+$templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");
+$templateCache.put("partials/main/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div class=\"resetting-in-progress\" ng-if=\"resettingInProgress\">\n         <span><div loading-progress type=\"spinner\"></div></span>\n         <span class=\"resetting-text\">Setting password...</span>\n      </div>\n   </form>\n</div>");
+$templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"edit-container profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/*\"\n            process-exif=\"true\"\n            create=\"profilePicturePicker\"\n            on-created=\"onProfilePictureSelectCreated(elementId)\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n         <div>\n            <input type=\"text\"\n                  placeholder=\"First Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"text\"\n                  placeholder=\"Last Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword\">\n      <div ng-if=\"!isChangingEmail\">\n         <span class=\"email-text\"\n               ng-bind=\"currentEditingUser.email\"></span>\n      </div>\n\n      <div ng-if=\"currentEditingUser.pending_email\">\n         <span class=\"pending-email-text\">\n            <span ng-bind=\"currentEditingUser.pending_email\"></span>\n            <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n            <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n         </span>\n      </div>     \n      \n      <div ng-if=\"isChangingEmail\">\n         <div ng-class=\"getEmailEditControlClass()\">\n            <input type=\"email\"\n                  placeholder=\"New E-Mail\"\n                  class=\"form-control profile-email-input\"\n                  ng-model=\"emailChangeData.email\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n      <div class=\"top-edit-control\">\n         <div>\n            <input type=\"password\"\n                  placeholder=\"Old Password\"\n                  class=\"form-control profile-old-password-input\"\n                  ng-model=\"passwordChangeData.old_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"password\"\n                  placeholder=\"New Password\"\n                  class=\"form-control profile-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>       \n            <input type=\"password\"\n                  placeholder=\"Repeat New Password\"\n                  class=\"form-control profile-repeat-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password_repeat\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>         \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-options-container\">\n      <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n         <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n      </span>\n      \n      <div ng-if=\"isSaving\" class=\"saving-message\">\n         <div loading-progress \n               type=\"spinner\"\n               message=\"getSavingUserMessage()\">\n         </div>\n      </div>\n      \n      <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n         <span ng-bind=\"postSavingMessage\"></span>\n      </div>\n      \n      <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n         <span ng-bind=\"errorMessage\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
+$templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
 },{}]},{},[108]);

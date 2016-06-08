@@ -48,6 +48,19 @@ SerialPromise, FFMpegService) {
       return SerialPromise.withNotify(promiseFnArray, null, ['video'], true);
    }
    
+   VideoService.getVideoThumbnail = function(video) {
+      return Promise(function(resolve, reject, notify) {
+         FFMpegService.getVideoThumbnail(video)
+         .then(function(picture) {
+            video.setThumbnail(picture);
+            resolve(video);
+         })
+         .catch(function(error) {
+            reject(error);
+         })         
+      });
+   }
+   
    return VideoService;
 }]);
 

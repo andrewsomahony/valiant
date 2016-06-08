@@ -2,6 +2,8 @@
 
 var registerService = require('services/register');
 
+var MimeType = require('mimeType');
+
 var name = 'services.mime_service';
 
 registerService('factory', name, [
@@ -58,6 +60,10 @@ function() {
    MimeService.isBaseMimeType = function(mimeType, baseType) {
       var testBaseMimeType = MimeService.getBaseMimeType(mimeType);
       return testBaseMimeType && testBaseMimeType === baseType;
+   }
+   
+   MimeService.getMimeTypeFromFilename = function(filename) {
+      return MimeType.lookup(filename) || "";
    }
    
    return MimeService;

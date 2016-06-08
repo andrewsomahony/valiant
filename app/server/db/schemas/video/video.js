@@ -2,6 +2,8 @@
 
 var mongoose = require('mongoose');
 
+var PictureSchema = require(__base + "db/schemas/picture/picture");
+
 var Schema = mongoose.Schema;
 
 var VideoSchema = new Schema({
@@ -20,7 +22,8 @@ var VideoSchema = new Schema({
    metadata: {
       type: {},
       default: {}
-   }
+   },
+   thumbnail: PictureSchema
 },
 {
     timestamps: {

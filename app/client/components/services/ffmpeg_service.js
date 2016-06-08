@@ -10,8 +10,10 @@ registerService('factory', name, [require('services/promise'),
                                   require('services/progress'),
                                   require('models/file'),
                                   require('services/error'),
+                                  require('services/picture_service'),
+                                  require('services/mime_service'),
 function(Promise, ProgressService, FileModel,
-ErrorService) {
+ErrorService, PictureService, MimeService) {
     
     function FFMpegService() {
         
@@ -346,6 +348,60 @@ ErrorService) {
         return returnedMetadata;   
     }
     
+    FFMpegService.getVideoThumbnail = function(video) {
+        return Promise(function(resolve, reject, notify) {
+           if (!video.getDuration()) {
+              reject(ErrorService.localError("FFmpegService.getVideoThumbnail: Video does not have a duration!"));
+           } else {
+              FFMpegService.getWorker()
+              .then(function() {
+                 fileModelToFFMpegFile(video.file_model)
+                 .then(function(file) {
+                    console.log("GETTING THUMBNAIL");
+                    bindWorkerMessageHandler(function(event) {
+                       var message = getEventMessage(event);
+                       var data = getEventMessageData(message); 
+                        
+                       if ('start' === message.type) {
+                                    
+                       } else if ('output' === message.type) {
+                           console.log(getEventMessageDataResult(data));
+                       } else if ('error' === message.type) {
+                          releaseWorker();
+                          reject(ErrorService.localError(
+                             getEventMessageDataResult(data)
+                          ));
+                       } else if ('done' === message.type) {
+                          releaseWorker();
+                           
+                          var result = getEventMessageDataResult(data);
+                                                      
+                          var fileModel = FileModel.fromArrayBuffer(result[0].data, 
+                              result[0].name, MimeService.getMimeTypeFromFilename(result[0].name));
+                           
+                          PictureService.getPictureFromFileModel(fileModel)
+                          .then(function(picture) {
+                             resolve(picture);
+                          })
+                          .catch(function(error) {
+                             reject(error);
+                          })
+                       }
+                    });
+                     
+                    sendCommandToWorker('get_thumbnail', file, {position: video.getDuration() / 2});
+                 })  
+                 .catch(function(error) {
+                    reject(error);
+                 })  
+              })
+              .catch(function(error) {
+                 reject(error);    
+              });
+           }
+        });  
+    }
+    
     FFMpegService.getVideoFileModelMetadata = function(fileModel) {
        return Promise(function(resolve, reject, notify) {
           FFMpegService.getWorker()
@@ -361,7 +417,9 @@ ErrorService) {
                    } else if ('output' === message.type) {
                    } else if ('error' === message.type) {
                       releaseWorker();
-                      reject(ErrorService.localError(data.result));
+                      reject(ErrorService.localError(
+                         getEventMessageDataResult(data)
+                      ));
                    } else if ('done' === message.type) {
                       releaseWorker();
                       //console.log("FULL OUTPUT", getEventMessageDataOutput(data));

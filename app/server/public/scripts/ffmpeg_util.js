@@ -83,11 +83,30 @@ onmessage = function(event) {
             } else {
                args = ["-i", file.name, "-f", "ffmetadata", "metadata.txt"];
             }
-         } else if ('get_thumbnails' === commandType) {
+         } else if ('get_thumbnail' === commandType) {
             if (!file) {
                sendErrorMessage("ffmpeg_util.get_thumbnails: command needs a file!");  
             } else {
-               var positions = message.data.positions;   
+               var position = message.data.position;
+               
+               /*
+                           args = ["-ss", "00:00:03.010",
+                    "-i", message.file.name,
+                    //"-vf", "select='not(mod(n,60))',setpts='N/(30*TB)'",
+                    "-s", "320x200",
+                    "-vframes", "1",
+                    "-v", "verbose",
+                    "-an", // Don't need audio
+                    "thumb%d.jpeg"];
+               */
+               
+               args = ["-ss", "" + position,
+                       "-i", file.name,
+                       "-s", "320x200",
+                       "-v", "verbose",
+                       "-vframes", "1",
+                       "-an",
+                       "thumb%d.jpeg"];
             }
             
          } else if ('convert_to_html5' === commandType) {

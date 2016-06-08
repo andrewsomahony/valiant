@@ -41,15 +41,6 @@ FFMpegService) {
       console.log($scope.currentQuestion);
    }
    
-   $scope.tempWebWorkerReady = false;
-   
-   $scope.tempConvertVideo = function() {
-      FFMpegService.getWorker()
-      .then(function() {
-         $scope.tempWebWorkerReady = true;
-      })
-   }
-   
    $scope.allocateNewQuestion();
 }]);
 

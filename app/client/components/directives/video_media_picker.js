@@ -35,14 +35,21 @@ function(VideoService) {
             VideoService.getVideoFromFileModel(files[0])
             .then(function(video) {
                // Convert here?
-               $scope.setModel(video);
+               VideoService.getVideoThumbnail(video)
+               .then(function(newVideo) {
+                  console.log(newVideo);
+                  $scope.setModel(newVideo);
+               })
+               .catch(function(error) {
+                  $scope.error(error);
+               })
+               .finally(function() {
+                  $scope.setIsLoadingMedia(false);
+               }); 
             })
             .catch(function(error) {
                $scope.error(error);
             })
-            .finally(function() {
-               $scope.setIsLoadingMedia(false);
-            });
          }
          
          $scope.onVideoSelectError = function(error) {

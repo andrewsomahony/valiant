@@ -20,6 +20,7 @@ function(BaseModel) {
                subtitle_url: "",
                description: "",
                metadata: {},
+               thumbnail: {__alias__: "models.picture"},
                file_model: null,
                upload_progress: null
             });
@@ -39,6 +40,10 @@ function(BaseModel) {
       reset: function() {
          this.clearMetadata();
          this.setFileModel(null);
+      },
+      
+      setThumbnail: function(thumbnail) {
+         this.thumbnail.fromModel(thumbnail);  
       },
       
       setFileModel: function(fileModel) {

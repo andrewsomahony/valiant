@@ -59,11 +59,12 @@ ErrorService) {
             return fileModel;
          },
          
-         fromArrayBuffer: function(arrayBuffer, name) {
+         fromArrayBuffer: function(arrayBuffer, name, type) {
             name = name || "";
+            type = type || "";
             
             var fileModel = new this();
-            fileModel.setArrayBuffer(arrayBuffer, name);
+            fileModel.setArrayBuffer(arrayBuffer, name, type);
             
             return fileModel;
          },
@@ -137,8 +138,10 @@ ErrorService) {
          return FileReaderService.readAsArrayBufferPromiseHelper(this.blob);
       },
       
-      setArrayBuffer: function(arrayBuffer, name) {
-         var blob = new Blob([arrayBuffer]);
+      setArrayBuffer: function(arrayBuffer, name, type) {
+         type = type || "";
+         
+         var blob = new Blob([arrayBuffer], {type: type});
          
          this.setBlob(blob, name);
       },
