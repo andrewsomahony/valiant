@@ -30,12 +30,13 @@ ErrorService) {
        worker.postMessage(message);
     }
     
-    function sendCommandToWorker(command, file) {
+    function sendCommandToWorker(command, file, data) {
        file = file || null;
-       var messageData = {
+       data = data || {};
+       var messageData = utils.extend(true, {
           commandType: command,
           file: file
-       };
+       }, data);
        
        sendMessageToWorker(createWorkerMessage('command', messageData));
     }
@@ -158,9 +159,15 @@ ErrorService) {
        returnObject['name'] = headerMatch[4];
               
        // Don't you just love these long regexes?
+       // This does rely on the information being presented
+       // in relatively the same order, so I do need to watch our
+       // if I ever recompile the ffmpeg Javascript library.
+       
+       // Alternatively, I could just parse this as CSV and extract
+       // what I need...
        
        var videoMatch = streamInfoString.match(
-       /video\:\s*(([^\s^\,]+)\s*(\(([a-z0-9]+?)\))?)(\s*\(([a-z0-9]+)\s*\/\s*([^\)]+)\))?,\s*([^\(]+?)(\((.+?)\))?,(\s*((\d+)x(\d+))\s*(\[(.+?)\])?)?(,\s*(\d+\s*kb\/s|N\/A))?(,\s*([a-z]+\s*\d+\:\d+\s*[a-z]+\s*\d+\:\d+))?\s*(,\s*([\.0-9]+)\s*fps)?/i
+       /video\:\s*(([^\s^\,]+)\s*(\(([a-z0-9\s^\)]+?)\))?)(\s*\(([a-z0-9]+)\s*\/\s*([^\)]+)\))?,\s*([^\(]+?)(\((.+?)\))?,(\s*((\d+)x(\d+))\s*(\[(.+?)\])?)?(,\s*(\d+\s*kb\/s|N\/A))?(,\s*([a-z]+\s*\d+\:\d+\s*[a-z]+\s*\d+\:\d+))?\s*(,\s*([\.0-9]+)\s*fps)?/i
        );
        var audioMatch = streamInfoString.match(
        /audio\:\s*(([^\s^\,]+)(\s*\(([a-z0-9]+?)\))?)(\s*\(([a-z0-9]+)\s*\/\s*([^\)]+)\))?(,\s*((\d+)\s*([a-z]+)))?(,\s*([^\s^,]+))?(\s*,\s*([^\s^,]+)\s*(\(([^)]+)\))?)?(,\s*((\d+)\s*([a-z]+\s*\/\s*[a-z]+?))\s*(\((.+?)\))?)?/i  

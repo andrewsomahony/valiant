@@ -83,6 +83,15 @@ onmessage = function(event) {
             } else {
                args = ["-i", file.name, "-f", "ffmetadata", "metadata.txt"];
             }
+         } else if ('get_thumbnails' === commandType) {
+            if (!file) {
+               sendErrorMessage("ffmpeg_util.get_thumbnails: command needs a file!");  
+            } else {
+               var positions = message.data.positions;   
+            }
+            
+         } else if ('convert_to_html5' === commandType) {
+            var canRemoveAudio = message.data.canRemoveAudio; 
          } else {
             sendErrorMessage("ffmpeg_util: Unknown command " + commandType);
          }

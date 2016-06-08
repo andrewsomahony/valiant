@@ -57,23 +57,90 @@ function(BaseModel) {
       },
       
       setMetadata: function(metadata) {
-         utils.extend(true, this.metadata, metadata);
+         this.clearMetadata();
+         
+         if (metadata['info']) {
+            utils.extend(true, this.metadata, metadata['info']);
+         }
+         
+         this.metadata['video'] = {};
+         this.metadata['audio'] = [];
+         this.metadata['data'] = [];
+         
+         if (metadata['streams']) {
+            var hasVideo = false;
+            metadata['streams'].forEach(function(stream) {
+               if ('video' === stream.type) {
+                  if (true === hasVideo) {
+                     // What do we do here?  Multiple video streams
+                     // are part of container formats (mkv) that can't even seem
+                     // to be selected by our file reader.  Furthermore, they don't even
+                     // seem to work properly in VLC of all things, and Safari doesn't play them.
+                     
+                     // For now, just silently ignore any other video streams.
+                  } else {
+                     utils.extend(true, this.metadata['video'], stream);
+                     hasVideo = true;
+                  }
+               } else if ('audio' === stream.type) {
+                  this.metadata['audio'].push(stream);
+               } else if ('data' === stream.type) {
+                  this.metadata['data'].push(stream);
+               }
+            }, this);
+         }
       },
       
       getWidth: function() {
-         if (this.metadata['width']) {
-            return this.metadata['width'];
+         if (this.metadata['video'] &&
+             this.metadata['video']['width']) {
+            return this.metadata['video']['width'];
          } else {
             return -1;
          }
       },
       
       getHeight: function() {
-         if (this.metadata['height']) {
-            return this.metadata['height'];
+         if (this.metadata['video'] &&
+             this.metadata['video']['height']) {
+            return this.metadata['video']['height'];
          } else {
             return -1;
-         }         
+         }        
+      },
+      
+      getDuration: function() {
+         return this.metadata['duration'] || null; 
+      },
+      
+      getVideoCodec: function() {
+         if (this.metadata['video'] &&
+             this.metadata['video']['codec']) {
+            return this.metadata['video']['codec'];       
+         } else {
+            return "";
+         }
+      },
+      
+      getNumberOfFrames: function() {
+         if (this.metadata['duration'] &&
+             this.metadata['video'] &&
+             this.metadata['video']['fps']) {
+            return this.metadata['duration'] *
+               this.metadata['video']['fps'];    
+         } else {
+            return null;
+         }
+      },
+      
+      getAudioCodecs: function() {
+         if (this.metadata['audio']) {
+            return this.metadata['audio'].map(function(audioStream) {
+               return audioStream.codec || "";
+            }) 
+         } else {
+            return [];
+         }
       }
    });
 }])
