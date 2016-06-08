@@ -56,9 +56,13 @@
    </div>
 </div>
 
+<!--
+  accept="video/mp4,video/x-m4v,video/*"
+  -->
+
 <file-reader
    supports-multiple="false"
-   accept="video/mp4,video/x-m4v,video/*"
+   accept="*/*"
    create="fileReaderCreator"
    on-created="onFileReaderCreated(elementId)"
    on-files-added="onVideoSelectSuccess(files)"

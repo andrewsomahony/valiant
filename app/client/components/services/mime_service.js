@@ -12,7 +12,7 @@ function() {
    
    MimeService.isValidMimeType = function(mimeType) {
       var mimeTypeRegex = /[\w\*]+\/[\w\*]+/i;
-      
+         
       if (!mimeType.match(mimeTypeRegex)) {
          return false;
       } else {
@@ -22,20 +22,26 @@ function() {
    
    MimeService.checkMimeType = function(mimeType, acceptableMimeType) {
       // see: http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
-
-      if (!MimeService.isValidMimeType(mimeType)) {
-         return false;
+      if (!mimeType) {
+         return true;
       } else {
-         acceptableMimeType = acceptableMimeType.replace(/[\-\[\]\/\{\}\(\)\+\?\.\\\^\$\|]/g, "\\$&")
-                           .replace(/,/g, "|")
-                           .replace("\/*", "/.*");
-      
-         var regex = new RegExp(".?(" + acceptableMimeType + ")$", "i");
-         
-         if (!mimeType.match(regex)) {
+         if (!MimeService.isValidMimeType(mimeType)) {
             return false;
          } else {
-            return true;
+            acceptableMimeType = acceptableMimeType.replace(/[\-\[\]\/\{\}\(\)\+\?\.\\\^\$\|]/g, "\\$&")
+                              .replace(/,/g, "|")
+                              .replace("*", ".*")
+                              //.replace("\/*", "/.*");
+              
+            console.log(acceptableMimeType);  
+               
+            var regex = new RegExp(".?(" + acceptableMimeType + ")$", "i");
+            
+            if (!mimeType.match(regex)) {
+               return false;
+            } else {
+               return true;
+            }
          }
       }
    }
