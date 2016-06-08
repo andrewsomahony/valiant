@@ -160,10 +160,10 @@ ErrorService) {
        // Don't you just love these long regexes?
        
        var videoMatch = streamInfoString.match(
-       /video\:\s*([^\s]+?\s*(\(([^)]+?)\))?)(\s*\(([a-z0-9]+)\s*\/\s*([^\)]+)\))?,\s*([^\(]+?)(\((.+?)\))?,(\s*((\d+)x(\d+))\s*(\[(.+?)\])?)?(,\s*(\d+\s*kb\/s|N\/A))?(,\s*([a-z]+\s*\d+\:\d+\s*[a-z]+\s*\d+\:\d+))?\s*(,\s*([\.0-9]+)\s*fps)?/i
+       /video\:\s*(([^\s^\,]+)\s*(\(([a-z0-9]+?)\))?)(\s*\(([a-z0-9]+)\s*\/\s*([^\)]+)\))?,\s*([^\(]+?)(\((.+?)\))?,(\s*((\d+)x(\d+))\s*(\[(.+?)\])?)?(,\s*(\d+\s*kb\/s|N\/A))?(,\s*([a-z]+\s*\d+\:\d+\s*[a-z]+\s*\d+\:\d+))?\s*(,\s*([\.0-9]+)\s*fps)?/i
        );
        var audioMatch = streamInfoString.match(
-       /audio\:\s*([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\),\s*((\d+)\s*([a-z]+)),\s*([^\s^,]+),\s*([^\s^,]+),\s*(((\d+)\s*([a-z]+\s*\/\s*[a-z]+?))\s*(\((.+?)\))?)?/i  
+       /audio\:\s*(([^\s^\,]+)(\s*\(([a-z0-9]+?)\))?)(\s*\(([a-z0-9]+)\s*\/\s*([^\)]+)\))?(,\s*((\d+)\s*([a-z]+)))?(,\s*([^\s^,]+))?(\s*,\s*([^\s^,]+)\s*(\(([^)]+)\))?)?(,\s*((\d+)\s*([a-z]+\s*\/\s*[a-z]+?))\s*(\((.+?)\))?)?/i  
        );
        var dataMatch = streamInfoString.match(
        /data\:\s*([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\)/i
@@ -172,35 +172,35 @@ ErrorService) {
        if (videoMatch) {
           returnObject['type'] = 'video';
           
-          returnObject['codec'] = videoMatch[1];
-          returnObject['codec_option'] = videoMatch[3];
-          returnObject['codec_name'] = videoMatch[5];
+          returnObject['codec'] = videoMatch[2];
+          returnObject['codec_option'] = videoMatch[4];
+          returnObject['codec_name'] = videoMatch[6];
           
-          returnObject['pixel_format'] = videoMatch[7];
-          returnObject['pixel_format_option'] = videoMatch[9];
+          returnObject['pixel_format'] = videoMatch[8];
+          returnObject['pixel_format_option'] = videoMatch[10];
           
-          returnObject['width'] = parseInt(videoMatch[12]);
-          returnObject['height'] = parseInt(videoMatch[13]);
+          returnObject['width'] = parseInt(videoMatch[13]);
+          returnObject['height'] = parseInt(videoMatch[14]);
 
-          returnObject['bitrate'] = videoMatch[17];
+          returnObject['bitrate'] = videoMatch[18];
           
-          returnObject['ratios'] = videoMatch[15] || videoMatch[19];
+          returnObject['ratios'] = videoMatch[16] || videoMatch[20];
           
-          returnObject['fps'] = parseFloat(videoMatch[21]);
+          returnObject['fps'] = parseFloat(videoMatch[22]);
        } else if (audioMatch) {
           returnObject['type'] = 'audio';
           
-          returnObject['codec'] = audioMatch[1];
-          returnObject['codec_option'] = audioMatch[3];
-          returnObject['codec_name'] = audioMatch[4];
+          returnObject['codec'] = audioMatch[2];
+          returnObject['codec_option'] = audioMatch[4];
+          returnObject['codec_name'] = audioMatch[6];
           
-          returnObject['sample_rate'] = audioMatch[6];
+          returnObject['sample_rate'] = audioMatch[9];
           
-          returnObject['channels'] = audioMatch[9];
-          returnObject['decoder'] = audioMatch[10];
+          returnObject['channels'] = audioMatch[13];
+          returnObject['decoder'] = audioMatch[15];
           
-          returnObject['bitrate'] = audioMatch[12];
-          returnObject['bitrate_option'] = audioMatch[16];
+          returnObject['bitrate'] = audioMatch[19];
+          returnObject['bitrate_option'] = audioMatch[23];
        } else if (dataMatch) {
           returnObject['type'] = 'data';
           

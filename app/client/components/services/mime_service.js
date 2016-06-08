@@ -31,9 +31,7 @@ function() {
             acceptableMimeType = acceptableMimeType.replace(/[\-\[\]\/\{\}\(\)\+\?\.\\\^\$\|]/g, "\\$&")
                               .replace(/,/g, "|")
                               .replace("*", ".*")
-                              //.replace("\/*", "/.*");
-              
-            console.log(acceptableMimeType);  
+                              //.replace("\/*", "/.*"); 
                
             var regex = new RegExp(".?(" + acceptableMimeType + ")$", "i");
             
