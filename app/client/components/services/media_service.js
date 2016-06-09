@@ -35,6 +35,9 @@ Promise, Progress) {
          } else {
             // Upload the video thumbnail as well?
             
+            // Essentially, this swaps a local blob URL (from the media's file_model)
+            // to an S3 URL.  We could use any storage system here, so it's interchangable!
+            
             return Promise(function(resolve, reject, notify) {
                if (!mediaModel.file_model) {
                   resolve();

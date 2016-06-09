@@ -23,6 +23,9 @@ function(FileModel, S3SignUrlService, Promise,
       }
 
       function uploadComplete(e) {
+         // !!! The result could be an error,
+         // !!! we need to check the error code!
+         
          var xhr = e.srcElement || e.target;
          resolve({url: s3PutUrl.public_url})
       }
@@ -45,6 +48,10 @@ function(FileModel, S3SignUrlService, Promise,
       xhr.addEventListener('abort', uploadCancelled, false);
 
       xhr.open('PUT', s3PutUrl.signed_url);
+      
+      // We have to set the Content-Type as IE doesn't set the proper string,
+      // resulting in an authentication error
+      
       xhr.setRequestHeader('Content-Type', fileModel.type);
       xhr.setRequestHeader('x-amz-acl', s3PutUrl.acl);
       
