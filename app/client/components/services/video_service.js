@@ -15,6 +15,21 @@ SerialPromise, FFMpegService) {
       
    }
    
+   VideoService.convertVideoToHTML5 = function(video) {
+      return Promise(function(resolve, reject, notify) {
+         FFMpegService.convertVideoToHTML5(video)
+         .then(function(newVideo) {
+            video.fromModel(newVideo);
+            resolve(video);
+         }, null, function(progress) {
+            notify(progress);
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });
+   }
+   
    VideoService.getVideoFromFileModel = function(fileModel) {
       var promiseFnArray = [];
       

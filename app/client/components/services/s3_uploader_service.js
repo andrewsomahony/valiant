@@ -23,11 +23,13 @@ function(FileModel, S3SignUrlService, Promise,
       }
 
       function uploadComplete(e) {
-         // !!! The result could be an error,
-         // !!! we need to check the error code!
-         
          var xhr = e.srcElement || e.target;
-         resolve({url: s3PutUrl.public_url})
+         
+         if (200 === xhr.status) {
+            resolve({url: s3PutUrl.public_url});
+         } else {
+            reject(ErrorService(xhr.status, "Upload error"));
+         }
       }
 
       function uploadFailed(e) {

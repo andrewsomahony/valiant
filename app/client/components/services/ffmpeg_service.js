@@ -12,8 +12,9 @@ registerService('factory', name, [require('services/promise'),
                                   require('services/error'),
                                   require('services/picture_service'),
                                   require('services/mime_service'),
+                                  require('services/video_service'),
 function(Promise, ProgressService, FileModel,
-ErrorService, PictureService, MimeService) {
+ErrorService, PictureService, MimeService, VideoService) {
     
     function FFMpegService() {
         
@@ -365,6 +366,58 @@ ErrorService, PictureService, MimeService) {
         }
         
         return returnedMetadata;   
+    }
+    
+    FFMpegService.convertVideoToHTML5 = function(video) {
+       return Promise(function(resolve, reject, notify) {
+          FFMpegService.getWorker()
+          .then(function() {
+             fileModelToFFMpegFile(video.file_model)
+             .then(function(file) {
+                bindWorkerMessageHandler(function(event) {
+                   var message = getEventMessage(event);
+                   var data = getEventMessageData(message);
+                   
+                   if ('start' === message.type) {
+                      
+                   } else if ('output' === message.type) {
+                      console.log(getEventMessageDataResult(data));
+                   } else if ('error' === message.type) {
+                      releaseWorker();
+                      reject(ErrorService.localError(getEventMessageDataResult(data)));
+                   } else if ('done' === message.type) {
+                      releaseWorker();
+                      
+                      var result = getEventMessageDataResult(data);
+                      var output = getEventMessageDataOutput(data);
+                      
+                      var fileModel = FileModel.fromArrayBuffer(result[0].data,
+                      result[0].name, MimeService.getMimeTypeFromFilename(result[0].name));
+                      
+                      // We need to parse the metadata here.
+                      // Maybe we can do a second metadata call, I'm just
+                      // worried about speed.
+                      
+                      VideoService.getVideoFromFileModel(fileModel)
+                      .then(function(newVideo) {
+                         resolve(newVideo);
+                      })
+                      .catch(function(error) {
+                         reject(error);
+                      });      
+                   }
+                });
+                
+                sendCommandToWorker('convert_to_html5', file, {canRemoveAudio: true});
+             })
+             .catch(function(error) {
+                reject(error);
+             })
+          })
+          .catch(function(error) {
+             reject(error);
+          })
+       });
     }
     
     FFMpegService.getVideoThumbnail = function(video) {
