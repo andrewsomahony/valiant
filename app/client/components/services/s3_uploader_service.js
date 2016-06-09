@@ -45,6 +45,7 @@ function(FileModel, S3SignUrlService, Promise,
       xhr.addEventListener('abort', uploadCancelled, false);
 
       xhr.open('PUT', s3PutUrl.signed_url);
+      xhr.setRequestHeader('Content-Type', fileModel.type);
       xhr.setRequestHeader('x-amz-acl', s3PutUrl.acl);
       
       if (!fileModel.blob) {

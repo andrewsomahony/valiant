@@ -33,6 +33,8 @@ Promise, Progress) {
                return S3UploaderService.getProgressInfo(uploadType, mediaModel.file_model);
             }
          } else {
+            // Upload the video thumbnail as well?
+            
             return Promise(function(resolve, reject, notify) {
                if (!mediaModel.file_model) {
                   resolve();
