@@ -195,7 +195,9 @@ ErrorService, PictureService, MimeService) {
        // if I ever recompile the ffmpeg Javascript library.
        
        // Alternatively, I could just parse this as CSV and extract
-       // what I need...
+       // what I need...but that doesn't work, as some of the strings (pixel format)
+       // are arbitrary and have nothing I can really match as a pattern, so I have to rely
+       // on the order being the same regardless...
        
        var videoMatch = streamInfoString.match(
        /video\:\s*(([^\s^\,]+)\s*(\(([a-z0-9\s^\)]+?)\))?)(\s*\(([a-z0-9]+)\s*\/\s*([^\)]+)\))?,\s*([^\(]+?)(\((.+?)\))?,(\s*((\d+)x(\d+))\s*(\[(.+?)\])?)?(,\s*(\d+\s*kb\/s|N\/A))?(,\s*([a-z]+\s*\d+\:\d+\s*[a-z]+\s*\d+\:\d+))?\s*(,\s*([\.0-9]+)\s*fps)?/i
@@ -206,9 +208,17 @@ ErrorService, PictureService, MimeService) {
        var dataMatch = streamInfoString.match(
        /data\:\s*([^\s]+)\s*(\((.+)\))?\s*\(([^\s]+)\s*\/\s*([^\s]+)\)/i
        );
+       
+       var metadataMatch = streamInfoString.match(/metadata\s*\:/i);
+       var metadataString = "";
+
+       if (metadataMatch) {
+          metadataString = utils.sliceStringByRegexMatches(streamInfoString, metadataMatch);    
+       }
 
        if (videoMatch) {
           returnObject['type'] = 'video';
+          returnObject['metadata'] = {};
           
           returnObject['codec'] = videoMatch[2];
           returnObject['codec_option'] = videoMatch[4];
@@ -225,8 +235,16 @@ ErrorService, PictureService, MimeService) {
           returnObject['ratios'] = videoMatch[16] || videoMatch[20];
           
           returnObject['fps'] = parseFloat(videoMatch[22]);
+          
+          if (metadataString) {
+             var rotationMatch = metadataString.match(/rotate\s*\:\s*(\d+)/i)
+             if (rotationMatch) {
+                returnObject['metadata']['rotation'] = parseInt(rotationMatch[1]);
+             }
+          }
        } else if (audioMatch) {
           returnObject['type'] = 'audio';
+          returnObject['metadata'] = {};
           
           returnObject['codec'] = audioMatch[2];
           returnObject['codec_option'] = audioMatch[4];
@@ -241,6 +259,7 @@ ErrorService, PictureService, MimeService) {
           returnObject['bitrate_option'] = audioMatch[23];
        } else if (dataMatch) {
           returnObject['type'] = 'data';
+          returnObject['metadata'] = {};
           
           returnObject['codec'] = dataMatch[1];
           returnObject['codec_option'] = dataMatch[3];
@@ -284,7 +303,7 @@ ErrorService, PictureService, MimeService) {
                var metadataInfoString = utils.sliceStringByRegexMatches(inputString,
                       metadataInfoMatch);
                var streamBorderMatch = streamRegex.exec(metadataInfoString);
-               streamRegex.lastIndex = 0;
+               streamRegex.lastIndex = 0; // We're gonna re-use this regex, so reset it.
                
                metadataInfoString = utils.sliceStringByRegexMatches(metadataInfoString,
                  null, streamBorderMatch);
@@ -357,7 +376,6 @@ ErrorService, PictureService, MimeService) {
               .then(function() {
                  fileModelToFFMpegFile(video.file_model)
                  .then(function(file) {
-                    console.log("GETTING THUMBNAIL");
                     bindWorkerMessageHandler(function(event) {
                        var message = getEventMessage(event);
                        var data = getEventMessageData(message); 
@@ -388,8 +406,14 @@ ErrorService, PictureService, MimeService) {
                           })
                        }
                     });
+                    
+                    // Why do we need to optionally rotate the thumbnail?
+                    // Well, videos sometimes have rotation data in their video stream,
+                    // which our version of ffmpeg ignores when doing thumbnails.  Therefore,
+                    // we never get any EXIF data that tells us to rotate, so we have to manually
+                    // do it within the thumbnail command by rotating the input stream.
                      
-                    sendCommandToWorker('get_thumbnail', file, {position: video.getDuration() / 2});
+                    sendCommandToWorker('get_thumbnail', file, {rotation: video.getRotation(), position: video.getDuration() / 2});
                  })  
                  .catch(function(error) {
                     reject(error);

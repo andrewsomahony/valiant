@@ -118,6 +118,15 @@ function(BaseModel) {
          return this.metadata['duration'] || null; 
       },
       
+      getRotation: function() {
+         if (this.metadata['video'] &&
+             this.metadata['video']['metadata']) {
+            return this.metadata['video']['metadata']['rotation'] || 0;        
+         } else {
+            return 0;
+         }
+      },
+      
       getVideoCodec: function() {
          if (this.metadata['video'] &&
              this.metadata['video']['codec']) {
