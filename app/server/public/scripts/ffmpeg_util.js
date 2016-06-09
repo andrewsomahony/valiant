@@ -126,7 +126,7 @@ onmessage = function(event) {
                      "-b:v", "128k", 
                      "-maxrate", "128k", 
                      "-bufsize", "256k", 
-                     "-vf", "showinfo,scale=320:200", 
+                     "-vf", "showinfo,scale='min(320,iw):-2'", 
                      "-v", "verbose",
                      "-threads", "0", 
                      "-codec:a", "aac",

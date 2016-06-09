@@ -37,15 +37,26 @@ function(VideoService) {
                // Convert here?
                VideoService.getVideoThumbnail(video)
                .then(function(newVideo) {
-                  console.log(newVideo);
-                  $scope.setModel(newVideo);
+                  
+                  var thumbnail = newVideo.thumbnail;
+                  VideoService.convertVideoToHTML5(newVideo)
+                  .then(function(convertedVideo) {
+                     convertedVideo.setThumbnail(thumbnail);
+                     $scope.setModel(convertedVideo);
+                  }, null, function(progress) {
+                     console.log("CONVERSION PROGRESS", progress);
+                  })
+                  .catch(function(error) {
+                     $scope.error(error);
+                  })
+                  .finally(function() {
+                     $scope.setIsLoadingMedia(false);
+                  })
+                  
                })
                .catch(function(error) {
                   $scope.error(error);
                })
-               .finally(function() {
-                  $scope.setIsLoadingMedia(false);
-               }); 
             })
             .catch(function(error) {
                $scope.error(error);

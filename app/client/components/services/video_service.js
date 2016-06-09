@@ -9,24 +9,68 @@ registerService('factory', name, [require('models/video'),
                                   require('services/promise'),
                                   require('services/serial_promise'),
                                   require('services/ffmpeg_service'),
+                                  require('services/progress'),
 function(VideoModel, FileModel, Promise, 
-SerialPromise, FFMpegService) {
+SerialPromise, FFMpegService, ProgressService) {
    function VideoService() {
       
    }
    
+   VideoService.videoIsHTML5 = function(video) {
+      var validVideoCodecs = ["h264"];
+      
+      return -1 !== validVideoCodecs.indexOf(video.getVideoCodec());
+   }
+   
    VideoService.convertVideoToHTML5 = function(video) {
       return Promise(function(resolve, reject, notify) {
-         FFMpegService.convertVideoToHTML5(video)
-         .then(function(newVideo) {
-            video.fromModel(newVideo);
+         if (true === VideoService.videoIsHTML5(video)) {
             resolve(video);
-         }, null, function(progress) {
-            notify(progress);
-         })
-         .catch(function(error) {
-            reject(error);
-         })
+         } else {
+            var promiseFnArray = [];
+            
+            promiseFnArray.push(function(existingData, index, forNotify) {
+               if (true === forNotify) {
+                  return ProgressService(0, video.getNumberOfFrames());
+               } else {
+                  return Promise(function(resolve, reject, notify) {
+                     FFMpegService.convertVideoToHTML5(video)
+                     .then(function(newFileModel) {
+                        resolve({fileModel: newFileModel});
+                     }, null, function(progress) {
+                        notify(progress);
+                     })
+                     .catch(function(error) {
+                        reject(error);
+                     });
+                  })
+               }
+            });
+            
+            promiseFnArray.push(function(existingData, index, forNotify) {
+               if (false === forNotify) {
+                  return Promise(function(resolve, reject, notify) {
+                     VideoService.getVideoFromFileModel(existingData.fileModel)
+                     .then(function(newVideo) {
+                        resolve({video: newVideo});
+                     })
+                     .catch(function(error) {
+                        reject(error);
+                     });
+                  });
+               }
+            });
+            
+            SerialPromise.withNotify(promiseFnArray, null, ['video'], true)
+            .then(function(video) {
+               resolve(video);
+            }, null, function(progress) {
+               notify(progress);
+            })
+            .catch(function(error) {
+               reject(error);
+            })
+         }
       });
    }
    

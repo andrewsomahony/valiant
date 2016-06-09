@@ -12,9 +12,8 @@ registerService('factory', name, [require('services/promise'),
                                   require('services/error'),
                                   require('services/picture_service'),
                                   require('services/mime_service'),
-                                  require('services/video_service'),
 function(Promise, ProgressService, FileModel,
-ErrorService, PictureService, MimeService, VideoService) {
+ErrorService, PictureService, MimeService) {
     
     function FFMpegService() {
         
@@ -381,6 +380,7 @@ ErrorService, PictureService, MimeService, VideoService) {
                    if ('start' === message.type) {
                       
                    } else if ('output' === message.type) {
+                  //    notify(ProgressService(50, 100));
                       console.log(getEventMessageDataResult(data));
                    } else if ('error' === message.type) {
                       releaseWorker();
@@ -398,13 +398,7 @@ ErrorService, PictureService, MimeService, VideoService) {
                       // Maybe we can do a second metadata call, I'm just
                       // worried about speed.
                       
-                      VideoService.getVideoFromFileModel(fileModel)
-                      .then(function(newVideo) {
-                         resolve(newVideo);
-                      })
-                      .catch(function(error) {
-                         reject(error);
-                      });      
+                      resolve(fileModel);  
                    }
                 });
                 
