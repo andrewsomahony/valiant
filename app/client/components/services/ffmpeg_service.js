@@ -367,12 +367,37 @@ ErrorService, PictureService, MimeService) {
         return returnedMetadata;   
     }
     
+    function getFrameNumberFromConversionProgressOutput(outputString) {
+       /*
+       [Parsed_showinfo_0 @ 0xee0c20] n:2990 pts:1496719 pts_time:99.8612 pos:3350933 fmt:yuv420p sar:0/1 s:400x222 i:P iskey:0 type:P checksum:06424584 plane_checksum:[98040CCD 4D6C73E5 F44DC4C3]
+       frame= 2994 fps= 23 q=34.0 size=    2301kB time=00:01:39.79 bitrate= 188.9kbits/s dup=3 drop=0    
+[Parsed_showinfo_0 @ 0xee0c20] n:2991 pts:1497219 pts_time:99.8945 pos:3351719 fmt:yuv420p sar:0/1 s:400x222 i:P iskey:0 type:P checksum:A2F1AC0A plane_checksum:[12F869FA 68E373C5 F279CE3C]
+
+       */
+      
+      var regex1 = /n\s*\:\s*(\d+)\s*pts\s*\:\s*\d+/i;
+      var regex2 = /frame\s*\=\s*(\d+)\s*fps\s*\=\s*\d+/i;
+      
+      var outputMatch = outputString.match(regex1);
+      if (outputMatch) {
+         return parseInt(outputMatch[1]);
+      } else {
+         outputMatch = outputString.match(regex2);
+         if (outputMatch) {
+            return parseInt(outputMatch[1]);
+         } else {
+            return 0;
+         }
+      }
+    }
+    
     FFMpegService.convertVideoToHTML5 = function(video) {
        return Promise(function(resolve, reject, notify) {
           FFMpegService.getWorker()
           .then(function() {
              fileModelToFFMpegFile(video.file_model)
              .then(function(file) {
+                var currentFrame = 0;
                 bindWorkerMessageHandler(function(event) {
                    var message = getEventMessage(event);
                    var data = getEventMessageData(message);
@@ -380,8 +405,12 @@ ErrorService, PictureService, MimeService) {
                    if ('start' === message.type) {
                       
                    } else if ('output' === message.type) {
-                  //    notify(ProgressService(50, 100));
-                      console.log(getEventMessageDataResult(data));
+                      var frame = getFrameNumberFromConversionProgressOutput(
+                           getEventMessageDataResult(data));
+                      if (frame > currentFrame) {
+                         currentFrame = frame;
+                      }
+                      notify(ProgressService(currentFrame, video.getNumberOfFrames()));
                    } else if ('error' === message.type) {
                       releaseWorker();
                       reject(ErrorService.localError(getEventMessageDataResult(data)));
@@ -389,7 +418,7 @@ ErrorService, PictureService, MimeService) {
                       releaseWorker();
                       
                       var result = getEventMessageDataResult(data);
-                      var output = getEventMessageDataOutput(data);
+                      var output = getEventMessageDataOutput(data);                     
                       
                       var fileModel = FileModel.fromArrayBuffer(result[0].data,
                       result[0].name, MimeService.getMimeTypeFromFilename(result[0].name));
@@ -430,7 +459,6 @@ ErrorService, PictureService, MimeService) {
                        if ('start' === message.type) {
                                     
                        } else if ('output' === message.type) {
-                           console.log(getEventMessageDataResult(data));
                        } else if ('error' === message.type) {
                           releaseWorker();
                           reject(ErrorService.localError(

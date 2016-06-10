@@ -102,7 +102,6 @@ onmessage = function(event) {
 
                args = ["-ss", "" + position,
                        "-i", file.name,
-                       "-v", "verbose",
                        "-vframes", "1",
                        "-filter:v", videoFilterString,
                        "thumb%d.png"];
@@ -117,6 +116,8 @@ onmessage = function(event) {
                if (true === isUndefinedOrNull(canRemoveAudio)) {
                   canRemoveAudio = false;
                }
+               
+               var removeAudioString = canRemoveAudio ? "-an" : "";
 
                args = ["-i", file.name, 
                      "-codec:v", "libx264", 
@@ -133,9 +134,11 @@ onmessage = function(event) {
                      "-b:a", "64k",
                      "-pix_fmt", "yuv420p",
                      "-strict", "experimental",
-                     "-an", // Don't need audio
-                     "-speed", "8",
-                     "output_file.mp4"];   
+                     "-speed", "8"];
+               if (removeAudioString) {
+                  args.push(removeAudioString);
+               }
+               args.push("output_file.mp4");   
             }         
          } else {
             sendErrorMessage("ffmpeg_util: Unknown command " + commandType);

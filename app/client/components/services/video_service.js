@@ -18,7 +18,6 @@ SerialPromise, FFMpegService, ProgressService) {
    
    VideoService.videoIsHTML5 = function(video) {
       var validVideoCodecs = ["h264"];
-      
       return -1 !== validVideoCodecs.indexOf(video.getVideoCodec());
    }
    

@@ -47,8 +47,7 @@ function(promise, progress, ProgressModel) {
             if (index === promiseFnArray.length) {
                resolve(allData)
             }
-            else
-            {
+            else {
                var fn = promiseFnArray[index];  
 
                fn(allData, index, false)
@@ -114,8 +113,7 @@ function(promise, progress, ProgressModel) {
 
                         resolve(finalData);
                      }
-                     else
-                     {
+                     else {
                         resolve(finalData)
                      }
                   })
@@ -129,7 +127,6 @@ function(promise, progress, ProgressModel) {
                       true === utils.objectIsClassy(notifyData, ProgressModel)) {
                      
                      if (!notifyData.message) {
-                         console.log("No notify message", progressInfoArray[index].message);
                          notifyData.message = progressInfoArray[index].message;
                      }
                      progressInfoArray[index] = notifyData;

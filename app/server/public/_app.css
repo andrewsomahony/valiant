@@ -10083,18 +10083,11 @@ div.media-picker {
   display: inline-block; }
   div.media-picker div.no-media {
     display: inline-block; }
-    div.media-picker div.no-media div.icon-container {
+    div.media-picker div.no-media div.progress-message {
+      font-size: 13px;
+      font-weight: bold;
       position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center; }
-      div.media-picker div.no-media div.icon-container span {
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle; }
-      div.media-picker div.no-media div.icon-container i {
-        display: inline-block;
-        vertical-align: middle; }
+      top: -25%; }
   div.media-picker div.has-media {
     display: inline-block; }
     @media screen and (max-width: 760px) {
@@ -10208,7 +10201,7 @@ div.font-awesome-centered-icon {
   width: 100%;
   height: 100%;
   text-align: center; }
-  div.font-awesome-centered-icon span {
+  div.font-awesome-centered-icon span.padding {
     display: inline-block;
     height: 100%;
     vertical-align: middle; }

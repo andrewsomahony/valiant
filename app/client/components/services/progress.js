@@ -7,6 +7,9 @@ var name = 'progressService'
 m.factory(name, [require('../models/progress'),
 function(progressModel) {
    function progressService(current, total, message) {
+      if (current > total) {
+         current = total;
+      }
       return new progressModel({current: current, total: total, message: message})
    }
 

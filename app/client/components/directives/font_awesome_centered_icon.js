@@ -19,6 +19,7 @@ function($compile) {
          $element.addClass('font-awesome-centered-icon');
          
          var $spanElement = angular.element("<span></span>");
+         $spanElement.addClass("padding");
          
          $element.append($spanElement);
          

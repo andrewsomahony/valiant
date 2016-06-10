@@ -140,8 +140,8 @@ function(BaseModel) {
          if (this.metadata['duration'] &&
              this.metadata['video'] &&
              this.metadata['video']['fps']) {
-            return this.metadata['duration'] *
-               this.metadata['video']['fps'];    
+            return utils.round(this.metadata['duration'] *
+               this.metadata['video']['fps'], 0);    
          } else {
             return null;
          }
