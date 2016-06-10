@@ -20,7 +20,7 @@ function(ScopeService, ProgressService, $compile) {
          //fitted: "@",
          //centered: "@",
          width: "@",
-         height: "@",
+         //height: "@",
          //canPreload: "@",
          //canHideWhileLoading: "@"
         // showLoading: "@",

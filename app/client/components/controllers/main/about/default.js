@@ -11,15 +11,25 @@ registerController(name, ['$scope',
                           require('models/http_response'),
                           require('services/error_modal'),
                           require('services/http_service'),
-function($scope, ErrorService, Progress, HttpResponseModel, ErrorModal, HttpService) {
+                          require('services/confirm_modal_service'),
+function($scope, ErrorService, Progress, HttpResponseModel, 
+ErrorModal, HttpService, ConfirmModal) {
     $scope.onTestRequestClick = function() {
+        ConfirmModal("Confirm?")
+        .then(function(yes) {
+            if (yes) {
         HttpService.get('/api/users')
         .then(function(response) {
             console.log(response.data);
         })
         .catch(function(error) {
             ErrorModal(error);
-        });
+        });                
+            } else {
+                
+            }
+        })
+
     }
     
     $scope.testProgressModel = Progress(0, 100);

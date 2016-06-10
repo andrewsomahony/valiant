@@ -10,6 +10,7 @@ registerService('factory',
 function($modal, $templateCache) {
    function modalService($scope, fullTemplateUrl, templateUrl, options) {
       fullTemplateUrl = fullTemplateUrl || 'modal/modal.tpl.html'
+      options = options || {};
 
       var templateContent = $templateCache.get(templateUrl);
 

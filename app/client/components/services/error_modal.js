@@ -10,10 +10,10 @@ registerService('factory',
                 name, 
                 [require('services/modal'),
                  require('models/error'),
-                 '$rootScope',
-function(modalService, ErrorModel, $rootScope) {
+                 require('services/scope_service'),
+function(modalService, ErrorModel, ScopeService) {
    function errorModalService(error) {
-      var $modalScope = $rootScope.$new(true)
+      var $modalScope = ScopeService.newRootScope();
 
       if (true === utils.objectIsTypeOfClass(error, ErrorModel)) {
           $modalScope.errorMessage = error.toString();
