@@ -575,6 +575,11 @@ ErrorService, PictureService, MimeService) {
              reserveWorker();
              worker = new Worker('/scripts/ffmpeg_util.js');
 
+             worker.onerror = function(e) {
+                 releaseWorker();
+                 reject(ErrorService.localError("Can't load ffmpeg utility"));
+             }
+
              bindWorkerMessageHandler(function(event) {
                 var message = getEventMessage(event);
             
