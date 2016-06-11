@@ -140,7 +140,7 @@ function($compile, $timeout, ErrorService, ScopeService) {
                $element.removeAttr('youtube-renderer');
                $compile($element)($scope);
             }
-         }, 1).then(null);
+         }).then(null);
       }
    }
 }]);
