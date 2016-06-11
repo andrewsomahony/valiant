@@ -39,21 +39,13 @@ function(YoutubeUrlModalService, VideoModel, $timeout) {
          }
          
          $scope.activateUrlModal = function() {
-            YoutubeUrlModalService()
+            YoutubeUrlModalService($scope.model.url)
             .then(function(url) {
-               $scope.deleteModel();
-               
-               // We need the DOM to recompile,
-               // as our renderer directive seems to have
-               // some sort of problem recompiling on its own.
-               
-               // We use the timeout to make sure the compiling happens.
-               
-               $timeout(function() {
-                  var newModel = new VideoModel({url: url});
-                  $scope.setModel(newModel);                  
-               }).then(null);
-
+               if (utils.isPlainObject(url)) {
+                  $scope.error(null);
+                  var newModel = new VideoModel({url: url.url});
+                  $scope.setModel(newModel);
+               }
             })
             .catch(function(error) {
                $scope.error(error);

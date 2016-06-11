@@ -30,6 +30,7 @@ function(PictureProportionalResizeService, PictureService, $timeout) {
       
          $scope.onPictureSelectSuccess = function(files) {
             $scope.deleteModel();
+            $scope.error(null);
             $scope.setIsLoadingMedia(true);
             
             PictureService.getPictureFromFileModel(files[0])

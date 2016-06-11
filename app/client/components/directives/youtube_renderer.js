@@ -92,7 +92,6 @@ function($compile, $timeout, ErrorService, ScopeService) {
             var urlMatch = url.match(
                /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/i);
             
-            console.log(urlMatch);
             if (urlMatch) {
                return urlMatch[5];
             } else {
@@ -113,34 +112,34 @@ function($compile, $timeout, ErrorService, ScopeService) {
             return url;
             //http://www.youtube.com/embed/PekRc5Ufp10?fs=1&playinline=0&modestbranding=1
          }
-                           
-         // We want to make sure the URL
-         // is ok for embedding into an iframe,
-         // so we wait until the next cycle,
-         // when everything is bound, to create and recompile the element.
-         $timeout(function() {
+         
+         function setYoutubeId() {
             var id = getYoutubeIdFromUrl($scope.model.url);
             
             if (!id) {
-               console.log($scope.onError);
+               $scope.youtubeId = "";
                $scope.onError({error: ErrorService.localError("Invalid youtube url!")});
             } else {
                $scope.youtubeId = id;
-               
-               $element.attr('ng-style', 'getElementStyle()');
-               $element.attr('ng-class', 'getElementClass()');
-            
-               var $iFrameElement = angular.element("<iframe></iframe>");
-               $iFrameElement.attr('ng-src', "{{getEmbeddedYoutubeUrl() | trusted}}");
-               $iFrameElement.attr('ng-style', 'getYoutubeStyle()');
-               $iFrameElement.attr('ng-class', 'getYoutubeClass()');
-               
-               $element.append($compile($iFrameElement)($scope));
-               
-               $element.removeAttr('youtube-renderer');
-               $compile($element)($scope);
-            }
-         }).then(null);
+            }            
+         }
+         
+         $scope.$watch('model', function(value) {
+            setYoutubeId();
+         }, true);
+                           
+         $element.attr('ng-style', 'getElementStyle()');
+         $element.attr('ng-class', 'getElementClass()');
+      
+         var $iFrameElement = angular.element("<iframe></iframe>");
+         $iFrameElement.attr('ng-src', "{{getEmbeddedYoutubeUrl() | trusted}}");
+         $iFrameElement.attr('ng-style', 'getYoutubeStyle()');
+         $iFrameElement.attr('ng-class', 'getYoutubeClass()');
+         
+         $element.append($compile($iFrameElement)($scope));
+         
+         $element.removeAttr('youtube-renderer');
+         $compile($element)($scope);
       }
    }
 }]);

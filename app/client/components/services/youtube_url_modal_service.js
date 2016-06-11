@@ -8,19 +8,19 @@ registerService('factory', name, [require('services/modal'),
                                   require('services/scope_service'),
                                   require('services/promise'),
 function(ModalService, ScopeService, Promise) {
-   function YoutubeUrlModalService() {
+   function YoutubeUrlModalService(url) {
       return Promise(function(resolve, reject, notify) {
          var $scope = ScopeService.newRootScope();
          
-         $scope.url = {url: ""};
+         $scope.url = {url: (url || "")};
          $scope.onCancelClicked = function() {
-            resolve("");
+            resolve(null);
             this.$hide();
          }         
          
          $scope.onOkClicked = function() {
             console.log($scope);
-            resolve($scope.url.url);
+            resolve($scope.url);
             this.$hide();
          }
          

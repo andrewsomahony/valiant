@@ -48,6 +48,7 @@ $timeout) {
       
          $scope.onVideoSelectSuccess = function(files) {
             $scope.deleteModel();
+            $scope.error(null);
             $scope.setIsLoadingMedia(true);
             $scope.conversionProgress = null;
             
