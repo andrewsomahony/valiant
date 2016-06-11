@@ -51,7 +51,6 @@ function(BaseModel) {
          
          if (fileModel) {
             this.url = fileModel.getUrl();
-            console.log(this.url);
          } else {
             this.url = "";
          }

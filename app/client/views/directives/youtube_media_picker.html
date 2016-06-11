@@ -1,5 +1,8 @@
-<div class="no-media" ng-if="!model.url" ng-style="getRootNoMediaDivStyle()">
+<div class="no-media" 
+     ng-if="!hasMedia()" 
+     ng-style="getRootNoMediaDivStyle()">
    <div ng-if="!isLoadingMedia" 
+        ng-click="activateUrlModal()"
         font-awesome-centered-icon 
         font-awesome-params="fa fa-youtube fa-5x">
    </div>
@@ -10,14 +13,17 @@
    </div>
 </div>
 
-<div class="has-media" ng-if="model.url" ng-style="getHasMediaDivStyle()">
-   <div class="media-container youtube-container">
-      <!--
-      <div class="picture-container-image">
-         <img ng-src="{{model.url}}" ng-style="getHasMediaImageStyle()" />
+<div class="has-media" ng-if="hasMedia()" ng-style="getHasMediaDivStyle()">
+   <div class="media-container">
+      <div media-renderer="youtube"
+         fitted="true"
+         centered="true"
+         model="model"
+         class="youtube-container"
+         width="{{getYoutubeRendererWidth()}}"
+         on-error="onYoutubeRendererError(error)">
       </div>
-      
-      -->
+
       <div class="media-container-options youtube-container-options">
          <div class="media-container-option-description">
             <input class="form-control" 
@@ -27,11 +33,11 @@
             <span ng-if="isReadOnly" ng-bind="model.description"></span>
          </div>
          <div ng-if="!isReadOnly">
-            <span class="picture-container-option-left">
-               <a ng-click="activatePicturePicker()">Change</a>
+            <span class="media-container-option-left">
+               <a ng-click="activateUrlModal()">Change</a>
             </span>
-            <span class="picture-container-option-right">
-               <a ng-click="deletePicture()">Delete</a>
+            <span class="media-container-option-right">
+               <a ng-click="deleteModel()">Delete</a>
             </span>
          </div>
       </div>  

@@ -22,7 +22,7 @@ function(ModalService, Promise, ScopeService) {
             this.$hide();
          }
          
-         var modal = ModalService($modalScope, "modals/full/confirm_modal_full.html", 
+         ModalService($modalScope, "modals/full/confirm_modal_full.html", 
          "modals/partials/confirm_modal.html", {
             keyboard: false,
             backdrop: 'static',

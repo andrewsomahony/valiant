@@ -10,7 +10,9 @@ registerDirective(name, [require('services/video_service'),
                          require('services/serial_promise'),
                          require('services/progress'),
                          require('services/promise'),
-function(VideoService, SerialPromise, ProgressService, Promise) {
+                         '$timeout',
+function(VideoService, SerialPromise, ProgressService, Promise,
+$timeout) {
    return {
       // We just want to use our parent's scope,
       // so we inherit the model variable
@@ -45,6 +47,7 @@ function(VideoService, SerialPromise, ProgressService, Promise) {
          }
       
          $scope.onVideoSelectSuccess = function(files) {
+            $scope.deleteModel();
             $scope.setIsLoadingMedia(true);
             $scope.conversionProgress = null;
             
@@ -92,7 +95,14 @@ function(VideoService, SerialPromise, ProgressService, Promise) {
             
             SerialPromise(promiseFnArray, null, ['video'], true)
             .then(function(video) {
-               $scope.setModel(video);
+               // We need the DOM to recompile,
+               // as our renderer directive seems to have
+               // some sort of problem recompiling on its own.
+               
+               // We use the timeout to make sure the compiling happens.
+               $timeout(function() {
+                  $scope.setModel(video);
+               }).then(null);
             })
             .catch(function(error) {
                $scope.error(error);

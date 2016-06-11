@@ -20,7 +20,7 @@ function(ScopeService, $compile) {
       link: function($scope, $element, $attributes) {
          $scope.fitted = ScopeService.parseBool($attributes.fitted, false);
          $scope.centered = ScopeService.parseBool($attributes.centered, false);
-         $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);         
+         $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);
          
          $scope.getElementStyle = function() {
             var style = {};

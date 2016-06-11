@@ -6,7 +6,8 @@ var name = 'pictureMediaPicker';
 
 registerDirective(name, [require('services/picture_proportional_resize_service'),
                          require('services/picture_service'),
-function(PictureProportionalResizeService, PictureService) {
+                         '$timeout',
+function(PictureProportionalResizeService, PictureService, $timeout) {
    return {
       // We just want to use our parent's scope,
       // so we inherit the model variable
@@ -28,13 +29,21 @@ function(PictureProportionalResizeService, PictureService) {
          }                
       
          $scope.onPictureSelectSuccess = function(files) {
-            $scope.isLoadingMedia = true;
+            $scope.deleteModel();
+            $scope.setIsLoadingMedia(true);
             
             PictureService.getPictureFromFileModel(files[0])
             .then(function(picture) {
                PictureProportionalResizeService.resizePicture(picture, maxPictureWidth)
                .then(function(newPicture) {
-                  $scope.setModel(newPicture);
+                  // We need the DOM to recompile,
+                  // as our renderer directive seems to have
+                  // some sort of problem recompiling on its own.
+                  
+                  // We use the timeout to make sure the compiling happens.
+                  $timeout(function() {
+                     $scope.setModel(newPicture);
+                  }).then(null);
                })
                .catch(function(error) {
                   $scope.error(error);
@@ -44,7 +53,7 @@ function(PictureProportionalResizeService, PictureService) {
                $scope.error(error);
             })
             .finally(function() {
-               $scope.isLoadingMedia = false;
+               $scope.setIsLoadingMedia(false);
             });
          }
          

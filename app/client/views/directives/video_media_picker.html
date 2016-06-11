@@ -1,8 +1,8 @@
 <div class="no-media" 
      ng-if="!hasMedia()"
-     ng-click="activateFileReader()" 
      ng-style="getRootNoMediaDivStyle()">
-   <div ng-if="!isLoadingMedia" 
+   <div ng-if="!isLoadingMedia"
+        ng-click="activateFileReader()"  
         font-awesome-centered-icon 
         font-awesome-params="fa fa-video-camera fa-5x">
    </div>

@@ -12,20 +12,21 @@ var utils = require('utils');
 registerDirective(name, ['$compile', 
                          '$timeout',
                          require('services/error'),
-function($compile, $timeout, ErrorService) {
+                         require('services/scope_service'),
+function($compile, $timeout, ErrorService, ScopeService) {
    return {
       restrict: 'A',
       scope: {
          model: "<",
          onError: "&",
          onEvent: "&",
-         //fitted: "%@",
-         //centered: "%@",
+         //fitted: "@",
+         //centered: "@",
          // THESE CAN ONLY BE IN PIXELS
          // DUE TO HAVING TO DO THE ASPECT RATIO MYSELF        
-         width: "%@",
-         height: "%@",
-         showLoading: "%@"
+         width: "@",
+         height: "@",
+         showLoading: "@"
       },
       link: function($scope, $element, $attributes) {
          $scope.fitted = ScopeService.parseBool($attributes.fitted, false);
@@ -91,6 +92,7 @@ function($compile, $timeout, ErrorService) {
             var urlMatch = url.match(
                /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/i);
             
+            console.log(urlMatch);
             if (urlMatch) {
                return urlMatch[5];
             } else {
@@ -111,30 +113,25 @@ function($compile, $timeout, ErrorService) {
             return url;
             //http://www.youtube.com/embed/PekRc5Ufp10?fs=1&playinline=0&modestbranding=1
          }
-         
+                           
          // We want to make sure the URL
          // is ok for embedding into an iframe,
          // so we wait until the next cycle,
          // when everything is bound, to create and recompile the element.
          $timeout(function() {
-            var id = getYoutubeIdFromUrl(model.url);
+            var id = getYoutubeIdFromUrl($scope.model.url);
             
             if (!id) {
+               console.log($scope.onError);
                $scope.onError({error: ErrorService.localError("Invalid youtube url!")});
             } else {
                $scope.youtubeId = id;
                
                $element.attr('ng-style', 'getElementStyle()');
                $element.attr('ng-class', 'getElementClass()');
-               
-            /*
-                     <iframe
-               src="http://www.youtube.com/embed/PekRc5Ufp10?fs=1&playinline=0&modestbranding=1">
-            </iframe>
-            */ 
             
                var $iFrameElement = angular.element("<iframe></iframe>");
-               $iFrameElement.attr('src', "{{getEmbeddedYoutubeUrl() | trusted}}");
+               $iFrameElement.attr('ng-src', "{{getEmbeddedYoutubeUrl() | trusted}}");
                $iFrameElement.attr('ng-style', 'getYoutubeStyle()');
                $iFrameElement.attr('ng-class', 'getYoutubeClass()');
                
@@ -143,7 +140,7 @@ function($compile, $timeout, ErrorService) {
                $element.removeAttr('youtube-renderer');
                $compile($element)($scope);
             }
-         });
+         }, 1).then(null);
       }
    }
 }]);

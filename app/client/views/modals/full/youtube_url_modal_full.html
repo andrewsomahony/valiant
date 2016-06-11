@@ -1,0 +1,19 @@
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" ng-show="title">
+        <h4 class="modal-title" ng-bind="title"></h4>
+      </div>
+      <div class="modal-body">
+         <input type="text" 
+               placeholder="Youtube URL"
+               class="form-control" 
+               ng-model="url.url" />         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="onCancelClicked()">Cancel</button>
+        <button type="button" class="btn btn-default" ng-click="onOkClicked()">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
