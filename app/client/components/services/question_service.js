@@ -25,8 +25,6 @@ MediaService) {
    }
    
    QuestionService.ask = function(questionModel) {
-      var backupQuestionModel = questionModel.clone();
-
       var pictureUploadFnArray = utils.map(questionModel.pictures, function(pictureModel) {
          return function(forNotify) {
             pictureModel.upload_progress = Progress(50, 100);
@@ -69,7 +67,6 @@ MediaService) {
             resolve(question);
          })
          .catch(function(error) {
-            questionModel.fromModel(backupQuestionModel);
             reject(error);
          });
       });

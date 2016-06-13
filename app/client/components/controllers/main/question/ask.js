@@ -40,7 +40,9 @@ FFMpegService, ErrorModal) {
    }
    
    $scope.askQuestion = function() {
+      var previousQuestion = $scope.currentQuestion.clone();
       $scope.isAskingQuestion = true;
+
       QuestionService.ask($scope.currentQuestion)
       .then(function(newQuestion) {
          console.log(newQuestion);
@@ -48,6 +50,8 @@ FFMpegService, ErrorModal) {
          //$scope.currentQuestion = newQuestion;
       })
       .catch(function(error) {
+         $scope.currentQuestion.fromModel(previousQuestion);
+         console.log($scope.currentQuestion);
          ErrorModal(error);
       })
       .finally(function() {
