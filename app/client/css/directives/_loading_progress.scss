@@ -1,4 +1,16 @@
 div.loading-progress {
+   &.overlay {
+      &.ng-enter {
+         animation: fade-in 0.8s;
+      }
+   }
+
+   &.spinner {
+      &.ng-enter {
+         animation: fade-in 0.5s;
+      }
+   }
+
    div {
        box-sizing: content-box;
    }

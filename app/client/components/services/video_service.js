@@ -10,8 +10,10 @@ registerService('factory', name, [require('models/video'),
                                   require('services/serial_promise'),
                                   require('services/ffmpeg_service'),
                                   require('services/progress'),
+                                  require('services/picture_service'),
 function(VideoModel, FileModel, Promise, 
-SerialPromise, FFMpegService, ProgressService) {
+SerialPromise, FFMpegService, ProgressService,
+PictureService) {
    function VideoService() {
       
    }
@@ -109,9 +111,15 @@ SerialPromise, FFMpegService, ProgressService) {
    VideoService.getVideoThumbnail = function(video) {
       return Promise(function(resolve, reject, notify) {
          FFMpegService.getVideoThumbnail(video)
-         .then(function(picture) {
-            video.setThumbnail(picture);
-            resolve(video);
+         .then(function(fileModel) {
+            PictureService.getPictureFromFileModel(fileModel)
+            .then(function(picture) {
+               video.setThumbnail(picture);
+               resolve(video);
+            })
+            .catch(function(error) {
+               reject(error);
+            })
          })
          .catch(function(error) {
             reject(error);

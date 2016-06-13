@@ -25,9 +25,6 @@ FileReaderActivatorService) {
    $scope.previousEditingUser = null;
    
    $scope.profilePicturePicker = FileReaderActivatorService.makeCreationObject();
-   /*{
-      active: false
-   };*/
    
    $scope.tempWidth = "40%";
    $scope.tempHeight = "40%";

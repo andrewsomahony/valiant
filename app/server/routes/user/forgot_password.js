@@ -10,6 +10,10 @@ var User = require(__base + 'db/models/user/user');
 
 router.route('/forgot_password')
 .get(function(request, result) {
+    // !!! Maybe we should make the e-mail link
+    // !!! redirect to here?
+    
+    // !!! That way we can check the token.
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {

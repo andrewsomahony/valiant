@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html>
+   
+<head>
+   <title>CSS Animations and Transitions Test</title>
+
+   <script src="./ready.js" type="text/javascript"></script>
+   
+   <style type="text/css">
+      html, body {
+         width: 100%;
+         height: 100%;
+      }
+
+      div.menu {
+         width: 100%;
+         height: 5%;
+         border-bottom: 1px solid black;
+      }
+
+      div.menu span.object-menu {
+         margin-left: 40px;
+      }
+
+      div.container {
+         width: 100%;
+         height: 95%;
+         position: relative;
+      }
+
+      div.object-container {
+         top: 0px;
+         left: 0px;
+         position: absolute;
+         transition: transform 1.0s;
+      }
+
+      div.object-container.fade-in.enter {
+         animation: fade-in 0.7s;
+      }
+
+      div.object-container.fade-out.leave {
+         animation: fade-in 0.7s reverse;
+      }
+
+      div.object-container1 {
+         width: 100%;
+         height: 100%;
+         display: inline-block;
+      }
+      
+      div.object-container1.rotate-y {
+         animation: rotate-y 1.5s infinite linear;
+      }
+
+      div.object-container1.rotate-x {
+         animation: rotate-x 1.5s infinite linear;
+      }
+
+      div.object-container1.rotate-z {
+         animation: rotate-z 1.5s infinite linear;
+      }
+
+      div.child-object {
+         width: 100%;
+         height: 100%;
+         display: inline-block;
+      }
+
+      div.child-object.video video {
+         width: 100%;
+         height: 100%;
+      }
+
+      div.child-object.circle {
+         border-radius: 50%;
+         background-color: red;
+      }
+
+      div.child-object.pulse {
+         animation: pulse 0.3s infinite alternate;
+      }
+
+      @keyframes fade-in {
+         0% {opacity: 0}
+         100% {opacity: 1}
+      }
+
+      @keyframes pulse {
+         0% {transform: scale(1.0);}
+         100% {transform: scale(1.2);}
+      }
+
+      @keyframes rotate-y {
+         0% {transform: rotateY(0deg);}
+         100% {transform: rotateY(359deg);}
+      }
+
+      @keyframes rotate-x {
+         0% {transform: rotateX(0deg);}
+         100% {transform: rotateX(359deg);}
+      }
+
+      @keyframes rotate-z {
+         0% {transform: rotateZ(0deg);}
+         100% {transform: rotateZ(359deg);}
+      }
+
+      div.object-container.selected div.circle {
+         background-color: green;
+      }
+
+      div.object-container.selected div.video {
+         border: 1px solid black;
+      }
+
+      div.object-container div.child-object.circle:hover,
+      div.object-container.selected div.child-object.circle:hover {
+         background-color: blue;
+      }
+
+   </style>
+   
+   <script type="text/javascript">
+      var currentObject = null;
+
+      function getObjectChildDiv(objectDiv) {
+         return objectDiv.querySelectorAll(".child-object")[0];
+      }
+
+      function getObjectSubContainerDiv(objectDiv) {
+         return objectDiv.querySelectorAll(".object-container1")[0];
+      }
+
+      function setObjectPosition(objectDiv, x, y) {
+	      objectDiv.style.transform = 'translateY('+(y)+'px)';
+	      objectDiv.style.transform += 'translateX('+(x)+'px)';
+      }
+
+      function toggleObjectMenu(show) {
+         var menu = document.querySelectorAll('.object-menu')[0];
+
+         if (true === show) {
+            menu.style.display = 'inline';
+         } else {
+            menu.style.display = 'none';
+         }
+      }
+
+      function makeObject(objectName, minimumSize, maximumSize) {
+         minimumSize = minimumSize || 20;
+         maximumSize = maximumSize || 150;
+
+         var screenWidth = document.body.clientWidth;
+         var screenHeight = document.body.clientHeight;
+
+         var newSize = minimumSize + (Math.random() * (maximumSize - minimumSize));
+
+         var newX = Math.random() * (screenWidth - newSize - 10);
+         var newY = Math.random() * (screenHeight - newSize - 10);
+
+         var objectDiv = document.createElement("div");
+         objectDiv.className += 'object-container';
+
+         objectDiv.style.width = newSize + "px";
+         objectDiv.style.height = newSize + "px";
+
+         setObjectPosition(objectDiv, newX, newY); 
+
+         objectDiv.addEventListener('click', function(event) {
+            event.stopPropagation();
+
+            if (currentObject) {
+               currentObject.classList.remove("selected");
+            }
+            if (this === currentObject) {
+               currentObject = null;
+               toggleObjectMenu(false);
+            } else {
+               toggleObjectMenu(true);
+               currentObject = this;
+               this.className += ' selected';
+            }
+         });
+
+         var objectDiv1 = document.createElement("div");
+         objectDiv1.className += 'object-container1';
+
+         var childDiv = document.createElement("div"); 
+         childDiv.className += 'child-object';
+         childDiv.className += ' ' + objectName;
+
+         objectDiv1.appendChild(childDiv);
+         objectDiv.appendChild(objectDiv1);
+
+         return objectDiv;
+      }
+
+      function fadeOutObject(objectDiv) {
+         window.getComputedStyle(objectDiv).opacity;
+         objectDiv.classList.remove('fade-in');
+         objectDiv.classList.remove('enter');
+
+         objectDiv.className += ' fade-out leave';
+      }
+
+      function hideObject(objectDiv) {
+         objectDiv.style.opacity = 0;
+         window.getComputedStyle(objectDiv).opacity;
+      }
+
+      function fadeInObject(objectDiv) {
+         objectDiv.style.opacity = 1;
+         window.getComputedStyle(objectDiv).opacity;
+
+         objectDiv.className += ' fade-in enter';
+      }
+
+      function pulseObject(objectDiv) {
+         var childDiv = getObjectChildDiv(objectDiv);
+         window.getComputedStyle(childDiv).transform
+
+         childDiv.className += ' pulse';
+      }
+
+      function rotateObjectOnXAxis(objectDiv) {
+         var subContainerDiv = getObjectSubContainerDiv(objectDiv);
+
+         subContainerDiv.className += ' rotate-x';
+      }
+
+      function rotateObjectOnYAxis(objectDiv) {
+         var subContainerDiv = getObjectSubContainerDiv(objectDiv);
+
+         subContainerDiv.className += ' rotate-y';
+      }
+
+      function rotateObjectOnZAxis(objectDiv) {
+         var subContainerDiv = getObjectSubContainerDiv(objectDiv);
+
+         subContainerDiv.className += ' rotate-z';
+      }
+
+      function makeVideo(src) {
+         var videoDiv = makeObject('video', 100, 300);
+
+         videoDiv.style.height = 'auto';
+
+         var videoElement = document.createElement("video");
+         videoElement.src = src;
+         videoElement.setAttribute('controls', '');
+         videoElement.setAttribute('preload', 'auto');
+
+         videoElement.oncanplay = function() {
+            fadeInObject(videoDiv);
+         }
+         hideObject(videoDiv);
+
+         var childDiv = getObjectChildDiv(videoDiv);
+         childDiv.appendChild(videoElement);
+
+         return videoDiv;
+      }
+
+      function addCircle() {
+         var circle = makeObject('circle');
+
+         document.querySelectorAll('.container')[0].appendChild(circle);
+         
+         fadeInObject(circle);
+         //pulseObject(circle);
+      }
+
+      function addVideo() {
+         var video = makeVideo("./soccer_small.m4v");
+         document.querySelectorAll('.container')[0].appendChild(video);
+      }
+
+      domready(function() {
+         document.querySelectorAll('.add-circle')[0].addEventListener('click', function(event) {
+            event.stopPropagation();
+            addCircle();
+         });
+
+         document.querySelectorAll('.add-video')[0].addEventListener('click', function(event) {
+            event.stopPropagation();
+            addVideo();
+         });
+
+         document.querySelectorAll('.object-pulse')[0].addEventListener('click', function(event) {
+            event.stopPropagation();
+
+            pulseObject(currentObject);
+         });
+
+         document.querySelectorAll('.object-rotate-x')[0].addEventListener('click', function(event) {
+            event.stopPropagation();
+
+            rotateObjectOnXAxis(currentObject);
+         });
+
+         document.querySelectorAll('.object-rotate-y')[0].addEventListener('click', function(event) {
+            event.stopPropagation();
+
+            rotateObjectOnYAxis(currentObject);
+         });         
+
+         document.querySelectorAll('.object-rotate-z')[0].addEventListener('click', function(event) {
+            event.stopPropagation();
+
+            rotateObjectOnZAxis(currentObject);
+         });
+
+         document.addEventListener('click', function(event) {
+            if (currentObject) {
+               var x = event.clientX;
+               var y = event.clientY;
+
+               setObjectPosition(currentObject, x, y);
+            }
+         });
+
+         toggleObjectMenu(false);
+      });
+   </script>
+   
+</head>
+
+<body>
+   <div class="menu">
+      <span>
+         <button class="add-circle">Add Circle</button>
+         <button class="add-video">Add Video</button>
+      </span>
+
+      <span class="object-menu">
+         <button class="object-pulse">Pulse</button>
+         <button class="object-rotate-x">Rotate X</button>
+         <button class="object-rotate-y">Rotate Y</button>
+         <button class="object-rotate-z">Rotate Z</button>
+      </span>
+   </div>
+   <div class="container">
+
+   </div>
+</body>
+
+</html>

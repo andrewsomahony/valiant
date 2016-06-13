@@ -3,6 +3,7 @@
 var angular = require('angular');
 
 require('angular-messages');
+require('angular-animate');
 
 require('angular-strap');
 require('angular-strap-tpl-modal');
@@ -19,7 +20,6 @@ require('../components/models/init');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.name, [
-    require('angular-animate'),
     appInfo.moduleName('controllers'),
     appInfo.moduleName('filters'),
     appInfo.moduleName('directives'),
@@ -30,5 +30,6 @@ module.exports = angular.module(appInfo.name, [
     require('angular-ui-router'),
     'mgcrea.ngStrap.modal',
     require('angular-route'),
-    'ngMessages'
+    'ngMessages',
+    'ngAnimate'
 ]);

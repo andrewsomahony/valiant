@@ -9694,6 +9694,12 @@ html, body {
 //** Deprecated `@screen-lg-desktop` as of v3.0.1
 @screen-lg-desktop:          @screen-lg-min;
 */
+@keyframes fade-in {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
 div.main {
   height: 95%; }
   div.main div.top-bar {
@@ -9821,21 +9827,21 @@ div.main {
       div.main div.mobile-scroll div.main-content div.content div.about div.sub-content span.about-text {
         font-size: 15px;
         color: red; }
-      div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.status-message {
-        margin-bottom: 16px; }
-      div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.login-links a {
-        margin-bottom: 4px;
-        display: block; }
-      div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.requesting-in-progress span.requesting-text {
-        margin-left: 8px; }
-      div.main div.mobile-scroll div.main-content div.content div.login div.sub-content p.resending-in-progress span.resending-text {
-        margin-left: 12px; }
+      div.main div.mobile-scroll div.main-content div.content div.login div.sub-content {
+        /*p.resending-in-progress {
+   span.resending-text {
+      margin-left: 12px;
+   }
+}*/ }
+        div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.status-message {
+          margin-bottom: 16px; }
+        div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.login-links a {
+          margin-bottom: 4px;
+          display: block; }
       div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;
         font-size: 13px; }
-      div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.registering-in-progress span.registering-text {
-        margin-left: 16px; }
       div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.profile-picture-input div.profile-picture-display {
         text-align: center;
         margin-bottom: 12px; }
@@ -9938,8 +9944,6 @@ div.main {
         color: red;
         margin-left: 8px;
         font-size: 13px; }
-      div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.resetting-in-progress span.resetting-text {
-        margin-left: 16px; }
       div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask label {
@@ -10090,6 +10094,9 @@ div.media-picker {
       top: -25%; }
   div.media-picker div.has-media {
     display: inline-block; }
+    div.media-picker div.has-media.ng-enter {
+      animation: fade-in 0.8s;
+      opacity: 0; }
     @media screen and (max-width: 760px) {
       div.media-picker div.has-media {
         margin-bottom: 4px; } }
@@ -10121,6 +10128,12 @@ div.media-picker {
     color: red;
     font-weight: bold;
     word-wrap: break-word; }
+
+div.loading-progress.overlay.ng-enter {
+  animation: fade-in 0.8s; }
+
+div.loading-progress.spinner.ng-enter {
+  animation: fade-in 0.5s; }
 
 div.loading-progress div {
   box-sizing: content-box; }

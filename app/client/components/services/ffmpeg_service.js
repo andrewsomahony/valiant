@@ -10,10 +10,9 @@ registerService('factory', name, [require('services/promise'),
                                   require('services/progress'),
                                   require('models/file'),
                                   require('services/error'),
-                                  require('services/picture_service'),
                                   require('services/mime_service'),
 function(Promise, ProgressService, FileModel,
-ErrorService, PictureService, MimeService) {
+ErrorService, MimeService) {
     
     function FFMpegService() {
         
@@ -423,10 +422,6 @@ ErrorService, PictureService, MimeService) {
                       var fileModel = FileModel.fromArrayBuffer(result[0].data,
                       result[0].name, MimeService.getMimeTypeFromFilename(result[0].name));
                       
-                      // We need to parse the metadata here.
-                      // Maybe we can do a second metadata call, I'm just
-                      // worried about speed.
-                      
                       resolve(fileModel);  
                    }
                 });
@@ -471,14 +466,8 @@ ErrorService, PictureService, MimeService) {
                                                       
                           var fileModel = FileModel.fromArrayBuffer(result[0].data, 
                               result[0].name, MimeService.getMimeTypeFromFilename(result[0].name));
-                           
-                          PictureService.getPictureFromFileModel(fileModel)
-                          .then(function(picture) {
-                             resolve(picture);
-                          })
-                          .catch(function(error) {
-                             reject(error);
-                          })
+                          
+                          resolve(fileModel);
                        }
                     });
                     

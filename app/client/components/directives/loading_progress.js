@@ -14,7 +14,7 @@ registerDirective(name, ['$compile',
          scope: {
             //type: "@", (spinner, circle, pie, image, bar, overlay, overlay_circle)
             progressObject: "<",
-            message: "<"
+            message: "@"
             //width: "@",
             //height: "@",
             //imageUrl: "@",
@@ -193,6 +193,8 @@ registerDirective(name, ['$compile',
             $div.addClass('loading-progress');
                         
             if ('spinner' === $scope.type) {
+               $div.addClass('spinner');
+
                var $imageSpan = angular.element("<span></span>");
                
                var $iconElement = angular.element("<i></i>");
@@ -292,6 +294,8 @@ registerDirective(name, ['$compile',
                $div.css('height', '100%');
                $div.css('left', '0px');
                $div.css('top', '0px');  
+
+               $div.addClass('overlay');
                   
                var $overlayElement = angular.element("<div></div>");
                $overlayElement.attr('overlay', '');

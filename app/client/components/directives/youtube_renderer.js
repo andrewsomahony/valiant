@@ -110,7 +110,6 @@ function($compile, $timeout, ErrorService, ScopeService) {
             url += "&modestbranding=1";
             
             return url;
-            //http://www.youtube.com/embed/PekRc5Ufp10?fs=1&playinline=0&modestbranding=1
          }
          
          function setYoutubeId() {
@@ -135,7 +134,7 @@ function($compile, $timeout, ErrorService, ScopeService) {
          $iFrameElement.attr('ng-src', "{{getEmbeddedYoutubeUrl() | trusted}}");
          $iFrameElement.attr('ng-style', 'getYoutubeStyle()');
          $iFrameElement.attr('ng-class', 'getYoutubeClass()');
-         
+
          $element.append($compile($iFrameElement)($scope));
          
          $element.removeAttr('youtube-renderer');

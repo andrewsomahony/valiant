@@ -41,9 +41,11 @@
          <button ng-disabled="resetPasswordForm.$invalid" ng-click="resetPassword()">Set Password</button>
       </div>
       
-      <div class="resetting-in-progress" ng-if="resettingInProgress">
-         <span><div loading-progress type="spinner"></div></span>
-         <span class="resetting-text">Setting password...</span>
+      <div loading-progress 
+            type="spinner"
+            class="resetting-in-progress"
+            ng-if="resettingInProgress"
+            message="Setting password...">
       </div>
    </form>
 </div>

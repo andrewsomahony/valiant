@@ -126,11 +126,11 @@
          <a class="save-cancel-right cancel-change-email" ng-click="cancelChangeEmail()">Back</a>
       </span>
       
-      <div ng-if="isSaving" class="saving-message">
-         <div loading-progress 
-               type="spinner"
-               message="getSavingUserMessage()">
-         </div>
+      <div loading-progress 
+            type="spinner"
+            class="saving-message"
+            ng-if="isSaving"
+            message="{{getSavingUserMessage()}}">
       </div>
       
       <div ng-if="postSavingMessage" class="post-saving-message">

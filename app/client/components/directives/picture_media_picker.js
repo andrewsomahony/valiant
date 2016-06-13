@@ -6,8 +6,11 @@ var name = 'pictureMediaPicker';
 
 registerDirective(name, [require('services/picture_proportional_resize_service'),
                          require('services/picture_service'),
+                         require('services/promise'),
+                         require('services/serial_promise'),
                          '$timeout',
-function(PictureProportionalResizeService, PictureService, $timeout) {
+function(PictureProportionalResizeService, PictureService, 
+Promise, SerialPromise, $timeout) {
    return {
       // We just want to use our parent's scope,
       // so we inherit the model variable
@@ -32,24 +35,43 @@ function(PictureProportionalResizeService, PictureService, $timeout) {
             $scope.deleteModel();
             $scope.error(null);
             $scope.setIsLoadingMedia(true);
-            
-            PictureService.getPictureFromFileModel(files[0])
-            .then(function(picture) {
-               PictureProportionalResizeService.resizePicture(picture, maxPictureWidth)
-               .then(function(newPicture) {
-                  // We need the DOM to recompile,
-                  // as our renderer directive seems to have
-                  // some sort of problem recompiling on its own.
-                  
-                  // We use the timeout to make sure the compiling happens.
-                  $timeout(function() {
-                     $scope.setModel(newPicture);
-                  }).then(null);
-               })
-               .catch(function(error) {
-                  $scope.error(error);
-               });           
-            })
+
+            var promiseFnArray = [];
+
+            promiseFnArray.push(function(existingData, index, forNotify) {
+               if (false === forNotify) {
+                  return Promise(function(resolve, reject, notify) {
+                     PictureService.getPictureFromFileModel(files[0])
+                     .then(function(picture) {
+                        resolve({picture: picture});
+                     })
+                     .catch(function(error) {
+                        reject(error);
+                     });
+                  });
+               }
+            });
+
+            promiseFnArray.push(function(existingData, index, forNotify) {
+               if (false === forNotify) {
+                  return Promise(function(resolve, reject, notify) {
+                     PictureProportionalResizeService.resizePicture(existingData.picture, maxPictureWidth)
+                     .then(function(resizedPicture) {
+                        $timeout(function() {
+                           $scope.setModel(resizedPicture)
+                        })
+                        .then(function() {
+                           resolve();
+                        })
+                     })
+                     .catch(function(error) {
+                        reject(error);
+                     })
+                  })
+               }
+            });
+
+            SerialPromise(promiseFnArray)
             .catch(function(error) {
                $scope.error(error);
             })
