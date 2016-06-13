@@ -48,11 +48,23 @@ ErrorPageService) {
                         error: error});
                 }
             }
+
+            var resetPassword = toParams['reset_password'];
             
-            var resetPasswordToken = toParams['reset_password_token'];
-            if (false === utils.isUndefinedOrNull(resetPasswordToken)) {
-                StateService.go('main.reset_password',
-                {token: resetPasswordToken});
+            if (false === utils.isUndefinedOrNull(resetPassword)) {
+                resetPassword = utils.stringToBoolean(resetPassword);
+                if (true === resetPassword) {
+                   var token = toParams['token'];
+                   if (!token) {
+                      ErrorPageService.go("Missing reset password token!");
+                   } else {
+                      StateService.go('main.reset_password',
+                          {token: token});
+                   }
+                } else {
+                   var error = toParams['error'];
+                   ErrorPageService.go(error);
+                }
             }
             
             var emailChanged = toParams['email_changed'];

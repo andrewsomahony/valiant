@@ -15,12 +15,12 @@ function(ScopeService, $compile) {
          //centered: "@",
          width: "@",
          height: "@",
-        // showLoading: "@"
+        // showUploading: "@"
       },
       link: function($scope, $element, $attributes) {
          $scope.fitted = ScopeService.parseBool($attributes.fitted, false);
          $scope.centered = ScopeService.parseBool($attributes.centered, false);
-         $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);
+         $scope.showUploading = ScopeService.parseBool($attributes.showUploading, true);
          
          $scope.getElementStyle = function() {
             var style = {};

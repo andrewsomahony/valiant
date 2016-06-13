@@ -63,6 +63,6 @@ router.route('/pending_email/:authToken')
 })
 .delete(function(request, result) {
     Responder.methodNotAllowed(result);
-})
+});
 
 module.exports = router;

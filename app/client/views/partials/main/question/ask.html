@@ -70,7 +70,13 @@
       </div>
    </div>  
    
-   <div class="ask-submit">
+   <div class="ask-submit" ng-if="!isAskingQuestion">
       <button ng-click="askQuestion()">Ask Question</button>
    </div>
+
+   <div loading-progress 
+        type="spinner"
+        ng-if="isAskingQuestion"
+        message="Asking..."
+   ></div>
 </div>

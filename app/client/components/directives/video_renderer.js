@@ -23,12 +23,12 @@ function(ScopeService, ProgressService, $compile) {
          //height: "@",
          //canPreload: "@",
          //canHideWhileLoading: "@"
-        // showLoading: "@",
+        // showUploading: "@",
       }, 
       link: function($scope, $element, $attributes) {
          $scope.fitted = ScopeService.parseBool($attributes.fitted, false);
          $scope.centered = ScopeService.parseBool($attributes.centered, false);
-         $scope.showLoading = ScopeService.parseBool($attributes.showLoading, true);
+         $scope.showUploading = ScopeService.parseBool($attributes.showUploading, true);
          $scope.canPreload = ScopeService.parseBool($attributes.canPreload, false);
          $scope.canHideWhileLoading = ScopeService.parseBool($attributes.canHideWhileLoading, false);
          

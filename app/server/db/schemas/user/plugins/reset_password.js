@@ -79,7 +79,7 @@ module.exports = function(schema, options) {
             fromname: "Valiant Athletics",
             template: "forgot_password",
             templateParams: {
-               reset_password_link: hostnameUtil.constructUrl("/redirect?reset_password_token=" + resetPasswordToken)
+               reset_password_link: hostnameUtil.constructUrl("/check/forgot_password/" + resetPasswordToken)
             }
          }, function(error) {
             if (error) {

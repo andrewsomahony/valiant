@@ -21,6 +21,7 @@
            height="98%"
            fitted="true"
            centered="true"
+           show-uploading="false"
            class="picture-container">
       </div>
       <div class="media-container-options picture-container-options">
@@ -41,12 +42,11 @@
          </div>
       </div>
       
-      <div ng-if="model.upload_progress">
-         <div loading-progress
-              type="overlay_circle"
-              show-percentage="false"
-              progress-object="model.upload_progress">
-         </div>
+      <div loading-progress
+           type="overlay_circle"
+           ng-if="model.upload_progress"
+           show-percentage="false"
+           progress-object="model.upload_progress">
       </div>
               
    </div>

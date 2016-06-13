@@ -10130,7 +10130,7 @@ div.media-picker {
     word-wrap: break-word; }
 
 div.loading-progress.overlay.ng-enter {
-  animation: fade-in 0.8s; }
+  animation: fade-in 0.4s; }
 
 div.loading-progress.spinner.ng-enter {
   animation: fade-in 0.5s; }

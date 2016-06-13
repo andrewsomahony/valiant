@@ -236,10 +236,12 @@
          var newArray = [];
          thisPointer = thisPointer || this;
 
+         var self = this;
+
          array.forEach(function(element, index) {
             var obj = sentinelFn.call(thisPointer, element, index);
 
-            if (false === this.isUndefinedOrNull(obj)) {
+            if (false === self.isUndefinedOrNull(obj)) {
                newArray.push(obj)
             }
          })

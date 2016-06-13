@@ -23,7 +23,8 @@ var indexRoute = require('./routes/index');
 var loginRoute = require('./routes/login');
 var logoutRoute = require('./routes/logout');
 var verifyRoute = require('./routes/verify');
-var userRoute = require('./routes/user/root');//require('./routes/users');
+var checkRoute = require('./routes/check');
+var userRoute = require('./routes/user/root');
 var s3Route = require('./routes/s3');
 
 var UserModel = require('./db/models/user/user');
@@ -143,6 +144,7 @@ if (false === appIsActive) {
     app.use('/logout', logoutRoute);
     
     app.use('/verify', verifyRoute);
+    app.use('/check', checkRoute);
     
     app.use('/api/users', userRoute);
     app.use('/api/s3', s3Route);

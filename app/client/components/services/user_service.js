@@ -103,7 +103,7 @@ PictureModel, MediaService) {
                                         currentRequestedUser = null;
                                         if (true === ErrorService.isForbidden(error)) {
                                             currentRequestedUserIsNotAccessible = true;
-                                            resolve({});
+                                            resolve();
                                         } else if (true === ErrorService.isNotFound(error)) {
                                             currentRequestedUserIsNotFound = true;
                                             resolve();

@@ -14,10 +14,12 @@ registerController(name, ['$scope',
                           require('services/promise'),
                           require('services/parallel_promise'),
                           require('services/ffmpeg_service'),
+                          require('services/error_modal'),
 function($scope, QuestionService, QuestionModel,
 DeviceService, S3UploaderService, Promise, ParallelPromise,
-FFMpegService) {
+FFMpegService, ErrorModal) {
    $scope.questionTopicOptions = QuestionService.getSelectableQuestionTypes();
+   $scope.isAskingQuestion = false;
 
    $scope.allocateNewQuestion = function() {
       $scope.currentQuestion = new QuestionModel();  
@@ -38,7 +40,20 @@ FFMpegService) {
    }
    
    $scope.askQuestion = function() {
-      console.log($scope.currentQuestion);
+      $scope.isAskingQuestion = true;
+      QuestionService.ask($scope.currentQuestion)
+      .then(function(newQuestion) {
+         console.log(newQuestion);
+         // Redirect to question description page.
+         //$scope.currentQuestion = newQuestion;
+      })
+      .catch(function(error) {
+         ErrorModal(error);
+      })
+      .finally(function() {
+         $scope.isAskingQuestion = false;
+      })
+      //console.log($scope.currentQuestion);
    }
    
    $scope.allocateNewQuestion();
