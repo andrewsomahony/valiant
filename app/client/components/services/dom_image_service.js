@@ -74,6 +74,10 @@ ErrorService) {
          image.src = dataUrl;
       });
    }
+
+   DOMImageService.createImageFromUrl = function(url) {
+       return DOMImageService.createImageFromDataUrl(url);
+   }
    
    return DOMImageService;
 }]);

@@ -46,8 +46,6 @@ FFMpegService, ErrorModal) {
       QuestionService.ask($scope.currentQuestion)
       .then(function(newQuestion) {
          console.log(newQuestion);
-         // Redirect to question description page.
-         //$scope.currentQuestion = newQuestion;
       })
       .catch(function(error) {
          $scope.currentQuestion.fromModel(previousQuestion);

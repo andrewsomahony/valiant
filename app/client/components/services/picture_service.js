@@ -11,10 +11,19 @@ registerService('factory', name, [require('models/picture'),
                                   require('services/serial_promise'),
                                   require('services/progress'),
                                   require('services/file_reader_service'),
+                                  require('services/dom_image_service'),
 function(PictureModel, FileModel, ImageService, Promise,
-SerialPromise, ProgressService, FileReaderService) {
+SerialPromise, ProgressService, FileReaderService, DOMImageService) {
    function PictureService() {
       
+   }
+
+   PictureService.getDOMImageFromPicture = function(picture) {
+      /*if (picture.file_model) {
+         return DOMImageService.createImageFromFileModel(picture.file_model);
+      } else {*/
+         return DOMImageService.createImageFromUrl(picture.url);
+      //}
    }
    
    PictureService.getPictureFromFileModel = function(fileModel) {
