@@ -6,7 +6,8 @@ var name = 'services.canvas';
 
 registerService('factory', name, [require('services/picture_service'),
                                   require('services/promise'),
-function(PictureService, Promise) {
+                                  require('models/canvas'),
+function(PictureService, Promise, CanvasModel) {
    function CanvasService() {
 
    }
@@ -19,6 +20,17 @@ function(PictureService, Promise) {
          throw new Error("getCanvasModelContext: Invalid canvas_model!");
       }
       return canvasModel.canvas_model.getContext("2d");
+   }
+
+   CanvasService.createCanvasModel = function(width, height) {
+      return new CanvasModel({width: width, height: height});
+   }
+
+   CanvasService.fillCanvas = function(canvasModel, style) {
+      var context = getCanvasModelContext(canvasModel);
+
+      context.fillStyle = style;
+      context.fillRect(0, 0, canvasModel.width, canvasModel.height);
    }
 
    CanvasService.setCanvasAlpha = function(canvasModel, alpha) {
