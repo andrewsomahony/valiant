@@ -41,6 +41,7 @@
     "gulp-util": "~3.0.2",
     "html5-canvas-image-resizer": "^0.1.1",
     "mimetype": "0.0.8",
+    "node-uuid": "^1.4.7",
     "piexifjs": "^1.0.0",
     "q": "~1.4.1",
     "rfc6902": "^1.2.1",

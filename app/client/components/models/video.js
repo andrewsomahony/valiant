@@ -28,13 +28,21 @@ function(BaseModel) {
          
          localFields: function() {
             return this.staticMerge(this.callSuper(), [
-               'file_model', 's3_upload_progress'
+               'file_model', 's3_upload_progress', 'thumbnail'
             ]);
          }
       },
       
       init: function(config, isFromServer) {
          this.callSuper();
+      },
+
+      hasMedia: function() {
+         if (this.url) {
+            return true;
+         } else {
+            return false;
+         }
       },
       
       reset: function() {

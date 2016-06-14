@@ -32,7 +32,15 @@ function(BaseModel) {
       init: function(config, isFromServer) {
          this.callSuper();
       },
-      
+
+      hasMedia: function() {
+         if (this.url) {
+            return true;
+         } else {
+            return false;
+         }
+      },
+
       reset: function() {
          this.setFileModel(null);
          this.clearMetadata();

@@ -19,11 +19,7 @@ SerialPromise, ProgressService, FileReaderService, DOMImageService) {
    }
 
    PictureService.getDOMImageFromPicture = function(picture) {
-      /*if (picture.file_model) {
-         return DOMImageService.createImageFromFileModel(picture.file_model);
-      } else {*/
-         return DOMImageService.createImageFromUrl(picture.url);
-      //}
+      return DOMImageService.createImageFromUrl(picture.url);
    }
    
    PictureService.getPictureFromFileModel = function(fileModel) {

@@ -102,7 +102,7 @@ function(ScopeService, $compile) {
          
          $element.append($compile($imageElement)($scope));
          
-         if (true === $scope.showLoading) {
+         if (true === $scope.showUploading) {
             var $loadingElement = angular.element("<div></div>");
             
             $loadingElement.attr('loading-progress', '');

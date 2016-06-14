@@ -2,17 +2,19 @@
 
 var registerService = require('services/register');
 
-var Chance = require('chance')
+//var Chance = require('chance')
+
+var uuid = require('node-uuid');
 
 var name = 'services.id'
 
 registerService('factory', name, [
 function() {
    function IdService(length) {
-      length = length || 32;
-
-      var filenameChars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      return new Chance().string({length: length, pool: filenameChars}); 
+      return uuid.v1({
+         msecs: new Date().getTime(),
+         nsecs: 5678
+      });
    }
 
    return IdService;

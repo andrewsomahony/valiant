@@ -35,7 +35,7 @@ function(BaseModel) {
       },
 
       getDataUrl: function() {
-
+         return this.canvas_object.toDataURL("image/png");
       }
    })
 }])
