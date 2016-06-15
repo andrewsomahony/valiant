@@ -40,6 +40,7 @@ FFMpegService, ErrorModal, QuestionTypeService) {
          $scope.currentQuestion.allocateVideos(1);
          $scope.currentQuestion.allocatePictures(2);
       }
+      $scope.currentQuestion.allocatePreviewPictures(1);
    }
    
    $scope.askQuestion = function() {

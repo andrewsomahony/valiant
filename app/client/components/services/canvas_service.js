@@ -16,10 +16,10 @@ function(PictureService, Promise, CanvasModel) {
       if (!canvasModel) {
          throw new Error("getCanvasModelContext: Invalid canvasModel!");
       }
-      if (!canvasModel.canvas_model) {
+      if (!canvasModel.canvas_object) {
          throw new Error("getCanvasModelContext: Invalid canvas_model!");
       }
-      return canvasModel.canvas_model.getContext("2d");
+      return canvasModel.canvas_context;
    }
 
    CanvasService.createCanvasModel = function(width, height) {
@@ -37,6 +37,7 @@ function(PictureService, Promise, CanvasModel) {
       var context = getCanvasModelContext(canvasModel);
       
       context.globalAlpha = alpha;
+      console.log(context);
    }
 
    CanvasService.drawClippedImageToCanvas = function(canvasModel, domImage,
@@ -49,7 +50,7 @@ function(PictureService, Promise, CanvasModel) {
    }
 
    CanvasService.drawImageToCanvas = function(canvasModel, domImage, x, y, width, height) {
-      CanvasService.drawClippedImageToCanvas(canvasModel, 0, 0, domImage.width, domImage.height,
+      CanvasService.drawClippedImageToCanvas(canvasModel, domImage, 0, 0, domImage.width, domImage.height,
             x, y, width, height);
    }
 
@@ -71,7 +72,7 @@ function(PictureService, Promise, CanvasModel) {
       });
    }
 
-   CanvasService.drawPictureToCanvas = function(canvasModel, picture,
+   CanvasService.drawPictureToCanvas = function(canvasModel, pictureModel,
          x, y, width, height) {
 
       return Promise(function(resolve, reject, notify) {

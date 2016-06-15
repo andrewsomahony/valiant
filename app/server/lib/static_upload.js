@@ -23,6 +23,7 @@ function getStaticUploadKey(uploadType) {
       'profile_picture',
       'question_video',
       'question_picture',
+      'question_preview',
       'comment_video',
       'comment_picture'
    ];
@@ -30,15 +31,14 @@ function getStaticUploadKey(uploadType) {
    if (-1 === validOptions.indexOf(uploadType)) {
       return null;
    } else {
-      var matchArray = uploadType.match(/(\w+)_(\w+)/);
+      var pathArray = uploadType.split("_");
+      var returnPath = "";
 
-      if (!matchArray ||
-          3 !== matchArray.length) {
-         return null;       
-      } else {
-         return matchArray[1] + 
-         "/" + matchArray[2] + "/" +
-         getStaticUploadFilename();
-      }
+      pathArray.forEach(function(path) {
+         returnPath += path + "/"; 
+      })
+      returnPath += getStaticUploadFilename();
+
+      return returnPath;
    }
 }

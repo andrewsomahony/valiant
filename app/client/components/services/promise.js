@@ -21,6 +21,10 @@ function($q) {
       return $q.defer();
    }
 
+   promiseService.when = function(promise) {
+      return $q.when(promise);
+   }
+
    return promiseService;
 }])
 

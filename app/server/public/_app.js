@@ -9,7 +9,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('animations'), []);
-},{"angular":122,"info":105}],3:[function(require,module,exports){
+},{"angular":127,"info":110}],3:[function(require,module,exports){
 'use strict';
 
 require('./root');
@@ -111,7 +111,7 @@ ErrorModal, HttpService, ConfirmModal) {
 }]);
 
 module.exports = name;
-},{"../../register":26,"models/http_response":54,"services/confirm_modal_service":66,"services/error":72,"services/error_modal":73,"services/http_service":80,"services/progress":93,"utils":110}],6:[function(require,module,exports){
+},{"../../register":26,"models/http_response":55,"services/confirm_modal_service":68,"services/error":74,"services/error_modal":75,"services/http_service":82,"services/progress":95,"utils":115}],6:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -125,7 +125,7 @@ function($scope, ErrorPageService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_page_service":74}],7:[function(require,module,exports){
+},{"controllers/register":26,"services/error_page_service":76}],7:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -236,7 +236,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":73,"services/state_service":101,"services/user_service":102,"utils":110}],11:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":75,"services/state_service":106,"services/user_service":107,"utils":115}],11:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -271,7 +271,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":73,"services/user_service":102}],12:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":75,"services/user_service":107}],12:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -328,7 +328,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":73,"services/user_service":102}],14:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":75,"services/user_service":107}],14:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -346,10 +346,13 @@ registerController(name, ['$scope',
                           require('services/parallel_promise'),
                           require('services/ffmpeg_service'),
                           require('services/error_modal'),
+                          require('services/question_type_service'),
 function($scope, QuestionService, QuestionModel,
 DeviceService, S3UploaderService, Promise, ParallelPromise,
-FFMpegService, ErrorModal) {
-   $scope.questionTopicOptions = QuestionService.getSelectableQuestionTypes();
+FFMpegService, ErrorModal, QuestionTypeService) {
+   $scope.questionTopicOptions = utils.map(QuestionTypeService.getQuestionTypes(), function(type) {
+      return type.name;
+   });
    $scope.isAskingQuestion = false;
 
    $scope.allocateNewQuestion = function() {
@@ -368,6 +371,7 @@ FFMpegService, ErrorModal) {
          $scope.currentQuestion.allocateVideos(1);
          $scope.currentQuestion.allocatePictures(2);
       }
+      $scope.currentQuestion.allocatePreviewPictures(1);
    }
    
    $scope.askQuestion = function() {
@@ -393,7 +397,7 @@ FFMpegService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"models/question":60,"services/device_service":70,"services/error_modal":73,"services/ffmpeg_service":76,"services/parallel_promise":88,"services/promise":94,"services/question_service":95,"services/s3_uploader_service":98,"utils":110}],15:[function(require,module,exports){
+},{"controllers/register":26,"models/question":61,"services/device_service":72,"services/error_modal":75,"services/ffmpeg_service":78,"services/parallel_promise":90,"services/promise":96,"services/question_service":98,"services/question_type_service":99,"services/s3_uploader_service":103,"utils":115}],15:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -520,7 +524,7 @@ FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"models/user":62,"services/error_modal":73,"services/file_reader_activator_service":77,"services/picture_service":91,"services/profile_picture_service":92,"services/progress":93,"services/promise":94,"services/serial_promise":100,"services/state_service":101,"services/user_service":102}],19:[function(require,module,exports){
+},{"controllers/register":26,"models/user":63,"services/error_modal":75,"services/file_reader_activator_service":79,"services/picture_service":93,"services/profile_picture_service":94,"services/progress":95,"services/promise":96,"services/serial_promise":105,"services/state_service":106,"services/user_service":107}],19:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -574,7 +578,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":73,"services/state_service":101,"services/user_service":102}],21:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":75,"services/state_service":106,"services/user_service":107}],21:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -627,7 +631,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":73,"services/state_service":101,"services/user_service":102}],23:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":75,"services/state_service":106,"services/user_service":107}],23:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -928,7 +932,7 @@ FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"models/user":62,"services/file_reader_activator_service":77,"services/picture_service":91,"services/profile_picture_service":92,"services/state_service":101,"services/user_service":102}],24:[function(require,module,exports){
+},{"controllers/register":26,"models/user":63,"services/file_reader_activator_service":79,"services/picture_service":93,"services/profile_picture_service":94,"services/state_service":106,"services/user_service":107}],24:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -948,7 +952,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('controllers'), []);
-},{"angular":122,"info":105}],26:[function(require,module,exports){
+},{"angular":127,"info":110}],26:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -1056,7 +1060,7 @@ ErrorPageService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":26,"services/error_modal":73,"services/error_page_service":74,"services/permission_service":89,"services/state_service":101,"services/user_service":102,"utils":110}],28:[function(require,module,exports){
+},{"controllers/register":26,"services/error_modal":75,"services/error_page_service":76,"services/permission_service":91,"services/state_service":106,"services/user_service":107,"utils":115}],28:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1121,7 +1125,7 @@ function(PromiseService, HttpService, ApiUrlService) {
 }]);
 
 module.exports = name;
-},{"directives/register":41,"services/api_url":64,"services/http_service":80,"services/promise":94}],30:[function(require,module,exports){
+},{"directives/register":41,"services/api_url":65,"services/http_service":82,"services/promise":96}],30:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1238,7 +1242,7 @@ ScopeService, IdService) {
 }])
 
 module.exports = name;
-},{"directives/register":41,"models/file":53,"services/error":72,"services/file_reader_service":78,"services/file_type_validator_service":79,"services/id":81,"services/image_service":82,"services/mime_service":85,"services/parallel_promise":88,"services/progress":93,"services/promise":94,"services/scope_service":99,"services/serial_promise":100,"utils":110}],31:[function(require,module,exports){
+},{"directives/register":41,"models/file":54,"services/error":74,"services/file_reader_service":80,"services/file_type_validator_service":81,"services/id":83,"services/image_service":84,"services/mime_service":87,"services/parallel_promise":90,"services/progress":95,"services/promise":96,"services/scope_service":104,"services/serial_promise":105,"utils":115}],31:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1637,7 +1641,7 @@ registerDirective(name, ['$compile',
 ])
 
 module.exports = name;
-},{"directives/register":41,"services/css_service":67,"utils":110}],34:[function(require,module,exports){
+},{"directives/register":41,"services/css_service":69,"utils":115}],34:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1753,7 +1757,7 @@ function(ScopeService, FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"directives/register":41,"services/file_reader_activator_service":77,"services/scope_service":99}],35:[function(require,module,exports){
+},{"directives/register":41,"services/file_reader_activator_service":79,"services/scope_service":104}],35:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1802,14 +1806,14 @@ function($compile, ScopeService) {
 ]);
 
 module.exports = name;
-},{"directives/register":41,"services/scope_service":99,"utils":110}],36:[function(require,module,exports){
+},{"directives/register":41,"services/scope_service":104,"utils":115}],36:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('directives'), []);
-},{"angular":122,"info":105}],37:[function(require,module,exports){
+},{"angular":127,"info":110}],37:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1954,7 +1958,7 @@ Promise, SerialPromise, $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":41,"services/picture_proportional_resize_service":90,"services/picture_service":91,"services/promise":94,"services/serial_promise":100}],39:[function(require,module,exports){
+},{"directives/register":41,"services/picture_proportional_resize_service":92,"services/picture_service":93,"services/promise":96,"services/serial_promise":105}],39:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2079,7 +2083,7 @@ function(ScopeService, $compile) {
 ]);
 
 module.exports = name;
-},{"directives/register":41,"services/scope_service":99}],40:[function(require,module,exports){
+},{"directives/register":41,"services/scope_service":104}],40:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2114,7 +2118,7 @@ function(PictureModel) {
 }])
 
 module.exports = name;
-},{"directives/register":41,"models/picture":58}],41:[function(require,module,exports){
+},{"directives/register":41,"models/picture":59}],41:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -2251,7 +2255,7 @@ $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":41,"services/progress":93,"services/promise":94,"services/serial_promise":100,"services/video_service":103,"utils":110}],43:[function(require,module,exports){
+},{"directives/register":41,"services/progress":95,"services/promise":96,"services/serial_promise":105,"services/video_service":108,"utils":115}],43:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2519,7 +2523,7 @@ function(ScopeService, ProgressService, $compile) {
 }]);
 
 module.exports = name;
-},{"directives/register":41,"services/progress":93,"services/scope_service":99}],44:[function(require,module,exports){
+},{"directives/register":41,"services/progress":95,"services/scope_service":104}],44:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2579,7 +2583,7 @@ function(YoutubeUrlModalService, VideoModel, $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":41,"models/video":63,"services/youtube_url_modal_service":104,"utils":110}],45:[function(require,module,exports){
+},{"directives/register":41,"models/video":64,"services/youtube_url_modal_service":109,"utils":115}],45:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2726,7 +2730,7 @@ function($compile, $timeout, ErrorService, ScopeService) {
 }]);
 
 module.exports = name;
-},{"directives/register":41,"services/error":72,"services/scope_service":99,"utils":110}],46:[function(require,module,exports){
+},{"directives/register":41,"services/error":74,"services/scope_service":104,"utils":115}],46:[function(require,module,exports){
 'use strict';
 
 require('./trusted');
@@ -2737,7 +2741,7 @@ var angular = require('angular');
 var info = require('info');
 
 module.exports = angular.module(info.moduleName('filters'), []);
-},{"angular":122,"info":105}],48:[function(require,module,exports){
+},{"angular":127,"info":110}],48:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -3148,7 +3152,55 @@ function(id, promise) {
 }])
 
 module.exports = name
-},{"../services/id":81,"../services/promise":94,"./module":56,"classy":187,"rfc6902":279,"utils":110}],51:[function(require,module,exports){
+},{"../services/id":83,"../services/promise":96,"./module":57,"classy":193,"rfc6902":285,"utils":115}],51:[function(require,module,exports){
+'use strict';
+
+var registerModel = require('models/register');
+
+var classy = require('classy');
+
+var name = 'models.canvas';
+
+registerModel(name, [require('models/base'),
+function(BaseModel) {
+   return classy.define({
+      extend: BaseModel,
+      alias: name,
+
+      statics: {
+         fields: function() {
+            return this.staticMerge(this.callSuper(), {
+               canvas_object: null,
+               canvas_context: null,
+               width: 0,
+               height: 0
+            })
+         },
+
+         localFields: function() {
+            return this.staticMerge(this.callSuper(), [
+               'canvas_object'
+            ]);
+         }
+      },
+
+      init: function(config) {
+         this.callSuper();
+
+         this.canvas_object = document.createElement("canvas");
+         this.canvas_context = this.canvas_object.getContext('2d');
+         this.canvas_object.width = this.width;
+         this.canvas_object.height = this.height;
+      },
+
+      getDataUrl: function() {
+         return this.canvas_object.toDataURL("image/png");
+      }
+   })
+}])
+
+module.exports = name;
+},{"classy":193,"models/base":50,"models/register":62}],52:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3179,7 +3231,7 @@ function(BaseModel) {
 }]);
 
 module.exports = name;
-},{"classy":187,"models/base":50,"models/register":61}],52:[function(require,module,exports){
+},{"classy":193,"models/base":50,"models/register":62}],53:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -3218,7 +3270,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":50,"classy":187,"models/register":61,"utils":110}],53:[function(require,module,exports){
+},{"./base":50,"classy":193,"models/register":62,"utils":115}],54:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3394,7 +3446,7 @@ ErrorService) {
 module.exports = name;
 
 
-},{"classy":187,"models/base":50,"models/register":61,"services/data_url_service":69,"services/error":72,"services/file_reader_service":78,"services/promise":94}],54:[function(require,module,exports){
+},{"classy":193,"models/base":50,"models/register":62,"services/data_url_service":71,"services/error":74,"services/file_reader_service":80,"services/promise":96}],55:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3449,7 +3501,7 @@ statusText – {string} – HTTP status text of the response.
 }]);
 
 module.exports = name;
-},{"./base":50,"classy":187,"models/register":61}],55:[function(require,module,exports){
+},{"./base":50,"classy":193,"models/register":62}],56:[function(require,module,exports){
 'use strict';
 
 require('./user');
@@ -3457,14 +3509,14 @@ require('./video');
 require('./picture');
 require('./notification');
 require('./comment');
-},{"./comment":51,"./notification":57,"./picture":58,"./user":62,"./video":63}],56:[function(require,module,exports){
+},{"./comment":52,"./notification":58,"./picture":59,"./user":63,"./video":64}],57:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('models'), []);
-},{"angular":122,"info":105}],57:[function(require,module,exports){
+},{"angular":127,"info":110}],58:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3494,7 +3546,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":187,"models/base":50,"models/register":61}],58:[function(require,module,exports){
+},{"classy":193,"models/base":50,"models/register":62}],59:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3607,7 +3659,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":187,"models/base":50,"models/register":61}],59:[function(require,module,exports){
+},{"classy":193,"models/base":50,"models/register":62}],60:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('./register');
@@ -3648,7 +3700,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":50,"./register":61,"classy":187,"models/base":50}],60:[function(require,module,exports){
+},{"./base":50,"./register":62,"classy":193,"models/base":50}],61:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3697,13 +3749,17 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
       
       allocatePictures: function(numberOfPictures) {
          this.pictures = this.$ownClass.allocateChildArrayOfClasses('pictures', numberOfPictures, false);
+      },
+
+      allocatePreviewPictures: function(numberOfPictures) {
+         this.preview_pictures = this.$ownClass.allocateChildArrayOfClasses('preview_pictures', numberOfPictures, false);
       }
    })
 }
 ]);
 
 module.exports = name;
-},{"classy":187,"models/base":50,"models/comment":51,"models/picture":58,"models/register":61,"models/video":63}],61:[function(require,module,exports){
+},{"classy":193,"models/base":50,"models/comment":52,"models/picture":59,"models/register":62,"models/video":64}],62:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -3711,7 +3767,7 @@ var m = require('./module');
 module.exports = function(name, params) {
     m.factory(name, params);
 }
-},{"./module":56}],62:[function(require,module,exports){
+},{"./module":57}],63:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3768,7 +3824,7 @@ PictureModel) {
 }]);
 
 module.exports = name;
-},{"classy":187,"models/base":50,"models/notification":57,"models/picture":58,"models/question":60,"models/register":61}],63:[function(require,module,exports){
+},{"classy":193,"models/base":50,"models/notification":58,"models/picture":59,"models/question":61,"models/register":62}],64:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('./register');
@@ -3938,7 +3994,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"./register":61,"classy":187,"models/base":50,"utils":110}],64:[function(require,module,exports){
+},{"./register":62,"classy":193,"models/base":50,"utils":115}],65:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4074,7 +4130,7 @@ registerService('factory', name, [function() {
 }]);
 
 module.exports = name;
-},{"services/register":96,"utils":110}],65:[function(require,module,exports){
+},{"services/register":101,"utils":115}],66:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4146,7 +4202,104 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":96}],66:[function(require,module,exports){
+},{"services/register":101}],67:[function(require,module,exports){
+'use strict';
+
+var registerService = require('services/register');
+
+var name = 'services.canvas';
+
+registerService('factory', name, [require('services/picture_service'),
+                                  require('services/promise'),
+                                  require('models/canvas'),
+function(PictureService, Promise, CanvasModel) {
+   function CanvasService() {
+
+   }
+
+   function getCanvasModelContext(canvasModel) {
+      if (!canvasModel) {
+         throw new Error("getCanvasModelContext: Invalid canvasModel!");
+      }
+      if (!canvasModel.canvas_object) {
+         throw new Error("getCanvasModelContext: Invalid canvas_model!");
+      }
+      return canvasModel.canvas_context;
+   }
+
+   CanvasService.createCanvasModel = function(width, height) {
+      return new CanvasModel({width: width, height: height});
+   }
+
+   CanvasService.fillCanvas = function(canvasModel, style) {
+      var context = getCanvasModelContext(canvasModel);
+
+      context.fillStyle = style;
+      context.fillRect(0, 0, canvasModel.width, canvasModel.height);
+   }
+
+   CanvasService.setCanvasAlpha = function(canvasModel, alpha) {
+      var context = getCanvasModelContext(canvasModel);
+      
+      context.globalAlpha = alpha;
+      console.log(context);
+   }
+
+   CanvasService.drawClippedImageToCanvas = function(canvasModel, domImage,
+      imageX, imageY, imageWidth, imageHeight,
+      x, y, width, height) {
+      var context = getCanvasModelContext(canvasModel);
+
+      context.drawImage(domImage, imageX, imageY, imageWidth,
+         imageHeight, x, y, width, height);
+   }
+
+   CanvasService.drawImageToCanvas = function(canvasModel, domImage, x, y, width, height) {
+      CanvasService.drawClippedImageToCanvas(canvasModel, domImage, 0, 0, domImage.width, domImage.height,
+            x, y, width, height);
+   }
+
+   CanvasService.drawClippedPictureToCanvas = function(canvasModel, pictureModel,
+         pictureX, pictureY, pictureWidth, pictureHeight,
+         x, y, width, height) {
+
+      return Promise(function(resolve, reject, notify) {
+         PictureService.getDOMImageFromPicture(pictureModel)
+         .then(function(domImage) {
+            CanvasService.drawClippedImageToCanvas(canvasModel,
+            domImage, pictureX, pictureY, pictureWidth, pictureHeight,
+            x, y, width, height);
+            resolve();
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });
+   }
+
+   CanvasService.drawPictureToCanvas = function(canvasModel, pictureModel,
+         x, y, width, height) {
+
+      return Promise(function(resolve, reject, notify) {
+         PictureService.getDOMImageFromPicture(pictureModel)
+         .then(function(domImage) {
+            CanvasService.drawImageToCanvas(canvasModel,
+            domImage, x, y, width, height);
+            resolve();
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });
+
+   }
+
+   return CanvasService;
+}
+])
+
+module.exports = name;
+},{"models/canvas":51,"services/picture_service":93,"services/promise":96,"services/register":101}],68:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4184,7 +4337,7 @@ function(ModalService, Promise, ScopeService) {
 }]);
 
 module.exports = name;
-},{"services/modal":86,"services/promise":94,"services/register":96,"services/scope_service":99}],67:[function(require,module,exports){
+},{"services/modal":88,"services/promise":96,"services/register":101,"services/scope_service":104}],69:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4211,7 +4364,7 @@ function() {
 ])
 
 module.exports = name;
-},{"services/register":96}],68:[function(require,module,exports){
+},{"services/register":101}],70:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4255,7 +4408,7 @@ registerService('factory', name, [
 ]);
 
 module.exports = name;
-},{"services/parallel_promise":88,"services/progress":93,"services/register":96,"services/serial_promise":100,"services/user_service":102,"utils":110}],69:[function(require,module,exports){
+},{"services/parallel_promise":90,"services/progress":95,"services/register":101,"services/serial_promise":105,"services/user_service":107,"utils":115}],71:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4324,7 +4477,7 @@ function(Base64Service, Promise) {
 }]);
 
 module.exports = name;
-},{"services/base64_service":65,"services/promise":94,"services/register":96}],70:[function(require,module,exports){
+},{"services/base64_service":66,"services/promise":96,"services/register":101}],72:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4367,7 +4520,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"device-detector":217,"services/register":96}],71:[function(require,module,exports){
+},{"device-detector":223,"services/register":101}],73:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4453,7 +4606,7 @@ ErrorService) {
 }]);
 
 module.exports = name;
-},{"services/error":72,"services/file_reader_service":78,"services/progress":93,"services/promise":94,"services/register":96,"services/serial_promise":100}],72:[function(require,module,exports){
+},{"services/error":74,"services/file_reader_service":80,"services/progress":95,"services/promise":96,"services/register":101,"services/serial_promise":105}],74:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4507,7 +4660,7 @@ function(ErrorModel, HttpResponseModel) {
 }]);
 
 module.exports = name;
-},{"models/error":52,"models/http_response":54,"services/register":96}],73:[function(require,module,exports){
+},{"models/error":53,"models/http_response":55,"services/register":101}],75:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4542,7 +4695,7 @@ function(modalService, ErrorModel, ScopeService) {
 }])
 
 module.exports = name
-},{"models/error":52,"services/modal":86,"services/register":96,"services/scope_service":99,"utils":110}],74:[function(require,module,exports){
+},{"models/error":53,"services/modal":88,"services/register":101,"services/scope_service":104,"utils":115}],76:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4581,7 +4734,7 @@ function(StateService, ErrorService) {
 }]);
 
 module.exports = name;
-},{"services/error":72,"services/register":96,"services/state_service":101}],75:[function(require,module,exports){
+},{"services/error":74,"services/register":101,"services/state_service":106}],77:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4738,7 +4891,7 @@ Promise, ProgressService, FileModel) {
 }]);
 
 module.exports = name;
-},{"exif-js":244,"exif-orient":245,"models/file":53,"services/data_url_service":69,"services/dom_image_service":71,"services/file_reader_service":78,"services/progress":93,"services/promise":94,"services/register":96,"services/serial_promise":100,"utils":110}],76:[function(require,module,exports){
+},{"exif-js":250,"exif-orient":251,"models/file":54,"services/data_url_service":71,"services/dom_image_service":73,"services/file_reader_service":80,"services/progress":95,"services/promise":96,"services/register":101,"services/serial_promise":105,"utils":115}],78:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5331,7 +5484,7 @@ ErrorService, MimeService) {
 module.exports = name;
 
 
-},{"models/file":53,"services/error":72,"services/mime_service":85,"services/progress":93,"services/promise":94,"services/register":96,"utils":110}],77:[function(require,module,exports){
+},{"models/file":54,"services/error":74,"services/mime_service":87,"services/progress":95,"services/promise":96,"services/register":101,"utils":115}],79:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5415,7 +5568,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":96}],78:[function(require,module,exports){
+},{"services/register":101}],80:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5537,7 +5690,7 @@ DataUrlService) {
 ]);
 
 module.exports = name;
-},{"services/data_url_service":69,"services/error":72,"services/parallel_promise":88,"services/progress":93,"services/promise":94,"services/register":96,"services/serial_promise":100}],79:[function(require,module,exports){
+},{"services/data_url_service":71,"services/error":74,"services/parallel_promise":90,"services/progress":95,"services/promise":96,"services/register":101,"services/serial_promise":105}],81:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5584,7 +5737,7 @@ function(MimeService, Promise, DOMImageService) {
 }]);
 
 module.exports = name;
-},{"services/dom_image_service":71,"services/mime_service":85,"services/promise":94,"services/register":96}],80:[function(require,module,exports){
+},{"services/dom_image_service":73,"services/mime_service":87,"services/promise":96,"services/register":101}],82:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5679,7 +5832,7 @@ function($http, PromiseService, HttpResponseModel, ErrorService) {
 }]);
 
 module.exports = name;
-},{"models/http_response":54,"services/error":72,"services/promise":94,"services/register":96,"utils":110}],81:[function(require,module,exports){
+},{"models/http_response":55,"services/error":74,"services/promise":96,"services/register":101,"utils":115}],83:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5697,18 +5850,13 @@ function() {
          msecs: new Date().getTime(),
          nsecs: 5678
       });
-      /*
-      length = length || 32;
-
-      var filenameChars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      return new Chance().string({length: length, pool: filenameChars}); */
    }
 
    return IdService;
 }])
 
 module.exports = name
-},{"node-uuid":263,"services/register":96}],82:[function(require,module,exports){
+},{"node-uuid":269,"services/register":101}],84:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5894,11 +6042,11 @@ ErrorService, FileModel) {
 
 module.exports = name;
 
-},{"html5-canvas-image-resizer":252,"models/file":53,"services/data_url_service":69,"services/dom_image_service":71,"services/error":72,"services/exif_service":75,"services/file_reader_service":78,"services/progress":93,"services/promise":94,"services/register":96,"services/serial_promise":100}],83:[function(require,module,exports){
+},{"html5-canvas-image-resizer":258,"models/file":54,"services/data_url_service":71,"services/dom_image_service":73,"services/error":74,"services/exif_service":77,"services/file_reader_service":80,"services/progress":95,"services/promise":96,"services/register":101,"services/serial_promise":105}],85:[function(require,module,exports){
 'use strict';
 
 require('services/data_resolver');
-},{"services/data_resolver":68}],84:[function(require,module,exports){
+},{"services/data_resolver":70}],86:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5967,7 +6115,7 @@ Promise, Progress) {
 }])
 
 module.exports = name;
-},{"models/picture":58,"models/video":63,"services/progress":93,"services/promise":94,"services/register":96,"services/s3_uploader_service":98,"utils":110}],85:[function(require,module,exports){
+},{"models/picture":59,"models/video":64,"services/progress":95,"services/promise":96,"services/register":101,"services/s3_uploader_service":103,"utils":115}],87:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6040,7 +6188,7 @@ function() {
 }]);
 
 module.exports = name;
-},{"mimeType":259,"services/register":96}],86:[function(require,module,exports){
+},{"mimeType":265,"services/register":101}],88:[function(require,module,exports){
 var registerService = require('services/register');
 var utils = require('utils');
 
@@ -6074,14 +6222,14 @@ function($modal, $templateCache) {
 }])
 
 module.exports = name
-},{"services/register":96,"utils":110}],87:[function(require,module,exports){
+},{"services/register":101,"utils":115}],89:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('services'), []);
-},{"angular":122,"info":105}],88:[function(require,module,exports){
+},{"angular":127,"info":110}],90:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -6184,7 +6332,7 @@ function(promise, progress, ProgressModel, $q) {
 }])
 
 module.exports = name;
-},{"./module":87,"models/progress":59,"services/progress":93,"services/promise":94,"utils":110}],89:[function(require,module,exports){
+},{"./module":89,"models/progress":60,"services/progress":95,"services/promise":96,"utils":115}],91:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6211,7 +6359,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":96}],90:[function(require,module,exports){
+},{"services/register":101}],92:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6292,7 +6440,7 @@ SerialPromise, ProgressService, ErrorService) {
 module.exports = name;
 
 
-},{"models/file":53,"services/dom_image_service":71,"services/error":72,"services/image_service":82,"services/progress":93,"services/promise":94,"services/register":96,"services/serial_promise":100}],91:[function(require,module,exports){
+},{"models/file":54,"services/dom_image_service":73,"services/error":74,"services/image_service":84,"services/progress":95,"services/promise":96,"services/register":101,"services/serial_promise":105}],93:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6380,7 +6528,7 @@ SerialPromise, ProgressService, FileReaderService, DOMImageService) {
 }])
 
 module.exports = name;
-},{"models/file":53,"models/picture":58,"services/dom_image_service":71,"services/file_reader_service":78,"services/image_service":82,"services/progress":93,"services/promise":94,"services/register":96,"services/serial_promise":100}],92:[function(require,module,exports){
+},{"models/file":54,"models/picture":59,"services/dom_image_service":73,"services/file_reader_service":80,"services/image_service":84,"services/progress":95,"services/promise":96,"services/register":101,"services/serial_promise":105}],94:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6405,7 +6553,7 @@ function(PictureProportionalResizeService) {
 
 module.exports = name;
 
-},{"services/picture_proportional_resize_service":90,"services/register":96}],93:[function(require,module,exports){
+},{"services/picture_proportional_resize_service":92,"services/register":101}],95:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -6441,7 +6589,7 @@ function(progressModel) {
 }])
 
 module.exports = name;
-},{"../models/progress":59,"./module":87}],94:[function(require,module,exports){
+},{"../models/progress":60,"./module":89}],96:[function(require,module,exports){
 'use strict';
 
 var registerService = require('./register');
@@ -6465,11 +6613,245 @@ function($q) {
       return $q.defer();
    }
 
+   promiseService.when = function(promise) {
+      return $q.when(promise);
+   }
+
    return promiseService;
 }])
 
 module.exports = name;
-},{"./register":96}],95:[function(require,module,exports){
+},{"./register":101}],97:[function(require,module,exports){
+'use strict';
+
+var registerService = require('services/register');
+
+var utils = require('utils');
+
+var name = 'services.question_preview_picture';
+
+registerService('factory', name, [require('services/canvas_service'),
+                                  require('services/picture_service'),
+                                  require('services/random_number_service'),
+                                  require('models/file'),
+                                  require('models/picture'),
+                                  require('services/question_type_service'),
+                                  require('services/promise'),
+                                  require('services/serial_promise'),
+function(CanvasService, PictureService, RandomNumberService, FileModel,
+PictureModel, QuestionTypeService, Promise, SerialPromise) {
+   function QuestionPreviewPictureService() {
+
+   }
+
+   var questionTypePictures = {};
+
+   QuestionTypeService.getQuestionTypes().forEach(function(questionType) {
+      questionTypePictures[questionType.name || "Custom"] = 
+         new PictureModel({url: questionType.picture_url});
+   });
+
+   var pictureWidth = 320;
+   var pictureHeight = 200;
+
+   var youtubeLogoWidth = 50;
+   var youtubeLogoHeight = 50;
+   
+   QuestionPreviewPictureService.getQuestionPreviewPicture = function(question) {
+      return Promise(function(resolve, reject, notify) {
+         var validVideos = utils.map(question.videos, function(videoModel) {
+            if (videoModel.hasMedia() &&
+                videoModel.thumbnail.hasMedia()) {
+               return videoModel;
+            } else {
+               return null;
+            }
+         });
+
+         var validPictures = utils.map(question.pictures, function(pictureModel) {
+            if (pictureModel.hasMedia()) {
+               return pictureModel;
+            } else {
+               return null;
+            }
+         });
+
+         var hasYoutubeVideo = question.youtube_video.hasMedia();
+
+         var videoModel = validVideos.length ? 
+            validVideos[RandomNumberService.randomNumber(0, validVideos.length - 1)]
+            : null;
+
+         var pictureModel = validPictures.length ?
+            validPictures[RandomNumberService.randomNumber(0, validPictures.length - 1)]
+            : null;
+         
+         var youtubeModel = hasYoutubeVideo ? question.youtube_video : null;
+
+         var canvasModel = CanvasService.createCanvasModel(pictureWidth,
+            pictureHeight);
+
+         var backgroundPicture = null;
+         var backgroundPictureRect = [];
+         var backgroundAlpha = 1;
+         var backgroundColor = "white";
+
+         var foregroundPicture = null;
+         var foregroundPictureRect = [];
+
+         if (videoModel) {
+            backgroundPicture = videoModel.thumbnail;
+
+            if (pictureModel) {
+               foregroundPicture = pictureModel;
+            }
+         } else {
+            if (pictureModel) {
+               backgroundPicture = pictureModel;
+            } else {
+               if (question.custom_topic) {
+                  backgroundPicture = questionTypePictures['Custom'];
+               } else {
+                  backgroundPicture = questionTypePictures[question.topic];
+                  if (!backgroundPicture) {
+                      throw new Error("Invalid question topic " + question.topic);
+                  }
+               }
+            }
+         }
+
+         if (backgroundPicture) {
+             // If the background picture is a portrait, then we
+             // draw it with black bars around it.  Otherwise, just fill
+             // the entire canvas with it.
+
+            if (backgroundPicture.getHeight() > backgroundPicture.getWidth()) {
+               backgroundColor = "black";
+
+               backgroundPictureRect[0] = (canvasModel.width - backgroundPicture.getWidth()) / 2;
+               backgroundPictureRect[1] = 0;
+               backgroundPictureRect[2] = canvasModel.width / 2;
+               backgroundPictureRect[3] = canvasModel.height;
+            } else {
+               backgroundColor = "white";
+
+               if (foregroundPicture || youtubeModel) {
+                  backgroundAlpha = 0.5;
+               } else {
+                  backgroundAlpha = 1;
+               }
+
+               backgroundPictureRect[0] = 0;
+               backgroundPictureRect[1] = 0;
+               backgroundPictureRect[2] = canvasModel.width;
+               backgroundPictureRect[3] = canvasModel.height;
+            }
+         }
+
+         if (foregroundPicture) {
+            // If the foreground picture is a portrait, fill half of the canvas
+            // with it, otherwise only fill a quarter of it.
+
+            if (foregroundPicture.getHeight() > foregroundPicture.getWidth()) {
+               foregroundPictureRect[0] = canvasModel.width / 2;
+               foregroundPictureRect[1] = 0;
+               foregroundPictureRect[2] = canvasModel.width / 2;
+               foregroundPictureRect[3] = canvasModel.height;
+            } else {
+               foregroundPictureRect[0] = canvasModel.width / 2;
+               foregroundPictureRect[1] = canvasModel.height / 2;
+               foregroundPictureRect[2] = canvasModel.width / 2;
+               foregroundPictureRect[3] = canvasModel.height / 2;
+            }
+         }
+
+         CanvasService.fillCanvas(canvasModel, backgroundColor);
+         
+         var serialFnArray = [
+             function() {
+                return Promise(function(resolve, reject, notify) {
+                   if (backgroundPicture) {
+                      CanvasService.setCanvasAlpha(canvasModel, backgroundAlpha);
+                      CanvasService.drawPictureToCanvas(canvasModel,
+                         backgroundPicture, backgroundPictureRect[0],
+                         backgroundPictureRect[1], backgroundPictureRect[2],
+                         backgroundPictureRect[3])
+                      .then(function() {
+                         resolve();
+                      })
+                      .catch(function(error) {
+                         reject(error);
+                      });
+                   } else {
+                      resolve();
+                   }
+                });
+             },
+             function() {
+                return Promise(function(resolve, reject, notify) {
+                   if (foregroundPicture) {
+                      CanvasService.setCanvasAlpha(canvasModel, 1);
+                      CanvasService.drawPictureToCanvas(canvasModel,
+                         foregroundPicture, 
+                         foregroundPictureRect[0], foregroundPictureRect[1],
+                         foregroundPictureRect[2], foregroundPictureRect[3])
+                      .then(function() {
+                         resolve();
+                      })
+                      .catch(function(error) {
+                         reject(error);
+                      });
+                   } else {
+                      resolve();
+                   }
+                });
+             },
+             function() {
+                return Promise(function(resolve, reject, notify) {
+                   if (youtubeModel) {
+                      // Draw the youtube logo in the bottom
+                      // right corner.
+                     
+                      var youtubePicture = new PictureModel({
+                         url: "/images/youtube_logo.png"
+                      });
+
+                      CanvasService.setCanvasAlpha(canvasModel, 1);
+                      CanvasService.drawPictureToCanvas(canvasModel, youtubePicture,
+                         canvasModel.width - youtubeLogoWidth,
+                         canvasModel.height - youtubeLogoHeight,
+                         youtubeLogoWidth, youtubeLogoHeight)
+                      .then(function() {
+                         resolve();
+                      })
+                      .catch(function(error) {
+                         reject(error);
+                      });
+                   } else {
+                      resolve();
+                   }  
+                });              
+             }
+         ];
+
+         SerialPromise(serialFnArray)
+         .then(function() {
+            PictureService.getPictureFromFileModel(FileModel.fromDataUrl(canvasModel.getDataUrl()))
+            .then(function(picture) {
+                resolve(picture);
+            })   
+            .catch(function(error) {
+                reject(error);
+            })
+         })
+      });
+   }
+
+   return QuestionPreviewPictureService;
+}]);
+
+module.exports = name;
+},{"models/file":54,"models/picture":59,"services/canvas_service":67,"services/picture_service":93,"services/promise":96,"services/question_type_service":99,"services/random_number_service":100,"services/register":101,"services/serial_promise":105,"utils":115}],98:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6484,36 +6866,50 @@ registerService('factory', name, [require('services/http_service'),
                                   require('services/promise'),
                                   require('services/progress'),
                                   require('services/media_service'),
+                                  require('services/question_preview_picture_service'),
 function(HttpService, ParallelPromise, SerialPromise, Promise, Progress,
-MediaService) {
+MediaService, QuestionPreviewPictureService) {
    function QuestionService() {
       
    }
    
-   QuestionService.getSelectableQuestionTypes = function() {
-      return [
-         "Swimming"
-      ];
-   }
-   
    QuestionService.ask = function(questionModel) {
-      var pictureUploadFnArray = utils.map(questionModel.pictures, function(pictureModel) {
-         return function(forNotify) {
-            pictureModel.upload_progress = Progress(50, 100);
-            return MediaService.uploadMedia('question_picture', pictureModel, forNotify);
-         }
-      });
-      
-      var videoUploadFnArray = utils.map(questionModel.videos, function(videoModel) {
-         return function(forNotify) {
-            return MediaService.uploadMedia('question_video', videoModel, forNotify);
-         }
-      });
-      
-      var mediaUploadFnArray = utils.merge(pictureUploadFnArray, videoUploadFnArray);
-      
       var serialPromiseFnArray = [
          function(existingData, index, forNotify) {
+            return Promise(function(resolve, reject, notify) {
+               if (false === forNotify) {
+                  QuestionPreviewPictureService.getQuestionPreviewPicture(questionModel)
+                  .then(function(picture) {
+                     questionModel.preview_pictures[0] = picture;
+                     resolve();
+                  })
+                  .catch(function(error) {
+                     reject(error);
+                  })
+               }
+            });
+         },
+         function(existingData, index, forNotify) {
+            var pictureUploadFnArray = utils.map(questionModel.pictures, function(pictureModel) {
+               return function(forNotify) {
+                  return MediaService.uploadMedia('question_picture', pictureModel, forNotify);
+               }
+            });
+      
+            var videoUploadFnArray = utils.map(questionModel.videos, function(videoModel) {
+               return function(forNotify) {
+                  return MediaService.uploadMedia('question_video', videoModel, forNotify);
+               }
+            });
+
+            var previewPictureUploadFnArray = utils.map(questionModel.preview_pictures, function(previewPictureModel) {
+               return function(forNotify) {
+                  return MediaService.uploadMedia('question_preview', previewPictureModel, forNotify);
+               }
+            });
+      
+            var mediaUploadFnArray = utils.merge(pictureUploadFnArray, videoUploadFnArray, previewPictureUploadFnArray);
+
             if (true === forNotify) {
                return ParallelPromise.getProgressSum(mediaUploadFnArray);   
             } else {
@@ -6537,6 +6933,8 @@ MediaService) {
          SerialPromise.withNotify(serialPromiseFnArray, null, ['question'], true)
          .then(function(question) {
             resolve(question);
+         }, null, function(progress) {
+            notify(progress);
          })
          .catch(function(error) {
             reject(error);
@@ -6548,7 +6946,60 @@ MediaService) {
 }])
 
 module.exports = name;
-},{"services/http_service":80,"services/media_service":84,"services/parallel_promise":88,"services/progress":93,"services/promise":94,"services/register":96,"services/serial_promise":100,"utils":110}],96:[function(require,module,exports){
+},{"services/http_service":82,"services/media_service":86,"services/parallel_promise":90,"services/progress":95,"services/promise":96,"services/question_preview_picture_service":97,"services/register":101,"services/serial_promise":105,"utils":115}],99:[function(require,module,exports){
+'use strict';
+
+var registerService = require('services/register');
+
+var name = 'services.question_type';
+
+registerService('factory', name, [
+function() {
+   function QuestionTypeService() {
+
+   }
+
+   QuestionTypeService.getQuestionTypes = function() {
+      return [{
+            name: "Swimming",
+            picture_url: "/images/swimming_placeholder.png"
+         }, {
+            name: null,
+            picture_url: "/images/question_placeholder.png"
+         }
+      ];      
+   }
+
+   return QuestionTypeService;
+}
+]);
+
+module.exports = name;
+},{"services/register":101}],100:[function(require,module,exports){
+'use strict';
+
+var registerService = require('services/register');
+
+var Chance = require('chance');
+
+var name = 'services.random_number';
+
+registerService('factory', name, [
+function() {
+   function RandomNumberService() {
+
+   }
+   
+   RandomNumberService.randomNumber = function(min, max) {
+      return new Chance().integer({min: min, max: max});
+   }
+
+   return RandomNumberService;
+}
+]);
+
+module.exports = name;
+},{"chance":173,"services/register":101}],101:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -6564,7 +7015,7 @@ module.exports = function(type, name, params) {
         throw new Error("services.register: Invalid service type! " + name);   
     }
 }
-},{"./module":87}],97:[function(require,module,exports){
+},{"./module":89}],102:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6607,7 +7058,7 @@ function(ApiUrlService, Promise, ErrorService, HttpService) {
 }])
 
 module.exports = name;
-},{"services/api_url":64,"services/error":72,"services/http_service":80,"services/promise":94,"services/register":96}],98:[function(require,module,exports){
+},{"services/api_url":65,"services/error":74,"services/http_service":82,"services/promise":96,"services/register":101}],103:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6725,7 +7176,7 @@ function(FileModel, S3SignUrlService, Promise,
 }]);
 
 module.exports = name;
-},{"models/file":53,"models/picture":58,"models/video":63,"services/error":72,"services/progress":93,"services/promise":94,"services/register":96,"services/s3_sign_url_service":97,"services/serial_promise":100}],99:[function(require,module,exports){
+},{"models/file":54,"models/picture":59,"models/video":64,"services/error":74,"services/progress":95,"services/promise":96,"services/register":101,"services/s3_sign_url_service":102,"services/serial_promise":105}],104:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6766,7 +7217,7 @@ function($rootScope) {
 ])
 
 module.exports = name;
-},{"services/register":96,"utils":110}],100:[function(require,module,exports){
+},{"services/register":101,"utils":115}],105:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -6943,7 +7394,7 @@ function(promise, progress, ProgressModel) {
 }])
 
 module.exports = name;
-},{"./module":87,"models/progress":59,"services/progress":93,"services/promise":94,"utils":110}],101:[function(require,module,exports){
+},{"./module":89,"models/progress":60,"services/progress":95,"services/promise":96,"utils":115}],106:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7041,7 +7492,7 @@ function($state) {
 }]);
 
 module.exports = name;
-},{"services/register":96,"utils":110}],102:[function(require,module,exports){
+},{"services/register":101,"utils":115}],107:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7599,7 +8050,7 @@ PictureModel, MediaService) {
 ]);
 
 module.exports = name;
-},{"models/picture":58,"models/user":62,"services/api_url":64,"services/error":72,"services/http_service":80,"services/media_service":84,"services/progress":93,"services/promise":94,"services/register":96,"services/s3_uploader_service":98,"services/serial_promise":100,"utils":110}],103:[function(require,module,exports){
+},{"models/picture":59,"models/user":63,"services/api_url":65,"services/error":74,"services/http_service":82,"services/media_service":86,"services/progress":95,"services/promise":96,"services/register":101,"services/s3_uploader_service":103,"services/serial_promise":105,"utils":115}],108:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7733,7 +8184,7 @@ PictureService) {
 }]);
 
 module.exports = name;
-},{"models/file":53,"models/video":63,"services/ffmpeg_service":76,"services/picture_service":91,"services/progress":93,"services/promise":94,"services/register":96,"services/serial_promise":100}],104:[function(require,module,exports){
+},{"models/file":54,"models/video":64,"services/ffmpeg_service":78,"services/picture_service":93,"services/progress":95,"services/promise":96,"services/register":101,"services/serial_promise":105}],109:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7773,14 +8224,14 @@ function(ModalService, ScopeService, Promise) {
 }]);
 
 module.exports = name;
-},{"services/modal":86,"services/promise":94,"services/register":96,"services/scope_service":99}],105:[function(require,module,exports){
+},{"services/modal":88,"services/promise":96,"services/register":101,"services/scope_service":104}],110:[function(require,module,exports){
 module.exports = {
     name: 'valiant',
     moduleName: function(name) {
         return this.name + "." + name;
     }
 }
-},{}],106:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -7816,7 +8267,7 @@ module.exports = angular.module(appInfo.name, [
     'ngMessages',
     'ngAnimate'
 ]);
-},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":32,"../components/filters/init":46,"../components/models/init":55,"../components/services/init":83,"../views/_views":303,"angular":122,"angular-animate":113,"angular-messages":115,"angular-route":117,"angular-strap":118,"angular-strap-tpl-modal":119,"angular-ui-router":120,"info":105}],107:[function(require,module,exports){
+},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":32,"../components/filters/init":46,"../components/models/init":56,"../components/services/init":85,"../views/_views":309,"angular":127,"angular-animate":118,"angular-messages":120,"angular-route":122,"angular-strap":123,"angular-strap-tpl-modal":124,"angular-ui-router":125,"info":110}],112:[function(require,module,exports){
 'use strict';
 
 function boot() {
@@ -7830,7 +8281,7 @@ function boot() {
 }
 
 module.exports = boot
-},{"../info":105,"./app":106,"./config":108,"./routes":109}],108:[function(require,module,exports){
+},{"../info":110,"./app":111,"./config":113,"./routes":114}],113:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -7846,7 +8297,7 @@ app.config(['$httpProvider', function($httpProvider) {
         
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
-},{"./app":106}],109:[function(require,module,exports){
+},{"./app":111}],114:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -8175,7 +8626,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }
    })
 }]);
-},{"./app":106,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/error/default":6,"controllers/main/error/error":7,"controllers/main/home/default":8,"controllers/main/home/home":9,"controllers/main/login/default":10,"controllers/main/login/forgot_password":11,"controllers/main/login/login":12,"controllers/main/login/unverified":13,"controllers/main/question/ask":14,"controllers/main/question/default":15,"controllers/main/question/question":16,"controllers/main/question/unauthorized":17,"controllers/main/register/default":18,"controllers/main/register/register":19,"controllers/main/reset_password/default":20,"controllers/main/reset_password/reset_password":21,"controllers/main/top_bar":22,"controllers/main/user/default":23,"controllers/main/user/user":24}],110:[function(require,module,exports){
+},{"./app":111,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/error/default":6,"controllers/main/error/error":7,"controllers/main/home/default":8,"controllers/main/home/home":9,"controllers/main/login/default":10,"controllers/main/login/forgot_password":11,"controllers/main/login/login":12,"controllers/main/login/unverified":13,"controllers/main/question/ask":14,"controllers/main/question/default":15,"controllers/main/question/question":16,"controllers/main/question/unauthorized":17,"controllers/main/register/default":18,"controllers/main/register/register":19,"controllers/main/reset_password/default":20,"controllers/main/reset_password/reset_password":21,"controllers/main/top_bar":22,"controllers/main/user/default":23,"controllers/main/user/user":24}],115:[function(require,module,exports){
 
 
 /*
@@ -8429,12 +8880,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 
       merge: function(array) {
          for (var i = 1; i < arguments.length; i++) {
-            var newArray = arguments[i]
+            var newArray = arguments[i];
 
-            array = array.concat(newArray)
+            array = array.concat(newArray);
          }
 
-         return array
+         return array;
       },
 
       extend: function(isDeep, array) {
@@ -8543,7 +8994,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 /*'undefined' !== typeof exports ? ('undefined' !== typeof module ? module.exports : exports) : window*/
 
 
-},{}],111:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 require('domready')(function() {
     console.log("DOM IS READY!");
     
@@ -8551,7 +9002,7 @@ require('domready')(function() {
     bootFn();
 })
 
-},{"./init/boot":107,"domready":224}],112:[function(require,module,exports){
+},{"./init/boot":112,"domready":230}],117:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.6
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -12701,11 +13152,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],113:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":112}],114:[function(require,module,exports){
+},{"./angular-animate":117}],119:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -13429,11 +13880,11 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-},{}],115:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 require('./angular-messages');
 module.exports = 'ngMessages';
 
-},{"./angular-messages":114}],116:[function(require,module,exports){
+},{"./angular-messages":119}],121:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -14457,11 +14908,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],117:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":116}],118:[function(require,module,exports){
+},{"./angular-route":121}],123:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -18800,7 +19251,7 @@ module.exports = 'ngRoute';
   });
   angular.module('mgcrea.ngStrap', [ 'mgcrea.ngStrap.modal', 'mgcrea.ngStrap.aside', 'mgcrea.ngStrap.alert', 'mgcrea.ngStrap.button', 'mgcrea.ngStrap.select', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.timepicker', 'mgcrea.ngStrap.navbar', 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.popover', 'mgcrea.ngStrap.dropdown', 'mgcrea.ngStrap.typeahead', 'mgcrea.ngStrap.scrollspy', 'mgcrea.ngStrap.affix', 'mgcrea.ngStrap.tab', 'mgcrea.ngStrap.collapse' ]);
 })(window, document);
-},{}],119:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -18813,7 +19264,7 @@ module.exports = 'ngRoute';
 angular.module('mgcrea.ngStrap.modal').run([ '$templateCache', function($templateCache) {
   $templateCache.put('modal/modal.tpl.html', '<div class="modal" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header" ng-show="title"><button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" ng-bind="title"></h4></div><div class="modal-body" ng-bind="content"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="$hide()">Close</button></div></div></div></div>');
 } ]);
-},{}],120:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.18
@@ -23353,7 +23804,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],121:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -53782,11 +54233,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],122:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":121}],123:[function(require,module,exports){
+},{"./angular":126}],128:[function(require,module,exports){
 var asn1 = exports;
 
 asn1.bignum = require('bn.js');
@@ -53797,7 +54248,7 @@ asn1.constants = require('./asn1/constants');
 asn1.decoders = require('./asn1/decoders');
 asn1.encoders = require('./asn1/encoders');
 
-},{"./asn1/api":124,"./asn1/base":126,"./asn1/constants":130,"./asn1/decoders":132,"./asn1/encoders":135,"bn.js":138}],124:[function(require,module,exports){
+},{"./asn1/api":129,"./asn1/base":131,"./asn1/constants":135,"./asn1/decoders":137,"./asn1/encoders":140,"bn.js":143}],129:[function(require,module,exports){
 var asn1 = require('../asn1');
 var inherits = require('inherits');
 
@@ -53858,7 +54309,7 @@ Entity.prototype.encode = function encode(data, enc, /* internal */ reporter) {
   return this._getEncoder(enc).encode(data, reporter);
 };
 
-},{"../asn1":123,"inherits":255,"vm":302}],125:[function(require,module,exports){
+},{"../asn1":128,"inherits":261,"vm":308}],130:[function(require,module,exports){
 var inherits = require('inherits');
 var Reporter = require('../base').Reporter;
 var Buffer = require('buffer').Buffer;
@@ -53976,7 +54427,7 @@ EncoderBuffer.prototype.join = function join(out, offset) {
   return out;
 };
 
-},{"../base":126,"buffer":166,"inherits":255}],126:[function(require,module,exports){
+},{"../base":131,"buffer":171,"inherits":261}],131:[function(require,module,exports){
 var base = exports;
 
 base.Reporter = require('./reporter').Reporter;
@@ -53984,7 +54435,7 @@ base.DecoderBuffer = require('./buffer').DecoderBuffer;
 base.EncoderBuffer = require('./buffer').EncoderBuffer;
 base.Node = require('./node');
 
-},{"./buffer":125,"./node":127,"./reporter":128}],127:[function(require,module,exports){
+},{"./buffer":130,"./node":132,"./reporter":133}],132:[function(require,module,exports){
 var Reporter = require('../base').Reporter;
 var EncoderBuffer = require('../base').EncoderBuffer;
 var DecoderBuffer = require('../base').DecoderBuffer;
@@ -54609,7 +55060,7 @@ Node.prototype._isPrintstr = function isPrintstr(str) {
   return /^[A-Za-z0-9 '\(\)\+,\-\.\/:=\?]*$/.test(str);
 };
 
-},{"../base":126,"minimalistic-assert":260}],128:[function(require,module,exports){
+},{"../base":131,"minimalistic-assert":266}],133:[function(require,module,exports){
 var inherits = require('inherits');
 
 function Reporter(options) {
@@ -54713,7 +55164,7 @@ ReporterError.prototype.rethrow = function rethrow(msg) {
   return this;
 };
 
-},{"inherits":255}],129:[function(require,module,exports){
+},{"inherits":261}],134:[function(require,module,exports){
 var constants = require('../constants');
 
 exports.tagClass = {
@@ -54757,7 +55208,7 @@ exports.tag = {
 };
 exports.tagByName = constants._reverse(exports.tag);
 
-},{"../constants":130}],130:[function(require,module,exports){
+},{"../constants":135}],135:[function(require,module,exports){
 var constants = exports;
 
 // Helper
@@ -54778,7 +55229,7 @@ constants._reverse = function reverse(map) {
 
 constants.der = require('./der');
 
-},{"./der":129}],131:[function(require,module,exports){
+},{"./der":134}],136:[function(require,module,exports){
 var inherits = require('inherits');
 
 var asn1 = require('../../asn1');
@@ -55101,13 +55552,13 @@ function derDecodeLen(buf, primitive, fail) {
   return len;
 }
 
-},{"../../asn1":123,"inherits":255}],132:[function(require,module,exports){
+},{"../../asn1":128,"inherits":261}],137:[function(require,module,exports){
 var decoders = exports;
 
 decoders.der = require('./der');
 decoders.pem = require('./pem');
 
-},{"./der":131,"./pem":133}],133:[function(require,module,exports){
+},{"./der":136,"./pem":138}],138:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -55159,7 +55610,7 @@ PEMDecoder.prototype.decode = function decode(data, options) {
   return DERDecoder.prototype.decode.call(this, input, options);
 };
 
-},{"../../asn1":123,"./der":131,"buffer":166,"inherits":255}],134:[function(require,module,exports){
+},{"../../asn1":128,"./der":136,"buffer":171,"inherits":261}],139:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -55455,13 +55906,13 @@ function encodeTag(tag, primitive, cls, reporter) {
   return res;
 }
 
-},{"../../asn1":123,"buffer":166,"inherits":255}],135:[function(require,module,exports){
+},{"../../asn1":128,"buffer":171,"inherits":261}],140:[function(require,module,exports){
 var encoders = exports;
 
 encoders.der = require('./der');
 encoders.pem = require('./pem');
 
-},{"./der":134,"./pem":136}],136:[function(require,module,exports){
+},{"./der":139,"./pem":141}],141:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -55486,7 +55937,7 @@ PEMEncoder.prototype.encode = function encode(data, options) {
   return out.join('\n');
 };
 
-},{"../../asn1":123,"./der":134,"buffer":166,"inherits":255}],137:[function(require,module,exports){
+},{"../../asn1":128,"./der":139,"buffer":171,"inherits":261}],142:[function(require,module,exports){
 'use strict'
 
 exports.toByteArray = toByteArray
@@ -55602,7 +56053,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],138:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 (function (module, exports) {
   'use strict';
 
@@ -59022,7 +59473,7 @@ function fromByteArray (uint8) {
   };
 })(typeof module === 'undefined' || module, this);
 
-},{}],139:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 var r;
 
 module.exports = function rand(len) {
@@ -59081,9 +59532,9 @@ if (typeof window === 'object') {
   }
 }
 
-},{}],140:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 
-},{}],141:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 (function (Buffer){
 // based on the aes implimentation in triple sec
 // https://github.com/keybase/triplesec
@@ -59264,7 +59715,7 @@ AES.prototype._doCryptBlock = function (M, keySchedule, SUB_MIX, SBOX) {
 exports.AES = AES
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166}],142:[function(require,module,exports){
+},{"buffer":171}],147:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -59365,7 +59816,7 @@ function xorTest (a, b) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":141,"./ghash":146,"buffer":166,"buffer-xor":165,"cipher-base":168,"inherits":255}],143:[function(require,module,exports){
+},{"./aes":146,"./ghash":151,"buffer":171,"buffer-xor":170,"cipher-base":174,"inherits":261}],148:[function(require,module,exports){
 var ciphers = require('./encrypter')
 exports.createCipher = exports.Cipher = ciphers.createCipher
 exports.createCipheriv = exports.Cipheriv = ciphers.createCipheriv
@@ -59378,7 +59829,7 @@ function getCiphers () {
 }
 exports.listCiphers = exports.getCiphers = getCiphers
 
-},{"./decrypter":144,"./encrypter":145,"./modes":147}],144:[function(require,module,exports){
+},{"./decrypter":149,"./encrypter":150,"./modes":152}],149:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -59519,7 +59970,7 @@ exports.createDecipher = createDecipher
 exports.createDecipheriv = createDecipheriv
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":141,"./authCipher":142,"./modes":147,"./modes/cbc":148,"./modes/cfb":149,"./modes/cfb1":150,"./modes/cfb8":151,"./modes/ctr":152,"./modes/ecb":153,"./modes/ofb":154,"./streamCipher":155,"buffer":166,"cipher-base":168,"evp_bytestokey":243,"inherits":255}],145:[function(require,module,exports){
+},{"./aes":146,"./authCipher":147,"./modes":152,"./modes/cbc":153,"./modes/cfb":154,"./modes/cfb1":155,"./modes/cfb8":156,"./modes/ctr":157,"./modes/ecb":158,"./modes/ofb":159,"./streamCipher":160,"buffer":171,"cipher-base":174,"evp_bytestokey":249,"inherits":261}],150:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -59645,7 +60096,7 @@ exports.createCipheriv = createCipheriv
 exports.createCipher = createCipher
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":141,"./authCipher":142,"./modes":147,"./modes/cbc":148,"./modes/cfb":149,"./modes/cfb1":150,"./modes/cfb8":151,"./modes/ctr":152,"./modes/ecb":153,"./modes/ofb":154,"./streamCipher":155,"buffer":166,"cipher-base":168,"evp_bytestokey":243,"inherits":255}],146:[function(require,module,exports){
+},{"./aes":146,"./authCipher":147,"./modes":152,"./modes/cbc":153,"./modes/cfb":154,"./modes/cfb1":155,"./modes/cfb8":156,"./modes/ctr":157,"./modes/ecb":158,"./modes/ofb":159,"./streamCipher":160,"buffer":171,"cipher-base":174,"evp_bytestokey":249,"inherits":261}],151:[function(require,module,exports){
 (function (Buffer){
 var zeros = new Buffer(16)
 zeros.fill(0)
@@ -59747,7 +60198,7 @@ function xor (a, b) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166}],147:[function(require,module,exports){
+},{"buffer":171}],152:[function(require,module,exports){
 exports['aes-128-ecb'] = {
   cipher: 'AES',
   key: 128,
@@ -59920,7 +60371,7 @@ exports['aes-256-gcm'] = {
   type: 'auth'
 }
 
-},{}],148:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 var xor = require('buffer-xor')
 
 exports.encrypt = function (self, block) {
@@ -59939,7 +60390,7 @@ exports.decrypt = function (self, block) {
   return xor(out, pad)
 }
 
-},{"buffer-xor":165}],149:[function(require,module,exports){
+},{"buffer-xor":170}],154:[function(require,module,exports){
 (function (Buffer){
 var xor = require('buffer-xor')
 
@@ -59974,7 +60425,7 @@ function encryptStart (self, data, decrypt) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"buffer-xor":165}],150:[function(require,module,exports){
+},{"buffer":171,"buffer-xor":170}],155:[function(require,module,exports){
 (function (Buffer){
 function encryptByte (self, byteParam, decrypt) {
   var pad
@@ -60012,7 +60463,7 @@ function shiftIn (buffer, value) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166}],151:[function(require,module,exports){
+},{"buffer":171}],156:[function(require,module,exports){
 (function (Buffer){
 function encryptByte (self, byteParam, decrypt) {
   var pad = self._cipher.encryptBlock(self._prev)
@@ -60031,7 +60482,7 @@ exports.encrypt = function (self, chunk, decrypt) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166}],152:[function(require,module,exports){
+},{"buffer":171}],157:[function(require,module,exports){
 (function (Buffer){
 var xor = require('buffer-xor')
 
@@ -60066,7 +60517,7 @@ exports.encrypt = function (self, chunk) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"buffer-xor":165}],153:[function(require,module,exports){
+},{"buffer":171,"buffer-xor":170}],158:[function(require,module,exports){
 exports.encrypt = function (self, block) {
   return self._cipher.encryptBlock(block)
 }
@@ -60074,7 +60525,7 @@ exports.decrypt = function (self, block) {
   return self._cipher.decryptBlock(block)
 }
 
-},{}],154:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 (function (Buffer){
 var xor = require('buffer-xor')
 
@@ -60094,7 +60545,7 @@ exports.encrypt = function (self, chunk) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"buffer-xor":165}],155:[function(require,module,exports){
+},{"buffer":171,"buffer-xor":170}],160:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -60123,7 +60574,7 @@ StreamCipher.prototype._final = function () {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":141,"buffer":166,"cipher-base":168,"inherits":255}],156:[function(require,module,exports){
+},{"./aes":146,"buffer":171,"cipher-base":174,"inherits":261}],161:[function(require,module,exports){
 var ebtk = require('evp_bytestokey')
 var aes = require('browserify-aes/browser')
 var DES = require('browserify-des')
@@ -60198,7 +60649,7 @@ function getCiphers () {
 }
 exports.listCiphers = exports.getCiphers = getCiphers
 
-},{"browserify-aes/browser":143,"browserify-aes/modes":147,"browserify-des":157,"browserify-des/modes":158,"evp_bytestokey":243}],157:[function(require,module,exports){
+},{"browserify-aes/browser":148,"browserify-aes/modes":152,"browserify-des":162,"browserify-des/modes":163,"evp_bytestokey":249}],162:[function(require,module,exports){
 (function (Buffer){
 var CipherBase = require('cipher-base')
 var des = require('des.js')
@@ -60245,7 +60696,7 @@ DES.prototype._final = function () {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"cipher-base":168,"des.js":211,"inherits":255}],158:[function(require,module,exports){
+},{"buffer":171,"cipher-base":174,"des.js":217,"inherits":261}],163:[function(require,module,exports){
 exports['des-ecb'] = {
   key: 8,
   iv: 0
@@ -60271,7 +60722,7 @@ exports['des-ede'] = {
   iv: 0
 }
 
-},{}],159:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 (function (Buffer){
 var bn = require('bn.js');
 var randomBytes = require('randombytes');
@@ -60315,7 +60766,7 @@ function getr(priv) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"bn.js":138,"buffer":166,"randombytes":278}],160:[function(require,module,exports){
+},{"bn.js":143,"buffer":171,"randombytes":284}],165:[function(require,module,exports){
 (function (Buffer){
 'use strict'
 exports['RSA-SHA224'] = exports.sha224WithRSAEncryption = {
@@ -60391,7 +60842,7 @@ exports['RSA-MD5'] = exports.md5WithRSAEncryption = {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166}],161:[function(require,module,exports){
+},{"buffer":171}],166:[function(require,module,exports){
 (function (Buffer){
 var _algos = require('./algos')
 var createHash = require('create-hash')
@@ -60498,7 +60949,7 @@ module.exports = {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./algos":160,"./sign":163,"./verify":164,"buffer":166,"create-hash":206,"inherits":255,"stream":289}],162:[function(require,module,exports){
+},{"./algos":165,"./sign":168,"./verify":169,"buffer":171,"create-hash":212,"inherits":261,"stream":295}],167:[function(require,module,exports){
 'use strict'
 exports['1.3.132.0.10'] = 'secp256k1'
 
@@ -60512,7 +60963,7 @@ exports['1.3.132.0.34'] = 'p384'
 
 exports['1.3.132.0.35'] = 'p521'
 
-},{}],163:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 (function (Buffer){
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var createHmac = require('create-hmac')
@@ -60701,7 +61152,7 @@ module.exports.getKey = getKey
 module.exports.makeKey = makeKey
 
 }).call(this,require("buffer").Buffer)
-},{"./curves":162,"bn.js":138,"browserify-rsa":159,"buffer":166,"create-hmac":209,"elliptic":225,"parse-asn1":267}],164:[function(require,module,exports){
+},{"./curves":167,"bn.js":143,"browserify-rsa":164,"buffer":171,"create-hmac":215,"elliptic":231,"parse-asn1":273}],169:[function(require,module,exports){
 (function (Buffer){
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var curves = require('./curves')
@@ -60808,7 +61259,7 @@ function checkValue (b, q) {
 module.exports = verify
 
 }).call(this,require("buffer").Buffer)
-},{"./curves":162,"bn.js":138,"buffer":166,"elliptic":225,"parse-asn1":267}],165:[function(require,module,exports){
+},{"./curves":167,"bn.js":143,"buffer":171,"elliptic":231,"parse-asn1":273}],170:[function(require,module,exports){
 (function (Buffer){
 module.exports = function xor (a, b) {
   var length = Math.min(a.length, b.length)
@@ -60822,7 +61273,7 @@ module.exports = function xor (a, b) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166}],166:[function(require,module,exports){
+},{"buffer":171}],171:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -62288,14 +62739,3106 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":137,"ieee754":253,"isarray":167}],167:[function(require,module,exports){
+},{"base64-js":142,"ieee754":259,"isarray":172}],172:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],168:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
+(function (Buffer){
+//  Chance.js 1.0.1
+//  http://chancejs.com
+//  (c) 2013 Victor Quinn
+//  Chance may be freely distributed or modified under the MIT license.
+
+(function () {
+
+    // Constants
+    var MAX_INT = 9007199254740992;
+    var MIN_INT = -MAX_INT;
+    var NUMBERS = '0123456789';
+    var CHARS_LOWER = 'abcdefghijklmnopqrstuvwxyz';
+    var CHARS_UPPER = CHARS_LOWER.toUpperCase();
+    var HEX_POOL  = NUMBERS + "abcdef";
+
+    // Cached array helpers
+    var slice = Array.prototype.slice;
+
+    // Constructor
+    function Chance (seed) {
+        if (!(this instanceof Chance)) {
+            return seed == null ? new Chance() : new Chance(seed);
+        }
+
+        // if user has provided a function, use that as the generator
+        if (typeof seed === 'function') {
+            this.random = seed;
+            return this;
+        }
+
+        if (arguments.length) {
+            // set a starting value of zero so we can add to it
+            this.seed = 0;
+        }
+
+        // otherwise, leave this.seed blank so that MT will receive a blank
+
+        for (var i = 0; i < arguments.length; i++) {
+            var seedling = 0;
+            if (Object.prototype.toString.call(arguments[i]) === '[object String]') {
+                for (var j = 0; j < arguments[i].length; j++) {
+                    // create a numeric hash for each argument, add to seedling
+                    var hash = 0;
+                    for (var k = 0; k < arguments[i].length; k++) {
+                        hash = arguments[i].charCodeAt(k) + (hash << 6) + (hash << 16) - hash;
+                    }
+                    seedling += hash;
+                }
+            } else {
+                seedling = arguments[i];
+            }
+            this.seed += (arguments.length - i) * seedling;
+        }
+
+        // If no generator function was provided, use our MT
+        this.mt = this.mersenne_twister(this.seed);
+        this.bimd5 = this.blueimp_md5();
+        this.random = function () {
+            return this.mt.random(this.seed);
+        };
+
+        return this;
+    }
+
+    Chance.prototype.VERSION = "1.0.1";
+
+    // Random helper functions
+    function initOptions(options, defaults) {
+        options || (options = {});
+
+        if (defaults) {
+            for (var i in defaults) {
+                if (typeof options[i] === 'undefined') {
+                    options[i] = defaults[i];
+                }
+            }
+        }
+
+        return options;
+    }
+
+    function testRange(test, errorMessage) {
+        if (test) {
+            throw new RangeError(errorMessage);
+        }
+    }
+
+    /**
+     * Encode the input string with Base64.
+     */
+    var base64 = function() {
+        throw new Error('No Base64 encoder available.');
+    };
+
+    // Select proper Base64 encoder.
+    (function determineBase64Encoder() {
+        if (typeof btoa === 'function') {
+            base64 = btoa;
+        } else if (typeof Buffer === 'function') {
+            base64 = function(input) {
+                return new Buffer(input).toString('base64');
+            };
+        }
+    })();
+
+    // -- Basics --
+
+    /**
+     *  Return a random bool, either true or false
+     *
+     *  @param {Object} [options={ likelihood: 50 }] alter the likelihood of
+     *    receiving a true or false value back.
+     *  @throws {RangeError} if the likelihood is out of bounds
+     *  @returns {Bool} either true or false
+     */
+    Chance.prototype.bool = function (options) {
+        // likelihood of success (true)
+        options = initOptions(options, {likelihood : 50});
+
+        // Note, we could get some minor perf optimizations by checking range
+        // prior to initializing defaults, but that makes code a bit messier
+        // and the check more complicated as we have to check existence of
+        // the object then existence of the key before checking constraints.
+        // Since the options initialization should be minor computationally,
+        // decision made for code cleanliness intentionally. This is mentioned
+        // here as it's the first occurrence, will not be mentioned again.
+        testRange(
+            options.likelihood < 0 || options.likelihood > 100,
+            "Chance: Likelihood accepts values from 0 to 100."
+        );
+
+        return this.random() * 100 < options.likelihood;
+    };
+
+    /**
+     *  Return a random character.
+     *
+     *  @param {Object} [options={}] can specify a character pool, only alpha,
+     *    only symbols, and casing (lower or upper)
+     *  @returns {String} a single random character
+     *  @throws {RangeError} Can only specify alpha or symbols, not both
+     */
+    Chance.prototype.character = function (options) {
+        options = initOptions(options);
+        testRange(
+            options.alpha && options.symbols,
+            "Chance: Cannot specify both alpha and symbols."
+        );
+
+        var symbols = "!@#$%^&*()[]",
+            letters, pool;
+
+        if (options.casing === 'lower') {
+            letters = CHARS_LOWER;
+        } else if (options.casing === 'upper') {
+            letters = CHARS_UPPER;
+        } else {
+            letters = CHARS_LOWER + CHARS_UPPER;
+        }
+
+        if (options.pool) {
+            pool = options.pool;
+        } else if (options.alpha) {
+            pool = letters;
+        } else if (options.symbols) {
+            pool = symbols;
+        } else {
+            pool = letters + NUMBERS + symbols;
+        }
+
+        return pool.charAt(this.natural({max: (pool.length - 1)}));
+    };
+
+    // Note, wanted to use "float" or "double" but those are both JS reserved words.
+
+    // Note, fixed means N OR LESS digits after the decimal. This because
+    // It could be 14.9000 but in JavaScript, when this is cast as a number,
+    // the trailing zeroes are dropped. Left to the consumer if trailing zeroes are
+    // needed
+    /**
+     *  Return a random floating point number
+     *
+     *  @param {Object} [options={}] can specify a fixed precision, min, max
+     *  @returns {Number} a single floating point number
+     *  @throws {RangeError} Can only specify fixed or precision, not both. Also
+     *    min cannot be greater than max
+     */
+    Chance.prototype.floating = function (options) {
+        options = initOptions(options, {fixed : 4});
+        testRange(
+            options.fixed && options.precision,
+            "Chance: Cannot specify both fixed and precision."
+        );
+
+        var num;
+        var fixed = Math.pow(10, options.fixed);
+
+        var max = MAX_INT / fixed;
+        var min = -max;
+
+        testRange(
+            options.min && options.fixed && options.min < min,
+            "Chance: Min specified is out of range with fixed. Min should be, at least, " + min
+        );
+        testRange(
+            options.max && options.fixed && options.max > max,
+            "Chance: Max specified is out of range with fixed. Max should be, at most, " + max
+        );
+
+        options = initOptions(options, { min : min, max : max });
+
+        // Todo - Make this work!
+        // options.precision = (typeof options.precision !== "undefined") ? options.precision : false;
+
+        num = this.integer({min: options.min * fixed, max: options.max * fixed});
+        var num_fixed = (num / fixed).toFixed(options.fixed);
+
+        return parseFloat(num_fixed);
+    };
+
+    /**
+     *  Return a random integer
+     *
+     *  NOTE the max and min are INCLUDED in the range. So:
+     *  chance.integer({min: 1, max: 3});
+     *  would return either 1, 2, or 3.
+     *
+     *  @param {Object} [options={}] can specify a min and/or max
+     *  @returns {Number} a single random integer number
+     *  @throws {RangeError} min cannot be greater than max
+     */
+    Chance.prototype.integer = function (options) {
+        // 9007199254740992 (2^53) is the max integer number in JavaScript
+        // See: http://vq.io/132sa2j
+        options = initOptions(options, {min: MIN_INT, max: MAX_INT});
+        testRange(options.min > options.max, "Chance: Min cannot be greater than Max.");
+
+        return Math.floor(this.random() * (options.max - options.min + 1) + options.min);
+    };
+
+    /**
+     *  Return a random natural
+     *
+     *  NOTE the max and min are INCLUDED in the range. So:
+     *  chance.natural({min: 1, max: 3});
+     *  would return either 1, 2, or 3.
+     *
+     *  @param {Object} [options={}] can specify a min and/or max
+     *  @returns {Number} a single random integer number
+     *  @throws {RangeError} min cannot be greater than max
+     */
+    Chance.prototype.natural = function (options) {
+        options = initOptions(options, {min: 0, max: MAX_INT});
+        testRange(options.min < 0, "Chance: Min cannot be less than zero.");
+        return this.integer(options);
+    };
+
+    /**
+     *  Return a random string
+     *
+     *  @param {Object} [options={}] can specify a length
+     *  @returns {String} a string of random length
+     *  @throws {RangeError} length cannot be less than zero
+     */
+    Chance.prototype.string = function (options) {
+        options = initOptions(options, { length: this.natural({min: 5, max: 20}) });
+        testRange(options.length < 0, "Chance: Length cannot be less than zero.");
+        var length = options.length,
+            text = this.n(this.character, length, options);
+
+        return text.join("");
+    };
+
+    // -- End Basics --
+
+    // -- Helpers --
+
+    Chance.prototype.capitalize = function (word) {
+        return word.charAt(0).toUpperCase() + word.substr(1);
+    };
+
+    Chance.prototype.mixin = function (obj) {
+        for (var func_name in obj) {
+            Chance.prototype[func_name] = obj[func_name];
+        }
+        return this;
+    };
+
+    /**
+     *  Given a function that generates something random and a number of items to generate,
+     *    return an array of items where none repeat.
+     *
+     *  @param {Function} fn the function that generates something random
+     *  @param {Number} num number of terms to generate
+     *  @param {Object} options any options to pass on to the generator function
+     *  @returns {Array} an array of length `num` with every item generated by `fn` and unique
+     *
+     *  There can be more parameters after these. All additional parameters are provided to the given function
+     */
+    Chance.prototype.unique = function(fn, num, options) {
+        testRange(
+            typeof fn !== "function",
+            "Chance: The first argument must be a function."
+        );
+
+        options = initOptions(options, {
+            // Default comparator to check that val is not already in arr.
+            // Should return `false` if item not in array, `true` otherwise
+            comparator: function(arr, val) {
+                return arr.indexOf(val) !== -1;
+            }
+        });
+
+        var arr = [], count = 0, result, MAX_DUPLICATES = num * 50, params = slice.call(arguments, 2);
+
+        while (arr.length < num) {
+            result = fn.apply(this, params);
+            if (!options.comparator(arr, result)) {
+                arr.push(result);
+                // reset count when unique found
+                count = 0;
+            }
+
+            if (++count > MAX_DUPLICATES) {
+                throw new RangeError("Chance: num is likely too large for sample set");
+            }
+        }
+        return arr;
+    };
+
+    /**
+     *  Gives an array of n random terms
+     *
+     *  @param {Function} fn the function that generates something random
+     *  @param {Number} n number of terms to generate
+     *  @returns {Array} an array of length `n` with items generated by `fn`
+     *
+     *  There can be more parameters after these. All additional parameters are provided to the given function
+     */
+    Chance.prototype.n = function(fn, n) {
+        testRange(
+            typeof fn !== "function",
+            "Chance: The first argument must be a function."
+        );
+
+        if (typeof n === 'undefined') {
+            n = 1;
+        }
+        var i = n, arr = [], params = slice.call(arguments, 2);
+
+        // Providing a negative count should result in a noop.
+        i = Math.max( 0, i );
+
+        for (null; i--; null) {
+            arr.push(fn.apply(this, params));
+        }
+
+        return arr;
+    };
+
+    // H/T to SO for this one: http://vq.io/OtUrZ5
+    Chance.prototype.pad = function (number, width, pad) {
+        // Default pad to 0 if none provided
+        pad = pad || '0';
+        // Convert number to a string
+        number = number + '';
+        return number.length >= width ? number : new Array(width - number.length + 1).join(pad) + number;
+    };
+
+    // DEPRECATED on 2015-10-01
+    Chance.prototype.pick = function (arr, count) {
+        if (arr.length === 0) {
+            throw new RangeError("Chance: Cannot pick() from an empty array");
+        }
+        if (!count || count === 1) {
+            return arr[this.natural({max: arr.length - 1})];
+        } else {
+            return this.shuffle(arr).slice(0, count);
+        }
+    };
+
+    // Given an array, returns a single random element
+    Chance.prototype.pickone = function (arr) {
+        if (arr.length === 0) {
+          throw new RangeError("Chance: Cannot pickone() from an empty array");
+        }
+        return arr[this.natural({max: arr.length - 1})];
+    };
+
+    // Given an array, returns a random set with 'count' elements
+    Chance.prototype.pickset = function (arr, count) {
+        if (count === 0) {
+            return [];
+        }
+        if (arr.length === 0) {
+            throw new RangeError("Chance: Cannot pickset() from an empty array");
+        }
+        if (count < 0) {
+            throw new RangeError("Chance: count must be positive number");
+        }
+        if (!count || count === 1) {
+            return [ this.pickone(arr) ];
+        } else {
+            return this.shuffle(arr).slice(0, count);
+        }
+    };
+
+    Chance.prototype.shuffle = function (arr) {
+        var old_array = arr.slice(0),
+            new_array = [],
+            j = 0,
+            length = Number(old_array.length);
+
+        for (var i = 0; i < length; i++) {
+            // Pick a random index from the array
+            j = this.natural({max: old_array.length - 1});
+            // Add it to the new array
+            new_array[i] = old_array[j];
+            // Remove that element from the original array
+            old_array.splice(j, 1);
+        }
+
+        return new_array;
+    };
+
+    // Returns a single item from an array with relative weighting of odds
+    Chance.prototype.weighted = function(arr, weights) {
+        if (arr.length !== weights.length) {
+            throw new RangeError("Chance: length of array and weights must match");
+        }
+
+        // Handle weights that are less or equal to zero.
+        for (var weightIndex = weights.length - 1; weightIndex >= 0; --weightIndex) {
+            // If the weight is less or equal to zero, remove it and the value.
+            if (weights[weightIndex] <= 0) {
+                arr.splice(weightIndex,1);
+                weights.splice(weightIndex,1);
+            }
+        }
+
+        // If any of the weights are less than 1, we want to scale them up to whole
+        //   numbers for the rest of this logic to work
+        if (weights.some(function(weight) { return weight < 1; })) {
+            var min = weights.reduce(function(min, weight) {
+                return (weight < min) ? weight : min;
+            }, weights[0]);
+
+            var scaling_factor = 1 / min;
+
+            weights = weights.map(function(weight) {
+                return weight * scaling_factor;
+            });
+        }
+
+        var sum = weights.reduce(function(total, weight) {
+            return total + weight;
+        }, 0);
+
+        // get an index
+        var selected = this.natural({ min: 1, max: sum });
+
+        var total = 0;
+        var chosen;
+        // Using some() here so we can bail as soon as we get our match
+        weights.some(function(weight, index) {
+            if (selected <= total + weight) {
+                chosen = arr[index];
+                return true;
+            }
+            total += weight;
+            return false;
+        });
+
+        return chosen;
+    };
+
+    // -- End Helpers --
+
+    // -- Text --
+
+    Chance.prototype.paragraph = function (options) {
+        options = initOptions(options);
+
+        var sentences = options.sentences || this.natural({min: 3, max: 7}),
+            sentence_array = this.n(this.sentence, sentences);
+
+        return sentence_array.join(' ');
+    };
+
+    // Could get smarter about this than generating random words and
+    // chaining them together. Such as: http://vq.io/1a5ceOh
+    Chance.prototype.sentence = function (options) {
+        options = initOptions(options);
+
+        var words = options.words || this.natural({min: 12, max: 18}),
+            punctuation = options.punctuation,
+            text, word_array = this.n(this.word, words);
+
+        text = word_array.join(' ');
+        
+        // Capitalize first letter of sentence
+        text = this.capitalize(text);
+        
+        // Make sure punctuation has a usable value
+        if (punctuation !== false && !/^[\.\?;!:]$/.test(punctuation)) {
+            punctuation = '.';
+        }
+        
+        // Add punctuation mark
+        if (punctuation) {
+            text += punctuation;
+        }
+
+        return text;
+    };
+
+    Chance.prototype.syllable = function (options) {
+        options = initOptions(options);
+
+        var length = options.length || this.natural({min: 2, max: 3}),
+            consonants = 'bcdfghjklmnprstvwz', // consonants except hard to speak ones
+            vowels = 'aeiou', // vowels
+            all = consonants + vowels, // all
+            text = '',
+            chr;
+
+        // I'm sure there's a more elegant way to do this, but this works
+        // decently well.
+        for (var i = 0; i < length; i++) {
+            if (i === 0) {
+                // First character can be anything
+                chr = this.character({pool: all});
+            } else if (consonants.indexOf(chr) === -1) {
+                // Last character was a vowel, now we want a consonant
+                chr = this.character({pool: consonants});
+            } else {
+                // Last character was a consonant, now we want a vowel
+                chr = this.character({pool: vowels});
+            }
+
+            text += chr;
+        }
+
+        if (options.capitalize) {
+            text = this.capitalize(text);
+        }
+
+        return text;
+    };
+
+    Chance.prototype.word = function (options) {
+        options = initOptions(options);
+
+        testRange(
+            options.syllables && options.length,
+            "Chance: Cannot specify both syllables AND length."
+        );
+
+        var syllables = options.syllables || this.natural({min: 1, max: 3}),
+            text = '';
+
+        if (options.length) {
+            // Either bound word by length
+            do {
+                text += this.syllable();
+            } while (text.length < options.length);
+            text = text.substring(0, options.length);
+        } else {
+            // Or by number of syllables
+            for (var i = 0; i < syllables; i++) {
+                text += this.syllable();
+            }
+        }
+
+        if (options.capitalize) {
+            text = this.capitalize(text);
+        }
+
+        return text;
+    };
+
+    // -- End Text --
+
+    // -- Person --
+
+    Chance.prototype.age = function (options) {
+        options = initOptions(options);
+        var ageRange;
+
+        switch (options.type) {
+            case 'child':
+                ageRange = {min: 1, max: 12};
+                break;
+            case 'teen':
+                ageRange = {min: 13, max: 19};
+                break;
+            case 'adult':
+                ageRange = {min: 18, max: 65};
+                break;
+            case 'senior':
+                ageRange = {min: 65, max: 100};
+                break;
+            case 'all':
+                ageRange = {min: 1, max: 100};
+                break;
+            default:
+                ageRange = {min: 18, max: 65};
+                break;
+        }
+
+        return this.natural(ageRange);
+    };
+
+    Chance.prototype.birthday = function (options) {
+        options = initOptions(options, {
+            year: (new Date().getFullYear() - this.age(options))
+        });
+
+        return this.date(options);
+    };
+
+    // CPF; ID to identify taxpayers in Brazil
+    Chance.prototype.cpf = function () {
+        var n = this.n(this.natural, 9, { max: 9 });
+        var d1 = n[8]*2+n[7]*3+n[6]*4+n[5]*5+n[4]*6+n[3]*7+n[2]*8+n[1]*9+n[0]*10;
+        d1 = 11 - (d1 % 11);
+        if (d1>=10) {
+            d1 = 0;
+        }
+        var d2 = d1*2+n[8]*3+n[7]*4+n[6]*5+n[5]*6+n[4]*7+n[3]*8+n[2]*9+n[1]*10+n[0]*11;
+        d2 = 11 - (d2 % 11);
+        if (d2>=10) {
+            d2 = 0;
+        }
+        return ''+n[0]+n[1]+n[2]+'.'+n[3]+n[4]+n[5]+'.'+n[6]+n[7]+n[8]+'-'+d1+d2;
+    };
+
+    Chance.prototype.first = function (options) {
+        options = initOptions(options, {gender: this.gender(), nationality: 'en'});
+        return this.pick(this.get("firstNames")[options.gender.toLowerCase()][options.nationality.toLowerCase()]);
+    };
+
+    Chance.prototype.gender = function () {
+        return this.pick(['Male', 'Female']);
+    };
+
+    Chance.prototype.last = function (options) {
+        options = initOptions(options, {nationality: 'en'});
+        return this.pick(this.get("lastNames")[options.nationality.toLowerCase()]);
+    };
+    
+    Chance.prototype.israelId=function(){
+        var x=this.string({pool: '0123456789',length:8});
+        var y=0;
+        for (var i=0;i<x.length;i++){
+            var thisDigit=  x[i] *  (i/2===parseInt(i/2) ? 1 : 2);
+            thisDigit=this.pad(thisDigit,2).toString();
+            thisDigit=parseInt(thisDigit[0]) + parseInt(thisDigit[1]);
+            y=y+thisDigit;
+        }
+        x=x+(10-parseInt(y.toString().slice(-1))).toString().slice(-1);
+        return x;
+    };
+
+    Chance.prototype.mrz = function (options) {
+        var checkDigit = function (input) {
+            var alpha = "<ABCDEFGHIJKLMNOPQRSTUVWXYXZ".split(''),
+                multipliers = [ 7, 3, 1 ],
+                runningTotal = 0;
+
+            if (typeof input !== 'string') {
+                input = input.toString();
+            }
+
+            input.split('').forEach(function(character, idx) {
+                var pos = alpha.indexOf(character);
+
+                if(pos !== -1) {
+                    character = pos === 0 ? 0 : pos + 9;
+                } else {
+                    character = parseInt(character, 10);
+                }
+                character *= multipliers[idx % multipliers.length];
+                runningTotal += character;
+            });
+            return runningTotal % 10;
+        };
+        var generate = function (opts) {
+            var pad = function (length) {
+                return new Array(length + 1).join('<');
+            };
+            var number = [ 'P<',
+                           opts.issuer,
+                           opts.last.toUpperCase(),
+                           '<<',
+                           opts.first.toUpperCase(),
+                           pad(39 - (opts.last.length + opts.first.length + 2)),
+                           opts.passportNumber,
+                           checkDigit(opts.passportNumber),
+                           opts.nationality,
+                           opts.dob,
+                           checkDigit(opts.dob),
+                           opts.gender,
+                           opts.expiry,
+                           checkDigit(opts.expiry),
+                           pad(14),
+                           checkDigit(pad(14)) ].join('');
+
+            return number +
+                (checkDigit(number.substr(44, 10) +
+                            number.substr(57, 7) +
+                            number.substr(65, 7)));
+        };
+
+        var that = this;
+
+        options = initOptions(options, {
+            first: this.first(),
+            last: this.last(),
+            passportNumber: this.integer({min: 100000000, max: 999999999}),
+            dob: (function () {
+                var date = that.birthday({type: 'adult'});
+                return [date.getFullYear().toString().substr(2),
+                        that.pad(date.getMonth() + 1, 2),
+                        that.pad(date.getDate(), 2)].join('');
+            }()),
+            expiry: (function () {
+                var date = new Date();
+                return [(date.getFullYear() + 5).toString().substr(2),
+                        that.pad(date.getMonth() + 1, 2),
+                        that.pad(date.getDate(), 2)].join('');
+            }()),
+            gender: this.gender() === 'Female' ? 'F': 'M',
+            issuer: 'GBR',
+            nationality: 'GBR'
+        });
+        return generate (options);
+    };
+
+    Chance.prototype.name = function (options) {
+        options = initOptions(options);
+
+        var first = this.first(options),
+            last = this.last(options),
+            name;
+
+        if (options.middle) {
+            name = first + ' ' + this.first(options) + ' ' + last;
+        } else if (options.middle_initial) {
+            name = first + ' ' + this.character({alpha: true, casing: 'upper'}) + '. ' + last;
+        } else {
+            name = first + ' ' + last;
+        }
+
+        if (options.prefix) {
+            name = this.prefix(options) + ' ' + name;
+        }
+
+        if (options.suffix) {
+            name = name + ' ' + this.suffix(options);
+        }
+
+        return name;
+    };
+
+    // Return the list of available name prefixes based on supplied gender.
+    // @todo introduce internationalization
+    Chance.prototype.name_prefixes = function (gender) {
+        gender = gender || "all";
+        gender = gender.toLowerCase();
+
+        var prefixes = [
+            { name: 'Doctor', abbreviation: 'Dr.' }
+        ];
+
+        if (gender === "male" || gender === "all") {
+            prefixes.push({ name: 'Mister', abbreviation: 'Mr.' });
+        }
+
+        if (gender === "female" || gender === "all") {
+            prefixes.push({ name: 'Miss', abbreviation: 'Miss' });
+            prefixes.push({ name: 'Misses', abbreviation: 'Mrs.' });
+        }
+
+        return prefixes;
+    };
+
+    // Alias for name_prefix
+    Chance.prototype.prefix = function (options) {
+        return this.name_prefix(options);
+    };
+
+    Chance.prototype.name_prefix = function (options) {
+        options = initOptions(options, { gender: "all" });
+        return options.full ?
+            this.pick(this.name_prefixes(options.gender)).name :
+            this.pick(this.name_prefixes(options.gender)).abbreviation;
+    };
+
+    Chance.prototype.ssn = function (options) {
+        options = initOptions(options, {ssnFour: false, dashes: true});
+        var ssn_pool = "1234567890",
+            ssn,
+            dash = options.dashes ? '-' : '';
+
+        if(!options.ssnFour) {
+            ssn = this.string({pool: ssn_pool, length: 3}) + dash +
+            this.string({pool: ssn_pool, length: 2}) + dash +
+            this.string({pool: ssn_pool, length: 4});
+        } else {
+            ssn = this.string({pool: ssn_pool, length: 4});
+        }
+        return ssn;
+    };
+
+    // Return the list of available name suffixes
+    // @todo introduce internationalization
+    Chance.prototype.name_suffixes = function () {
+        var suffixes = [
+            { name: 'Doctor of Osteopathic Medicine', abbreviation: 'D.O.' },
+            { name: 'Doctor of Philosophy', abbreviation: 'Ph.D.' },
+            { name: 'Esquire', abbreviation: 'Esq.' },
+            { name: 'Junior', abbreviation: 'Jr.' },
+            { name: 'Juris Doctor', abbreviation: 'J.D.' },
+            { name: 'Master of Arts', abbreviation: 'M.A.' },
+            { name: 'Master of Business Administration', abbreviation: 'M.B.A.' },
+            { name: 'Master of Science', abbreviation: 'M.S.' },
+            { name: 'Medical Doctor', abbreviation: 'M.D.' },
+            { name: 'Senior', abbreviation: 'Sr.' },
+            { name: 'The Third', abbreviation: 'III' },
+            { name: 'The Fourth', abbreviation: 'IV' },
+            { name: 'Bachelor of Engineering', abbreviation: 'B.E' },
+            { name: 'Bachelor of Technology', abbreviation: 'B.TECH' }
+        ];
+        return suffixes;
+    };
+
+    // Alias for name_suffix
+    Chance.prototype.suffix = function (options) {
+        return this.name_suffix(options);
+    };
+
+    Chance.prototype.name_suffix = function (options) {
+        options = initOptions(options);
+        return options.full ?
+            this.pick(this.name_suffixes()).name :
+            this.pick(this.name_suffixes()).abbreviation;
+    };
+
+    Chance.prototype.nationalities = function () {
+        return this.get("nationalities");
+    };
+
+    // Generate random nationality based on json list
+    Chance.prototype.nationality = function () {
+        var nationality = this.pick(this.nationalities());
+        return nationality.name;
+    };
+
+    // -- End Person --
+
+    // -- Mobile --
+    // Android GCM Registration ID
+    Chance.prototype.android_id = function () {
+        return "APA91" + this.string({ pool: "0123456789abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_", length: 178 });
+    };
+
+    // Apple Push Token
+    Chance.prototype.apple_token = function () {
+        return this.string({ pool: "abcdef1234567890", length: 64 });
+    };
+
+    // Windows Phone 8 ANID2
+    Chance.prototype.wp8_anid2 = function () {
+        return base64( this.hash( { length : 32 } ) );
+    };
+
+    // Windows Phone 7 ANID
+    Chance.prototype.wp7_anid = function () {
+        return 'A=' + this.guid().replace(/-/g, '').toUpperCase() + '&E=' + this.hash({ length:3 }) + '&W=' + this.integer({ min:0, max:9 });
+    };
+
+    // BlackBerry Device PIN
+    Chance.prototype.bb_pin = function () {
+        return this.hash({ length: 8 });
+    };
+
+    // -- End Mobile --
+
+    // -- Web --
+    Chance.prototype.avatar = function (options) {
+        var url = null;
+        var URL_BASE = '//www.gravatar.com/avatar/';
+        var PROTOCOLS = {
+            http: 'http',
+            https: 'https'
+        };
+        var FILE_TYPES = {
+            bmp: 'bmp',
+            gif: 'gif',
+            jpg: 'jpg',
+            png: 'png'
+        };
+        var FALLBACKS = {
+            '404': '404', // Return 404 if not found
+            mm: 'mm', // Mystery man
+            identicon: 'identicon', // Geometric pattern based on hash
+            monsterid: 'monsterid', // A generated monster icon
+            wavatar: 'wavatar', // A generated face
+            retro: 'retro', // 8-bit icon
+            blank: 'blank' // A transparent png
+        };
+        var RATINGS = {
+            g: 'g',
+            pg: 'pg',
+            r: 'r',
+            x: 'x'
+        };
+        var opts = {
+            protocol: null,
+            email: null,
+            fileExtension: null,
+            size: null,
+            fallback: null,
+            rating: null
+        };
+
+        if (!options) {
+            // Set to a random email
+            opts.email = this.email();
+            options = {};
+        }
+        else if (typeof options === 'string') {
+            opts.email = options;
+            options = {};
+        }
+        else if (typeof options !== 'object') {
+            return null;
+        }
+        else if (options.constructor === 'Array') {
+            return null;
+        }
+
+        opts = initOptions(options, opts);
+
+        if (!opts.email) {
+            // Set to a random email
+            opts.email = this.email();
+        }
+
+        // Safe checking for params
+        opts.protocol = PROTOCOLS[opts.protocol] ? opts.protocol + ':' : '';
+        opts.size = parseInt(opts.size, 0) ? opts.size : '';
+        opts.rating = RATINGS[opts.rating] ? opts.rating : '';
+        opts.fallback = FALLBACKS[opts.fallback] ? opts.fallback : '';
+        opts.fileExtension = FILE_TYPES[opts.fileExtension] ? opts.fileExtension : '';
+
+        url =
+            opts.protocol +
+            URL_BASE +
+            this.bimd5.md5(opts.email) +
+            (opts.fileExtension ? '.' + opts.fileExtension : '') +
+            (opts.size || opts.rating || opts.fallback ? '?' : '') +
+            (opts.size ? '&s=' + opts.size.toString() : '') +
+            (opts.rating ? '&r=' + opts.rating : '') +
+            (opts.fallback ? '&d=' + opts.fallback : '')
+            ;
+
+        return url;
+    };
+
+    /**
+     * #Description:
+     * ===============================================
+     * Generate random color value base on color type:
+     * -> hex
+     * -> rgb
+     * -> rgba
+     * -> 0x
+     * -> named color
+     *
+     * #Examples: 
+     * ===============================================
+     * * Geerate random hex color
+     * chance.color() => '#79c157' / 'rgb(110,52,164)' / '0x67ae0b' / '#e2e2e2' / '#29CFA7'
+     * 
+     * * Generate Hex based color value
+     * chance.color({format: 'hex'})    => '#d67118'
+     *
+     * * Generate simple rgb value
+     * chance.color({format: 'rgb'})    => 'rgb(110,52,164)'
+     *
+     * * Generate Ox based color value
+     * chance.color({format: '0x'})     => '0x67ae0b' 
+     *
+     * * Generate graiscale based value
+     * chance.color({grayscale: true})  => '#e2e2e2'
+     *
+     * * Return valide color name
+     * chance.color({format: 'name'})   => 'red'
+     * 
+     * * Make color uppercase
+     * chance.color({casing: 'upper'})  => '#29CFA7'
+     *
+     * @param  [object] options
+     * @return [string] color value
+     */
+    Chance.prototype.color = function (options) {
+
+        function gray(value, delimiter) {
+            return [value, value, value].join(delimiter || '');
+        }
+
+        function rgb(hasAlpha) {
+
+            var rgbValue    = (hasAlpha)    ? 'rgba' : 'rgb'; 
+            var alphaChanal = (hasAlpha)    ? (',' + this.floating({min:0, max:1})) : "";
+            var colorValue  = (isGrayscale) ? (gray(this.natural({max: 255}), ',')) : (this.natural({max: 255}) + ',' + this.natural({max: 255}) + ',' + this.natural({max: 255}));
+
+            return rgbValue + '(' + colorValue + alphaChanal + ')';
+        }
+
+        function hex(start, end, withHash) {
+
+            var simbol = (withHash) ? "#" : "";
+            var expression  = (isGrayscale ? gray(this.hash({length: start})) : this.hash({length: end})); 
+            return simbol + expression;
+        }
+
+        options = initOptions(options, {
+            format: this.pick(['hex', 'shorthex', 'rgb', 'rgba', '0x', 'name']),
+            grayscale: false,
+            casing: 'lower'
+        });
+
+        var isGrayscale = options.grayscale;
+        var colorValue;
+
+        if (options.format === 'hex') {
+            colorValue =  hex.call(this, 2, 6, true);
+        }
+        else if (options.format === 'shorthex') {
+            colorValue = hex.call(this, 1, 3, true);
+        } 
+        else if (options.format === 'rgb') {
+            colorValue = rgb.call(this, false);
+        } 
+        else if (options.format === 'rgba') {
+            colorValue = rgb.call(this, true);
+        } 
+        else if (options.format === '0x') {
+            colorValue = '0x' + hex.call(this, 2, 6);
+        } 
+        else if(options.format === 'name') {
+            return this.pick(this.get("colorNames"));
+        }
+        else {
+            throw new RangeError('Invalid format provided. Please provide one of "hex", "shorthex", "rgb", "rgba", "0x" or "name".');
+        }
+
+        if (options.casing === 'upper' ) {
+            colorValue = colorValue.toUpperCase();
+        }
+
+        return colorValue;
+    };
+
+    Chance.prototype.domain = function (options) {
+        options = initOptions(options);
+        return this.word() + '.' + (options.tld || this.tld());
+    };
+
+    Chance.prototype.email = function (options) {
+        options = initOptions(options);
+        return this.word({length: options.length}) + '@' + (options.domain || this.domain());
+    };
+
+    Chance.prototype.fbid = function () {
+        return parseInt('10000' + this.natural({max: 100000000000}), 10);
+    };
+
+    Chance.prototype.google_analytics = function () {
+        var account = this.pad(this.natural({max: 999999}), 6);
+        var property = this.pad(this.natural({max: 99}), 2);
+
+        return 'UA-' + account + '-' + property;
+    };
+
+    Chance.prototype.hashtag = function () {
+        return '#' + this.word();
+    };
+
+    Chance.prototype.ip = function () {
+        // Todo: This could return some reserved IPs. See http://vq.io/137dgYy
+        // this should probably be updated to account for that rare as it may be
+        return this.natural({max: 255}) + '.' +
+               this.natural({max: 255}) + '.' +
+               this.natural({max: 255}) + '.' +
+               this.natural({max: 255});
+    };
+
+    Chance.prototype.ipv6 = function () {
+        var ip_addr = this.n(this.hash, 8, {length: 4});
+
+        return ip_addr.join(":");
+    };
+
+    Chance.prototype.klout = function () {
+        return this.natural({min: 1, max: 99});
+    };
+
+    Chance.prototype.semver = function (options) {
+        options = initOptions(options, { include_prerelease: true });
+
+        var range = this.pickone(["^", "~", "<", ">", "<=", ">=", "="]);
+        if (options.range) {
+            range = options.range;
+        }
+
+        var prerelease = "";
+        if (options.include_prerelease) {
+            prerelease = this.weighted(["", "-dev", "-beta", "-alpha"], [50, 10, 5, 1]);
+        }
+        return range + this.rpg('3d10').join('.') + prerelease;
+    };
+
+    Chance.prototype.tlds = function () {
+        return ['com', 'org', 'edu', 'gov', 'co.uk', 'net', 'io'];
+    };
+
+    Chance.prototype.tld = function () {
+        return this.pick(this.tlds());
+    };
+
+    Chance.prototype.twitter = function () {
+        return '@' + this.word();
+    };
+
+    Chance.prototype.url = function (options) {
+        options = initOptions(options, { protocol: "http", domain: this.domain(options), domain_prefix: "", path: this.word(), extensions: []});
+
+        var extension = options.extensions.length > 0 ? "." + this.pick(options.extensions) : "";
+        var domain = options.domain_prefix ? options.domain_prefix + "." + options.domain : options.domain;
+
+        return options.protocol + "://" + domain + "/" + options.path + extension;
+    };
+
+    // -- End Web --
+
+    // -- Location --
+
+    Chance.prototype.address = function (options) {
+        options = initOptions(options);
+        return this.natural({min: 5, max: 2000}) + ' ' + this.street(options);
+    };
+
+    Chance.prototype.altitude = function (options) {
+        options = initOptions(options, {fixed: 5, min: 0, max: 8848});
+        return this.floating({
+            min: options.min,
+            max: options.max,
+            fixed: options.fixed
+        });
+    };
+
+    Chance.prototype.areacode = function (options) {
+        options = initOptions(options, {parens : true});
+        // Don't want area codes to start with 1, or have a 9 as the second digit
+        var areacode = this.natural({min: 2, max: 9}).toString() +
+                this.natural({min: 0, max: 8}).toString() +
+                this.natural({min: 0, max: 9}).toString();
+
+        return options.parens ? '(' + areacode + ')' : areacode;
+    };
+
+    Chance.prototype.city = function () {
+        return this.capitalize(this.word({syllables: 3}));
+    };
+
+    Chance.prototype.coordinates = function (options) {
+        return this.latitude(options) + ', ' + this.longitude(options);
+    };
+
+    Chance.prototype.countries = function () {
+        return this.get("countries");
+    };
+
+    Chance.prototype.country = function (options) {
+        options = initOptions(options);
+        var country = this.pick(this.countries());
+        return options.full ? country.name : country.abbreviation;
+    };
+
+    Chance.prototype.depth = function (options) {
+        options = initOptions(options, {fixed: 5, min: -10994, max: 0});
+        return this.floating({
+            min: options.min,
+            max: options.max,
+            fixed: options.fixed
+        });
+    };
+
+    Chance.prototype.geohash = function (options) {
+        options = initOptions(options, { length: 7 });
+        return this.string({ length: options.length, pool: '0123456789bcdefghjkmnpqrstuvwxyz' });
+    };
+
+    Chance.prototype.geojson = function (options) {
+        return this.latitude(options) + ', ' + this.longitude(options) + ', ' + this.altitude(options);
+    };
+
+    Chance.prototype.latitude = function (options) {
+        options = initOptions(options, {fixed: 5, min: -90, max: 90});
+        return this.floating({min: options.min, max: options.max, fixed: options.fixed});
+    };
+
+    Chance.prototype.longitude = function (options) {
+        options = initOptions(options, {fixed: 5, min: -180, max: 180});
+        return this.floating({min: options.min, max: options.max, fixed: options.fixed});
+    };
+
+    Chance.prototype.phone = function (options) {
+        var self = this,
+            numPick,
+            ukNum = function (parts) {
+                var section = [];
+                //fills the section part of the phone number with random numbers.
+                parts.sections.forEach(function(n) {
+                    section.push(self.string({ pool: '0123456789', length: n}));
+                });
+                return parts.area + section.join(' ');
+            };
+        options = initOptions(options, {
+            formatted: true,
+            country: 'us',
+            mobile: false
+        });
+        if (!options.formatted) {
+            options.parens = false;
+        }
+        var phone;
+        switch (options.country) {
+            case 'fr':
+                if (!options.mobile) {
+                    numPick = this.pick([
+                        // Valid zone and département codes.
+                        '01' + this.pick(['30', '34', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '53', '55', '56', '58', '60', '64', '69', '70', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83']) + self.string({ pool: '0123456789', length: 6}),
+                        '02' + this.pick(['14', '18', '22', '23', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '40', '41', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '56', '57', '61', '62', '69', '72', '76', '77', '78', '85', '90', '96', '97', '98', '99']) + self.string({ pool: '0123456789', length: 6}),
+                        '03' + this.pick(['10', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '39', '44', '45', '51', '52', '54', '55', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90']) + self.string({ pool: '0123456789', length: 6}),
+                        '04' + this.pick(['11', '13', '15', '20', '22', '26', '27', '30', '32', '34', '37', '42', '43', '44', '50', '56', '57', '63', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '88', '89', '90', '91', '92', '93', '94', '95', '97', '98']) + self.string({ pool: '0123456789', length: 6}),
+                        '05' + this.pick(['08', '16', '17', '19', '24', '31', '32', '33', '34', '35', '40', '45', '46', '47', '49', '53', '55', '56', '57', '58', '59', '61', '62', '63', '64', '65', '67', '79', '81', '82', '86', '87', '90', '94']) + self.string({ pool: '0123456789', length: 6}),
+                        '09' + self.string({ pool: '0123456789', length: 8}),
+                    ]);
+                    phone = options.formatted ? numPick.match(/../g).join(' ') : numPick;
+                } else {
+                    numPick = this.pick(['06', '07']) + self.string({ pool: '0123456789', length: 8});
+                    phone = options.formatted ? numPick.match(/../g).join(' ') : numPick;
+                }
+                break;
+            case 'uk':
+                if (!options.mobile) {
+                    numPick = this.pick([
+                        //valid area codes of major cities/counties followed by random numbers in required format.
+                        { area: '01' + this.character({ pool: '234569' }) + '1 ', sections: [3,4] },
+                        { area: '020 ' + this.character({ pool: '378' }), sections: [3,4] },
+                        { area: '023 ' + this.character({ pool: '89' }), sections: [3,4] },
+                        { area: '024 7', sections: [3,4] },
+                        { area: '028 ' + this.pick(['25','28','37','71','82','90','92','95']), sections: [2,4] },
+                        { area: '012' + this.pick(['04','08','54','76','97','98']) + ' ', sections: [5] },
+                        { area: '013' + this.pick(['63','64','84','86']) + ' ', sections: [5] },
+                        { area: '014' + this.pick(['04','20','60','61','80','88']) + ' ', sections: [5] },
+                        { area: '015' + this.pick(['24','27','62','66']) + ' ', sections: [5] },
+                        { area: '016' + this.pick(['06','29','35','47','59','95']) + ' ', sections: [5] },
+                        { area: '017' + this.pick(['26','44','50','68']) + ' ', sections: [5] },
+                        { area: '018' + this.pick(['27','37','84','97']) + ' ', sections: [5] },
+                        { area: '019' + this.pick(['00','05','35','46','49','63','95']) + ' ', sections: [5] }
+                    ]);
+                    phone = options.formatted ? ukNum(numPick) : ukNum(numPick).replace(' ', '', 'g');
+                } else {
+                    numPick = this.pick([
+                        { area: '07' + this.pick(['4','5','7','8','9']), sections: [2,6] },
+                        { area: '07624 ', sections: [6] }
+                    ]);
+                    phone = options.formatted ? ukNum(numPick) : ukNum(numPick).replace(' ', '');
+                }
+                break;
+            case 'us':
+                var areacode = this.areacode(options).toString();
+                var exchange = this.natural({ min: 2, max: 9 }).toString() +
+                    this.natural({ min: 0, max: 9 }).toString() +
+                    this.natural({ min: 0, max: 9 }).toString();
+                var subscriber = this.natural({ min: 1000, max: 9999 }).toString(); // this could be random [0-9]{4}
+                phone = options.formatted ? areacode + ' ' + exchange + '-' + subscriber : areacode + exchange + subscriber;
+        }
+        return phone;
+    };
+
+    Chance.prototype.postal = function () {
+        // Postal District
+        var pd = this.character({pool: "XVTSRPNKLMHJGECBA"});
+        // Forward Sortation Area (FSA)
+        var fsa = pd + this.natural({max: 9}) + this.character({alpha: true, casing: "upper"});
+        // Local Delivery Unut (LDU)
+        var ldu = this.natural({max: 9}) + this.character({alpha: true, casing: "upper"}) + this.natural({max: 9});
+
+        return fsa + " " + ldu;
+    };
+
+    Chance.prototype.provinces = function () {
+        return this.get("provinces");
+    };
+
+    Chance.prototype.province = function (options) {
+        return (options && options.full) ?
+            this.pick(this.provinces()).name :
+            this.pick(this.provinces()).abbreviation;
+    };
+
+    Chance.prototype.state = function (options) {
+        return (options && options.full) ?
+            this.pick(this.states(options)).name :
+            this.pick(this.states(options)).abbreviation;
+    };
+
+    Chance.prototype.states = function (options) {
+        options = initOptions(options, { us_states_and_dc: true });
+
+        var states,
+            us_states_and_dc = this.get("us_states_and_dc"),
+            territories = this.get("territories"),
+            armed_forces = this.get("armed_forces");
+
+        states = [];
+
+        if (options.us_states_and_dc) {
+            states = states.concat(us_states_and_dc);
+        }
+        if (options.territories) {
+            states = states.concat(territories);
+        }
+        if (options.armed_forces) {
+            states = states.concat(armed_forces);
+        }
+
+        return states;
+    };
+
+    Chance.prototype.street = function (options) {
+        options = initOptions(options);
+
+        var street = this.word({syllables: 2});
+        street = this.capitalize(street);
+        street += ' ';
+        street += options.short_suffix ?
+            this.street_suffix().abbreviation :
+            this.street_suffix().name;
+        return street;
+    };
+
+    Chance.prototype.street_suffix = function () {
+        return this.pick(this.street_suffixes());
+    };
+
+    Chance.prototype.street_suffixes = function () {
+        // These are the most common suffixes.
+        return this.get("street_suffixes");
+    };
+
+    // Note: only returning US zip codes, internationalization will be a whole
+    // other beast to tackle at some point.
+    Chance.prototype.zip = function (options) {
+        var zip = this.n(this.natural, 5, {max: 9});
+
+        if (options && options.plusfour === true) {
+            zip.push('-');
+            zip = zip.concat(this.n(this.natural, 4, {max: 9}));
+        }
+
+        return zip.join("");
+    };
+
+    // -- End Location --
+
+    // -- Time
+
+    Chance.prototype.ampm = function () {
+        return this.bool() ? 'am' : 'pm';
+    };
+
+    Chance.prototype.date = function (options) {
+        var date_string, date;
+
+        // If interval is specified we ignore preset
+        if(options && (options.min || options.max)) {
+            options = initOptions(options, {
+                american: true,
+                string: false
+            });
+            var min = typeof options.min !== "undefined" ? options.min.getTime() : 1;
+            // 100,000,000 days measured relative to midnight at the beginning of 01 January, 1970 UTC. http://es5.github.io/#x15.9.1.1
+            var max = typeof options.max !== "undefined" ? options.max.getTime() : 8640000000000000;
+
+            date = new Date(this.natural({min: min, max: max}));
+        } else {
+            var m = this.month({raw: true});
+            var daysInMonth = m.days;
+
+            if(options && options.month) {
+                // Mod 12 to allow months outside range of 0-11 (not encouraged, but also not prevented).
+                daysInMonth = this.get('months')[((options.month % 12) + 12) % 12].days;
+            }
+
+            options = initOptions(options, {
+                year: parseInt(this.year(), 10),
+                // Necessary to subtract 1 because Date() 0-indexes month but not day or year
+                // for some reason.
+                month: m.numeric - 1,
+                day: this.natural({min: 1, max: daysInMonth}),
+                hour: this.hour(),
+                minute: this.minute(),
+                second: this.second(),
+                millisecond: this.millisecond(),
+                american: true,
+                string: false
+            });
+
+            date = new Date(options.year, options.month, options.day, options.hour, options.minute, options.second, options.millisecond);
+        }
+
+        if (options.american) {
+            // Adding 1 to the month is necessary because Date() 0-indexes
+            // months but not day for some odd reason.
+            date_string = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear();
+        } else {
+            date_string = date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+        }
+
+        return options.string ? date_string : date;
+    };
+
+    Chance.prototype.hammertime = function (options) {
+        return this.date(options).getTime();
+    };
+
+    Chance.prototype.hour = function (options) {
+        options = initOptions(options, {
+            min: options && options.twentyfour ? 0 : 1,
+            max: options && options.twentyfour ? 23 : 12
+        });
+
+        testRange(options.min < 0, "Chance: Min cannot be less than 0.");
+        testRange(options.twentyfour && options.max > 23, "Chance: Max cannot be greater than 23 for twentyfour option.");
+        testRange(!options.twentyfour && options.max > 12, "Chance: Max cannot be greater than 12.");
+        testRange(options.min > options.max, "Chance: Min cannot be greater than Max.");
+
+        return this.natural({min: options.min, max: options.max});
+    };
+
+    Chance.prototype.millisecond = function () {
+        return this.natural({max: 999});
+    };
+
+    Chance.prototype.minute = Chance.prototype.second = function (options) {
+        options = initOptions(options, {min: 0, max: 59});
+
+        testRange(options.min < 0, "Chance: Min cannot be less than 0.");
+        testRange(options.max > 59, "Chance: Max cannot be greater than 59.");
+        testRange(options.min > options.max, "Chance: Min cannot be greater than Max.");
+
+        return this.natural({min: options.min, max: options.max});
+    };
+
+    Chance.prototype.month = function (options) {
+        options = initOptions(options, {min: 1, max: 12});
+
+        testRange(options.min < 1, "Chance: Min cannot be less than 1.");
+        testRange(options.max > 12, "Chance: Max cannot be greater than 12.");
+        testRange(options.min > options.max, "Chance: Min cannot be greater than Max.");
+
+        var month = this.pick(this.months().slice(options.min - 1, options.max));
+        return options.raw ? month : month.name;
+    };
+
+    Chance.prototype.months = function () {
+        return this.get("months");
+    };
+
+    Chance.prototype.second = function () {
+        return this.natural({max: 59});
+    };
+
+    Chance.prototype.timestamp = function () {
+        return this.natural({min: 1, max: parseInt(new Date().getTime() / 1000, 10)});
+    };
+
+    Chance.prototype.weekday = function (options) {
+        options = initOptions(options, {weekday_only: false});
+        var weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+        if (!options.weekday_only) {
+            weekdays.push("Saturday");
+            weekdays.push("Sunday");
+        }
+        return this.pickone(weekdays);
+    };
+
+    Chance.prototype.year = function (options) {
+        // Default to current year as min if none specified
+        options = initOptions(options, {min: new Date().getFullYear()});
+
+        // Default to one century after current year as max if none specified
+        options.max = (typeof options.max !== "undefined") ? options.max : options.min + 100;
+
+        return this.natural(options).toString();
+    };
+
+    // -- End Time
+
+    // -- Finance --
+
+    Chance.prototype.cc = function (options) {
+        options = initOptions(options);
+
+        var type, number, to_generate;
+
+        type = (options.type) ?
+                    this.cc_type({ name: options.type, raw: true }) :
+                    this.cc_type({ raw: true });
+
+        number = type.prefix.split("");
+        to_generate = type.length - type.prefix.length - 1;
+
+        // Generates n - 1 digits
+        number = number.concat(this.n(this.integer, to_generate, {min: 0, max: 9}));
+
+        // Generates the last digit according to Luhn algorithm
+        number.push(this.luhn_calculate(number.join("")));
+
+        return number.join("");
+    };
+
+    Chance.prototype.cc_types = function () {
+        // http://en.wikipedia.org/wiki/Bank_card_number#Issuer_identification_number_.28IIN.29
+        return this.get("cc_types");
+    };
+
+    Chance.prototype.cc_type = function (options) {
+        options = initOptions(options);
+        var types = this.cc_types(),
+            type = null;
+
+        if (options.name) {
+            for (var i = 0; i < types.length; i++) {
+                // Accept either name or short_name to specify card type
+                if (types[i].name === options.name || types[i].short_name === options.name) {
+                    type = types[i];
+                    break;
+                }
+            }
+            if (type === null) {
+                throw new RangeError("Credit card type '" + options.name + "'' is not supported");
+            }
+        } else {
+            type = this.pick(types);
+        }
+
+        return options.raw ? type : type.name;
+    };
+
+    //return all world currency by ISO 4217
+    Chance.prototype.currency_types = function () {
+        return this.get("currency_types");
+    };
+
+    //return random world currency by ISO 4217
+    Chance.prototype.currency = function () {
+        return this.pick(this.currency_types());
+    };
+
+    //Return random correct currency exchange pair (e.g. EUR/USD) or array of currency code
+    Chance.prototype.currency_pair = function (returnAsString) {
+        var currencies = this.unique(this.currency, 2, {
+            comparator: function(arr, val) {
+
+                return arr.reduce(function(acc, item) {
+                    // If a match has been found, short circuit check and just return
+                    return acc || (item.code === val.code);
+                }, false);
+            }
+        });
+
+        if (returnAsString) {
+            return currencies[0].code + '/' + currencies[1].code;
+        } else {
+            return currencies;
+        }
+    };
+
+    Chance.prototype.dollar = function (options) {
+        // By default, a somewhat more sane max for dollar than all available numbers
+        options = initOptions(options, {max : 10000, min : 0});
+
+        var dollar = this.floating({min: options.min, max: options.max, fixed: 2}).toString(),
+            cents = dollar.split('.')[1];
+
+        if (cents === undefined) {
+            dollar += '.00';
+        } else if (cents.length < 2) {
+            dollar = dollar + '0';
+        }
+
+        if (dollar < 0) {
+            return '-$' + dollar.replace('-', '');
+        } else {
+            return '$' + dollar;
+        }
+    };
+
+    Chance.prototype.exp = function (options) {
+        options = initOptions(options);
+        var exp = {};
+
+        exp.year = this.exp_year();
+
+        // If the year is this year, need to ensure month is greater than the
+        // current month or this expiration will not be valid
+        if (exp.year === (new Date().getFullYear()).toString()) {
+            exp.month = this.exp_month({future: true});
+        } else {
+            exp.month = this.exp_month();
+        }
+
+        return options.raw ? exp : exp.month + '/' + exp.year;
+    };
+
+    Chance.prototype.exp_month = function (options) {
+        options = initOptions(options);
+        var month, month_int,
+            // Date object months are 0 indexed
+            curMonth = new Date().getMonth() + 1;
+
+        if (options.future) {
+            do {
+                month = this.month({raw: true}).numeric;
+                month_int = parseInt(month, 10);
+            } while (month_int <= curMonth);
+        } else {
+            month = this.month({raw: true}).numeric;
+        }
+
+        return month;
+    };
+
+    Chance.prototype.exp_year = function () {
+        return this.year({max: new Date().getFullYear() + 10});
+    };
+
+    // -- End Finance
+
+    // -- Regional
+
+    Chance.prototype.pl_pesel = function () {
+        var number = this.natural({min: 1, max: 9999999999});
+        var arr = this.pad(number, 10).split('');
+        for (var i = 0; i < arr.length; i++) {
+            arr[i] = parseInt(arr[i]);
+        }
+
+        var controlNumber = (1 * arr[0] + 3 * arr[1] + 7 * arr[2] + 9 * arr[3] + 1 * arr[4] + 3 * arr[5] + 7 * arr[6] + 9 * arr[7] + 1 * arr[8] + 3 * arr[9]) % 10;
+        if(controlNumber !== 0) {
+            controlNumber = 10 - controlNumber;
+        }
+
+        return arr.join('') + controlNumber;
+    };
+
+    Chance.prototype.pl_nip = function () {
+        var number = this.natural({min: 1, max: 999999999});
+        var arr = this.pad(number, 9).split('');
+        for (var i = 0; i < arr.length; i++) {
+            arr[i] = parseInt(arr[i]);
+        }
+
+        var controlNumber = (6 * arr[0] + 5 * arr[1] + 7 * arr[2] + 2 * arr[3] + 3 * arr[4] + 4 * arr[5] + 5 * arr[6] + 6 * arr[7] + 7 * arr[8]) % 11;
+        if(controlNumber === 10) {
+            return this.pl_nip();
+        }
+
+        return arr.join('') + controlNumber;
+    };
+
+    Chance.prototype.pl_regon = function () {
+        var number = this.natural({min: 1, max: 99999999});
+        var arr = this.pad(number, 8).split('');
+        for (var i = 0; i < arr.length; i++) {
+            arr[i] = parseInt(arr[i]);
+        }
+
+        var controlNumber = (8 * arr[0] + 9 * arr[1] + 2 * arr[2] + 3 * arr[3] + 4 * arr[4] + 5 * arr[5] + 6 * arr[6] + 7 * arr[7]) % 11;
+        if(controlNumber === 10) {
+            controlNumber = 0;
+        }
+
+        return arr.join('') + controlNumber;
+    };
+
+    // -- End Regional
+
+    // -- Miscellaneous --
+
+    // Dice - For all the board game geeks out there, myself included ;)
+    function diceFn (range) {
+        return function () {
+            return this.natural(range);
+        };
+    }
+    Chance.prototype.d4 = diceFn({min: 1, max: 4});
+    Chance.prototype.d6 = diceFn({min: 1, max: 6});
+    Chance.prototype.d8 = diceFn({min: 1, max: 8});
+    Chance.prototype.d10 = diceFn({min: 1, max: 10});
+    Chance.prototype.d12 = diceFn({min: 1, max: 12});
+    Chance.prototype.d20 = diceFn({min: 1, max: 20});
+    Chance.prototype.d30 = diceFn({min: 1, max: 30});
+    Chance.prototype.d100 = diceFn({min: 1, max: 100});
+
+    Chance.prototype.rpg = function (thrown, options) {
+        options = initOptions(options);
+        if (!thrown) {
+            throw new RangeError("A type of die roll must be included");
+        } else {
+            var bits = thrown.toLowerCase().split("d"),
+                rolls = [];
+
+            if (bits.length !== 2 || !parseInt(bits[0], 10) || !parseInt(bits[1], 10)) {
+                throw new Error("Invalid format provided. Please provide #d# where the first # is the number of dice to roll, the second # is the max of each die");
+            }
+            for (var i = bits[0]; i > 0; i--) {
+                rolls[i - 1] = this.natural({min: 1, max: bits[1]});
+            }
+            return (typeof options.sum !== 'undefined' && options.sum) ? rolls.reduce(function (p, c) { return p + c; }) : rolls;
+        }
+    };
+
+    // Guid
+    Chance.prototype.guid = function (options) {
+        options = initOptions(options, { version: 5 });
+
+        var guid_pool = "abcdef1234567890",
+            variant_pool = "ab89",
+            guid = this.string({ pool: guid_pool, length: 8 }) + '-' +
+                   this.string({ pool: guid_pool, length: 4 }) + '-' +
+                   // The Version
+                   options.version +
+                   this.string({ pool: guid_pool, length: 3 }) + '-' +
+                   // The Variant
+                   this.string({ pool: variant_pool, length: 1 }) +
+                   this.string({ pool: guid_pool, length: 3 }) + '-' +
+                   this.string({ pool: guid_pool, length: 12 });
+        return guid;
+    };
+
+    // Hash
+    Chance.prototype.hash = function (options) {
+        options = initOptions(options, {length : 40, casing: 'lower'});
+        var pool = options.casing === 'upper' ? HEX_POOL.toUpperCase() : HEX_POOL;
+        return this.string({pool: pool, length: options.length});
+    };
+
+    Chance.prototype.luhn_check = function (num) {
+        var str = num.toString();
+        var checkDigit = +str.substring(str.length - 1);
+        return checkDigit === this.luhn_calculate(+str.substring(0, str.length - 1));
+    };
+
+    Chance.prototype.luhn_calculate = function (num) {
+        var digits = num.toString().split("").reverse();
+        var sum = 0;
+        var digit;
+
+        for (var i = 0, l = digits.length; l > i; ++i) {
+            digit = +digits[i];
+            if (i % 2 === 0) {
+                digit *= 2;
+                if (digit > 9) {
+                    digit -= 9;
+                }
+            }
+            sum += digit;
+        }
+        return (sum * 9) % 10;
+    };
+
+    // MD5 Hash
+    Chance.prototype.md5 = function(options) {
+        var opts = { str: '', key: null, raw: false };
+
+        if (!options) {
+            opts.str = this.string();
+            options = {};
+        }
+        else if (typeof options === 'string') {
+            opts.str = options;
+            options = {};
+        }
+        else if (typeof options !== 'object') {
+            return null;
+        }
+        else if(options.constructor === 'Array') {
+            return null;
+        }
+
+        opts = initOptions(options, opts);
+
+        if(!opts.str){
+            throw new Error('A parameter is required to return an md5 hash.');
+        }
+
+        return this.bimd5.md5(opts.str, opts.key, opts.raw);
+    };
+
+    /**
+     * #Description:
+     * =====================================================
+     * Generate random file name with extention
+     *
+     * The argument provide extention type 
+     * -> raster 
+     * -> vector
+     * -> 3d
+     * -> document
+     *
+     * If noting is provided the function return random file name with random 
+     * extention type of any kind
+     *
+     * The user can validate the file name length range 
+     * If noting provided the generated file name is radom
+     *
+     * #Extention Pool :
+     * * Currently the supported extentions are 
+     *  -> some of the most popular raster image extentions
+     *  -> some of the most popular vector image extentions
+     *  -> some of the most popular 3d image extentions
+     *  -> some of the most popular document extentions
+     * 
+     * #Examples :
+     * =====================================================
+     *
+     * Return random file name with random extention. The file extention
+     * is provided by a predifined collection of extentions. More abouth the extention
+     * pool can be fond in #Extention Pool section
+     * 
+     * chance.file()                        
+     * => dsfsdhjf.xml
+     *
+     * In order to generate a file name with sspecific length, specify the 
+     * length property and integer value. The extention is going to be random
+     *  
+     * chance.file({length : 10})           
+     * => asrtineqos.pdf
+     *
+     * In order to geerate file with extention form some of the predifined groups
+     * of the extention pool just specify the extenton pool category in fileType property
+     *  
+     * chance.file({fileType : 'raster'})   
+     * => dshgssds.psd
+     *
+     * You can provide specific extention for your files
+     * chance.file({extention : 'html'})    
+     * => djfsd.html
+     *
+     * Or you could pass custom collection of extentons bt array or by object
+     * chance.file({extentions : [...]})    
+     * => dhgsdsd.psd
+     *  
+     * chance.file({extentions : { key : [...], key : [...]}})
+     * => djsfksdjsd.xml
+     * 
+     * @param  [collection] options 
+     * @return [string]
+     * 
+     */
+    Chance.prototype.file = function(options) {
+        
+        var fileOptions = options || {};
+        var poolCollectionKey = "fileExtension";
+        var typeRange   = Object.keys(this.get("fileExtension"));//['raster', 'vector', '3d', 'document'];
+        var fileName;
+        var fileExtention;
+
+        // Generate random file name 
+        fileName = this.word({length : fileOptions.length});
+
+        // Generate file by specific extention provided by the user
+        if(fileOptions.extention) {
+
+            fileExtention = fileOptions.extention;
+            return (fileName + '.' + fileExtention);
+        }
+
+        // Generate file by specific axtention collection
+        if(fileOptions.extentions) {
+
+            if(Array.isArray(fileOptions.extentions)) {
+
+                fileExtention = this.pickone(fileOptions.extentions);
+                return (fileName + '.' + fileExtention);
+            }
+            else if(fileOptions.extentions.constructor === Object) {
+                
+                var extentionObjectCollection = fileOptions.extentions;
+                var keys = Object.keys(extentionObjectCollection);
+
+                fileExtention = this.pickone(extentionObjectCollection[this.pickone(keys)]);
+                return (fileName + '.' + fileExtention);
+            }
+
+            throw new Error("Expect collection of type Array or Object to be passed as an argument ");
+        } 
+
+        // Generate file extention based on specific file type
+        if(fileOptions.fileType) {
+
+            var fileType = fileOptions.fileType;
+            if(typeRange.indexOf(fileType) !== -1) {
+
+                fileExtention = this.pickone(this.get(poolCollectionKey)[fileType]);
+                return (fileName + '.' + fileExtention);
+            }
+
+            throw new Error("Expect file type value to be 'raster', 'vector', '3d' or 'document' ");
+        }
+
+        // Generate random file name if no extenton options are passed
+        fileExtention = this.pickone(this.get(poolCollectionKey)[this.pickone(typeRange)]);
+        return (fileName + '.' + fileExtention);
+    };     
+
+    var data = {
+
+        firstNames: {
+            "male": {
+                "en": ["James", "John", "Robert", "Michael", "William", "David", "Richard", "Joseph", "Charles", "Thomas", "Christopher", "Daniel", "Matthew", "George", "Donald", "Anthony", "Paul", "Mark", "Edward", "Steven", "Kenneth", "Andrew", "Brian", "Joshua", "Kevin", "Ronald", "Timothy", "Jason", "Jeffrey", "Frank", "Gary", "Ryan", "Nicholas", "Eric", "Stephen", "Jacob", "Larry", "Jonathan", "Scott", "Raymond", "Justin", "Brandon", "Gregory", "Samuel", "Benjamin", "Patrick", "Jack", "Henry", "Walter", "Dennis", "Jerry", "Alexander", "Peter", "Tyler", "Douglas", "Harold", "Aaron", "Jose", "Adam", "Arthur", "Zachary", "Carl", "Nathan", "Albert", "Kyle", "Lawrence", "Joe", "Willie", "Gerald", "Roger", "Keith", "Jeremy", "Terry", "Harry", "Ralph", "Sean", "Jesse", "Roy", "Louis", "Billy", "Austin", "Bruce", "Eugene", "Christian", "Bryan", "Wayne", "Russell", "Howard", "Fred", "Ethan", "Jordan", "Philip", "Alan", "Juan", "Randy", "Vincent", "Bobby", "Dylan", "Johnny", "Phillip", "Victor", "Clarence", "Ernest", "Martin", "Craig", "Stanley", "Shawn", "Travis", "Bradley", "Leonard", "Earl", "Gabriel", "Jimmy", "Francis", "Todd", "Noah", "Danny", "Dale", "Cody", "Carlos", "Allen", "Frederick", "Logan", "Curtis", "Alex", "Joel", "Luis", "Norman", "Marvin", "Glenn", "Tony", "Nathaniel", "Rodney", "Melvin", "Alfred", "Steve", "Cameron", "Chad", "Edwin", "Caleb", "Evan", "Antonio", "Lee", "Herbert", "Jeffery", "Isaac", "Derek", "Ricky", "Marcus", "Theodore", "Elijah", "Luke", "Jesus", "Eddie", "Troy", "Mike", "Dustin", "Ray", "Adrian", "Bernard", "Leroy", "Angel", "Randall", "Wesley", "Ian", "Jared", "Mason", "Hunter", "Calvin", "Oscar", "Clifford", "Jay", "Shane", "Ronnie", "Barry", "Lucas", "Corey", "Manuel", "Leo", "Tommy", "Warren", "Jackson", "Isaiah", "Connor", "Don", "Dean", "Jon", "Julian", "Miguel", "Bill", "Lloyd", "Charlie", "Mitchell", "Leon", "Jerome", "Darrell", "Jeremiah", "Alvin", "Brett", "Seth", "Floyd", "Jim", "Blake", "Micheal", "Gordon", "Trevor", "Lewis", "Erik", "Edgar", "Vernon", "Devin", "Gavin", "Jayden", "Chris", "Clyde", "Tom", "Derrick", "Mario", "Brent", "Marc", "Herman", "Chase", "Dominic", "Ricardo", "Franklin", "Maurice", "Max", "Aiden", "Owen", "Lester", "Gilbert", "Elmer", "Gene", "Francisco", "Glen", "Cory", "Garrett", "Clayton", "Sam", "Jorge", "Chester", "Alejandro", "Jeff", "Harvey", "Milton", "Cole", "Ivan", "Andre", "Duane", "Landon"],
+                "it": ["Francesco", "Alessandro", "Lorenzo", "Andrea", "Marco", "Leonardo", "Matteo", "Federico", "Mattia", "Riccardo", "Luca", "Davide", "Gabriele", "Edoardo", "Tommaso", "Giacomo", "Simone", "Christian", "Stefano", "Diego", "Filippo", "Giuseppe"]
+            },
+            "female": {
+                "en": ["Mary", "Emma", "Elizabeth", "Minnie", "Margaret", "Ida", "Alice", "Bertha", "Sarah", "Annie", "Clara", "Ella", "Florence", "Cora", "Martha", "Laura", "Nellie", "Grace", "Carrie", "Maude", "Mabel", "Bessie", "Jennie", "Gertrude", "Julia", "Hattie", "Edith", "Mattie", "Rose", "Catherine", "Lillian", "Ada", "Lillie", "Helen", "Jessie", "Louise", "Ethel", "Lula", "Myrtle", "Eva", "Frances", "Lena", "Lucy", "Edna", "Maggie", "Pearl", "Daisy", "Fannie", "Josephine", "Dora", "Rosa", "Katherine", "Agnes", "Marie", "Nora", "May", "Mamie", "Blanche", "Stella", "Ellen", "Nancy", "Effie", "Sallie", "Nettie", "Della", "Lizzie", "Flora", "Susie", "Maud", "Mae", "Etta", "Harriet", "Sadie", "Caroline", "Katie", "Lydia", "Elsie", "Kate", "Susan", "Mollie", "Alma", "Addie", "Georgia", "Eliza", "Lulu", "Nannie", "Lottie", "Amanda", "Belle", "Charlotte", "Rebecca", "Ruth", "Viola", "Olive", "Amelia", "Hannah", "Jane", "Virginia", "Emily", "Matilda", "Irene", "Kathryn", "Esther", "Willie", "Henrietta", "Ollie", "Amy", "Rachel", "Sara", "Estella", "Theresa", "Augusta", "Ora", "Pauline", "Josie", "Lola", "Sophia", "Leona", "Anne", "Mildred", "Ann", "Beulah", "Callie", "Lou", "Delia", "Eleanor", "Barbara", "Iva", "Louisa", "Maria", "Mayme", "Evelyn", "Estelle", "Nina", "Betty", "Marion", "Bettie", "Dorothy", "Luella", "Inez", "Lela", "Rosie", "Allie", "Millie", "Janie", "Cornelia", "Victoria", "Ruby", "Winifred", "Alta", "Celia", "Christine", "Beatrice", "Birdie", "Harriett", "Mable", "Myra", "Sophie", "Tillie", "Isabel", "Sylvia", "Carolyn", "Isabelle", "Leila", "Sally", "Ina", "Essie", "Bertie", "Nell", "Alberta", "Katharine", "Lora", "Rena", "Mina", "Rhoda", "Mathilda", "Abbie", "Eula", "Dollie", "Hettie", "Eunice", "Fanny", "Ola", "Lenora", "Adelaide", "Christina", "Lelia", "Nelle", "Sue", "Johanna", "Lilly", "Lucinda", "Minerva", "Lettie", "Roxie", "Cynthia", "Helena", "Hilda", "Hulda", "Bernice", "Genevieve", "Jean", "Cordelia", "Marian", "Francis", "Jeanette", "Adeline", "Gussie", "Leah", "Lois", "Lura", "Mittie", "Hallie", "Isabella", "Olga", "Phoebe", "Teresa", "Hester", "Lida", "Lina", "Winnie", "Claudia", "Marguerite", "Vera", "Cecelia", "Bess", "Emilie", "John", "Rosetta", "Verna", "Myrtie", "Cecilia", "Elva", "Olivia", "Ophelia", "Georgie", "Elnora", "Violet", "Adele", "Lily", "Linnie", "Loretta", "Madge", "Polly", "Virgie", "Eugenia", "Lucile", "Lucille", "Mabelle", "Rosalie"],
+                "it": ["Sofia", "Giulia", "Martina", "Giorgia", "Emma", "Chiara", "Aurora", "Sara", "Alice", "Beatrice", "Ginevra", "Elena", "Alessia", "Greta", "Francesca", "Eleonora", "Viola", "Anna", "Elisa", "Giada", "Matilde", "Laura", "Nicole", "Asia", "Camilla", "Arianna", "Rachele", "Rebecca", "Gaia"]
+            }
+        },
+
+        lastNames: {
+            "en": ['Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller', 'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson', 'White', 'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez', 'Robinson', 'Clark', 'Rodriguez', 'Lewis', 'Lee', 'Walker', 'Hall', 'Allen', 'Young', 'Hernandez', 'King', 'Wright', 'Lopez', 'Hill', 'Scott', 'Green', 'Adams', 'Baker', 'Gonzalez', 'Nelson', 'Carter', 'Mitchell', 'Perez', 'Roberts', 'Turner', 'Phillips', 'Campbell', 'Parker', 'Evans', 'Edwards', 'Collins', 'Stewart', 'Sanchez', 'Morris', 'Rogers', 'Reed', 'Cook', 'Morgan', 'Bell', 'Murphy', 'Bailey', 'Rivera', 'Cooper', 'Richardson', 'Cox', 'Howard', 'Ward', 'Torres', 'Peterson', 'Gray', 'Ramirez', 'James', 'Watson', 'Brooks', 'Kelly', 'Sanders', 'Price', 'Bennett', 'Wood', 'Barnes', 'Ross', 'Henderson', 'Coleman', 'Jenkins', 'Perry', 'Powell', 'Long', 'Patterson', 'Hughes', 'Flores', 'Washington', 'Butler', 'Simmons', 'Foster', 'Gonzales', 'Bryant', 'Alexander', 'Russell', 'Griffin', 'Diaz', 'Hayes', 'Myers', 'Ford', 'Hamilton', 'Graham', 'Sullivan', 'Wallace', 'Woods', 'Cole', 'West', 'Jordan', 'Owens', 'Reynolds', 'Fisher', 'Ellis', 'Harrison', 'Gibson', 'McDonald', 'Cruz', 'Marshall', 'Ortiz', 'Gomez', 'Murray', 'Freeman', 'Wells', 'Webb', 'Simpson', 'Stevens', 'Tucker', 'Porter', 'Hunter', 'Hicks', 'Crawford', 'Henry', 'Boyd', 'Mason', 'Morales', 'Kennedy', 'Warren', 'Dixon', 'Ramos', 'Reyes', 'Burns', 'Gordon', 'Shaw', 'Holmes', 'Rice', 'Robertson', 'Hunt', 'Black', 'Daniels', 'Palmer', 'Mills', 'Nichols', 'Grant', 'Knight', 'Ferguson', 'Rose', 'Stone', 'Hawkins', 'Dunn', 'Perkins', 'Hudson', 'Spencer', 'Gardner', 'Stephens', 'Payne', 'Pierce', 'Berry', 'Matthews', 'Arnold', 'Wagner', 'Willis', 'Ray', 'Watkins', 'Olson', 'Carroll', 'Duncan', 'Snyder', 'Hart', 'Cunningham', 'Bradley', 'Lane', 'Andrews', 'Ruiz', 'Harper', 'Fox', 'Riley', 'Armstrong', 'Carpenter', 'Weaver', 'Greene', 'Lawrence', 'Elliott', 'Chavez', 'Sims', 'Austin', 'Peters', 'Kelley', 'Franklin', 'Lawson', 'Fields', 'Gutierrez', 'Ryan', 'Schmidt', 'Carr', 'Vasquez', 'Castillo', 'Wheeler', 'Chapman', 'Oliver', 'Montgomery', 'Richards', 'Williamson', 'Johnston', 'Banks', 'Meyer', 'Bishop', 'McCoy', 'Howell', 'Alvarez', 'Morrison', 'Hansen', 'Fernandez', 'Garza', 'Harvey', 'Little', 'Burton', 'Stanley', 'Nguyen', 'George', 'Jacobs', 'Reid', 'Kim', 'Fuller', 'Lynch', 'Dean', 'Gilbert', 'Garrett', 'Romero', 'Welch', 'Larson', 'Frazier', 'Burke', 'Hanson', 'Day', 'Mendoza', 'Moreno', 'Bowman', 'Medina', 'Fowler', 'Brewer', 'Hoffman', 'Carlson', 'Silva', 'Pearson', 'Holland', 'Douglas', 'Fleming', 'Jensen', 'Vargas', 'Byrd', 'Davidson', 'Hopkins', 'May', 'Terry', 'Herrera', 'Wade', 'Soto', 'Walters', 'Curtis', 'Neal', 'Caldwell', 'Lowe', 'Jennings', 'Barnett', 'Graves', 'Jimenez', 'Horton', 'Shelton', 'Barrett', 'Obrien', 'Castro', 'Sutton', 'Gregory', 'McKinney', 'Lucas', 'Miles', 'Craig', 'Rodriquez', 'Chambers', 'Holt', 'Lambert', 'Fletcher', 'Watts', 'Bates', 'Hale', 'Rhodes', 'Pena', 'Beck', 'Newman', 'Haynes', 'McDaniel', 'Mendez', 'Bush', 'Vaughn', 'Parks', 'Dawson', 'Santiago', 'Norris', 'Hardy', 'Love', 'Steele', 'Curry', 'Powers', 'Schultz', 'Barker', 'Guzman', 'Page', 'Munoz', 'Ball', 'Keller', 'Chandler', 'Weber', 'Leonard', 'Walsh', 'Lyons', 'Ramsey', 'Wolfe', 'Schneider', 'Mullins', 'Benson', 'Sharp', 'Bowen', 'Daniel', 'Barber', 'Cummings', 'Hines', 'Baldwin', 'Griffith', 'Valdez', 'Hubbard', 'Salazar', 'Reeves', 'Warner', 'Stevenson', 'Burgess', 'Santos', 'Tate', 'Cross', 'Garner', 'Mann', 'Mack', 'Moss', 'Thornton', 'Dennis', 'McGee', 'Farmer', 'Delgado', 'Aguilar', 'Vega', 'Glover', 'Manning', 'Cohen', 'Harmon', 'Rodgers', 'Robbins', 'Newton', 'Todd', 'Blair', 'Higgins', 'Ingram', 'Reese', 'Cannon', 'Strickland', 'Townsend', 'Potter', 'Goodwin', 'Walton', 'Rowe', 'Hampton', 'Ortega', 'Patton', 'Swanson', 'Joseph', 'Francis', 'Goodman', 'Maldonado', 'Yates', 'Becker', 'Erickson', 'Hodges', 'Rios', 'Conner', 'Adkins', 'Webster', 'Norman', 'Malone', 'Hammond', 'Flowers', 'Cobb', 'Moody', 'Quinn', 'Blake', 'Maxwell', 'Pope', 'Floyd', 'Osborne', 'Paul', 'McCarthy', 'Guerrero', 'Lindsey', 'Estrada', 'Sandoval', 'Gibbs', 'Tyler', 'Gross', 'Fitzgerald', 'Stokes', 'Doyle', 'Sherman', 'Saunders', 'Wise', 'Colon', 'Gill', 'Alvarado', 'Greer', 'Padilla', 'Simon', 'Waters', 'Nunez', 'Ballard', 'Schwartz', 'McBride', 'Houston', 'Christensen', 'Klein', 'Pratt', 'Briggs', 'Parsons', 'McLaughlin', 'Zimmerman', 'French', 'Buchanan', 'Moran', 'Copeland', 'Roy', 'Pittman', 'Brady', 'McCormick', 'Holloway', 'Brock', 'Poole', 'Frank', 'Logan', 'Owen', 'Bass', 'Marsh', 'Drake', 'Wong', 'Jefferson', 'Park', 'Morton', 'Abbott', 'Sparks', 'Patrick', 'Norton', 'Huff', 'Clayton', 'Massey', 'Lloyd', 'Figueroa', 'Carson', 'Bowers', 'Roberson', 'Barton', 'Tran', 'Lamb', 'Harrington', 'Casey', 'Boone', 'Cortez', 'Clarke', 'Mathis', 'Singleton', 'Wilkins', 'Cain', 'Bryan', 'Underwood', 'Hogan', 'McKenzie', 'Collier', 'Luna', 'Phelps', 'McGuire', 'Allison', 'Bridges', 'Wilkerson', 'Nash', 'Summers', 'Atkins'],
+            "it": ['Rossi', 'Ferrari', 'Russo', 'Bianchi', 'Esposito', 'Colombo', 'Romano', 'Ricci', 'Gallo', 'Greco', 'Conti', 'Marino', 'De Luca', 'Bruno', 'Costa', 'Giordano', 'Mancini', 'Lombardi', 'Barbieri', 'Moretti', 'Fontana', 'Rizzo', 'Santoro', 'Caruso', 'Mariani', 'Martini', 'Ferrara', 'Galli', 'Rinaldi', 'Leone', 'Serra', 'Conte', 'Villa', 'Marini', 'Ferri', 'Bianco', 'Monti', 'De Santis', 'Parisi', 'Fiore', 'De Angelis', 'Longo', 'Sanna', 'Sala', 'Romeo', 'Martinelli', 'Grassi', 'Neri', 'Marchetti', 'Vitale', 'Mari', 'Gentile', 'Viola', 'Marchi', 'Rossetti', 'Bellini', 'Grasso', 'Fabbri', 'Franco', 'Messina', 'Rosso', 'Rizzi', 'D\'Angelo', 'Morelli', 'Giorgi', 'Riva', 'Mazza', 'De Rosa', 'Testa', 'Coppola', 'Amato', 'Donati', 'Palumbo', 'Ferro', 'Basile', 'Ferraro', 'Franchi', 'Castelli', 'Lombardo', 'Farina', 'Carli', 'Bruni', 'Piras', 'Giuliani', 'Martino', 'Poli', 'Gasparini', 'Montanari', 'Orlando', 'Alberti', 'Bernardi', 'Silvestri', 'Ferretti', 'Pellegrino', 'Sartori', 'Palmieri', 'Cattaneo', 'Benedetti', 'Valenti', 'Bassi', 'Verdi']
+        },
+
+        // Data taken from https://github.com/umpirsky/country-list/blob/master/country/cldr/en_US/country.json
+        countries: [{"name":"Afghanistan","abbreviation":"AF"},{"name":"Albania","abbreviation":"AL"},{"name":"Algeria","abbreviation":"DZ"},{"name":"American Samoa","abbreviation":"AS"},{"name":"Andorra","abbreviation":"AD"},{"name":"Angola","abbreviation":"AO"},{"name":"Anguilla","abbreviation":"AI"},{"name":"Antarctica","abbreviation":"AQ"},{"name":"Antigua and Barbuda","abbreviation":"AG"},{"name":"Argentina","abbreviation":"AR"},{"name":"Armenia","abbreviation":"AM"},{"name":"Aruba","abbreviation":"AW"},{"name":"Australia","abbreviation":"AU"},{"name":"Austria","abbreviation":"AT"},{"name":"Azerbaijan","abbreviation":"AZ"},{"name":"Bahamas","abbreviation":"BS"},{"name":"Bahrain","abbreviation":"BH"},{"name":"Bangladesh","abbreviation":"BD"},{"name":"Barbados","abbreviation":"BB"},{"name":"Belarus","abbreviation":"BY"},{"name":"Belgium","abbreviation":"BE"},{"name":"Belize","abbreviation":"BZ"},{"name":"Benin","abbreviation":"BJ"},{"name":"Bermuda","abbreviation":"BM"},{"name":"Bhutan","abbreviation":"BT"},{"name":"Bolivia","abbreviation":"BO"},{"name":"Bosnia and Herzegovina","abbreviation":"BA"},{"name":"Botswana","abbreviation":"BW"},{"name":"Bouvet Island","abbreviation":"BV"},{"name":"Brazil","abbreviation":"BR"},{"name":"British Antarctic Territory","abbreviation":"BQ"},{"name":"British Indian Ocean Territory","abbreviation":"IO"},{"name":"British Virgin Islands","abbreviation":"VG"},{"name":"Brunei","abbreviation":"BN"},{"name":"Bulgaria","abbreviation":"BG"},{"name":"Burkina Faso","abbreviation":"BF"},{"name":"Burundi","abbreviation":"BI"},{"name":"Cambodia","abbreviation":"KH"},{"name":"Cameroon","abbreviation":"CM"},{"name":"Canada","abbreviation":"CA"},{"name":"Canton and Enderbury Islands","abbreviation":"CT"},{"name":"Cape Verde","abbreviation":"CV"},{"name":"Cayman Islands","abbreviation":"KY"},{"name":"Central African Republic","abbreviation":"CF"},{"name":"Chad","abbreviation":"TD"},{"name":"Chile","abbreviation":"CL"},{"name":"China","abbreviation":"CN"},{"name":"Christmas Island","abbreviation":"CX"},{"name":"Cocos [Keeling] Islands","abbreviation":"CC"},{"name":"Colombia","abbreviation":"CO"},{"name":"Comoros","abbreviation":"KM"},{"name":"Congo - Brazzaville","abbreviation":"CG"},{"name":"Congo - Kinshasa","abbreviation":"CD"},{"name":"Cook Islands","abbreviation":"CK"},{"name":"Costa Rica","abbreviation":"CR"},{"name":"Croatia","abbreviation":"HR"},{"name":"Cuba","abbreviation":"CU"},{"name":"Cyprus","abbreviation":"CY"},{"name":"Czech Republic","abbreviation":"CZ"},{"name":"Côte d’Ivoire","abbreviation":"CI"},{"name":"Denmark","abbreviation":"DK"},{"name":"Djibouti","abbreviation":"DJ"},{"name":"Dominica","abbreviation":"DM"},{"name":"Dominican Republic","abbreviation":"DO"},{"name":"Dronning Maud Land","abbreviation":"NQ"},{"name":"East Germany","abbreviation":"DD"},{"name":"Ecuador","abbreviation":"EC"},{"name":"Egypt","abbreviation":"EG"},{"name":"El Salvador","abbreviation":"SV"},{"name":"Equatorial Guinea","abbreviation":"GQ"},{"name":"Eritrea","abbreviation":"ER"},{"name":"Estonia","abbreviation":"EE"},{"name":"Ethiopia","abbreviation":"ET"},{"name":"Falkland Islands","abbreviation":"FK"},{"name":"Faroe Islands","abbreviation":"FO"},{"name":"Fiji","abbreviation":"FJ"},{"name":"Finland","abbreviation":"FI"},{"name":"France","abbreviation":"FR"},{"name":"French Guiana","abbreviation":"GF"},{"name":"French Polynesia","abbreviation":"PF"},{"name":"French Southern Territories","abbreviation":"TF"},{"name":"French Southern and Antarctic Territories","abbreviation":"FQ"},{"name":"Gabon","abbreviation":"GA"},{"name":"Gambia","abbreviation":"GM"},{"name":"Georgia","abbreviation":"GE"},{"name":"Germany","abbreviation":"DE"},{"name":"Ghana","abbreviation":"GH"},{"name":"Gibraltar","abbreviation":"GI"},{"name":"Greece","abbreviation":"GR"},{"name":"Greenland","abbreviation":"GL"},{"name":"Grenada","abbreviation":"GD"},{"name":"Guadeloupe","abbreviation":"GP"},{"name":"Guam","abbreviation":"GU"},{"name":"Guatemala","abbreviation":"GT"},{"name":"Guernsey","abbreviation":"GG"},{"name":"Guinea","abbreviation":"GN"},{"name":"Guinea-Bissau","abbreviation":"GW"},{"name":"Guyana","abbreviation":"GY"},{"name":"Haiti","abbreviation":"HT"},{"name":"Heard Island and McDonald Islands","abbreviation":"HM"},{"name":"Honduras","abbreviation":"HN"},{"name":"Hong Kong SAR China","abbreviation":"HK"},{"name":"Hungary","abbreviation":"HU"},{"name":"Iceland","abbreviation":"IS"},{"name":"India","abbreviation":"IN"},{"name":"Indonesia","abbreviation":"ID"},{"name":"Iran","abbreviation":"IR"},{"name":"Iraq","abbreviation":"IQ"},{"name":"Ireland","abbreviation":"IE"},{"name":"Isle of Man","abbreviation":"IM"},{"name":"Israel","abbreviation":"IL"},{"name":"Italy","abbreviation":"IT"},{"name":"Jamaica","abbreviation":"JM"},{"name":"Japan","abbreviation":"JP"},{"name":"Jersey","abbreviation":"JE"},{"name":"Johnston Island","abbreviation":"JT"},{"name":"Jordan","abbreviation":"JO"},{"name":"Kazakhstan","abbreviation":"KZ"},{"name":"Kenya","abbreviation":"KE"},{"name":"Kiribati","abbreviation":"KI"},{"name":"Kuwait","abbreviation":"KW"},{"name":"Kyrgyzstan","abbreviation":"KG"},{"name":"Laos","abbreviation":"LA"},{"name":"Latvia","abbreviation":"LV"},{"name":"Lebanon","abbreviation":"LB"},{"name":"Lesotho","abbreviation":"LS"},{"name":"Liberia","abbreviation":"LR"},{"name":"Libya","abbreviation":"LY"},{"name":"Liechtenstein","abbreviation":"LI"},{"name":"Lithuania","abbreviation":"LT"},{"name":"Luxembourg","abbreviation":"LU"},{"name":"Macau SAR China","abbreviation":"MO"},{"name":"Macedonia","abbreviation":"MK"},{"name":"Madagascar","abbreviation":"MG"},{"name":"Malawi","abbreviation":"MW"},{"name":"Malaysia","abbreviation":"MY"},{"name":"Maldives","abbreviation":"MV"},{"name":"Mali","abbreviation":"ML"},{"name":"Malta","abbreviation":"MT"},{"name":"Marshall Islands","abbreviation":"MH"},{"name":"Martinique","abbreviation":"MQ"},{"name":"Mauritania","abbreviation":"MR"},{"name":"Mauritius","abbreviation":"MU"},{"name":"Mayotte","abbreviation":"YT"},{"name":"Metropolitan France","abbreviation":"FX"},{"name":"Mexico","abbreviation":"MX"},{"name":"Micronesia","abbreviation":"FM"},{"name":"Midway Islands","abbreviation":"MI"},{"name":"Moldova","abbreviation":"MD"},{"name":"Monaco","abbreviation":"MC"},{"name":"Mongolia","abbreviation":"MN"},{"name":"Montenegro","abbreviation":"ME"},{"name":"Montserrat","abbreviation":"MS"},{"name":"Morocco","abbreviation":"MA"},{"name":"Mozambique","abbreviation":"MZ"},{"name":"Myanmar [Burma]","abbreviation":"MM"},{"name":"Namibia","abbreviation":"NA"},{"name":"Nauru","abbreviation":"NR"},{"name":"Nepal","abbreviation":"NP"},{"name":"Netherlands","abbreviation":"NL"},{"name":"Netherlands Antilles","abbreviation":"AN"},{"name":"Neutral Zone","abbreviation":"NT"},{"name":"New Caledonia","abbreviation":"NC"},{"name":"New Zealand","abbreviation":"NZ"},{"name":"Nicaragua","abbreviation":"NI"},{"name":"Niger","abbreviation":"NE"},{"name":"Nigeria","abbreviation":"NG"},{"name":"Niue","abbreviation":"NU"},{"name":"Norfolk Island","abbreviation":"NF"},{"name":"North Korea","abbreviation":"KP"},{"name":"North Vietnam","abbreviation":"VD"},{"name":"Northern Mariana Islands","abbreviation":"MP"},{"name":"Norway","abbreviation":"NO"},{"name":"Oman","abbreviation":"OM"},{"name":"Pacific Islands Trust Territory","abbreviation":"PC"},{"name":"Pakistan","abbreviation":"PK"},{"name":"Palau","abbreviation":"PW"},{"name":"Palestinian Territories","abbreviation":"PS"},{"name":"Panama","abbreviation":"PA"},{"name":"Panama Canal Zone","abbreviation":"PZ"},{"name":"Papua New Guinea","abbreviation":"PG"},{"name":"Paraguay","abbreviation":"PY"},{"name":"People's Democratic Republic of Yemen","abbreviation":"YD"},{"name":"Peru","abbreviation":"PE"},{"name":"Philippines","abbreviation":"PH"},{"name":"Pitcairn Islands","abbreviation":"PN"},{"name":"Poland","abbreviation":"PL"},{"name":"Portugal","abbreviation":"PT"},{"name":"Puerto Rico","abbreviation":"PR"},{"name":"Qatar","abbreviation":"QA"},{"name":"Romania","abbreviation":"RO"},{"name":"Russia","abbreviation":"RU"},{"name":"Rwanda","abbreviation":"RW"},{"name":"Réunion","abbreviation":"RE"},{"name":"Saint Barthélemy","abbreviation":"BL"},{"name":"Saint Helena","abbreviation":"SH"},{"name":"Saint Kitts and Nevis","abbreviation":"KN"},{"name":"Saint Lucia","abbreviation":"LC"},{"name":"Saint Martin","abbreviation":"MF"},{"name":"Saint Pierre and Miquelon","abbreviation":"PM"},{"name":"Saint Vincent and the Grenadines","abbreviation":"VC"},{"name":"Samoa","abbreviation":"WS"},{"name":"San Marino","abbreviation":"SM"},{"name":"Saudi Arabia","abbreviation":"SA"},{"name":"Senegal","abbreviation":"SN"},{"name":"Serbia","abbreviation":"RS"},{"name":"Serbia and Montenegro","abbreviation":"CS"},{"name":"Seychelles","abbreviation":"SC"},{"name":"Sierra Leone","abbreviation":"SL"},{"name":"Singapore","abbreviation":"SG"},{"name":"Slovakia","abbreviation":"SK"},{"name":"Slovenia","abbreviation":"SI"},{"name":"Solomon Islands","abbreviation":"SB"},{"name":"Somalia","abbreviation":"SO"},{"name":"South Africa","abbreviation":"ZA"},{"name":"South Georgia and the South Sandwich Islands","abbreviation":"GS"},{"name":"South Korea","abbreviation":"KR"},{"name":"Spain","abbreviation":"ES"},{"name":"Sri Lanka","abbreviation":"LK"},{"name":"Sudan","abbreviation":"SD"},{"name":"Suriname","abbreviation":"SR"},{"name":"Svalbard and Jan Mayen","abbreviation":"SJ"},{"name":"Swaziland","abbreviation":"SZ"},{"name":"Sweden","abbreviation":"SE"},{"name":"Switzerland","abbreviation":"CH"},{"name":"Syria","abbreviation":"SY"},{"name":"São Tomé and Príncipe","abbreviation":"ST"},{"name":"Taiwan","abbreviation":"TW"},{"name":"Tajikistan","abbreviation":"TJ"},{"name":"Tanzania","abbreviation":"TZ"},{"name":"Thailand","abbreviation":"TH"},{"name":"Timor-Leste","abbreviation":"TL"},{"name":"Togo","abbreviation":"TG"},{"name":"Tokelau","abbreviation":"TK"},{"name":"Tonga","abbreviation":"TO"},{"name":"Trinidad and Tobago","abbreviation":"TT"},{"name":"Tunisia","abbreviation":"TN"},{"name":"Turkey","abbreviation":"TR"},{"name":"Turkmenistan","abbreviation":"TM"},{"name":"Turks and Caicos Islands","abbreviation":"TC"},{"name":"Tuvalu","abbreviation":"TV"},{"name":"U.S. Minor Outlying Islands","abbreviation":"UM"},{"name":"U.S. Miscellaneous Pacific Islands","abbreviation":"PU"},{"name":"U.S. Virgin Islands","abbreviation":"VI"},{"name":"Uganda","abbreviation":"UG"},{"name":"Ukraine","abbreviation":"UA"},{"name":"Union of Soviet Socialist Republics","abbreviation":"SU"},{"name":"United Arab Emirates","abbreviation":"AE"},{"name":"United Kingdom","abbreviation":"GB"},{"name":"United States","abbreviation":"US"},{"name":"Unknown or Invalid Region","abbreviation":"ZZ"},{"name":"Uruguay","abbreviation":"UY"},{"name":"Uzbekistan","abbreviation":"UZ"},{"name":"Vanuatu","abbreviation":"VU"},{"name":"Vatican City","abbreviation":"VA"},{"name":"Venezuela","abbreviation":"VE"},{"name":"Vietnam","abbreviation":"VN"},{"name":"Wake Island","abbreviation":"WK"},{"name":"Wallis and Futuna","abbreviation":"WF"},{"name":"Western Sahara","abbreviation":"EH"},{"name":"Yemen","abbreviation":"YE"},{"name":"Zambia","abbreviation":"ZM"},{"name":"Zimbabwe","abbreviation":"ZW"},{"name":"Åland Islands","abbreviation":"AX"}],
+
+        provinces: [
+            {name: 'Alberta', abbreviation: 'AB'},
+            {name: 'British Columbia', abbreviation: 'BC'},
+            {name: 'Manitoba', abbreviation: 'MB'},
+            {name: 'New Brunswick', abbreviation: 'NB'},
+            {name: 'Newfoundland and Labrador', abbreviation: 'NL'},
+            {name: 'Nova Scotia', abbreviation: 'NS'},
+            {name: 'Ontario', abbreviation: 'ON'},
+            {name: 'Prince Edward Island', abbreviation: 'PE'},
+            {name: 'Quebec', abbreviation: 'QC'},
+            {name: 'Saskatchewan', abbreviation: 'SK'},
+
+            // The case could be made that the following are not actually provinces
+            // since they are technically considered "territories" however they all
+            // look the same on an envelope!
+            {name: 'Northwest Territories', abbreviation: 'NT'},
+            {name: 'Nunavut', abbreviation: 'NU'},
+            {name: 'Yukon', abbreviation: 'YT'}
+        ],
+
+            // from: https://github.com/samsargent/Useful-Autocomplete-Data/blob/master/data/nationalities.json
+        nationalities: [
+           {name: 'Afghan'},
+           {name: 'Albanian'},
+           {name: 'Algerian'},
+           {name: 'American'},
+           {name: 'Andorran'},
+           {name: 'Angolan'},
+           {name: 'Antiguans'},
+           {name: 'Argentinean'},
+           {name: 'Armenian'},
+           {name: 'Australian'},
+           {name: 'Austrian'},
+           {name: 'Azerbaijani'},
+           {name: 'Bahami'},
+           {name: 'Bahraini'},
+           {name: 'Bangladeshi'},
+           {name: 'Barbadian'},
+           {name: 'Barbudans'},
+           {name: 'Batswana'},
+           {name: 'Belarusian'},
+           {name: 'Belgian'},
+           {name: 'Belizean'},
+           {name: 'Beninese'},
+           {name: 'Bhutanese'},
+           {name: 'Bolivian'},
+           {name: 'Bosnian'},
+           {name: 'Brazilian'},
+           {name: 'British'},
+           {name: 'Bruneian'},
+           {name: 'Bulgarian'},
+           {name: 'Burkinabe'},
+           {name: 'Burmese'},
+           {name: 'Burundian'},
+           {name: 'Cambodian'},
+           {name: 'Cameroonian'},
+           {name: 'Canadian'},
+           {name: 'Cape Verdean'},
+           {name: 'Central African'},
+           {name: 'Chadian'},
+           {name: 'Chilean'},
+           {name: 'Chinese'},
+           {name: 'Colombian'},
+           {name: 'Comoran'},
+           {name: 'Congolese'},
+           {name: 'Costa Rican'},
+           {name: 'Croatian'},
+           {name: 'Cuban'},
+           {name: 'Cypriot'},
+           {name: 'Czech'},
+           {name: 'Danish'},
+           {name: 'Djibouti'},
+           {name: 'Dominican'},
+           {name: 'Dutch'},
+           {name: 'East Timorese'},
+           {name: 'Ecuadorean'},
+           {name: 'Egyptian'},
+           {name: 'Emirian'},
+           {name: 'Equatorial Guinean'},
+           {name: 'Eritrean'},
+           {name: 'Estonian'},
+           {name: 'Ethiopian'},
+           {name: 'Fijian'},
+           {name: 'Filipino'},
+           {name: 'Finnish'},
+           {name: 'French'},
+           {name: 'Gabonese'},
+           {name: 'Gambian'},
+           {name: 'Georgian'},
+           {name: 'German'},
+           {name: 'Ghanaian'},
+           {name: 'Greek'},
+           {name: 'Grenadian'},
+           {name: 'Guatemalan'},
+           {name: 'Guinea-Bissauan'},
+           {name: 'Guinean'},
+           {name: 'Guyanese'},
+           {name: 'Haitian'},
+           {name: 'Herzegovinian'},
+           {name: 'Honduran'},
+           {name: 'Hungarian'},
+           {name: 'I-Kiribati'},
+           {name: 'Icelander'},
+           {name: 'Indian'},
+           {name: 'Indonesian'},
+           {name: 'Iranian'},
+           {name: 'Iraqi'},
+           {name: 'Irish'},
+           {name: 'Israeli'},
+           {name: 'Italian'},
+           {name: 'Ivorian'},
+           {name: 'Jamaican'},
+           {name: 'Japanese'},
+           {name: 'Jordanian'},
+           {name: 'Kazakhstani'},
+           {name: 'Kenyan'},
+           {name: 'Kittian and Nevisian'},
+           {name: 'Kuwaiti'},
+           {name: 'Kyrgyz'},
+           {name: 'Laotian'},
+           {name: 'Latvian'},
+           {name: 'Lebanese'},
+           {name: 'Liberian'},
+           {name: 'Libyan'},
+           {name: 'Liechtensteiner'},
+           {name: 'Lithuanian'},
+           {name: 'Luxembourger'},
+           {name: 'Macedonian'},
+           {name: 'Malagasy'},
+           {name: 'Malawian'},
+           {name: 'Malaysian'},
+           {name: 'Maldivan'},
+           {name: 'Malian'},
+           {name: 'Maltese'},
+           {name: 'Marshallese'},
+           {name: 'Mauritanian'},
+           {name: 'Mauritian'},
+           {name: 'Mexican'},
+           {name: 'Micronesian'},
+           {name: 'Moldovan'},
+           {name: 'Monacan'},
+           {name: 'Mongolian'},
+           {name: 'Moroccan'},
+           {name: 'Mosotho'},
+           {name: 'Motswana'},
+           {name: 'Mozambican'},
+           {name: 'Namibian'},
+           {name: 'Nauruan'},
+           {name: 'Nepalese'},
+           {name: 'New Zealander'},
+           {name: 'Nicaraguan'},
+           {name: 'Nigerian'},
+           {name: 'Nigerien'},
+           {name: 'North Korean'},
+           {name: 'Northern Irish'},
+           {name: 'Norwegian'},
+           {name: 'Omani'},
+           {name: 'Pakistani'},
+           {name: 'Palauan'},
+           {name: 'Panamanian'},
+           {name: 'Papua New Guinean'},
+           {name: 'Paraguayan'},
+           {name: 'Peruvian'},
+           {name: 'Polish'},
+           {name: 'Portuguese'},
+           {name: 'Qatari'},
+           {name: 'Romani'},          
+           {name: 'Russian'},
+           {name: 'Rwandan'},
+           {name: 'Saint Lucian'},
+           {name: 'Salvadoran'},
+           {name: 'Samoan'},
+           {name: 'San Marinese'},
+           {name: 'Sao Tomean'},
+           {name: 'Saudi'},
+           {name: 'Scottish'},
+           {name: 'Senegalese'},
+           {name: 'Serbian'},
+           {name: 'Seychellois'},
+           {name: 'Sierra Leonean'},
+           {name: 'Singaporean'},
+           {name: 'Slovakian'},
+           {name: 'Slovenian'},
+           {name: 'Solomon Islander'},
+           {name: 'Somali'},
+           {name: 'South African'},
+           {name: 'South Korean'},
+           {name: 'Spanish'},
+           {name: 'Sri Lankan'},
+           {name: 'Sudanese'},
+           {name: 'Surinamer'},
+           {name: 'Swazi'},
+           {name: 'Swedish'},
+           {name: 'Swiss'},
+           {name: 'Syrian'},
+           {name: 'Taiwanese'},
+           {name: 'Tajik'},
+           {name: 'Tanzanian'},
+           {name: 'Thai'},
+           {name: 'Togolese'},
+           {name: 'Tongan'},
+           {name: 'Trinidadian or Tobagonian'},
+           {name: 'Tunisian'},
+           {name: 'Turkish'},
+           {name: 'Tuvaluan'},
+           {name: 'Ugandan'},
+           {name: 'Ukrainian'},
+           {name: 'Uruguaya'},
+           {name: 'Uzbekistani'},
+           {name: 'Venezuela'},
+           {name: 'Vietnamese'},
+           {name: 'Wels'},
+           {name: 'Yemenit'},
+           {name: 'Zambia'},
+           {name: 'Zimbabwe'},
+        ],
+
+        us_states_and_dc: [
+            {name: 'Alabama', abbreviation: 'AL'},
+            {name: 'Alaska', abbreviation: 'AK'},
+            {name: 'Arizona', abbreviation: 'AZ'},
+            {name: 'Arkansas', abbreviation: 'AR'},
+            {name: 'California', abbreviation: 'CA'},
+            {name: 'Colorado', abbreviation: 'CO'},
+            {name: 'Connecticut', abbreviation: 'CT'},
+            {name: 'Delaware', abbreviation: 'DE'},
+            {name: 'District of Columbia', abbreviation: 'DC'},
+            {name: 'Florida', abbreviation: 'FL'},
+            {name: 'Georgia', abbreviation: 'GA'},
+            {name: 'Hawaii', abbreviation: 'HI'},
+            {name: 'Idaho', abbreviation: 'ID'},
+            {name: 'Illinois', abbreviation: 'IL'},
+            {name: 'Indiana', abbreviation: 'IN'},
+            {name: 'Iowa', abbreviation: 'IA'},
+            {name: 'Kansas', abbreviation: 'KS'},
+            {name: 'Kentucky', abbreviation: 'KY'},
+            {name: 'Louisiana', abbreviation: 'LA'},
+            {name: 'Maine', abbreviation: 'ME'},
+            {name: 'Maryland', abbreviation: 'MD'},
+            {name: 'Massachusetts', abbreviation: 'MA'},
+            {name: 'Michigan', abbreviation: 'MI'},
+            {name: 'Minnesota', abbreviation: 'MN'},
+            {name: 'Mississippi', abbreviation: 'MS'},
+            {name: 'Missouri', abbreviation: 'MO'},
+            {name: 'Montana', abbreviation: 'MT'},
+            {name: 'Nebraska', abbreviation: 'NE'},
+            {name: 'Nevada', abbreviation: 'NV'},
+            {name: 'New Hampshire', abbreviation: 'NH'},
+            {name: 'New Jersey', abbreviation: 'NJ'},
+            {name: 'New Mexico', abbreviation: 'NM'},
+            {name: 'New York', abbreviation: 'NY'},
+            {name: 'North Carolina', abbreviation: 'NC'},
+            {name: 'North Dakota', abbreviation: 'ND'},
+            {name: 'Ohio', abbreviation: 'OH'},
+            {name: 'Oklahoma', abbreviation: 'OK'},
+            {name: 'Oregon', abbreviation: 'OR'},
+            {name: 'Pennsylvania', abbreviation: 'PA'},
+            {name: 'Rhode Island', abbreviation: 'RI'},
+            {name: 'South Carolina', abbreviation: 'SC'},
+            {name: 'South Dakota', abbreviation: 'SD'},
+            {name: 'Tennessee', abbreviation: 'TN'},
+            {name: 'Texas', abbreviation: 'TX'},
+            {name: 'Utah', abbreviation: 'UT'},
+            {name: 'Vermont', abbreviation: 'VT'},
+            {name: 'Virginia', abbreviation: 'VA'},
+            {name: 'Washington', abbreviation: 'WA'},
+            {name: 'West Virginia', abbreviation: 'WV'},
+            {name: 'Wisconsin', abbreviation: 'WI'},
+            {name: 'Wyoming', abbreviation: 'WY'}
+        ],
+
+        territories: [
+            {name: 'American Samoa', abbreviation: 'AS'},
+            {name: 'Federated States of Micronesia', abbreviation: 'FM'},
+            {name: 'Guam', abbreviation: 'GU'},
+            {name: 'Marshall Islands', abbreviation: 'MH'},
+            {name: 'Northern Mariana Islands', abbreviation: 'MP'},
+            {name: 'Puerto Rico', abbreviation: 'PR'},
+            {name: 'Virgin Islands, U.S.', abbreviation: 'VI'}
+        ],
+
+        armed_forces: [
+            {name: 'Armed Forces Europe', abbreviation: 'AE'},
+            {name: 'Armed Forces Pacific', abbreviation: 'AP'},
+            {name: 'Armed Forces the Americas', abbreviation: 'AA'}
+        ],
+
+        street_suffixes: [
+            {name: 'Avenue', abbreviation: 'Ave'},
+            {name: 'Boulevard', abbreviation: 'Blvd'},
+            {name: 'Center', abbreviation: 'Ctr'},
+            {name: 'Circle', abbreviation: 'Cir'},
+            {name: 'Court', abbreviation: 'Ct'},
+            {name: 'Drive', abbreviation: 'Dr'},
+            {name: 'Extension', abbreviation: 'Ext'},
+            {name: 'Glen', abbreviation: 'Gln'},
+            {name: 'Grove', abbreviation: 'Grv'},
+            {name: 'Heights', abbreviation: 'Hts'},
+            {name: 'Highway', abbreviation: 'Hwy'},
+            {name: 'Junction', abbreviation: 'Jct'},
+            {name: 'Key', abbreviation: 'Key'},
+            {name: 'Lane', abbreviation: 'Ln'},
+            {name: 'Loop', abbreviation: 'Loop'},
+            {name: 'Manor', abbreviation: 'Mnr'},
+            {name: 'Mill', abbreviation: 'Mill'},
+            {name: 'Park', abbreviation: 'Park'},
+            {name: 'Parkway', abbreviation: 'Pkwy'},
+            {name: 'Pass', abbreviation: 'Pass'},
+            {name: 'Path', abbreviation: 'Path'},
+            {name: 'Pike', abbreviation: 'Pike'},
+            {name: 'Place', abbreviation: 'Pl'},
+            {name: 'Plaza', abbreviation: 'Plz'},
+            {name: 'Point', abbreviation: 'Pt'},
+            {name: 'Ridge', abbreviation: 'Rdg'},
+            {name: 'River', abbreviation: 'Riv'},
+            {name: 'Road', abbreviation: 'Rd'},
+            {name: 'Square', abbreviation: 'Sq'},
+            {name: 'Street', abbreviation: 'St'},
+            {name: 'Terrace', abbreviation: 'Ter'},
+            {name: 'Trail', abbreviation: 'Trl'},
+            {name: 'Turnpike', abbreviation: 'Tpke'},
+            {name: 'View', abbreviation: 'Vw'},
+            {name: 'Way', abbreviation: 'Way'}
+        ],
+
+        months: [
+            {name: 'January', short_name: 'Jan', numeric: '01', days: 31},
+            // Not messing with leap years...
+            {name: 'February', short_name: 'Feb', numeric: '02', days: 28},
+            {name: 'March', short_name: 'Mar', numeric: '03', days: 31},
+            {name: 'April', short_name: 'Apr', numeric: '04', days: 30},
+            {name: 'May', short_name: 'May', numeric: '05', days: 31},
+            {name: 'June', short_name: 'Jun', numeric: '06', days: 30},
+            {name: 'July', short_name: 'Jul', numeric: '07', days: 31},
+            {name: 'August', short_name: 'Aug', numeric: '08', days: 31},
+            {name: 'September', short_name: 'Sep', numeric: '09', days: 30},
+            {name: 'October', short_name: 'Oct', numeric: '10', days: 31},
+            {name: 'November', short_name: 'Nov', numeric: '11', days: 30},
+            {name: 'December', short_name: 'Dec', numeric: '12', days: 31}
+        ],
+
+        // http://en.wikipedia.org/wiki/Bank_card_number#Issuer_identification_number_.28IIN.29
+        cc_types: [
+            {name: "American Express", short_name: 'amex', prefix: '34', length: 15},
+            {name: "Bankcard", short_name: 'bankcard', prefix: '5610', length: 16},
+            {name: "China UnionPay", short_name: 'chinaunion', prefix: '62', length: 16},
+            {name: "Diners Club Carte Blanche", short_name: 'dccarte', prefix: '300', length: 14},
+            {name: "Diners Club enRoute", short_name: 'dcenroute', prefix: '2014', length: 15},
+            {name: "Diners Club International", short_name: 'dcintl', prefix: '36', length: 14},
+            {name: "Diners Club United States & Canada", short_name: 'dcusc', prefix: '54', length: 16},
+            {name: "Discover Card", short_name: 'discover', prefix: '6011', length: 16},
+            {name: "InstaPayment", short_name: 'instapay', prefix: '637', length: 16},
+            {name: "JCB", short_name: 'jcb', prefix: '3528', length: 16},
+            {name: "Laser", short_name: 'laser', prefix: '6304', length: 16},
+            {name: "Maestro", short_name: 'maestro', prefix: '5018', length: 16},
+            {name: "Mastercard", short_name: 'mc', prefix: '51', length: 16},
+            {name: "Solo", short_name: 'solo', prefix: '6334', length: 16},
+            {name: "Switch", short_name: 'switch', prefix: '4903', length: 16},
+            {name: "Visa", short_name: 'visa', prefix: '4', length: 16},
+            {name: "Visa Electron", short_name: 'electron', prefix: '4026', length: 16}
+        ],
+
+        //return all world currency by ISO 4217
+        currency_types: [
+            {'code' : 'AED', 'name' : 'United Arab Emirates Dirham'},
+            {'code' : 'AFN', 'name' : 'Afghanistan Afghani'},
+            {'code' : 'ALL', 'name' : 'Albania Lek'},
+            {'code' : 'AMD', 'name' : 'Armenia Dram'},
+            {'code' : 'ANG', 'name' : 'Netherlands Antilles Guilder'},
+            {'code' : 'AOA', 'name' : 'Angola Kwanza'},
+            {'code' : 'ARS', 'name' : 'Argentina Peso'},
+            {'code' : 'AUD', 'name' : 'Australia Dollar'},
+            {'code' : 'AWG', 'name' : 'Aruba Guilder'},
+            {'code' : 'AZN', 'name' : 'Azerbaijan New Manat'},
+            {'code' : 'BAM', 'name' : 'Bosnia and Herzegovina Convertible Marka'},
+            {'code' : 'BBD', 'name' : 'Barbados Dollar'},
+            {'code' : 'BDT', 'name' : 'Bangladesh Taka'},
+            {'code' : 'BGN', 'name' : 'Bulgaria Lev'},
+            {'code' : 'BHD', 'name' : 'Bahrain Dinar'},
+            {'code' : 'BIF', 'name' : 'Burundi Franc'},
+            {'code' : 'BMD', 'name' : 'Bermuda Dollar'},
+            {'code' : 'BND', 'name' : 'Brunei Darussalam Dollar'},
+            {'code' : 'BOB', 'name' : 'Bolivia Boliviano'},
+            {'code' : 'BRL', 'name' : 'Brazil Real'},
+            {'code' : 'BSD', 'name' : 'Bahamas Dollar'},
+            {'code' : 'BTN', 'name' : 'Bhutan Ngultrum'},
+            {'code' : 'BWP', 'name' : 'Botswana Pula'},
+            {'code' : 'BYR', 'name' : 'Belarus Ruble'},
+            {'code' : 'BZD', 'name' : 'Belize Dollar'},
+            {'code' : 'CAD', 'name' : 'Canada Dollar'},
+            {'code' : 'CDF', 'name' : 'Congo/Kinshasa Franc'},
+            {'code' : 'CHF', 'name' : 'Switzerland Franc'},
+            {'code' : 'CLP', 'name' : 'Chile Peso'},
+            {'code' : 'CNY', 'name' : 'China Yuan Renminbi'},
+            {'code' : 'COP', 'name' : 'Colombia Peso'},
+            {'code' : 'CRC', 'name' : 'Costa Rica Colon'},
+            {'code' : 'CUC', 'name' : 'Cuba Convertible Peso'},
+            {'code' : 'CUP', 'name' : 'Cuba Peso'},
+            {'code' : 'CVE', 'name' : 'Cape Verde Escudo'},
+            {'code' : 'CZK', 'name' : 'Czech Republic Koruna'},
+            {'code' : 'DJF', 'name' : 'Djibouti Franc'},
+            {'code' : 'DKK', 'name' : 'Denmark Krone'},
+            {'code' : 'DOP', 'name' : 'Dominican Republic Peso'},
+            {'code' : 'DZD', 'name' : 'Algeria Dinar'},
+            {'code' : 'EGP', 'name' : 'Egypt Pound'},
+            {'code' : 'ERN', 'name' : 'Eritrea Nakfa'},
+            {'code' : 'ETB', 'name' : 'Ethiopia Birr'},
+            {'code' : 'EUR', 'name' : 'Euro Member Countries'},
+            {'code' : 'FJD', 'name' : 'Fiji Dollar'},
+            {'code' : 'FKP', 'name' : 'Falkland Islands (Malvinas) Pound'},
+            {'code' : 'GBP', 'name' : 'United Kingdom Pound'},
+            {'code' : 'GEL', 'name' : 'Georgia Lari'},
+            {'code' : 'GGP', 'name' : 'Guernsey Pound'},
+            {'code' : 'GHS', 'name' : 'Ghana Cedi'},
+            {'code' : 'GIP', 'name' : 'Gibraltar Pound'},
+            {'code' : 'GMD', 'name' : 'Gambia Dalasi'},
+            {'code' : 'GNF', 'name' : 'Guinea Franc'},
+            {'code' : 'GTQ', 'name' : 'Guatemala Quetzal'},
+            {'code' : 'GYD', 'name' : 'Guyana Dollar'},
+            {'code' : 'HKD', 'name' : 'Hong Kong Dollar'},
+            {'code' : 'HNL', 'name' : 'Honduras Lempira'},
+            {'code' : 'HRK', 'name' : 'Croatia Kuna'},
+            {'code' : 'HTG', 'name' : 'Haiti Gourde'},
+            {'code' : 'HUF', 'name' : 'Hungary Forint'},
+            {'code' : 'IDR', 'name' : 'Indonesia Rupiah'},
+            {'code' : 'ILS', 'name' : 'Israel Shekel'},
+            {'code' : 'IMP', 'name' : 'Isle of Man Pound'},
+            {'code' : 'INR', 'name' : 'India Rupee'},
+            {'code' : 'IQD', 'name' : 'Iraq Dinar'},
+            {'code' : 'IRR', 'name' : 'Iran Rial'},
+            {'code' : 'ISK', 'name' : 'Iceland Krona'},
+            {'code' : 'JEP', 'name' : 'Jersey Pound'},
+            {'code' : 'JMD', 'name' : 'Jamaica Dollar'},
+            {'code' : 'JOD', 'name' : 'Jordan Dinar'},
+            {'code' : 'JPY', 'name' : 'Japan Yen'},
+            {'code' : 'KES', 'name' : 'Kenya Shilling'},
+            {'code' : 'KGS', 'name' : 'Kyrgyzstan Som'},
+            {'code' : 'KHR', 'name' : 'Cambodia Riel'},
+            {'code' : 'KMF', 'name' : 'Comoros Franc'},
+            {'code' : 'KPW', 'name' : 'Korea (North) Won'},
+            {'code' : 'KRW', 'name' : 'Korea (South) Won'},
+            {'code' : 'KWD', 'name' : 'Kuwait Dinar'},
+            {'code' : 'KYD', 'name' : 'Cayman Islands Dollar'},
+            {'code' : 'KZT', 'name' : 'Kazakhstan Tenge'},
+            {'code' : 'LAK', 'name' : 'Laos Kip'},
+            {'code' : 'LBP', 'name' : 'Lebanon Pound'},
+            {'code' : 'LKR', 'name' : 'Sri Lanka Rupee'},
+            {'code' : 'LRD', 'name' : 'Liberia Dollar'},
+            {'code' : 'LSL', 'name' : 'Lesotho Loti'},
+            {'code' : 'LTL', 'name' : 'Lithuania Litas'},
+            {'code' : 'LYD', 'name' : 'Libya Dinar'},
+            {'code' : 'MAD', 'name' : 'Morocco Dirham'},
+            {'code' : 'MDL', 'name' : 'Moldova Leu'},
+            {'code' : 'MGA', 'name' : 'Madagascar Ariary'},
+            {'code' : 'MKD', 'name' : 'Macedonia Denar'},
+            {'code' : 'MMK', 'name' : 'Myanmar (Burma) Kyat'},
+            {'code' : 'MNT', 'name' : 'Mongolia Tughrik'},
+            {'code' : 'MOP', 'name' : 'Macau Pataca'},
+            {'code' : 'MRO', 'name' : 'Mauritania Ouguiya'},
+            {'code' : 'MUR', 'name' : 'Mauritius Rupee'},
+            {'code' : 'MVR', 'name' : 'Maldives (Maldive Islands) Rufiyaa'},
+            {'code' : 'MWK', 'name' : 'Malawi Kwacha'},
+            {'code' : 'MXN', 'name' : 'Mexico Peso'},
+            {'code' : 'MYR', 'name' : 'Malaysia Ringgit'},
+            {'code' : 'MZN', 'name' : 'Mozambique Metical'},
+            {'code' : 'NAD', 'name' : 'Namibia Dollar'},
+            {'code' : 'NGN', 'name' : 'Nigeria Naira'},
+            {'code' : 'NIO', 'name' : 'Nicaragua Cordoba'},
+            {'code' : 'NOK', 'name' : 'Norway Krone'},
+            {'code' : 'NPR', 'name' : 'Nepal Rupee'},
+            {'code' : 'NZD', 'name' : 'New Zealand Dollar'},
+            {'code' : 'OMR', 'name' : 'Oman Rial'},
+            {'code' : 'PAB', 'name' : 'Panama Balboa'},
+            {'code' : 'PEN', 'name' : 'Peru Nuevo Sol'},
+            {'code' : 'PGK', 'name' : 'Papua New Guinea Kina'},
+            {'code' : 'PHP', 'name' : 'Philippines Peso'},
+            {'code' : 'PKR', 'name' : 'Pakistan Rupee'},
+            {'code' : 'PLN', 'name' : 'Poland Zloty'},
+            {'code' : 'PYG', 'name' : 'Paraguay Guarani'},
+            {'code' : 'QAR', 'name' : 'Qatar Riyal'},
+            {'code' : 'RON', 'name' : 'Romania New Leu'},
+            {'code' : 'RSD', 'name' : 'Serbia Dinar'},
+            {'code' : 'RUB', 'name' : 'Russia Ruble'},
+            {'code' : 'RWF', 'name' : 'Rwanda Franc'},
+            {'code' : 'SAR', 'name' : 'Saudi Arabia Riyal'},
+            {'code' : 'SBD', 'name' : 'Solomon Islands Dollar'},
+            {'code' : 'SCR', 'name' : 'Seychelles Rupee'},
+            {'code' : 'SDG', 'name' : 'Sudan Pound'},
+            {'code' : 'SEK', 'name' : 'Sweden Krona'},
+            {'code' : 'SGD', 'name' : 'Singapore Dollar'},
+            {'code' : 'SHP', 'name' : 'Saint Helena Pound'},
+            {'code' : 'SLL', 'name' : 'Sierra Leone Leone'},
+            {'code' : 'SOS', 'name' : 'Somalia Shilling'},
+            {'code' : 'SPL', 'name' : 'Seborga Luigino'},
+            {'code' : 'SRD', 'name' : 'Suriname Dollar'},
+            {'code' : 'STD', 'name' : 'São Tomé and Príncipe Dobra'},
+            {'code' : 'SVC', 'name' : 'El Salvador Colon'},
+            {'code' : 'SYP', 'name' : 'Syria Pound'},
+            {'code' : 'SZL', 'name' : 'Swaziland Lilangeni'},
+            {'code' : 'THB', 'name' : 'Thailand Baht'},
+            {'code' : 'TJS', 'name' : 'Tajikistan Somoni'},
+            {'code' : 'TMT', 'name' : 'Turkmenistan Manat'},
+            {'code' : 'TND', 'name' : 'Tunisia Dinar'},
+            {'code' : 'TOP', 'name' : 'Tonga Pa\'anga'},
+            {'code' : 'TRY', 'name' : 'Turkey Lira'},
+            {'code' : 'TTD', 'name' : 'Trinidad and Tobago Dollar'},
+            {'code' : 'TVD', 'name' : 'Tuvalu Dollar'},
+            {'code' : 'TWD', 'name' : 'Taiwan New Dollar'},
+            {'code' : 'TZS', 'name' : 'Tanzania Shilling'},
+            {'code' : 'UAH', 'name' : 'Ukraine Hryvnia'},
+            {'code' : 'UGX', 'name' : 'Uganda Shilling'},
+            {'code' : 'USD', 'name' : 'United States Dollar'},
+            {'code' : 'UYU', 'name' : 'Uruguay Peso'},
+            {'code' : 'UZS', 'name' : 'Uzbekistan Som'},
+            {'code' : 'VEF', 'name' : 'Venezuela Bolivar'},
+            {'code' : 'VND', 'name' : 'Viet Nam Dong'},
+            {'code' : 'VUV', 'name' : 'Vanuatu Vatu'},
+            {'code' : 'WST', 'name' : 'Samoa Tala'},
+            {'code' : 'XAF', 'name' : 'Communauté Financière Africaine (BEAC) CFA Franc BEAC'},
+            {'code' : 'XCD', 'name' : 'East Caribbean Dollar'},
+            {'code' : 'XDR', 'name' : 'International Monetary Fund (IMF) Special Drawing Rights'},
+            {'code' : 'XOF', 'name' : 'Communauté Financière Africaine (BCEAO) Franc'},
+            {'code' : 'XPF', 'name' : 'Comptoirs Français du Pacifique (CFP) Franc'},
+            {'code' : 'YER', 'name' : 'Yemen Rial'},
+            {'code' : 'ZAR', 'name' : 'South Africa Rand'},
+            {'code' : 'ZMW', 'name' : 'Zambia Kwacha'},
+            {'code' : 'ZWD', 'name' : 'Zimbabwe Dollar'}
+        ],
+        
+        // return the names of all valide colors
+        colorNames : [  "AliceBlue", "Black", "Navy", "DarkBlue", "MediumBlue", "Blue", "DarkGreen", "Green", "Teal", "DarkCyan", "DeepSkyBlue", "DarkTurquoise", "MediumSpringGreen", "Lime", "SpringGreen",
+            "Aqua", "Cyan", "MidnightBlue", "DodgerBlue", "LightSeaGreen", "ForestGreen", "SeaGreen", "DarkSlateGray", "LimeGreen", "MediumSeaGreen", "Turquoise", "RoyalBlue", "SteelBlue", "DarkSlateBlue", "MediumTurquoise",
+            "Indigo", "DarkOliveGreen", "CadetBlue", "CornflowerBlue", "RebeccaPurple", "MediumAquaMarine", "DimGray", "SlateBlue", "OliveDrab", "SlateGray", "LightSlateGray", "MediumSlateBlue", "LawnGreen", "Chartreuse",
+            "Aquamarine", "Maroon", "Purple", "Olive", "Gray", "SkyBlue", "LightSkyBlue", "BlueViolet", "DarkRed", "DarkMagenta", "SaddleBrown", "Ivory", "White",
+            "DarkSeaGreen", "LightGreen", "MediumPurple", "DarkViolet", "PaleGreen", "DarkOrchid", "YellowGreen", "Sienna", "Brown", "DarkGray", "LightBlue", "GreenYellow", "PaleTurquoise", "LightSteelBlue", "PowderBlue",
+            "FireBrick", "DarkGoldenRod", "MediumOrchid", "RosyBrown", "DarkKhaki", "Silver", "MediumVioletRed", "IndianRed", "Peru", "Chocolate", "Tan", "LightGray", "Thistle", "Orchid", "GoldenRod", "PaleVioletRed",
+            "Crimson", "Gainsboro", "Plum", "BurlyWood", "LightCyan", "Lavender", "DarkSalmon", "Violet", "PaleGoldenRod", "LightCoral", "Khaki", "AliceBlue", "HoneyDew", "Azure", "SandyBrown", "Wheat", "Beige", "WhiteSmoke",
+            "MintCream", "GhostWhite", "Salmon", "AntiqueWhite", "Linen", "LightGoldenRodYellow", "OldLace", "Red", "Fuchsia", "Magenta", "DeepPink", "OrangeRed", "Tomato", "HotPink", "Coral", "DarkOrange", "LightSalmon", "Orange",
+            "LightPink", "Pink", "Gold", "PeachPuff", "NavajoWhite", "Moccasin", "Bisque", "MistyRose", "BlanchedAlmond", "PapayaWhip", "LavenderBlush", "SeaShell", "Cornsilk", "LemonChiffon", "FloralWhite", "Snow", "Yellow", "LightYellow"
+        ],        
+
+        fileExtension : {
+            "raster"    : ["bmp", "gif", "gpl", "ico", "jpeg", "psd", "png", "psp", "raw", "tiff"],
+            "vector"    : ["3dv", "amf", "awg", "ai", "cgm", "cdr", "cmx", "dxf", "e2d", "egt", "eps", "fs", "odg", "svg", "xar"],
+            "3d"        : ["3dmf", "3dm", "3mf", "3ds", "an8", "aoi", "blend", "cal3d", "cob", "ctm", "iob", "jas", "max", "mb", "mdx", "obj", "x", "x3d"],
+            "document"  : ["doc", "docx", "dot", "html", "xml", "odt", "odm", "ott", "csv", "rtf", "tex", "xhtml", "xps"]
+        }
+    };
+
+    var o_hasOwnProperty = Object.prototype.hasOwnProperty;
+    var o_keys = (Object.keys || function(obj) {
+      var result = [];
+      for (var key in obj) {
+        if (o_hasOwnProperty.call(obj, key)) {
+          result.push(key);
+        }
+      }
+
+      return result;
+    });
+
+    function _copyObject(source, target) {
+      var keys = o_keys(source);
+      var key;
+
+      for (var i = 0, l = keys.length; i < l; i++) {
+        key = keys[i];
+        target[key] = source[key] || target[key];
+      }
+    }
+
+    function _copyArray(source, target) {
+      for (var i = 0, l = source.length; i < l; i++) {
+        target[i] = source[i];
+      }
+    }
+
+    function copyObject(source, _target) {
+        var isArray = Array.isArray(source);
+        var target = _target || (isArray ? new Array(source.length) : {});
+
+        if (isArray) {
+          _copyArray(source, target);
+        } else {
+          _copyObject(source, target);
+        }
+
+        return target;
+    }
+
+    /** Get the data based on key**/
+    Chance.prototype.get = function (name) {
+        return copyObject(data[name]);
+    };
+
+    // Mac Address
+    Chance.prototype.mac_address = function(options){
+        // typically mac addresses are separated by ":"
+        // however they can also be separated by "-"
+        // the network variant uses a dot every fourth byte
+
+        options = initOptions(options);
+        if(!options.separator) {
+            options.separator =  options.networkVersion ? "." : ":";
+        }
+
+        var mac_pool="ABCDEF1234567890",
+            mac = "";
+        if(!options.networkVersion) {
+            mac = this.n(this.string, 6, { pool: mac_pool, length:2 }).join(options.separator);
+        } else {
+            mac = this.n(this.string, 3, { pool: mac_pool, length:4 }).join(options.separator);
+        }
+
+        return mac;
+    };
+
+    Chance.prototype.normal = function (options) {
+        options = initOptions(options, {mean : 0, dev : 1, pool : []});
+
+        testRange(
+            options.pool.constructor !== Array,
+            "Chance: The pool option must be a valid array."
+        );
+
+        // If a pool has been passed, then we are returning an item from that pool,
+        // using the normal distribution settings that were passed in
+        if (options.pool.length > 0) {
+            return this.normal_pool(options);
+        }
+
+        // The Marsaglia Polar method
+        var s, u, v, norm,
+            mean = options.mean,
+            dev = options.dev;
+
+        do {
+            // U and V are from the uniform distribution on (-1, 1)
+            u = this.random() * 2 - 1;
+            v = this.random() * 2 - 1;
+
+            s = u * u + v * v;
+        } while (s >= 1);
+
+        // Compute the standard normal variate
+        norm = u * Math.sqrt(-2 * Math.log(s) / s);
+
+        // Shape and scale
+        return dev * norm + mean;
+    };
+
+    Chance.prototype.normal_pool = function(options) {
+        var performanceCounter = 0;
+        do {
+            var idx = Math.round(this.normal({ mean: options.mean, dev: options.dev }));
+            if (idx < options.pool.length && idx >= 0) {
+                return options.pool[idx];
+            } else {
+                performanceCounter++;
+            }
+        } while(performanceCounter < 100);
+
+        throw new RangeError("Chance: Your pool is too small for the given mean and standard deviation. Please adjust.");
+    };
+
+    Chance.prototype.radio = function (options) {
+        // Initial Letter (Typically Designated by Side of Mississippi River)
+        options = initOptions(options, {side : "?"});
+        var fl = "";
+        switch (options.side.toLowerCase()) {
+        case "east":
+        case "e":
+            fl = "W";
+            break;
+        case "west":
+        case "w":
+            fl = "K";
+            break;
+        default:
+            fl = this.character({pool: "KW"});
+            break;
+        }
+
+        return fl + this.character({alpha: true, casing: "upper"}) +
+                this.character({alpha: true, casing: "upper"}) +
+                this.character({alpha: true, casing: "upper"});
+    };
+
+    // Set the data as key and data or the data map
+    Chance.prototype.set = function (name, values) {
+        if (typeof name === "string") {
+            data[name] = values;
+        } else {
+            data = copyObject(name, data);
+        }
+    };
+
+    Chance.prototype.tv = function (options) {
+        return this.radio(options);
+    };
+
+    // ID number for Brazil companies
+    Chance.prototype.cnpj = function () {
+        var n = this.n(this.natural, 8, { max: 9 });
+        var d1 = 2+n[7]*6+n[6]*7+n[5]*8+n[4]*9+n[3]*2+n[2]*3+n[1]*4+n[0]*5;
+        d1 = 11 - (d1 % 11);
+        if (d1>=10){
+            d1 = 0;
+        }
+        var d2 = d1*2+3+n[7]*7+n[6]*8+n[5]*9+n[4]*2+n[3]*3+n[2]*4+n[1]*5+n[0]*6;
+        d2 = 11 - (d2 % 11);
+        if (d2>=10){
+            d2 = 0;
+        }
+        return ''+n[0]+n[1]+'.'+n[2]+n[3]+n[4]+'.'+n[5]+n[6]+n[7]+'/0001-'+d1+d2;
+    };
+
+    // -- End Miscellaneous --
+
+    Chance.prototype.mersenne_twister = function (seed) {
+        return new MersenneTwister(seed);
+    };
+
+    Chance.prototype.blueimp_md5 = function () {
+        return new BlueImpMD5();
+    };
+
+    // Mersenne Twister from https://gist.github.com/banksean/300494
+    var MersenneTwister = function (seed) {
+        if (seed === undefined) {
+            // kept random number same size as time used previously to ensure no unexpected results downstream
+            seed = Math.floor(Math.random()*Math.pow(10,13));
+        }
+        /* Period parameters */
+        this.N = 624;
+        this.M = 397;
+        this.MATRIX_A = 0x9908b0df;   /* constant vector a */
+        this.UPPER_MASK = 0x80000000; /* most significant w-r bits */
+        this.LOWER_MASK = 0x7fffffff; /* least significant r bits */
+
+        this.mt = new Array(this.N); /* the array for the state vector */
+        this.mti = this.N + 1; /* mti==N + 1 means mt[N] is not initialized */
+
+        this.init_genrand(seed);
+    };
+
+    /* initializes mt[N] with a seed */
+    MersenneTwister.prototype.init_genrand = function (s) {
+        this.mt[0] = s >>> 0;
+        for (this.mti = 1; this.mti < this.N; this.mti++) {
+            s = this.mt[this.mti - 1] ^ (this.mt[this.mti - 1] >>> 30);
+            this.mt[this.mti] = (((((s & 0xffff0000) >>> 16) * 1812433253) << 16) + (s & 0x0000ffff) * 1812433253) + this.mti;
+            /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
+            /* In the previous versions, MSBs of the seed affect   */
+            /* only MSBs of the array mt[].                        */
+            /* 2002/01/09 modified by Makoto Matsumoto             */
+            this.mt[this.mti] >>>= 0;
+            /* for >32 bit machines */
+        }
+    };
+
+    /* initialize by an array with array-length */
+    /* init_key is the array for initializing keys */
+    /* key_length is its length */
+    /* slight change for C++, 2004/2/26 */
+    MersenneTwister.prototype.init_by_array = function (init_key, key_length) {
+        var i = 1, j = 0, k, s;
+        this.init_genrand(19650218);
+        k = (this.N > key_length ? this.N : key_length);
+        for (; k; k--) {
+            s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30);
+            this.mt[i] = (this.mt[i] ^ (((((s & 0xffff0000) >>> 16) * 1664525) << 16) + ((s & 0x0000ffff) * 1664525))) + init_key[j] + j; /* non linear */
+            this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */
+            i++;
+            j++;
+            if (i >= this.N) { this.mt[0] = this.mt[this.N - 1]; i = 1; }
+            if (j >= key_length) { j = 0; }
+        }
+        for (k = this.N - 1; k; k--) {
+            s = this.mt[i - 1] ^ (this.mt[i - 1] >>> 30);
+            this.mt[i] = (this.mt[i] ^ (((((s & 0xffff0000) >>> 16) * 1566083941) << 16) + (s & 0x0000ffff) * 1566083941)) - i; /* non linear */
+            this.mt[i] >>>= 0; /* for WORDSIZE > 32 machines */
+            i++;
+            if (i >= this.N) { this.mt[0] = this.mt[this.N - 1]; i = 1; }
+        }
+
+        this.mt[0] = 0x80000000; /* MSB is 1; assuring non-zero initial array */
+    };
+
+    /* generates a random number on [0,0xffffffff]-interval */
+    MersenneTwister.prototype.genrand_int32 = function () {
+        var y;
+        var mag01 = new Array(0x0, this.MATRIX_A);
+        /* mag01[x] = x * MATRIX_A  for x=0,1 */
+
+        if (this.mti >= this.N) { /* generate N words at one time */
+            var kk;
+
+            if (this.mti === this.N + 1) {   /* if init_genrand() has not been called, */
+                this.init_genrand(5489); /* a default initial seed is used */
+            }
+            for (kk = 0; kk < this.N - this.M; kk++) {
+                y = (this.mt[kk]&this.UPPER_MASK)|(this.mt[kk + 1]&this.LOWER_MASK);
+                this.mt[kk] = this.mt[kk + this.M] ^ (y >>> 1) ^ mag01[y & 0x1];
+            }
+            for (;kk < this.N - 1; kk++) {
+                y = (this.mt[kk]&this.UPPER_MASK)|(this.mt[kk + 1]&this.LOWER_MASK);
+                this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+            }
+            y = (this.mt[this.N - 1]&this.UPPER_MASK)|(this.mt[0]&this.LOWER_MASK);
+            this.mt[this.N - 1] = this.mt[this.M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+
+            this.mti = 0;
+        }
+
+        y = this.mt[this.mti++];
+
+        /* Tempering */
+        y ^= (y >>> 11);
+        y ^= (y << 7) & 0x9d2c5680;
+        y ^= (y << 15) & 0xefc60000;
+        y ^= (y >>> 18);
+
+        return y >>> 0;
+    };
+
+    /* generates a random number on [0,0x7fffffff]-interval */
+    MersenneTwister.prototype.genrand_int31 = function () {
+        return (this.genrand_int32() >>> 1);
+    };
+
+    /* generates a random number on [0,1]-real-interval */
+    MersenneTwister.prototype.genrand_real1 = function () {
+        return this.genrand_int32() * (1.0 / 4294967295.0);
+        /* divided by 2^32-1 */
+    };
+
+    /* generates a random number on [0,1)-real-interval */
+    MersenneTwister.prototype.random = function () {
+        return this.genrand_int32() * (1.0 / 4294967296.0);
+        /* divided by 2^32 */
+    };
+
+    /* generates a random number on (0,1)-real-interval */
+    MersenneTwister.prototype.genrand_real3 = function () {
+        return (this.genrand_int32() + 0.5) * (1.0 / 4294967296.0);
+        /* divided by 2^32 */
+    };
+
+    /* generates a random number on [0,1) with 53-bit resolution*/
+    MersenneTwister.prototype.genrand_res53 = function () {
+        var a = this.genrand_int32()>>>5, b = this.genrand_int32()>>>6;
+        return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
+    };
+
+    // BlueImp MD5 hashing algorithm from https://github.com/blueimp/JavaScript-MD5
+    var BlueImpMD5 = function () {};
+
+    BlueImpMD5.prototype.VERSION = '1.0.1';
+
+    /*
+    * Add integers, wrapping at 2^32. This uses 16-bit operations internally
+    * to work around bugs in some JS interpreters.
+    */
+    BlueImpMD5.prototype.safe_add = function safe_add(x, y) {
+        var lsw = (x & 0xFFFF) + (y & 0xFFFF),
+            msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+        return (msw << 16) | (lsw & 0xFFFF);
+    };
+
+    /*
+    * Bitwise rotate a 32-bit number to the left.
+    */
+    BlueImpMD5.prototype.bit_roll = function (num, cnt) {
+        return (num << cnt) | (num >>> (32 - cnt));
+    };
+
+    /*
+    * These functions implement the five basic operations the algorithm uses.
+    */
+    BlueImpMD5.prototype.md5_cmn = function (q, a, b, x, s, t) {
+        return this.safe_add(this.bit_roll(this.safe_add(this.safe_add(a, q), this.safe_add(x, t)), s), b);
+    };
+    BlueImpMD5.prototype.md5_ff = function (a, b, c, d, x, s, t) {
+        return this.md5_cmn((b & c) | ((~b) & d), a, b, x, s, t);
+    };
+    BlueImpMD5.prototype.md5_gg = function (a, b, c, d, x, s, t) {
+        return this.md5_cmn((b & d) | (c & (~d)), a, b, x, s, t);
+    };
+    BlueImpMD5.prototype.md5_hh = function (a, b, c, d, x, s, t) {
+        return this.md5_cmn(b ^ c ^ d, a, b, x, s, t);
+    };
+    BlueImpMD5.prototype.md5_ii = function (a, b, c, d, x, s, t) {
+        return this.md5_cmn(c ^ (b | (~d)), a, b, x, s, t);
+    };
+
+    /*
+    * Calculate the MD5 of an array of little-endian words, and a bit length.
+    */
+    BlueImpMD5.prototype.binl_md5 = function (x, len) {
+        /* append padding */
+        x[len >> 5] |= 0x80 << (len % 32);
+        x[(((len + 64) >>> 9) << 4) + 14] = len;
+
+        var i, olda, oldb, oldc, oldd,
+            a =  1732584193,
+            b = -271733879,
+            c = -1732584194,
+            d =  271733878;
+
+        for (i = 0; i < x.length; i += 16) {
+            olda = a;
+            oldb = b;
+            oldc = c;
+            oldd = d;
+
+            a = this.md5_ff(a, b, c, d, x[i],       7, -680876936);
+            d = this.md5_ff(d, a, b, c, x[i +  1], 12, -389564586);
+            c = this.md5_ff(c, d, a, b, x[i +  2], 17,  606105819);
+            b = this.md5_ff(b, c, d, a, x[i +  3], 22, -1044525330);
+            a = this.md5_ff(a, b, c, d, x[i +  4],  7, -176418897);
+            d = this.md5_ff(d, a, b, c, x[i +  5], 12,  1200080426);
+            c = this.md5_ff(c, d, a, b, x[i +  6], 17, -1473231341);
+            b = this.md5_ff(b, c, d, a, x[i +  7], 22, -45705983);
+            a = this.md5_ff(a, b, c, d, x[i +  8],  7,  1770035416);
+            d = this.md5_ff(d, a, b, c, x[i +  9], 12, -1958414417);
+            c = this.md5_ff(c, d, a, b, x[i + 10], 17, -42063);
+            b = this.md5_ff(b, c, d, a, x[i + 11], 22, -1990404162);
+            a = this.md5_ff(a, b, c, d, x[i + 12],  7,  1804603682);
+            d = this.md5_ff(d, a, b, c, x[i + 13], 12, -40341101);
+            c = this.md5_ff(c, d, a, b, x[i + 14], 17, -1502002290);
+            b = this.md5_ff(b, c, d, a, x[i + 15], 22,  1236535329);
+
+            a = this.md5_gg(a, b, c, d, x[i +  1],  5, -165796510);
+            d = this.md5_gg(d, a, b, c, x[i +  6],  9, -1069501632);
+            c = this.md5_gg(c, d, a, b, x[i + 11], 14,  643717713);
+            b = this.md5_gg(b, c, d, a, x[i],      20, -373897302);
+            a = this.md5_gg(a, b, c, d, x[i +  5],  5, -701558691);
+            d = this.md5_gg(d, a, b, c, x[i + 10],  9,  38016083);
+            c = this.md5_gg(c, d, a, b, x[i + 15], 14, -660478335);
+            b = this.md5_gg(b, c, d, a, x[i +  4], 20, -405537848);
+            a = this.md5_gg(a, b, c, d, x[i +  9],  5,  568446438);
+            d = this.md5_gg(d, a, b, c, x[i + 14],  9, -1019803690);
+            c = this.md5_gg(c, d, a, b, x[i +  3], 14, -187363961);
+            b = this.md5_gg(b, c, d, a, x[i +  8], 20,  1163531501);
+            a = this.md5_gg(a, b, c, d, x[i + 13],  5, -1444681467);
+            d = this.md5_gg(d, a, b, c, x[i +  2],  9, -51403784);
+            c = this.md5_gg(c, d, a, b, x[i +  7], 14,  1735328473);
+            b = this.md5_gg(b, c, d, a, x[i + 12], 20, -1926607734);
+
+            a = this.md5_hh(a, b, c, d, x[i +  5],  4, -378558);
+            d = this.md5_hh(d, a, b, c, x[i +  8], 11, -2022574463);
+            c = this.md5_hh(c, d, a, b, x[i + 11], 16,  1839030562);
+            b = this.md5_hh(b, c, d, a, x[i + 14], 23, -35309556);
+            a = this.md5_hh(a, b, c, d, x[i +  1],  4, -1530992060);
+            d = this.md5_hh(d, a, b, c, x[i +  4], 11,  1272893353);
+            c = this.md5_hh(c, d, a, b, x[i +  7], 16, -155497632);
+            b = this.md5_hh(b, c, d, a, x[i + 10], 23, -1094730640);
+            a = this.md5_hh(a, b, c, d, x[i + 13],  4,  681279174);
+            d = this.md5_hh(d, a, b, c, x[i],      11, -358537222);
+            c = this.md5_hh(c, d, a, b, x[i +  3], 16, -722521979);
+            b = this.md5_hh(b, c, d, a, x[i +  6], 23,  76029189);
+            a = this.md5_hh(a, b, c, d, x[i +  9],  4, -640364487);
+            d = this.md5_hh(d, a, b, c, x[i + 12], 11, -421815835);
+            c = this.md5_hh(c, d, a, b, x[i + 15], 16,  530742520);
+            b = this.md5_hh(b, c, d, a, x[i +  2], 23, -995338651);
+
+            a = this.md5_ii(a, b, c, d, x[i],       6, -198630844);
+            d = this.md5_ii(d, a, b, c, x[i +  7], 10,  1126891415);
+            c = this.md5_ii(c, d, a, b, x[i + 14], 15, -1416354905);
+            b = this.md5_ii(b, c, d, a, x[i +  5], 21, -57434055);
+            a = this.md5_ii(a, b, c, d, x[i + 12],  6,  1700485571);
+            d = this.md5_ii(d, a, b, c, x[i +  3], 10, -1894986606);
+            c = this.md5_ii(c, d, a, b, x[i + 10], 15, -1051523);
+            b = this.md5_ii(b, c, d, a, x[i +  1], 21, -2054922799);
+            a = this.md5_ii(a, b, c, d, x[i +  8],  6,  1873313359);
+            d = this.md5_ii(d, a, b, c, x[i + 15], 10, -30611744);
+            c = this.md5_ii(c, d, a, b, x[i +  6], 15, -1560198380);
+            b = this.md5_ii(b, c, d, a, x[i + 13], 21,  1309151649);
+            a = this.md5_ii(a, b, c, d, x[i +  4],  6, -145523070);
+            d = this.md5_ii(d, a, b, c, x[i + 11], 10, -1120210379);
+            c = this.md5_ii(c, d, a, b, x[i +  2], 15,  718787259);
+            b = this.md5_ii(b, c, d, a, x[i +  9], 21, -343485551);
+
+            a = this.safe_add(a, olda);
+            b = this.safe_add(b, oldb);
+            c = this.safe_add(c, oldc);
+            d = this.safe_add(d, oldd);
+        }
+        return [a, b, c, d];
+    };
+
+    /*
+    * Convert an array of little-endian words to a string
+    */
+    BlueImpMD5.prototype.binl2rstr = function (input) {
+        var i,
+            output = '';
+        for (i = 0; i < input.length * 32; i += 8) {
+            output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF);
+        }
+        return output;
+    };
+
+    /*
+    * Convert a raw string to an array of little-endian words
+    * Characters >255 have their high-byte silently ignored.
+    */
+    BlueImpMD5.prototype.rstr2binl = function (input) {
+        var i,
+            output = [];
+        output[(input.length >> 2) - 1] = undefined;
+        for (i = 0; i < output.length; i += 1) {
+            output[i] = 0;
+        }
+        for (i = 0; i < input.length * 8; i += 8) {
+            output[i >> 5] |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32);
+        }
+        return output;
+    };
+
+    /*
+    * Calculate the MD5 of a raw string
+    */
+    BlueImpMD5.prototype.rstr_md5 = function (s) {
+        return this.binl2rstr(this.binl_md5(this.rstr2binl(s), s.length * 8));
+    };
+
+    /*
+    * Calculate the HMAC-MD5, of a key and some data (raw strings)
+    */
+    BlueImpMD5.prototype.rstr_hmac_md5 = function (key, data) {
+        var i,
+            bkey = this.rstr2binl(key),
+            ipad = [],
+            opad = [],
+            hash;
+        ipad[15] = opad[15] = undefined;
+        if (bkey.length > 16) {
+            bkey = this.binl_md5(bkey, key.length * 8);
+        }
+        for (i = 0; i < 16; i += 1) {
+            ipad[i] = bkey[i] ^ 0x36363636;
+            opad[i] = bkey[i] ^ 0x5C5C5C5C;
+        }
+        hash = this.binl_md5(ipad.concat(this.rstr2binl(data)), 512 + data.length * 8);
+        return this.binl2rstr(this.binl_md5(opad.concat(hash), 512 + 128));
+    };
+
+    /*
+    * Convert a raw string to a hex string
+    */
+    BlueImpMD5.prototype.rstr2hex = function (input) {
+        var hex_tab = '0123456789abcdef',
+            output = '',
+            x,
+            i;
+        for (i = 0; i < input.length; i += 1) {
+            x = input.charCodeAt(i);
+            output += hex_tab.charAt((x >>> 4) & 0x0F) +
+                hex_tab.charAt(x & 0x0F);
+        }
+        return output;
+    };
+
+    /*
+    * Encode a string as utf-8
+    */
+    BlueImpMD5.prototype.str2rstr_utf8 = function (input) {
+        return unescape(encodeURIComponent(input));
+    };
+
+    /*
+    * Take string arguments and return either raw or hex encoded strings
+    */
+    BlueImpMD5.prototype.raw_md5 = function (s) {
+        return this.rstr_md5(this.str2rstr_utf8(s));
+    };
+    BlueImpMD5.prototype.hex_md5 = function (s) {
+        return this.rstr2hex(this.raw_md5(s));
+    };
+    BlueImpMD5.prototype.raw_hmac_md5 = function (k, d) {
+        return this.rstr_hmac_md5(this.str2rstr_utf8(k), this.str2rstr_utf8(d));
+    };
+    BlueImpMD5.prototype.hex_hmac_md5 = function (k, d) {
+        return this.rstr2hex(this.raw_hmac_md5(k, d));
+    };
+
+    BlueImpMD5.prototype.md5 = function (string, key, raw) {
+        if (!key) {
+            if (!raw) {
+                return this.hex_md5(string);
+            }
+
+            return this.raw_md5(string);
+        }
+
+        if (!raw) {
+            return this.hex_hmac_md5(key, string);
+        }
+
+        return this.raw_hmac_md5(key, string);
+    };
+
+    // CommonJS module
+    if (typeof exports !== 'undefined') {
+        if (typeof module !== 'undefined' && module.exports) {
+            exports = module.exports = Chance;
+        }
+        exports.Chance = Chance;
+    }
+
+    // Register as an anonymous AMD module
+    if (typeof define === 'function' && define.amd) {
+        define([], function () {
+            return Chance;
+        });
+    }
+
+    // if there is a importsScrips object define chance for worker
+    if (typeof importScripts !== 'undefined') {
+        chance = new Chance();
+    }
+
+    // If there is a window object, that at least has a document property,
+    // instantiate and define chance on the window
+    if (typeof window === "object" && typeof window.document === "object") {
+        window.Chance = Chance;
+        window.chance = new Chance();
+    }
+})();
+
+}).call(this,require("buffer").Buffer)
+},{"buffer":171}],174:[function(require,module,exports){
 (function (Buffer){
 var Transform = require('stream').Transform
 var inherits = require('inherits')
@@ -62389,7 +65932,7 @@ CipherBase.prototype._toString = function (value, enc, final) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"inherits":255,"stream":289,"string_decoder":300}],169:[function(require,module,exports){
+},{"buffer":171,"inherits":261,"stream":295,"string_decoder":306}],175:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -62467,9 +66010,9 @@ module.exports = require('./define')({
         }
     }
 })
-},{"./core":177,"./define":180,"./utils/copy":195}],170:[function(require,module,exports){
+},{"./core":183,"./define":186,"./utils/copy":201}],176:[function(require,module,exports){
 module.exports = {}
-},{}],171:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 'use strict'
 
 var copy = require('../utils/copy').copy
@@ -62551,7 +66094,7 @@ var assignClassProperty = function(Class, propName, propDescriptor, config){
 }
 
 module.exports = assignClassProperty
-},{"../utils/copy":195,"./canDefineProperty":173,"./canGetOwnPropertyDescriptor":174,"./modifyFn":178}],172:[function(require,module,exports){
+},{"../utils/copy":201,"./canDefineProperty":179,"./canGetOwnPropertyDescriptor":180,"./modifyFn":184}],178:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -62699,7 +66242,7 @@ module.exports = function(){
         buildOverridenFn : buildOverridenFn
     }
 }()
-},{}],173:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
@@ -62716,13 +66259,13 @@ module.exports = (function(){
     return false
 
 })()
-},{}],174:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
     return 'getOwnPropertyDescriptor' in Object && typeof Object.getOwnPropertyDescriptor == 'function'
 })()
-},{}],175:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 'use strict'
 
 var canGetOwnPropertyDescriptor = require('./canGetOwnPropertyDescriptor')
@@ -62741,7 +66284,7 @@ function copy(source, target){
 }
 
 module.exports = canGetOwnPropertyDescriptor? copy: function(){}
-},{"./canGetOwnPropertyDescriptor":174}],176:[function(require,module,exports){
+},{"./canGetOwnPropertyDescriptor":180}],182:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -62767,7 +66310,7 @@ module.exports = function(){
         return child
     }
 }()
-},{}],177:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -62988,7 +66531,7 @@ module.exports = function(){
         BaseClass        : Base
     }
 }()
-},{"../utils/copy":195,"./assignClassProperty":171,"./canDefineProperty":173,"./canGetOwnPropertyDescriptor":174,"./copyDescriptors":175,"./extend":176,"newify":262}],178:[function(require,module,exports){
+},{"../utils/copy":201,"./assignClassProperty":177,"./canDefineProperty":179,"./canGetOwnPropertyDescriptor":180,"./copyDescriptors":181,"./extend":182,"newify":268}],184:[function(require,module,exports){
 var callSuperRe     = /\bcallSuper|callSuperWith\b/
 var callOverridenRe = /\bcallOverriden|callOverridenWith\b/
 
@@ -63016,7 +66559,7 @@ function modify(name, fn, superTarget, superClass, target, getterSetterConfig){
 }
 
 module.exports = modify
-},{"./buildClassFunctions":172}],179:[function(require,module,exports){
+},{"./buildClassFunctions":178}],185:[function(require,module,exports){
 var SLICE = Array.prototype.slice
 
 var getClass = require('./getClass')
@@ -63049,7 +66592,7 @@ module.exports = function(alias /* args... */){
 
     return newify(Class, args)
 }
-},{"./getClass":184,"newify":262}],180:[function(require,module,exports){
+},{"./getClass":190,"newify":268}],186:[function(require,module,exports){
 var getClass     = require('./getClass')
 var processClass = require('./processClass')
 
@@ -63105,7 +66648,7 @@ module.exports = function(parentClass, classConfig){
         processClass(Class)
     })
 }
-},{"./Registry":170,"./core":177,"./getClass":184,"./processClass":191,"./processors/ClassProcessor":192}],181:[function(require,module,exports){
+},{"./Registry":176,"./core":183,"./getClass":190,"./processClass":197,"./processors/ClassProcessor":198}],187:[function(require,module,exports){
 var define = require('./define')
 var copyIf = require('./utils/copy').copyIf
 
@@ -63115,7 +66658,7 @@ module.exports = function(members){
 
     return define(copyIf({ extend: 'z.mixin'}, members))
 }
-},{"./define":180,"./utils/copy":195}],182:[function(require,module,exports){
+},{"./define":186,"./utils/copy":201}],188:[function(require,module,exports){
 /**
  * @method destroyClass
  *
@@ -63139,7 +66682,7 @@ module.exports = function(Class){
         Class.destroy()
     }
 }
-},{"./core":177,"./getClass":184}],183:[function(require,module,exports){
+},{"./core":183,"./getClass":190}],189:[function(require,module,exports){
 
 module.exports = function(config){
 
@@ -63154,7 +66697,7 @@ module.exports = function(config){
 
     return define(config)
 }
-},{"./define":180}],184:[function(require,module,exports){
+},{"./define":186}],190:[function(require,module,exports){
 /**
  * @method getClass
  *
@@ -63182,7 +66725,7 @@ module.exports = function getClass(alias){
     return REGISTRY[alias]
 
 }
-},{"./Registry":170,"./core":177}],185:[function(require,module,exports){
+},{"./Registry":176,"./core":183}],191:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -63226,7 +66769,7 @@ module.exports = function(config){
 
     return new klass(config)
 }
-},{"./core":177,"./getClass":184}],186:[function(require,module,exports){
+},{"./core":183,"./getClass":190}],192:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -63252,7 +66795,7 @@ module.exports = function(alias){
         return Class
     }
 }
-},{"./core":177,"./getClass":184}],187:[function(require,module,exports){
+},{"./core":183,"./getClass":190}],193:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -63311,7 +66854,7 @@ module.exports = function(){
         isClassLike        : isSameOrSubclassOf
     }
 }()
-},{"./Mixin":169,"./Registry":170,"./core":177,"./create":179,"./define":180,"./defineMixin":181,"./destroyClass":182,"./getClass":184,"./getInstance":185,"./getParentClass":186,"./isSubclassOf":188,"./override":189,"./processors/MixinProcessor":193,"./utils/copy":195}],188:[function(require,module,exports){
+},{"./Mixin":175,"./Registry":176,"./core":183,"./create":185,"./define":186,"./defineMixin":187,"./destroyClass":188,"./getClass":190,"./getInstance":191,"./getParentClass":192,"./isSubclassOf":194,"./override":195,"./processors/MixinProcessor":199,"./utils/copy":201}],194:[function(require,module,exports){
 var getClass = require('./getClass')
 
 module.exports = function(subClass, superClass, config){
@@ -63335,7 +66878,7 @@ module.exports = function(subClass, superClass, config){
 
     return !!subClass
 }
-},{"./getClass":184}],189:[function(require,module,exports){
+},{"./getClass":190}],195:[function(require,module,exports){
 var getClass = require('./getClass')
 
 /**
@@ -63366,7 +66909,7 @@ module.exports = function(Class, classConfig){
 
     return TheClass
 }
-},{"./getClass":184}],190:[function(require,module,exports){
+},{"./getClass":190}],196:[function(require,module,exports){
 module.exports = function(config){
 
     'use strict'
@@ -63374,7 +66917,7 @@ module.exports = function(config){
     //this refers to a Class
     return require('./core').overrideClass(this, config)
 }
-},{"./core":177}],191:[function(require,module,exports){
+},{"./core":183}],197:[function(require,module,exports){
 var copyKeys = require('./utils/copy').copyKeys
 
 function aliasMethods(config){
@@ -63415,7 +66958,7 @@ module.exports = function(Class){
         Class.init()
     }
 }
-},{"./extendClass":183,"./overrideClass":190,"./processors/ClassProcessor":192,"./unregisterClass":194,"./utils/copy":195}],192:[function(require,module,exports){
+},{"./extendClass":189,"./overrideClass":196,"./processors/ClassProcessor":198,"./unregisterClass":200,"./utils/copy":201}],198:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -63456,7 +66999,7 @@ module.exports = function(){
 
     return result
 }()
-},{"./MixinProcessor":193}],193:[function(require,module,exports){
+},{"./MixinProcessor":199}],199:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -63843,7 +67386,7 @@ module.exports = function(){
 
     }
 }()
-},{"../core":177,"../getClass":184,"../utils/copy":195,"../utils/function":196}],194:[function(require,module,exports){
+},{"../core":183,"../getClass":190,"../utils/copy":201,"../utils/function":202}],200:[function(require,module,exports){
 var REGISTRY = require('./Registry')
 
 module.exports = function unregisterClass(){
@@ -63857,7 +67400,7 @@ module.exports = function unregisterClass(){
 
     delete REGISTRY[alias]
 }
-},{"./Registry":170}],195:[function(require,module,exports){
+},{"./Registry":176}],201:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -63869,7 +67412,7 @@ module.exports = function unregisterClass(){
 
  */
 module.exports = require('copy-utils')
-},{"copy-utils":203}],196:[function(require,module,exports){
+},{"copy-utils":209}],202:[function(require,module,exports){
 module.exports = function(){
 
     var SLICE = Array.prototype.slice
@@ -63926,7 +67469,7 @@ module.exports = function(){
         bindArgsArray: bindArgsArray
     }
 }()
-},{}],197:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -63957,7 +67500,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],198:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -63989,7 +67532,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],199:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -64041,7 +67584,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyList":201}],200:[function(require,module,exports){
+},{"./copyList":207}],206:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -64102,7 +67645,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyListIf":202}],201:[function(require,module,exports){
+},{"./copyListIf":208}],207:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -64142,7 +67685,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],202:[function(require,module,exports){
+},{}],208:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -64184,7 +67727,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],203:[function(require,module,exports){
+},{}],209:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -64381,7 +67924,7 @@ module.exports = function(){
     }
 
 }()
-},{"./copy":197,"./copyIf":198,"./copyKeys":199,"./copyKeysIf":200,"./copyList":201,"./copyListIf":202}],204:[function(require,module,exports){
+},{"./copy":203,"./copyIf":204,"./copyKeys":205,"./copyKeysIf":206,"./copyList":207,"./copyListIf":208}],210:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -64492,7 +68035,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":256}],205:[function(require,module,exports){
+},{"../../is-buffer/index.js":262}],211:[function(require,module,exports){
 (function (Buffer){
 var elliptic = require('elliptic');
 var BN = require('bn.js');
@@ -64618,7 +68161,7 @@ function formatReturnValue(bn, enc, len) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"bn.js":138,"buffer":166,"elliptic":225}],206:[function(require,module,exports){
+},{"bn.js":143,"buffer":171,"elliptic":231}],212:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var inherits = require('inherits')
@@ -64674,7 +68217,7 @@ module.exports = function createHash (alg) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./md5":208,"buffer":166,"cipher-base":168,"inherits":255,"ripemd160":280,"sha.js":282}],207:[function(require,module,exports){
+},{"./md5":214,"buffer":171,"cipher-base":174,"inherits":261,"ripemd160":286,"sha.js":288}],213:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var intSize = 4;
@@ -64711,7 +68254,7 @@ function hash(buf, fn, hashSize, bigEndian) {
 }
 exports.hash = hash;
 }).call(this,require("buffer").Buffer)
-},{"buffer":166}],208:[function(require,module,exports){
+},{"buffer":171}],214:[function(require,module,exports){
 'use strict';
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
@@ -64868,7 +68411,7 @@ function bit_rol(num, cnt)
 module.exports = function md5(buf) {
   return helpers.hash(buf, core_md5, 16);
 };
-},{"./helpers":207}],209:[function(require,module,exports){
+},{"./helpers":213}],215:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var createHash = require('create-hash/browser');
@@ -64940,7 +68483,7 @@ module.exports = function createHmac(alg, key) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"create-hash/browser":206,"inherits":255,"stream":289}],210:[function(require,module,exports){
+},{"buffer":171,"create-hash/browser":212,"inherits":261,"stream":295}],216:[function(require,module,exports){
 'use strict'
 
 exports.randomBytes = exports.rng = exports.pseudoRandomBytes = exports.prng = require('randombytes')
@@ -65019,7 +68562,7 @@ var publicEncrypt = require('public-encrypt')
   }
 })
 
-},{"browserify-cipher":156,"browserify-sign":161,"browserify-sign/algos":160,"create-ecdh":205,"create-hash":206,"create-hmac":209,"diffie-hellman":220,"pbkdf2":269,"public-encrypt":272,"randombytes":278}],211:[function(require,module,exports){
+},{"browserify-cipher":161,"browserify-sign":166,"browserify-sign/algos":165,"create-ecdh":211,"create-hash":212,"create-hmac":215,"diffie-hellman":226,"pbkdf2":275,"public-encrypt":278,"randombytes":284}],217:[function(require,module,exports){
 'use strict';
 
 exports.utils = require('./des/utils');
@@ -65028,7 +68571,7 @@ exports.DES = require('./des/des');
 exports.CBC = require('./des/cbc');
 exports.EDE = require('./des/ede');
 
-},{"./des/cbc":212,"./des/cipher":213,"./des/des":214,"./des/ede":215,"./des/utils":216}],212:[function(require,module,exports){
+},{"./des/cbc":218,"./des/cipher":219,"./des/des":220,"./des/ede":221,"./des/utils":222}],218:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -65095,7 +68638,7 @@ proto._update = function _update(inp, inOff, out, outOff) {
   }
 };
 
-},{"inherits":255,"minimalistic-assert":260}],213:[function(require,module,exports){
+},{"inherits":261,"minimalistic-assert":266}],219:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -65238,7 +68781,7 @@ Cipher.prototype._finalDecrypt = function _finalDecrypt() {
   return this._unpad(out);
 };
 
-},{"minimalistic-assert":260}],214:[function(require,module,exports){
+},{"minimalistic-assert":266}],220:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -65383,7 +68926,7 @@ DES.prototype._decrypt = function _decrypt(state, lStart, rStart, out, off) {
   utils.rip(l, r, out, off);
 };
 
-},{"../des":211,"inherits":255,"minimalistic-assert":260}],215:[function(require,module,exports){
+},{"../des":217,"inherits":261,"minimalistic-assert":266}],221:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -65440,7 +68983,7 @@ EDE.prototype._update = function _update(inp, inOff, out, outOff) {
 EDE.prototype._pad = DES.prototype._pad;
 EDE.prototype._unpad = DES.prototype._unpad;
 
-},{"../des":211,"inherits":255,"minimalistic-assert":260}],216:[function(require,module,exports){
+},{"../des":217,"inherits":261,"minimalistic-assert":266}],222:[function(require,module,exports){
 'use strict';
 
 exports.readUInt32BE = function readUInt32BE(bytes, off) {
@@ -65698,11 +69241,11 @@ exports.padSplit = function padSplit(num, size, group) {
   return out.join(' ');
 };
 
-},{}],217:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 exports = module.exports = require('./src/device-detector');
 exports.version = require('./package').version;
 
-},{"./package":218,"./src/device-detector":219}],218:[function(require,module,exports){
+},{"./package":224,"./src/device-detector":225}],224:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -65804,7 +69347,7 @@ module.exports={
   "version": "0.1.32"
 }
 
-},{}],219:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 /**
  * Device Detector
  * GitHub : git@github.com:ndaidong/device-detector.git
@@ -66141,7 +69684,7 @@ module.exports={
   }
 })();
 
-},{}],220:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 (function (Buffer){
 var generatePrime = require('./lib/generatePrime')
 var primes = require('./lib/primes.json')
@@ -66187,7 +69730,7 @@ exports.DiffieHellmanGroup = exports.createDiffieHellmanGroup = exports.getDiffi
 exports.createDiffieHellman = exports.DiffieHellman = createDiffieHellman
 
 }).call(this,require("buffer").Buffer)
-},{"./lib/dh":221,"./lib/generatePrime":222,"./lib/primes.json":223,"buffer":166}],221:[function(require,module,exports){
+},{"./lib/dh":227,"./lib/generatePrime":228,"./lib/primes.json":229,"buffer":171}],227:[function(require,module,exports){
 (function (Buffer){
 var BN = require('bn.js');
 var MillerRabin = require('miller-rabin');
@@ -66355,7 +69898,7 @@ function formatReturnValue(bn, enc) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./generatePrime":222,"bn.js":138,"buffer":166,"miller-rabin":258,"randombytes":278}],222:[function(require,module,exports){
+},{"./generatePrime":228,"bn.js":143,"buffer":171,"miller-rabin":264,"randombytes":284}],228:[function(require,module,exports){
 var randomBytes = require('randombytes');
 module.exports = findPrime;
 findPrime.simpleSieve = simpleSieve;
@@ -66462,7 +70005,7 @@ function findPrime(bits, gen) {
 
 }
 
-},{"bn.js":138,"miller-rabin":258,"randombytes":278}],223:[function(require,module,exports){
+},{"bn.js":143,"miller-rabin":264,"randombytes":284}],229:[function(require,module,exports){
 module.exports={
     "modp1": {
         "gen": "02",
@@ -66497,7 +70040,7 @@ module.exports={
         "prime": "ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dbe115974a3926f12fee5e438777cb6a932df8cd8bec4d073b931ba3bc832b68d9dd300741fa7bf8afc47ed2576f6936ba424663aab639c5ae4f5683423b4742bf1c978238f16cbe39d652de3fdb8befc848ad922222e04a4037c0713eb57a81a23f0c73473fc646cea306b4bcbc8862f8385ddfa9d4b7fa2c087e879683303ed5bdd3a062b3cf5b3a278a66d2a13f83f44f82ddf310ee074ab6a364597e899a0255dc164f31cc50846851df9ab48195ded7ea1b1d510bd7ee74d73faf36bc31ecfa268359046f4eb879f924009438b481c6cd7889a002ed5ee382bc9190da6fc026e479558e4475677e9aa9e3050e2765694dfc81f56e880b96e7160c980dd98edd3dfffffffffffffffff"
     }
 }
-},{}],224:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -66529,7 +70072,7 @@ module.exports={
 
 });
 
-},{}],225:[function(require,module,exports){
+},{}],231:[function(require,module,exports){
 'use strict';
 
 var elliptic = exports;
@@ -66545,7 +70088,7 @@ elliptic.curves = require('./elliptic/curves');
 elliptic.ec = require('./elliptic/ec');
 elliptic.eddsa = require('./elliptic/eddsa');
 
-},{"../package.json":241,"./elliptic/curve":228,"./elliptic/curves":231,"./elliptic/ec":232,"./elliptic/eddsa":235,"./elliptic/hmac-drbg":238,"./elliptic/utils":240,"brorand":139}],226:[function(require,module,exports){
+},{"../package.json":247,"./elliptic/curve":234,"./elliptic/curves":237,"./elliptic/ec":238,"./elliptic/eddsa":241,"./elliptic/hmac-drbg":244,"./elliptic/utils":246,"brorand":144}],232:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -66898,7 +70441,7 @@ BasePoint.prototype.dblp = function dblp(k) {
   return r;
 };
 
-},{"../../elliptic":225,"bn.js":138}],227:[function(require,module,exports){
+},{"../../elliptic":231,"bn.js":143}],233:[function(require,module,exports){
 'use strict';
 
 var curve = require('../curve');
@@ -67310,7 +70853,7 @@ Point.prototype.eq = function eq(other) {
 Point.prototype.toP = Point.prototype.normalize;
 Point.prototype.mixedAdd = Point.prototype.add;
 
-},{"../../elliptic":225,"../curve":228,"bn.js":138,"inherits":255}],228:[function(require,module,exports){
+},{"../../elliptic":231,"../curve":234,"bn.js":143,"inherits":261}],234:[function(require,module,exports){
 'use strict';
 
 var curve = exports;
@@ -67320,7 +70863,7 @@ curve.short = require('./short');
 curve.mont = require('./mont');
 curve.edwards = require('./edwards');
 
-},{"./base":226,"./edwards":227,"./mont":229,"./short":230}],229:[function(require,module,exports){
+},{"./base":232,"./edwards":233,"./mont":235,"./short":236}],235:[function(require,module,exports){
 'use strict';
 
 var curve = require('../curve');
@@ -67498,7 +71041,7 @@ Point.prototype.getX = function getX() {
   return this.x.fromRed();
 };
 
-},{"../../elliptic":225,"../curve":228,"bn.js":138,"inherits":255}],230:[function(require,module,exports){
+},{"../../elliptic":231,"../curve":234,"bn.js":143,"inherits":261}],236:[function(require,module,exports){
 'use strict';
 
 var curve = require('../curve');
@@ -68409,7 +71952,7 @@ JPoint.prototype.isInfinity = function isInfinity() {
   return this.z.cmpn(0) === 0;
 };
 
-},{"../../elliptic":225,"../curve":228,"bn.js":138,"inherits":255}],231:[function(require,module,exports){
+},{"../../elliptic":231,"../curve":234,"bn.js":143,"inherits":261}],237:[function(require,module,exports){
 'use strict';
 
 var curves = exports;
@@ -68616,7 +72159,7 @@ defineCurve('secp256k1', {
   ]
 });
 
-},{"../elliptic":225,"./precomputed/secp256k1":239,"hash.js":246}],232:[function(require,module,exports){
+},{"../elliptic":231,"./precomputed/secp256k1":245,"hash.js":252}],238:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -68840,7 +72383,7 @@ EC.prototype.getKeyRecoveryParam = function(e, signature, Q, enc) {
   throw new Error('Unable to find valid recovery factor');
 };
 
-},{"../../elliptic":225,"./key":233,"./signature":234,"bn.js":138}],233:[function(require,module,exports){
+},{"../../elliptic":231,"./key":239,"./signature":240,"bn.js":143}],239:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -68949,7 +72492,7 @@ KeyPair.prototype.inspect = function inspect() {
          ' pub: ' + (this.pub && this.pub.inspect()) + ' >';
 };
 
-},{"bn.js":138}],234:[function(require,module,exports){
+},{"bn.js":143}],240:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -69086,7 +72629,7 @@ Signature.prototype.toDER = function toDER(enc) {
   return utils.encode(res, enc);
 };
 
-},{"../../elliptic":225,"bn.js":138}],235:[function(require,module,exports){
+},{"../../elliptic":231,"bn.js":143}],241:[function(require,module,exports){
 'use strict';
 
 var hash = require('hash.js');
@@ -69206,7 +72749,7 @@ EDDSA.prototype.isPoint = function isPoint(val) {
   return val instanceof this.pointClass;
 };
 
-},{"../../elliptic":225,"./key":236,"./signature":237,"hash.js":246}],236:[function(require,module,exports){
+},{"../../elliptic":231,"./key":242,"./signature":243,"hash.js":252}],242:[function(require,module,exports){
 'use strict';
 
 var elliptic = require('../../elliptic');
@@ -69304,7 +72847,7 @@ KeyPair.prototype.getPublic = function getPublic(enc) {
 
 module.exports = KeyPair;
 
-},{"../../elliptic":225}],237:[function(require,module,exports){
+},{"../../elliptic":231}],243:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -69372,7 +72915,7 @@ Signature.prototype.toHex = function toHex() {
 
 module.exports = Signature;
 
-},{"../../elliptic":225,"bn.js":138}],238:[function(require,module,exports){
+},{"../../elliptic":231,"bn.js":143}],244:[function(require,module,exports){
 'use strict';
 
 var hash = require('hash.js');
@@ -69488,7 +73031,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
   return utils.encode(res, enc);
 };
 
-},{"../elliptic":225,"hash.js":246}],239:[function(require,module,exports){
+},{"../elliptic":231,"hash.js":252}],245:[function(require,module,exports){
 module.exports = {
   doubles: {
     step: 4,
@@ -70270,7 +73813,7 @@ module.exports = {
   }
 };
 
-},{}],240:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 'use strict';
 
 var utils = exports;
@@ -70445,7 +73988,7 @@ function intFromLE(bytes) {
 utils.intFromLE = intFromLE;
 
 
-},{"bn.js":138}],241:[function(require,module,exports){
+},{"bn.js":143}],247:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -70546,7 +74089,7 @@ module.exports={
   "version": "6.2.3"
 }
 
-},{}],242:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -70846,7 +74389,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],243:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 (function (Buffer){
 var md5 = require('create-hash/md5')
 module.exports = EVP_BytesToKey
@@ -70918,7 +74461,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"create-hash/md5":208}],244:[function(require,module,exports){
+},{"buffer":171,"create-hash/md5":214}],250:[function(require,module,exports){
 (function() {
 
     var debug = false;
@@ -71725,7 +75268,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
 }.call(this));
 
 
-},{}],245:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory)
@@ -71831,7 +75374,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
   }
 }));
 
-},{}],246:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 var hash = exports;
 
 hash.utils = require('./hash/utils');
@@ -71848,7 +75391,7 @@ hash.sha384 = hash.sha.sha384;
 hash.sha512 = hash.sha.sha512;
 hash.ripemd160 = hash.ripemd.ripemd160;
 
-},{"./hash/common":247,"./hash/hmac":248,"./hash/ripemd":249,"./hash/sha":250,"./hash/utils":251}],247:[function(require,module,exports){
+},{"./hash/common":253,"./hash/hmac":254,"./hash/ripemd":255,"./hash/sha":256,"./hash/utils":257}],253:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 var assert = utils.assert;
@@ -71941,7 +75484,7 @@ BlockHash.prototype._pad = function pad() {
   return res;
 };
 
-},{"../hash":246}],248:[function(require,module,exports){
+},{"../hash":252}],254:[function(require,module,exports){
 var hmac = exports;
 
 var hash = require('../hash');
@@ -71991,7 +75534,7 @@ Hmac.prototype.digest = function digest(enc) {
   return this.outer.digest(enc);
 };
 
-},{"../hash":246}],249:[function(require,module,exports){
+},{"../hash":252}],255:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 
@@ -72137,7 +75680,7 @@ var sh = [
   8, 5, 12, 9, 12, 5, 14, 6, 8, 13, 6, 5, 15, 13, 11, 11
 ];
 
-},{"../hash":246}],250:[function(require,module,exports){
+},{"../hash":252}],256:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 var assert = utils.assert;
@@ -72703,7 +76246,7 @@ function g1_512_lo(xh, xl) {
   return r;
 }
 
-},{"../hash":246}],251:[function(require,module,exports){
+},{"../hash":252}],257:[function(require,module,exports){
 var utils = exports;
 var inherits = require('inherits');
 
@@ -72962,7 +76505,7 @@ function shr64_lo(ah, al, num) {
 };
 exports.shr64_lo = shr64_lo;
 
-},{"inherits":255}],252:[function(require,module,exports){
+},{"inherits":261}],258:[function(require,module,exports){
 // inspired by http://webreflection.blogspot.com/2010/12/100-client-side-image-resizing.html
 /* 
 
@@ -73018,7 +76561,7 @@ module.exports = function (canvas) {
 
 
 
-},{}],253:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -73104,7 +76647,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],254:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 
 var indexOf = [].indexOf;
 
@@ -73115,7 +76658,7 @@ module.exports = function(arr, obj){
   }
   return -1;
 };
-},{}],255:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -73140,7 +76683,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],256:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
@@ -73159,12 +76702,12 @@ module.exports = function (obj) {
     ))
 }
 
-},{}],257:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],258:[function(require,module,exports){
+},{}],264:[function(require,module,exports){
 var bn = require('bn.js');
 var brorand = require('brorand');
 
@@ -73279,7 +76822,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
   return false;
 };
 
-},{"bn.js":138,"brorand":139}],259:[function(require,module,exports){
+},{"bn.js":143,"brorand":144}],265:[function(require,module,exports){
 //
 // mimetype.js - A catalog object of mime types based on file extensions
 //
@@ -74047,7 +77590,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
 	return self;
 }(this));
 
-},{"path":268}],260:[function(require,module,exports){
+},{"path":274}],266:[function(require,module,exports){
 module.exports = assert;
 
 function assert(val, msg) {
@@ -74060,7 +77603,7 @@ assert.equal = function assertEqual(l, r, msg) {
     throw new Error(msg || ('Assertion failed: ' + l + ' != ' + r));
 };
 
-},{}],261:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 module.exports = function(){
 
     'use strict';
@@ -74089,13 +77632,13 @@ module.exports = function(){
     }
 
 }()
-},{}],262:[function(require,module,exports){
+},{}],268:[function(require,module,exports){
 var getInstantiatorFunction = require('./getInstantiatorFunction')
 
 module.exports = function(fn, args){
 	return getInstantiatorFunction(args.length)(fn, args)
 }
-},{"./getInstantiatorFunction":261}],263:[function(require,module,exports){
+},{"./getInstantiatorFunction":267}],269:[function(require,module,exports){
 (function (Buffer){
 //     uuid.js
 //
@@ -74371,7 +77914,7 @@ module.exports = function(fn, args){
 })('undefined' !== typeof window ? window : null);
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"crypto":210}],264:[function(require,module,exports){
+},{"buffer":171,"crypto":216}],270:[function(require,module,exports){
 module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.2": "aes-128-cbc",
 "2.16.840.1.101.3.4.1.3": "aes-128-ofb",
@@ -74385,7 +77928,7 @@ module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.43": "aes-256-ofb",
 "2.16.840.1.101.3.4.1.44": "aes-256-cfb"
 }
-},{}],265:[function(require,module,exports){
+},{}],271:[function(require,module,exports){
 // from https://github.com/indutny/self-signed/blob/gh-pages/lib/asn1.js
 // Fedor, you are amazing.
 
@@ -74504,7 +78047,7 @@ exports.signature = asn1.define('signature', function () {
   )
 })
 
-},{"asn1.js":123}],266:[function(require,module,exports){
+},{"asn1.js":128}],272:[function(require,module,exports){
 (function (Buffer){
 // adapted from https://github.com/apatil/pemstrip
 var findProc = /Proc-Type: 4,ENCRYPTED\r?\nDEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)\r?\n\r?\n([0-9A-z\n\r\+\/\=]+)\r?\n/m
@@ -74538,7 +78081,7 @@ module.exports = function (okey, password) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"browserify-aes":143,"buffer":166,"evp_bytestokey":243}],267:[function(require,module,exports){
+},{"browserify-aes":148,"buffer":171,"evp_bytestokey":249}],273:[function(require,module,exports){
 (function (Buffer){
 var asn1 = require('./asn1')
 var aesid = require('./aesid.json')
@@ -74643,7 +78186,7 @@ function decrypt (data, password) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./aesid.json":264,"./asn1":265,"./fixProc":266,"browserify-aes":143,"buffer":166,"pbkdf2":269}],268:[function(require,module,exports){
+},{"./aesid.json":270,"./asn1":271,"./fixProc":272,"browserify-aes":148,"buffer":171,"pbkdf2":275}],274:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -74871,7 +78414,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":271}],269:[function(require,module,exports){
+},{"_process":277}],275:[function(require,module,exports){
 (function (Buffer){
 var createHmac = require('create-hmac')
 var MAX_ALLOC = Math.pow(2, 30) - 1 // default in iojs
@@ -74955,7 +78498,7 @@ function pbkdf2Sync (password, salt, iterations, keylen, digest) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"create-hmac":209}],270:[function(require,module,exports){
+},{"buffer":171,"create-hmac":215}],276:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -74979,7 +78522,7 @@ function nextTick(fn) {
 }
 
 }).call(this,require('_process'))
-},{"_process":271}],271:[function(require,module,exports){
+},{"_process":277}],277:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -75072,7 +78615,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],272:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 exports.publicEncrypt = require('./publicEncrypt');
 exports.privateDecrypt = require('./privateDecrypt');
 
@@ -75083,7 +78626,7 @@ exports.privateEncrypt = function privateEncrypt(key, buf) {
 exports.publicDecrypt = function publicDecrypt(key, buf) {
   return exports.privateDecrypt(key, buf, true);
 };
-},{"./privateDecrypt":274,"./publicEncrypt":275}],273:[function(require,module,exports){
+},{"./privateDecrypt":280,"./publicEncrypt":281}],279:[function(require,module,exports){
 (function (Buffer){
 var createHash = require('create-hash');
 module.exports = function (seed, len) {
@@ -75102,7 +78645,7 @@ function i2ops(c) {
   return out;
 }
 }).call(this,require("buffer").Buffer)
-},{"buffer":166,"create-hash":206}],274:[function(require,module,exports){
+},{"buffer":171,"create-hash":212}],280:[function(require,module,exports){
 (function (Buffer){
 var parseKeys = require('parse-asn1');
 var mgf = require('./mgf');
@@ -75213,7 +78756,7 @@ function compare(a, b){
   return dif;
 }
 }).call(this,require("buffer").Buffer)
-},{"./mgf":273,"./withPublic":276,"./xor":277,"bn.js":138,"browserify-rsa":159,"buffer":166,"create-hash":206,"parse-asn1":267}],275:[function(require,module,exports){
+},{"./mgf":279,"./withPublic":282,"./xor":283,"bn.js":143,"browserify-rsa":164,"buffer":171,"create-hash":212,"parse-asn1":273}],281:[function(require,module,exports){
 (function (Buffer){
 var parseKeys = require('parse-asn1');
 var randomBytes = require('randombytes');
@@ -75311,7 +78854,7 @@ function nonZero(len, crypto) {
   return out;
 }
 }).call(this,require("buffer").Buffer)
-},{"./mgf":273,"./withPublic":276,"./xor":277,"bn.js":138,"browserify-rsa":159,"buffer":166,"create-hash":206,"parse-asn1":267,"randombytes":278}],276:[function(require,module,exports){
+},{"./mgf":279,"./withPublic":282,"./xor":283,"bn.js":143,"browserify-rsa":164,"buffer":171,"create-hash":212,"parse-asn1":273,"randombytes":284}],282:[function(require,module,exports){
 (function (Buffer){
 var bn = require('bn.js');
 function withPublic(paddedMsg, key) {
@@ -75324,7 +78867,7 @@ function withPublic(paddedMsg, key) {
 
 module.exports = withPublic;
 }).call(this,require("buffer").Buffer)
-},{"bn.js":138,"buffer":166}],277:[function(require,module,exports){
+},{"bn.js":143,"buffer":171}],283:[function(require,module,exports){
 module.exports = function xor(a, b) {
   var len = a.length;
   var i = -1;
@@ -75333,7 +78876,7 @@ module.exports = function xor(a, b) {
   }
   return a
 };
-},{}],278:[function(require,module,exports){
+},{}],284:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -75373,7 +78916,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":271,"buffer":166}],279:[function(require,module,exports){
+},{"_process":277,"buffer":171}],285:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.rfc6902 = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
@@ -76119,7 +79662,7 @@ var Pointer = exports.Pointer = (function () {
 },{}]},{},[4])(4)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],280:[function(require,module,exports){
+},{}],286:[function(require,module,exports){
 (function (Buffer){
 /*
 CryptoJS v3.1.2
@@ -76333,7 +79876,7 @@ function ripemd160 (message) {
 module.exports = ripemd160
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166}],281:[function(require,module,exports){
+},{"buffer":171}],287:[function(require,module,exports){
 (function (Buffer){
 // prototype class for hash functions
 function Hash (blockSize, finalSize) {
@@ -76406,7 +79949,7 @@ Hash.prototype._update = function () {
 module.exports = Hash
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":166}],282:[function(require,module,exports){
+},{"buffer":171}],288:[function(require,module,exports){
 var exports = module.exports = function SHA (algorithm) {
   algorithm = algorithm.toLowerCase()
 
@@ -76423,7 +79966,7 @@ exports.sha256 = require('./sha256')
 exports.sha384 = require('./sha384')
 exports.sha512 = require('./sha512')
 
-},{"./sha":283,"./sha1":284,"./sha224":285,"./sha256":286,"./sha384":287,"./sha512":288}],283:[function(require,module,exports){
+},{"./sha":289,"./sha1":290,"./sha224":291,"./sha256":292,"./sha384":293,"./sha512":294}],289:[function(require,module,exports){
 (function (Buffer){
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-0, as defined
@@ -76520,7 +80063,7 @@ Sha.prototype._hash = function () {
 module.exports = Sha
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":281,"buffer":166,"inherits":255}],284:[function(require,module,exports){
+},{"./hash":287,"buffer":171,"inherits":261}],290:[function(require,module,exports){
 (function (Buffer){
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-1, as defined
@@ -76622,7 +80165,7 @@ Sha1.prototype._hash = function () {
 module.exports = Sha1
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":281,"buffer":166,"inherits":255}],285:[function(require,module,exports){
+},{"./hash":287,"buffer":171,"inherits":261}],291:[function(require,module,exports){
 (function (Buffer){
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
@@ -76678,7 +80221,7 @@ Sha224.prototype._hash = function () {
 module.exports = Sha224
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":281,"./sha256":286,"buffer":166,"inherits":255}],286:[function(require,module,exports){
+},{"./hash":287,"./sha256":292,"buffer":171,"inherits":261}],292:[function(require,module,exports){
 (function (Buffer){
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
@@ -76816,7 +80359,7 @@ Sha256.prototype._hash = function () {
 module.exports = Sha256
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":281,"buffer":166,"inherits":255}],287:[function(require,module,exports){
+},{"./hash":287,"buffer":171,"inherits":261}],293:[function(require,module,exports){
 (function (Buffer){
 var inherits = require('inherits')
 var SHA512 = require('./sha512')
@@ -76876,7 +80419,7 @@ Sha384.prototype._hash = function () {
 module.exports = Sha384
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":281,"./sha512":288,"buffer":166,"inherits":255}],288:[function(require,module,exports){
+},{"./hash":287,"./sha512":294,"buffer":171,"inherits":261}],294:[function(require,module,exports){
 (function (Buffer){
 var inherits = require('inherits')
 var Hash = require('./hash')
@@ -77139,7 +80682,7 @@ Sha512.prototype._hash = function () {
 module.exports = Sha512
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":281,"buffer":166,"inherits":255}],289:[function(require,module,exports){
+},{"./hash":287,"buffer":171,"inherits":261}],295:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -77268,10 +80811,10 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":242,"inherits":255,"readable-stream/duplex.js":290,"readable-stream/passthrough.js":296,"readable-stream/readable.js":297,"readable-stream/transform.js":298,"readable-stream/writable.js":299}],290:[function(require,module,exports){
+},{"events":248,"inherits":261,"readable-stream/duplex.js":296,"readable-stream/passthrough.js":302,"readable-stream/readable.js":303,"readable-stream/transform.js":304,"readable-stream/writable.js":305}],296:[function(require,module,exports){
 module.exports = require("./lib/_stream_duplex.js")
 
-},{"./lib/_stream_duplex.js":291}],291:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":297}],297:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -77355,7 +80898,7 @@ function forEach (xs, f) {
   }
 }
 
-},{"./_stream_readable":293,"./_stream_writable":295,"core-util-is":204,"inherits":255,"process-nextick-args":270}],292:[function(require,module,exports){
+},{"./_stream_readable":299,"./_stream_writable":301,"core-util-is":210,"inherits":261,"process-nextick-args":276}],298:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -77384,7 +80927,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
   cb(null, chunk);
 };
 
-},{"./_stream_transform":294,"core-util-is":204,"inherits":255}],293:[function(require,module,exports){
+},{"./_stream_transform":300,"core-util-is":210,"inherits":261}],299:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -78363,7 +81906,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require('_process'))
-},{"./_stream_duplex":291,"_process":271,"buffer":166,"core-util-is":204,"events":242,"inherits":255,"isarray":257,"process-nextick-args":270,"string_decoder/":300,"util":140}],294:[function(require,module,exports){
+},{"./_stream_duplex":297,"_process":277,"buffer":171,"core-util-is":210,"events":248,"inherits":261,"isarray":263,"process-nextick-args":276,"string_decoder/":306,"util":145}],300:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -78562,7 +82105,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./_stream_duplex":291,"core-util-is":204,"inherits":255}],295:[function(require,module,exports){
+},{"./_stream_duplex":297,"core-util-is":210,"inherits":261}],301:[function(require,module,exports){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
@@ -79093,10 +82636,10 @@ function endWritable(stream, state, cb) {
   state.ended = true;
 }
 
-},{"./_stream_duplex":291,"buffer":166,"core-util-is":204,"events":242,"inherits":255,"process-nextick-args":270,"util-deprecate":301}],296:[function(require,module,exports){
+},{"./_stream_duplex":297,"buffer":171,"core-util-is":210,"events":248,"inherits":261,"process-nextick-args":276,"util-deprecate":307}],302:[function(require,module,exports){
 module.exports = require("./lib/_stream_passthrough.js")
 
-},{"./lib/_stream_passthrough.js":292}],297:[function(require,module,exports){
+},{"./lib/_stream_passthrough.js":298}],303:[function(require,module,exports){
 var Stream = (function (){
   try {
     return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
@@ -79110,13 +82653,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":291,"./lib/_stream_passthrough.js":292,"./lib/_stream_readable.js":293,"./lib/_stream_transform.js":294,"./lib/_stream_writable.js":295}],298:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":297,"./lib/_stream_passthrough.js":298,"./lib/_stream_readable.js":299,"./lib/_stream_transform.js":300,"./lib/_stream_writable.js":301}],304:[function(require,module,exports){
 module.exports = require("./lib/_stream_transform.js")
 
-},{"./lib/_stream_transform.js":294}],299:[function(require,module,exports){
+},{"./lib/_stream_transform.js":300}],305:[function(require,module,exports){
 module.exports = require("./lib/_stream_writable.js")
 
-},{"./lib/_stream_writable.js":295}],300:[function(require,module,exports){
+},{"./lib/_stream_writable.js":301}],306:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -79339,7 +82882,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":166}],301:[function(require,module,exports){
+},{"buffer":171}],307:[function(require,module,exports){
 (function (global){
 
 /**
@@ -79410,7 +82953,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],302:[function(require,module,exports){
+},{}],308:[function(require,module,exports){
 var indexOf = require('indexof');
 
 var Object_keys = function (obj) {
@@ -79550,14 +83093,14 @@ exports.createContext = Script.createContext = function (context) {
     return copy;
 };
 
-},{"indexof":254}],303:[function(require,module,exports){
+},{"indexof":260}],309:[function(require,module,exports){
 angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("admin.html","<div class=\"container admin\">\n    <div class=\"row\">\n        <div ui-view=\"header\" class=\"header\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"content\" class=\"content\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"footer\" class=\"footer\"></div>\n    </div>\n</div>");
 $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div class=\"row\">\n        <div class=\"top-bar col-xs-12 col-md-12 col-lg-12\" ui-view=\"top_bar\"></div>\n    </div>\n    \n    <div class=\"mobile-scroll\" style=\"height:100%;\">\n      <div class=\"mobile-container\">\n         <div class=\"row\">\n            <div ui-view=\"header\" class=\"header\"></div>\n         </div>    \n         \n         <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12 hidden-xs large-header-padding\"></div>\n            <div class=\"hidden-lg hidden-md hidden-sm col-xs-12 mobile-header-padding\"></div>\n         </div>\n         \n         <div class=\"main-content\">\n            <div class=\"row\">\n               <div class=\"mobile-ad-space hidden-lg hidden-md hidden-sm col-xs-12\">\n                  <img src=\"./images/temp_mobile_ad.png\" />\n               </div>\n            </div>\n            \n            <div class=\"row row-eq-height\" style=\"height: 100%;\">\n                  <!--<div class=\"content-padding col-md-1 col-lg-1 col-sm-1 hidden-xs\"></div>-->\n                  <div ui-view=\"content\" class=\"content col-md-9 col-lg-9 col-sm-9 col-xs-12\" style=\"min-height:100%;\"></div>\n                  <div ui-view=\"ad_space_right\" class=\"ad-space col-lg-3 col-sm-3 col-md-3 hidden-xs\" style=\"min-height:100%;\">\n                     <div class=\"ad-container\">\n                        <div class=\"ad\">\n                            <img src=\"./images/temp_ad1.jpg\" />\n                        </div>\n                        <div class=\"ad ad1\">\n                            <img src=\"./images/temp_ad2.png\" />\n                        </div>\n                     </div>\n                     <div class=\"copyright\">\n                        Andrew O\'Mahony (c) 2016\n                     </div>\n                  </div>\n            </div>\n         </div>\n      </div>\n    </div>\n</div>");
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
 $templateCache.put("directives/media_picker.html","<div class=\"media-picker\">\n   <div ng-if=\"isPicture()\">\n      <picture-media-picker></picture-media-picker>\n   </div>\n   <div ng-if=\"isVideo()\">\n      <video-media-picker></video-media-picker>\n   </div>\n   \n   <div ng-if=\"isYoutube()\">\n      <youtube-media-picker></youtube-media-picker>\n   </div>\n   \n   <div class=\"error\" ng-style=\"getErrorStyle()\">\n     <span ng-bind=\"errorMessage\"></span>\n   </div>   \n</div>");
 $templateCache.put("directives/picture_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\" \n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        ng-click=\"activateFileReader()\"\n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-picture-o fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div>\n</div>\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"picture\"\n           model=\"model\"\n           width=\"88%\"\n           height=\"98%\"\n           fitted=\"true\"\n           centered=\"true\"\n           show-uploading=\"false\"\n           class=\"picture-container\">\n      </div>\n      <div class=\"media-container-options picture-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div loading-progress\n           type=\"overlay_circle\"\n           ng-if=\"model.upload_progress\"\n           show-percentage=\"false\"\n           progress-object=\"model.upload_progress\">\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"image/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onPictureSelectSuccess(files)\"\n   on-files-progress=\"onPictureSelectProgress(progress)\"\n   on-files-error=\"onPictureSelectError(error)\">\n</file-reader> ");
 $templateCache.put("directives/profile_picture.html","<div media-renderer=\"picture\"\n     model=\"getProfilePicture()\"\n     width=\"{{width}}\"\n     show-uploading=\"true\"\n     fitted=\"false\"></div>");
-$templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\"\n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\"\n        ng-click=\"activateFileReader()\"  \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-video-camera fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div> \n   <div class=\"progress-message\">\n      <span ng-bind=\"getProgressMessage()\"></span>\n   </div>\n</div>\n\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"video\"\n           model=\"model\"\n           width=\"95%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"video-container\"\n           can-preload=\"true\"\n           show-uploading=\"false\"\n           can-hide-while-loading=\"false\"\n           information=\"videoInformation\"\n           on-event=\"onVideoEvent(name)\">\n      </div>\n\n      <div media-renderer=\"picture\"\n           model=\"model.thumbnail\"\n           width=\"100px\"\n           fitted=\"false\"\n           style=\"position:absolute;top:100px;left:100px;\">\n      </div>\n      \n      \n      <div class=\"media-container-options video-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"video/mp4,video/x-m4v,video/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onVideoSelectSuccess(files)\"\n   on-files-progress=\"onVideoSelectProgress(progress)\"\n   on-files-error=\"onVideoSelectError(error)\">\n</file-reader> ");
+$templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\"\n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\"\n        ng-click=\"activateFileReader()\"  \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-video-camera fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div> \n   <div class=\"progress-message\">\n      <span ng-bind=\"getProgressMessage()\"></span>\n   </div>\n</div>\n\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"video\"\n           model=\"model\"\n           width=\"95%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"video-container\"\n           can-preload=\"true\"\n           show-uploading=\"false\"\n           can-hide-while-loading=\"false\"\n           information=\"videoInformation\"\n           on-event=\"onVideoEvent(name)\">\n      </div>\n\n<!--\n      <div media-renderer=\"picture\"\n           model=\"model.thumbnail\"\n           width=\"100px\"\n           fitted=\"false\"\n           style=\"position:absolute;top:100px;left:100px;\">\n      </div>\n      -->\n      \n      <div class=\"media-container-options video-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"video/mp4,video/x-m4v,video/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onVideoSelectSuccess(files)\"\n   on-files-progress=\"onVideoSelectProgress(progress)\"\n   on-files-error=\"onVideoSelectError(error)\">\n</file-reader> ");
 $templateCache.put("directives/youtube_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\" \n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        ng-click=\"activateUrlModal()\"\n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-youtube fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div>\n</div>\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"youtube\"\n         fitted=\"true\"\n         centered=\"true\"\n         model=\"model\"\n         class=\"youtube-container\"\n         width=\"{{getYoutubeRendererWidth()}}\"\n         on-error=\"onYoutubeRendererError(error)\">\n      </div>\n\n      <div class=\"media-container-options youtube-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateUrlModal()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>  \n   </div>\n</div>");
 $templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
 $templateCache.put("modals/partials/confirm_modal.html","<span ng-bind=\"message\"></span>");
@@ -79582,7 +83125,7 @@ $templateCache.put("partials/main/login/content.html","<div class=\"col-lg-6 col
 $templateCache.put("partials/main/login/forgot_password.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12\">\n   <form name=\"forgotPasswordForm\">\n      <div class=\"form-group\"\n         ng-class=\"{ \'has-error\': forgotPasswordForm.forgot_password_email.$touched && forgotPasswordForm.forgot_password_email.$invalid }\">\n         <label for=\"forgot_password_email\">\n            <span>E-Mail Address</span>\n         </label>\n         <input type=\"email\" \n               class=\"form-control\" \n               name=\"forgot_password_email\" \n               ng-model=\"formData.emailAddress\"\n               required />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!isRequestingNewPassword\">\n         <button ng-disabled=\"forgotPasswordForm.$invalid\" ng-click=\"requestNewPassword()\">\n            Request New Password\n         </button>\n      </div>\n\n      <div loading-progress \n            type=\"spinner\"\n            class=\"requesting-in-progress\"\n            ng-if=\"isRequestingNewPassword\"\n            message=\"Requesting new password...\">\n      </div>\n   </form>\n   \n   <div ng-if=\"hasRequestedNewPassword\">\n      An e-mail has been sent to this e-mail address.  Please click the link within it to\n      get a new password.\n   </div>\n</div>");
 $templateCache.put("partials/main/login/login.html","<div class=\"login\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/login/unverified.html","<div class=\"row\" ng-if=\"null !== getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n      <p>\n         Hello <span ng-bind=\"getEmailAddress()\"></span>!\n      </p>\n      <p>\n         You just need to verify your account now.\n      </p>\n      <p>\n         We have sent a link to your e-mail address, all you need to do\n         is click it, and you\'re good to go!\n      </p>\n      <p>\n         Didn\'t get an e-mail?  Click <a ng-click=\"resendVerificationEmail()\">here</a> to resend it.  Make\n         sure to check your spam folder if it isn\'t in your main inbox.\n      </p>\n\n      <div loading-progress \n            type=\"spinner\"\n            class=\"resending-in-progress\"\n            ng-if=\"isSendingEmail\"\n            message=\"Resending E-Mail...\">\n      </div>\n\n<!--\n      <div ng-if=\"isSendingEmail\" class=\"resending-in-progress\">\n         <span>\n            <div loading-progress type=\"spinner\">\n            </div>\n         </span>\n         <span class=\"resending-text\">\n            Resending E-Mail...\n         </span>\n      </div> -->\n      \n      <p ng-if=\"hasSentEmail\">\n         E-Mail sent successfully!\n      </p>\n\n   </div>\n</div>\n\n<div class=\"row\" ng-if=\"null === getCurrentUnverifiedUser()\">\n   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\" style=\"text-align:center;\">\n      <p>\n         It appears that you navigated here by accident.\n      </p>\n      <p>\n         Click <a ui-sref=\"main.page.home.default\">here</a> to go back to the homepage</a>\n      </p>\n   </div>\n</div>\n");
-$templateCache.put("partials/main/question/ask.html","<div class=\"ask\">\n   <div class=\"ask-topic ask-group\">\n      <div class=\"ask-header\">\n         What\'s your question about?\n      </div>\n      <div class=\"ask-element\">\n         <label class=\"dropdown\">\n            <select ng-model=\"currentQuestion.topic\" \n                  ng-options=\"name for name in questionTopicOptions\">\n            </select>\n         </label>\n      </div>\n      <div class=\"ask-element ask-sub-header ask-or\">\n         or\n      </div>\n      <div>\n         <input type=\"text\" class=\"form-control\" placeholder=\"Tell me\" ng-model=\"currentQuestion.custom_topic\" />\n      </div>\n   </div>\n   \n   <div class=\"ask-question ask-group\">\n      <div class=\"ask-question-header ask-header\">\n         What\'s your question?\n      </div>\n      <div class=\"ask-sub-header ask-question-details\">\n         (Use as much detail as you like)\n      </div>\n      \n      <textarea class=\"form-control\"\n                ng-model=\"currentQuestion.text\"></textarea>\n   </div>\n   \n   <div class=\"ask-media ask-group\">\n      <div class=\"ask-header ask-media-header\">\n         Any photos or videos?\n      </div>\n      <div class=\"ask-sub-header\">\n         (If video upload fails, use the Youtube button below)\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"videoModel in currentQuestion.videos\">\n            <media-picker \n                    type=\"video\" \n                    model=\"videoModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n        \n        <div class=\"media-picker-container\">\n            <media-picker \n                    type=\"youtube\" \n                    model=\"currentQuestion.youtube_video\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"pictureModel in currentQuestion.pictures\">\n            <media-picker \n                    type=\"picture\" \n                    model=\"pictureModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n   </div>  \n   \n   <div class=\"ask-submit\" ng-if=\"!isAskingQuestion\">\n      <button ng-click=\"askQuestion()\">Ask Question</button>\n   </div>\n\n   <div loading-progress \n        type=\"spinner\"\n        ng-if=\"isAskingQuestion\"\n        message=\"Asking...\"\n   ></div>\n</div>\n");
+$templateCache.put("partials/main/question/ask.html","<div class=\"ask\">\n   <div class=\"ask-topic ask-group\">\n      <div class=\"ask-header\">\n         What\'s your question about?\n      </div>\n      <div class=\"ask-element\">\n         <label class=\"dropdown\">\n            <select ng-model=\"currentQuestion.topic\" \n                  ng-options=\"name for name in questionTopicOptions\">\n            </select>\n         </label>\n      </div>\n      <div class=\"ask-element ask-sub-header ask-or\">\n         or\n      </div>\n      <div>\n         <input type=\"text\" class=\"form-control\" placeholder=\"Tell me\" ng-model=\"currentQuestion.custom_topic\" />\n      </div>\n   </div>\n   \n   <div class=\"ask-question ask-group\">\n      <div class=\"ask-question-header ask-header\">\n         What\'s your question?\n      </div>\n      <div class=\"ask-sub-header ask-question-details\">\n         (Use as much detail as you like)\n      </div>\n      \n      <textarea class=\"form-control\"\n                ng-model=\"currentQuestion.text\"></textarea>\n   </div>\n   \n   <div class=\"ask-media ask-group\">\n      <div class=\"ask-header ask-media-header\">\n         Any photos or videos?\n      </div>\n      <div class=\"ask-sub-header\">\n         (If video upload fails, use the Youtube button below)\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"videoModel in currentQuestion.videos\">\n            <media-picker \n                    type=\"video\" \n                    model=\"videoModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n        \n        <div class=\"media-picker-container\">\n            <media-picker \n                    type=\"youtube\" \n                    model=\"currentQuestion.youtube_video\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n      \n      <div class=\"media-picker-container-row\">\n        <div class=\"media-picker-container\" ng-repeat=\"pictureModel in currentQuestion.pictures\">\n            <media-picker \n                    type=\"picture\" \n                    model=\"pictureModel\"\n                    width=\"150px\"\n                    height=\"150px\">\n            </media-picker>\n        </div>\n      </div>\n   </div>  \n\n<!--\n   <div media-renderer=\"picture\"\n        model=\"currentQuestion.preview_pictures[0]\"\n        width=\"320px\"\n        style=\"position:absolute;top:50px;left:50px;\"\n   ></div> -->\n   \n   <div class=\"ask-submit\" ng-if=\"!isAskingQuestion\">\n      <button ng-click=\"askQuestion()\">Ask Question</button>\n   </div>\n\n   <div loading-progress \n        type=\"spinner\"\n        ng-if=\"isAskingQuestion\"\n        message=\"Asking...\"\n   ></div>\n</div>\n");
 $templateCache.put("partials/main/question/content.html","This is the question view page!");
 $templateCache.put("partials/main/question/question.html","<div class=\"question\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/question/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\">\n      To ask a question, you need to log in first.\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
@@ -79592,4 +83135,4 @@ $templateCache.put("partials/main/reset_password/content.html","<div class=\"col
 $templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"edit-container profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/*\"\n            process-exif=\"true\"\n            create=\"profilePicturePicker\"\n            on-created=\"onProfilePictureSelectCreated(elementId)\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n         <div>\n            <input type=\"text\"\n                  placeholder=\"First Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"text\"\n                  placeholder=\"Last Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword\">\n      <div ng-if=\"!isChangingEmail\">\n         <span class=\"email-text\"\n               ng-bind=\"currentEditingUser.email\"></span>\n      </div>\n\n      <div ng-if=\"currentEditingUser.pending_email\">\n         <span class=\"pending-email-text\">\n            <span ng-bind=\"currentEditingUser.pending_email\"></span>\n            <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n            <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n         </span>\n      </div>     \n      \n      <div ng-if=\"isChangingEmail\">\n         <div ng-class=\"getEmailEditControlClass()\">\n            <input type=\"email\"\n                  placeholder=\"New E-Mail\"\n                  class=\"form-control profile-email-input\"\n                  ng-model=\"emailChangeData.email\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n      <div class=\"top-edit-control\">\n         <div>\n            <input type=\"password\"\n                  placeholder=\"Old Password\"\n                  class=\"form-control profile-old-password-input\"\n                  ng-model=\"passwordChangeData.old_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"password\"\n                  placeholder=\"New Password\"\n                  class=\"form-control profile-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>       \n            <input type=\"password\"\n                  placeholder=\"Repeat New Password\"\n                  class=\"form-control profile-repeat-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password_repeat\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>         \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-options-container\">\n      <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n         <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n      </span>\n      \n      <div loading-progress \n            type=\"spinner\"\n            class=\"saving-message\"\n            ng-if=\"isSaving\"\n            message=\"{{getSavingUserMessage()}}\">\n      </div>\n      \n      <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n         <span ng-bind=\"postSavingMessage\"></span>\n      </div>\n      \n      <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n         <span ng-bind=\"errorMessage\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
 $templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
-},{}]},{},[111]);
+},{}]},{},[116]);

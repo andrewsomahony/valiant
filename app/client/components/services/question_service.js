@@ -12,30 +12,50 @@ registerService('factory', name, [require('services/http_service'),
                                   require('services/promise'),
                                   require('services/progress'),
                                   require('services/media_service'),
+                                  require('services/question_preview_picture_service'),
 function(HttpService, ParallelPromise, SerialPromise, Promise, Progress,
-MediaService) {
+MediaService, QuestionPreviewPictureService) {
    function QuestionService() {
       
    }
    
    QuestionService.ask = function(questionModel) {
-      var pictureUploadFnArray = utils.map(questionModel.pictures, function(pictureModel) {
-         return function(forNotify) {
-            pictureModel.upload_progress = Progress(50, 100);
-            return MediaService.uploadMedia('question_picture', pictureModel, forNotify);
-         }
-      });
-      
-      var videoUploadFnArray = utils.map(questionModel.videos, function(videoModel) {
-         return function(forNotify) {
-            return MediaService.uploadMedia('question_video', videoModel, forNotify);
-         }
-      });
-      
-      var mediaUploadFnArray = utils.merge(pictureUploadFnArray, videoUploadFnArray);
-      
       var serialPromiseFnArray = [
          function(existingData, index, forNotify) {
+            return Promise(function(resolve, reject, notify) {
+               if (false === forNotify) {
+                  QuestionPreviewPictureService.getQuestionPreviewPicture(questionModel)
+                  .then(function(picture) {
+                     questionModel.preview_pictures[0] = picture;
+                     resolve();
+                  })
+                  .catch(function(error) {
+                     reject(error);
+                  })
+               }
+            });
+         },
+         function(existingData, index, forNotify) {
+            var pictureUploadFnArray = utils.map(questionModel.pictures, function(pictureModel) {
+               return function(forNotify) {
+                  return MediaService.uploadMedia('question_picture', pictureModel, forNotify);
+               }
+            });
+      
+            var videoUploadFnArray = utils.map(questionModel.videos, function(videoModel) {
+               return function(forNotify) {
+                  return MediaService.uploadMedia('question_video', videoModel, forNotify);
+               }
+            });
+
+            var previewPictureUploadFnArray = utils.map(questionModel.preview_pictures, function(previewPictureModel) {
+               return function(forNotify) {
+                  return MediaService.uploadMedia('question_preview', previewPictureModel, forNotify);
+               }
+            });
+      
+            var mediaUploadFnArray = utils.merge(pictureUploadFnArray, videoUploadFnArray, previewPictureUploadFnArray);
+
             if (true === forNotify) {
                return ParallelPromise.getProgressSum(mediaUploadFnArray);   
             } else {
@@ -59,6 +79,8 @@ MediaService) {
          SerialPromise.withNotify(serialPromiseFnArray, null, ['question'], true)
          .then(function(question) {
             resolve(question);
+         }, null, function(progress) {
+            notify(progress);
          })
          .catch(function(error) {
             reject(error);

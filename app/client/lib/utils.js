@@ -251,12 +251,12 @@
 
       merge: function(array) {
          for (var i = 1; i < arguments.length; i++) {
-            var newArray = arguments[i]
+            var newArray = arguments[i];
 
-            array = array.concat(newArray)
+            array = array.concat(newArray);
          }
 
-         return array
+         return array;
       },
 
       extend: function(isDeep, array) {

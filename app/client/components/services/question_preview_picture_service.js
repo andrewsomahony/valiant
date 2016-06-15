@@ -10,9 +10,12 @@ registerService('factory', name, [require('services/canvas_service'),
                                   require('services/picture_service'),
                                   require('services/random_number_service'),
                                   require('models/file'),
+                                  require('models/picture'),
                                   require('services/question_type_service'),
+                                  require('services/promise'),
+                                  require('services/serial_promise'),
 function(CanvasService, PictureService, RandomNumberService, FileModel,
-QuestionTypeService) {
+PictureModel, QuestionTypeService, Promise, SerialPromise) {
    function QuestionPreviewPictureService() {
 
    }
@@ -27,8 +30,8 @@ QuestionTypeService) {
    var pictureWidth = 320;
    var pictureHeight = 200;
 
-   var youtubeLogoWidth = 80;
-   var youtubeLogoHeight = 80;
+   var youtubeLogoWidth = 50;
+   var youtubeLogoHeight = 50;
    
    QuestionPreviewPictureService.getQuestionPreviewPicture = function(question) {
       return Promise(function(resolve, reject, notify) {
@@ -51,12 +54,13 @@ QuestionTypeService) {
 
          var hasYoutubeVideo = question.youtube_video.hasMedia();
 
-         var videoModel = validVideos ? 
+         var videoModel = validVideos.length ? 
             validVideos[RandomNumberService.randomNumber(0, validVideos.length - 1)]
             : null;
 
-         var pictureModel = validPictures ?
-            validPictures[RandomNumberService.randomNumber(0, validPictures.length - 1)];
+         var pictureModel = validPictures.length ?
+            validPictures[RandomNumberService.randomNumber(0, validPictures.length - 1)]
+            : null;
          
          var youtubeModel = hasYoutubeVideo ? question.youtube_video : null;
 
@@ -106,7 +110,12 @@ QuestionTypeService) {
                backgroundPictureRect[3] = canvasModel.height;
             } else {
                backgroundColor = "white";
-               backgroundAlpha = 0.5;
+
+               if (foregroundPicture || youtubeModel) {
+                  backgroundAlpha = 0.5;
+               } else {
+                  backgroundAlpha = 1;
+               }
 
                backgroundPictureRect[0] = 0;
                backgroundPictureRect[1] = 0;
@@ -133,38 +142,84 @@ QuestionTypeService) {
          }
 
          CanvasService.fillCanvas(canvasModel, backgroundColor);
+         
+         var serialFnArray = [
+             function() {
+                return Promise(function(resolve, reject, notify) {
+                   if (backgroundPicture) {
+                      CanvasService.setCanvasAlpha(canvasModel, backgroundAlpha);
+                      CanvasService.drawPictureToCanvas(canvasModel,
+                         backgroundPicture, backgroundPictureRect[0],
+                         backgroundPictureRect[1], backgroundPictureRect[2],
+                         backgroundPictureRect[3])
+                      .then(function() {
+                         resolve();
+                      })
+                      .catch(function(error) {
+                         reject(error);
+                      });
+                   } else {
+                      resolve();
+                   }
+                });
+             },
+             function() {
+                return Promise(function(resolve, reject, notify) {
+                   if (foregroundPicture) {
+                      CanvasService.setCanvasAlpha(canvasModel, 1);
+                      CanvasService.drawPictureToCanvas(canvasModel,
+                         foregroundPicture, 
+                         foregroundPictureRect[0], foregroundPictureRect[1],
+                         foregroundPictureRect[2], foregroundPictureRect[3])
+                      .then(function() {
+                         resolve();
+                      })
+                      .catch(function(error) {
+                         reject(error);
+                      });
+                   } else {
+                      resolve();
+                   }
+                });
+             },
+             function() {
+                return Promise(function(resolve, reject, notify) {
+                   if (youtubeModel) {
+                      // Draw the youtube logo in the bottom
+                      // right corner.
+                     
+                      var youtubePicture = new PictureModel({
+                         url: "/images/youtube_logo.png"
+                      });
 
-         CanvasService.setCanvasAlpha(canvasModel, backgroundAlpha);
+                      CanvasService.setCanvasAlpha(canvasModel, 1);
+                      CanvasService.drawPictureToCanvas(canvasModel, youtubePicture,
+                         canvasModel.width - youtubeLogoWidth,
+                         canvasModel.height - youtubeLogoHeight,
+                         youtubeLogoWidth, youtubeLogoHeight)
+                      .then(function() {
+                         resolve();
+                      })
+                      .catch(function(error) {
+                         reject(error);
+                      });
+                   } else {
+                      resolve();
+                   }  
+                });              
+             }
+         ];
 
-         if (backgroundPicture) {
-            CanvasService.drawPictureToCanvas(canvasModel,
-               backgroundPicture, backgroundPictureRect[0],
-               backgroundPictureRect[1], backgroundPictureRect[2],
-               backgroundPictureRect[3]);
-         }
-
-         CanvasService.setCanvasAlpha(canvasModel, 1);
-
-         if (foregroundPicture) {
-            CanvasService.drawPictureToCanvas(canvasModel,
-              foregroundPicture, 
-              foregroundPictureRect[0], foregroundPictureRect[1],
-              foregroundPictureRect[2], foregroundPictureRect[3]);
-         }
-
-         if (youtubeModel) {
-            // Draw the youtube logo in the bottom
-            // right corner.
-            
-            var youtubePicture = new PictureModel({
-               url: "/images/youtube_logo.png"
-            });
-
-            CanvasService.drawPictureToCanvas(canvasModel, youtubePicture,
-               canvasModel.width - youtubeLogoWidth,
-               canvasModel.height - youtubeLogoHeight,
-               youtubeLogoWidth, youtubeLogoHeight);
-         }   
+         SerialPromise(serialFnArray)
+         .then(function() {
+            PictureService.getPictureFromFileModel(FileModel.fromDataUrl(canvasModel.getDataUrl()))
+            .then(function(picture) {
+                resolve(picture);
+            })   
+            .catch(function(error) {
+                reject(error);
+            })
+         })
       });
    }
 

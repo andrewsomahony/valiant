@@ -46,6 +46,10 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
       
       allocatePictures: function(numberOfPictures) {
          this.pictures = this.$ownClass.allocateChildArrayOfClasses('pictures', numberOfPictures, false);
+      },
+
+      allocatePreviewPictures: function(numberOfPictures) {
+         this.preview_pictures = this.$ownClass.allocateChildArrayOfClasses('preview_pictures', numberOfPictures, false);
       }
    })
 }

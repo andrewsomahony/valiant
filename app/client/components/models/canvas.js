@@ -2,6 +2,8 @@
 
 var registerModel = require('models/register');
 
+var classy = require('classy');
+
 var name = 'models.canvas';
 
 registerModel(name, [require('models/base'),
@@ -14,6 +16,7 @@ function(BaseModel) {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
                canvas_object: null,
+               canvas_context: null,
                width: 0,
                height: 0
             })
@@ -30,6 +33,7 @@ function(BaseModel) {
          this.callSuper();
 
          this.canvas_object = document.createElement("canvas");
+         this.canvas_context = this.canvas_object.getContext('2d');
          this.canvas_object.width = this.width;
          this.canvas_object.height = this.height;
       },
