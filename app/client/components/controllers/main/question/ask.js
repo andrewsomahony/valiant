@@ -15,10 +15,13 @@ registerController(name, ['$scope',
                           require('services/parallel_promise'),
                           require('services/ffmpeg_service'),
                           require('services/error_modal'),
+                          require('services/question_type_service'),
 function($scope, QuestionService, QuestionModel,
 DeviceService, S3UploaderService, Promise, ParallelPromise,
-FFMpegService, ErrorModal) {
-   $scope.questionTopicOptions = QuestionService.getSelectableQuestionTypes();
+FFMpegService, ErrorModal, QuestionTypeService) {
+   $scope.questionTopicOptions = utils.map(QuestionTypeService.getQuestionTypes(), function(type) {
+      return type.name;
+   });
    $scope.isAskingQuestion = false;
 
    $scope.allocateNewQuestion = function() {

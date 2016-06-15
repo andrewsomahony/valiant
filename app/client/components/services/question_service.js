@@ -18,12 +18,6 @@ MediaService) {
       
    }
    
-   QuestionService.getSelectableQuestionTypes = function() {
-      return [
-         "Swimming"
-      ];
-   }
-   
    QuestionService.ask = function(questionModel) {
       var pictureUploadFnArray = utils.map(questionModel.pictures, function(pictureModel) {
          return function(forNotify) {
