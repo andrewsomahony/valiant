@@ -109,13 +109,11 @@
       findInArray: function(array, sentinelFn) {
          var returnValue;
          array.every(function(element) {
-            if (true === sentinelFn(element))
-            {
+            if (true === sentinelFn(element)) {
                returnValue = element;
                return false;
             }
-            else
-            {
+            else {
                return true;
             }
          })
@@ -126,8 +124,7 @@
          var returnValue = []
 
          array.forEach(function(element) {
-            if (true === sentinelFn(element))
-            {
+            if (true === sentinelFn(element)) {
                returnValue.push(element)
             }
          });
@@ -139,13 +136,10 @@
          var returnValue = null;
 
          array.every(function(element, index) {
-            if (true === sentinelFn(element))
-            {
+            if (true === sentinelFn(element)) {
                returnValue = index;
                return false;
-            }
-            else
-            {
+            } else {
                return true;
             }
          })
@@ -156,16 +150,13 @@
       inlineDeleteFromArray: function(array, sentinelFn) {
          var index = this.indexOf(array, sentinelFn)
 
-         if (false === this.isUndefinedOrNull(index)) 
-         {
+         if (false === this.isUndefinedOrNull(index)) {
             array.splice(index, 1)
          }
       },
 
       objectToArray: function(obj) {
-
-         if (false === this.isPlainObject(obj))
-         {
+         if (false === this.isPlainObject(obj)) {
             throw new Error("utils.objectToArray: Obj is not a plain object!")
          }
 
@@ -177,8 +168,7 @@
       runInArray: function(array, sentinelFn, fn) {
          sentinelFn = sentinelFn || function(e) {return true;}
          array.forEach(function(element) {
-            if (true === sentinelFn(element))
-            {
+            if (true === sentinelFn(element)) {
                fn.call(element)
             }
          })

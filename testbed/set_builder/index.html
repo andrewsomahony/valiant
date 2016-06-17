@@ -4,6 +4,7 @@
 <head>
    <title>Swim Set Builder</title>
 
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js" type="text/javascript"></script>
    <script src="./utils.js" type="text/javascript"></script>
    <script src="./ready.js" type="text/javascript"></script>
    <script src="./uuid.js" type="text/javascript"></script>
@@ -22,11 +23,6 @@
          margin: 0;
       }
 
-      div.menu {
-         border-bottom: 1px solid black;
-         height: 50px;
-      }
-
       input {
          font-size: 14px;
          font-weight: normal;
@@ -38,49 +34,143 @@
          cursor: pointer;
       }
 
-      div.set-display, div.set-gauge {
+      div.workout {
          padding-left: 64px;
          padding-top: 64px;
+      }
+
+      div.workout div.list div.options span.quantity {
+         font-size: 18px;
+      }
+
+      div.workout div.list div.options span.notes {
+         font-size: 18px;
+      }
+
+      div.workout div.list div.set {
+         margin-left: 16px;
+      }
+
+      div.new-set {
+         padding-left: 64px;
+         padding-top: 64px;
+      }
+
+      div.title {
+         font-size: 20px;
+         margin-bottom: 8px;
+      }
+
+      div.new-set > div.options {
+         margin-top: 16px;
+         margin-bottom: 16px;
+         padding-bottom: 8px;
+
+         border-bottom: 1px solid black;
+      }
+
+      div.new-set div.options input {
+         margin-top: 2px;
+         margin-bottom: 2px;
+         width: 50%;
+      }
+
+      div.new-set div.rounds input {
+         width: 25%;
+      }
+
+      a.left {
+         margin-right: 4px;
+      }
+
+      a.right {
+         margin-left: 4px;
       }
 
       div.set-display-text {
          margin-bottom: 30px;
       }
 
-      div.set-element {
-         font-size: 20px;
+      div.element {
          color: black;
          margin-bottom: 4px;
       }
-
-      div.set-element span {
+      
+      div.element span {
          margin-right: 6px;
       }
 
-      div.set-element span.notes {
+      div.element span.menu {
+         margin-left: 8px;
+      }
+
+      div.workout div.list div.set div.element span {
+         font-size: 18px;
+      }
+
+      div.new-set div.list div.element span {
+         font-size: 18px;
+      }
+
+      div.element span.notes {
          font-size: 16px;
       }
 
-      div.set-element a {
+      div.element a {
          font-size: 16px;
+      }
+
+      div.element a.inline {
          margin-left: 12px;
       }
-      
-      div.set-element.edit {
 
+      div.workout div.list div.running-total {
+         font-size: 18px;
+         font-weight: bold;
       }
 
-      div.set-total-distance {
-         font-size: 22px;
+      div.workout div.list div.running-total span.distance {
+         margin-right: 8px;
+      }
+
+      div.workout div.list div.running-total a {
+         font-size: 16px;
+         font-weight: normal;
+         margin-right: 8px;
+      }
+
+      div.total {
+         font-size: 21px;
+
          margin-top: 16px;
+         margin-bottom: 16px;
+
+         padding-top: 4px;
+
          border-top: 1px solid black;
       }
 
-      div.set-element.edit input {
+      div.total div.menu {
+         font-size: 16px;
+      }
+
+      div.total div.menu a {
+         margin-right: 12px;
+      }
+
+      div.element-edit div.edit {
+         margin-bottom: 10px;
+      }
+
+      div.element-edit div.edit input {
          width: 25%;
       }
 
-      div.set-element.edit input.set-element-input-notes {
+      div.element-edit div.edit select {
+         width: 50%;
+      }
+
+      div.element-edit div.edit input.notes {
          width: 50%;
       }
 
@@ -89,33 +179,35 @@
             width: 100%;
          }
 
-         div.set-gauge {
+         div.title {
             display: none;
          }
-         div.set-display-add {
-            display: none;
-         }
+
          div.menu {
             display: none;
          }
-         div.set-display-text {
+         div.new-set {
+            display: none;
+         }
+
+         div.workout {
             width: 100%;
             display: block;
          }
 
-         div.set-element {
-            font-size: 30px;
-         }
-
-         div.set-element span.notes {
+         div.workout div.element {
             font-size: 25px;
          }
 
-         div.set-total-distance {
-            font-size: 32px;
+         div.workout div.element span.notes {
+            font-size: 23px;
          }
 
-         div.set-element a {
+         div.workout div.total {
+            font-size: 28px;
+         }
+
+         a {
             display: none;
          }
       }
@@ -124,299 +216,332 @@
    <script type="text/javascript">
       'use strict';
 
-      var setModel = {
-         elements: [],
-         speedGauges: []
-      };
-
-      var speedGaugeModel = {
-         type: "",
-         distance: 0,
-         time: 0
-      };
-
-      var setElementModel = {
-         id: "",
-         distance: 0,
-         type: "",
-         quantity: 1,
-         interval: "",
-         stroke: "",
-         stroke_modification: "",
-         notes: ""
-      };
-
-      var setElementTypes = ["Swim", "Kick"];
-
-      var setElementStrokeModifications = ["Scull", "Fists", "Drill"];
-
-      var setElementStrokes = ["Butterfly",
-                               "Backstroke", 
-                               "Breaststroke", 
-                               "Freestyle",
-                               "IM",
-                               "Choice"];
-
-      var currentSet = null;
-
-      var setElementDisplaySelector = ".set-display-text";
-      var setTotalDistanceSelector = ".set-total-distance";
-
-      function newSet() {
-         return utils.clone(setModel);
+      function id() {
+         return uuid.v1();
       }
 
-      function newSpeedGauge() {
-         return utils.clone(speedGauge);
-      }
-
-      function newSetElement() {
-         return utils.clone(setElementModel);
-      }
-
-      function calculateSetTotalDistance(set) {
-         var totalDistance = 0;
-         set.elements.forEach(function(setElement) {
-            totalDistance += setElement.distance * setElement.quantity;
-         });
-
-         return totalDistance;
-      }
-
-      function makeSetTotalDistanceDOM(set) {
-         var div = document.createElement("div");
-         div.className += " " + setTotalDistanceSelector.slice(1);
-
-         var span = document.createElement("span");
-
-         span.innerHTML = "Total: " + calculateSetTotalDistance(set);
-
-         div.appendChild(span);
-
-         return div;
-      }
-
-      function addSetElementToSet(set, setElement) {
-         set.elements.push(setElement);
-
-         var setElementList = document.querySelectorAll(setElementDisplaySelector)[0];
-
-         setElementList.appendChild(makeSetElementDOM(setElement));
-
-         var totalDistanceElement = document.querySelectorAll(setTotalDistanceSelector);
-
-         if (totalDistanceElement.length) {
-            setElementList.removeChild(totalDistanceElement[0]);
-         }
-         setElementList.appendChild(makeSetTotalDistanceDOM(set));
-      }
-
-      function removeSetElementFromSet(set, id) {
-         var index = null;
-
-         set.elements.forEach(function(setElement, i) {
-            if (id === setElement.id) {
-               index = i;
-            }
-         });
-
-         if (null !== index) {
-            set.elements.splice(index, 1);
-         }
-
-         var setElementList = document.querySelectorAll(setElementDisplaySelector)[0];
-
-         setElementList.removeChild(document.getElementById(id));
-
-         var totalDistanceElement = document.querySelectorAll(setTotalDistanceSelector);
-
-         if (totalDistanceElement.length) {
-            setElementList.removeChild(totalDistanceElement[0]);
-         }
-         setElementList.appendChild(makeSetTotalDistanceDOM(set));
-      }
-
-      function makeSetElementDOM(setElement) {
-         var parentDiv = document.createElement("div");
-         parentDiv.setAttribute("id", setElement.id);
-         parentDiv.className += " set-element";
-
-         function makeSetElementSpan(value) {
-            var setElementSpan = document.createElement("span");
-
-            setElementSpan.innerHTML = value;
-
-            return setElementSpan;
-         }
-
-         parentDiv.appendChild(makeSetElementSpan("" + setElement.quantity + "x" + setElement.distance));
-         parentDiv.appendChild(
-            makeSetElementSpan("" + setElement.stroke + (setElement.stroke_modification ? " (" + setElement.stroke_modification + ")" : "")));
-         parentDiv.appendChild(makeSetElementSpan("" + setElement.type));
-
-         if (setElement.interval) {
-            parentDiv.appendChild(makeSetElementSpan("@" + setElement.interval));
-         }
-
-         if (setElement.notes) {
-            var notesSpan = makeSetElementSpan("(" + setElement.notes + ")");
-            notesSpan.className += " notes";
-
-            parentDiv.appendChild(notesSpan);
-         }
-
-         var deleteButton = document.createElement("a");
-         deleteButton.innerHTML = "Delete";
-         deleteButton.onclick = function() {
-            removeSetElementFromSet(currentSet, setElement.id);
-         }
-         parentDiv.appendChild(deleteButton);
-
-         return parentDiv;
-      }
-
-      function makeSetElementEditDOM() {
-         function createEditDiv(childElement) {
-            var div = document.createElement("div");
-            div.className += " set-element edit";
-
-            if (childElement) {
-               div.appendChild(childElement);
-            }
-
-            return div;
-         }
-
-         function createEditSelect(options, defaultChoice) {
-            var select = document.createElement("select");
-
-            var defaultOption = document.createElement("option");
-            defaultOption.setAttribute("value", "");
-            defaultOption.innerHTML = defaultChoice;
-
-            select.appendChild(defaultOption);
-
-            options.forEach(function(option) {
-               var optionElement = document.createElement("option");
-               optionElement.setAttribute("value", option);
-               optionElement.innerHTML = option;
-
-               select.appendChild(optionElement);
-            });
-
-            return select;
-         }
-
-         var parentDiv = document.createElement("div");
-         parentDiv.setAttribute('id', uuid.v1());
-
-         var distanceInput = document.createElement("input");
-         distanceInput.setAttribute('type', 'text');
-         distanceInput.setAttribute('placeholder', 'Distance');
-         distanceInput.className += " form-control set-element-input-distance";
-
-         parentDiv.appendChild(createEditDiv(distanceInput));
-
-         var quantityInput = document.createElement("input");
-         quantityInput.setAttribute('type', 'text');
-         quantityInput.setAttribute('placeholder', 'Quantity');
-         quantityInput.className += " form-control set-element-input-quantity";
-
-         parentDiv.appendChild(createEditDiv(quantityInput));
-
-         var strokeInput = createEditSelect(setElementStrokes, "--Select Stroke---");
-
-         parentDiv.appendChild(createEditDiv(strokeInput));
-
-         var strokeModificationInput = createEditSelect(setElementStrokeModifications, "--Select Stroke Modification--");
-
-         parentDiv.appendChild(createEditDiv(strokeModificationInput));
-
-         var typeInput = createEditSelect(setElementTypes, "--Select Type--");
-
-         parentDiv.appendChild(createEditDiv(typeInput));
-
-         var intervalInput = document.createElement("input");
-         intervalInput.setAttribute('type', 'text');
-         intervalInput.setAttribute('placeholder', 'Interval');
-         intervalInput.className += " form-control set-element-input-interval";
-
-         parentDiv.appendChild(createEditDiv(intervalInput));
-
-         var notesInput = document.createElement("input");
-         notesInput.setAttribute('type', 'text');
-         notesInput.setAttribute('placeholder', 'Notes');
-         notesInput.className += " form-control set-element-input-notes";
-
-         parentDiv.appendChild(createEditDiv(notesInput));
-
-         var buttonsDiv = createEditDiv();
-
-         var saveButton = document.createElement("a");
-         saveButton.innerHTML = "Save";
-
-         saveButton.onclick = function() {
-            var setElement = newSetElement();
-
-            setElement.id = parentDiv.getAttribute("id");
-            setElement.distance = parseInt(distanceInput.value);
-            setElement.stroke = strokeInput.value;
-            setElement.stroke_modification = strokeModificationInput.value;
-            setElement.quantity = parseInt(quantityInput.value || 1);
-            setElement.interval = intervalInput.value;
-            setElement.type = typeInput.value;
-            setElement.notes = notesInput.value;
-
-            addSetElementToSet(currentSet, setElement);
-            document.querySelectorAll(".add-set-element-button")[0].style.display = "inline";
-
-            parentDiv.parentNode.removeChild(parentDiv);
-         }
-
-         var cancelButton = document.createElement("a");
-         cancelButton.innerHTML = "Cancel";
-
-         cancelButton.onclick = function() {
-            document.querySelectorAll(".add-set-element-button")[0].style.display = "inline";
-            parentDiv.parentNode.removeChild(parentDiv);
-         }
-
-         buttonsDiv.appendChild(saveButton);
-         buttonsDiv.appendChild(cancelButton);
-
-         parentDiv.appendChild(buttonsDiv);
-
-         return parentDiv;
-      }
-
-      function showNewSetElement() {
-         document.querySelectorAll(".add-set-element-button")[0].style.display = "none";
-         document.querySelectorAll(".set-display-edit")[0].appendChild(makeSetElementEditDOM());
-      }
-
-      domready(function() {
-         currentSet = newSet();
-      });
+      //domready(function() {
+         (function(angular) {
+            'use strict';
+            angular.module('setBuilder', [])
+            .controller('SetBuilder', ['$scope',
+            function($scope) {
+               var workoutModel = {
+                  sets: [],
+                  speed_gauges: []
+               };
+
+               var setModel = {
+                  id: "",
+                  elements: [],
+                  quantity: "",
+                  notes: ""
+               };
+
+               var speedGaugeModel = {
+                  type: "",
+                  distance: "",
+                  time: ""
+               };
+
+               var setElementModel = {
+                  id: "",
+                  distance: "",
+                  type: "",
+                  quantity: "",
+                  interval: "",
+                  stroke: "",
+                  stroke_modification: "",
+                  notes: ""
+               };
+
+               $scope.types = ["Swim", "Kick"];
+
+               $scope.strokeModifications = ["Scull", "Fists", "Drill", "Pull"];
+
+               $scope.strokes = ["Butterfly",
+                                       "Backstroke", 
+                                       "Breaststroke", 
+                                       "Freestyle",
+                                       "IM",
+                                       "Choice"];
+ 
+               $scope.currentWorkout = utils.clone(workoutModel);
+               $scope.currentEditingSet = null;
+               $scope.currentEditingSetElement = null;
+
+               $scope.newSet = function() {
+                  $scope.editSet(setModel);
+               }
+
+               $scope.editSet = function(set) {
+                  $scope.currentEditingSet = utils.clone(set);
+               }
+
+               $scope.deleteSet = function(set) {
+                  utils.inlineDeleteFromArray($scope.currentWorkout.sets, function(s) {
+                     return s.id === set.id;
+                  });
+               }
+
+               $scope.cancelSet = function() {
+                  $scope.currentEditingSet = null;
+               }
+
+               $scope.addSetElementToSet = function() {
+                  if (!$scope.currentEditingSetElement.id) {
+                     $scope.currentEditingSetElement.id = id();
+                     $scope.currentEditingSet.elements.push($scope.currentEditingSetElement);
+                  } else {
+                     $scope.currentEditingSet.elements.every(function(element) {
+                        if (element.id === $scope.currentEditingSetElement.id) {
+                           utils.extend(true, element, $scope.currentEditingSetElement);
+                           return false;
+                        } else {
+                           return true;
+                        }
+                     })
+                  }
+                  $scope.currentEditingSetElement = null;
+               }
+
+               $scope.deleteSetElement = function(element) {
+                  utils.inlineDeleteFromArray($scope.currentEditingSet.elements, function(e) {
+                     return e.id === element.id;
+                  });
+               }
+
+               $scope.editSetElement = function(element) {
+                  $scope.currentEditingSetElement = utils.clone(element);
+               }
+
+               $scope.cancelSetElement = function() {
+                  $scope.currentEditingSetElement = null;
+               }
+
+               $scope.addSetElement = function() {
+                  $scope.editSetElement(setElementModel);
+               }
+
+               $scope.addSetToWorkout = function() {
+                  if (!$scope.currentEditingSet.id) {
+                     $scope.currentEditingSet.id = id();
+                     $scope.currentWorkout.sets.push($scope.currentEditingSet);
+                  } else {
+                     $scope.currentWorkout.sets.every(function(set) {
+                        if ($scope.currentEditingSet.id === set.id) {
+                           utils.extend(true, set, $scope.currentEditingSet);
+                           return false;
+                        } else {
+                           return true;
+                        }
+                     })
+                  }
+                  $scope.currentEditingSet = null;
+               }
+
+               $scope.getElementQuantityAndDistance = function(element) {
+                  return "" + element.quantity + "x" + element.distance;
+               }
+
+               $scope.getElementStroke = function(element) {
+                  var string = "" + element.stroke;
+
+                  if (element.stroke_modification) {
+                     string += " (" + element.stroke_modification + ")";
+                  }
+                  return string;
+               }
+
+               $scope.getElementInterval = function(element) {
+                  return "@" + element.interval;
+               }
+
+               $scope.getElementNotes = function(element) {
+                  return "[" + element.notes + "]";
+               }
+
+               $scope.getSetNotes = function(set) {
+                  return "[" + set.notes + "]";
+               }
+
+               $scope.getSetQuantity = function(set) {
+                  return "" + set.quantity + "x";
+               }
+
+               $scope.getSetTotalClass = function(set) {
+                  var classes = ["total"];
+
+                  if (!set.elements.length) {
+                     classes.push("empty");
+                  }
+                  return classes;
+               }
+
+               function calculateSetTotal(set) {
+                  var totalDistance = 0;
+                  set.elements.forEach(function(setElement) {
+                     totalDistance += parseInt(setElement.distance) * parseInt(setElement.quantity);
+                  });
+
+                  totalDistance *= set.quantity;  
+
+                  return totalDistance;                
+               }
+
+               function calculateWorkoutTotal(workout) {
+                  var totalDistance = 0;
+                  workout.sets.forEach(function(set) {
+                     totalDistance += calculateSetTotal(set);
+                  });
+
+                  return totalDistance;
+               }
+
+               $scope.getSetTotal = function(set) {
+                  return "Total: " + calculateSetTotal(set);                  
+               }
+
+               $scope.getWorkoutSetTotal = function(set) {
+                  return "Running total: " + calculateSetTotal(set);
+               }
+
+               $scope.getWorkoutTotal = function(workout) {
+                  return "Total: " + calculateWorkoutTotal(workout);
+               }
+            }]);
+         })(window.angular);
+      //});
    </script>
    
 </head>
 
-<body>
-   <div class="container">
-      <div class="row">
-         <div class="menu col-xs-12 col-sm-12 col-md-12 col-lg-12">
-         </div>
-         <div class="set-display col-xs-8 col-sm-8 col-md-8 col-lg-8 col-print-12">
-            <div class="set-display-text">
+<body ng-app="setBuilder">
+   <div ng-controller="SetBuilder">
+      <div class="container">
+         <div class="row">
+            <div class="header col-xs-12 col-sm-12 col-md-12 col-lg-12">
             </div>
-            <div class="set-display-add">
-               <a onclick="showNewSetElement()" class="add-set-element-button" >Add Set Element</a>
-               <div class="set-display-edit">
+         </div>
+         <div class="row">
+            <div class="workout col-xs-6 col-sm-6 col-md-6 col-lg-6 col-print-12">
+               <div class="title">
+                  Workout
+               </div>
+
+               <div class="list">
+                  <div ng-repeat="set in currentWorkout.sets">
+                     <div class="options">
+                        <span class="notes" ng-if="set.notes" ng-bind="getSetNotes(set)"></span>
+                        <span class="quantity" ng-bind="getSetQuantity(set)"></span>
+                     </div>
+                     <div class="set">
+                        <div class="element" ng-repeat="element in set.elements">
+                           <span ng-bind="getElementQuantityAndDistance(element)"></span>
+                           <span ng-bind="getElementStroke(element)"></span>
+                           <span ng-bind="element.type"></span>
+                           <span ng-bind="getElementInterval(element)" ng-if="element.interval"></span>
+                           <span class="notes" ng-bind="getElementNotes(element)" ng-if="element.notes"></span>
+                        </div>  
+                     </div>   
+                     <div class="running-total">
+                        <span class="distance" ng-bind="getWorkoutSetTotal(set)"></span>
+                        <a ng-click="editSet(set)">Edit</a>
+                        <a ng-click="deleteSet(set)">Delete</a>                        
+                     </div>                
+                  </div>
+               </div>
+               <div class="total" ng-if="currentWorkout.sets.length > 0">
+                  <span ng-bind="getWorkoutTotal(currentWorkout)"></span>                  
+               </div>
+               <div class="add-set">
+                  <a ng-click="newSet()">Add Set</a>
+               </div>
+            </div>         
+            <div class="new-set col-xs-6 col-sm-6 col-md-6 col-lg-6" ng-if="currentEditingSet">
+               <div class="title">
+                  Add Set
+               </div>
+
+               <div class="options">
+                  <div>
+                     <input type="text" class="form-control" placeholder="Number of Rounds" ng-model="currentEditingSet.quantity" />
+                  </div>
+                  <div>
+                     <input type="text" class="form-control notes" placeholder="Notes" ng-model="currentEditingSet.notes" />
+                  </div>
+               </div>
+
+               <div class="list">
+                  <div class="element" ng-repeat="element in currentEditingSet.elements">
+                     <span ng-bind="getElementQuantityAndDistance(element)"></span>
+                     <span ng-bind="getElementStroke(element)"></span>
+                     <span ng-bind="element.type"></span>
+                     <span ng-bind="getElementInterval(element)" ng-if="element.interval"></span>
+                     <span class="notes" ng-bind="getElementNotes(element)" ng-if="element.notes"></span>
+                     <span class="menu">
+                        <a class="left" ng-click="editSetElement(element)">Edit</a>
+                        <a class="right" ng-click="deleteSetElement(element)">Delete</a>
+                     </span>
+                  </div>
+               </div>
+
+               <div class="element-edit" ng-if="currentEditingSetElement">
+                  <div class="edit">
+                     <input class="distance form-control" type="text" placeholder="Distance" ng-model="currentEditingSetElement.distance" />
+                  </div>
+
+                  <div class="edit">
+                     <input class="quantity form-control" type="text" placeholder="Quantity" ng-model="currentEditingSetElement.quantity" />
+                  </div>
+
+                  <div class="edit">
+                     <select class="form-control" ng-options="name for name in strokes" 
+                           ng-model="currentEditingSetElement.stroke">
+                        <option value="">---Select Stroke---</option>
+                     </select>
+                  </div>
+
+                  <div class="edit">
+                     <select class="form-control" ng-options="name for name in strokeModifications" 
+                           ng-model="currentEditingSetElement.stroke_modification">
+                        <option value="">---Select Stroke Modification---</option>
+                     </select>
+                  </div>
+
+                  <div class="edit">
+                     <select class="form-control" ng-options="name for name in types" 
+                           ng-model="currentEditingSetElement.type">
+                        <option value="">---Select Type---</option>
+                     </select>
+                  </div>
+
+                  <div class="edit">
+                     <input class="interval form-control" type="text" placeholder="Interval" ng-model="currentEditingSetElement.interval" />
+                  </div>
+
+                  <div class="edit">
+                     <input class="notes form-control" type="text" placeholder="Notes" ng-model="currentEditingSetElement.notes" />
+                  </div>
+
+                  <div class="edit">
+                     <a ng-click="addSetElementToSet()" class="left">Add To Set</a>
+                     <a ng-click="cancelSetElement()" class="right">Cancel</a>
+                  </div>
+               </div>
+
+               <div class="menu" ng-if="!currentEditingSetElement">
+                  <a ng-click="addSetElement()">New Swim</a>
+               </div>
+
+               <div ng-class="getSetTotalClass(currentEditingSet)">
+                  <span ng-bind="getSetTotal(currentEditingSet)" ng-if="currentEditingSet.elements.length > 0"></span>
+                  <div class="menu">
+                     <a class="left" ng-click="addSetToWorkout()" ng-if="currentEditingSet.elements.length > 0">Add to Workout</a>
+   	               <a class="right" ng-click="cancelSet()">Cancel</a>
+                  </div>
                </div>
             </div>
-         </div>
-         <div class="set-gauge col-xs-4 col-sm-4 col-md-4 col-lg-4">
-
          </div>
       </div>
    </div>
