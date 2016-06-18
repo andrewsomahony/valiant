@@ -344,7 +344,7 @@
       },
       
       parseTimeStringToSeconds: function(timeString) {
-         var timeMatch = timeString.match(/(\d{2,}):(\d{2}):(\d{2})(\.\d{2,})/);
+         var timeMatch = timeString.match(/(\d{1,}):(\d{1,2}):(\d{1,2})(\.(\d{1,}))?/);
          
          var time = 0;
          if (timeMatch) {

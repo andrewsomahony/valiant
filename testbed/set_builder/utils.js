@@ -304,6 +304,14 @@
          
          return +n.toFixed(places)
       },
+
+      padWithLeadingZeroes: function(number, numberOfLeadingZeroes) {
+         var returnString = '' + number;
+         while (returnString.length < length) {
+            returnString = '0' + returnString;
+         }
+         return returnString;
+      },
       
       stringToBoolean: function(string) {
          if (!string) {
@@ -334,14 +342,14 @@
       },
       
       parseTimeStringToSeconds: function(timeString) {
-         var timeMatch = timeString.match(/(\d{2,}):(\d{2}):(\d{2})(\.\d{2,})/);
+         var timeMatch = timeString.match(/(\d{1,}):(\d{1,2}):(\d{1,2})(\.(\d{1,}))?/);
          
          var time = 0;
          if (timeMatch) {
             time += parseInt(timeMatch[1]) * 3600;
             time += parseInt(timeMatch[2]) * 60;
             time += parseInt(timeMatch[3]);
-            time += parseFloat(timeMatch[4]);
+            time += parseFloat(timeMatch[5]);
          }
          
          return time;

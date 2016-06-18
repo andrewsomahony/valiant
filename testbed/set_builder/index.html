@@ -4,6 +4,11 @@
 <head>
    <title>Swim Set Builder</title>
 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js" type="text/javascript"></script>
    <script src="./utils.js" type="text/javascript"></script>
    <script src="./ready.js" type="text/javascript"></script>
@@ -100,7 +105,7 @@
          margin-right: 6px;
       }
 
-      div.element span.menu {
+      span.inline-menu {
          margin-left: 8px;
       }
 
@@ -122,6 +127,10 @@
 
       div.element a.inline {
          margin-left: 12px;
+      }
+
+      div.element div.interval {
+         margin-left: 16px;
       }
 
       div.workout div.list div.running-total {
@@ -158,21 +167,40 @@
          margin-right: 12px;
       }
 
-      div.element-edit div.edit {
+      div.element div.edit {
          margin-bottom: 10px;
       }
 
-      div.element-edit div.edit input {
+      div.element div.edit input {
          width: 25%;
       }
 
-      div.element-edit div.edit select {
+      div.element div.edit select {
          width: 50%;
       }
 
-      div.element-edit div.edit input.notes {
+      div.element div.edit input.notes {
          width: 50%;
       }
+
+      div.element div.edit div.interval {
+         font-size: 18px;
+      }
+
+      div.element div.edit div.interval a {
+         font-size: 14px;
+      }
+
+      div.element div.edit div.interval select,
+      div.element div.edit div.interval input {
+         display: inline-block;
+      }
+
+      div.element div.edit div.interval select,
+      div.element div.edit div.rest select {
+         width: 100px;
+      }
+      
 
       @media print {
          .col-print-12 {
@@ -220,62 +248,328 @@
          return uuid.v1();
       }
 
-      //domready(function() {
+      function newModel(model) {
+         var returnObject = utils.clone(model);
+         returnObject.local_id = id();
+
+         return returnObject;
+      }
+
+      var workoutModel = {
+         id: "",
+         local_id: "",
+         sets: [],
+         speed_gauges: []
+      };
+
+      var setModel = {
+         id: "",
+         local_id: "",
+         elements: [],
+         quantity: "",
+         notes: ""
+      };
+
+      var timeModel = {
+         hours: 0,
+         minutes: 0,
+         seconds: 0
+      }
+
+      function getTimeString(timeObject) {
+         var returnString = "";
+
+         if (timeObject.hours) {
+            returnString += "" + timeObject.hours;
+         }
+         if (timeObject.minutes) {
+            if (returnString) {
+               returnString += ":";
+            }
+            returnString += "" + timeObject.minutes;
+         }
+         returnString += ":" + (timeObject.seconds || "00");
+         return returnString;
+      }
+
+      var speedTimeModel = {
+         id: "",
+         local_id: "",
+         speed: "",
+         time: {
+
+         }
+      };
+
+      function newSpeedTimeModel(model) {
+         var returnValue = newModel(model || speedTimeModel);
+         if (!model || !model.timeModel) {
+            returnValue.time = newModel(timeModel);
+         }
+
+         return returnValue;
+      }
+
+      var setElementModel = {
+         id: "",
+         local_id: "",
+         distance: "",
+         type: "",
+         quantity: "",
+         interval: "",
+         intervals: [],
+         rests: [],
+         stroke: "",
+         stroke_modification: "",
+         notes: ""
+      };
+
+      function deleteFromModelArray(array, object, sentinelFn) {
+         if (!sentinelFn) {
+            sentinelFn = function(e) {
+               return e.id === object.id;
+            }
+         }
+
+         utils.inlineDeleteFromArray(array, 
+            sentinelFn);         
+      }
+
+      function returnLoopedIntegerArray(num) {
+         var returnValue = [];
+
+         for (var i = 0; i < num; i++) {
+            returnValue.push(i);
+         }
+         return returnValue;
+      }
+
+      function addObjectToArray(object, array) {
+         if (!object.id) {
+            object.id = id();
+            array.push(object);
+         } else {
+            array.every(function(existingObject) {
+               if (object.id === existingObject.id) {
+                  utils.extend(true, existingObject, object);
+                  return false;
+               } else {
+                  return true;
+               }
+            });
+         }
+      }
+
+      function parseScopeBoolean(bool, defaultValue) {
+         if (true === utils.isUndefinedOrNull(bool)) {
+            return defaultValue;
+         } else {
+            return utils.stringToBoolean(bool);
+         }
+      }
+
+      domready(function() {
          (function(angular) {
             'use strict';
-            angular.module('setBuilder', [])
-            .controller('SetBuilder', ['$scope',
+
+            var controllersModule = angular.module('setBuilder.controllers', []);
+            var directivesModule = angular.module('setBuilder.directives', []);
+
+            directivesModule.directive('speedTimeDisplay', ['$timeout',
+               function($timeout) {
+                  return {
+                     restrict: "E",
+                     scope: {
+                        model: "=",
+                        //isInterval: "@",
+                        //isEditable: "@",
+                        saveButtonText: "@",
+                        onSaveClicked: "&",
+                        onCancelClicked: "&",
+                        onDeleteClicked: "&"
+                     },
+                     templateUrl: "speed-time-display.html",
+                     link: function($scope, $element, $attributes) {
+                        $scope.isInterval = parseScopeBoolean($attributes.isInterval, false);
+                        $scope.isEditable = parseScopeBoolean($attributes.isEditable, false);
+
+                        $scope.isEditing = false;
+
+                        $scope.editingModel = null;
+
+                        $scope.hours = utils.map(returnLoopedIntegerArray(60), function(i) {
+                           if (i > 0) {
+                              return utils.padWithLeadingZeroes(i, 0);
+                           } else {
+                              return null;
+                           }
+                        });
+                        $scope.minutes = utils.map(returnLoopedIntegerArray(60), function(i) {
+                           if (i > 0) {
+                              return utils.padWithLeadingZeroes(i, 0);
+                           } else {
+                              return null;
+                           }
+                        });
+                        $scope.seconds = utils.map(returnLoopedIntegerArray(60), function(i) {
+                           if (i > 0) {
+                              return utils.padWithLeadingZeroes(i, 0);
+                           } else {
+                              return null;
+                           }
+                        });
+
+                        $scope.getModelSpeedTimeString = function() {
+                           return ($scope.isInterval ? "@" : "") + getTimeString($scope.model.time);
+                        }
+
+                        $scope.editClicked = function() {
+                           $scope.editingModel = utils.clone($scope.model);
+                           $scope.isEditing = true;
+                        }
+
+                        $scope.cancelClicked = function() {
+                           $scope.isEditing = false;
+                           $scope.onCancelClicked({speedTime: $scope.model});
+                        }
+
+                        $scope.saveClicked = function() {
+                           utils.extend(true, $scope.model, $scope.editingModel);
+                           $scope.isEditing = false;
+
+                           $scope.onSaveClicked({speedTime: $scope.model});
+                        }
+
+                        $timeout(function() {
+                           if (!$scope.model.id) {
+                              $scope.editClicked();
+                              console.log($scope.isEditing);
+                           }
+                        });
+                     }
+                  }
+               }
+            ]);
+
+            directivesModule.directive('setElementDisplay', ['$timeout',
+               function($timeout) {
+                  return {
+                     restrict: "E",
+                     scope: {
+                        model: "=",
+                        saveButtonText: "@",
+                        cancelButtonText: "@",
+
+                        onCancelClicked: "&",
+                        onSaveClicked: "&",
+                        onDeleteClicked: "&",
+                        //showIntervalsAndRests: "@"
+                        //isEditable: "@"
+                     },
+                     templateUrl: "set-element-display.html",
+                     link: function($scope, $element, $attributes) {
+                        $scope.types = ["Swim", "Kick"];
+
+                        $scope.strokeModifications = ["Scull", "Fists", "Drill", "Pull"];
+
+                        $scope.strokes = ["Butterfly",
+                                                "Backstroke", 
+                                                "Breaststroke", 
+                                                "Freestyle",
+                                                "IM",
+                                                "Choice"];
+
+                        $scope.editingElement = null;
+
+                        $scope.isEditable = parseScopeBoolean($attributes.isEditable, false);
+                        $scope.isEditing = false;
+                        $scope.showIntervalsAndRests = parseScopeBoolean($attributes.showIntervalsAndRests, false);
+
+                        $scope.saveClicked = function() {
+                           utils.extend(true, $scope.model, $scope.editingElement);
+                           $scope.onSaveClicked({element: $scope.model});
+
+                           $scope.isEditing = false;
+                        }
+
+                        $scope.editClicked = function() {
+                           $scope.isEditing = true;
+                           $scope.editingElement = utils.clone($scope.model);
+                        }
+
+                        $scope.deleteClicked = function() {
+                           $scope.onDeleteClicked({element: $scope.model});
+                        }
+
+                        $scope.cancelClicked = function() {
+                           $scope.isEditing = false;
+                           $scope.onCancelClicked({element: $scope.model});
+                        }
+
+                        $scope.newInterval = function() {
+                           $scope.editingElement.intervals.push(newModel(speedTimeModel));
+                        }
+
+                        $scope.saveInterval = function(speedTime) {
+                           if (!speedTime.id) {
+                              speedTime.id = id();
+                           }
+                        }
+
+                        $scope.deleteInterval = function(speedTime) {
+                           deleteFromModelArray($scope.editingElement.intervals, speedTime);
+                        }
+
+                        $scope.cancelInterval = function(speedTime) {
+                           if (!speedTime.id) {
+                              deleteFromModelArray($scope.editingElement.intervals, speedTime, function(e) {
+                                 return e.local_id === speedTime.local_id;
+                              });
+                           }
+                        }
+
+                        $scope.getElementQuantityAndDistance = function() {
+                           return "" + $scope.model.quantity + "x" + $scope.model.distance;
+                        }
+
+                        $scope.getElementStroke = function() {
+                           var string = "" + $scope.model.stroke;
+
+                           if ($scope.model.stroke_modification) {
+                              string += " (" + $scope.model.stroke_modification + ")";
+                           }
+                           return string;                           
+                        }
+
+                        $scope.getElementNotes = function() {
+                           return "[" + $scope.model.notes + "]";
+                        }
+
+                        $timeout(function() {
+                           if (!$scope.model.id) {
+                              $scope.editClicked();
+                           }
+                        });
+                     }
+                  }
+               }
+            ]);
+
+            controllersModule.controller('SetBuilder', ['$scope',
             function($scope) {
-               var workoutModel = {
-                  sets: [],
-                  speed_gauges: []
-               };
-
-               var setModel = {
-                  id: "",
-                  elements: [],
-                  quantity: "",
-                  notes: ""
-               };
-
-               var speedGaugeModel = {
-                  type: "",
-                  distance: "",
-                  time: ""
-               };
-
-               var setElementModel = {
-                  id: "",
-                  distance: "",
-                  type: "",
-                  quantity: "",
-                  interval: "",
-                  stroke: "",
-                  stroke_modification: "",
-                  notes: ""
-               };
-
-               $scope.types = ["Swim", "Kick"];
-
-               $scope.strokeModifications = ["Scull", "Fists", "Drill", "Pull"];
-
-               $scope.strokes = ["Butterfly",
-                                       "Backstroke", 
-                                       "Breaststroke", 
-                                       "Freestyle",
-                                       "IM",
-                                       "Choice"];
- 
                $scope.currentWorkout = utils.clone(workoutModel);
                $scope.currentEditingSet = null;
                $scope.currentEditingSetElement = null;
+
+               $scope.currentEditingInterval = null;
+               $scope.currentEditingRest = null;
 
                $scope.newSet = function() {
                   $scope.editSet(setModel);
                }
 
                $scope.editSet = function(set) {
-                  $scope.currentEditingSet = utils.clone(set);
+                  $scope.currentEditingSet = newModel(set);
                }
 
                $scope.deleteSet = function(set) {
@@ -288,77 +582,52 @@
                   $scope.currentEditingSet = null;
                }
 
-               $scope.addSetElementToSet = function() {
-                  if (!$scope.currentEditingSetElement.id) {
-                     $scope.currentEditingSetElement.id = id();
-                     $scope.currentEditingSet.elements.push($scope.currentEditingSetElement);
-                  } else {
-                     $scope.currentEditingSet.elements.every(function(element) {
-                        if (element.id === $scope.currentEditingSetElement.id) {
-                           utils.extend(true, element, $scope.currentEditingSetElement);
-                           return false;
-                        } else {
-                           return true;
-                        }
-                     })
+               $scope.saveSetElement = function(element) {
+                  if (!element.id) {
+                     element.id = id();
                   }
-                  $scope.currentEditingSetElement = null;
                }
 
-               $scope.deleteSetElement = function(element) {
-                  utils.inlineDeleteFromArray($scope.currentEditingSet.elements, function(e) {
-                     return e.id === element.id;
-                  });
-               }
-
-               $scope.editSetElement = function(element) {
-                  $scope.currentEditingSetElement = utils.clone(element);
-               }
-
-               $scope.cancelSetElement = function() {
-                  $scope.currentEditingSetElement = null;
+               $scope.deleteSetElement = function(element, sentinelFn) {
+                  deleteFromModelArray($scope.currentEditingSet.elements,
+                     element, sentinelFn);
                }
 
                $scope.addSetElement = function() {
-                  $scope.editSetElement(setElementModel);
+                  $scope.currentEditingSet.elements.push(newModel(setElementModel));
+               }
+
+               $scope.cancelSetElement = function(element) {
+                  if (!element.id) {
+                     $scope.deleteSetElement(element, function(e) {
+                        return e.local_id === element.local_id;
+                     })
+                  }
                }
 
                $scope.addSetToWorkout = function() {
-                  if (!$scope.currentEditingSet.id) {
-                     $scope.currentEditingSet.id = id();
-                     $scope.currentWorkout.sets.push($scope.currentEditingSet);
-                  } else {
-                     $scope.currentWorkout.sets.every(function(set) {
-                        if ($scope.currentEditingSet.id === set.id) {
-                           utils.extend(true, set, $scope.currentEditingSet);
-                           return false;
-                        } else {
-                           return true;
-                        }
-                     })
-                  }
+                  addObjectToArray($scope.currentEditingSet,
+                     $scope.currentWorkout.sets);
                   $scope.currentEditingSet = null;
                }
 
-               $scope.getElementQuantityAndDistance = function(element) {
-                  return "" + element.quantity + "x" + element.distance;
+               $scope.addIntervalToSetElement = function() {
+                  addObjectToArray($scope.currentEditingInterval, 
+                     $scope.currentEditingSetElement.intervals);
+                  
+                  $scope.currentEditingInterval = null;
                }
 
-               $scope.getElementStroke = function(element) {
-                  var string = "" + element.stroke;
-
-                  if (element.stroke_modification) {
-                     string += " (" + element.stroke_modification + ")";
-                  }
-                  return string;
+               $scope.cancelInterval = function() {
+                  $scope.currentEditingInterval = null;
                }
 
-               $scope.getElementInterval = function(element) {
-                  return "@" + element.interval;
+               $scope.editInterval = function(interval) {
+                  $scope.currentEditingInterval = utils.clone(interval);
                }
 
-               $scope.getElementNotes = function(element) {
-                  return "[" + element.notes + "]";
+               $scope.newInterval = function() {
+                  $scope.editInterval(newSpeedTimeModel());
                }
 
                $scope.getSetNotes = function(set) {
@@ -381,10 +650,10 @@
                function calculateSetTotal(set) {
                   var totalDistance = 0;
                   set.elements.forEach(function(setElement) {
-                     totalDistance += parseInt(setElement.distance) * parseInt(setElement.quantity);
+                     totalDistance += parseInt(setElement.distance || 0) * parseInt(setElement.quantity || 0);
                   });
 
-                  totalDistance *= set.quantity;  
+                  totalDistance *= parseInt(set.quantity || 0);  
 
                   return totalDistance;                
                }
@@ -409,14 +678,34 @@
                $scope.getWorkoutTotal = function(workout) {
                   return "Total: " + calculateWorkoutTotal(workout);
                }
+
+               $scope.getAddToWorkoutButtonText = function() {
+                  if ($scope.currentEditingSet.id) {
+                     return "Save";
+                  } else {
+                     return "Add to Workout";
+                  }
+               }
+
+               $scope.getAddSetElementToSetButtonText = function() {
+                  if ($scope.currentEditingSetElement.id) {
+                     return "Save";
+                  } else {
+                     return "Add to Set";
+                  }
+               }
             }]);
+
+            var module = angular.module('setBuilder', ['setBuilder.controllers',
+                                                       'setBuilder.directives']);
+            angular.bootstrap(document, ['setBuilder']);
          })(window.angular);
-      //});
+      });
    </script>
    
 </head>
 
-<body ng-app="setBuilder">
+<body>
    <div ng-controller="SetBuilder">
       <div class="container">
          <div class="row">
@@ -424,7 +713,7 @@
             </div>
          </div>
          <div class="row">
-            <div class="workout col-xs-6 col-sm-6 col-md-6 col-lg-6 col-print-12">
+            <div class="workout col-xs-12 col-sm-6 col-md-6 col-lg-6 col-print-12">
                <div class="title">
                   Workout
                </div>
@@ -437,17 +726,18 @@
                      </div>
                      <div class="set">
                         <div class="element" ng-repeat="element in set.elements">
-                           <span ng-bind="getElementQuantityAndDistance(element)"></span>
-                           <span ng-bind="getElementStroke(element)"></span>
-                           <span ng-bind="element.type"></span>
-                           <span ng-bind="getElementInterval(element)" ng-if="element.interval"></span>
-                           <span class="notes" ng-bind="getElementNotes(element)" ng-if="element.notes"></span>
+                           <set-element-display model="element"
+                              is-editable="false"
+                              show-intervals-and-rests="true">
+                           </set-element-display>
                         </div>  
                      </div>   
                      <div class="running-total">
                         <span class="distance" ng-bind="getWorkoutSetTotal(set)"></span>
-                        <a ng-click="editSet(set)">Edit</a>
-                        <a ng-click="deleteSet(set)">Delete</a>                        
+                        <span class="inline-menu">
+                           <a class="left" ng-click="editSet(set)">Edit</a>
+                           <a class="right" ng-click="deleteSet(set)">Delete</a>
+                        </span>                        
                      </div>                
                   </div>
                </div>
@@ -458,7 +748,7 @@
                   <a ng-click="newSet()">Add Set</a>
                </div>
             </div>         
-            <div class="new-set col-xs-6 col-sm-6 col-md-6 col-lg-6" ng-if="currentEditingSet">
+            <div class="new-set col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-if="currentEditingSet">
                <div class="title">
                   Add Set
                </div>
@@ -474,59 +764,15 @@
 
                <div class="list">
                   <div class="element" ng-repeat="element in currentEditingSet.elements">
-                     <span ng-bind="getElementQuantityAndDistance(element)"></span>
-                     <span ng-bind="getElementStroke(element)"></span>
-                     <span ng-bind="element.type"></span>
-                     <span ng-bind="getElementInterval(element)" ng-if="element.interval"></span>
-                     <span class="notes" ng-bind="getElementNotes(element)" ng-if="element.notes"></span>
-                     <span class="menu">
-                        <a class="left" ng-click="editSetElement(element)">Edit</a>
-                        <a class="right" ng-click="deleteSetElement(element)">Delete</a>
-                     </span>
-                  </div>
-               </div>
-
-               <div class="element-edit" ng-if="currentEditingSetElement">
-                  <div class="edit">
-                     <input class="distance form-control" type="text" placeholder="Distance" ng-model="currentEditingSetElement.distance" />
-                  </div>
-
-                  <div class="edit">
-                     <input class="quantity form-control" type="text" placeholder="Quantity" ng-model="currentEditingSetElement.quantity" />
-                  </div>
-
-                  <div class="edit">
-                     <select class="form-control" ng-options="name for name in strokes" 
-                           ng-model="currentEditingSetElement.stroke">
-                        <option value="">---Select Stroke---</option>
-                     </select>
-                  </div>
-
-                  <div class="edit">
-                     <select class="form-control" ng-options="name for name in strokeModifications" 
-                           ng-model="currentEditingSetElement.stroke_modification">
-                        <option value="">---Select Stroke Modification---</option>
-                     </select>
-                  </div>
-
-                  <div class="edit">
-                     <select class="form-control" ng-options="name for name in types" 
-                           ng-model="currentEditingSetElement.type">
-                        <option value="">---Select Type---</option>
-                     </select>
-                  </div>
-
-                  <div class="edit">
-                     <input class="interval form-control" type="text" placeholder="Interval" ng-model="currentEditingSetElement.interval" />
-                  </div>
-
-                  <div class="edit">
-                     <input class="notes form-control" type="text" placeholder="Notes" ng-model="currentEditingSetElement.notes" />
-                  </div>
-
-                  <div class="edit">
-                     <a ng-click="addSetElementToSet()" class="left">Add To Set</a>
-                     <a ng-click="cancelSetElement()" class="right">Cancel</a>
+                     <set-element-display
+                        model="element"
+                        save-button-text="{{element.id ? 'Save' : 'Add'}}"
+                        on-save-clicked="saveSetElement(element)"
+                        on-delete-clicked="deleteSetElement(element)"
+                        on-cancel-clicked="cancelSetElement(element)"
+                        is-editable="true"
+                        show-intervals-and-rests="true">
+                     </set-element-display>
                   </div>
                </div>
 
@@ -535,9 +781,9 @@
                </div>
 
                <div ng-class="getSetTotalClass(currentEditingSet)">
-                  <span ng-bind="getSetTotal(currentEditingSet)" ng-if="currentEditingSet.elements.length > 0"></span>
+                  <span ng-bind="getSetTotal(currentEditingSet)"></span>
                   <div class="menu">
-                     <a class="left" ng-click="addSetToWorkout()" ng-if="currentEditingSet.elements.length > 0">Add to Workout</a>
+                     <a class="left" ng-bind="getAddToWorkoutButtonText()" ng-click="addSetToWorkout()" ng-if="currentEditingSet.elements.length > 0"></a>
    	               <a class="right" ng-click="cancelSet()">Cancel</a>
                   </div>
                </div>
@@ -545,6 +791,136 @@
          </div>
       </div>
    </div>
+
+   <script type="text/ng-template" id="speed-time-display.html">
+      <div ng-if="!isEditing">
+         <span ng-bind="model.speed"></span>
+         <span ng-bind="getModelSpeedTimeString()"></span>
+
+         <span ng-if="isEditable">
+            <a class="left" ng-click="editClicked()">Edit</a>
+            <a class="right" ng-click="deleteClicked()">Delete</a>
+         </span>
+      </div>
+
+      <div ng-if="isEditing" class="edit">
+         <input type="text" class="form-control" ng-model="editingModel.speed" placeholder="Speed" />
+         
+         <select ng-model="editingModel.time.hours"
+                  ng-options="time for time in hours"
+                  class="form-control">
+            <option value="">--Hour--</option>
+         </select>
+
+         <select ng-model="editingModel.time.minutes"
+                  ng-options="time for time in minutes"
+                  class="form-control">
+            <option value="">--Minute--</option>
+         </select>
+
+         <select ng-model="editingModel.time.seconds"
+                  ng-options="time for time in seconds"
+                  class="form-control">
+            <option value="">--Second--</option>
+         </select>
+
+         <div>
+            <a class="left" ng-bind="saveButtonText" ng-click="saveClicked()"></a>
+            <a class="right" ng-click="cancelClicked()">Cancel</a>
+         </div>
+      </div>
+   </script>
+
+   <script type="text/ng-template" id="set-element-display.html">
+      <div ng-if="!isEditing">
+         <span ng-bind="getElementQuantityAndDistance()"></span>
+         <span ng-bind="getElementStroke()"></span>
+         <span ng-bind="model.type"></span>
+         <span class="notes" ng-bind="getElementNotes()" ng-if="model.notes"></span>
+         <span class="inline-menu" ng-if="isEditable">
+            <a class="left" ng-click="editClicked()">Edit</a>
+            <a class="right" ng-click="deleteClicked()">Delete</a>
+         </span>
+
+         <div class="interval" 
+            ng-repeat="interval in model.intervals"
+            ng-if="showIntervalsAndRests">
+            <speed-time-display model="interval" 
+                                is-interval="true"
+                                is-editable="false"></speed-time-display>
+         </div>
+         <div class="rest" 
+            ng-repeat="rest in model.rests"
+            ng-if="showIntervalsAndRests">
+            <speed-time-display model="interval" 
+                                is-interval="false"
+                                is-editable="false"></speed-time-display>
+         </div>
+      </div>
+
+      <div ng-if="isEditing">
+         <div class="edit">
+            <input class="distance form-control" type="text" placeholder="Distance" ng-model="editingElement.distance" />
+         </div>
+
+         <div class="edit">
+            <input class="quantity form-control" type="text" placeholder="Quantity" ng-model="editingElement.quantity" />
+         </div>
+
+         <div class="edit">
+            <select class="form-control" ng-options="name for name in strokes" 
+                  ng-model="editingElement.stroke">
+               <option value="">---Select Stroke---</option>
+            </select>
+         </div>
+
+         <div class="edit">
+            <select class="form-control" ng-options="name for name in strokeModifications" 
+                  ng-model="editingElement.stroke_modification">
+               <option value="">---Select Stroke Modification---</option>
+            </select>
+         </div>
+
+         <div class="edit">
+            <select class="form-control" ng-options="name for name in types" 
+                  ng-model="editingElement.type">
+               <option value="">---Select Type---</option>
+            </select>
+         </div>
+
+         <div class="edit">
+            <div class="interval"
+                  ng-repeat="interval in editingElement.intervals">
+               <speed-time-display model="interval" 
+                                 is-interval="true"
+                                 is-editable="true"
+                                 save-button-text="{{interval.id ? 'Save' : 'Add'}}"
+                                 on-save-clicked="saveInterval(speedTime)"
+                                 on-cancel-clicked="cancelInterval(speedTime)"
+                                 on-delete-clicked="deleteInterval(speedTime)">
+               </speed-time-display>
+            </div>
+            <a ng-click="newInterval()">Add Interval</a>
+         </div>
+
+         <div class="edit">
+            <div class="rest" 
+                  ng-repeat="rest in editingElement.rests">
+                  <speed-time-display model="rest" is-interval="false"></speed-time-display>
+            </div>                     
+            <a ng-click="addRest()">Add Rest</a>
+         </div>
+
+         <div class="edit">
+            <input class="notes form-control" type="text" placeholder="Notes" ng-model="editingElement.notes" />
+         </div>
+
+         <div class="edit">
+            <a ng-click="saveClicked()" class="left" ng-bind="saveButtonText"></a>
+            <a ng-click="cancelClicked()" class="right">Cancel</a>
+         </div>
+      </div>
+   </script> 
 </body>
 
 </html>
