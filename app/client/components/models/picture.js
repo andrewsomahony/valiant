@@ -24,7 +24,7 @@ function(BaseModel) {
          
          localFields: function() {
             return this.staticMerge(this.callSuper(), [
-               'file_model', 's3_upload_progress'
+               'file_model', 'upload_progress'
             ]);
          }
       },

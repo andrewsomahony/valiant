@@ -11,14 +11,6 @@ var CommentSchema = new Schema({
    text: {
       type: String,
       default: ""
-   },
-   videos: {
-      type: [VideoSchema],
-      default: []
-   },
-   pictures: {
-      type: [PictureSchema],
-      default: []
    }
 },
 {

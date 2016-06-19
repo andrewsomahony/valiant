@@ -8,7 +8,8 @@ var utils = require('utils');
 var name = 'models.video';
 
 registerModel(name, [require('models/base'),
-function(BaseModel) {
+                     require('models/picture'),
+function(BaseModel, PictureModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -20,7 +21,7 @@ function(BaseModel) {
                subtitle_url: "",
                description: "",
                metadata: {},
-               thumbnail: {__alias__: "models.picture"},
+               thumbnail: {__model__: PictureModel},
                file_model: null,
                upload_progress: null
             });
@@ -28,7 +29,7 @@ function(BaseModel) {
          
          localFields: function() {
             return this.staticMerge(this.callSuper(), [
-               'file_model', 's3_upload_progress', 'thumbnail'
+               'file_model', 'upload_progress', 'thumbnail'
             ]);
          }
       },

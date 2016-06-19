@@ -57,6 +57,11 @@ Promise, SerialPromise, $timeout) {
                   return Promise(function(resolve, reject, notify) {
                      PictureProportionalResizeService.resizePicture(existingData.picture, maxPictureWidth)
                      .then(function(resizedPicture) {
+                        // We want to compile because we can have a fade-in and out
+                        // effect when the media shows up.  Without compiling, all that
+                        // changes is the video URL, and therefore, the video element.  When
+                        // we compile, the entire DIV changes, and we get a neat transition.
+
                         $timeout(function() {
                            $scope.setModel(resizedPicture)
                         })

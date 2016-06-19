@@ -66,12 +66,12 @@ function(id, promise) {
 
       statics: {
          classyAliasKey: "__alias__",
-         classyModelKey: "__model__", // Unused
-         
-         getClassyField: function(field) {
-            var classAlias = null;
+         classyModelKey: "__model__",
+
+         getClassyFieldClass: function(field) {
+            var classObject = null;
             var objectToCheckForClass = null;
-            
+
             if (true === utils.isArray(field)) {
                 if (field.length &&
                     true === utils.isPlainObject(field[0])) {
@@ -80,23 +80,24 @@ function(id, promise) {
             } else if (true === utils.isPlainObject(field)) {
                 objectToCheckForClass = field;
             }
-            
+
             if (objectToCheckForClass) {
                 if (utils.hasKey(objectToCheckForClass, this.classyAliasKey)) {
-                    classAlias = objectToCheckForClass[this.classyAliasKey];
+                   classObject = classy.getClass(objectToCheckForClass[this.classyAliasKey]);
+                } else if (utils.hasKey(objectToCheckForClass, this.classyModelKey)) {
+                   classObject = objectToCheckForClass[this.classyModelKey];
                 }
             }
-            
-            return classAlias;         
+            return classObject;
          },
          
         mapValue: function(value, defaultValue, isServer) {
             isServer = utils.isUndefinedOrNull(isServer) ? false : isServer;
-            var classAlias = this.getClassyField(defaultValue);
             var isUndefined = utils.isUndefinedOrNull(value);
 
-            if (classAlias) {
-                var Class = classy.getClass(classAlias);
+            var Class = this.getClassyFieldClass(defaultValue);
+
+            if (Class) {
                 if (true === utils.isArray(value)) {
                     var newArray = [];
                     
@@ -143,22 +144,21 @@ function(id, promise) {
          fields: function() {
             return {
                id: "",
-               local_id: "",
                created_at: "",
                updated_at: ""
             }
          },
          // Fields NOT to send to the server
          localFields: function() {
-            return ['local_id'];
+            return [];
          },
          // Fields NOT serialized to/from JSON
          temporaryFields: function() {
-            return ['local_id']
+            return [];
          },
          // Fields that are in the JSON, but can't be initialized automatically
          manualFields: function() {
-            return ['local_id'];
+            return [];
          },
          // key is the key we have
          // value is the value the server wants
@@ -226,28 +226,12 @@ function(id, promise) {
 
       init: function(config, isFromServer) {
          this.fromObject(config, isFromServer);
-         /*
-         config = config || {};
-         isFromServer = true === utils.isUndefinedOrNull(isFromServer) ? false : isFromServer;
 
-         var fields = this.$ownClass.fields()
-
-         Object.keys(fields).forEach(function(key) {
-            // We clone because the static properties can be empty arrays or objects,
-            // and we want a fresh copy of the array or object for each new object
-
-            // NOTE: BACKBONE AND UNDERSCORE DO NOT CLONE (BUG)
-
-            if (true === this.$ownClass.isManualKey(key)) {
-               this[key] = utils.clone(fields[key])
-            } else {                
-               this[key] = utils.clone(this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer)); 
-            }
-
-         }, this);*/
-
-         this['event_handlers'] = {}
-         this['local_id'] = id()
+         // Special variables that aren't in the
+         // fields array so they are never serialized
+         // or anything.  Each object retains their own
+         this['event_handlers'] = {};
+         this['local_id'] = id();
       },
       
       fromObject: function(config, isFromServer) {
@@ -264,7 +248,7 @@ function(id, promise) {
 
             if (true === this.$ownClass.isManualKey(key)) {
                this[key] = utils.clone(fields[key])
-            } else {                
+            } else {    
                this[key] = utils.clone(this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer)); 
             }
 

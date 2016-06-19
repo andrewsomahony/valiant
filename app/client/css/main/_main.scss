@@ -92,8 +92,9 @@ div.main {
                @media screen and (min-width: $min-sm-screen-width) {
                   padding-bottom: 48px;
                }
+               @import "unauthorized";
             }
-               
+              
             @import "home/home";
             @import "about/about";
             @import "login/login";
@@ -101,7 +102,7 @@ div.main {
             @import "user/user";
             @import "reset_password/reset_password";
             @import "question/question";
-            @import "question/ask";
+            @import "set_builder/set_builder";
             
             @import "error/error";
          }

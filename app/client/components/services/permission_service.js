@@ -12,7 +12,8 @@ function() {
    
    PermissionService.stateRequiresLogin = function(state) {
       return 'admin.home.default' === state ||
-             'main.page.question.ask' === state;
+             'main.page.question.ask' === state ||
+             'main.page.set_builder.default' === state;
    }
    
    PermissionService.stateHiddenWithLogin = function(state) {

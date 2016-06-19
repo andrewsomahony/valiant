@@ -19,7 +19,7 @@ ErrorPageService) {
     $rootScope.$on('$stateNotFound', function(e, unfoundState, fromState, fromParams) {        
     });
     
-    $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {               
+    $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {              
         if (true === PermissionService.stateRequiresLogin(toState.name) &&
             false === UserService.isLoggedIn()) {
                 

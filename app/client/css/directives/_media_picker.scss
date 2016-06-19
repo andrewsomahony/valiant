@@ -13,9 +13,11 @@ div.media-picker {
    }
    
    div.has-media {
-      &.ng-enter {
-         animation: fade-in 0.8s;          
-         opacity: 0;
+      &.fade-in {
+         &.ng-enter {
+            animation: fade-in 0.8s;          
+            opacity: 0;
+         }
       }
 
       display: inline-block;

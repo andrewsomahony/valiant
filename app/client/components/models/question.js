@@ -27,11 +27,11 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
                // the question page. 
                custom_topic: "",
                text: "",
-               videos: [{__alias__: 'models.video'}],
-               pictures: [{__alias__: 'models.picture'}],
-               comments: [{__alias__: 'models.comment'}],
-               preview_pictures: [{__alias__: 'models.picture'}],
-               youtube_video: {__alias__: 'models.video'}
+               videos: [{__model__: VideoModel}],
+               pictures: [{__model__: PictureModel}],
+               comments: [{__model__: CommentModel}],
+               preview_pictures: [{__model__: PictureModel}],
+               youtube_video: {__model__: VideoModel}
             });
          }
       },

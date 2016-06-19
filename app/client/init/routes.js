@@ -220,7 +220,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
    })
    
    .state("main.page.user", {
-       url: ":userId",
+       url: "user/:userId",
        abstract: true,
        views: {
            "content@main": {
@@ -275,7 +275,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
              templateUrl: "partials/main/nav_bar.html"
           },
           "content@main.page.question": {
-             templateUrl: "partials/main/question/unauthorized.html",
+             templateUrl: "partials/main/unauthorized.html",
              controller: require("controllers/main/question/unauthorized")
           }
       }
@@ -292,6 +292,44 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
              templateUrl: "partials/main/question/content.html",
              controller: require("controllers/main/question/default")
           }
+       }
+   })
+
+   .state("main.page.set_builder", {
+       url: "set_builder",
+       abstract: true,
+       views: {
+           "content@main": {
+               controller: require('controllers/main/set_builder/set_builder'),
+               templateUrl: "partials/main/set_builder/set_builder.html"
+           }
+       }
+   })
+
+   .state("main.page.set_builder.default", {
+       url: "/",
+       resolve: RouteResolver("main.page.set_builder.default"),
+       views: {
+           "nav_bar@main.page": {
+               templateUrl: "partials/main/nav_bar.html"
+           },
+           "content@main.page.set_builder": {
+               templateUrl: "partials/main/set_builder/content.html",
+               controller: require("controllers/main/set_builder/default")
+           }
+       }
+   })
+
+   .state("main.page.set_builder.unauthorized", {
+       url: "/unauthorized",
+       views: {
+           "nav_bar@main.page": {
+               templateUrl: "partials/main/nav_bar.html"
+           },
+           "content@main.page.set_builder": {
+               templateUrl: "partials/main/unauthorized.html",
+               controller: require("controllers/main/set_builder/unauthorized")
+           }
        }
    })
    

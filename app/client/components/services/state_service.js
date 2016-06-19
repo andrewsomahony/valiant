@@ -69,8 +69,8 @@ function($state) {
       return stateObject;
    }
    
-   StateService.hasState = function(name) {
-      return getStateObject(name, $state.$current) ? true : false;
+   StateService.hasState = function(name, context) {
+      return getStateObject(name, context || $state.$current) ? true : false;
    }
       
    StateService.go = function(name, params, options) {

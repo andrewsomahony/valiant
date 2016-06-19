@@ -23,7 +23,7 @@ PictureModel) {
                last_name: "",
                email: "",
                password: "",
-               profile_picture: {__alias__: 'models.picture'},
+               profile_picture: {__model__: PictureModel},
                facebook_id: "",
                is_connected_to_facebook: false,
                email_token: "",
@@ -45,9 +45,9 @@ PictureModel) {
       
       setProfilePicture: function(picture) {
          if (!picture) {
-            this.profile_picture = new PictureModel();
+            this.profile_picture.fromObject({});
          } else {
-            this.profile_picture = picture;
+            this.profile_picture.fromModel(picture);
          }
       }
    })   
