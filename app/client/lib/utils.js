@@ -163,9 +163,7 @@
       },
 
       objectToArray: function(obj) {
-
-         if (false === this.isPlainObject(obj))
-         {
+         if (false === this.isPlainObject(obj)) {
             throw new Error("utils.objectToArray: Obj is not a plain object!")
          }
 

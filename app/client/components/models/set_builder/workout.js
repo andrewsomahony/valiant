@@ -3,8 +3,6 @@
 var registerModel = require('./register');
 var classy = require('classy');
 
-var baseModel = require('models/base');
-
 var name = 'models.workout';
 
 registerModel(name, [require('models/base'),
@@ -20,8 +18,12 @@ function(BaseModel, SetModel) {
                sets: [{__model__: SetModel}]
             })
          }
+      },
+
+      init: function(config, isFromServer) {
+         this.callSuper();
       }
-   })
+   });
 }]);
 
 module.exports = name;

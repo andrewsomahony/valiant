@@ -98,7 +98,7 @@ function(id, promise) {
             var Class = this.getClassyFieldClass(defaultValue);
 
             if (Class) {
-                if (true === utils.isArray(value)) {
+                if (true === utils.isArray(defaultValue)) {
                     var newArray = [];
                     
                     if (!isUndefined) {
@@ -115,26 +115,6 @@ function(id, promise) {
             } else {
                return isUndefined ? defaultValue : value;
             }         
-         },
-         
-         allocateChildArrayOfClasses: function(variableName, length, isServer) {
-             var defaultValue = this.fields()[variableName];
-             
-             if (!defaultValue) {
-                throw new Error("allocateChildArrayOfClasses: Missing field ", variableName);
-             } else {
-                // Make a dummy array filled with empty
-                // objects, so our mapValue method
-                // will properly call the class constructors
-                // for whatever variable we want to allocate
-                var arr = new Array(length);
-                
-                for (var i = 0; i < length; i++) {
-                   arr[i] = {};
-                }
-                
-                return this.mapValue(arr, defaultValue, isServer);
-             }
          },
           
          // Utility function so each class doesn't need to require utils
@@ -364,7 +344,42 @@ function(id, promise) {
             return patchService.createPatch(otherObject, 
                                     ourObject);
          }
-      }
+      },
+
+      allocateChildArray: function(variableName, count, isForServer) {
+         for (var i = 0; i < count; i++) {
+            this.pushOntoChildArray(variableName, isForServer);
+         }
+      },
+
+      pushOntoChildArray: function(variableName, isServer) {
+         return this.pushObjectOntoChildArray(variableName, {}, isServer);
+      },
+
+      pushObjectOntoChildArray: function(variableName, object, isFromServer) {
+         var defaultValue = this.$ownClass.fields()[variableName];
+
+         if (!defaultValue) {
+            throw new Error("pushOntoChildArray: Missing field ", variableName);
+         } else {
+            if (!utils.isArray(defaultValue)) {
+               throw new Error("allocateChildArray: Field is not an array", variableName);
+            } 
+
+            var Class = this.$ownClass.getClassyFieldClass(defaultValue);
+            if (!Class) {
+               throw new Error("pushOntoChildArray: Invalid class ", variableName);
+            }
+
+            var obj = new Class(object, isFromServer);
+            this[variableName].push(obj);
+            return obj;
+         }
+      },    
+
+      pushModelOntoChildArray: function(variableName, model, isForServer) {
+         return this.pushObjectOntoChildArray(variableName, model.toObject(isForServer), isForServer);
+      }  
    })   
 }])
 

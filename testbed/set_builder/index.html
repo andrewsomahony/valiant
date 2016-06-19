@@ -273,7 +273,8 @@
       var timeModel = {
          hours: 0,
          minutes: 0,
-         seconds: 0
+         seconds: 0,
+         seconds_percentage: 0
       }
 
       function getTimeString(timeObject) {
@@ -609,25 +610,6 @@
                   addObjectToArray($scope.currentEditingSet,
                      $scope.currentWorkout.sets);
                   $scope.currentEditingSet = null;
-               }
-
-               $scope.addIntervalToSetElement = function() {
-                  addObjectToArray($scope.currentEditingInterval, 
-                     $scope.currentEditingSetElement.intervals);
-                  
-                  $scope.currentEditingInterval = null;
-               }
-
-               $scope.cancelInterval = function() {
-                  $scope.currentEditingInterval = null;
-               }
-
-               $scope.editInterval = function(interval) {
-                  $scope.currentEditingInterval = utils.clone(interval);
-               }
-
-               $scope.newInterval = function() {
-                  $scope.editInterval(newSpeedTimeModel());
                }
 
                $scope.getSetNotes = function(set) {

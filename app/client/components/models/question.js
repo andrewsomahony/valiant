@@ -41,15 +41,15 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
       },
       
       allocateVideos: function(numberOfVideos) {
-         this.videos = this.$ownClass.allocateChildArrayOfClasses('videos', numberOfVideos);
+         this.allocateChildArray('videos', numberOfVideos);
       },
       
       allocatePictures: function(numberOfPictures) {
-         this.pictures = this.$ownClass.allocateChildArrayOfClasses('pictures', numberOfPictures, false);
+         this.allocateChildArray('pictures', numberOfPictures);
       },
 
       allocatePreviewPictures: function(numberOfPictures) {
-         this.preview_pictures = this.$ownClass.allocateChildArrayOfClasses('preview_pictures', numberOfPictures, false);
+         this.allocateChildArray('preview_pictures', numberOfPictures);
       }
    })
 }

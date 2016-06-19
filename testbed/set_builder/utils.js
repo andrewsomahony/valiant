@@ -342,14 +342,16 @@
       },
       
       parseTimeStringToSeconds: function(timeString) {
-         var timeMatch = timeString.match(/(\d{1,}):(\d{1,2}):(\d{1,2})(\.(\d{1,}))?/);
+         var timeMatch = timeString.match(/(\d{1,}):(\d{1,2}):(\d{1,2})(\.\d{1,})?/);
          
          var time = 0;
          if (timeMatch) {
             time += parseInt(timeMatch[1]) * 3600;
             time += parseInt(timeMatch[2]) * 60;
             time += parseInt(timeMatch[3]);
-            time += parseFloat(timeMatch[5]);
+            if (timeMatch[4]) {
+               time += parseFloat(timeMatch[4]);
+            }
          }
          
          return time;
