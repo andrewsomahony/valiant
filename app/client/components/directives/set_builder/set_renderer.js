@@ -6,7 +6,8 @@ var name = 'set';
 
 registerDirective(name, [require('models/set_builder/set'),
                          require('services/scope_service'),
-function(SetModel, ScopeService) {
+                         require('services/set_builder_service'),
+function(SetModel, ScopeService, SetBuilderService) {
    return {
       restrict: 'E',
       scope: {
@@ -79,6 +80,13 @@ function(SetModel, ScopeService) {
             if (true === element.getInternalVariable('is_unborn')) {
                $scope.deleteSetElement(element);
             }
+         }
+
+         $scope.getSetQuantity = function() {
+            return SetBuilderService.formatQuantityString($scope.model.quantity);
+         }
+         $scope.getSetNotes = function() {
+            return SetBuilderService.formatNotesString($scope.model.notes);
          }
       }
    };

@@ -10175,15 +10175,44 @@ div.font-awesome-centered-icon {
     display: inline-block;
     vertical-align: middle; }
 
-.set-element div.edit {
+.set-element div.edit div.element {
   margin-bottom: 8px; }
-  .set-element div.edit input {
+  .set-element div.edit div.element input {
     display: inline-block;
     width: 50%; }
-  .set-element div.edit select {
+  .set-element div.edit div.element select {
     width: 50%; }
+  .set-element div.edit div.element.intervals, .set-element div.edit div.element.rests {
+    margin-left: 16px; }
+    .set-element div.edit div.element.intervals .speed-time div.edit input, .set-element div.edit div.element.rests .speed-time div.edit input {
+      display: inline-block;
+      width: 25%; }
+    .set-element div.edit div.element.intervals .speed-time div.edit select, .set-element div.edit div.element.rests .speed-time div.edit select {
+      display: inline-block;
+      width: 20%; }
+    .set-element div.edit div.element.intervals .speed-time div:not(.edit) span, .set-element div.edit div.element.rests .speed-time div:not(.edit) span {
+      font-size: 0.9em;
+      margin-right: 8px; }
+
+.set-element div:not(.edit) span {
+  margin-left: 4px; }
+  .set-element div:not(.edit) span.notes {
+    font-size: 0.9em; }
+
+.set-element div:not(.edit) div.list.intervals, .set-element div:not(.edit) div.list.rests {
+  margin-left: 16px; }
+  .set-element div:not(.edit) div.list.intervals .speed-time div.edit input, .set-element div:not(.edit) div.list.rests .speed-time div.edit input {
+    display: inline-block;
+    width: 25%; }
+  .set-element div:not(.edit) div.list.intervals .speed-time div.edit select, .set-element div:not(.edit) div.list.rests .speed-time div.edit select {
+    display: inline-block;
+    width: 20%; }
+  .set-element div:not(.edit) div.list.intervals .speed-time div:not(.edit) span, .set-element div:not(.edit) div.list.rests .speed-time div:not(.edit) span {
+    font-size: 0.9em;
+    margin-right: 8px; }
 
 .speed-time div.edit input {
+  display: inline-block;
   width: 25%; }
 
 .speed-time div.edit select {
@@ -10191,5 +10220,77 @@ div.font-awesome-centered-icon {
   width: 20%; }
 
 .speed-time div:not(.edit) span {
-  font-size: 1.1em;
+  font-size: 0.9em;
   margin-right: 8px; }
+
+.set div.edit div.list.elements {
+  margin-left: 16px; }
+  .set div.edit div.list.elements .set-element div.edit div.element {
+    margin-bottom: 8px; }
+    .set div.edit div.list.elements .set-element div.edit div.element input {
+      display: inline-block;
+      width: 50%; }
+    .set div.edit div.list.elements .set-element div.edit div.element select {
+      width: 50%; }
+    .set div.edit div.list.elements .set-element div.edit div.element.intervals, .set div.edit div.list.elements .set-element div.edit div.element.rests {
+      margin-left: 16px; }
+      .set div.edit div.list.elements .set-element div.edit div.element.intervals .speed-time div.edit input, .set div.edit div.list.elements .set-element div.edit div.element.rests .speed-time div.edit input {
+        display: inline-block;
+        width: 25%; }
+      .set div.edit div.list.elements .set-element div.edit div.element.intervals .speed-time div.edit select, .set div.edit div.list.elements .set-element div.edit div.element.rests .speed-time div.edit select {
+        display: inline-block;
+        width: 20%; }
+      .set div.edit div.list.elements .set-element div.edit div.element.intervals .speed-time div:not(.edit) span, .set div.edit div.list.elements .set-element div.edit div.element.rests .speed-time div:not(.edit) span {
+        font-size: 0.9em;
+        margin-right: 8px; }
+  .set div.edit div.list.elements .set-element div:not(.edit) span {
+    margin-left: 4px; }
+    .set div.edit div.list.elements .set-element div:not(.edit) span.notes {
+      font-size: 0.9em; }
+  .set div.edit div.list.elements .set-element div:not(.edit) div.list.intervals, .set div.edit div.list.elements .set-element div:not(.edit) div.list.rests {
+    margin-left: 16px; }
+    .set div.edit div.list.elements .set-element div:not(.edit) div.list.intervals .speed-time div.edit input, .set div.edit div.list.elements .set-element div:not(.edit) div.list.rests .speed-time div.edit input {
+      display: inline-block;
+      width: 25%; }
+    .set div.edit div.list.elements .set-element div:not(.edit) div.list.intervals .speed-time div.edit select, .set div.edit div.list.elements .set-element div:not(.edit) div.list.rests .speed-time div.edit select {
+      display: inline-block;
+      width: 20%; }
+    .set div.edit div.list.elements .set-element div:not(.edit) div.list.intervals .speed-time div:not(.edit) span, .set div.edit div.list.elements .set-element div:not(.edit) div.list.rests .speed-time div:not(.edit) span {
+      font-size: 0.9em;
+      margin-right: 8px; }
+
+.set div:not(.edit) div.list.elements {
+  margin-left: 16px; }
+  .set div:not(.edit) div.list.elements .set-element div.edit div.element {
+    margin-bottom: 8px; }
+    .set div:not(.edit) div.list.elements .set-element div.edit div.element input {
+      display: inline-block;
+      width: 50%; }
+    .set div:not(.edit) div.list.elements .set-element div.edit div.element select {
+      width: 50%; }
+    .set div:not(.edit) div.list.elements .set-element div.edit div.element.intervals, .set div:not(.edit) div.list.elements .set-element div.edit div.element.rests {
+      margin-left: 16px; }
+      .set div:not(.edit) div.list.elements .set-element div.edit div.element.intervals .speed-time div.edit input, .set div:not(.edit) div.list.elements .set-element div.edit div.element.rests .speed-time div.edit input {
+        display: inline-block;
+        width: 25%; }
+      .set div:not(.edit) div.list.elements .set-element div.edit div.element.intervals .speed-time div.edit select, .set div:not(.edit) div.list.elements .set-element div.edit div.element.rests .speed-time div.edit select {
+        display: inline-block;
+        width: 20%; }
+      .set div:not(.edit) div.list.elements .set-element div.edit div.element.intervals .speed-time div:not(.edit) span, .set div:not(.edit) div.list.elements .set-element div.edit div.element.rests .speed-time div:not(.edit) span {
+        font-size: 0.9em;
+        margin-right: 8px; }
+  .set div:not(.edit) div.list.elements .set-element div:not(.edit) span {
+    margin-left: 4px; }
+    .set div:not(.edit) div.list.elements .set-element div:not(.edit) span.notes {
+      font-size: 0.9em; }
+  .set div:not(.edit) div.list.elements .set-element div:not(.edit) div.list.intervals, .set div:not(.edit) div.list.elements .set-element div:not(.edit) div.list.rests {
+    margin-left: 16px; }
+    .set div:not(.edit) div.list.elements .set-element div:not(.edit) div.list.intervals .speed-time div.edit input, .set div:not(.edit) div.list.elements .set-element div:not(.edit) div.list.rests .speed-time div.edit input {
+      display: inline-block;
+      width: 25%; }
+    .set div:not(.edit) div.list.elements .set-element div:not(.edit) div.list.intervals .speed-time div.edit select, .set div:not(.edit) div.list.elements .set-element div:not(.edit) div.list.rests .speed-time div.edit select {
+      display: inline-block;
+      width: 20%; }
+    .set div:not(.edit) div.list.elements .set-element div:not(.edit) div.list.intervals .speed-time div:not(.edit) span, .set div:not(.edit) div.list.elements .set-element div:not(.edit) div.list.rests .speed-time div:not(.edit) span {
+      font-size: 0.9em;
+      margin-right: 8px; }

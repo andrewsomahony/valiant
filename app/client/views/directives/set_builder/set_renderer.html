@@ -1,6 +1,6 @@
 <div ng-if="!isEditing">
    <div class="options">
-      <span class="notes" ng-if="model.notes" ng-bind="getSetNotes()"></span>
+      <span class="notes" ng-bind="getSetNotes()"></span>
       <span class="quantity" ng-bind="getSetQuantity()"></span>
 
       <span ng-if="isEditable">
@@ -8,8 +8,8 @@
          <a ng-click="deleteClicked()">Delete</a>
       </span>
    </div>
-   <div class="set">
-      <div class="element" ng-repeat="element in model.elements">
+   <div class="list elements">
+      <div ng-repeat="element in model.elements">
          <set-element model="element"
             is-editable="false"
             show-intervals-and-rests="true">
@@ -28,8 +28,8 @@
       </div>
    </div>
 
-   <div class="list">
-      <div class="element" ng-repeat="element in editingSet.elements">
+   <div class="list elements">
+      <div ng-repeat="element in editingSet.elements">
          <set-element
             model="element"
             save-button-text="{{element.is_unborn ? 'Add' : 'Save'}}"

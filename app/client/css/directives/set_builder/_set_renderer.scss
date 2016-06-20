@@ -1,0 +1,18 @@
+.set {
+   div.edit {
+      div.list {
+         &.elements {
+            margin-left: 16px;
+            @import "set_element_renderer";
+         }
+      }
+   }
+   div:not(.edit) {
+      div.list {
+         &.elements {
+            margin-left: 16px;
+            @import "set_element_renderer";
+         }
+      }
+   }
+}

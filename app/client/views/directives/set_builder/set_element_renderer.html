@@ -8,54 +8,56 @@
       <a class="right" ng-click="deleteClicked()">Delete</a>
    </span>
 
-   <div class="interval" 
-      ng-repeat="interval in model.intervals"
-      ng-if="showIntervalsAndRests">
-      <speed-time model="interval" 
-                           is-interval="true"
-                           is-editable="false"></speed-time-display>
+   <div class="list intervals">
+      <div ng-repeat="interval in model.intervals"
+            ng-if="showIntervalsAndRests">
+            <speed-time model="interval" 
+                              is-interval="true"
+                              is-editable="false"></speed-time-display>
+      </div>
    </div>
-   <div class="rest" 
-      ng-repeat="rest in model.rests"
-      ng-if="showIntervalsAndRests">
-      <speed-time model="interval" 
-                           is-interval="false"
-                           is-editable="false"></speed-time-display>
+   <div class="list rests">
+      <div ng-repeat="rest in model.rests"
+            ng-if="showIntervalsAndRests">
+            <speed-time model="interval" 
+                              is-interval="false"
+                              is-editable="false"></speed-time-display>
+      </div>
    </div>
 </div>
 
-<div ng-if="isEditing">
-   <div class="edit">
+<div ng-if="isEditing" class="edit">
+   <div class="element">
       <input class="distance form-control" type="text" placeholder="Distance" ng-model="editingElement.distance" />
    </div>
 
-   <div class="edit">
+   <div class="element">
       <input class="quantity form-control" type="text" placeholder="Quantity" ng-model="editingElement.quantity" />
    </div>
 
-   <div class="edit">
+   <div class="element">
       <select class="form-control" ng-options="name for name in strokes" 
             ng-model="editingElement.stroke">
          <option value="">---Select Stroke---</option>
       </select>
    </div>
 
-   <div class="edit">
+   <div class="element">
       <select class="form-control" ng-options="name for name in strokeModifications" 
             ng-model="editingElement.stroke_modification">
          <option value="">---Select Stroke Modification---</option>
       </select>
    </div>
 
-   <div class="edit">
+   <div class="element">
       <select class="form-control" ng-options="name for name in types" 
             ng-model="editingElement.type">
          <option value="">---Select Type---</option>
       </select>
    </div>
 
-   <div class="edit">
-      <div class="interval"
+   <div class="element intervals">
+      <div 
             ng-repeat="interval in editingElement.intervals">
          <speed-time model="interval" 
                            is-interval="true"
@@ -67,24 +69,30 @@
                            on-cancel-clicked="cancelInterval(speedTime)"
                            on-delete-clicked="deleteInterval(speedTime)">
          </speed-time>
-      </div>
-      <a ng-click="newInterval()">Add Interval</a>
+      </div>  
    </div>
+   <a ng-click="newInterval()">Add Interval</a>
 
-   <div class="edit">
-      <div class="rest" 
+   <div class="element rests">
+      <div  
             ng-repeat="rest in editingElement.rests">
             <speed-time model="rest" 
-                        is-interval="false"></speed-time>
+                        is-interval="false"
+                        can-edit-inline="true"
+                        is-initially-editing="{{interval.is_unborn}}"
+                        save-button-text="{{interval.is_unborn ? 'Add' : 'Save'}}"
+                        on-save-clicked="saveRest(speedTime)"
+                        on-cancel-clicked="cancelRest(speedTime)"
+                        on-delete-clicked="deleteRest(speedTime)"></speed-time>
       </div>                     
-      <a ng-click="addRest()">Add Rest</a>
    </div>
+   <a ng-click="newRest()">Add Rest</a>
 
-   <div class="edit">
+   <div class="element">
       <input class="notes form-control" type="text" placeholder="Notes" ng-model="editingElement.notes" />
    </div>
 
-   <div class="edit">
+   <div class="element">
       <a ng-click="saveClicked()" class="left" ng-bind="saveButtonText"></a>
       <a ng-click="cancelClicked()" class="right">Cancel</a>
    </div>

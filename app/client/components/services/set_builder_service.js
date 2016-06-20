@@ -26,6 +26,23 @@ function() {
               "IM",
               "Choice"];
    }
+
+   SetBuilderService.formatNotesString = function(notes) {
+      if (!notes) {
+         return "";
+      } else {
+         return "[" + notes + "]";
+      }
+   }
+
+   SetBuilderService.formatQuantityString = function(quantity) {
+      if (!quantity) {
+         return "0x";
+      } else {
+         return "" + quantity + "x";
+      }
+   }
+
    return SetBuilderService;
 }
 ]);

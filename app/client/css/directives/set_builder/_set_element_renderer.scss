@@ -1,16 +1,36 @@
 .set-element {
    div.edit {
-      input {
-         display: inline-block;
-         width: 50%;
-      }
-      select {
-         width: 50%;
-      }
+      div.element {
+         input {
+            display: inline-block;
+            width: 50%;
+         }
+         select {
+            width: 50%;
+         }
 
-      div.interval {
-
+         &.intervals, 
+         &.rests {
+            margin-left: 16px;
+            @import "speed_time_renderer";
+         }
+         margin-bottom: 8px;
       }
-      margin-bottom: 8px;
+   }
+
+   div:not(.edit) {
+      span {
+         margin-left: 4px;
+         &.notes {
+            font-size: 0.9em;
+         }
+      }
+      div.list {
+         &.intervals,
+         &.rests {
+            margin-left: 16px;
+            @import "speed_time_renderer";
+         }
+      }
    }
 }
