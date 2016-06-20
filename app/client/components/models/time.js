@@ -40,11 +40,38 @@ function(BaseModel) {
          this.sub_second = 0;
       },
 
-      toString: function() {
-         return this.hour + ":" 
-                + this.minute + ":"
-                + this.second + "."
-                + this.sub_second;
+      toString: function(canHideZeroValues) {
+         canHideZeroValues = utils.checkBoolean(canHideZeroValues, true);
+
+         if (false === canHideZeroValues) {
+            return "" + this.hour + ":" 
+                  + this.minute + ":"
+                  + this.second + "."
+                  + this.sub_second;
+         } else {
+            var returnString = "";
+
+            if (this.hour) {
+               returnString += "" + this.hour;
+            }
+            if (this.minute) {
+               if (returnString) {
+                  returnString += ":";
+               }
+               returnString += "" + this.minute;
+            }
+            if (this.second) {
+               returnString += 
+               ":" + utils.padWithLeadingZeroes(this.second, 2);
+            } else {
+               returnString += ":00";
+            }
+            if (this.sub_second) {
+               returnString += "." + this.sub_second;
+            }
+
+            return returnString;
+         }
       },
 
       fromString: function(string) {

@@ -1,4 +1,12 @@
 div.set-builder {
    div.sub-content {
+      a {
+         &.left {
+            margin-right: 4px;
+         }
+         &.right {
+            margin-left: 4px;
+         }
+      }
    }
 }

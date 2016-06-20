@@ -1,6 +1,6 @@
 'use strict'
 
-var registerModel = require('./register');
+var registerModel = require('models/register');
 var classy = require('classy');
 
 var name = 'models.workout';
@@ -22,6 +22,15 @@ function(BaseModel, SetModel) {
 
       init: function(config, isFromServer) {
          this.callSuper();
+      },
+
+      getTotalDistance: function() {
+         var totalDistance = 0;
+         this.sets.forEach(function(set) {
+            totalDistance += set.getTotalDistance();
+         });
+
+         return totalDistance;
       }
    });
 }]);

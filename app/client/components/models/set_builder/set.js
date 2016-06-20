@@ -1,6 +1,6 @@
 'use strict'
 
-var registerModel = require('./register');
+var registerModel = require('models/register');
 var classy = require('classy');
 
 var name = 'models.set';
@@ -16,7 +16,7 @@ function(BaseModel, SetElementModel) {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
                notes: "",
-               quantity: 1,
+               quantity: "",
                elements: [{__model__: SetElementModel}]
             })
          }
@@ -24,6 +24,17 @@ function(BaseModel, SetElementModel) {
 
       init: function(config, isFromServer) {
          this.callSuper();
+      },
+
+      getTotalDistance: function() {
+         var totalDistance = 0;
+         this.elements.forEach(function(element) {
+            totalDistance += parseInt(element.quantity || 0) * parseInt(element.distance || 0);
+         });
+
+         totalDistance *= parseInt(this.quantity || 0);
+
+         return totalDistance;
       }
    });
 }]);

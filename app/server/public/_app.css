@@ -10001,6 +10001,10 @@ div.main {
           margin-right: 12px;
           display: inline-block;
           vertical-align: top; }
+      div.main div.mobile-scroll div.main-content div.content div.set-builder div.sub-content a.left {
+        margin-right: 4px; }
+      div.main div.mobile-scroll div.main-content div.content div.set-builder div.sub-content a.right {
+        margin-left: 4px; }
       div.main div.mobile-scroll div.main-content div.content div.error div.sub-content {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.error div.sub-content div.error-header {
@@ -10170,3 +10174,22 @@ div.font-awesome-centered-icon {
   div.font-awesome-centered-icon i {
     display: inline-block;
     vertical-align: middle; }
+
+.set-element div.edit {
+  margin-bottom: 8px; }
+  .set-element div.edit input {
+    display: inline-block;
+    width: 50%; }
+  .set-element div.edit select {
+    width: 50%; }
+
+.speed-time div.edit input {
+  width: 25%; }
+
+.speed-time div.edit select {
+  display: inline-block;
+  width: 20%; }
+
+.speed-time div:not(.edit) span {
+  font-size: 1.1em;
+  margin-right: 8px; }

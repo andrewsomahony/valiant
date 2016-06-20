@@ -48,3 +48,8 @@ html, body {
 @import "directives/loading_progress";
 @import "directives/media_renderer";
 @import "directives/font_awesome_centered_icon";
+
+@import "directives/set_builder/set_element_renderer";
+@import "directives/set_builder/speed_time_renderer";
+@import "directives/set_builder/set_renderer";
+@import "directives/set_builder/workout_renderer";

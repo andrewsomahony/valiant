@@ -210,8 +210,22 @@ function(id, promise) {
          // Special variables that aren't in the
          // fields array so they are never serialized
          // or anything.  Each object retains their own
-         this['event_handlers'] = {};
-         this['local_id'] = id();
+         this.setInternalVariable('event_handlers', {});
+         this.setInternalVariable('local_id', id());
+      },
+
+      // If we want to get/set variables outside of
+      // the list that we get in "fields", we use
+      // internal variables.  These are never serialized
+      // to anything at all, so each object will ALWAYS
+      // have their own unique copy.
+
+      setInternalVariable: function(name, value) {
+          this[name] = value;
+      },
+
+      getInternalVariable: function(name) {
+          return this[name];
       },
       
       fromObject: function(config, isFromServer) {
@@ -379,7 +393,21 @@ function(id, promise) {
 
       pushModelOntoChildArray: function(variableName, model, isForServer) {
          return this.pushObjectOntoChildArray(variableName, model.toObject(isForServer), isForServer);
-      }  
+      },
+
+      deleteFromChildArray: function(variableName, model) {
+         var arr = this[variableName];
+         if (!arr) {
+            throw new Error("deleteFromChildArray: Invalid variable", variableName);
+         } else if (!utils.isArray(arr)) {
+            throw new Error("deleteFromChildArray: Variable is not an array", variableName);
+         } else {
+            utils.inlineDeleteFromArray(arr, function(e) {
+               return e.getInternalVariable('local_id') 
+                === model.getInternalVariable('local_id');
+            });
+         }
+      }
    })   
 }])
 

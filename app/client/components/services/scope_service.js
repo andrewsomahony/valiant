@@ -11,6 +11,16 @@ function($rootScope) {
    function ScopeService() {
       
    }
+
+   ScopeService.watchBool = function($scope, 
+   $attributes, variableName, defaultValue, callbackFn) {
+      $scope.$watch($attributes[variableName], function(newValue) {
+         $scope[variableName] = ScopeService.parseBool(newValue, defaultValue);
+         if (callbackFn) {
+            callbackFn(newValue);
+         }
+      });
+   }
    
    ScopeService.parseBool = function(bool, defaultValue) {
       if (true === utils.isUndefinedOrNull(bool)) {

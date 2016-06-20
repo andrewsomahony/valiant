@@ -1,0 +1,36 @@
+<div ng-if="!isEditing">
+   <span ng-bind="model.name"></span>
+   <span ng-bind="getModelString()"></span>
+
+   <span ng-if="isEditable">
+      <a class="left" ng-click="editClicked()">Edit</a>
+      <a class="right" ng-click="deleteClicked()">Delete</a>
+   </span>
+</div>
+
+<div ng-if="isEditing" class="edit">
+   <input type="text" class="form-control" ng-model="editingModel.name" placeholder="Speed" />
+   
+   <select ng-model="editingModel.time.hour"
+            ng-options="time for time in hours"
+            class="form-control">
+      <option value="">--Hour--</option>
+   </select>
+
+   <select ng-model="editingModel.time.minute"
+            ng-options="time for time in minutes"
+            class="form-control">
+      <option value="">--Minute--</option>
+   </select>
+
+   <select ng-model="editingModel.time.second"
+            ng-options="time for time in seconds"
+            class="form-control">
+      <option value="">--Second--</option>
+   </select>
+
+   <div>
+      <a class="left" ng-bind="saveButtonText" ng-click="saveClicked()"></a>
+      <a class="right" ng-click="cancelClicked()">Cancel</a>
+   </div>
+</div>

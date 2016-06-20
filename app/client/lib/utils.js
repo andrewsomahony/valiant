@@ -323,6 +323,14 @@
             return !!this.fromJson(string.toLowerCase());
          }
       },
+
+      checkBoolean: function(bool, defaultValue) {
+          if (true === this.isUndefinedOrNull(bool)) {
+             return defaultValue;
+          } else {
+             return bool;
+          }
+      },
       
       sliceStringByRegexMatches: function(string, startRegexMatch, endRegexMatch) {
           var startIndex = 0;
@@ -341,6 +349,28 @@
           return string.slice(startIndex, endIndex);
       },
       
+      padWithLeadingZeroes: function(number, numberOfLeadingZeroes) {
+         numberOfLeadingZeroes = numberOfLeadingZeroes || 0;
+
+         var returnString = "" + number;
+         while (returnString.length < length) {
+            returnString = "0" + returnString;
+         }
+         return returnString;
+      },
+
+      numberToString: function(number) {
+         return this.padWithLeadingZeroes(number);
+      },
+
+      loopedIntegerArray: function(num) {
+         var arr = new Array(num);
+         for (var i = 0; i < num; i++) {
+            arr.push(i);    
+         }
+         return arr;
+      },
+
       parseTimeStringToSeconds: function(timeString) {
          var timeMatch = timeString.match(/(\d{1,}):(\d{1,2}):(\d{1,2})(\.\d{1,})?/);
          

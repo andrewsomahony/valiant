@@ -1,6 +1,6 @@
 'use strict'
 
-var registerModel = require('./register');
+var registerModel = require('models/register');
 var classy = require('classy');
 
 var name = 'models.set_element';
@@ -16,7 +16,7 @@ function(BaseModel, SpeedTimeModel) {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
                notes: "",
-               quantity: 0,
+               quantity: "",
                distance: "",
                type: "",
                stroke: "",

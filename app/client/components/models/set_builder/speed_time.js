@@ -1,6 +1,6 @@
 'use strict'
 
-var registerModel = require('./register');
+var registerModel = require('models/register');
 var classy = require('classy');
 
 var name = 'models.speed_time';
