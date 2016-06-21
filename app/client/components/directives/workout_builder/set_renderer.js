@@ -4,9 +4,9 @@ var registerDirective = require('directives/register');
 
 var name = 'set';
 
-registerDirective(name, [require('models/set_builder/set'),
+registerDirective(name, [require('models/workout_builder/set'),
                          require('services/scope_service'),
-                         require('services/set_builder_service'),
+                         require('services/workout_builder_service'),
 function(SetModel, ScopeService, SetBuilderService) {
    return {
       restrict: 'E',
@@ -24,7 +24,7 @@ function(SetModel, ScopeService, SetBuilderService) {
          //isEditable: "@",
          //isInitiallyEditing: "@"
       },
-      templateUrl: "directives/set_builder/set_renderer.html",
+      templateUrl: "directives/workout_builder/set_renderer.html",
       link: function($scope, $element, $attributes) {
          $element.addClass('set');
 

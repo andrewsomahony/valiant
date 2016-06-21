@@ -2,14 +2,19 @@
 
 var registerController = require('controllers/register');
 
-var name = 'controllers.main.set_builder.default';
+var name = 'controllers.main.workout_builder.new';
 
 registerController(name, ['$scope',
-require('models/set_builder/workout'),
-require('models/set_builder/set'),
+require('models/workout_builder/workout'),
+require('models/workout_builder/set'),
 function($scope, WorkoutModel, SetModel) {
-   $scope.currentWorkout = new WorkoutModel();
-   $scope.currentWorkout.setInternalVariable('is_unborn', true);
+   $scope.currentWorkout = null;
+   $scope.isEditingSet = false;
+
+   $scope.newWorkout = function() {
+      $scope.currentWorkout = new WorkoutModel();
+      $scope.currentWorkout.setInternalVariable('is_unborn', true);
+   }
 
    $scope.setIsEditingSet = function(isEditingSet, setModel) {
       $scope.isEditingSet = isEditingSet;
@@ -48,6 +53,7 @@ function($scope, WorkoutModel, SetModel) {
 
    $scope.workoutCancel = function(workout) {
       $scope.setIsEditingSet(false);
+      $scope.currentWorkout = null;
    }
 }])
 

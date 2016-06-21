@@ -3,11 +3,11 @@
 var registerModel = require('models/register');
 var classy = require('classy');
 
-var name = 'models.set_element';
+var name = 'models.workout';
 
 registerModel(name, [require('models/base'),
-                     require('models/set_builder/speed_time'),
-function(BaseModel, SpeedTimeModel) {
+                     require('models/workout_builder/set'),
+function(BaseModel, SetModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -15,20 +15,23 @@ function(BaseModel, SpeedTimeModel) {
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
-               notes: "",
-               quantity: "",
-               distance: "",
-               type: "",
-               stroke: "",
-               stroke_modification: "",
-               intervals: [{__model__: SpeedTimeModel}],
-               rests: [{__model__: SpeedTimeModel}]
+               name: "",
+               sets: [{__model__: SetModel}]
             })
          }
       },
 
       init: function(config, isFromServer) {
          this.callSuper();
+      },
+
+      getTotalDistance: function() {
+         var totalDistance = 0;
+         this.sets.forEach(function(set) {
+            totalDistance += set.getTotalDistance();
+         });
+
+         return totalDistance;
       }
    });
 }]);

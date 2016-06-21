@@ -13,7 +13,8 @@ function() {
    PermissionService.stateRequiresLogin = function(state) {
       return 'admin.home.default' === state ||
              'main.page.question.ask' === state ||
-             'main.page.set_builder.default' === state;
+             'main.page.workout_builder.default' === state ||
+             'main.page.workout_builder.new' === state;
    }
    
    PermissionService.stateHiddenWithLogin = function(state) {

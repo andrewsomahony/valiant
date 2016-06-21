@@ -1,5 +1,8 @@
-div.set-builder {
+div.workout-builder {
    div.sub-content {
+      input.form-control {
+         display: inline-block;
+      }
       a {
          &.left {
             margin-right: 0.2em;

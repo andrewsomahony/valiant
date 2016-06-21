@@ -4,9 +4,9 @@ var registerDirective = require('directives/register');
 
 var name = 'setElement';
 
-registerDirective(name, [require('models/set_builder/set_element'),
+registerDirective(name, [require('models/workout_builder/set_element'),
                          require('services/scope_service'),
-                         require('services/set_builder_service'),
+                         require('services/workout_builder_service'),
                          '$timeout',
 function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
    return {
@@ -22,7 +22,7 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
          onEditClicked: "&",
       },
       
-      templateUrl: "directives/set_builder/set_element_renderer.html",
+      templateUrl: "directives/workout_builder/set_element_renderer.html",
       link: function($scope, $element, $attributes) {
          $element.addClass('set-element');
 

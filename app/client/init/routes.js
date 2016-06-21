@@ -295,44 +295,59 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }
    })
 
-   .state("main.page.set_builder", {
-       url: "set_builder",
+   .state("main.page.workout_builder", {
+       url: "workout_builder",
        abstract: true,
        views: {
            "content@main": {
-               controller: require('controllers/main/set_builder/set_builder'),
-               templateUrl: "partials/main/set_builder/set_builder.html"
+               controller: require('controllers/main/workout_builder/workout_builder'),
+               templateUrl: "partials/main/workout_builder/workout_builder.html"
            }
        }
    })
 
-   .state("main.page.set_builder.default", {
-       url: "/",
-       resolve: RouteResolver("main.page.set_builder.default"),
+   .state("main.page.workout_builder.new", {
+      url: "/new",
+      resolve: RouteResolver("main.page.workout_builder.new"),
        views: {
            "nav_bar@main.page": {
                templateUrl: "partials/main/nav_bar.html"
            },
-           "content@main.page.set_builder": {
-               templateUrl: "partials/main/set_builder/content.html",
-               controller: require("controllers/main/set_builder/default")
+           "content@main.page.workout_builder": {
+               templateUrl: "partials/main/workout_builder/new.html",
+               controller: require("controllers/main/workout_builder/new")
            }
        }
    })
 
-   .state("main.page.set_builder.unauthorized", {
+   .state("main.page.workout_builder.unauthorized", {
        url: "/unauthorized",
+       resolve: RouteResolver("main.page.workout_builder.unauthorized"),
        views: {
            "nav_bar@main.page": {
                templateUrl: "partials/main/nav_bar.html"
            },
-           "content@main.page.set_builder": {
+           "content@main.page.workout_builder": {
                templateUrl: "partials/main/unauthorized.html",
-               controller: require("controllers/main/set_builder/unauthorized")
+               controller: require("controllers/main/workout_builder/unauthorized")
            }
        }
    })
    
+   .state("main.page.workout_builder.default", {
+       url: "/:workoutId",
+       resolve: RouteResolver("main.page.workout_builder.default"),
+       views: {
+           "nav_bar@main.page": {
+               templateUrl: "partials/main/nav_bar.html"
+           },
+           "content@main.page.workout_builder": {
+               templateUrl: "partials/main/workout_builder/content.html",
+               controller: require("controllers/main/workout_builder/default")
+           }
+       }
+   })
+
    $stateProvider.state("admin", {
        url: "/admin",
        abstract: true,

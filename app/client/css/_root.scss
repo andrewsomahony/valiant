@@ -75,7 +75,7 @@ html, body {
 @import "directives/font_awesome_centered_icon";
 @import "directives/font_awesome_icon_text";
 
-@import "directives/set_builder/set_element_renderer";
-@import "directives/set_builder/speed_time_renderer";
-@import "directives/set_builder/set_renderer";
-@import "directives/set_builder/workout_renderer";
+@import "directives/workout_builder/set_element_renderer";
+@import "directives/workout_builder/speed_time_renderer";
+@import "directives/workout_builder/set_renderer";
+@import "directives/workout_builder/workout_renderer";

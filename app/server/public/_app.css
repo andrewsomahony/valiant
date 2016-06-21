@@ -10014,9 +10014,11 @@ div.main {
           margin-right: 12px;
           display: inline-block;
           vertical-align: top; }
-      div.main div.mobile-scroll div.main-content div.content div.set-builder div.sub-content a.left {
+      div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content input.form-control {
+        display: inline-block; }
+      div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content a.left {
         margin-right: 0.2em; }
-      div.main div.mobile-scroll div.main-content div.content div.set-builder div.sub-content a.right {
+      div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content a.right {
         margin-left: 0.2em; }
       div.main div.mobile-scroll div.main-content div.content div.error div.sub-content {
         text-align: center; }

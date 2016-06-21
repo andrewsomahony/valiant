@@ -4,8 +4,8 @@ var registerDirective = require('directives/register');
 
 var name = 'workout';
 
-registerDirective(name, [require('models/set_builder/workout'),
-                         require('services/set_builder_service'),
+registerDirective(name, [require('models/workout_builder/workout'),
+                         require('services/workout_builder_service'),
                          require('services/scope_service'),
 function(WorkoutModel, SetBuilderService, ScopeService) {
    return {
@@ -25,7 +25,7 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
          //isEditable: "@",
          //canEditInline: "@"
       },
-      templateUrl: "directives/set_builder/workout_renderer.html",
+      templateUrl: "directives/workout_builder/workout_renderer.html",
       link: function($scope, $element, $attributes) {
          $element.addClass('workout');
 
@@ -56,6 +56,8 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
          $scope.newSet = function() {
             var set = $scope.editingWorkout.pushOntoChildArray('sets');
             set.setInternalVariable('is_unborn', true);
+
+            console.log($scope.editingWorkout);
          }
 
          $scope.editSet = function(set) {

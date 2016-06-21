@@ -32,6 +32,7 @@ require('./main/question/default');
 require('./main/question/ask');
 require('./main/question/unauthorized');
 
-require('./main/set_builder/set_builder');
-require('./main/set_builder/default');
-require('./main/set_builder/unauthorized');
+require('./main/workout_builder/workout_builder');
+require('./main/workout_builder/default');
+require('./main/workout_builder/unauthorized');
+require('./main/workout_builder/new');

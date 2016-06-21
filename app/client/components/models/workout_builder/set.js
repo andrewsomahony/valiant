@@ -6,7 +6,7 @@ var classy = require('classy');
 var name = 'models.set';
 
 registerModel(name, [require('models/base'),
-                     require('models/set_builder/set_element'),
+                     require('models/workout_builder/set_element'),
 function(BaseModel, SetElementModel) {
    return classy.define({
       extend: BaseModel,

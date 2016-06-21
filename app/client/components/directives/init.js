@@ -18,10 +18,10 @@ require('./picture_renderer');
 require('./video_renderer');
 require('./youtube_renderer');
 
-require('./set_builder/workout_renderer');
-require('./set_builder/speed_time_renderer');
-require('./set_builder/set_renderer');
-require('./set_builder/set_element_renderer');
+require('./workout_builder/workout_renderer');
+require('./workout_builder/speed_time_renderer');
+require('./workout_builder/set_renderer');
+require('./workout_builder/set_element_renderer');
 
 require('./font_awesome_centered_icon');
 require('./font_awesome_icon_text');

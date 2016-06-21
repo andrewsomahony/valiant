@@ -6,7 +6,7 @@ var utils = require('utils');
 
 var name = 'speedTime';
 
-registerDirective(name, [require('models/set_builder/speed_time'),
+registerDirective(name, [require('models/workout_builder/speed_time'),
                          require('services/scope_service'),
                          '$timeout',
 function(SpeedTimeModel, ScopeService, $timeout) {
@@ -37,7 +37,7 @@ function(SpeedTimeModel, ScopeService, $timeout) {
          onDeleteClicked: "&",
          onEditClicked: "&"
       },
-      templateUrl: 'directives/set_builder/speed_time_renderer.html',
+      templateUrl: 'directives/workout_builder/speed_time_renderer.html',
       link: function($scope, $element, $attributes) {
          $element.addClass('speed-time');
 
