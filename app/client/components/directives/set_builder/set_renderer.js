@@ -30,6 +30,7 @@ function(SetModel, ScopeService, SetBuilderService) {
 
          $scope.hasCheckedInitiallyEditing = false;
 
+         ScopeService.watchBool($scope, $attributes, 'isDetached', false);
          ScopeService.watchBool($scope, $attributes, 'showTotalWhenNotEditing', false);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', false);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
@@ -53,7 +54,8 @@ function(SetModel, ScopeService, SetBuilderService) {
          }
 
          $scope.editClicked = function() {
-            if (true === $scope.canEditInline) {
+            if (true === $scope.canEditInline ||
+                true === $scope.isDetached) {
                $scope.setIsEditing(true);
             }
             $scope.onEditClicked({set: $scope.model});

@@ -28,6 +28,7 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
 
          $scope.hasCheckedInitiallyEditing = false;
 
+         ScopeService.watchBool($scope, $attributes, 'isDetached', false);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', false);
          ScopeService.watchBool($scope, $attributes, 'showIntervalsAndRests', true);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
@@ -50,6 +51,30 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
 
          $scope.strokes = 
             SetBuilderService.getSetStrokesArray();
+
+         $scope.getEditDivClass = function() {
+            var classes = [];
+
+            if (true === $scope.canEditInline &&
+                false === $scope.isDetached) {
+               classes.push('inline');
+            }
+
+            return classes;
+         }
+
+         // If we are editing, we want to have
+         // symmetrical borders, this just gives us
+         // a bit of a margin so we get them
+
+         $scope.getEditOptionsDivStyle = function() {
+            var style = {};
+
+            if (true === $scope.canEditInline) {
+               style['margin-bottom'] = "-0.35em";
+            }
+            return style;
+         }
 
          $scope.setIsEditing = function(isEditing) {
             $scope.isEditing = isEditing;

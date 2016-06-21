@@ -1,11 +1,12 @@
 <div ng-if="!isEditing && !model.is_unborn">
    <div class="options">
+      <span class="bullet"><i class="fa fa-circle"></i></span>
       <span class="notes" ng-bind="getSetNotes()"></span>
       <span class="quantity" ng-bind="getSetQuantity()"></span>
 
       <span ng-if="isEditable">
-         <a ng-click="editClicked()">Edit</a>
-         <a ng-click="deleteClicked()">Delete</a>
+         <a ng-click="editClicked()"><i class="fa fa-pencil-square-o"></i></a>
+         <a ng-click="deleteClicked()"><i class="fa fa-trash-o"></i></a>
       </span>
    </div>
    <div class="list elements">
@@ -18,6 +19,7 @@
    </div> 
 
    <div class="total" ng-if="showTotalWhenNotEditing">
+      <span><i class="fa fa-arrow-right"></i></span>
       <span ng-bind="getSetTotal()"></span>
    </div>
 
@@ -37,7 +39,7 @@
       <div ng-repeat="element in editingSet.elements">
          <set-element
             model="element"
-            save-button-text="{{element.is_unborn ? 'Add Swim' : 'Save'}}"
+            save-button-text="Save"
             on-save-clicked="saveSetElement(element)"
             on-delete-clicked="deleteSetElement(element)"
             on-cancel-clicked="cancelSetElement(element)"
@@ -51,13 +53,13 @@
    </div>
 
    <div class="total">
+      <span><i class="fa fa-arrow-right"></i></span>
       <span ng-bind="getSetTotal()"></span>
    </div>
 
-   <div class="menu">
-      <a class="left" 
-         ng-bind="saveButtonText" 
-         ng-click="saveClicked()"></a>
+   <div class="bottom-options">
+      <a class="left"
+         ng-click="saveClicked()">Save</a>
       <a class="right" ng-click="cancelClicked()">Cancel</a>
    </div>
 </div>

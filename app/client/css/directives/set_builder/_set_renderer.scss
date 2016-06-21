@@ -1,4 +1,13 @@
 .set {
+   a {
+      font-size: 0.9em;
+   }
+
+   span.bullet {
+      font-size: 0.7em;
+      margin-right: 5px;
+   }   
+
    div.list {
       &.elements {
          margin-left: 16px;
@@ -11,6 +20,19 @@
    }
 
    div.edit {
+      &.inline {
+         margin-top: 0.6em;
+         margin-bottom: 0.6em;
+         padding-top: 0.4em;
+         padding-bottom: 0.4em;
+         border-top: 1px dotted black;
+         border-bottom: 1px dotted black;         
+
+         div.bottom-options {
+            margin-bottom: -0.35em;  
+         }
+      }
+
       div.options {
          div.option {
             margin-bottom: 8px;

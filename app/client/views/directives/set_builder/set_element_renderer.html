@@ -1,4 +1,5 @@
 <div ng-if="!isEditing">
+   <span class="bullet"><i class="fa fa-circle-o"></i></span>
    <span ng-bind="getElementQuantityAndDistance()"></span>
    <span ng-bind="getElementStroke()"></span>
    <span ng-bind="model.type"></span>
@@ -26,7 +27,7 @@
    </div>
 </div>
 
-<div ng-if="isEditing" class="edit">
+<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
    <div class="element">
       <input class="distance form-control" type="text" placeholder="Distance" ng-model="editingElement.distance" />
    </div>
@@ -63,7 +64,7 @@
                            is-editable="true"
                            can-edit-inline="true"
                            is-initially-editing="{{interval.is_unborn}}"
-                           save-button-text="{{interval.is_unborn ? 'Add Interval' : 'Save'}}"
+                           save-button-text="Save"
                            on-save-clicked="saveInterval(speedTime)"
                            on-cancel-clicked="cancelInterval(speedTime)"
                            on-delete-clicked="deleteInterval(speedTime)">
@@ -78,7 +79,7 @@
                      is-interval="false"
                      can-edit-inline="true"
                      is-initially-editing="{{rest.is_unborn}}"
-                     save-button-text="{{rest.is_unborn ? 'Add Rest' : 'Save'}}"
+                     save-button-text="Save"
                      on-save-clicked="saveRest(speedTime)"
                      on-cancel-clicked="cancelRest(speedTime)"
                      on-delete-clicked="deleteRest(speedTime)"></speed-time>
@@ -91,7 +92,7 @@
       <input class="notes form-control" type="text" placeholder="Notes" ng-model="editingElement.notes" />
    </div>
 
-   <div class="element">
+   <div class="bottom-options">
       <a ng-click="saveClicked()" class="left" ng-bind="saveButtonText"></a>
       <a ng-click="cancelClicked()" class="right">Cancel</a>
    </div>

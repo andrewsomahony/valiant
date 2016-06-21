@@ -16,9 +16,33 @@ html, body {
         left: -7000px;
     }
     
+    /*
     a:hover {
         cursor: pointer;
-    }
+    }*/
+
+    a {
+       display: inline-block;
+       position: relative;
+
+       &:hover {
+          cursor: pointer;
+          text-decoration: none;
+          //border-bottom: 1px solid;
+          &:not(.cancel-underline) {
+            &::after {
+               content: '';
+               position: absolute;
+               left: 0;
+               display: inline-block;
+               height: 1em;
+               width: 100%;
+               border-bottom: 1px solid;
+               margin-top: 0.22em;
+            }
+          }
+       }
+    }    
     
     div.profile-picture {
         display: inline-block;

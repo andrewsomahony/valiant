@@ -8,7 +8,7 @@
    </span>
 </div>
 
-<div ng-if="isEditing" class="edit">
+<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
    <div class="form">
       <input type="text" class="form-control" ng-model="editingModel.name" placeholder="Speed" />
       
@@ -30,7 +30,7 @@
             <option value="">--Second--</option>
       </select>
    </div>
-   <div class="menu">
+   <div class="bottom-options">
       <a class="left" ng-bind="saveButtonText" ng-click="saveClicked()"></a>
       <a class="right" ng-click="cancelClicked()">Cancel</a>
    </div>

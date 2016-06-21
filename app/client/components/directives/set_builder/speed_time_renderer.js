@@ -43,6 +43,7 @@ function(SpeedTimeModel, ScopeService, $timeout) {
 
          $scope.hasCheckedInitiallyEditing = false;
 
+         ScopeService.watchBool($scope, $attributes, 'isDetached', false);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
          ScopeService.watchBool($scope, $attributes, 'isInterval', false);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
@@ -54,7 +55,18 @@ function(SpeedTimeModel, ScopeService, $timeout) {
                   $scope.editClicked();
                }
             }
-         })
+         });
+
+         $scope.getEditDivClass = function() {
+            var classes = [];
+
+            if (true === $scope.canEditInline &&
+                false === $scope.isDetached) {
+               classes.push('inline');
+            }
+
+            return classes;
+         }
 
          $scope.setIsEditing = function(isEditing) {
             $scope.isEditing = isEditing;

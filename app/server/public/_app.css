@@ -9647,7 +9647,11 @@ html, body {
   height: 100%;
   min-height: 100%;
   overflow: hidden;
-  position: relative; }
+  position: relative;
+  /*
+    a:hover {
+        cursor: pointer;
+    }*/ }
   html input[type="text"], html input[type="password"],
   html input[type="email"], body input[type="text"], body input[type="password"],
   body input[type="email"] {
@@ -9656,8 +9660,21 @@ html, body {
   html input.file-reader-picker, body input.file-reader-picker {
     position: absolute;
     left: -7000px; }
-  html a:hover, body a:hover {
-    cursor: pointer; }
+  html a, body a {
+    display: inline-block;
+    position: relative; }
+    html a:hover, body a:hover {
+      cursor: pointer;
+      text-decoration: none; }
+      html a:hover:not(.cancel-underline)::after, body a:hover:not(.cancel-underline)::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        display: inline-block;
+        height: 1em;
+        width: 100%;
+        border-bottom: 1px solid;
+        margin-top: 0.22em; }
   html div.profile-picture, body div.profile-picture {
     display: inline-block; }
   html div.loading-progress, body div.loading-progress {
@@ -10217,6 +10234,13 @@ div.font-awesome-centered-icon {
   font-size: 0.9em;
   margin-right: 8px; }
 
+.set a {
+  font-size: 0.9em; }
+
+.set span.bullet {
+  font-size: 0.7em;
+  margin-right: 5px; }
+
 .set div.list.elements {
   margin-left: 16px; }
   .set div.list.elements .set-element div.list.intervals, .set div.list.elements .set-element div.list.rests {
@@ -10247,6 +10271,16 @@ div.font-awesome-centered-icon {
 .set div.total {
   margin-top: 8px; }
 
+.set div.edit.inline {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+  border-top: 1px dotted black;
+  border-bottom: 1px dotted black; }
+  .set div.edit.inline div.bottom-options {
+    margin-bottom: -0.35em; }
+
 .set div.edit div.options {
   margin-bottom: 8px; }
   .set div.edit div.options div.option {
@@ -10261,9 +10295,16 @@ div.font-awesome-centered-icon {
 
 .workout a {
   font-size: 0.9em; }
+  .workout a.fa-icon-link span.link-full-text span.link-text {
+    margin-left: 0.167em; }
 
 .workout .list.sets {
   margin-left: 16px; }
+  .workout .list.sets .set a {
+    font-size: 0.9em; }
+  .workout .list.sets .set span.bullet {
+    font-size: 0.7em;
+    margin-right: 5px; }
   .workout .list.sets .set div.list.elements {
     margin-left: 16px; }
     .workout .list.sets .set div.list.elements .set-element div.list.intervals, .workout .list.sets .set div.list.elements .set-element div.list.rests {
@@ -10292,6 +10333,15 @@ div.font-awesome-centered-icon {
         font-size: 0.9em; }
   .workout .list.sets .set div.total {
     margin-top: 8px; }
+  .workout .list.sets .set div.edit.inline {
+    margin-top: 0.6em;
+    margin-bottom: 0.6em;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    border-top: 1px dotted black;
+    border-bottom: 1px dotted black; }
+    .workout .list.sets .set div.edit.inline div.bottom-options {
+      margin-bottom: -0.35em; }
   .workout .list.sets .set div.edit div.options {
     margin-bottom: 8px; }
     .workout .list.sets .set div.edit div.options div.option {

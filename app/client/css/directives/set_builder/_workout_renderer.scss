@@ -1,7 +1,16 @@
 .workout {
    a {
       font-size: 0.9em;
+
+      &.fa-icon-link {
+         span.link-full-text {
+            span.link-text {
+               margin-left: 0.167em;
+            }
+         }
+      }
    }
+
    .list {
       &.sets {
          margin-left: 16px;

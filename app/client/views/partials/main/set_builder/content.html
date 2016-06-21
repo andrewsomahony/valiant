@@ -1,4 +1,4 @@
-<div class="col-lg-6">
+<div class="col-lg-6" style="font-size:18px;">
    <workout model="currentWorkout"
             save-button-text="{{currentWorkout.is_unborn ? 'Create Workout' : 'Save Workout'}}"
             cancel-button-text="Cancel"
@@ -12,7 +12,7 @@
    </workout>
 </div>
 
-<div class="col-lg-6">
+<div class="col-lg-6" style="font-size:18px;">
    <set ng-if="isEditingSet"
       model="currentEditingSet"
       save-button-text="{{currentEditingSet.is_unborn ? 'Add Set' : 'Save'}}"
@@ -21,7 +21,8 @@
       on-cancel-clicked="cancelEditSet(set)"
       show-total-when-not-editing="false"
       is-initially-editing="true"
-      can-edit-inline="true"
-      is-editable="true">
+      can-edit-inline="false"
+      is-editable="true"
+      is-detached="true">
    </set>   
 </div>
