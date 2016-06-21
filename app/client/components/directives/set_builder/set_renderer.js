@@ -18,6 +18,11 @@ function(SetModel, ScopeService, SetBuilderService) {
          onEditClicked: "&",
          onCancelClicked: "&",
          onDeleteClicked: "&",
+         
+         //showTotalWhenNotEditing: "@"
+         //canEditInline: "@",
+         //isEditable: "@",
+         //isInitiallyEditing: "@"
       },
       templateUrl: "directives/set_builder/set_renderer.html",
       link: function($scope, $element, $attributes) {
@@ -25,12 +30,15 @@ function(SetModel, ScopeService, SetBuilderService) {
 
          $scope.hasCheckedInitiallyEditing = false;
 
+         ScopeService.watchBool($scope, $attributes, 'showTotalWhenNotEditing', false);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', false);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
          ScopeService.watchBool($scope, $attributes, 'isInitiallyEditing', false, function(newValue) {
             if (!$scope.hasCheckedInitiallyEditing) {
                $scope.hasCheckedInitiallyEditing = true;
-               $scope.setIsEditing($scope.isInitiallyEditing);
+               if (true === $scope.isInitiallyEditing) {
+                  $scope.editClicked();
+               }
             }
          });
 
@@ -80,6 +88,10 @@ function(SetModel, ScopeService, SetBuilderService) {
             if (true === element.getInternalVariable('is_unborn')) {
                $scope.deleteSetElement(element);
             }
+         }
+
+         $scope.getSetTotal = function() {
+            return SetBuilderService.formatSetTotalString($scope.editingSet.getTotalDistance());
          }
 
          $scope.getSetQuantity = function() {

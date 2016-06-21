@@ -19,7 +19,7 @@
    <div class="list rests">
       <div ng-repeat="rest in model.rests"
             ng-if="showIntervalsAndRests">
-            <speed-time model="interval" 
+            <speed-time model="rest" 
                               is-interval="false"
                               is-editable="false"></speed-time-display>
       </div>
@@ -56,37 +56,36 @@
       </select>
    </div>
 
-   <div class="element intervals">
-      <div 
-            ng-repeat="interval in editingElement.intervals">
+   <div class="element list intervals">
+      <div ng-repeat="interval in editingElement.intervals">
          <speed-time model="interval" 
                            is-interval="true"
                            is-editable="true"
                            can-edit-inline="true"
-                           is-initially-editing="{{interval.is_unborn ? true : false}}"
-                           save-button-text="{{interval.is_unborn ? 'Add' : 'Save'}}"
+                           is-initially-editing="{{interval.is_unborn}}"
+                           save-button-text="{{interval.is_unborn ? 'Add Interval' : 'Save'}}"
                            on-save-clicked="saveInterval(speedTime)"
                            on-cancel-clicked="cancelInterval(speedTime)"
                            on-delete-clicked="deleteInterval(speedTime)">
          </speed-time>
       </div>  
+      <a ng-click="newInterval()">New Interval</a>
    </div>
-   <a ng-click="newInterval()">Add Interval</a>
-
-   <div class="element rests">
-      <div  
-            ng-repeat="rest in editingElement.rests">
-            <speed-time model="rest" 
-                        is-interval="false"
-                        can-edit-inline="true"
-                        is-initially-editing="{{interval.is_unborn}}"
-                        save-button-text="{{interval.is_unborn ? 'Add' : 'Save'}}"
-                        on-save-clicked="saveRest(speedTime)"
-                        on-cancel-clicked="cancelRest(speedTime)"
-                        on-delete-clicked="deleteRest(speedTime)"></speed-time>
-      </div>                     
+   
+   <div class="element list rests">
+      <div ng-repeat="rest in editingElement.rests">
+         <speed-time model="rest" 
+                     is-interval="false"
+                     can-edit-inline="true"
+                     is-initially-editing="{{rest.is_unborn}}"
+                     save-button-text="{{rest.is_unborn ? 'Add Rest' : 'Save'}}"
+                     on-save-clicked="saveRest(speedTime)"
+                     on-cancel-clicked="cancelRest(speedTime)"
+                     on-delete-clicked="deleteRest(speedTime)"></speed-time>
+      </div>  
+      <a ng-click="newRest()">New Rest</a>                   
    </div>
-   <a ng-click="newRest()">Add Rest</a>
+  
 
    <div class="element">
       <input class="notes form-control" type="text" placeholder="Notes" ng-model="editingElement.notes" />

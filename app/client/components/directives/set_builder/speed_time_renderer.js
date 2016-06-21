@@ -43,13 +43,16 @@ function(SpeedTimeModel, ScopeService, $timeout) {
 
          $scope.hasCheckedInitiallyEditing = false;
 
+         ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
          ScopeService.watchBool($scope, $attributes, 'isInterval', false);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
          ScopeService.watchBool($scope, $attributes, 'isInitiallyEditing', false, function(newValue) {
             // We only want to run this once
             if (!$scope.hasCheckedInitiallyEditing) {
                $scope.hasCheckedInitiallyEditing = true;
-               $scope.setIsEditing($scope.isInitiallyEditing);
+               if (true === $scope.isInitiallyEditing) {
+                  $scope.editClicked();
+               }
             }
          })
 

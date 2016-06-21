@@ -9,27 +9,28 @@
 </div>
 
 <div ng-if="isEditing" class="edit">
-   <input type="text" class="form-control" ng-model="editingModel.name" placeholder="Speed" />
-   
-   <select ng-model="editingModel.time.hour"
-            ng-options="time for time in hours"
-            class="form-control">
-      <option value="">--Hour--</option>
-   </select>
+   <div class="form">
+      <input type="text" class="form-control" ng-model="editingModel.name" placeholder="Speed" />
+      
+      <select ng-model="editingModel.time.hour"
+                  ng-options="time for time in hours"
+                  class="form-control">
+            <option value="">--Hour--</option>
+      </select>
 
-   <select ng-model="editingModel.time.minute"
-            ng-options="time for time in minutes"
-            class="form-control">
-      <option value="">--Minute--</option>
-   </select>
+      <select ng-model="editingModel.time.minute"
+                  ng-options="time for time in minutes"
+                  class="form-control">
+            <option value="">--Minute--</option>
+      </select>
 
-   <select ng-model="editingModel.time.second"
-            ng-options="time for time in seconds"
-            class="form-control">
-      <option value="">--Second--</option>
-   </select>
-
-   <div>
+      <select ng-model="editingModel.time.second"
+                  ng-options="time for time in seconds"
+                  class="form-control">
+            <option value="">--Second--</option>
+      </select>
+   </div>
+   <div class="menu">
       <a class="left" ng-bind="saveButtonText" ng-click="saveClicked()"></a>
       <a class="right" ng-click="cancelClicked()">Cancel</a>
    </div>

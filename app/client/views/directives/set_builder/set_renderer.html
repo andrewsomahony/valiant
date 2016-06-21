@@ -1,4 +1,4 @@
-<div ng-if="!isEditing">
+<div ng-if="!isEditing && !model.is_unborn">
    <div class="options">
       <span class="notes" ng-bind="getSetNotes()"></span>
       <span class="quantity" ng-bind="getSetQuantity()"></span>
@@ -16,14 +16,19 @@
          </set-element>
       </div>  
    </div> 
+
+   <div class="total" ng-if="showTotalWhenNotEditing">
+      <span ng-bind="getSetTotal()"></span>
+   </div>
+
 </div>
 
 <div ng-if="isEditing" class="edit">
    <div class="options">
-      <div>
-         <input type="text" class="form-control" placeholder="Number of Rounds" ng-model="editingSet.quantity" />
+      <div class="option">
+         <input type="text" class="quantity form-control" placeholder="Rounds" ng-model="editingSet.quantity" />
       </div>
-      <div>
+      <div class="option">
          <input type="text" class="form-control notes" placeholder="Notes" ng-model="editingSet.notes" />
       </div>
    </div>
@@ -32,29 +37,27 @@
       <div ng-repeat="element in editingSet.elements">
          <set-element
             model="element"
-            save-button-text="{{element.is_unborn ? 'Add' : 'Save'}}"
+            save-button-text="{{element.is_unborn ? 'Add Swim' : 'Save'}}"
             on-save-clicked="saveSetElement(element)"
             on-delete-clicked="deleteSetElement(element)"
             on-cancel-clicked="cancelSetElement(element)"
             is-editable="true"
             can-edit-inline="true"
-            is-initially-editing="{{element.is_unborn ? true : false}}"
+            is-initially-editing="{{element.is_unborn}}"
             show-intervals-and-rests="true">
          </set-element>
       </div>
-   </div>
-
-   <div class="menu">
-      <a ng-click="newSetElement()">Add Swim</a>
+      <a ng-click="newSetElement()">New Swim</a>
    </div>
 
    <div class="total">
       <span ng-bind="getSetTotal()"></span>
-      <div class="menu">
-         <a class="left" 
-            ng-bind="saveButtonText" 
-            ng-click="saveClicked()"></a>
-         <a class="right" ng-click="cancelClicked()">Cancel</a>
-      </div>
+   </div>
+
+   <div class="menu">
+      <a class="left" 
+         ng-bind="saveButtonText" 
+         ng-click="saveClicked()"></a>
+      <a class="right" ng-click="cancelClicked()">Cancel</a>
    </div>
 </div>

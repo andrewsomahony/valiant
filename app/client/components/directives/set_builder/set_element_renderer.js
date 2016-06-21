@@ -35,7 +35,9 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
             // We only want to run this once.
             if (!$scope.hasCheckedInitiallyEditing) {
                $scope.hasCheckedInitiallyEditing = true;
-               $scope.setIsEditing($scope.isInitiallyEditing);
+               if (true === $scope.isInitiallyEditing) {
+                  $scope.editClicked();
+               }
             }
 
          })
@@ -82,13 +84,36 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
             $scope.onCancelClicked({element: $scope.model});
          }
 
-         $scope.newInterval = function() {
-            var interval = $scope.editingElement.pushOntoChildArray('intervals');
-            interval.setInternalVariable('is_unborn', true);
+         $scope.saveSpeedTime = function(speedTime) {
+            speedTime.setInternalVariable('is_unborn', false);
+         }
+
+         $scope.saveRest = function(speedTime) {
+            $scope.saveSpeedTime(speedTime);
+         }
+
+         $scope.newRest = function() {
+            var rest = $scope.editingElement.pushOntoChildArray('rests');
+            rest.setInternalVariable('is_unborn', true);
+         }
+
+         $scope.deleteRest = function(speedTime) {
+            $scope.editingElement.deleteFromChildArray('rests', speedTime);
+         }
+
+         $scope.cancelRest = function(speedTime) {
+            if (true === speedTime.getInternalVariable('is_unborn')) {
+               $scope.deleteRest(speedTime);
+            }            
          }
 
          $scope.saveInterval = function(speedTime) {
-            speedTime.setInternalVariable('is_unborn', false);
+            $scope.saveSpeedTime(speedTime);
+         }
+
+         $scope.newInterval = function() {
+            var interval = $scope.editingElement.pushOntoChildArray('intervals');
+            interval.setInternalVariable('is_unborn', true);
          }
 
          $scope.deleteInterval = function(speedTime) {

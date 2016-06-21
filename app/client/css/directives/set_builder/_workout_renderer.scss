@@ -1,0 +1,23 @@
+.workout {
+   a {
+      font-size: 0.9em;
+   }
+   .list {
+      &.sets {
+         margin-left: 16px;
+         @import "set_renderer";
+      }
+   }
+
+   div.edit {
+      div.options {
+         input {
+            width: 50%;
+         }
+      }
+   }
+
+   div:not(.edit) {
+
+   }
+}

@@ -1,4 +1,12 @@
 .set-element {
+   div.list {
+      &.intervals,
+      &.rests {
+         margin-left: 16px;
+         @import "speed_time_renderer";
+      }
+   }
+
    div.edit {
       div.element {
          input {
@@ -7,12 +15,6 @@
          }
          select {
             width: 50%;
-         }
-
-         &.intervals, 
-         &.rests {
-            margin-left: 16px;
-            @import "speed_time_renderer";
          }
          margin-bottom: 8px;
       }
@@ -23,13 +25,6 @@
          margin-left: 4px;
          &.notes {
             font-size: 0.9em;
-         }
-      }
-      div.list {
-         &.intervals,
-         &.rests {
-            margin-left: 16px;
-            @import "speed_time_renderer";
          }
       }
    }

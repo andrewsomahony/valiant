@@ -1,18 +1,33 @@
 .set {
+   div.list {
+      &.elements {
+         margin-left: 16px;
+         @import "set_element_renderer";
+      }
+   }
+
+   div.total {
+      margin-top: 8px;
+   }
+
    div.edit {
-      div.list {
-         &.elements {
-            margin-left: 16px;
-            @import "set_element_renderer";
+      div.options {
+         div.option {
+            margin-bottom: 8px;
+
+            input.quantity {
+               width: 25%;
+            }
+            input.notes {
+               width: 50%;
+            }
          }
+         margin-bottom: 8px;
       }
    }
    div:not(.edit) {
-      div.list {
-         &.elements {
-            margin-left: 16px;
-            @import "set_element_renderer";
-         }
+      div.options {
+         margin-bottom: 8px;
       }
    }
 }

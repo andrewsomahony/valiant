@@ -15,6 +15,7 @@ function(BaseModel, SetModel) {
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
+               name: "",
                sets: [{__model__: SetModel}]
             })
          }

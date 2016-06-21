@@ -251,7 +251,7 @@ function(id, promise) {
       
       fromModel: function(model) {
          if (!utils.objectIsClassy(model, this.$ownClass)) {
-            throw new Exception("base.fromModel: Incompatible class!", model.$ownClass);
+            throw new Error("base.fromModel: Incompatible class! " + model.$ownClass);
          } else {
             this.fromObject(model.toObject());
          }

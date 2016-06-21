@@ -43,6 +43,14 @@ function() {
       }
    }
 
+   SetBuilderService.formatSetTotalString = function(total) {
+      if (!total) {
+         return "Total: 0";
+      } else {
+         return "Total: " + total;
+      }
+   }
+
    return SetBuilderService;
 }
 ]);
