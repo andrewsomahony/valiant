@@ -1,5 +1,6 @@
 <div ng-if="!isEditing">
-   <span class="bullet"><i class="fa fa-circle-o"></i></span>
+   <span font-awesome-icon-text class="bullet" icon="fa-circle-o">
+   </span>
    <span ng-bind="getElementQuantityAndDistance()"></span>
    <span ng-bind="getElementStroke()"></span>
    <span ng-bind="model.type"></span>
@@ -70,7 +71,12 @@
                            on-delete-clicked="deleteInterval(speedTime)">
          </speed-time>
       </div>  
-      <a ng-click="newInterval()">New Interval</a>
+      <a ng-click="newInterval()">
+         <span font-awesome-icon-text
+               icon="fa-plus"
+               text="Interval"></span>
+         </span>
+      </a>
    </div>
    
    <div class="element list rests">
@@ -84,7 +90,12 @@
                      on-cancel-clicked="cancelRest(speedTime)"
                      on-delete-clicked="deleteRest(speedTime)"></speed-time>
       </div>  
-      <a ng-click="newRest()">New Rest</a>                   
+      <a ng-click="newRest()">
+         <span font-awesome-icon-text
+               icon="fa-plus"
+               text="Rest"></span>
+         </span>
+      </a>                   
    </div>
   
 

@@ -33,6 +33,22 @@ function($scope, WorkoutModel, SetModel) {
       }      
       $scope.setIsEditingSet(false);
    }
+
+   $scope.workoutSave = function(workout) {
+
+   }
+
+   $scope.workoutEdit = function(workout) {
+
+   }
+
+   $scope.workoutDelete = function(workout) {
+      
+   }
+
+   $scope.workoutCancel = function(workout) {
+      $scope.setIsEditingSet(false);
+   }
 }])
 
 module.exports = name;

@@ -1,8 +1,10 @@
 <div ng-if="!isEditing">
-   <span ng-bind="model.name"></span>
-   <span ng-bind="getModelString()"></span>
+   <span font-awesome-icon-text icon="fa-clock-o">
+   </span>
+   <span class="display" ng-bind="model.name"></span>
+   <span class="display" ng-bind="getTimeString()"></span>
 
-   <span ng-if="isEditable">
+   <span class="display" ng-if="isEditable">
       <a class="left" ng-click="editClicked()">Edit</a>
       <a class="right" ng-click="deleteClicked()">Delete</a>
    </span>

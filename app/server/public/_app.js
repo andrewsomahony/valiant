@@ -9,7 +9,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('animations'), []);
-},{"angular":140,"info":123}],3:[function(require,module,exports){
+},{"angular":141,"info":124}],3:[function(require,module,exports){
 'use strict';
 
 require('./root');
@@ -115,7 +115,7 @@ ErrorModal, HttpService, ConfirmModal) {
 }]);
 
 module.exports = name;
-},{"../../register":29,"models/http_response":62,"services/confirm_modal_service":80,"services/error":86,"services/error_modal":87,"services/http_service":94,"services/progress":107,"utils":128}],6:[function(require,module,exports){
+},{"../../register":29,"models/http_response":63,"services/confirm_modal_service":81,"services/error":87,"services/error_modal":88,"services/http_service":95,"services/progress":108,"utils":129}],6:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -129,7 +129,7 @@ function($scope, ErrorPageService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"services/error_page_service":88}],7:[function(require,module,exports){
+},{"controllers/register":29,"services/error_page_service":89}],7:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -240,7 +240,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"services/error_modal":87,"services/state_service":119,"services/user_service":120,"utils":128}],11:[function(require,module,exports){
+},{"controllers/register":29,"services/error_modal":88,"services/state_service":120,"services/user_service":121,"utils":129}],11:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -275,7 +275,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"services/error_modal":87,"services/user_service":120}],12:[function(require,module,exports){
+},{"controllers/register":29,"services/error_modal":88,"services/user_service":121}],12:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -332,7 +332,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"services/error_modal":87,"services/user_service":120}],14:[function(require,module,exports){
+},{"controllers/register":29,"services/error_modal":88,"services/user_service":121}],14:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -401,7 +401,7 @@ FFMpegService, ErrorModal, QuestionTypeService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"models/question":68,"services/device_service":84,"services/error_modal":87,"services/ffmpeg_service":90,"services/parallel_promise":102,"services/promise":108,"services/question_service":110,"services/question_type_service":111,"services/s3_uploader_service":115,"utils":128}],15:[function(require,module,exports){
+},{"controllers/register":29,"models/question":69,"services/device_service":85,"services/error_modal":88,"services/ffmpeg_service":91,"services/parallel_promise":103,"services/promise":109,"services/question_service":111,"services/question_type_service":112,"services/s3_uploader_service":116,"utils":129}],15:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -528,7 +528,7 @@ FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"models/user":75,"services/error_modal":87,"services/file_reader_activator_service":91,"services/picture_service":105,"services/profile_picture_service":106,"services/progress":107,"services/promise":108,"services/serial_promise":117,"services/state_service":119,"services/user_service":120}],19:[function(require,module,exports){
+},{"controllers/register":29,"models/user":76,"services/error_modal":88,"services/file_reader_activator_service":92,"services/picture_service":106,"services/profile_picture_service":107,"services/progress":108,"services/promise":109,"services/serial_promise":118,"services/state_service":120,"services/user_service":121}],19:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -582,7 +582,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"services/error_modal":87,"services/state_service":119,"services/user_service":120}],21:[function(require,module,exports){
+},{"controllers/register":29,"services/error_modal":88,"services/state_service":120,"services/user_service":121}],21:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -631,10 +631,26 @@ function($scope, WorkoutModel, SetModel) {
       }      
       $scope.setIsEditingSet(false);
    }
+
+   $scope.workoutSave = function(workout) {
+
+   }
+
+   $scope.workoutEdit = function(workout) {
+
+   }
+
+   $scope.workoutDelete = function(workout) {
+      
+   }
+
+   $scope.workoutCancel = function(workout) {
+      $scope.setIsEditingSet(false);
+   }
 }])
 
 module.exports = name;
-},{"controllers/register":29,"models/set_builder/set":70,"models/set_builder/workout":73}],23:[function(require,module,exports){
+},{"controllers/register":29,"models/set_builder/set":71,"models/set_builder/workout":74}],23:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -700,7 +716,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"services/error_modal":87,"services/state_service":119,"services/user_service":120}],26:[function(require,module,exports){
+},{"controllers/register":29,"services/error_modal":88,"services/state_service":120,"services/user_service":121}],26:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -1001,7 +1017,7 @@ FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"models/user":75,"services/file_reader_activator_service":91,"services/picture_service":105,"services/profile_picture_service":106,"services/state_service":119,"services/user_service":120}],27:[function(require,module,exports){
+},{"controllers/register":29,"models/user":76,"services/file_reader_activator_service":92,"services/picture_service":106,"services/profile_picture_service":107,"services/state_service":120,"services/user_service":121}],27:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -1021,7 +1037,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('controllers'), []);
-},{"angular":140,"info":123}],29:[function(require,module,exports){
+},{"angular":141,"info":124}],29:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -1129,7 +1145,7 @@ ErrorPageService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":29,"services/error_modal":87,"services/error_page_service":88,"services/permission_service":103,"services/state_service":119,"services/user_service":120,"utils":128}],31:[function(require,module,exports){
+},{"controllers/register":29,"services/error_modal":88,"services/error_page_service":89,"services/permission_service":104,"services/state_service":120,"services/user_service":121,"utils":129}],31:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1157,7 +1173,7 @@ registerDirective(name, [function() {
 }]);
 
 module.exports = name;
-},{"directives/register":44}],32:[function(require,module,exports){
+},{"directives/register":45}],32:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1194,7 +1210,7 @@ function(PromiseService, HttpService, ApiUrlService) {
 }]);
 
 module.exports = name;
-},{"directives/register":44,"services/api_url":77,"services/http_service":94,"services/promise":108}],33:[function(require,module,exports){
+},{"directives/register":45,"services/api_url":78,"services/http_service":95,"services/promise":109}],33:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1311,7 +1327,7 @@ ScopeService, IdService) {
 }])
 
 module.exports = name;
-},{"directives/register":44,"models/file":61,"services/error":86,"services/file_reader_service":92,"services/file_type_validator_service":93,"services/id":95,"services/image_service":96,"services/mime_service":99,"services/parallel_promise":102,"services/progress":107,"services/promise":108,"services/scope_service":116,"services/serial_promise":117,"utils":128}],34:[function(require,module,exports){
+},{"directives/register":45,"models/file":62,"services/error":87,"services/file_reader_service":93,"services/file_type_validator_service":94,"services/id":96,"services/image_service":97,"services/mime_service":100,"services/parallel_promise":103,"services/progress":108,"services/promise":109,"services/scope_service":117,"services/serial_promise":118,"utils":129}],34:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1347,7 +1363,46 @@ function($compile) {
 ]);
 
 module.exports = name;
-},{"directives/register":44}],35:[function(require,module,exports){
+},{"directives/register":45}],35:[function(require,module,exports){
+'use strict';
+
+var registerDirective = require('directives/register');
+
+var name = 'fontAwesomeIconText';
+
+registerDirective(name, ['$compile',
+function($compile) {
+   return {
+      restrict: "A",
+      scope: {
+         icon: "@",
+         text: "@"
+      },
+      link: function($scope, $element, $attributes) {
+         $element.addClass('font-awesome-icon-text');
+
+         var $iconSpan = angular.element("<span></span>");
+         $iconSpan.addClass('icon');
+         $iconSpan.addClass('fa');
+
+         $iconSpan.attr('ng-class', 'icon');
+
+         $element.append($compile($iconSpan)($scope));
+
+         var $textSpan = angular.element("<span></span>");
+         $textSpan.addClass('text');
+         $textSpan.attr('ng-if', 'text');
+         $textSpan.attr('ng-bind', 'text');
+
+         $element.append($compile($textSpan)($scope));
+
+         $element.removeAttr('font-awesome-icon-text');
+         $compile($element)($scope);
+      }
+   }
+}
+])
+},{"directives/register":45}],36:[function(require,module,exports){
 'use strict';
 
 require('./email_in_use');
@@ -1374,7 +1429,8 @@ require('./set_builder/set_renderer');
 require('./set_builder/set_element_renderer');
 
 require('./font_awesome_centered_icon');
-},{"./compare_to":31,"./email_in_use":32,"./file_reader":33,"./font_awesome_centered_icon":34,"./loading_progress":36,"./media_picker":37,"./media_renderer":38,"./overlay":40,"./picture_media_picker":41,"./picture_renderer":42,"./profile_picture":43,"./set_builder/set_element_renderer":45,"./set_builder/set_renderer":46,"./set_builder/speed_time_renderer":47,"./set_builder/workout_renderer":48,"./video_media_picker":49,"./video_renderer":50,"./youtube_media_picker":51,"./youtube_renderer":52}],36:[function(require,module,exports){
+require('./font_awesome_icon_text');
+},{"./compare_to":31,"./email_in_use":32,"./file_reader":33,"./font_awesome_centered_icon":34,"./font_awesome_icon_text":35,"./loading_progress":37,"./media_picker":38,"./media_renderer":39,"./overlay":41,"./picture_media_picker":42,"./picture_renderer":43,"./profile_picture":44,"./set_builder/set_element_renderer":46,"./set_builder/set_renderer":47,"./set_builder/speed_time_renderer":48,"./set_builder/workout_renderer":49,"./video_media_picker":50,"./video_renderer":51,"./youtube_media_picker":52,"./youtube_renderer":53}],37:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1715,7 +1771,7 @@ registerDirective(name, ['$compile',
 ])
 
 module.exports = name;
-},{"directives/register":44,"services/css_service":81,"utils":128}],37:[function(require,module,exports){
+},{"directives/register":45,"services/css_service":82,"utils":129}],38:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1831,7 +1887,7 @@ function(ScopeService, FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"directives/register":44,"services/file_reader_activator_service":91,"services/scope_service":116}],38:[function(require,module,exports){
+},{"directives/register":45,"services/file_reader_activator_service":92,"services/scope_service":117}],39:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1880,14 +1936,14 @@ function($compile, ScopeService) {
 ]);
 
 module.exports = name;
-},{"directives/register":44,"services/scope_service":116,"utils":128}],39:[function(require,module,exports){
+},{"directives/register":45,"services/scope_service":117,"utils":129}],40:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('directives'), []);
-},{"angular":140,"info":123}],40:[function(require,module,exports){
+},{"angular":141,"info":124}],41:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1937,7 +1993,7 @@ function() {
 ])
 
 module.exports = name;
-},{"directives/register":44}],41:[function(require,module,exports){
+},{"directives/register":45}],42:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2037,7 +2093,7 @@ Promise, SerialPromise, $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":44,"services/picture_proportional_resize_service":104,"services/picture_service":105,"services/promise":108,"services/serial_promise":117}],42:[function(require,module,exports){
+},{"directives/register":45,"services/picture_proportional_resize_service":105,"services/picture_service":106,"services/promise":109,"services/serial_promise":118}],43:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2162,7 +2218,7 @@ function(ScopeService, $compile) {
 ]);
 
 module.exports = name;
-},{"directives/register":44,"services/scope_service":116}],43:[function(require,module,exports){
+},{"directives/register":45,"services/scope_service":117}],44:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2197,7 +2253,7 @@ function(PictureModel) {
 }])
 
 module.exports = name;
-},{"directives/register":44,"models/picture":66}],44:[function(require,module,exports){
+},{"directives/register":45,"models/picture":67}],45:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -2205,7 +2261,7 @@ var m = require('./module');
 module.exports = function(name, parameters) {
     m.directive(name, parameters);
 }
-},{"./module":39}],45:[function(require,module,exports){
+},{"./module":40}],46:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2380,7 +2436,7 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":44,"models/set_builder/set_element":71,"services/scope_service":116,"services/set_builder_service":118}],46:[function(require,module,exports){
+},{"directives/register":45,"models/set_builder/set_element":72,"services/scope_service":117,"services/set_builder_service":119}],47:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2488,7 +2544,7 @@ function(SetModel, ScopeService, SetBuilderService) {
       }
    };
 }])
-},{"directives/register":44,"models/set_builder/set":70,"services/scope_service":116,"services/set_builder_service":118}],47:[function(require,module,exports){
+},{"directives/register":45,"models/set_builder/set":71,"services/scope_service":117,"services/set_builder_service":119}],48:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2591,7 +2647,7 @@ function(SpeedTimeModel, ScopeService, $timeout) {
             }
          });
 
-         $scope.getModelString = function() {
+         $scope.getTimeString = function() {
             return ($scope.isInterval ? "@" : "") + $scope.model.time.toString();
          }
 
@@ -2622,7 +2678,7 @@ function(SpeedTimeModel, ScopeService, $timeout) {
 }]);
 
 module.exports = name;
-},{"directives/register":44,"models/set_builder/speed_time":72,"services/scope_service":116,"utils":128}],48:[function(require,module,exports){
+},{"directives/register":45,"models/set_builder/speed_time":73,"services/scope_service":117,"utils":129}],49:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2646,6 +2702,7 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
 
          onEditSet: "&",
 
+         //isInitiallyEditing: "@",
          //isEditable: "@",
          //canEditInline: "@"
       },
@@ -2653,8 +2710,19 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
       link: function($scope, $element, $attributes) {
          $element.addClass('workout');
 
-         ScopeService.watchBool($scope, $attributes, 'isEditable');
-         ScopeService.watchBool($scope, $attributes, 'canEditInline');
+         $scope.hasCheckedInitiallyEditing = false;
+
+         ScopeService.watchBool($scope, $attributes, 'isEditable', true);
+         ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
+         ScopeService.watchBool($scope, $attributes, 'isInitiallyEditing', false, function(newValue) {
+            if (!$scope.hasCheckedInitiallyEditing) {
+               $scope.hasCheckedInitiallyEditing = true;
+
+               if (true === $scope.isInitiallyEditing) {
+                  $scope.editClicked();
+               }
+            }
+         })
 
          $scope.setIsEditing = function(isEditing) {
             $scope.isEditing = isEditing;
@@ -2716,7 +2784,7 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
 }]);
 
 module.exports = name;
-},{"directives/register":44,"models/set_builder/workout":73,"services/scope_service":116,"services/set_builder_service":118}],49:[function(require,module,exports){
+},{"directives/register":45,"models/set_builder/workout":74,"services/scope_service":117,"services/set_builder_service":119}],50:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2851,7 +2919,7 @@ $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":44,"services/progress":107,"services/promise":108,"services/serial_promise":117,"services/video_service":121,"utils":128}],50:[function(require,module,exports){
+},{"directives/register":45,"services/progress":108,"services/promise":109,"services/serial_promise":118,"services/video_service":122,"utils":129}],51:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3119,7 +3187,7 @@ function(ScopeService, ProgressService, $compile) {
 }]);
 
 module.exports = name;
-},{"directives/register":44,"services/progress":107,"services/scope_service":116}],51:[function(require,module,exports){
+},{"directives/register":45,"services/progress":108,"services/scope_service":117}],52:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3179,7 +3247,7 @@ function(YoutubeUrlModalService, VideoModel, $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":44,"models/video":76,"services/youtube_url_modal_service":122,"utils":128}],52:[function(require,module,exports){
+},{"directives/register":45,"models/video":77,"services/youtube_url_modal_service":123,"utils":129}],53:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3326,18 +3394,18 @@ function($compile, $timeout, ErrorService, ScopeService) {
 }]);
 
 module.exports = name;
-},{"directives/register":44,"services/error":86,"services/scope_service":116,"utils":128}],53:[function(require,module,exports){
+},{"directives/register":45,"services/error":87,"services/scope_service":117,"utils":129}],54:[function(require,module,exports){
 'use strict';
 
 require('./trusted');
-},{"./trusted":56}],54:[function(require,module,exports){
+},{"./trusted":57}],55:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var info = require('info');
 
 module.exports = angular.module(info.moduleName('filters'), []);
-},{"angular":140,"info":123}],55:[function(require,module,exports){
+},{"angular":141,"info":124}],56:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -3345,7 +3413,7 @@ var m = require('./module');
 module.exports = function(name, params) {
     m.filter(name, params);
 }
-},{"./module":54}],56:[function(require,module,exports){
+},{"./module":55}],57:[function(require,module,exports){
 'use strict';
 
 var registerFilter = require('filters/register');
@@ -3360,7 +3428,7 @@ function($sce) {
 }]);
 
 module.exports = name;
-},{"filters/register":55}],57:[function(require,module,exports){
+},{"filters/register":56}],58:[function(require,module,exports){
 'use strict'
 
 var m = require('./module')
@@ -3775,7 +3843,7 @@ function(id, promise) {
 }])
 
 module.exports = name
-},{"../services/id":95,"../services/promise":108,"./module":64,"classy":206,"rfc6902":298,"utils":128}],58:[function(require,module,exports){
+},{"../services/id":96,"../services/promise":109,"./module":65,"classy":207,"rfc6902":299,"utils":129}],59:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3823,7 +3891,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/register":69}],59:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/register":70}],60:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -3852,7 +3920,7 @@ function(BaseModel) {
 }]);
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/register":69}],60:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/register":70}],61:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -3891,7 +3959,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":57,"classy":206,"models/register":69,"utils":128}],61:[function(require,module,exports){
+},{"./base":58,"classy":207,"models/register":70,"utils":129}],62:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4067,7 +4135,7 @@ ErrorService) {
 module.exports = name;
 
 
-},{"classy":206,"models/base":57,"models/register":69,"services/data_url_service":83,"services/error":86,"services/file_reader_service":92,"services/promise":108}],62:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/register":70,"services/data_url_service":84,"services/error":87,"services/file_reader_service":93,"services/promise":109}],63:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4122,7 +4190,7 @@ statusText – {string} – HTTP status text of the response.
 }]);
 
 module.exports = name;
-},{"./base":57,"classy":206,"models/register":69}],63:[function(require,module,exports){
+},{"./base":58,"classy":207,"models/register":70}],64:[function(require,module,exports){
 'use strict';
 
 require('./user');
@@ -4130,14 +4198,14 @@ require('./video');
 require('./picture');
 require('./notification');
 require('./comment');
-},{"./comment":59,"./notification":65,"./picture":66,"./user":75,"./video":76}],64:[function(require,module,exports){
+},{"./comment":60,"./notification":66,"./picture":67,"./user":76,"./video":77}],65:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('models'), []);
-},{"angular":140,"info":123}],65:[function(require,module,exports){
+},{"angular":141,"info":124}],66:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4167,7 +4235,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/register":69}],66:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/register":70}],67:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4280,7 +4348,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/register":69}],67:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/register":70}],68:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('./register');
@@ -4321,7 +4389,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":57,"./register":69,"classy":206,"models/base":57}],68:[function(require,module,exports){
+},{"./base":58,"./register":70,"classy":207,"models/base":58}],69:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4380,7 +4448,7 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
 ]);
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/comment":59,"models/picture":66,"models/register":69,"models/video":76}],69:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/comment":60,"models/picture":67,"models/register":70,"models/video":77}],70:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -4388,7 +4456,7 @@ var m = require('./module');
 module.exports = function(name, params) {
     m.factory(name, params);
 }
-},{"./module":64}],70:[function(require,module,exports){
+},{"./module":65}],71:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -4431,7 +4499,7 @@ function(BaseModel, SetElementModel) {
 }]);
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/register":69,"models/set_builder/set_element":71}],71:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/register":70,"models/set_builder/set_element":72}],72:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -4468,7 +4536,7 @@ function(BaseModel, SpeedTimeModel) {
 }]);
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/register":69,"models/set_builder/speed_time":72}],72:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/register":70,"models/set_builder/speed_time":73}],73:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -4499,7 +4567,7 @@ function(BaseModel, TimeModel) {
 }]);
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/register":69,"models/time":74}],73:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/register":70,"models/time":75}],74:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -4539,7 +4607,7 @@ function(BaseModel, SetModel) {
 }]);
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/register":69,"models/set_builder/set":70}],74:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/register":70,"models/set_builder/set":71}],75:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('./register');
@@ -4623,7 +4691,7 @@ function(BaseModel) {
 }]);
 
 module.exports = name;
-},{"./register":69,"classy":206,"models/base":57,"utils":128}],75:[function(require,module,exports){
+},{"./register":70,"classy":207,"models/base":58,"utils":129}],76:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4680,7 +4748,7 @@ PictureModel) {
 }]);
 
 module.exports = name;
-},{"classy":206,"models/base":57,"models/notification":65,"models/picture":66,"models/question":68,"models/register":69}],76:[function(require,module,exports){
+},{"classy":207,"models/base":58,"models/notification":66,"models/picture":67,"models/question":69,"models/register":70}],77:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('./register');
@@ -4851,7 +4919,7 @@ function(BaseModel, PictureModel) {
 }])
 
 module.exports = name;
-},{"./register":69,"classy":206,"models/base":57,"models/picture":66,"utils":128}],77:[function(require,module,exports){
+},{"./register":70,"classy":207,"models/base":58,"models/picture":67,"utils":129}],78:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -4987,7 +5055,7 @@ registerService('factory', name, [function() {
 }]);
 
 module.exports = name;
-},{"services/register":113,"utils":128}],78:[function(require,module,exports){
+},{"services/register":114,"utils":129}],79:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5059,7 +5127,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":113}],79:[function(require,module,exports){
+},{"services/register":114}],80:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5156,7 +5224,7 @@ function(PictureService, Promise, CanvasModel) {
 ])
 
 module.exports = name;
-},{"models/canvas":58,"services/picture_service":105,"services/promise":108,"services/register":113}],80:[function(require,module,exports){
+},{"models/canvas":59,"services/picture_service":106,"services/promise":109,"services/register":114}],81:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5194,7 +5262,7 @@ function(ModalService, Promise, ScopeService) {
 }]);
 
 module.exports = name;
-},{"services/modal":100,"services/promise":108,"services/register":113,"services/scope_service":116}],81:[function(require,module,exports){
+},{"services/modal":101,"services/promise":109,"services/register":114,"services/scope_service":117}],82:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5221,7 +5289,7 @@ function() {
 ])
 
 module.exports = name;
-},{"services/register":113}],82:[function(require,module,exports){
+},{"services/register":114}],83:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5265,7 +5333,7 @@ registerService('factory', name, [
 ]);
 
 module.exports = name;
-},{"services/parallel_promise":102,"services/progress":107,"services/register":113,"services/serial_promise":117,"services/user_service":120,"utils":128}],83:[function(require,module,exports){
+},{"services/parallel_promise":103,"services/progress":108,"services/register":114,"services/serial_promise":118,"services/user_service":121,"utils":129}],84:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5334,7 +5402,7 @@ function(Base64Service, Promise) {
 }]);
 
 module.exports = name;
-},{"services/base64_service":78,"services/promise":108,"services/register":113}],84:[function(require,module,exports){
+},{"services/base64_service":79,"services/promise":109,"services/register":114}],85:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5377,7 +5445,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"device-detector":236,"services/register":113}],85:[function(require,module,exports){
+},{"device-detector":237,"services/register":114}],86:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5463,7 +5531,7 @@ ErrorService) {
 }]);
 
 module.exports = name;
-},{"services/error":86,"services/file_reader_service":92,"services/progress":107,"services/promise":108,"services/register":113,"services/serial_promise":117}],86:[function(require,module,exports){
+},{"services/error":87,"services/file_reader_service":93,"services/progress":108,"services/promise":109,"services/register":114,"services/serial_promise":118}],87:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5517,7 +5585,7 @@ function(ErrorModel, HttpResponseModel) {
 }]);
 
 module.exports = name;
-},{"models/error":60,"models/http_response":62,"services/register":113}],87:[function(require,module,exports){
+},{"models/error":61,"models/http_response":63,"services/register":114}],88:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5552,7 +5620,7 @@ function(modalService, ErrorModel, ScopeService) {
 }])
 
 module.exports = name
-},{"models/error":60,"services/modal":100,"services/register":113,"services/scope_service":116,"utils":128}],88:[function(require,module,exports){
+},{"models/error":61,"services/modal":101,"services/register":114,"services/scope_service":117,"utils":129}],89:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5591,7 +5659,7 @@ function(StateService, ErrorService) {
 }]);
 
 module.exports = name;
-},{"services/error":86,"services/register":113,"services/state_service":119}],89:[function(require,module,exports){
+},{"services/error":87,"services/register":114,"services/state_service":120}],90:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5748,7 +5816,7 @@ Promise, ProgressService, FileModel) {
 }]);
 
 module.exports = name;
-},{"exif-js":263,"exif-orient":264,"models/file":61,"services/data_url_service":83,"services/dom_image_service":85,"services/file_reader_service":92,"services/progress":107,"services/promise":108,"services/register":113,"services/serial_promise":117,"utils":128}],90:[function(require,module,exports){
+},{"exif-js":264,"exif-orient":265,"models/file":62,"services/data_url_service":84,"services/dom_image_service":86,"services/file_reader_service":93,"services/progress":108,"services/promise":109,"services/register":114,"services/serial_promise":118,"utils":129}],91:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6341,7 +6409,7 @@ ErrorService, MimeService) {
 module.exports = name;
 
 
-},{"models/file":61,"services/error":86,"services/mime_service":99,"services/progress":107,"services/promise":108,"services/register":113,"utils":128}],91:[function(require,module,exports){
+},{"models/file":62,"services/error":87,"services/mime_service":100,"services/progress":108,"services/promise":109,"services/register":114,"utils":129}],92:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6425,7 +6493,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":113}],92:[function(require,module,exports){
+},{"services/register":114}],93:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6547,7 +6615,7 @@ DataUrlService) {
 ]);
 
 module.exports = name;
-},{"services/data_url_service":83,"services/error":86,"services/parallel_promise":102,"services/progress":107,"services/promise":108,"services/register":113,"services/serial_promise":117}],93:[function(require,module,exports){
+},{"services/data_url_service":84,"services/error":87,"services/parallel_promise":103,"services/progress":108,"services/promise":109,"services/register":114,"services/serial_promise":118}],94:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6594,7 +6662,7 @@ function(MimeService, Promise, DOMImageService) {
 }]);
 
 module.exports = name;
-},{"services/dom_image_service":85,"services/mime_service":99,"services/promise":108,"services/register":113}],94:[function(require,module,exports){
+},{"services/dom_image_service":86,"services/mime_service":100,"services/promise":109,"services/register":114}],95:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6689,7 +6757,7 @@ function($http, PromiseService, HttpResponseModel, ErrorService) {
 }]);
 
 module.exports = name;
-},{"models/http_response":62,"services/error":86,"services/promise":108,"services/register":113,"utils":128}],95:[function(require,module,exports){
+},{"models/http_response":63,"services/error":87,"services/promise":109,"services/register":114,"utils":129}],96:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6713,7 +6781,7 @@ function() {
 }])
 
 module.exports = name
-},{"node-uuid":282,"services/register":113}],96:[function(require,module,exports){
+},{"node-uuid":283,"services/register":114}],97:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6899,11 +6967,11 @@ ErrorService, FileModel) {
 
 module.exports = name;
 
-},{"html5-canvas-image-resizer":271,"models/file":61,"services/data_url_service":83,"services/dom_image_service":85,"services/error":86,"services/exif_service":89,"services/file_reader_service":92,"services/progress":107,"services/promise":108,"services/register":113,"services/serial_promise":117}],97:[function(require,module,exports){
+},{"html5-canvas-image-resizer":272,"models/file":62,"services/data_url_service":84,"services/dom_image_service":86,"services/error":87,"services/exif_service":90,"services/file_reader_service":93,"services/progress":108,"services/promise":109,"services/register":114,"services/serial_promise":118}],98:[function(require,module,exports){
 'use strict';
 
 require('services/data_resolver');
-},{"services/data_resolver":82}],98:[function(require,module,exports){
+},{"services/data_resolver":83}],99:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6972,7 +7040,7 @@ Promise, Progress) {
 }])
 
 module.exports = name;
-},{"models/picture":66,"models/video":76,"services/progress":107,"services/promise":108,"services/register":113,"services/s3_uploader_service":115,"utils":128}],99:[function(require,module,exports){
+},{"models/picture":67,"models/video":77,"services/progress":108,"services/promise":109,"services/register":114,"services/s3_uploader_service":116,"utils":129}],100:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7045,7 +7113,7 @@ function() {
 }]);
 
 module.exports = name;
-},{"mimeType":278,"services/register":113}],100:[function(require,module,exports){
+},{"mimeType":279,"services/register":114}],101:[function(require,module,exports){
 var registerService = require('services/register');
 var utils = require('utils');
 
@@ -7079,14 +7147,14 @@ function($modal, $templateCache) {
 }])
 
 module.exports = name
-},{"services/register":113,"utils":128}],101:[function(require,module,exports){
+},{"services/register":114,"utils":129}],102:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('services'), []);
-},{"angular":140,"info":123}],102:[function(require,module,exports){
+},{"angular":141,"info":124}],103:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -7189,7 +7257,7 @@ function(promise, progress, ProgressModel, $q) {
 }])
 
 module.exports = name;
-},{"./module":101,"models/progress":67,"services/progress":107,"services/promise":108,"utils":128}],103:[function(require,module,exports){
+},{"./module":102,"models/progress":68,"services/progress":108,"services/promise":109,"utils":129}],104:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7217,7 +7285,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":113}],104:[function(require,module,exports){
+},{"services/register":114}],105:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7298,7 +7366,7 @@ SerialPromise, ProgressService, ErrorService) {
 module.exports = name;
 
 
-},{"models/file":61,"services/dom_image_service":85,"services/error":86,"services/image_service":96,"services/progress":107,"services/promise":108,"services/register":113,"services/serial_promise":117}],105:[function(require,module,exports){
+},{"models/file":62,"services/dom_image_service":86,"services/error":87,"services/image_service":97,"services/progress":108,"services/promise":109,"services/register":114,"services/serial_promise":118}],106:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7386,7 +7454,7 @@ SerialPromise, ProgressService, FileReaderService, DOMImageService) {
 }])
 
 module.exports = name;
-},{"models/file":61,"models/picture":66,"services/dom_image_service":85,"services/file_reader_service":92,"services/image_service":96,"services/progress":107,"services/promise":108,"services/register":113,"services/serial_promise":117}],106:[function(require,module,exports){
+},{"models/file":62,"models/picture":67,"services/dom_image_service":86,"services/file_reader_service":93,"services/image_service":97,"services/progress":108,"services/promise":109,"services/register":114,"services/serial_promise":118}],107:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7411,7 +7479,7 @@ function(PictureProportionalResizeService) {
 
 module.exports = name;
 
-},{"services/picture_proportional_resize_service":104,"services/register":113}],107:[function(require,module,exports){
+},{"services/picture_proportional_resize_service":105,"services/register":114}],108:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -7447,7 +7515,7 @@ function(progressModel) {
 }])
 
 module.exports = name;
-},{"../models/progress":67,"./module":101}],108:[function(require,module,exports){
+},{"../models/progress":68,"./module":102}],109:[function(require,module,exports){
 'use strict';
 
 var registerService = require('./register');
@@ -7479,7 +7547,7 @@ function($q) {
 }])
 
 module.exports = name;
-},{"./register":113}],109:[function(require,module,exports){
+},{"./register":114}],110:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7709,7 +7777,7 @@ PictureModel, QuestionTypeService, Promise, SerialPromise) {
 }]);
 
 module.exports = name;
-},{"models/file":61,"models/picture":66,"services/canvas_service":79,"services/picture_service":105,"services/promise":108,"services/question_type_service":111,"services/random_number_service":112,"services/register":113,"services/serial_promise":117,"utils":128}],110:[function(require,module,exports){
+},{"models/file":62,"models/picture":67,"services/canvas_service":80,"services/picture_service":106,"services/promise":109,"services/question_type_service":112,"services/random_number_service":113,"services/register":114,"services/serial_promise":118,"utils":129}],111:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7804,7 +7872,7 @@ MediaService, QuestionPreviewPictureService) {
 }])
 
 module.exports = name;
-},{"services/http_service":94,"services/media_service":98,"services/parallel_promise":102,"services/progress":107,"services/promise":108,"services/question_preview_picture_service":109,"services/register":113,"services/serial_promise":117,"utils":128}],111:[function(require,module,exports){
+},{"services/http_service":95,"services/media_service":99,"services/parallel_promise":103,"services/progress":108,"services/promise":109,"services/question_preview_picture_service":110,"services/register":114,"services/serial_promise":118,"utils":129}],112:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7833,7 +7901,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":113}],112:[function(require,module,exports){
+},{"services/register":114}],113:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7857,7 +7925,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"chance":186,"services/register":113}],113:[function(require,module,exports){
+},{"chance":187,"services/register":114}],114:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -7873,7 +7941,7 @@ module.exports = function(type, name, params) {
         throw new Error("services.register: Invalid service type! " + name);   
     }
 }
-},{"./module":101}],114:[function(require,module,exports){
+},{"./module":102}],115:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7916,7 +7984,7 @@ function(ApiUrlService, Promise, ErrorService, HttpService) {
 }])
 
 module.exports = name;
-},{"services/api_url":77,"services/error":86,"services/http_service":94,"services/promise":108,"services/register":113}],115:[function(require,module,exports){
+},{"services/api_url":78,"services/error":87,"services/http_service":95,"services/promise":109,"services/register":114}],116:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8034,7 +8102,7 @@ function(FileModel, S3SignUrlService, Promise,
 }]);
 
 module.exports = name;
-},{"models/file":61,"models/picture":66,"models/video":76,"services/error":86,"services/progress":107,"services/promise":108,"services/register":113,"services/s3_sign_url_service":114,"services/serial_promise":117}],116:[function(require,module,exports){
+},{"models/file":62,"models/picture":67,"models/video":77,"services/error":87,"services/progress":108,"services/promise":109,"services/register":114,"services/s3_sign_url_service":115,"services/serial_promise":118}],117:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8052,6 +8120,7 @@ function($rootScope) {
    ScopeService.watchBool = function($scope, 
    $attributes, variableName, defaultValue, callbackFn) {
       $scope.$watch($attributes[variableName], function(newValue) {
+         console.log(variableName, $attributes);
          $scope[variableName] = ScopeService.parseBool(newValue, defaultValue);
          if (callbackFn) {
             callbackFn(newValue);
@@ -8085,7 +8154,7 @@ function($rootScope) {
 ])
 
 module.exports = name;
-},{"services/register":113,"utils":128}],117:[function(require,module,exports){
+},{"services/register":114,"utils":129}],118:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -8262,7 +8331,7 @@ function(promise, progress, ProgressModel) {
 }])
 
 module.exports = name;
-},{"./module":101,"models/progress":67,"services/progress":107,"services/promise":108,"utils":128}],118:[function(require,module,exports){
+},{"./module":102,"models/progress":68,"services/progress":108,"services/promise":109,"utils":129}],119:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8321,7 +8390,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":113}],119:[function(require,module,exports){
+},{"services/register":114}],120:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8419,7 +8488,7 @@ function($state) {
 }]);
 
 module.exports = name;
-},{"services/register":113,"utils":128}],120:[function(require,module,exports){
+},{"services/register":114,"utils":129}],121:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8977,7 +9046,7 @@ PictureModel, MediaService) {
 ]);
 
 module.exports = name;
-},{"models/picture":66,"models/user":75,"services/api_url":77,"services/error":86,"services/http_service":94,"services/media_service":98,"services/progress":107,"services/promise":108,"services/register":113,"services/s3_uploader_service":115,"services/serial_promise":117,"utils":128}],121:[function(require,module,exports){
+},{"models/picture":67,"models/user":76,"services/api_url":78,"services/error":87,"services/http_service":95,"services/media_service":99,"services/progress":108,"services/promise":109,"services/register":114,"services/s3_uploader_service":116,"services/serial_promise":118,"utils":129}],122:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -9111,7 +9180,7 @@ PictureService) {
 }]);
 
 module.exports = name;
-},{"models/file":61,"models/video":76,"services/ffmpeg_service":90,"services/picture_service":105,"services/progress":107,"services/promise":108,"services/register":113,"services/serial_promise":117}],122:[function(require,module,exports){
+},{"models/file":62,"models/video":77,"services/ffmpeg_service":91,"services/picture_service":106,"services/progress":108,"services/promise":109,"services/register":114,"services/serial_promise":118}],123:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -9151,14 +9220,14 @@ function(ModalService, ScopeService, Promise) {
 }]);
 
 module.exports = name;
-},{"services/modal":100,"services/promise":108,"services/register":113,"services/scope_service":116}],123:[function(require,module,exports){
+},{"services/modal":101,"services/promise":109,"services/register":114,"services/scope_service":117}],124:[function(require,module,exports){
 module.exports = {
     name: 'valiant',
     moduleName: function(name) {
         return this.name + "." + name;
     }
 }
-},{}],124:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -9194,7 +9263,7 @@ module.exports = angular.module(appInfo.name, [
     'ngMessages',
     'ngAnimate'
 ]);
-},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":35,"../components/filters/init":53,"../components/models/init":63,"../components/services/init":97,"../views/_views":322,"angular":140,"angular-animate":131,"angular-messages":133,"angular-route":135,"angular-strap":136,"angular-strap-tpl-modal":137,"angular-ui-router":138,"info":123}],125:[function(require,module,exports){
+},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":36,"../components/filters/init":54,"../components/models/init":64,"../components/services/init":98,"../views/_views":323,"angular":141,"angular-animate":132,"angular-messages":134,"angular-route":136,"angular-strap":137,"angular-strap-tpl-modal":138,"angular-ui-router":139,"info":124}],126:[function(require,module,exports){
 'use strict';
 
 function boot() {
@@ -9208,7 +9277,7 @@ function boot() {
 }
 
 module.exports = boot
-},{"../info":123,"./app":124,"./config":126,"./routes":127}],126:[function(require,module,exports){
+},{"../info":124,"./app":125,"./config":127,"./routes":128}],127:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -9224,7 +9293,7 @@ app.config(['$httpProvider', function($httpProvider) {
         
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
-},{"./app":124}],127:[function(require,module,exports){
+},{"./app":125}],128:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -9591,7 +9660,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }
    })
 }]);
-},{"./app":124,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/error/default":6,"controllers/main/error/error":7,"controllers/main/home/default":8,"controllers/main/home/home":9,"controllers/main/login/default":10,"controllers/main/login/forgot_password":11,"controllers/main/login/login":12,"controllers/main/login/unverified":13,"controllers/main/question/ask":14,"controllers/main/question/default":15,"controllers/main/question/question":16,"controllers/main/question/unauthorized":17,"controllers/main/register/default":18,"controllers/main/register/register":19,"controllers/main/reset_password/default":20,"controllers/main/reset_password/reset_password":21,"controllers/main/set_builder/default":22,"controllers/main/set_builder/set_builder":23,"controllers/main/set_builder/unauthorized":24,"controllers/main/top_bar":25,"controllers/main/user/default":26,"controllers/main/user/user":27}],128:[function(require,module,exports){
+},{"./app":125,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/error/default":6,"controllers/main/error/error":7,"controllers/main/home/default":8,"controllers/main/home/home":9,"controllers/main/login/default":10,"controllers/main/login/forgot_password":11,"controllers/main/login/login":12,"controllers/main/login/unverified":13,"controllers/main/question/ask":14,"controllers/main/question/default":15,"controllers/main/question/question":16,"controllers/main/question/unauthorized":17,"controllers/main/register/default":18,"controllers/main/register/register":19,"controllers/main/reset_password/default":20,"controllers/main/reset_password/reset_password":21,"controllers/main/set_builder/default":22,"controllers/main/set_builder/set_builder":23,"controllers/main/set_builder/unauthorized":24,"controllers/main/top_bar":25,"controllers/main/user/default":26,"controllers/main/user/user":27}],129:[function(require,module,exports){
 
 
 /*
@@ -9947,7 +10016,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
          numberOfLeadingZeroes = numberOfLeadingZeroes || 0;
 
          var returnString = "" + number;
-         while (returnString.length < length) {
+         while (returnString.length < numberOfLeadingZeroes) {
             returnString = "0" + returnString;
          }
          return returnString;
@@ -9993,7 +10062,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 /*'undefined' !== typeof exports ? ('undefined' !== typeof module ? module.exports : exports) : window*/
 
 
-},{}],129:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 require('domready')(function() {
     console.log("DOM IS READY!");
     
@@ -10001,7 +10070,7 @@ require('domready')(function() {
     bootFn();
 })
 
-},{"./init/boot":125,"domready":243}],130:[function(require,module,exports){
+},{"./init/boot":126,"domready":244}],131:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.6
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -14151,11 +14220,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],131:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":130}],132:[function(require,module,exports){
+},{"./angular-animate":131}],133:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -14879,11 +14948,11 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-},{}],133:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 require('./angular-messages');
 module.exports = 'ngMessages';
 
-},{"./angular-messages":132}],134:[function(require,module,exports){
+},{"./angular-messages":133}],135:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -15907,11 +15976,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],135:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":134}],136:[function(require,module,exports){
+},{"./angular-route":135}],137:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -20250,7 +20319,7 @@ module.exports = 'ngRoute';
   });
   angular.module('mgcrea.ngStrap', [ 'mgcrea.ngStrap.modal', 'mgcrea.ngStrap.aside', 'mgcrea.ngStrap.alert', 'mgcrea.ngStrap.button', 'mgcrea.ngStrap.select', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.timepicker', 'mgcrea.ngStrap.navbar', 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.popover', 'mgcrea.ngStrap.dropdown', 'mgcrea.ngStrap.typeahead', 'mgcrea.ngStrap.scrollspy', 'mgcrea.ngStrap.affix', 'mgcrea.ngStrap.tab', 'mgcrea.ngStrap.collapse' ]);
 })(window, document);
-},{}],137:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -20263,7 +20332,7 @@ module.exports = 'ngRoute';
 angular.module('mgcrea.ngStrap.modal').run([ '$templateCache', function($templateCache) {
   $templateCache.put('modal/modal.tpl.html', '<div class="modal" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header" ng-show="title"><button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" ng-bind="title"></h4></div><div class="modal-body" ng-bind="content"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="$hide()">Close</button></div></div></div></div>');
 } ]);
-},{}],138:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.18
@@ -24803,7 +24872,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],139:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -55232,11 +55301,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],140:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":139}],141:[function(require,module,exports){
+},{"./angular":140}],142:[function(require,module,exports){
 var asn1 = exports;
 
 asn1.bignum = require('bn.js');
@@ -55247,7 +55316,7 @@ asn1.constants = require('./asn1/constants');
 asn1.decoders = require('./asn1/decoders');
 asn1.encoders = require('./asn1/encoders');
 
-},{"./asn1/api":142,"./asn1/base":144,"./asn1/constants":148,"./asn1/decoders":150,"./asn1/encoders":153,"bn.js":156}],142:[function(require,module,exports){
+},{"./asn1/api":143,"./asn1/base":145,"./asn1/constants":149,"./asn1/decoders":151,"./asn1/encoders":154,"bn.js":157}],143:[function(require,module,exports){
 var asn1 = require('../asn1');
 var inherits = require('inherits');
 
@@ -55308,7 +55377,7 @@ Entity.prototype.encode = function encode(data, enc, /* internal */ reporter) {
   return this._getEncoder(enc).encode(data, reporter);
 };
 
-},{"../asn1":141,"inherits":274,"vm":321}],143:[function(require,module,exports){
+},{"../asn1":142,"inherits":275,"vm":322}],144:[function(require,module,exports){
 var inherits = require('inherits');
 var Reporter = require('../base').Reporter;
 var Buffer = require('buffer').Buffer;
@@ -55426,7 +55495,7 @@ EncoderBuffer.prototype.join = function join(out, offset) {
   return out;
 };
 
-},{"../base":144,"buffer":184,"inherits":274}],144:[function(require,module,exports){
+},{"../base":145,"buffer":185,"inherits":275}],145:[function(require,module,exports){
 var base = exports;
 
 base.Reporter = require('./reporter').Reporter;
@@ -55434,7 +55503,7 @@ base.DecoderBuffer = require('./buffer').DecoderBuffer;
 base.EncoderBuffer = require('./buffer').EncoderBuffer;
 base.Node = require('./node');
 
-},{"./buffer":143,"./node":145,"./reporter":146}],145:[function(require,module,exports){
+},{"./buffer":144,"./node":146,"./reporter":147}],146:[function(require,module,exports){
 var Reporter = require('../base').Reporter;
 var EncoderBuffer = require('../base').EncoderBuffer;
 var DecoderBuffer = require('../base').DecoderBuffer;
@@ -56059,7 +56128,7 @@ Node.prototype._isPrintstr = function isPrintstr(str) {
   return /^[A-Za-z0-9 '\(\)\+,\-\.\/:=\?]*$/.test(str);
 };
 
-},{"../base":144,"minimalistic-assert":279}],146:[function(require,module,exports){
+},{"../base":145,"minimalistic-assert":280}],147:[function(require,module,exports){
 var inherits = require('inherits');
 
 function Reporter(options) {
@@ -56163,7 +56232,7 @@ ReporterError.prototype.rethrow = function rethrow(msg) {
   return this;
 };
 
-},{"inherits":274}],147:[function(require,module,exports){
+},{"inherits":275}],148:[function(require,module,exports){
 var constants = require('../constants');
 
 exports.tagClass = {
@@ -56207,7 +56276,7 @@ exports.tag = {
 };
 exports.tagByName = constants._reverse(exports.tag);
 
-},{"../constants":148}],148:[function(require,module,exports){
+},{"../constants":149}],149:[function(require,module,exports){
 var constants = exports;
 
 // Helper
@@ -56228,7 +56297,7 @@ constants._reverse = function reverse(map) {
 
 constants.der = require('./der');
 
-},{"./der":147}],149:[function(require,module,exports){
+},{"./der":148}],150:[function(require,module,exports){
 var inherits = require('inherits');
 
 var asn1 = require('../../asn1');
@@ -56551,13 +56620,13 @@ function derDecodeLen(buf, primitive, fail) {
   return len;
 }
 
-},{"../../asn1":141,"inherits":274}],150:[function(require,module,exports){
+},{"../../asn1":142,"inherits":275}],151:[function(require,module,exports){
 var decoders = exports;
 
 decoders.der = require('./der');
 decoders.pem = require('./pem');
 
-},{"./der":149,"./pem":151}],151:[function(require,module,exports){
+},{"./der":150,"./pem":152}],152:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -56609,7 +56678,7 @@ PEMDecoder.prototype.decode = function decode(data, options) {
   return DERDecoder.prototype.decode.call(this, input, options);
 };
 
-},{"../../asn1":141,"./der":149,"buffer":184,"inherits":274}],152:[function(require,module,exports){
+},{"../../asn1":142,"./der":150,"buffer":185,"inherits":275}],153:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -56905,13 +56974,13 @@ function encodeTag(tag, primitive, cls, reporter) {
   return res;
 }
 
-},{"../../asn1":141,"buffer":184,"inherits":274}],153:[function(require,module,exports){
+},{"../../asn1":142,"buffer":185,"inherits":275}],154:[function(require,module,exports){
 var encoders = exports;
 
 encoders.der = require('./der');
 encoders.pem = require('./pem');
 
-},{"./der":152,"./pem":154}],154:[function(require,module,exports){
+},{"./der":153,"./pem":155}],155:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -56936,7 +57005,7 @@ PEMEncoder.prototype.encode = function encode(data, options) {
   return out.join('\n');
 };
 
-},{"../../asn1":141,"./der":152,"buffer":184,"inherits":274}],155:[function(require,module,exports){
+},{"../../asn1":142,"./der":153,"buffer":185,"inherits":275}],156:[function(require,module,exports){
 'use strict'
 
 exports.toByteArray = toByteArray
@@ -57052,7 +57121,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],156:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 (function (module, exports) {
   'use strict';
 
@@ -60472,7 +60541,7 @@ function fromByteArray (uint8) {
   };
 })(typeof module === 'undefined' || module, this);
 
-},{}],157:[function(require,module,exports){
+},{}],158:[function(require,module,exports){
 var r;
 
 module.exports = function rand(len) {
@@ -60531,9 +60600,9 @@ if (typeof window === 'object') {
   }
 }
 
-},{}],158:[function(require,module,exports){
-
 },{}],159:[function(require,module,exports){
+
+},{}],160:[function(require,module,exports){
 (function (Buffer){
 // based on the aes implimentation in triple sec
 // https://github.com/keybase/triplesec
@@ -60714,7 +60783,7 @@ AES.prototype._doCryptBlock = function (M, keySchedule, SUB_MIX, SBOX) {
 exports.AES = AES
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],160:[function(require,module,exports){
+},{"buffer":185}],161:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -60815,7 +60884,7 @@ function xorTest (a, b) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":159,"./ghash":164,"buffer":184,"buffer-xor":183,"cipher-base":187,"inherits":274}],161:[function(require,module,exports){
+},{"./aes":160,"./ghash":165,"buffer":185,"buffer-xor":184,"cipher-base":188,"inherits":275}],162:[function(require,module,exports){
 var ciphers = require('./encrypter')
 exports.createCipher = exports.Cipher = ciphers.createCipher
 exports.createCipheriv = exports.Cipheriv = ciphers.createCipheriv
@@ -60828,7 +60897,7 @@ function getCiphers () {
 }
 exports.listCiphers = exports.getCiphers = getCiphers
 
-},{"./decrypter":162,"./encrypter":163,"./modes":165}],162:[function(require,module,exports){
+},{"./decrypter":163,"./encrypter":164,"./modes":166}],163:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -60969,7 +61038,7 @@ exports.createDecipher = createDecipher
 exports.createDecipheriv = createDecipheriv
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":159,"./authCipher":160,"./modes":165,"./modes/cbc":166,"./modes/cfb":167,"./modes/cfb1":168,"./modes/cfb8":169,"./modes/ctr":170,"./modes/ecb":171,"./modes/ofb":172,"./streamCipher":173,"buffer":184,"cipher-base":187,"evp_bytestokey":262,"inherits":274}],163:[function(require,module,exports){
+},{"./aes":160,"./authCipher":161,"./modes":166,"./modes/cbc":167,"./modes/cfb":168,"./modes/cfb1":169,"./modes/cfb8":170,"./modes/ctr":171,"./modes/ecb":172,"./modes/ofb":173,"./streamCipher":174,"buffer":185,"cipher-base":188,"evp_bytestokey":263,"inherits":275}],164:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -61095,7 +61164,7 @@ exports.createCipheriv = createCipheriv
 exports.createCipher = createCipher
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":159,"./authCipher":160,"./modes":165,"./modes/cbc":166,"./modes/cfb":167,"./modes/cfb1":168,"./modes/cfb8":169,"./modes/ctr":170,"./modes/ecb":171,"./modes/ofb":172,"./streamCipher":173,"buffer":184,"cipher-base":187,"evp_bytestokey":262,"inherits":274}],164:[function(require,module,exports){
+},{"./aes":160,"./authCipher":161,"./modes":166,"./modes/cbc":167,"./modes/cfb":168,"./modes/cfb1":169,"./modes/cfb8":170,"./modes/ctr":171,"./modes/ecb":172,"./modes/ofb":173,"./streamCipher":174,"buffer":185,"cipher-base":188,"evp_bytestokey":263,"inherits":275}],165:[function(require,module,exports){
 (function (Buffer){
 var zeros = new Buffer(16)
 zeros.fill(0)
@@ -61197,7 +61266,7 @@ function xor (a, b) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],165:[function(require,module,exports){
+},{"buffer":185}],166:[function(require,module,exports){
 exports['aes-128-ecb'] = {
   cipher: 'AES',
   key: 128,
@@ -61370,7 +61439,7 @@ exports['aes-256-gcm'] = {
   type: 'auth'
 }
 
-},{}],166:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 var xor = require('buffer-xor')
 
 exports.encrypt = function (self, block) {
@@ -61389,7 +61458,7 @@ exports.decrypt = function (self, block) {
   return xor(out, pad)
 }
 
-},{"buffer-xor":183}],167:[function(require,module,exports){
+},{"buffer-xor":184}],168:[function(require,module,exports){
 (function (Buffer){
 var xor = require('buffer-xor')
 
@@ -61424,7 +61493,7 @@ function encryptStart (self, data, decrypt) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"buffer-xor":183}],168:[function(require,module,exports){
+},{"buffer":185,"buffer-xor":184}],169:[function(require,module,exports){
 (function (Buffer){
 function encryptByte (self, byteParam, decrypt) {
   var pad
@@ -61462,7 +61531,7 @@ function shiftIn (buffer, value) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],169:[function(require,module,exports){
+},{"buffer":185}],170:[function(require,module,exports){
 (function (Buffer){
 function encryptByte (self, byteParam, decrypt) {
   var pad = self._cipher.encryptBlock(self._prev)
@@ -61481,7 +61550,7 @@ exports.encrypt = function (self, chunk, decrypt) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],170:[function(require,module,exports){
+},{"buffer":185}],171:[function(require,module,exports){
 (function (Buffer){
 var xor = require('buffer-xor')
 
@@ -61516,7 +61585,7 @@ exports.encrypt = function (self, chunk) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"buffer-xor":183}],171:[function(require,module,exports){
+},{"buffer":185,"buffer-xor":184}],172:[function(require,module,exports){
 exports.encrypt = function (self, block) {
   return self._cipher.encryptBlock(block)
 }
@@ -61524,7 +61593,7 @@ exports.decrypt = function (self, block) {
   return self._cipher.decryptBlock(block)
 }
 
-},{}],172:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 (function (Buffer){
 var xor = require('buffer-xor')
 
@@ -61544,7 +61613,7 @@ exports.encrypt = function (self, chunk) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"buffer-xor":183}],173:[function(require,module,exports){
+},{"buffer":185,"buffer-xor":184}],174:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -61573,7 +61642,7 @@ StreamCipher.prototype._final = function () {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":159,"buffer":184,"cipher-base":187,"inherits":274}],174:[function(require,module,exports){
+},{"./aes":160,"buffer":185,"cipher-base":188,"inherits":275}],175:[function(require,module,exports){
 var ebtk = require('evp_bytestokey')
 var aes = require('browserify-aes/browser')
 var DES = require('browserify-des')
@@ -61648,7 +61717,7 @@ function getCiphers () {
 }
 exports.listCiphers = exports.getCiphers = getCiphers
 
-},{"browserify-aes/browser":161,"browserify-aes/modes":165,"browserify-des":175,"browserify-des/modes":176,"evp_bytestokey":262}],175:[function(require,module,exports){
+},{"browserify-aes/browser":162,"browserify-aes/modes":166,"browserify-des":176,"browserify-des/modes":177,"evp_bytestokey":263}],176:[function(require,module,exports){
 (function (Buffer){
 var CipherBase = require('cipher-base')
 var des = require('des.js')
@@ -61695,7 +61764,7 @@ DES.prototype._final = function () {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"cipher-base":187,"des.js":230,"inherits":274}],176:[function(require,module,exports){
+},{"buffer":185,"cipher-base":188,"des.js":231,"inherits":275}],177:[function(require,module,exports){
 exports['des-ecb'] = {
   key: 8,
   iv: 0
@@ -61721,7 +61790,7 @@ exports['des-ede'] = {
   iv: 0
 }
 
-},{}],177:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 (function (Buffer){
 var bn = require('bn.js');
 var randomBytes = require('randombytes');
@@ -61765,7 +61834,7 @@ function getr(priv) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"bn.js":156,"buffer":184,"randombytes":297}],178:[function(require,module,exports){
+},{"bn.js":157,"buffer":185,"randombytes":298}],179:[function(require,module,exports){
 (function (Buffer){
 'use strict'
 exports['RSA-SHA224'] = exports.sha224WithRSAEncryption = {
@@ -61841,7 +61910,7 @@ exports['RSA-MD5'] = exports.md5WithRSAEncryption = {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],179:[function(require,module,exports){
+},{"buffer":185}],180:[function(require,module,exports){
 (function (Buffer){
 var _algos = require('./algos')
 var createHash = require('create-hash')
@@ -61948,7 +62017,7 @@ module.exports = {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./algos":178,"./sign":181,"./verify":182,"buffer":184,"create-hash":225,"inherits":274,"stream":308}],180:[function(require,module,exports){
+},{"./algos":179,"./sign":182,"./verify":183,"buffer":185,"create-hash":226,"inherits":275,"stream":309}],181:[function(require,module,exports){
 'use strict'
 exports['1.3.132.0.10'] = 'secp256k1'
 
@@ -61962,7 +62031,7 @@ exports['1.3.132.0.34'] = 'p384'
 
 exports['1.3.132.0.35'] = 'p521'
 
-},{}],181:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 (function (Buffer){
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var createHmac = require('create-hmac')
@@ -62151,7 +62220,7 @@ module.exports.getKey = getKey
 module.exports.makeKey = makeKey
 
 }).call(this,require("buffer").Buffer)
-},{"./curves":180,"bn.js":156,"browserify-rsa":177,"buffer":184,"create-hmac":228,"elliptic":244,"parse-asn1":286}],182:[function(require,module,exports){
+},{"./curves":181,"bn.js":157,"browserify-rsa":178,"buffer":185,"create-hmac":229,"elliptic":245,"parse-asn1":287}],183:[function(require,module,exports){
 (function (Buffer){
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var curves = require('./curves')
@@ -62258,7 +62327,7 @@ function checkValue (b, q) {
 module.exports = verify
 
 }).call(this,require("buffer").Buffer)
-},{"./curves":180,"bn.js":156,"buffer":184,"elliptic":244,"parse-asn1":286}],183:[function(require,module,exports){
+},{"./curves":181,"bn.js":157,"buffer":185,"elliptic":245,"parse-asn1":287}],184:[function(require,module,exports){
 (function (Buffer){
 module.exports = function xor (a, b) {
   var length = Math.min(a.length, b.length)
@@ -62272,7 +62341,7 @@ module.exports = function xor (a, b) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],184:[function(require,module,exports){
+},{"buffer":185}],185:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -63738,14 +63807,14 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":155,"ieee754":272,"isarray":185}],185:[function(require,module,exports){
+},{"base64-js":156,"ieee754":273,"isarray":186}],186:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],186:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 (function (Buffer){
 //  Chance.js 1.0.1
 //  http://chancejs.com
@@ -66837,7 +66906,7 @@ module.exports = Array.isArray || function (arr) {
 })();
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],187:[function(require,module,exports){
+},{"buffer":185}],188:[function(require,module,exports){
 (function (Buffer){
 var Transform = require('stream').Transform
 var inherits = require('inherits')
@@ -66931,7 +67000,7 @@ CipherBase.prototype._toString = function (value, enc, final) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"inherits":274,"stream":308,"string_decoder":319}],188:[function(require,module,exports){
+},{"buffer":185,"inherits":275,"stream":309,"string_decoder":320}],189:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -67009,9 +67078,9 @@ module.exports = require('./define')({
         }
     }
 })
-},{"./core":196,"./define":199,"./utils/copy":214}],189:[function(require,module,exports){
+},{"./core":197,"./define":200,"./utils/copy":215}],190:[function(require,module,exports){
 module.exports = {}
-},{}],190:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 'use strict'
 
 var copy = require('../utils/copy').copy
@@ -67093,7 +67162,7 @@ var assignClassProperty = function(Class, propName, propDescriptor, config){
 }
 
 module.exports = assignClassProperty
-},{"../utils/copy":214,"./canDefineProperty":192,"./canGetOwnPropertyDescriptor":193,"./modifyFn":197}],191:[function(require,module,exports){
+},{"../utils/copy":215,"./canDefineProperty":193,"./canGetOwnPropertyDescriptor":194,"./modifyFn":198}],192:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -67241,7 +67310,7 @@ module.exports = function(){
         buildOverridenFn : buildOverridenFn
     }
 }()
-},{}],192:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
@@ -67258,13 +67327,13 @@ module.exports = (function(){
     return false
 
 })()
-},{}],193:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
     return 'getOwnPropertyDescriptor' in Object && typeof Object.getOwnPropertyDescriptor == 'function'
 })()
-},{}],194:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 'use strict'
 
 var canGetOwnPropertyDescriptor = require('./canGetOwnPropertyDescriptor')
@@ -67283,7 +67352,7 @@ function copy(source, target){
 }
 
 module.exports = canGetOwnPropertyDescriptor? copy: function(){}
-},{"./canGetOwnPropertyDescriptor":193}],195:[function(require,module,exports){
+},{"./canGetOwnPropertyDescriptor":194}],196:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -67309,7 +67378,7 @@ module.exports = function(){
         return child
     }
 }()
-},{}],196:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -67530,7 +67599,7 @@ module.exports = function(){
         BaseClass        : Base
     }
 }()
-},{"../utils/copy":214,"./assignClassProperty":190,"./canDefineProperty":192,"./canGetOwnPropertyDescriptor":193,"./copyDescriptors":194,"./extend":195,"newify":281}],197:[function(require,module,exports){
+},{"../utils/copy":215,"./assignClassProperty":191,"./canDefineProperty":193,"./canGetOwnPropertyDescriptor":194,"./copyDescriptors":195,"./extend":196,"newify":282}],198:[function(require,module,exports){
 var callSuperRe     = /\bcallSuper|callSuperWith\b/
 var callOverridenRe = /\bcallOverriden|callOverridenWith\b/
 
@@ -67558,7 +67627,7 @@ function modify(name, fn, superTarget, superClass, target, getterSetterConfig){
 }
 
 module.exports = modify
-},{"./buildClassFunctions":191}],198:[function(require,module,exports){
+},{"./buildClassFunctions":192}],199:[function(require,module,exports){
 var SLICE = Array.prototype.slice
 
 var getClass = require('./getClass')
@@ -67591,7 +67660,7 @@ module.exports = function(alias /* args... */){
 
     return newify(Class, args)
 }
-},{"./getClass":203,"newify":281}],199:[function(require,module,exports){
+},{"./getClass":204,"newify":282}],200:[function(require,module,exports){
 var getClass     = require('./getClass')
 var processClass = require('./processClass')
 
@@ -67647,7 +67716,7 @@ module.exports = function(parentClass, classConfig){
         processClass(Class)
     })
 }
-},{"./Registry":189,"./core":196,"./getClass":203,"./processClass":210,"./processors/ClassProcessor":211}],200:[function(require,module,exports){
+},{"./Registry":190,"./core":197,"./getClass":204,"./processClass":211,"./processors/ClassProcessor":212}],201:[function(require,module,exports){
 var define = require('./define')
 var copyIf = require('./utils/copy').copyIf
 
@@ -67657,7 +67726,7 @@ module.exports = function(members){
 
     return define(copyIf({ extend: 'z.mixin'}, members))
 }
-},{"./define":199,"./utils/copy":214}],201:[function(require,module,exports){
+},{"./define":200,"./utils/copy":215}],202:[function(require,module,exports){
 /**
  * @method destroyClass
  *
@@ -67681,7 +67750,7 @@ module.exports = function(Class){
         Class.destroy()
     }
 }
-},{"./core":196,"./getClass":203}],202:[function(require,module,exports){
+},{"./core":197,"./getClass":204}],203:[function(require,module,exports){
 
 module.exports = function(config){
 
@@ -67696,7 +67765,7 @@ module.exports = function(config){
 
     return define(config)
 }
-},{"./define":199}],203:[function(require,module,exports){
+},{"./define":200}],204:[function(require,module,exports){
 /**
  * @method getClass
  *
@@ -67724,7 +67793,7 @@ module.exports = function getClass(alias){
     return REGISTRY[alias]
 
 }
-},{"./Registry":189,"./core":196}],204:[function(require,module,exports){
+},{"./Registry":190,"./core":197}],205:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -67768,7 +67837,7 @@ module.exports = function(config){
 
     return new klass(config)
 }
-},{"./core":196,"./getClass":203}],205:[function(require,module,exports){
+},{"./core":197,"./getClass":204}],206:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -67794,7 +67863,7 @@ module.exports = function(alias){
         return Class
     }
 }
-},{"./core":196,"./getClass":203}],206:[function(require,module,exports){
+},{"./core":197,"./getClass":204}],207:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -67853,7 +67922,7 @@ module.exports = function(){
         isClassLike        : isSameOrSubclassOf
     }
 }()
-},{"./Mixin":188,"./Registry":189,"./core":196,"./create":198,"./define":199,"./defineMixin":200,"./destroyClass":201,"./getClass":203,"./getInstance":204,"./getParentClass":205,"./isSubclassOf":207,"./override":208,"./processors/MixinProcessor":212,"./utils/copy":214}],207:[function(require,module,exports){
+},{"./Mixin":189,"./Registry":190,"./core":197,"./create":199,"./define":200,"./defineMixin":201,"./destroyClass":202,"./getClass":204,"./getInstance":205,"./getParentClass":206,"./isSubclassOf":208,"./override":209,"./processors/MixinProcessor":213,"./utils/copy":215}],208:[function(require,module,exports){
 var getClass = require('./getClass')
 
 module.exports = function(subClass, superClass, config){
@@ -67877,7 +67946,7 @@ module.exports = function(subClass, superClass, config){
 
     return !!subClass
 }
-},{"./getClass":203}],208:[function(require,module,exports){
+},{"./getClass":204}],209:[function(require,module,exports){
 var getClass = require('./getClass')
 
 /**
@@ -67908,7 +67977,7 @@ module.exports = function(Class, classConfig){
 
     return TheClass
 }
-},{"./getClass":203}],209:[function(require,module,exports){
+},{"./getClass":204}],210:[function(require,module,exports){
 module.exports = function(config){
 
     'use strict'
@@ -67916,7 +67985,7 @@ module.exports = function(config){
     //this refers to a Class
     return require('./core').overrideClass(this, config)
 }
-},{"./core":196}],210:[function(require,module,exports){
+},{"./core":197}],211:[function(require,module,exports){
 var copyKeys = require('./utils/copy').copyKeys
 
 function aliasMethods(config){
@@ -67957,7 +68026,7 @@ module.exports = function(Class){
         Class.init()
     }
 }
-},{"./extendClass":202,"./overrideClass":209,"./processors/ClassProcessor":211,"./unregisterClass":213,"./utils/copy":214}],211:[function(require,module,exports){
+},{"./extendClass":203,"./overrideClass":210,"./processors/ClassProcessor":212,"./unregisterClass":214,"./utils/copy":215}],212:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -67998,7 +68067,7 @@ module.exports = function(){
 
     return result
 }()
-},{"./MixinProcessor":212}],212:[function(require,module,exports){
+},{"./MixinProcessor":213}],213:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -68385,7 +68454,7 @@ module.exports = function(){
 
     }
 }()
-},{"../core":196,"../getClass":203,"../utils/copy":214,"../utils/function":215}],213:[function(require,module,exports){
+},{"../core":197,"../getClass":204,"../utils/copy":215,"../utils/function":216}],214:[function(require,module,exports){
 var REGISTRY = require('./Registry')
 
 module.exports = function unregisterClass(){
@@ -68399,7 +68468,7 @@ module.exports = function unregisterClass(){
 
     delete REGISTRY[alias]
 }
-},{"./Registry":189}],214:[function(require,module,exports){
+},{"./Registry":190}],215:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -68411,7 +68480,7 @@ module.exports = function unregisterClass(){
 
  */
 module.exports = require('copy-utils')
-},{"copy-utils":222}],215:[function(require,module,exports){
+},{"copy-utils":223}],216:[function(require,module,exports){
 module.exports = function(){
 
     var SLICE = Array.prototype.slice
@@ -68468,7 +68537,7 @@ module.exports = function(){
         bindArgsArray: bindArgsArray
     }
 }()
-},{}],216:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -68499,7 +68568,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],217:[function(require,module,exports){
+},{}],218:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -68531,7 +68600,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],218:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -68583,7 +68652,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyList":220}],219:[function(require,module,exports){
+},{"./copyList":221}],220:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -68644,7 +68713,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyListIf":221}],220:[function(require,module,exports){
+},{"./copyListIf":222}],221:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -68684,7 +68753,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],221:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -68726,7 +68795,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],222:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -68923,7 +68992,7 @@ module.exports = function(){
     }
 
 }()
-},{"./copy":216,"./copyIf":217,"./copyKeys":218,"./copyKeysIf":219,"./copyList":220,"./copyListIf":221}],223:[function(require,module,exports){
+},{"./copy":217,"./copyIf":218,"./copyKeys":219,"./copyKeysIf":220,"./copyList":221,"./copyListIf":222}],224:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -69034,7 +69103,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":275}],224:[function(require,module,exports){
+},{"../../is-buffer/index.js":276}],225:[function(require,module,exports){
 (function (Buffer){
 var elliptic = require('elliptic');
 var BN = require('bn.js');
@@ -69160,7 +69229,7 @@ function formatReturnValue(bn, enc, len) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"bn.js":156,"buffer":184,"elliptic":244}],225:[function(require,module,exports){
+},{"bn.js":157,"buffer":185,"elliptic":245}],226:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var inherits = require('inherits')
@@ -69216,7 +69285,7 @@ module.exports = function createHash (alg) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./md5":227,"buffer":184,"cipher-base":187,"inherits":274,"ripemd160":299,"sha.js":301}],226:[function(require,module,exports){
+},{"./md5":228,"buffer":185,"cipher-base":188,"inherits":275,"ripemd160":300,"sha.js":302}],227:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var intSize = 4;
@@ -69253,7 +69322,7 @@ function hash(buf, fn, hashSize, bigEndian) {
 }
 exports.hash = hash;
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],227:[function(require,module,exports){
+},{"buffer":185}],228:[function(require,module,exports){
 'use strict';
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
@@ -69410,7 +69479,7 @@ function bit_rol(num, cnt)
 module.exports = function md5(buf) {
   return helpers.hash(buf, core_md5, 16);
 };
-},{"./helpers":226}],228:[function(require,module,exports){
+},{"./helpers":227}],229:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var createHash = require('create-hash/browser');
@@ -69482,7 +69551,7 @@ module.exports = function createHmac(alg, key) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"create-hash/browser":225,"inherits":274,"stream":308}],229:[function(require,module,exports){
+},{"buffer":185,"create-hash/browser":226,"inherits":275,"stream":309}],230:[function(require,module,exports){
 'use strict'
 
 exports.randomBytes = exports.rng = exports.pseudoRandomBytes = exports.prng = require('randombytes')
@@ -69561,7 +69630,7 @@ var publicEncrypt = require('public-encrypt')
   }
 })
 
-},{"browserify-cipher":174,"browserify-sign":179,"browserify-sign/algos":178,"create-ecdh":224,"create-hash":225,"create-hmac":228,"diffie-hellman":239,"pbkdf2":288,"public-encrypt":291,"randombytes":297}],230:[function(require,module,exports){
+},{"browserify-cipher":175,"browserify-sign":180,"browserify-sign/algos":179,"create-ecdh":225,"create-hash":226,"create-hmac":229,"diffie-hellman":240,"pbkdf2":289,"public-encrypt":292,"randombytes":298}],231:[function(require,module,exports){
 'use strict';
 
 exports.utils = require('./des/utils');
@@ -69570,7 +69639,7 @@ exports.DES = require('./des/des');
 exports.CBC = require('./des/cbc');
 exports.EDE = require('./des/ede');
 
-},{"./des/cbc":231,"./des/cipher":232,"./des/des":233,"./des/ede":234,"./des/utils":235}],231:[function(require,module,exports){
+},{"./des/cbc":232,"./des/cipher":233,"./des/des":234,"./des/ede":235,"./des/utils":236}],232:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -69637,7 +69706,7 @@ proto._update = function _update(inp, inOff, out, outOff) {
   }
 };
 
-},{"inherits":274,"minimalistic-assert":279}],232:[function(require,module,exports){
+},{"inherits":275,"minimalistic-assert":280}],233:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -69780,7 +69849,7 @@ Cipher.prototype._finalDecrypt = function _finalDecrypt() {
   return this._unpad(out);
 };
 
-},{"minimalistic-assert":279}],233:[function(require,module,exports){
+},{"minimalistic-assert":280}],234:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -69925,7 +69994,7 @@ DES.prototype._decrypt = function _decrypt(state, lStart, rStart, out, off) {
   utils.rip(l, r, out, off);
 };
 
-},{"../des":230,"inherits":274,"minimalistic-assert":279}],234:[function(require,module,exports){
+},{"../des":231,"inherits":275,"minimalistic-assert":280}],235:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -69982,7 +70051,7 @@ EDE.prototype._update = function _update(inp, inOff, out, outOff) {
 EDE.prototype._pad = DES.prototype._pad;
 EDE.prototype._unpad = DES.prototype._unpad;
 
-},{"../des":230,"inherits":274,"minimalistic-assert":279}],235:[function(require,module,exports){
+},{"../des":231,"inherits":275,"minimalistic-assert":280}],236:[function(require,module,exports){
 'use strict';
 
 exports.readUInt32BE = function readUInt32BE(bytes, off) {
@@ -70240,11 +70309,11 @@ exports.padSplit = function padSplit(num, size, group) {
   return out.join(' ');
 };
 
-},{}],236:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 exports = module.exports = require('./src/device-detector');
 exports.version = require('./package').version;
 
-},{"./package":237,"./src/device-detector":238}],237:[function(require,module,exports){
+},{"./package":238,"./src/device-detector":239}],238:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -70346,7 +70415,7 @@ module.exports={
   "version": "0.1.32"
 }
 
-},{}],238:[function(require,module,exports){
+},{}],239:[function(require,module,exports){
 /**
  * Device Detector
  * GitHub : git@github.com:ndaidong/device-detector.git
@@ -70683,7 +70752,7 @@ module.exports={
   }
 })();
 
-},{}],239:[function(require,module,exports){
+},{}],240:[function(require,module,exports){
 (function (Buffer){
 var generatePrime = require('./lib/generatePrime')
 var primes = require('./lib/primes.json')
@@ -70729,7 +70798,7 @@ exports.DiffieHellmanGroup = exports.createDiffieHellmanGroup = exports.getDiffi
 exports.createDiffieHellman = exports.DiffieHellman = createDiffieHellman
 
 }).call(this,require("buffer").Buffer)
-},{"./lib/dh":240,"./lib/generatePrime":241,"./lib/primes.json":242,"buffer":184}],240:[function(require,module,exports){
+},{"./lib/dh":241,"./lib/generatePrime":242,"./lib/primes.json":243,"buffer":185}],241:[function(require,module,exports){
 (function (Buffer){
 var BN = require('bn.js');
 var MillerRabin = require('miller-rabin');
@@ -70897,7 +70966,7 @@ function formatReturnValue(bn, enc) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./generatePrime":241,"bn.js":156,"buffer":184,"miller-rabin":277,"randombytes":297}],241:[function(require,module,exports){
+},{"./generatePrime":242,"bn.js":157,"buffer":185,"miller-rabin":278,"randombytes":298}],242:[function(require,module,exports){
 var randomBytes = require('randombytes');
 module.exports = findPrime;
 findPrime.simpleSieve = simpleSieve;
@@ -71004,7 +71073,7 @@ function findPrime(bits, gen) {
 
 }
 
-},{"bn.js":156,"miller-rabin":277,"randombytes":297}],242:[function(require,module,exports){
+},{"bn.js":157,"miller-rabin":278,"randombytes":298}],243:[function(require,module,exports){
 module.exports={
     "modp1": {
         "gen": "02",
@@ -71039,7 +71108,7 @@ module.exports={
         "prime": "ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dbe115974a3926f12fee5e438777cb6a932df8cd8bec4d073b931ba3bc832b68d9dd300741fa7bf8afc47ed2576f6936ba424663aab639c5ae4f5683423b4742bf1c978238f16cbe39d652de3fdb8befc848ad922222e04a4037c0713eb57a81a23f0c73473fc646cea306b4bcbc8862f8385ddfa9d4b7fa2c087e879683303ed5bdd3a062b3cf5b3a278a66d2a13f83f44f82ddf310ee074ab6a364597e899a0255dc164f31cc50846851df9ab48195ded7ea1b1d510bd7ee74d73faf36bc31ecfa268359046f4eb879f924009438b481c6cd7889a002ed5ee382bc9190da6fc026e479558e4475677e9aa9e3050e2765694dfc81f56e880b96e7160c980dd98edd3dfffffffffffffffff"
     }
 }
-},{}],243:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -71071,7 +71140,7 @@ module.exports={
 
 });
 
-},{}],244:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 'use strict';
 
 var elliptic = exports;
@@ -71087,7 +71156,7 @@ elliptic.curves = require('./elliptic/curves');
 elliptic.ec = require('./elliptic/ec');
 elliptic.eddsa = require('./elliptic/eddsa');
 
-},{"../package.json":260,"./elliptic/curve":247,"./elliptic/curves":250,"./elliptic/ec":251,"./elliptic/eddsa":254,"./elliptic/hmac-drbg":257,"./elliptic/utils":259,"brorand":157}],245:[function(require,module,exports){
+},{"../package.json":261,"./elliptic/curve":248,"./elliptic/curves":251,"./elliptic/ec":252,"./elliptic/eddsa":255,"./elliptic/hmac-drbg":258,"./elliptic/utils":260,"brorand":158}],246:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -71440,7 +71509,7 @@ BasePoint.prototype.dblp = function dblp(k) {
   return r;
 };
 
-},{"../../elliptic":244,"bn.js":156}],246:[function(require,module,exports){
+},{"../../elliptic":245,"bn.js":157}],247:[function(require,module,exports){
 'use strict';
 
 var curve = require('../curve');
@@ -71852,7 +71921,7 @@ Point.prototype.eq = function eq(other) {
 Point.prototype.toP = Point.prototype.normalize;
 Point.prototype.mixedAdd = Point.prototype.add;
 
-},{"../../elliptic":244,"../curve":247,"bn.js":156,"inherits":274}],247:[function(require,module,exports){
+},{"../../elliptic":245,"../curve":248,"bn.js":157,"inherits":275}],248:[function(require,module,exports){
 'use strict';
 
 var curve = exports;
@@ -71862,7 +71931,7 @@ curve.short = require('./short');
 curve.mont = require('./mont');
 curve.edwards = require('./edwards');
 
-},{"./base":245,"./edwards":246,"./mont":248,"./short":249}],248:[function(require,module,exports){
+},{"./base":246,"./edwards":247,"./mont":249,"./short":250}],249:[function(require,module,exports){
 'use strict';
 
 var curve = require('../curve');
@@ -72040,7 +72109,7 @@ Point.prototype.getX = function getX() {
   return this.x.fromRed();
 };
 
-},{"../../elliptic":244,"../curve":247,"bn.js":156,"inherits":274}],249:[function(require,module,exports){
+},{"../../elliptic":245,"../curve":248,"bn.js":157,"inherits":275}],250:[function(require,module,exports){
 'use strict';
 
 var curve = require('../curve');
@@ -72951,7 +73020,7 @@ JPoint.prototype.isInfinity = function isInfinity() {
   return this.z.cmpn(0) === 0;
 };
 
-},{"../../elliptic":244,"../curve":247,"bn.js":156,"inherits":274}],250:[function(require,module,exports){
+},{"../../elliptic":245,"../curve":248,"bn.js":157,"inherits":275}],251:[function(require,module,exports){
 'use strict';
 
 var curves = exports;
@@ -73158,7 +73227,7 @@ defineCurve('secp256k1', {
   ]
 });
 
-},{"../elliptic":244,"./precomputed/secp256k1":258,"hash.js":265}],251:[function(require,module,exports){
+},{"../elliptic":245,"./precomputed/secp256k1":259,"hash.js":266}],252:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -73382,7 +73451,7 @@ EC.prototype.getKeyRecoveryParam = function(e, signature, Q, enc) {
   throw new Error('Unable to find valid recovery factor');
 };
 
-},{"../../elliptic":244,"./key":252,"./signature":253,"bn.js":156}],252:[function(require,module,exports){
+},{"../../elliptic":245,"./key":253,"./signature":254,"bn.js":157}],253:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -73491,7 +73560,7 @@ KeyPair.prototype.inspect = function inspect() {
          ' pub: ' + (this.pub && this.pub.inspect()) + ' >';
 };
 
-},{"bn.js":156}],253:[function(require,module,exports){
+},{"bn.js":157}],254:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -73628,7 +73697,7 @@ Signature.prototype.toDER = function toDER(enc) {
   return utils.encode(res, enc);
 };
 
-},{"../../elliptic":244,"bn.js":156}],254:[function(require,module,exports){
+},{"../../elliptic":245,"bn.js":157}],255:[function(require,module,exports){
 'use strict';
 
 var hash = require('hash.js');
@@ -73748,7 +73817,7 @@ EDDSA.prototype.isPoint = function isPoint(val) {
   return val instanceof this.pointClass;
 };
 
-},{"../../elliptic":244,"./key":255,"./signature":256,"hash.js":265}],255:[function(require,module,exports){
+},{"../../elliptic":245,"./key":256,"./signature":257,"hash.js":266}],256:[function(require,module,exports){
 'use strict';
 
 var elliptic = require('../../elliptic');
@@ -73846,7 +73915,7 @@ KeyPair.prototype.getPublic = function getPublic(enc) {
 
 module.exports = KeyPair;
 
-},{"../../elliptic":244}],256:[function(require,module,exports){
+},{"../../elliptic":245}],257:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -73914,7 +73983,7 @@ Signature.prototype.toHex = function toHex() {
 
 module.exports = Signature;
 
-},{"../../elliptic":244,"bn.js":156}],257:[function(require,module,exports){
+},{"../../elliptic":245,"bn.js":157}],258:[function(require,module,exports){
 'use strict';
 
 var hash = require('hash.js');
@@ -74030,7 +74099,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
   return utils.encode(res, enc);
 };
 
-},{"../elliptic":244,"hash.js":265}],258:[function(require,module,exports){
+},{"../elliptic":245,"hash.js":266}],259:[function(require,module,exports){
 module.exports = {
   doubles: {
     step: 4,
@@ -74812,7 +74881,7 @@ module.exports = {
   }
 };
 
-},{}],259:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 'use strict';
 
 var utils = exports;
@@ -74987,7 +75056,7 @@ function intFromLE(bytes) {
 utils.intFromLE = intFromLE;
 
 
-},{"bn.js":156}],260:[function(require,module,exports){
+},{"bn.js":157}],261:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -75088,7 +75157,7 @@ module.exports={
   "version": "6.2.3"
 }
 
-},{}],261:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -75388,7 +75457,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],262:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 (function (Buffer){
 var md5 = require('create-hash/md5')
 module.exports = EVP_BytesToKey
@@ -75460,7 +75529,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"create-hash/md5":227}],263:[function(require,module,exports){
+},{"buffer":185,"create-hash/md5":228}],264:[function(require,module,exports){
 (function() {
 
     var debug = false;
@@ -76267,7 +76336,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
 }.call(this));
 
 
-},{}],264:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory)
@@ -76373,7 +76442,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
   }
 }));
 
-},{}],265:[function(require,module,exports){
+},{}],266:[function(require,module,exports){
 var hash = exports;
 
 hash.utils = require('./hash/utils');
@@ -76390,7 +76459,7 @@ hash.sha384 = hash.sha.sha384;
 hash.sha512 = hash.sha.sha512;
 hash.ripemd160 = hash.ripemd.ripemd160;
 
-},{"./hash/common":266,"./hash/hmac":267,"./hash/ripemd":268,"./hash/sha":269,"./hash/utils":270}],266:[function(require,module,exports){
+},{"./hash/common":267,"./hash/hmac":268,"./hash/ripemd":269,"./hash/sha":270,"./hash/utils":271}],267:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 var assert = utils.assert;
@@ -76483,7 +76552,7 @@ BlockHash.prototype._pad = function pad() {
   return res;
 };
 
-},{"../hash":265}],267:[function(require,module,exports){
+},{"../hash":266}],268:[function(require,module,exports){
 var hmac = exports;
 
 var hash = require('../hash');
@@ -76533,7 +76602,7 @@ Hmac.prototype.digest = function digest(enc) {
   return this.outer.digest(enc);
 };
 
-},{"../hash":265}],268:[function(require,module,exports){
+},{"../hash":266}],269:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 
@@ -76679,7 +76748,7 @@ var sh = [
   8, 5, 12, 9, 12, 5, 14, 6, 8, 13, 6, 5, 15, 13, 11, 11
 ];
 
-},{"../hash":265}],269:[function(require,module,exports){
+},{"../hash":266}],270:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 var assert = utils.assert;
@@ -77245,7 +77314,7 @@ function g1_512_lo(xh, xl) {
   return r;
 }
 
-},{"../hash":265}],270:[function(require,module,exports){
+},{"../hash":266}],271:[function(require,module,exports){
 var utils = exports;
 var inherits = require('inherits');
 
@@ -77504,7 +77573,7 @@ function shr64_lo(ah, al, num) {
 };
 exports.shr64_lo = shr64_lo;
 
-},{"inherits":274}],271:[function(require,module,exports){
+},{"inherits":275}],272:[function(require,module,exports){
 // inspired by http://webreflection.blogspot.com/2010/12/100-client-side-image-resizing.html
 /* 
 
@@ -77560,7 +77629,7 @@ module.exports = function (canvas) {
 
 
 
-},{}],272:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -77646,7 +77715,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],273:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 
 var indexOf = [].indexOf;
 
@@ -77657,7 +77726,7 @@ module.exports = function(arr, obj){
   }
   return -1;
 };
-},{}],274:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -77682,7 +77751,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],275:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
@@ -77701,12 +77770,12 @@ module.exports = function (obj) {
     ))
 }
 
-},{}],276:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],277:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 var bn = require('bn.js');
 var brorand = require('brorand');
 
@@ -77821,7 +77890,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
   return false;
 };
 
-},{"bn.js":156,"brorand":157}],278:[function(require,module,exports){
+},{"bn.js":157,"brorand":158}],279:[function(require,module,exports){
 //
 // mimetype.js - A catalog object of mime types based on file extensions
 //
@@ -78589,7 +78658,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
 	return self;
 }(this));
 
-},{"path":287}],279:[function(require,module,exports){
+},{"path":288}],280:[function(require,module,exports){
 module.exports = assert;
 
 function assert(val, msg) {
@@ -78602,7 +78671,7 @@ assert.equal = function assertEqual(l, r, msg) {
     throw new Error(msg || ('Assertion failed: ' + l + ' != ' + r));
 };
 
-},{}],280:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 module.exports = function(){
 
     'use strict';
@@ -78631,13 +78700,13 @@ module.exports = function(){
     }
 
 }()
-},{}],281:[function(require,module,exports){
+},{}],282:[function(require,module,exports){
 var getInstantiatorFunction = require('./getInstantiatorFunction')
 
 module.exports = function(fn, args){
 	return getInstantiatorFunction(args.length)(fn, args)
 }
-},{"./getInstantiatorFunction":280}],282:[function(require,module,exports){
+},{"./getInstantiatorFunction":281}],283:[function(require,module,exports){
 (function (Buffer){
 //     uuid.js
 //
@@ -78913,7 +78982,7 @@ module.exports = function(fn, args){
 })('undefined' !== typeof window ? window : null);
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"crypto":229}],283:[function(require,module,exports){
+},{"buffer":185,"crypto":230}],284:[function(require,module,exports){
 module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.2": "aes-128-cbc",
 "2.16.840.1.101.3.4.1.3": "aes-128-ofb",
@@ -78927,7 +78996,7 @@ module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.43": "aes-256-ofb",
 "2.16.840.1.101.3.4.1.44": "aes-256-cfb"
 }
-},{}],284:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 // from https://github.com/indutny/self-signed/blob/gh-pages/lib/asn1.js
 // Fedor, you are amazing.
 
@@ -79046,7 +79115,7 @@ exports.signature = asn1.define('signature', function () {
   )
 })
 
-},{"asn1.js":141}],285:[function(require,module,exports){
+},{"asn1.js":142}],286:[function(require,module,exports){
 (function (Buffer){
 // adapted from https://github.com/apatil/pemstrip
 var findProc = /Proc-Type: 4,ENCRYPTED\r?\nDEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)\r?\n\r?\n([0-9A-z\n\r\+\/\=]+)\r?\n/m
@@ -79080,7 +79149,7 @@ module.exports = function (okey, password) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"browserify-aes":161,"buffer":184,"evp_bytestokey":262}],286:[function(require,module,exports){
+},{"browserify-aes":162,"buffer":185,"evp_bytestokey":263}],287:[function(require,module,exports){
 (function (Buffer){
 var asn1 = require('./asn1')
 var aesid = require('./aesid.json')
@@ -79185,7 +79254,7 @@ function decrypt (data, password) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./aesid.json":283,"./asn1":284,"./fixProc":285,"browserify-aes":161,"buffer":184,"pbkdf2":288}],287:[function(require,module,exports){
+},{"./aesid.json":284,"./asn1":285,"./fixProc":286,"browserify-aes":162,"buffer":185,"pbkdf2":289}],288:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -79413,7 +79482,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":290}],288:[function(require,module,exports){
+},{"_process":291}],289:[function(require,module,exports){
 (function (Buffer){
 var createHmac = require('create-hmac')
 var MAX_ALLOC = Math.pow(2, 30) - 1 // default in iojs
@@ -79497,7 +79566,7 @@ function pbkdf2Sync (password, salt, iterations, keylen, digest) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"create-hmac":228}],289:[function(require,module,exports){
+},{"buffer":185,"create-hmac":229}],290:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -79521,7 +79590,7 @@ function nextTick(fn) {
 }
 
 }).call(this,require('_process'))
-},{"_process":290}],290:[function(require,module,exports){
+},{"_process":291}],291:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -79614,7 +79683,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],291:[function(require,module,exports){
+},{}],292:[function(require,module,exports){
 exports.publicEncrypt = require('./publicEncrypt');
 exports.privateDecrypt = require('./privateDecrypt');
 
@@ -79625,7 +79694,7 @@ exports.privateEncrypt = function privateEncrypt(key, buf) {
 exports.publicDecrypt = function publicDecrypt(key, buf) {
   return exports.privateDecrypt(key, buf, true);
 };
-},{"./privateDecrypt":293,"./publicEncrypt":294}],292:[function(require,module,exports){
+},{"./privateDecrypt":294,"./publicEncrypt":295}],293:[function(require,module,exports){
 (function (Buffer){
 var createHash = require('create-hash');
 module.exports = function (seed, len) {
@@ -79644,7 +79713,7 @@ function i2ops(c) {
   return out;
 }
 }).call(this,require("buffer").Buffer)
-},{"buffer":184,"create-hash":225}],293:[function(require,module,exports){
+},{"buffer":185,"create-hash":226}],294:[function(require,module,exports){
 (function (Buffer){
 var parseKeys = require('parse-asn1');
 var mgf = require('./mgf');
@@ -79755,7 +79824,7 @@ function compare(a, b){
   return dif;
 }
 }).call(this,require("buffer").Buffer)
-},{"./mgf":292,"./withPublic":295,"./xor":296,"bn.js":156,"browserify-rsa":177,"buffer":184,"create-hash":225,"parse-asn1":286}],294:[function(require,module,exports){
+},{"./mgf":293,"./withPublic":296,"./xor":297,"bn.js":157,"browserify-rsa":178,"buffer":185,"create-hash":226,"parse-asn1":287}],295:[function(require,module,exports){
 (function (Buffer){
 var parseKeys = require('parse-asn1');
 var randomBytes = require('randombytes');
@@ -79853,7 +79922,7 @@ function nonZero(len, crypto) {
   return out;
 }
 }).call(this,require("buffer").Buffer)
-},{"./mgf":292,"./withPublic":295,"./xor":296,"bn.js":156,"browserify-rsa":177,"buffer":184,"create-hash":225,"parse-asn1":286,"randombytes":297}],295:[function(require,module,exports){
+},{"./mgf":293,"./withPublic":296,"./xor":297,"bn.js":157,"browserify-rsa":178,"buffer":185,"create-hash":226,"parse-asn1":287,"randombytes":298}],296:[function(require,module,exports){
 (function (Buffer){
 var bn = require('bn.js');
 function withPublic(paddedMsg, key) {
@@ -79866,7 +79935,7 @@ function withPublic(paddedMsg, key) {
 
 module.exports = withPublic;
 }).call(this,require("buffer").Buffer)
-},{"bn.js":156,"buffer":184}],296:[function(require,module,exports){
+},{"bn.js":157,"buffer":185}],297:[function(require,module,exports){
 module.exports = function xor(a, b) {
   var len = a.length;
   var i = -1;
@@ -79875,7 +79944,7 @@ module.exports = function xor(a, b) {
   }
   return a
 };
-},{}],297:[function(require,module,exports){
+},{}],298:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -79915,7 +79984,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":290,"buffer":184}],298:[function(require,module,exports){
+},{"_process":291,"buffer":185}],299:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.rfc6902 = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
@@ -80661,7 +80730,7 @@ var Pointer = exports.Pointer = (function () {
 },{}]},{},[4])(4)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],299:[function(require,module,exports){
+},{}],300:[function(require,module,exports){
 (function (Buffer){
 /*
 CryptoJS v3.1.2
@@ -80875,7 +80944,7 @@ function ripemd160 (message) {
 module.exports = ripemd160
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],300:[function(require,module,exports){
+},{"buffer":185}],301:[function(require,module,exports){
 (function (Buffer){
 // prototype class for hash functions
 function Hash (blockSize, finalSize) {
@@ -80948,7 +81017,7 @@ Hash.prototype._update = function () {
 module.exports = Hash
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":184}],301:[function(require,module,exports){
+},{"buffer":185}],302:[function(require,module,exports){
 var exports = module.exports = function SHA (algorithm) {
   algorithm = algorithm.toLowerCase()
 
@@ -80965,7 +81034,7 @@ exports.sha256 = require('./sha256')
 exports.sha384 = require('./sha384')
 exports.sha512 = require('./sha512')
 
-},{"./sha":302,"./sha1":303,"./sha224":304,"./sha256":305,"./sha384":306,"./sha512":307}],302:[function(require,module,exports){
+},{"./sha":303,"./sha1":304,"./sha224":305,"./sha256":306,"./sha384":307,"./sha512":308}],303:[function(require,module,exports){
 (function (Buffer){
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-0, as defined
@@ -81062,7 +81131,7 @@ Sha.prototype._hash = function () {
 module.exports = Sha
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":300,"buffer":184,"inherits":274}],303:[function(require,module,exports){
+},{"./hash":301,"buffer":185,"inherits":275}],304:[function(require,module,exports){
 (function (Buffer){
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-1, as defined
@@ -81164,7 +81233,7 @@ Sha1.prototype._hash = function () {
 module.exports = Sha1
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":300,"buffer":184,"inherits":274}],304:[function(require,module,exports){
+},{"./hash":301,"buffer":185,"inherits":275}],305:[function(require,module,exports){
 (function (Buffer){
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
@@ -81220,7 +81289,7 @@ Sha224.prototype._hash = function () {
 module.exports = Sha224
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":300,"./sha256":305,"buffer":184,"inherits":274}],305:[function(require,module,exports){
+},{"./hash":301,"./sha256":306,"buffer":185,"inherits":275}],306:[function(require,module,exports){
 (function (Buffer){
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
@@ -81358,7 +81427,7 @@ Sha256.prototype._hash = function () {
 module.exports = Sha256
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":300,"buffer":184,"inherits":274}],306:[function(require,module,exports){
+},{"./hash":301,"buffer":185,"inherits":275}],307:[function(require,module,exports){
 (function (Buffer){
 var inherits = require('inherits')
 var SHA512 = require('./sha512')
@@ -81418,7 +81487,7 @@ Sha384.prototype._hash = function () {
 module.exports = Sha384
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":300,"./sha512":307,"buffer":184,"inherits":274}],307:[function(require,module,exports){
+},{"./hash":301,"./sha512":308,"buffer":185,"inherits":275}],308:[function(require,module,exports){
 (function (Buffer){
 var inherits = require('inherits')
 var Hash = require('./hash')
@@ -81681,7 +81750,7 @@ Sha512.prototype._hash = function () {
 module.exports = Sha512
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":300,"buffer":184,"inherits":274}],308:[function(require,module,exports){
+},{"./hash":301,"buffer":185,"inherits":275}],309:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -81810,10 +81879,10 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":261,"inherits":274,"readable-stream/duplex.js":309,"readable-stream/passthrough.js":315,"readable-stream/readable.js":316,"readable-stream/transform.js":317,"readable-stream/writable.js":318}],309:[function(require,module,exports){
+},{"events":262,"inherits":275,"readable-stream/duplex.js":310,"readable-stream/passthrough.js":316,"readable-stream/readable.js":317,"readable-stream/transform.js":318,"readable-stream/writable.js":319}],310:[function(require,module,exports){
 module.exports = require("./lib/_stream_duplex.js")
 
-},{"./lib/_stream_duplex.js":310}],310:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":311}],311:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -81897,7 +81966,7 @@ function forEach (xs, f) {
   }
 }
 
-},{"./_stream_readable":312,"./_stream_writable":314,"core-util-is":223,"inherits":274,"process-nextick-args":289}],311:[function(require,module,exports){
+},{"./_stream_readable":313,"./_stream_writable":315,"core-util-is":224,"inherits":275,"process-nextick-args":290}],312:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -81926,7 +81995,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
   cb(null, chunk);
 };
 
-},{"./_stream_transform":313,"core-util-is":223,"inherits":274}],312:[function(require,module,exports){
+},{"./_stream_transform":314,"core-util-is":224,"inherits":275}],313:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -82905,7 +82974,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require('_process'))
-},{"./_stream_duplex":310,"_process":290,"buffer":184,"core-util-is":223,"events":261,"inherits":274,"isarray":276,"process-nextick-args":289,"string_decoder/":319,"util":158}],313:[function(require,module,exports){
+},{"./_stream_duplex":311,"_process":291,"buffer":185,"core-util-is":224,"events":262,"inherits":275,"isarray":277,"process-nextick-args":290,"string_decoder/":320,"util":159}],314:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -83104,7 +83173,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./_stream_duplex":310,"core-util-is":223,"inherits":274}],314:[function(require,module,exports){
+},{"./_stream_duplex":311,"core-util-is":224,"inherits":275}],315:[function(require,module,exports){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
@@ -83635,10 +83704,10 @@ function endWritable(stream, state, cb) {
   state.ended = true;
 }
 
-},{"./_stream_duplex":310,"buffer":184,"core-util-is":223,"events":261,"inherits":274,"process-nextick-args":289,"util-deprecate":320}],315:[function(require,module,exports){
+},{"./_stream_duplex":311,"buffer":185,"core-util-is":224,"events":262,"inherits":275,"process-nextick-args":290,"util-deprecate":321}],316:[function(require,module,exports){
 module.exports = require("./lib/_stream_passthrough.js")
 
-},{"./lib/_stream_passthrough.js":311}],316:[function(require,module,exports){
+},{"./lib/_stream_passthrough.js":312}],317:[function(require,module,exports){
 var Stream = (function (){
   try {
     return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
@@ -83652,13 +83721,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":310,"./lib/_stream_passthrough.js":311,"./lib/_stream_readable.js":312,"./lib/_stream_transform.js":313,"./lib/_stream_writable.js":314}],317:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":311,"./lib/_stream_passthrough.js":312,"./lib/_stream_readable.js":313,"./lib/_stream_transform.js":314,"./lib/_stream_writable.js":315}],318:[function(require,module,exports){
 module.exports = require("./lib/_stream_transform.js")
 
-},{"./lib/_stream_transform.js":313}],318:[function(require,module,exports){
+},{"./lib/_stream_transform.js":314}],319:[function(require,module,exports){
 module.exports = require("./lib/_stream_writable.js")
 
-},{"./lib/_stream_writable.js":314}],319:[function(require,module,exports){
+},{"./lib/_stream_writable.js":315}],320:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -83881,7 +83950,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":184}],320:[function(require,module,exports){
+},{"buffer":185}],321:[function(require,module,exports){
 (function (global){
 
 /**
@@ -83952,7 +84021,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],321:[function(require,module,exports){
+},{}],322:[function(require,module,exports){
 var indexOf = require('indexof');
 
 var Object_keys = function (obj) {
@@ -84092,7 +84161,7 @@ exports.createContext = Script.createContext = function (context) {
     return copy;
 };
 
-},{"indexof":273}],322:[function(require,module,exports){
+},{"indexof":274}],323:[function(require,module,exports){
 angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("admin.html","<div class=\"container admin\">\n    <div class=\"row\">\n        <div ui-view=\"header\" class=\"header\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"content\" class=\"content\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"footer\" class=\"footer\"></div>\n    </div>\n</div>");
 $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div class=\"row\">\n        <div class=\"top-bar col-xs-12 col-md-12 col-lg-12\" ui-view=\"top_bar\"></div>\n    </div>\n    \n    <div class=\"mobile-scroll\" style=\"height:100%;\">\n      <div class=\"mobile-container\">\n         <div class=\"row\">\n            <div ui-view=\"header\" class=\"header\"></div>\n         </div>    \n         \n         <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12 hidden-xs large-header-padding\"></div>\n            <div class=\"hidden-lg hidden-md hidden-sm col-xs-12 mobile-header-padding\"></div>\n         </div>\n         \n         <div class=\"main-content\">\n            <div class=\"row\">\n               <div class=\"mobile-ad-space hidden-lg hidden-md hidden-sm col-xs-12\">\n                  <img src=\"./images/temp_mobile_ad.png\" />\n               </div>\n            </div>\n            \n            <div class=\"row row-eq-height\" style=\"height: 100%;\">\n                  <!--<div class=\"content-padding col-md-1 col-lg-1 col-sm-1 hidden-xs\"></div>-->\n                  <div ui-view=\"content\" class=\"content col-md-9 col-lg-9 col-sm-9 col-xs-12\" style=\"min-height:100%;\"></div>\n                  <div ui-view=\"ad_space_right\" class=\"ad-space col-lg-3 col-sm-3 col-md-3 hidden-xs\" style=\"min-height:100%;\">\n                     <div class=\"ad-container\">\n                        <div class=\"ad\">\n                            <img src=\"./images/temp_ad1.jpg\" />\n                        </div>\n                        <div class=\"ad ad1\">\n                            <img src=\"./images/temp_ad2.png\" />\n                        </div>\n                     </div>\n                     <div class=\"copyright\">\n                        Andrew O\'Mahony (c) 2016\n                     </div>\n                  </div>\n            </div>\n         </div>\n      </div>\n    </div>\n</div>");
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
@@ -84102,10 +84171,10 @@ $templateCache.put("directives/profile_picture.html","<div media-renderer=\"pict
 $templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\"\n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\"\n        ng-click=\"activateFileReader()\"  \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-video-camera fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div> \n   <div class=\"progress-message\">\n      <span ng-bind=\"getProgressMessage()\"></span>\n   </div>\n</div>\n\n\n<div class=\"fade-in has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"video\"\n           model=\"model\"\n           width=\"95%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"video-container\"\n           can-preload=\"true\"\n           show-uploading=\"false\"\n           can-hide-while-loading=\"false\"\n           information=\"videoInformation\"\n           on-event=\"onVideoEvent(name)\">\n      </div>\n      \n      <div class=\"media-container-options video-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"video/mp4,video/x-m4v,video/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onVideoSelectSuccess(files)\"\n   on-files-progress=\"onVideoSelectProgress(progress)\"\n   on-files-error=\"onVideoSelectError(error)\">\n</file-reader> ");
 $templateCache.put("directives/youtube_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\" \n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        ng-click=\"activateUrlModal()\"\n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-youtube fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div>\n</div>\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"youtube\"\n         fitted=\"true\"\n         centered=\"true\"\n         model=\"model\"\n         class=\"youtube-container\"\n         width=\"{{getYoutubeRendererWidth()}}\"\n         on-error=\"onYoutubeRendererError(error)\">\n      </div>\n\n      <div class=\"media-container-options youtube-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateUrlModal()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>  \n   </div>\n</div>");
 $templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
-$templateCache.put("directives/set_builder/set_element_renderer.html","<div ng-if=\"!isEditing\">\n   <span class=\"bullet\"><i class=\"fa fa-circle-o\"></i></span>\n   <span ng-bind=\"getElementQuantityAndDistance()\"></span>\n   <span ng-bind=\"getElementStroke()\"></span>\n   <span ng-bind=\"model.type\"></span>\n   <span class=\"notes\" ng-bind=\"getElementNotes()\" ng-if=\"model.notes\"></span>\n   <span class=\"inline-menu\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n   </span>\n\n   <div class=\"list intervals\">\n      <div ng-repeat=\"interval in model.intervals\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"interval\" \n                              is-interval=\"true\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n   <div class=\"list rests\">\n      <div ng-repeat=\"rest in model.rests\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"rest\" \n                              is-interval=\"false\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"element\">\n      <input class=\"distance form-control\" type=\"text\" placeholder=\"Distance\" ng-model=\"editingElement.distance\" />\n   </div>\n\n   <div class=\"element\">\n      <input class=\"quantity form-control\" type=\"text\" placeholder=\"Quantity\" ng-model=\"editingElement.quantity\" />\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in strokes\" \n            ng-model=\"editingElement.stroke\">\n         <option value=\"\">---Select Stroke---</option>\n      </select>\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in strokeModifications\" \n            ng-model=\"editingElement.stroke_modification\">\n         <option value=\"\">---Select Stroke Modification---</option>\n      </select>\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in types\" \n            ng-model=\"editingElement.type\">\n         <option value=\"\">---Select Type---</option>\n      </select>\n   </div>\n\n   <div class=\"element list intervals\">\n      <div ng-repeat=\"interval in editingElement.intervals\">\n         <speed-time model=\"interval\" \n                           is-interval=\"true\"\n                           is-editable=\"true\"\n                           can-edit-inline=\"true\"\n                           is-initially-editing=\"{{interval.is_unborn}}\"\n                           save-button-text=\"Save\"\n                           on-save-clicked=\"saveInterval(speedTime)\"\n                           on-cancel-clicked=\"cancelInterval(speedTime)\"\n                           on-delete-clicked=\"deleteInterval(speedTime)\">\n         </speed-time>\n      </div>  \n      <a ng-click=\"newInterval()\">New Interval</a>\n   </div>\n   \n   <div class=\"element list rests\">\n      <div ng-repeat=\"rest in editingElement.rests\">\n         <speed-time model=\"rest\" \n                     is-interval=\"false\"\n                     can-edit-inline=\"true\"\n                     is-initially-editing=\"{{rest.is_unborn}}\"\n                     save-button-text=\"Save\"\n                     on-save-clicked=\"saveRest(speedTime)\"\n                     on-cancel-clicked=\"cancelRest(speedTime)\"\n                     on-delete-clicked=\"deleteRest(speedTime)\"></speed-time>\n      </div>  \n      <a ng-click=\"newRest()\">New Rest</a>                   \n   </div>\n  \n\n   <div class=\"element\">\n      <input class=\"notes form-control\" type=\"text\" placeholder=\"Notes\" ng-model=\"editingElement.notes\" />\n   </div>\n\n   <div class=\"bottom-options\">\n      <a ng-click=\"saveClicked()\" class=\"left\" ng-bind=\"saveButtonText\"></a>\n      <a ng-click=\"cancelClicked()\" class=\"right\">Cancel</a>\n   </div>\n</div>");
-$templateCache.put("directives/set_builder/set_renderer.html","<div ng-if=\"!isEditing && !model.is_unborn\">\n   <div class=\"options\">\n      <span class=\"bullet\"><i class=\"fa fa-circle\"></i></span>\n      <span class=\"notes\" ng-bind=\"getSetNotes()\"></span>\n      <span class=\"quantity\" ng-bind=\"getSetQuantity()\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a ng-click=\"editClicked()\"><i class=\"fa fa-pencil-square-o\"></i></a>\n         <a ng-click=\"deleteClicked()\"><i class=\"fa fa-trash-o\"></i></a>\n      </span>\n   </div>\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in model.elements\">\n         <set-element model=\"element\"\n            is-editable=\"false\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>  \n   </div> \n\n   <div class=\"total\" ng-if=\"showTotalWhenNotEditing\">\n      <span><i class=\"fa fa-arrow-right\"></i></span>\n      <span ng-bind=\"getSetTotal()\"></span>\n   </div>\n\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\">\n   <div class=\"options\">\n      <div class=\"option\">\n         <input type=\"text\" class=\"quantity form-control\" placeholder=\"Rounds\" ng-model=\"editingSet.quantity\" />\n      </div>\n      <div class=\"option\">\n         <input type=\"text\" class=\"form-control notes\" placeholder=\"Notes\" ng-model=\"editingSet.notes\" />\n      </div>\n   </div>\n\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in editingSet.elements\">\n         <set-element\n            model=\"element\"\n            save-button-text=\"Save\"\n            on-save-clicked=\"saveSetElement(element)\"\n            on-delete-clicked=\"deleteSetElement(element)\"\n            on-cancel-clicked=\"cancelSetElement(element)\"\n            is-editable=\"true\"\n            can-edit-inline=\"true\"\n            is-initially-editing=\"{{element.is_unborn}}\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>\n      <a ng-click=\"newSetElement()\">New Swim</a>\n   </div>\n\n   <div class=\"total\">\n      <span><i class=\"fa fa-arrow-right\"></i></span>\n      <span ng-bind=\"getSetTotal()\"></span>\n   </div>\n\n   <div class=\"bottom-options\">\n      <a class=\"left\"\n         ng-click=\"saveClicked()\">Save</a>\n      <a class=\"right\" ng-click=\"cancelClicked()\">Cancel</a>\n   </div>\n</div>");
-$templateCache.put("directives/set_builder/speed_time_renderer.html","<div ng-if=\"!isEditing\">\n   <span ng-bind=\"model.name\"></span>\n   <span ng-bind=\"getModelString()\"></span>\n\n   <span ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n   </span>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"form\">\n      <input type=\"text\" class=\"form-control\" ng-model=\"editingModel.name\" placeholder=\"Speed\" />\n      \n      <select ng-model=\"editingModel.time.hour\"\n                  ng-options=\"time for time in hours\"\n                  class=\"form-control\">\n            <option value=\"\">--Hour--</option>\n      </select>\n\n      <select ng-model=\"editingModel.time.minute\"\n                  ng-options=\"time for time in minutes\"\n                  class=\"form-control\">\n            <option value=\"\">--Minute--</option>\n      </select>\n\n      <select ng-model=\"editingModel.time.second\"\n                  ng-options=\"time for time in seconds\"\n                  class=\"form-control\">\n            <option value=\"\">--Second--</option>\n      </select>\n   </div>\n   <div class=\"bottom-options\">\n      <a class=\"left\" ng-bind=\"saveButtonText\" ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\">Cancel</a>\n   </div>\n</div>");
-$templateCache.put("directives/set_builder/workout_renderer.html","<div ng-if=\"!isEditing\">\n   <div class=\"options\">\n      <span class=\"name\" ng-bind=\"model.name\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n         <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n      </span>   \n   </div>\n\n   <div class=\"list sets\">\n      <div ng-repeat=\"set in model.sets\">\n         <set model=\"set\"\n              show-total-when-not-editing=\"false\"\n              is-editable=\"false\">\n         </set>   \n         <div class=\"running-total\">\n            <span class=\"distance\" ng-bind=\"getWorkoutSetTotal(set)\"></span>                       \n         </div>                \n      </div>\n   </div>\n\n   <div class=\"total\">\n      <span ng-bind=\"getWorkoutTotal(model)\"></span>                  \n   </div> \n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\">\n   <div class=\"options\">\n      <input class=\"form-control name\" placeholder=\"Name\" type=\"text\" ng-model=\"editingWorkout.name\" />\n   </div>\n   <div class=\"list sets\">\n      <div ng-repeat=\"set in editingWorkout.sets\">\n         <set model=\"set\"\n            save-button-text=\"{{set.is_unborn ? \'Add Set\' : \'Save\'}}\"\n            cancel-button-text=\"Cancel\"\n            on-save-clicked=\"saveSet(set)\"\n            on-cancel-clicked=\"cancelSet(set)\"\n            on-delete-clicked=\"deleteSet(set)\"\n            on-edit-clicked=\"editSet(set)\"\n            show-total-when-not-editing=\"false\"\n            is-initially-editing=\"{{set.is_unborn}}\"\n            can-edit-inline=\"false\"\n            is-editable=\"true\">\n         </set>   \n         <div class=\"running-total\">\n            <span class=\"distance\" ng-bind=\"getWorkoutSetTotal(set)\"></span>                       \n         </div>                \n      </div>\n      <a ng-click=\"newSet()\" class=\"fa-icon-link\">\n         <span class=\"link-full-text\">\n            <span class=\"fa fa-plus link-icon\">\n            </span>\n            <span class=\"link-text\">\n               Set\n            </span>\n         </span>\n      </a>\n   </div>\n\n   <div class=\"total\">\n      <span ng-bind=\"getWorkoutTotal(editingWorkout)\"></span>                  \n   </div>\n\n   <div class=\"menu\">\n      <a class=\"left\" \n         ng-bind=\"saveButtonText\" \n         ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\">Cancel</a>\n   </div>\n\n</div>");
+$templateCache.put("directives/set_builder/set_element_renderer.html","<div ng-if=\"!isEditing\">\n   <span font-awesome-icon-text class=\"bullet\" icon=\"fa-circle-o\">\n   </span>\n   <span ng-bind=\"getElementQuantityAndDistance()\"></span>\n   <span ng-bind=\"getElementStroke()\"></span>\n   <span ng-bind=\"model.type\"></span>\n   <span class=\"notes\" ng-bind=\"getElementNotes()\" ng-if=\"model.notes\"></span>\n   <span class=\"inline-menu\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n   </span>\n\n   <div class=\"list intervals\">\n      <div ng-repeat=\"interval in model.intervals\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"interval\" \n                              is-interval=\"true\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n   <div class=\"list rests\">\n      <div ng-repeat=\"rest in model.rests\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"rest\" \n                              is-interval=\"false\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"element\">\n      <input class=\"distance form-control\" type=\"text\" placeholder=\"Distance\" ng-model=\"editingElement.distance\" />\n   </div>\n\n   <div class=\"element\">\n      <input class=\"quantity form-control\" type=\"text\" placeholder=\"Quantity\" ng-model=\"editingElement.quantity\" />\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in strokes\" \n            ng-model=\"editingElement.stroke\">\n         <option value=\"\">---Select Stroke---</option>\n      </select>\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in strokeModifications\" \n            ng-model=\"editingElement.stroke_modification\">\n         <option value=\"\">---Select Stroke Modification---</option>\n      </select>\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in types\" \n            ng-model=\"editingElement.type\">\n         <option value=\"\">---Select Type---</option>\n      </select>\n   </div>\n\n   <div class=\"element list intervals\">\n      <div ng-repeat=\"interval in editingElement.intervals\">\n         <speed-time model=\"interval\" \n                           is-interval=\"true\"\n                           is-editable=\"true\"\n                           can-edit-inline=\"true\"\n                           is-initially-editing=\"{{interval.is_unborn}}\"\n                           save-button-text=\"Save\"\n                           on-save-clicked=\"saveInterval(speedTime)\"\n                           on-cancel-clicked=\"cancelInterval(speedTime)\"\n                           on-delete-clicked=\"deleteInterval(speedTime)\">\n         </speed-time>\n      </div>  \n      <a ng-click=\"newInterval()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Interval\"></span>\n         </span>\n      </a>\n   </div>\n   \n   <div class=\"element list rests\">\n      <div ng-repeat=\"rest in editingElement.rests\">\n         <speed-time model=\"rest\" \n                     is-interval=\"false\"\n                     can-edit-inline=\"true\"\n                     is-initially-editing=\"{{rest.is_unborn}}\"\n                     save-button-text=\"Save\"\n                     on-save-clicked=\"saveRest(speedTime)\"\n                     on-cancel-clicked=\"cancelRest(speedTime)\"\n                     on-delete-clicked=\"deleteRest(speedTime)\"></speed-time>\n      </div>  \n      <a ng-click=\"newRest()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Rest\"></span>\n         </span>\n      </a>                   \n   </div>\n  \n\n   <div class=\"element\">\n      <input class=\"notes form-control\" type=\"text\" placeholder=\"Notes\" ng-model=\"editingElement.notes\" />\n   </div>\n\n   <div class=\"bottom-options\">\n      <a ng-click=\"saveClicked()\" class=\"left\" ng-bind=\"saveButtonText\"></a>\n      <a ng-click=\"cancelClicked()\" class=\"right\">Cancel</a>\n   </div>\n</div>");
+$templateCache.put("directives/set_builder/set_renderer.html","<div ng-if=\"!isEditing && !model.is_unborn\">\n   <div class=\"options\">\n      <span font-awesome-icon-text class=\"bullet\" icon=\"fa-circle\">\n      </span>\n      <span class=\"notes\" ng-bind=\"getSetNotes()\"></span>\n      <span class=\"quantity\" ng-bind=\"getSetQuantity()\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n         <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n      </span>\n   </div>\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in model.elements\">\n         <set-element model=\"element\"\n            is-editable=\"false\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>  \n   </div> \n\n   <div class=\"total\" ng-if=\"showTotalWhenNotEditing\">\n      <span font-awesome-icon-text icon=\"fa-arrow-right\" text=\"{{model.getTotalDistance()}}\">\n      </span>\n   </div>\n\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\">\n   <div class=\"options\">\n      <div class=\"option\">\n         <input type=\"text\" class=\"quantity form-control\" placeholder=\"Rounds\" ng-model=\"editingSet.quantity\" />\n      </div>\n      <div class=\"option\">\n         <input type=\"text\" class=\"form-control notes\" placeholder=\"Notes\" ng-model=\"editingSet.notes\" />\n      </div>\n   </div>\n\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in editingSet.elements\">\n         <set-element\n            model=\"element\"\n            save-button-text=\"Save\"\n            on-save-clicked=\"saveSetElement(element)\"\n            on-delete-clicked=\"deleteSetElement(element)\"\n            on-cancel-clicked=\"cancelSetElement(element)\"\n            is-editable=\"true\"\n            can-edit-inline=\"true\"\n            is-initially-editing=\"{{element.is_unborn}}\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>\n      <a ng-click=\"newSetElement()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Swim\"></span>\n         </span>\n      </a>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{editingSet.getTotalDistance()}}\">\n      </span>\n   </div>\n\n   <div class=\"bottom-options\">\n      <a class=\"left\"\n         ng-click=\"saveClicked()\">Save</a>\n      <a class=\"right\" ng-click=\"cancelClicked()\">Cancel</a>\n   </div>\n</div>");
+$templateCache.put("directives/set_builder/speed_time_renderer.html","<div ng-if=\"!isEditing\">\n   <span font-awesome-icon-text icon=\"fa-clock-o\">\n   </span>\n   <span class=\"display\" ng-bind=\"model.name\"></span>\n   <span class=\"display\" ng-bind=\"getTimeString()\"></span>\n\n   <span class=\"display\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n   </span>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"form\">\n      <input type=\"text\" class=\"form-control\" ng-model=\"editingModel.name\" placeholder=\"Speed\" />\n      \n      <select ng-model=\"editingModel.time.hour\"\n                  ng-options=\"time for time in hours\"\n                  class=\"form-control\">\n            <option value=\"\">--Hour--</option>\n      </select>\n\n      <select ng-model=\"editingModel.time.minute\"\n                  ng-options=\"time for time in minutes\"\n                  class=\"form-control\">\n            <option value=\"\">--Minute--</option>\n      </select>\n\n      <select ng-model=\"editingModel.time.second\"\n                  ng-options=\"time for time in seconds\"\n                  class=\"form-control\">\n            <option value=\"\">--Second--</option>\n      </select>\n   </div>\n   <div class=\"bottom-options\">\n      <a class=\"left\" ng-bind=\"saveButtonText\" ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\">Cancel</a>\n   </div>\n</div>");
+$templateCache.put("directives/set_builder/workout_renderer.html","<div ng-if=\"!isEditing\">\n   <div class=\"options\">\n      <span class=\"name\" ng-bind=\"model.name\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n         <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n      </span>   \n   </div>\n\n   <div class=\"list sets\">\n      <div ng-repeat=\"set in model.sets\">\n         <set model=\"set\"\n              show-total-when-not-editing=\"false\"\n              is-editable=\"false\">\n         </set>   \n         <div class=\"running-total\">\n            <span font-awesome-icon-text\n                  icon=\"fa-arrow-right\"\n                  text=\"{{set.getTotalDistance()}}\">\n            </span>                      \n         </div>               \n      </div>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{model.getTotalDistance()}}\">\n      </span>                   \n   </div> \n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\">\n   <div class=\"options\">\n      <input class=\"form-control name\" placeholder=\"Name\" type=\"text\" ng-model=\"editingWorkout.name\" />\n   </div>\n   <div class=\"list sets\">\n      <div ng-repeat=\"set in editingWorkout.sets\">\n         <set model=\"set\"\n            save-button-text=\"{{set.is_unborn ? \'Add Set\' : \'Save\'}}\"\n            cancel-button-text=\"Cancel\"\n            on-save-clicked=\"saveSet(set)\"\n            on-cancel-clicked=\"cancelSet(set)\"\n            on-delete-clicked=\"deleteSet(set)\"\n            on-edit-clicked=\"editSet(set)\"\n            show-total-when-not-editing=\"false\"\n            is-initially-editing=\"{{set.is_unborn}}\"\n            can-edit-inline=\"false\"\n            is-editable=\"true\">\n         </set>   \n         <div class=\"running-total\"\n              ng-if=\"!set.is_unborn\">\n            <span font-awesome-icon-text\n                  icon=\"fa-arrow-right\"\n                  text=\"{{set.getTotalDistance()}}\">\n            </span>                      \n         </div>                \n      </div>\n      <a ng-click=\"newSet()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Set\"></span>\n         </span>\n      </a>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{editingWorkout.getTotalDistance()}}\">\n      </span>                   \n   </div>\n\n   <div class=\"menu\">\n      <a class=\"left\" \n         ng-bind=\"saveButtonText\" \n         ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\">Cancel</a>\n   </div>\n\n</div>");
 $templateCache.put("modals/full/confirm_modal_full.html","<div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n      </div>\n      <div class=\"modal-body\" ng-bind=\"content\"></div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onNoClicked()\">No</button>\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onYesClicked()\">Yes</button>\n      </div>\n    </div>\n  </div>\n</div>\n");
 $templateCache.put("modals/full/youtube_url_modal_full.html","<div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n      </div>\n      <div class=\"modal-body\">\n         <input type=\"text\" \n               placeholder=\"Youtube URL\"\n               class=\"form-control\" \n               ng-model=\"url.url\" />         \n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onCancelClicked()\">Cancel</button>\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onOkClicked()\">Ok</button>\n      </div>\n    </div>\n  </div>\n</div>\n");
 $templateCache.put("modals/partials/confirm_modal.html","<span ng-bind=\"message\"></span>");
@@ -84117,10 +84186,10 @@ $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\
 $templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n   <div class=\"nav-sub-container\">\n      <nav>\n         <a class=\"link about\" ui-sref=\"main.page.about.default\">About</a>\n         <a class=\"link blog\" ui-sref=\"main.page.blog.default\">Blog</a>\n         <a class=\"link question\" ui-sref=\"main.page.question.ask\">Coaching</a>\n         <a class=\"link contact\" ui-sref=\"main.page.contact.default\">Contact</a>\n      </nav>\n      \n      <!-- \n          \n<nav>\n         <a class=\"link\" ui-sref=\"main.page.about.default\" href=\"#/about/\" style=\"/* text-align: le */\n/* position: absolute; */\n/* left: 0px; */\n/* margin-right: 40px; */\nwidth:25%;\ndisplay:inline-block;\">About</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.blog.default\" style=\"/* position: relative; */\n/* left: -20px; */\nwidth:22%;\ndisplay: inline-block;\">Blog</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.question.ask\" href=\"#/question/ask\" style=\"/* position: relative; */\n/* left: 12px; */\ndisplay: inline-block;\nwidth: 31%;\">Coaching</a>\n      \n         <a class=\"link\" ui-sref=\"main.page.contact.default\" style=\"/* position: absolute; */\n/* right: 0px; */\">Contact</a>\n   </nav>          \n          \n          -->\n   </div>\n</div>");
 $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"login-button\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"profile-name-and-picture cancel-underline\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"login-button cancel-underline\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("partials/main/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\"\n   ng-bind=\"unauthorizedMessage\">\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
-$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
-$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
 $templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button ng-click=\"onTestRequestClick()\">Test HTTP</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
+$templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
+$templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
 $templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
 $templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");
@@ -84136,9 +84205,9 @@ $templateCache.put("partials/main/register/content.html","<div class=\"registrat
 $templateCache.put("partials/main/register/register.html","<div class=\"register\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div loading-progress \n            type=\"spinner\"\n            class=\"resetting-in-progress\"\n            ng-if=\"resettingInProgress\"\n            message=\"Setting password...\">\n      </div>\n   </form>\n</div>");
 $templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/set_builder/content.html","<div class=\"col-lg-6\" style=\"font-size:18px;\">\n   <workout model=\"currentWorkout\"\n            save-button-text=\"{{currentWorkout.is_unborn ? \'Create Workout\' : \'Save Workout\'}}\"\n            cancel-button-text=\"Cancel\"\n            on-save-clicked=\"workoutSave(workout)\"\n            on-edit-clicked=\"workoutEdit(workout)\"\n            on-cancel-clicked=\"workoutCancel(workout)\"\n            on-delete-clicked=\"workoutDelete(workout)\"\n            on-edit-set=\"editSet(set)\"\n            is-editable=\"true\"\n            can-edit-inline=\"true\">\n   </workout>\n</div>\n\n<div class=\"col-lg-6\" style=\"font-size:18px;\">\n   <set ng-if=\"isEditingSet\"\n      model=\"currentEditingSet\"\n      save-button-text=\"{{currentEditingSet.is_unborn ? \'Add Set\' : \'Save\'}}\"\n      cancel-button-text=\"Cancel\"\n      on-save-clicked=\"saveSet(set)\"\n      on-cancel-clicked=\"cancelEditSet(set)\"\n      show-total-when-not-editing=\"false\"\n      is-initially-editing=\"true\"\n      can-edit-inline=\"false\"\n      is-editable=\"true\"\n      is-detached=\"true\">\n   </set>   \n</div>");
+$templateCache.put("partials/main/set_builder/content.html","<div class=\"col-lg-6\" style=\"font-size:18px;\">\n   <workout model=\"currentWorkout\"\n            save-button-text=\"Save\"\n            cancel-button-text=\"Cancel\"\n            on-save-clicked=\"workoutSave(workout)\"\n            on-edit-clicked=\"workoutEdit(workout)\"\n            on-cancel-clicked=\"workoutCancel(workout)\"\n            on-delete-clicked=\"workoutDelete(workout)\"\n            on-edit-set=\"editSet(set)\"\n            is-editable=\"true\"\n            is-initially-editing=\"true\"\n            can-edit-inline=\"true\">\n   </workout>\n</div>\n\n<div class=\"col-lg-6\" style=\"font-size:18px;\">\n   <set ng-if=\"isEditingSet\"\n      model=\"currentEditingSet\"\n      save-button-text=\"Save\"\n      cancel-button-text=\"Cancel\"\n      on-save-clicked=\"saveSet(set)\"\n      on-cancel-clicked=\"cancelEditSet(set)\"\n      show-total-when-not-editing=\"false\"\n      is-initially-editing=\"true\"\n      can-edit-inline=\"false\"\n      is-editable=\"true\"\n      is-detached=\"true\">\n   </set>   \n</div>");
 $templateCache.put("partials/main/set_builder/set_builder.html","<div class=\"set-builder\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/set_builder/unauthorized.html","");
 $templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"edit-container profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/*\"\n            process-exif=\"true\"\n            create=\"profilePicturePicker\"\n            on-created=\"onProfilePictureSelectCreated(elementId)\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n         <div>\n            <input type=\"text\"\n                  placeholder=\"First Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"text\"\n                  placeholder=\"Last Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword\">\n      <div ng-if=\"!isChangingEmail\">\n         <span class=\"email-text\"\n               ng-bind=\"currentEditingUser.email\"></span>\n      </div>\n\n      <div ng-if=\"currentEditingUser.pending_email\">\n         <span class=\"pending-email-text\">\n            <span ng-bind=\"currentEditingUser.pending_email\"></span>\n            <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n            <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n         </span>\n      </div>     \n      \n      <div ng-if=\"isChangingEmail\">\n         <div ng-class=\"getEmailEditControlClass()\">\n            <input type=\"email\"\n                  placeholder=\"New E-Mail\"\n                  class=\"form-control profile-email-input\"\n                  ng-model=\"emailChangeData.email\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n      <div class=\"top-edit-control\">\n         <div>\n            <input type=\"password\"\n                  placeholder=\"Old Password\"\n                  class=\"form-control profile-old-password-input\"\n                  ng-model=\"passwordChangeData.old_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"password\"\n                  placeholder=\"New Password\"\n                  class=\"form-control profile-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>       \n            <input type=\"password\"\n                  placeholder=\"Repeat New Password\"\n                  class=\"form-control profile-repeat-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password_repeat\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>         \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-options-container\">\n      <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n         <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n      </span>\n      \n      <div loading-progress \n            type=\"spinner\"\n            class=\"saving-message\"\n            ng-if=\"isSaving\"\n            message=\"{{getSavingUserMessage()}}\">\n      </div>\n      \n      <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n         <span ng-bind=\"postSavingMessage\"></span>\n      </div>\n      \n      <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n         <span ng-bind=\"errorMessage\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
 $templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
-},{}]},{},[129]);
+},{}]},{},[130]);

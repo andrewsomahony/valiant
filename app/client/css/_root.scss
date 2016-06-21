@@ -15,20 +15,21 @@ html, body {
         position: absolute;
         left: -7000px;
     }
-    
-    /*
-    a:hover {
-        cursor: pointer;
-    }*/
 
     a {
        display: inline-block;
        position: relative;
 
+       &.left {
+          margin-right: 0.167em;
+       }
+       &.right {
+          margin-left: 0.167em;
+       }
+
        &:hover {
           cursor: pointer;
           text-decoration: none;
-          //border-bottom: 1px solid;
           &:not(.cancel-underline) {
             &::after {
                content: '';
@@ -72,6 +73,7 @@ html, body {
 @import "directives/loading_progress";
 @import "directives/media_renderer";
 @import "directives/font_awesome_centered_icon";
+@import "directives/font_awesome_icon_text";
 
 @import "directives/set_builder/set_element_renderer";
 @import "directives/set_builder/speed_time_renderer";

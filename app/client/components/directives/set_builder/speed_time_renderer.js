@@ -100,7 +100,7 @@ function(SpeedTimeModel, ScopeService, $timeout) {
             }
          });
 
-         $scope.getModelString = function() {
+         $scope.getTimeString = function() {
             return ($scope.isInterval ? "@" : "") + $scope.model.time.toString();
          }
 

@@ -3,10 +3,15 @@
       font-size: 0.9em;
    }
 
-   span.bullet {
-      font-size: 0.7em;
-      margin-right: 5px;
-   }   
+   .font-awesome-icon-text {
+      &.bullet {
+         font-size: 0.8em;
+      }
+            
+      span.icon {
+         font-size: 0.9em;
+      }
+   }  
 
    div.list {
       &.elements {

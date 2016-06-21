@@ -1,4 +1,10 @@
 .speed-time {
+   .font-awesome-icon-text {
+      span.icon {
+         font-size: 0.9em;
+      }
+   } 
+
    div.edit {
       input {
          display: inline-block;
@@ -14,7 +20,7 @@
    }
 
    div:not(.edit) {
-      span {
+      span.display {
          font-size: 0.9em;
          margin-right: 8px;
       }

@@ -1,14 +1,6 @@
 .workout {
    a {
       font-size: 0.9em;
-
-      &.fa-icon-link {
-         span.link-full-text {
-            span.link-text {
-               margin-left: 0.167em;
-            }
-         }
-      }
    }
 
    .list {
@@ -18,11 +10,18 @@
       }
    }
 
+   .font-awesome-icon-text {
+      span.icon {
+         font-size: 0.9em;
+      }
+   }
+
    div.edit {
       div.options {
          input {
             width: 50%;
          }
+         margin-bottom: 7px;
       }
    }
 

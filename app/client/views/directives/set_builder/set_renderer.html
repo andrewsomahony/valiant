@@ -1,12 +1,13 @@
 <div ng-if="!isEditing && !model.is_unborn">
    <div class="options">
-      <span class="bullet"><i class="fa fa-circle"></i></span>
+      <span font-awesome-icon-text class="bullet" icon="fa-circle">
+      </span>
       <span class="notes" ng-bind="getSetNotes()"></span>
       <span class="quantity" ng-bind="getSetQuantity()"></span>
 
       <span ng-if="isEditable">
-         <a ng-click="editClicked()"><i class="fa fa-pencil-square-o"></i></a>
-         <a ng-click="deleteClicked()"><i class="fa fa-trash-o"></i></a>
+         <a class="left" ng-click="editClicked()">Edit</a>
+         <a class="right" ng-click="deleteClicked()">Delete</a>
       </span>
    </div>
    <div class="list elements">
@@ -19,8 +20,8 @@
    </div> 
 
    <div class="total" ng-if="showTotalWhenNotEditing">
-      <span><i class="fa fa-arrow-right"></i></span>
-      <span ng-bind="getSetTotal()"></span>
+      <span font-awesome-icon-text icon="fa-arrow-right" text="{{model.getTotalDistance()}}">
+      </span>
    </div>
 
 </div>
@@ -49,12 +50,19 @@
             show-intervals-and-rests="true">
          </set-element>
       </div>
-      <a ng-click="newSetElement()">New Swim</a>
+      <a ng-click="newSetElement()">
+         <span font-awesome-icon-text
+               icon="fa-plus"
+               text="Swim"></span>
+         </span>
+      </a>
    </div>
 
    <div class="total">
-      <span><i class="fa fa-arrow-right"></i></span>
-      <span ng-bind="getSetTotal()"></span>
+      <span font-awesome-icon-text
+            icon="fa-arrow-right"
+            text="{{editingSet.getTotalDistance()}}">
+      </span>
    </div>
 
    <div class="bottom-options">

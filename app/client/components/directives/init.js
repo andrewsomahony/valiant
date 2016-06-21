@@ -24,3 +24,4 @@ require('./set_builder/set_renderer');
 require('./set_builder/set_element_renderer');
 
 require('./font_awesome_centered_icon');
+require('./font_awesome_icon_text');

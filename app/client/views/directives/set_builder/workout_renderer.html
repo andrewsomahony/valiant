@@ -15,13 +15,19 @@
               is-editable="false">
          </set>   
          <div class="running-total">
-            <span class="distance" ng-bind="getWorkoutSetTotal(set)"></span>                       
-         </div>                
+            <span font-awesome-icon-text
+                  icon="fa-arrow-right"
+                  text="{{set.getTotalDistance()}}">
+            </span>                      
+         </div>               
       </div>
    </div>
 
    <div class="total">
-      <span ng-bind="getWorkoutTotal(model)"></span>                  
+      <span font-awesome-icon-text
+            icon="fa-arrow-right"
+            text="{{model.getTotalDistance()}}">
+      </span>                   
    </div> 
 </div>
 
@@ -43,23 +49,27 @@
             can-edit-inline="false"
             is-editable="true">
          </set>   
-         <div class="running-total">
-            <span class="distance" ng-bind="getWorkoutSetTotal(set)"></span>                       
+         <div class="running-total"
+              ng-if="!set.is_unborn">
+            <span font-awesome-icon-text
+                  icon="fa-arrow-right"
+                  text="{{set.getTotalDistance()}}">
+            </span>                      
          </div>                
       </div>
-      <a ng-click="newSet()" class="fa-icon-link">
-         <span class="link-full-text">
-            <span class="fa fa-plus link-icon">
-            </span>
-            <span class="link-text">
-               Set
-            </span>
+      <a ng-click="newSet()">
+         <span font-awesome-icon-text
+               icon="fa-plus"
+               text="Set"></span>
          </span>
       </a>
    </div>
 
    <div class="total">
-      <span ng-bind="getWorkoutTotal(editingWorkout)"></span>                  
+      <span font-awesome-icon-text
+            icon="fa-arrow-right"
+            text="{{editingWorkout.getTotalDistance()}}">
+      </span>                   
    </div>
 
    <div class="menu">

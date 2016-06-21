@@ -1,6 +1,6 @@
 <div class="col-lg-6" style="font-size:18px;">
    <workout model="currentWorkout"
-            save-button-text="{{currentWorkout.is_unborn ? 'Create Workout' : 'Save Workout'}}"
+            save-button-text="Save"
             cancel-button-text="Cancel"
             on-save-clicked="workoutSave(workout)"
             on-edit-clicked="workoutEdit(workout)"
@@ -8,6 +8,7 @@
             on-delete-clicked="workoutDelete(workout)"
             on-edit-set="editSet(set)"
             is-editable="true"
+            is-initially-editing="true"
             can-edit-inline="true">
    </workout>
 </div>
@@ -15,7 +16,7 @@
 <div class="col-lg-6" style="font-size:18px;">
    <set ng-if="isEditingSet"
       model="currentEditingSet"
-      save-button-text="{{currentEditingSet.is_unborn ? 'Add Set' : 'Save'}}"
+      save-button-text="Save"
       cancel-button-text="Cancel"
       on-save-clicked="saveSet(set)"
       on-cancel-clicked="cancelEditSet(set)"

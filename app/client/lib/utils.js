@@ -353,7 +353,7 @@
          numberOfLeadingZeroes = numberOfLeadingZeroes || 0;
 
          var returnString = "" + number;
-         while (returnString.length < length) {
+         while (returnString.length < numberOfLeadingZeroes) {
             returnString = "0" + returnString;
          }
          return returnString;

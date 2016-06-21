@@ -9647,11 +9647,7 @@ html, body {
   height: 100%;
   min-height: 100%;
   overflow: hidden;
-  position: relative;
-  /*
-    a:hover {
-        cursor: pointer;
-    }*/ }
+  position: relative; }
   html input[type="text"], html input[type="password"],
   html input[type="email"], body input[type="text"], body input[type="password"],
   body input[type="email"] {
@@ -9663,6 +9659,10 @@ html, body {
   html a, body a {
     display: inline-block;
     position: relative; }
+    html a.left, body a.left {
+      margin-right: 0.167em; }
+    html a.right, body a.right {
+      margin-left: 0.167em; }
     html a:hover, body a:hover {
       cursor: pointer;
       text-decoration: none; }
@@ -9931,10 +9931,6 @@ div.main {
             margin-right: 2px; }
           div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text a {
             font-weight: normal; }
-            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text a.left {
-              margin-right: 2px; }
-            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text a.right {
-              margin-left: 2px; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container input.form-control {
           width: 270px; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .has-changed-email {
@@ -10019,9 +10015,9 @@ div.main {
           display: inline-block;
           vertical-align: top; }
       div.main div.mobile-scroll div.main-content div.content div.set-builder div.sub-content a.left {
-        margin-right: 4px; }
+        margin-right: 0.2em; }
       div.main div.mobile-scroll div.main-content div.content div.set-builder div.sub-content a.right {
-        margin-left: 4px; }
+        margin-left: 0.2em; }
       div.main div.mobile-scroll div.main-content div.content div.error div.sub-content {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.error div.sub-content div.error-header {
@@ -10192,8 +10188,19 @@ div.font-awesome-centered-icon {
     display: inline-block;
     vertical-align: middle; }
 
+.font-awesome-icon-text span.text {
+  margin-left: 0.35em; }
+
+.set-element .font-awesome-icon-text.bullet {
+  font-size: 0.8em; }
+
+.set-element .font-awesome-icon-text span.icon {
+  font-size: 0.9em; }
+
 .set-element div.list.intervals, .set-element div.list.rests {
   margin-left: 16px; }
+  .set-element div.list.intervals .speed-time .font-awesome-icon-text span.icon, .set-element div.list.rests .speed-time .font-awesome-icon-text span.icon {
+    font-size: 0.9em; }
   .set-element div.list.intervals .speed-time div.edit input, .set-element div.list.rests .speed-time div.edit input {
     display: inline-block;
     width: 25%; }
@@ -10202,7 +10209,7 @@ div.font-awesome-centered-icon {
     width: 20%; }
   .set-element div.list.intervals .speed-time div.edit div.form, .set-element div.list.rests .speed-time div.edit div.form {
     margin-bottom: 4px; }
-  .set-element div.list.intervals .speed-time div:not(.edit) span, .set-element div.list.rests .speed-time div:not(.edit) span {
+  .set-element div.list.intervals .speed-time div:not(.edit) span.display, .set-element div.list.rests .speed-time div:not(.edit) span.display {
     font-size: 0.9em;
     margin-right: 8px; }
 
@@ -10219,6 +10226,9 @@ div.font-awesome-centered-icon {
   .set-element div:not(.edit) span.notes {
     font-size: 0.9em; }
 
+.speed-time .font-awesome-icon-text span.icon {
+  font-size: 0.9em; }
+
 .speed-time div.edit input {
   display: inline-block;
   width: 25%; }
@@ -10230,21 +10240,29 @@ div.font-awesome-centered-icon {
 .speed-time div.edit div.form {
   margin-bottom: 4px; }
 
-.speed-time div:not(.edit) span {
+.speed-time div:not(.edit) span.display {
   font-size: 0.9em;
   margin-right: 8px; }
 
 .set a {
   font-size: 0.9em; }
 
-.set span.bullet {
-  font-size: 0.7em;
-  margin-right: 5px; }
+.set .font-awesome-icon-text.bullet {
+  font-size: 0.8em; }
+
+.set .font-awesome-icon-text span.icon {
+  font-size: 0.9em; }
 
 .set div.list.elements {
   margin-left: 16px; }
+  .set div.list.elements .set-element .font-awesome-icon-text.bullet {
+    font-size: 0.8em; }
+  .set div.list.elements .set-element .font-awesome-icon-text span.icon {
+    font-size: 0.9em; }
   .set div.list.elements .set-element div.list.intervals, .set div.list.elements .set-element div.list.rests {
     margin-left: 16px; }
+    .set div.list.elements .set-element div.list.intervals .speed-time .font-awesome-icon-text span.icon, .set div.list.elements .set-element div.list.rests .speed-time .font-awesome-icon-text span.icon {
+      font-size: 0.9em; }
     .set div.list.elements .set-element div.list.intervals .speed-time div.edit input, .set div.list.elements .set-element div.list.rests .speed-time div.edit input {
       display: inline-block;
       width: 25%; }
@@ -10253,7 +10271,7 @@ div.font-awesome-centered-icon {
       width: 20%; }
     .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form, .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form {
       margin-bottom: 4px; }
-    .set div.list.elements .set-element div.list.intervals .speed-time div:not(.edit) span, .set div.list.elements .set-element div.list.rests .speed-time div:not(.edit) span {
+    .set div.list.elements .set-element div.list.intervals .speed-time div:not(.edit) span.display, .set div.list.elements .set-element div.list.rests .speed-time div:not(.edit) span.display {
       font-size: 0.9em;
       margin-right: 8px; }
   .set div.list.elements .set-element div.edit div.element {
@@ -10295,20 +10313,25 @@ div.font-awesome-centered-icon {
 
 .workout a {
   font-size: 0.9em; }
-  .workout a.fa-icon-link span.link-full-text span.link-text {
-    margin-left: 0.167em; }
 
 .workout .list.sets {
   margin-left: 16px; }
   .workout .list.sets .set a {
     font-size: 0.9em; }
-  .workout .list.sets .set span.bullet {
-    font-size: 0.7em;
-    margin-right: 5px; }
+  .workout .list.sets .set .font-awesome-icon-text.bullet {
+    font-size: 0.8em; }
+  .workout .list.sets .set .font-awesome-icon-text span.icon {
+    font-size: 0.9em; }
   .workout .list.sets .set div.list.elements {
     margin-left: 16px; }
+    .workout .list.sets .set div.list.elements .set-element .font-awesome-icon-text.bullet {
+      font-size: 0.8em; }
+    .workout .list.sets .set div.list.elements .set-element .font-awesome-icon-text span.icon {
+      font-size: 0.9em; }
     .workout .list.sets .set div.list.elements .set-element div.list.intervals, .workout .list.sets .set div.list.elements .set-element div.list.rests {
       margin-left: 16px; }
+      .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time .font-awesome-icon-text span.icon, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time .font-awesome-icon-text span.icon {
+        font-size: 0.9em; }
       .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div.edit input, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div.edit input {
         display: inline-block;
         width: 25%; }
@@ -10317,7 +10340,7 @@ div.font-awesome-centered-icon {
         width: 20%; }
       .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form {
         margin-bottom: 4px; }
-      .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div:not(.edit) span, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div:not(.edit) span {
+      .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div:not(.edit) span.display, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div:not(.edit) span.display {
         font-size: 0.9em;
         margin-right: 8px; }
     .workout .list.sets .set div.list.elements .set-element div.edit div.element {
@@ -10353,5 +10376,10 @@ div.font-awesome-centered-icon {
   .workout .list.sets .set div:not(.edit) div.options {
     margin-bottom: 8px; }
 
-.workout div.edit div.options input {
-  width: 50%; }
+.workout .font-awesome-icon-text span.icon {
+  font-size: 0.9em; }
+
+.workout div.edit div.options {
+  margin-bottom: 7px; }
+  .workout div.edit div.options input {
+    width: 50%; }

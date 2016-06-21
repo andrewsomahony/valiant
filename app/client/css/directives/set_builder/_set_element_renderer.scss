@@ -1,4 +1,14 @@
 .set-element {
+   .font-awesome-icon-text {
+      &.bullet {
+         font-size: 0.8em;
+      }
+            
+      span.icon {
+         font-size: 0.9em;
+      }
+   } 
+
    div.list {
       &.intervals,
       &.rests {
