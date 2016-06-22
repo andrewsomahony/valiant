@@ -21,6 +21,7 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
 
          onEditSet: "&",
 
+         //canEditSetsInline
          //isInitiallyEditing: "@",
          //isEditable: "@",
          //canEditInline: "@"
@@ -31,6 +32,7 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
 
          $scope.hasCheckedInitiallyEditing = false;
 
+         ScopeService.watchBool($scope, $attributes, 'canEditSetsInline', true);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
          ScopeService.watchBool($scope, $attributes, 'isInitiallyEditing', false, function(newValue) {
@@ -61,7 +63,9 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
          }
 
          $scope.editSet = function(set) {
-            $scope.onEditSet({set: set});
+            if (false === $scope.canEditSetsInline) {
+               $scope.onEditSet({set: set});
+            }
          }
 
          $scope.saveSet = function(set) {

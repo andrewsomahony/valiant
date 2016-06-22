@@ -9648,6 +9648,9 @@ html, body {
   min-height: 100%;
   overflow: hidden;
   position: relative; }
+  html input, body input {
+    font-size: 0.9em;
+    height: 2.2em; }
   html input[type="text"], html input[type="password"],
   html input[type="email"], body input[type="text"], body input[type="password"],
   body input[type="email"] {
@@ -10384,4 +10387,5 @@ div.font-awesome-centered-icon {
 .workout div.edit div.options {
   margin-bottom: 7px; }
   .workout div.edit div.options input {
-    width: 50%; }
+    font-size: 0.9em;
+    height: 2.2em; }

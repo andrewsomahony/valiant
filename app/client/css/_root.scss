@@ -5,6 +5,11 @@ html, body {
     overflow: hidden;
     position: relative;
     
+    input {
+            font-size: 0.9em;
+            height: 2.2em;
+    }
+
     input[type="text"], input[type="password"],
     input[type="email"] {
         color: black;

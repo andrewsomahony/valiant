@@ -46,7 +46,7 @@
             on-edit-clicked="editSet(set)"
             show-total-when-not-editing="false"
             is-initially-editing="{{set.is_unborn}}"
-            can-edit-inline="false"
+            can-edit-inline="{{canEditSetsInline}}"
             is-editable="true">
          </set>   
          <div class="running-total"

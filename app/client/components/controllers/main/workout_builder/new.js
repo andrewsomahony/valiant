@@ -55,6 +55,37 @@ function($scope, WorkoutModel, SetModel) {
       $scope.setIsEditingSet(false);
       $scope.currentWorkout = null;
    }
+
+   $scope.getWorkoutContainerStyle = function() {
+      var style = {};
+
+      if (!$scope.isEditingSet) {
+         style['text-align'] = 'center';
+      }
+
+      return style;
+   }
+
+   $scope.getWorkoutContainerClass = function() {
+      var classes = [];
+
+      if ($scope.isEditingSet) {
+         return "col-lg-6";
+      }
+
+      return classes;
+   }
+
+   $scope.getWorkoutStyle = function() {
+      var style = {};
+
+      style['display'] = 'inline-block';
+      style['width'] = $scope.isEditingSet ? '100%' : '50%';
+      style['font-size'] = '2em';
+      style['text-align'] = 'left';
+
+      return style;
+   }
 }])
 
 module.exports = name;
