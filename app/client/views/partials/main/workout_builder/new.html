@@ -3,7 +3,23 @@
      <a ng-click="newWorkout()">Create new workout</a>
 </div>
 
-<div ng-if="currentWorkout" style="margin-top:1em;">
+<div ng-if="currentWorkout">
+   <div class="hidden-lg hidden-md" style="font-size: 2em;">
+        <!--style="display:inline-block;width:50%;font-size:2em;text-align:left;margin-top: 1.0em;" -->
+      <workout model="currentWorkout"
+            save-button-text="Save" 
+            cancel-button-text="Cancel"
+            on-save-clicked="workoutSave(workout)"
+            on-edit-clicked="workoutEdit(workout)"
+            on-cancel-clicked="workoutCancel(workout)"
+            on-delete-clicked="workoutDelete(workout)"
+            is-editable="true"
+            is-initially-editing="true"
+            can-edit-sets-inline="true"
+            can-edit-inline="true">
+      </workout>    
+   </div>
+  <div class="hidden-xs hidden-sm">
    <!-- <div class="col-lg-6" > -->
     <div ng-style="getWorkoutContainerStyle()" ng-class="getWorkoutContainerClass()">
     <!-- <div style="text-align: center;"> -->
@@ -19,7 +35,7 @@
                   on-edit-set="editSet(set)"
                   is-editable="true"
                   is-initially-editing="true"
-                  can-edit-sets-inline="true"
+                  can-edit-sets-inline="false"
                   can-edit-inline="true">
           </workout>
        </div>
@@ -40,4 +56,5 @@
           is-detached="true">
         </set>   
     </div>
+  </div>
 </div>

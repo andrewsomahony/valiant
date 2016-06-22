@@ -26,7 +26,7 @@
 
 </div>
 
-<div ng-if="isEditing" class="edit">
+<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
    <div class="options">
       <div class="option">
          <input type="text" class="quantity form-control" placeholder="Rounds" ng-model="editingSet.quantity" />

@@ -9649,8 +9649,8 @@ html, body {
   overflow: hidden;
   position: relative; }
   html input, body input {
-    font-size: 0.9em;
-    height: 2.2em; }
+    font-size: 1.0em !important;
+    height: 2.3em !important; }
   html input[type="text"], html input[type="password"],
   html input[type="email"], body input[type="text"], body input[type="password"],
   body input[type="email"] {
@@ -10384,8 +10384,21 @@ div.font-awesome-centered-icon {
 .workout .font-awesome-icon-text span.icon {
   font-size: 0.9em; }
 
-.workout div.edit div.options {
-  margin-bottom: 7px; }
-  .workout div.edit div.options input {
-    font-size: 0.9em;
-    height: 2.2em; }
+.workout div.edit {
+  /*
+      &.inline {
+         margin-top: 0.6em;
+         margin-bottom: 0.6em;
+         padding-top: 0.4em;
+         padding-bottom: 0.4em;
+         border-top: 1px dotted black;
+         border-bottom: 1px dotted black;         
+
+         div.bottom-options {
+            margin-bottom: -0.35em;  
+         }
+      }*/ }
+  .workout div.edit div.options {
+    margin-bottom: 8px; }
+    .workout div.edit div.options div.option {
+      margin-bottom: 8px; }

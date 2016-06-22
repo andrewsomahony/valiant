@@ -102,6 +102,17 @@ function(SetModel, ScopeService, SetBuilderService) {
          $scope.getSetNotes = function() {
             return SetBuilderService.formatNotesString($scope.model.notes);
          }
+
+         $scope.getEditDivClass = function() {
+            var classes = [];
+
+            if (true === $scope.canEditInline &&
+                false === $scope.isDetached) {
+               classes.push('inline');
+            }
+
+            return classes;
+         }
       }
    };
 }])

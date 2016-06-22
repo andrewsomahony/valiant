@@ -25,6 +25,7 @@
    }
 
    div.edit {
+      
       &.inline {
          margin-top: 0.6em;
          margin-bottom: 0.6em;
@@ -41,7 +42,6 @@
       div.options {
          div.option {
             margin-bottom: 8px;
-
             input.quantity {
                width: 25%;
             }
