@@ -1,5 +1,5 @@
 <div ng-if="!isEditing">
-   <span font-awesome-icon-text icon="fa-clock-o">
+   <span font-awesome-icon-text icon="{{isInterval ? 'fa-clock-o' : 'fa-bed'}}">
    </span>
    <span class="display" ng-bind="model.name"></span>
    <span class="display" ng-bind="getTimeString()"></span>
@@ -10,8 +10,11 @@
    </span>
 </div>
 
-<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
+<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">     
    <div class="form">
+      <span class="edit-icon" font-awesome-icon-text icon="{{isInterval ? 'fa-clock-o' : 'fa-bed'}}">
+      </span>
+
       <input type="text" class="form-control" ng-model="editingModel.name" placeholder="Speed" />
       
       <select ng-model="editingModel.time.hour"

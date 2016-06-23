@@ -5,7 +5,7 @@
 
    .list {
       &.sets {
-         margin-left: 16px;
+         margin-left: 0.95em;
          @import "set_renderer";
       }
    }
@@ -17,26 +17,12 @@
    }
 
    div.edit {
-      /*
-      &.inline {
-         margin-top: 0.6em;
-         margin-bottom: 0.6em;
-         padding-top: 0.4em;
-         padding-bottom: 0.4em;
-         border-top: 1px dotted black;
-         border-bottom: 1px dotted black;         
-
-         div.bottom-options {
-            margin-bottom: -0.35em;  
-         }
-      }*/
-
       div.options {
          div.option {
-            margin-bottom: 8px;
+            margin-bottom: 0.44em;
          }
-         margin-bottom: 8px;
-      }
+         margin-bottom: 0.44em;
+      }     
    }
 
    div:not(.edit) {

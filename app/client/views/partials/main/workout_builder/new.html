@@ -1,60 +1,64 @@
-<div
-     ng-if="!currentWorkout">
-     <a ng-click="newWorkout()">Create new workout</a>
-</div>
+<div class="new-workout">
+  <div
+      ng-if="!currentWorkout"
+      class="create-new-workout">
+      <a ng-click="newWorkout()">Create new workout</a>
+  </div>
 
-<div ng-if="currentWorkout">
-   <div class="hidden-lg hidden-md" style="font-size: 2em;">
-        <!--style="display:inline-block;width:50%;font-size:2em;text-align:left;margin-top: 1.0em;" -->
-      <workout model="currentWorkout"
-            save-button-text="Save" 
-            cancel-button-text="Cancel"
-            on-save-clicked="workoutSave(workout)"
-            on-edit-clicked="workoutEdit(workout)"
-            on-cancel-clicked="workoutCancel(workout)"
-            on-delete-clicked="workoutDelete(workout)"
-            is-editable="true"
-            is-initially-editing="true"
-            can-edit-sets-inline="true"
-            can-edit-inline="true">
-      </workout>    
-   </div>
-  <div class="hidden-xs hidden-sm">
-   <!-- <div class="col-lg-6" > -->
-    <div ng-style="getWorkoutContainerStyle()" ng-class="getWorkoutContainerClass()">
-    <!-- <div style="text-align: center;"> -->
-       <div ng-style="getWorkoutStyle()">
-        <!--style="display:inline-block;width:50%;font-size:2em;text-align:left;margin-top: 1.0em;" -->
-          <workout model="currentWorkout"
-                  save-button-text="Save"
-                  cancel-button-text="Cancel"
-                  on-save-clicked="workoutSave(workout)"
-                  on-edit-clicked="workoutEdit(workout)"
-                  on-cancel-clicked="workoutCancel(workout)"
-                  on-delete-clicked="workoutDelete(workout)"
-                  on-edit-set="editSet(set)"
-                  is-editable="true"
-                  is-initially-editing="true"
-                  can-edit-sets-inline="false"
-                  can-edit-inline="true">
-          </workout>
-       </div>
+  <div ng-if="currentWorkout">
+    <div class="hidden-lg hidden-md" style="font-size: 1.5em;">
+        <workout model="currentWorkout"
+              save-button-text="Save" 
+              cancel-button-text="Cancel"
+              on-save-clicked="workoutSave(workout)"
+              on-edit-clicked="workoutEdit(workout)"
+              on-cancel-clicked="workoutCancel(workout)"
+              on-delete-clicked="workoutDelete(workout)"
+              is-editable="true"
+              is-initially-editing="true"
+              can-edit-sets-inline="true"
+              can-edit-inline="true">
+        </workout>    
+    </div>
+    <div class="hidden-xs hidden-sm">
+        <div ng-style="getWorkoutContainerStyle()" ng-class="getWorkoutContainerClass()">
+          <div ng-style="getWorkoutStyle()">
+              <workout model="currentWorkout"
+                      save-button-text="Save"
+                      cancel-button-text="Cancel"
+                      on-save-clicked="workoutSave(workout)"
+                      on-edit-clicked="workoutEdit(workout)"
+                      on-cancel-clicked="workoutCancel(workout)"
+                      on-delete-clicked="workoutDelete(workout)"
+                      on-edit-set="editSet(set)"
+                      on-delete-set="deleteSet(set)"
+                      on-cancel-set="cancelSet(set)"
+                      is-editable="true"
+                      is-initially-editing="true"
+                      can-edit-sets-inline="true"
+                      can-edit-inline="true">
+              </workout>
+          </div>
+        </div>
     </div>
 
-    <div class="col-lg-6" 
-      style="display:inline-block;font-size:2em;text-align:left;"
-       ng-if="isEditingSet">
-        <set model="currentEditingSet"
-          save-button-text="Save"
-          cancel-button-text="Cancel"
-          on-save-clicked="saveSet(set)"
-          on-cancel-clicked="cancelEditSet(set)"
-          show-total-when-not-editing="false"
-          is-initially-editing="true"
-          can-edit-inline="false"
-          is-editable="true"
-          is-detached="true">
-        </set>   
+<!--
+      <div class="col-lg-6" 
+        style="display:inline-block;font-size:2em;text-align:left;"
+        ng-if="isEditingSet">
+          <set model="currentEditingSet"
+            save-button-text="Save"
+            cancel-button-text="Cancel"
+            on-save-clicked="saveSet(set)"
+            on-cancel-clicked="cancelEditSet(set)"
+            show-total-when-not-editing="false"
+            is-initially-editing="true"
+            can-edit-inline="false"
+            is-editable="true"
+            is-detached="true">
+          </set>   
+      </div>
+      -->
     </div>
   </div>
 </div>

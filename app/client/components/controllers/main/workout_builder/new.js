@@ -80,7 +80,7 @@ function($scope, WorkoutModel, SetModel) {
       var style = {};
 
       style['display'] = 'inline-block';
-      style['width'] = $scope.isEditingSet ? '100%' : '50%';
+      style['width'] = '100%';
       style['font-size'] = '2em';
       style['text-align'] = 'left';
 

@@ -73,6 +73,10 @@ function(SetModel, ScopeService, SetBuilderService) {
             $scope.onSaveClicked({set: $scope.model});
          }
 
+         $scope.deleteClicked = function() {
+             $scope.onDeleteClicked({set: $scope.model});
+         }
+
          $scope.newSetElement = function() {
             var newModel = $scope.editingSet.pushOntoChildArray('elements');
             newModel.setInternalVariable('is_unborn', true);

@@ -20,6 +20,8 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
          onDeleteClicked: "&",
 
          onEditSet: "&",
+         onCancelSet: "&",
+         onDeleteSet: "&",
 
          //canEditSetsInline
          //isInitiallyEditing: "@",
@@ -58,8 +60,6 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
          $scope.newSet = function() {
             var set = $scope.editingWorkout.pushOntoChildArray('sets');
             set.setInternalVariable('is_unborn', true);
-
-            console.log($scope.editingWorkout);
          }
 
          $scope.editSet = function(set) {
@@ -74,11 +74,17 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
 
          $scope.deleteSet = function(set) {
             $scope.editingWorkout.deleteFromChildArray('sets', set);
+            if (false === $scope.canEditSetsInline) {
+               $scope.onDeleteSet({set: set});
+            }
          }
 
          $scope.cancelSet = function(set) {
             if (set.getInternalVariable('is_unborn')) {
                $scope.deleteSet(set);
+            }
+            if (false === $scope.canEditSetsInline) {
+               $scope.onCancelSet({set: set});
             }
          }
 
@@ -90,7 +96,7 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
          }
 
          $scope.deleteClicked = function() {
-            $scope.onDeleteClicked({workout: $self.model});
+            $scope.onDeleteClicked({workout: $scope.model});
          }
 
          $scope.saveClicked = function() {

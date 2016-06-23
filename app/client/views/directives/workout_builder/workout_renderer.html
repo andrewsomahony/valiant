@@ -49,13 +49,14 @@
             can-edit-inline="{{canEditSetsInline}}"
             is-editable="true">
          </set>   
+         <!--
          <div class="running-total"
               ng-if="!set.is_unborn">
             <span font-awesome-icon-text
                   icon="fa-arrow-right"
                   text="{{set.getTotalDistance()}}">
             </span>                      
-         </div>                
+         </div>  -->              
       </div>
       <a ng-click="newSet()">
          <span font-awesome-icon-text
@@ -72,7 +73,7 @@
       </span>                   
    </div>
 
-   <div class="menu">
+   <div class="bottom-options">
       <a class="left" 
          ng-bind="saveButtonText" 
          ng-click="saveClicked()"></a>

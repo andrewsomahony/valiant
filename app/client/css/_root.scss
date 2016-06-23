@@ -68,6 +68,37 @@ html, body {
     }
 }
 
+   @media print {
+        html, body {
+            overflow: visible !important;
+        }
+        .top-bar,
+        .header,
+        .large-header-padding,
+        .mobile-header-padding,
+        .mobile-ad-space,
+        .ad-space,
+        a {
+            display: none !important;
+        }
+        
+        div.content {
+            overflow: visible !important;
+            float: none !important;
+        }
+
+        .workout-builder {
+            float: none !important;
+            width: 100%;
+            margin-top: 50px;
+            font-size: 10px;
+        }
+
+        .workout-builder .create-new-workout {
+            display: none;
+        }
+   }
+
 @import "variables";
 @import "animations";
 

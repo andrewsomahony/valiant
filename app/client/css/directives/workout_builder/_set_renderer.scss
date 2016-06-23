@@ -5,7 +5,7 @@
 
    .font-awesome-icon-text {
       &.bullet {
-         font-size: 0.8em;
+         font-size: 0.68em;
       }
             
       span.icon {
@@ -15,24 +15,23 @@
 
    div.list {
       &.elements {
-         margin-left: 16px;
+         margin-left: 0.5em;
          @import "set_element_renderer";
       }
    }
 
    div.total {
-      margin-top: 8px;
+      margin-top: 0.44em;
    }
 
    div.edit {
-      
       &.inline {
          margin-top: 0.6em;
          margin-bottom: 0.6em;
          padding-top: 0.4em;
          padding-bottom: 0.4em;
-         border-top: 1px dotted black;
-         border-bottom: 1px dotted black;         
+         border-top: 2px dotted black;
+         border-bottom: 2px dotted black;         
 
          div.bottom-options {
             margin-bottom: -0.35em;  
@@ -41,20 +40,20 @@
 
       div.options {
          div.option {
-            margin-bottom: 8px;
+            margin-bottom: 0.44em;
             input.quantity {
-               width: 25%;
+               width: 100%;
             }
             input.notes {
-               width: 50%;
+               width: 100%;
             }
          }
-         margin-bottom: 8px;
+         margin-bottom: 0.44em;
       }
    }
    div:not(.edit) {
       div.options {
-         margin-bottom: 8px;
+         margin-bottom: 0.1em;
       }
    }
 }

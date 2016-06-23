@@ -12,27 +12,29 @@
    div.list {
       &.intervals,
       &.rests {
-         margin-left: 16px;
+         margin-left: 1.1em;
          @import "speed_time_renderer";
       }
    }
 
    div.edit {
+      font-size: 0.8em;
       div.element {
          input {
             display: inline-block;
-            width: 50%;
+            width: 100%;
          }
          select {
-            width: 50%;
+            width: 100%;
          }
-         margin-bottom: 8px;
+         margin-bottom: 0.44em;
       }
    }
 
    div:not(.edit) {
+      font-size: 0.9em;
       span {
-         margin-left: 4px;
+         margin-left: 0.22em;
          &.notes {
             font-size: 0.9em;
          }
