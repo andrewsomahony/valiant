@@ -81,30 +81,34 @@ html, body {
     html, body {
         overflow: visible !important;
         width: 100%;
-    }
-    .top-bar,
-    .header,
-    .large-header-padding,
-    .mobile-header-padding,
-    .mobile-ad-space,
-    .ad-space,
-    a {
-        display: none !important;
-    }
     
-    .print {
-       display: block;
-    }
+        .top-bar,
+        .header,
+        .large-header-padding,
+        .mobile-header-padding,
+        .mobile-ad-space,
+        .ad-space,
+        a {
+            display: none !important;
+        }
+        
+        .print {
+           display: block !important;
+        }
 
-    div.content {
-        overflow: visible !important;
-        float: none !important;
-    }
+        div.content {
+            overflow: visible !important;
+            float: none !important;
+        }
 
-    .workout-builder {
-        float: none !important;
-		font-size: 15px;
-		margin-top: 10px;
+        .workout-builder {
+            float: none !important;
+            font-size: 15px;
+            margin-top: 10px;
+            .workout-container {
+                display: none !important;
+            }
+        }
     }
 }
 

@@ -9694,23 +9694,31 @@ html, body {
   html, body {
     overflow: visible !important;
     width: 100%; }
-  .top-bar,
-  .header,
-  .large-header-padding,
-  .mobile-header-padding,
-  .mobile-ad-space,
-  .ad-space,
-  a {
-    display: none !important; }
-  .print {
-    display: block; }
-  div.content {
-    overflow: visible !important;
-    float: none !important; }
-  .workout-builder {
-    float: none !important;
-    font-size: 15px;
-    margin-top: 10px; } }
+    html .top-bar,
+    html .header,
+    html .large-header-padding,
+    html .mobile-header-padding,
+    html .mobile-ad-space,
+    html .ad-space,
+    html a, body .top-bar,
+    body .header,
+    body .large-header-padding,
+    body .mobile-header-padding,
+    body .mobile-ad-space,
+    body .ad-space,
+    body a {
+      display: none !important; }
+    html .print, body .print {
+      display: block !important; }
+    html div.content, body div.content {
+      overflow: visible !important;
+      float: none !important; }
+    html .workout-builder, body .workout-builder {
+      float: none !important;
+      font-size: 15px;
+      margin-top: 10px; }
+      html .workout-builder .workout-container, body .workout-builder .workout-container {
+        display: none !important; } }
 
 /*
 @screen-xs:                  480px;
