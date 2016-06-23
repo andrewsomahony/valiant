@@ -9,7 +9,8 @@
    </div>
 
    <div class="list sets">
-      <div ng-repeat="set in model.sets">
+      <div class="set-container" 
+           ng-repeat="set in model.sets">
          <set model="set"
               show-total-when-not-editing="true"
               is-editable="false">

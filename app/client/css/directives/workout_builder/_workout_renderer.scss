@@ -28,6 +28,12 @@
    }
 
    div:not(.edit) {
-
+      .list {
+         &.sets {
+            .running-total {
+               margin-bottom: 1.1em;
+            }
+         }
+      }      
    }
 }

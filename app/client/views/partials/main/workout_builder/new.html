@@ -1,41 +1,29 @@
 <div class="new-workout">
-  <div
-      ng-if="!currentWorkout"
-      class="create-new-workout">
+   <div ng-if="!currentWorkout"
+        class="create-new-workout">
       <a ng-click="newWorkout()">Create new workout</a>
-  </div>
+   </div>
 
-  <div ng-if="currentWorkout">
-    <div class="hidden-lg hidden-md" ng-style="getSmallWorkoutStyle()">
-        <workout model="currentWorkout"
-              save-button-text="Save" 
-              cancel-button-text="Cancel"
-              on-save-clicked="workoutSave(workout)"
-              on-edit-clicked="workoutEdit(workout)"
-              on-cancel-clicked="workoutCancel(workout)"
-              on-delete-clicked="workoutDelete(workout)"
-              is-editable="true"
-              is-initially-editing="true"
-              can-edit-sets-inline="true"
-              can-edit-inline="true">
-        </workout>    
-    </div>
-    <div class="hidden-xs hidden-sm" ng-style="getLargeWorkoutStyle()">
-        <!--<div ng-style="getWorkoutContainerStyle()" ng-class="getWorkoutContainerClass()">
-          <div ng-style="getWorkoutStyle()"> -->
-              <workout model="currentWorkout"
-                      save-button-text="Save"
-                      cancel-button-text="Cancel"
-                      on-save-clicked="workoutSave(workout)"
-                      on-edit-clicked="workoutEdit(workout)"
-                      on-cancel-clicked="workoutCancel(workout)"
-                      on-delete-clicked="workoutDelete(workout)"
-                      is-editable="true"
-                      is-initially-editing="true"
-                      can-edit-sets-inline="true"
-                      can-edit-inline="true">
-              </workout>
-          </div>
-        </div>
-    </div>
+   <div ng-if="currentWorkout"
+        class="workout-container">
+      <workout model="currentWorkout"
+               save-button-text="Save" 
+               cancel-button-text="Cancel"
+               on-save-clicked="workoutSave(workout)"
+               on-edit-clicked="workoutEdit(workout)"
+               on-cancel-clicked="workoutCancel(workout)"
+               on-delete-clicked="workoutDelete(workout)"
+               is-editable="true"
+               is-initially-editing="true"
+               can-edit-sets-inline="true"
+               can-edit-inline="true">
+      </workout>    
+   </div>
+
+   <div ng-if="currentWorkout"
+        class="print">
+      <workout model="currentWorkout"
+               is-editable="false">
+      </workout>
+   </div>
 </div>

@@ -11,6 +11,12 @@ div.workout-builder {
             margin-left: 0.2em;
          }
       }
+
+      div.workout-container {
+         font-size: 1.5em;
+         text-align: left;
+      }
+
       @import "new_workout";
    }
 }

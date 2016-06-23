@@ -16,29 +16,6 @@ function($scope, WorkoutModel, SetModel) {
       $scope.currentWorkout.setInternalVariable('is_unborn', true);
    }
 
-   $scope.setIsEditingSet = function(isEditingSet, setModel) {
-      $scope.isEditingSet = isEditingSet;
-      if (isEditingSet) {
-         $scope.currentEditingSet = setModel;
-      }
-   }
-
-   $scope.saveSet = function(set) {
-      set.setInternalVariable('is_unborn', false);
-      $scope.setIsEditingSet(false);
-   }
-
-   $scope.editSet = function(set) {
-      $scope.setIsEditingSet(true, set);
-   }
-
-   $scope.cancelEditSet = function(set) {
-      if (set.getInternalVariable('is_unborn')) {
-         $scope.currentWorkout.deleteFromChildArray('sets', set);
-      }      
-      $scope.setIsEditingSet(false);
-   }
-
    $scope.workoutSave = function(workout) {
 
    }
@@ -52,49 +29,7 @@ function($scope, WorkoutModel, SetModel) {
    }
 
    $scope.workoutCancel = function(workout) {
-      $scope.setIsEditingSet(false);
       $scope.currentWorkout = null;
-   }
-
-   $scope.getWorkoutContainerStyle = function() {
-      var style = {};
-
-      if (!$scope.isEditingSet) {
-         style['text-align'] = 'center';
-      }
-
-      return style;
-   }
-
-   $scope.getWorkoutContainerClass = function() {
-      var classes = [];
-
-      if ($scope.isEditingSet) {
-         return "col-lg-6";
-      }
-
-      return classes;
-   }
-
-   $scope.getSmallWorkoutStyle = function() {
-      var style = {};
-
-      style['width'] = '100%';
-      style['font-size'] = '1.5em';
-      style['text-align'] = 'left';
-
-      return style;
-   }
-
-   $scope.getLargeWorkoutStyle = function() {
-      var style = {};
-
-      //style['display'] = 'inline-block';
-      style['width'] = '100%';
-      style['font-size'] = '2em';
-      style['text-align'] = 'left';
-
-      return style;
    }
 }])
 
