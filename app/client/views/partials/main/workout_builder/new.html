@@ -6,7 +6,7 @@
   </div>
 
   <div ng-if="currentWorkout">
-    <div class="hidden-lg hidden-md" style="font-size: 1.5em;">
+    <div class="hidden-lg hidden-md" ng-style="getSmallWorkoutStyle()">
         <workout model="currentWorkout"
               save-button-text="Save" 
               cancel-button-text="Cancel"
@@ -20,9 +20,9 @@
               can-edit-inline="true">
         </workout>    
     </div>
-    <div class="hidden-xs hidden-sm">
-        <div ng-style="getWorkoutContainerStyle()" ng-class="getWorkoutContainerClass()">
-          <div ng-style="getWorkoutStyle()">
+    <div class="hidden-xs hidden-sm" ng-style="getLargeWorkoutStyle()">
+        <!--<div ng-style="getWorkoutContainerStyle()" ng-class="getWorkoutContainerClass()">
+          <div ng-style="getWorkoutStyle()"> -->
               <workout model="currentWorkout"
                       save-button-text="Save"
                       cancel-button-text="Cancel"
@@ -30,9 +30,6 @@
                       on-edit-clicked="workoutEdit(workout)"
                       on-cancel-clicked="workoutCancel(workout)"
                       on-delete-clicked="workoutDelete(workout)"
-                      on-edit-set="editSet(set)"
-                      on-delete-set="deleteSet(set)"
-                      on-cancel-set="cancelSet(set)"
                       is-editable="true"
                       is-initially-editing="true"
                       can-edit-sets-inline="true"
@@ -41,24 +38,4 @@
           </div>
         </div>
     </div>
-
-<!--
-      <div class="col-lg-6" 
-        style="display:inline-block;font-size:2em;text-align:left;"
-        ng-if="isEditingSet">
-          <set model="currentEditingSet"
-            save-button-text="Save"
-            cancel-button-text="Cancel"
-            on-save-clicked="saveSet(set)"
-            on-cancel-clicked="cancelEditSet(set)"
-            show-total-when-not-editing="false"
-            is-initially-editing="true"
-            can-edit-inline="false"
-            is-editable="true"
-            is-detached="true">
-          </set>   
-      </div>
-      -->
-    </div>
-  </div>
 </div>

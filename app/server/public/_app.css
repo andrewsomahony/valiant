@@ -9666,10 +9666,10 @@ html, body {
       margin-right: 0.167em; }
     html a.right, body a.right {
       margin-left: 0.167em; }
-    html a:hover, body a:hover {
+    html a:hover, html a:active, body a:hover, body a:active {
       cursor: pointer;
       text-decoration: none; }
-      html a:hover:not(.cancel-underline)::after, body a:hover:not(.cancel-underline)::after {
+      html a:hover:not(.cancel-underline)::after, html a:active:not(.cancel-underline)::after, body a:hover:not(.cancel-underline)::after, body a:active:not(.cancel-underline)::after {
         content: '';
         position: absolute;
         left: 0;
@@ -9678,6 +9678,8 @@ html, body {
         width: 100%;
         border-bottom: 1px solid;
         margin-top: 0.22em; }
+      html a:hover.cancel-underline.old-underline, html a:active.cancel-underline.old-underline, body a:hover.cancel-underline.old-underline, body a:active.cancel-underline.old-underline {
+        text-decoration: underline; }
   html div.profile-picture, body div.profile-picture {
     display: inline-block; }
   html div.loading-progress, body div.loading-progress {
@@ -10337,9 +10339,6 @@ div.font-awesome-centered-icon {
       .set div.list.elements .set-element div:not(.edit) span.notes {
         font-size: 0.9em; }
 
-.set div.total {
-  margin-top: 0.44em; }
-
 .set div.edit.inline {
   margin-top: 0.6em;
   margin-bottom: 0.6em;
@@ -10367,6 +10366,8 @@ div.font-awesome-centered-icon {
 
 .workout .list.sets {
   margin-left: 0.95em; }
+  .workout .list.sets div.running-total {
+    margin-left: -0.95em; }
   .workout .list.sets .set a {
     font-size: 0.9em; }
   .workout .list.sets .set .font-awesome-icon-text.bullet {
@@ -10415,8 +10416,6 @@ div.font-awesome-centered-icon {
         margin-left: 0.22em; }
         .workout .list.sets .set div.list.elements .set-element div:not(.edit) span.notes {
           font-size: 0.9em; }
-  .workout .list.sets .set div.total {
-    margin-top: 0.44em; }
   .workout .list.sets .set div.edit.inline {
     margin-top: 0.6em;
     margin-bottom: 0.6em;

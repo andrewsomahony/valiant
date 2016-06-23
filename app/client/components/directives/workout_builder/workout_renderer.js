@@ -45,7 +45,20 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
                   $scope.editClicked();
                }
             }
-         })
+         });
+
+         $scope.getRunningTotal = function(model, index) {
+            var runningTotal = 0;
+            model.sets.every(function(set, i) {
+               if (i > index) {
+                  return false;
+               } else {
+                  runningTotal += set.getTotalDistance();
+                  return true;
+               }
+            });
+            return runningTotal;
+         }
 
          $scope.setIsEditing = function(isEditing) {
             $scope.isEditing = isEditing;

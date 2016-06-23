@@ -11,13 +11,13 @@
    <div class="list sets">
       <div ng-repeat="set in model.sets">
          <set model="set"
-              show-total-when-not-editing="false"
+              show-total-when-not-editing="true"
               is-editable="false">
          </set>   
-         <div class="running-total">
+         <div class="running-total" ng-if="$index < editingWorkout.sets.length - 1">
             <span font-awesome-icon-text
                   icon="fa-arrow-right"
-                  text="{{set.getTotalDistance()}}">
+                  text="{{getRunningTotal(model, $index)}}">
             </span>                      
          </div>               
       </div>
@@ -44,19 +44,18 @@
             on-cancel-clicked="cancelSet(set)"
             on-delete-clicked="deleteSet(set)"
             on-edit-clicked="editSet(set)"
-            show-total-when-not-editing="false"
+            show-total-when-not-editing="true"
             is-initially-editing="{{set.is_unborn}}"
             can-edit-inline="{{canEditSetsInline}}"
             is-editable="true">
          </set>   
-         <!--
          <div class="running-total"
-              ng-if="!set.is_unborn">
+              ng-if="$index < editingWorkout.sets.length - 1">
             <span font-awesome-icon-text
                   icon="fa-arrow-right"
-                  text="{{set.getTotalDistance()}}">
+                  text="{{getRunningTotal(editingWorkout, $index)}}">
             </span>                      
-         </div>  -->              
+         </div>           
       </div>
       <a ng-click="newSet()">
          <span font-awesome-icon-text

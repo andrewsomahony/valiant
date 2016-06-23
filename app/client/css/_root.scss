@@ -32,7 +32,7 @@ html, body {
           margin-left: 0.167em;
        }
 
-       &:hover {
+       &:hover, &:active {
           cursor: pointer;
           text-decoration: none;
           &:not(.cancel-underline) {
@@ -46,6 +46,11 @@ html, body {
                border-bottom: 1px solid;
                margin-top: 0.22em;
             }
+          }
+          &.cancel-underline {
+             &.old-underline {
+                text-decoration: underline;
+             }
           }
        }
     }    

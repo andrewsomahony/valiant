@@ -76,10 +76,20 @@ function($scope, WorkoutModel, SetModel) {
       return classes;
    }
 
-   $scope.getWorkoutStyle = function() {
+   $scope.getSmallWorkoutStyle = function() {
       var style = {};
 
-      style['display'] = 'inline-block';
+      style['width'] = '100%';
+      style['font-size'] = '1.5em';
+      style['text-align'] = 'left';
+
+      return style;
+   }
+
+   $scope.getLargeWorkoutStyle = function() {
+      var style = {};
+
+      //style['display'] = 'inline-block';
       style['width'] = '100%';
       style['font-size'] = '2em';
       style['text-align'] = 'left';
