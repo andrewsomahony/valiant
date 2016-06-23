@@ -10228,25 +10228,6 @@ div.font-awesome-centered-icon {
 
 .set-element div.list.intervals, .set-element div.list.rests {
   margin-left: 1.1em; }
-  .set-element div.list.intervals .speed-time .font-awesome-icon-text span.icon, .set-element div.list.rests .speed-time .font-awesome-icon-text span.icon {
-    font-size: 0.9em; }
-  .set-element div.list.intervals .speed-time div.edit, .set-element div.list.rests .speed-time div.edit {
-    font-size: 0.9em; }
-    .set-element div.list.intervals .speed-time div.edit div.form, .set-element div.list.rests .speed-time div.edit div.form {
-      margin-bottom: 0.22em; }
-      .set-element div.list.intervals .speed-time div.edit div.form span.edit-icon, .set-element div.list.rests .speed-time div.edit div.form span.edit-icon {
-        font-size: 1.1em;
-        margin-right: 0.44em; }
-      .set-element div.list.intervals .speed-time div.edit div.form input, .set-element div.list.rests .speed-time div.edit div.form input {
-        display: inline-block;
-        width: 25%; }
-      .set-element div.list.intervals .speed-time div.edit div.form select, .set-element div.list.rests .speed-time div.edit div.form select {
-        display: inline-block;
-        width: 20%; }
-  .set-element div.list.intervals .speed-time div:not(.edit), .set-element div.list.rests .speed-time div:not(.edit) {
-    font-size: 1em; }
-    .set-element div.list.intervals .speed-time div:not(.edit) span.display, .set-element div.list.rests .speed-time div:not(.edit) span.display {
-      margin-right: 0.44em; }
 
 .set-element div.edit {
   font-size: 0.8em; }
@@ -10298,46 +10279,6 @@ div.font-awesome-centered-icon {
 
 .set div.list.elements {
   margin-left: 0.5em; }
-  .set div.list.elements .set-element .font-awesome-icon-text.bullet {
-    font-size: 0.8em; }
-  .set div.list.elements .set-element .font-awesome-icon-text span.icon {
-    font-size: 0.9em; }
-  .set div.list.elements .set-element div.list.intervals, .set div.list.elements .set-element div.list.rests {
-    margin-left: 1.1em; }
-    .set div.list.elements .set-element div.list.intervals .speed-time .font-awesome-icon-text span.icon, .set div.list.elements .set-element div.list.rests .speed-time .font-awesome-icon-text span.icon {
-      font-size: 0.9em; }
-    .set div.list.elements .set-element div.list.intervals .speed-time div.edit, .set div.list.elements .set-element div.list.rests .speed-time div.edit {
-      font-size: 0.9em; }
-      .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form, .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form {
-        margin-bottom: 0.22em; }
-        .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form span.edit-icon, .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form span.edit-icon {
-          font-size: 1.1em;
-          margin-right: 0.44em; }
-        .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form input, .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form input {
-          display: inline-block;
-          width: 25%; }
-        .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form select, .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form select {
-          display: inline-block;
-          width: 20%; }
-    .set div.list.elements .set-element div.list.intervals .speed-time div:not(.edit), .set div.list.elements .set-element div.list.rests .speed-time div:not(.edit) {
-      font-size: 1em; }
-      .set div.list.elements .set-element div.list.intervals .speed-time div:not(.edit) span.display, .set div.list.elements .set-element div.list.rests .speed-time div:not(.edit) span.display {
-        margin-right: 0.44em; }
-  .set div.list.elements .set-element div.edit {
-    font-size: 0.8em; }
-    .set div.list.elements .set-element div.edit div.element {
-      margin-bottom: 0.44em; }
-      .set div.list.elements .set-element div.edit div.element input {
-        display: inline-block;
-        width: 100%; }
-      .set div.list.elements .set-element div.edit div.element select {
-        width: 100%; }
-  .set div.list.elements .set-element div:not(.edit) {
-    font-size: 0.9em; }
-    .set div.list.elements .set-element div:not(.edit) span {
-      margin-left: 0.22em; }
-      .set div.list.elements .set-element div:not(.edit) span.notes {
-        font-size: 0.9em; }
 
 .set div.edit.inline {
   margin-top: 0.6em;
@@ -10368,73 +10309,6 @@ div.font-awesome-centered-icon {
   margin-left: 0.95em; }
   .workout .list.sets div.running-total {
     margin-left: -0.95em; }
-  .workout .list.sets .set a {
-    font-size: 0.9em; }
-  .workout .list.sets .set .font-awesome-icon-text.bullet {
-    font-size: 0.68em; }
-  .workout .list.sets .set .font-awesome-icon-text span.icon {
-    font-size: 0.9em; }
-  .workout .list.sets .set div.list.elements {
-    margin-left: 0.5em; }
-    .workout .list.sets .set div.list.elements .set-element .font-awesome-icon-text.bullet {
-      font-size: 0.8em; }
-    .workout .list.sets .set div.list.elements .set-element .font-awesome-icon-text span.icon {
-      font-size: 0.9em; }
-    .workout .list.sets .set div.list.elements .set-element div.list.intervals, .workout .list.sets .set div.list.elements .set-element div.list.rests {
-      margin-left: 1.1em; }
-      .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time .font-awesome-icon-text span.icon, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time .font-awesome-icon-text span.icon {
-        font-size: 0.9em; }
-      .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div.edit, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div.edit {
-        font-size: 0.9em; }
-        .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form {
-          margin-bottom: 0.22em; }
-          .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form span.edit-icon, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form span.edit-icon {
-            font-size: 1.1em;
-            margin-right: 0.44em; }
-          .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form input, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form input {
-            display: inline-block;
-            width: 25%; }
-          .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div.edit div.form select, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div.edit div.form select {
-            display: inline-block;
-            width: 20%; }
-      .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div:not(.edit), .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div:not(.edit) {
-        font-size: 1em; }
-        .workout .list.sets .set div.list.elements .set-element div.list.intervals .speed-time div:not(.edit) span.display, .workout .list.sets .set div.list.elements .set-element div.list.rests .speed-time div:not(.edit) span.display {
-          margin-right: 0.44em; }
-    .workout .list.sets .set div.list.elements .set-element div.edit {
-      font-size: 0.8em; }
-      .workout .list.sets .set div.list.elements .set-element div.edit div.element {
-        margin-bottom: 0.44em; }
-        .workout .list.sets .set div.list.elements .set-element div.edit div.element input {
-          display: inline-block;
-          width: 100%; }
-        .workout .list.sets .set div.list.elements .set-element div.edit div.element select {
-          width: 100%; }
-    .workout .list.sets .set div.list.elements .set-element div:not(.edit) {
-      font-size: 0.9em; }
-      .workout .list.sets .set div.list.elements .set-element div:not(.edit) span {
-        margin-left: 0.22em; }
-        .workout .list.sets .set div.list.elements .set-element div:not(.edit) span.notes {
-          font-size: 0.9em; }
-  .workout .list.sets .set div.edit.inline {
-    margin-top: 0.6em;
-    margin-bottom: 0.6em;
-    padding-top: 0.4em;
-    padding-bottom: 0.4em;
-    border-top: 2px dotted black;
-    border-bottom: 2px dotted black; }
-    .workout .list.sets .set div.edit.inline div.bottom-options {
-      margin-bottom: -0.35em; }
-  .workout .list.sets .set div.edit div.options {
-    margin-bottom: 0.44em; }
-    .workout .list.sets .set div.edit div.options div.option {
-      margin-bottom: 0.44em; }
-      .workout .list.sets .set div.edit div.options div.option input.quantity {
-        width: 100%; }
-      .workout .list.sets .set div.edit div.options div.option input.notes {
-        width: 100%; }
-  .workout .list.sets .set div:not(.edit) div.options {
-    margin-bottom: 0.1em; }
 
 .workout .font-awesome-icon-text span.icon {
   font-size: 0.9em; }
