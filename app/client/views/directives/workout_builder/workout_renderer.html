@@ -1,4 +1,4 @@
-<div ng-if="!isEditing">
+<div ng-if="!isEditing" class="display">
    <div class="options">
       <span class="name" ng-bind="model.name"></span>
 
@@ -15,7 +15,7 @@
               show-total-when-not-editing="true"
               is-editable="false">
          </set>   
-         <div class="running-total" ng-if="$index < editingWorkout.sets.length - 1">
+         <div class="running-total" ng-if="$index < model.sets.length - 1">
             <span font-awesome-icon-text
                   icon="fa-arrow-right"
                   text="{{getRunningTotal(model, $index)}}">
@@ -39,8 +39,6 @@
    <div class="list sets">
       <div ng-repeat="set in editingWorkout.sets">
          <set model="set"
-            save-button-text="{{set.is_unborn ? 'Add Set' : 'Save'}}"
-            cancel-button-text="Cancel"
             on-save-clicked="saveSet(set)"
             on-cancel-clicked="cancelSet(set)"
             on-delete-clicked="deleteSet(set)"

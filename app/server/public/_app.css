@@ -9693,7 +9693,7 @@ html, body {
 @media print {
   html, body {
     overflow: visible !important;
-    width: 100%; }
+    width: 100% !important; }
     html .top-bar,
     html .header,
     html .large-header-padding,
@@ -9715,9 +9715,11 @@ html, body {
       float: none !important; }
     html .workout-builder, body .workout-builder {
       float: none !important;
-      font-size: 15px;
-      margin-top: 10px; }
+      font-size: 15px !important;
+      margin-top: 15px !important; }
       html .workout-builder .workout-container, body .workout-builder .workout-container {
+        display: none !important; }
+      html .workout-builder .create-new-workout, body .workout-builder .create-new-workout {
         display: none !important; } }
 
 /*
@@ -10060,6 +10062,10 @@ div.main {
       div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-container {
         font-size: 1.5em;
         text-align: left; }
+      div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.new-workout div.create-new-workout {
+        text-align: center;
+        font-size: 2em;
+        margin-top: 2em; }
       div.main div.mobile-scroll div.main-content div.content div.error div.sub-content {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.error div.sub-content div.error-header {
@@ -10252,11 +10258,11 @@ div.font-awesome-centered-icon {
     .set-element div.edit div.element select {
       width: 100%; }
 
-.set-element div:not(.edit) {
+.set-element div.display {
   font-size: 0.9em; }
-  .set-element div:not(.edit) span {
+  .set-element div.display span {
     margin-left: 0.22em; }
-    .set-element div:not(.edit) span.notes {
+    .set-element div.display span.notes {
       font-size: 0.9em; }
 
 .speed-time .font-awesome-icon-text span.icon {
@@ -10276,9 +10282,9 @@ div.font-awesome-centered-icon {
       display: inline-block;
       width: 20%; }
 
-.speed-time div:not(.edit) {
+.speed-time div.display {
   font-size: 1em; }
-  .speed-time div:not(.edit) span.display {
+  .speed-time div.display span.display {
     margin-right: 0.44em; }
 
 .set a {
@@ -10292,6 +10298,9 @@ div.font-awesome-centered-icon {
 
 .set div.list.elements {
   margin-left: 0.5em; }
+
+.set div.options {
+  margin-bottom: 0em !important; }
 
 .set div.edit.inline {
   margin-top: 0.6em;
@@ -10312,7 +10321,7 @@ div.font-awesome-centered-icon {
     .set div.edit div.options div.option input.notes {
       width: 100%; }
 
-.set div:not(.edit) div.options {
+.set div.display div.options {
   margin-bottom: 0.1em; }
 
 .workout a {
@@ -10331,5 +10340,8 @@ div.font-awesome-centered-icon {
   .workout div.edit div.options div.option {
     margin-bottom: 0.44em; }
 
-.workout div:not(.edit) .list.sets .running-total {
+.workout div.display div.options {
+  margin-bottom: 0.44em; }
+
+.workout div.display .list.sets .running-total {
   margin-bottom: 1.1em; }

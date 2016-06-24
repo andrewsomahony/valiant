@@ -1,4 +1,4 @@
-<div ng-if="!isEditing && !model.is_unborn">
+<div ng-if="!isEditing && !model.is_unborn" class="display">
    <div class="options">
       <span font-awesome-icon-text class="bullet" icon="fa-circle">
       </span>
@@ -40,7 +40,6 @@
       <div ng-repeat="element in editingSet.elements">
          <set-element
             model="element"
-            save-button-text="Save"
             on-save-clicked="saveSetElement(element)"
             on-delete-clicked="deleteSetElement(element)"
             on-cancel-clicked="cancelSetElement(element)"
@@ -67,7 +66,7 @@
 
    <div class="bottom-options">
       <a class="left"
-         ng-click="saveClicked()">Save</a>
-      <a class="right" ng-click="cancelClicked()">Cancel</a>
+         ng-click="saveClicked()" ng-bind="saveButtonText || 'Save Set'"></a>
+      <a class="right" ng-click="cancelClicked()" ng-bind="cancelButtonText || 'Cancel'"></a>
    </div>
 </div>

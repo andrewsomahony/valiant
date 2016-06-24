@@ -27,7 +27,11 @@
       }     
    }
 
-   div:not(.edit) {
+   div.display {
+      div.options {
+         margin-bottom: 0.44em;
+      }
+
       .list {
          &.sets {
             .running-total {

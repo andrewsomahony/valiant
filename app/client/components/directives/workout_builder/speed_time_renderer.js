@@ -76,6 +76,7 @@ function(SpeedTimeModel, ScopeService, $timeout) {
                }
                $scope.editingModel.fromModel($scope.model);
             }
+            $scope.model.setInternalVariable('is_editing', isEditing);
          }
 
          $scope.hours = utils.map(utils.loopedIntegerArray(60), function(i) {

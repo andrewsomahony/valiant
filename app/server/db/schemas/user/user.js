@@ -20,6 +20,9 @@ var NotificationSchema = require(__base + 'db/schemas/notification/notification'
 
 var PictureSchema = require(__base + 'db/schemas/picture/picture');
 
+var QuestionModel = require(__base + 'db/models/question/question');
+var WorkoutModel = require(__base + 'db/models/workout/workout');
+
 var UserSchema = new Schema({
     email: {
         type: String,
@@ -51,6 +54,13 @@ var UserSchema = new Schema({
                  type: Schema.Types.ObjectId, 
                  ref: 'Question' 
               }],
+        default: []
+    },
+    workouts: {
+        type: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Workout'
+        }],
         default: []
     },
     notifications: {

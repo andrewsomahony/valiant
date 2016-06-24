@@ -1,4 +1,4 @@
-<div ng-if="!isEditing">
+<div ng-if="!isEditing" class="display">
    <span font-awesome-icon-text class="bullet" icon="fa-circle-o">
    </span>
    <span ng-bind="getElementQuantityAndDistance()"></span>
@@ -65,7 +65,6 @@
                            is-editable="true"
                            can-edit-inline="true"
                            is-initially-editing="{{interval.is_unborn}}"
-                           save-button-text="Save"
                            on-save-clicked="saveInterval(speedTime)"
                            on-cancel-clicked="cancelInterval(speedTime)"
                            on-delete-clicked="deleteInterval(speedTime)">
@@ -85,7 +84,6 @@
                      is-interval="false"
                      can-edit-inline="true"
                      is-initially-editing="{{rest.is_unborn}}"
-                     save-button-text="Save"
                      on-save-clicked="saveRest(speedTime)"
                      on-cancel-clicked="cancelRest(speedTime)"
                      on-delete-clicked="deleteRest(speedTime)"></speed-time>
@@ -104,7 +102,7 @@
    </div>
 
    <div class="bottom-options">
-      <a ng-click="saveClicked()" class="left" ng-bind="saveButtonText"></a>
-      <a ng-click="cancelClicked()" class="right">Cancel</a>
+      <a ng-click="saveClicked()" class="left" ng-bind="saveButtonText || 'Save Swim'"></a>
+      <a ng-click="cancelClicked()" class="right" ng-bind="saveButtonText || 'Cancel'"></a>
    </div>
 </div>

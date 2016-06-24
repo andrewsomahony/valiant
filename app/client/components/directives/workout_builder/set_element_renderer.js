@@ -63,19 +63,6 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
             return classes;
          }
 
-         // If we are editing, we want to have
-         // symmetrical borders, this just gives us
-         // a bit of a margin so we get them
-
-         $scope.getEditOptionsDivStyle = function() {
-            var style = {};
-
-            if (true === $scope.canEditInline) {
-               style['margin-bottom'] = "-0.35em";
-            }
-            return style;
-         }
-
          $scope.setIsEditing = function(isEditing) {
             $scope.isEditing = isEditing;
             if (true === isEditing) {
@@ -84,6 +71,7 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
                }
                $scope.editingElement.fromModel($scope.model);
             }
+            $scope.model.setInternalVariable('is_editing', isEditing);
          }
 
          $scope.saveClicked = function() {

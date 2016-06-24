@@ -68,6 +68,7 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
                }
                $scope.editingWorkout.fromModel($scope.model);
             }
+            $scope.model.setInternalVariable('is_editing', isEditing);
          }
 
          $scope.newSet = function() {

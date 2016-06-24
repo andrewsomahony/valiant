@@ -19,8 +19,12 @@
       }
    }
 
-   div.total {
-     // margin-top: 0.44em;
+   div.options {
+     // Normally I don't like using !important,
+     // but we need to make sure that when a set
+     // is within a workout, any attribute that
+     // I want to change gets priority.
+     margin-bottom: 0em !important;
    }
 
    div.edit {
@@ -50,7 +54,8 @@
          margin-bottom: 0.44em;
       }
    }
-   div:not(.edit) {
+
+   div.display {
       div.options {
          margin-bottom: 0.1em;
       }

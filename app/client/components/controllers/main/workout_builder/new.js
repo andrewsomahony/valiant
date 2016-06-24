@@ -17,7 +17,7 @@ function($scope, WorkoutModel, SetModel) {
    }
 
    $scope.workoutSave = function(workout) {
-
+      $scope.currentWorkout.setInternalVariable('is_unborn', false);
    }
 
    $scope.workoutEdit = function(workout) {

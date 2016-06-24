@@ -1,4 +1,4 @@
-<div ng-if="!isEditing">
+<div ng-if="!isEditing" class="display">
    <span font-awesome-icon-text icon="{{isInterval ? 'fa-clock-o' : 'fa-bed'}}">
    </span>
    <span class="display" ng-bind="model.name"></span>
@@ -36,7 +36,7 @@
       </select>
    </div>
    <div class="bottom-options">
-      <a class="left" ng-bind="saveButtonText" ng-click="saveClicked()"></a>
-      <a class="right" ng-click="cancelClicked()">Cancel</a>
+      <a class="left" ng-bind="saveButtonText || (isInterval ? 'Save Interval' : 'Save Rest')" ng-click="saveClicked()"></a>
+      <a class="right" ng-bind="cancelButtonText || 'Cancel'" ng-click="cancelClicked()"></a>
    </div>
 </div>

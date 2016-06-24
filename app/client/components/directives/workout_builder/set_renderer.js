@@ -51,6 +51,7 @@ function(SetModel, ScopeService, SetBuilderService) {
                }
                $scope.editingSet.fromModel($scope.model);
             }
+            $scope.model.setInternalVariable('is_editing', isEditing);
          }
 
          $scope.editClicked = function() {
