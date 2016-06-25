@@ -82,7 +82,7 @@ router.route('/:userId')
         } else {
             if (!user) {
                 Responder.notFound(result);
-            } else {
+            } else { 
                 if (true === Permissions.ableToSeeUser(request, user)) {
                    Responder.ok(result, user.frontEndObject());    
                 } else {

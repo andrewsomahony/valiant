@@ -106,6 +106,7 @@ function(ScopeService, $compile) {
             var $loadingElement = angular.element("<div></div>");
             
             $loadingElement.attr('loading-progress', '');
+            $loadingElement.addClass('fade-in');
             $loadingElement.attr('ng-if', 'model.upload_progress');
             $loadingElement.attr('type', 'overlay_circle');
             $loadingElement.attr('show-percentage', 'false');

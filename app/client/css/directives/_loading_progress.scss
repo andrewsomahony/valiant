@@ -1,13 +1,17 @@
 div.loading-progress {
    &.overlay {
-      &.ng-enter {
-         animation: fade-in 0.4s;
+      &.fade-in {
+         &.ng-enter {
+            animation: fade-in 0.4s;
+         }
       }
    }
 
    &.spinner {
-      &.ng-enter {
-         animation: fade-in 0.5s;
+      &.fade-in {
+         &.ng-enter {
+            animation: fade-in 0.5s;
+         }
       }
    }
 

@@ -69,19 +69,13 @@
         </div>
       </div>
    </div>  
-
-<!--
-   <div media-renderer="picture"
-        model="currentQuestion.preview_pictures[0]"
-        width="320px"
-        style="position:absolute;top:50px;left:50px;"
-   ></div> -->
    
    <div class="ask-submit" ng-if="!isAskingQuestion">
       <button ng-click="askQuestion()">Ask Question</button>
    </div>
 
    <div loading-progress 
+        class="fade-in"
         type="spinner"
         ng-if="isAskingQuestion"
         message="Asking..."

@@ -10149,10 +10149,10 @@ div.media-picker {
     font-weight: bold;
     word-wrap: break-word; }
 
-div.loading-progress.overlay.ng-enter {
+div.loading-progress.overlay.fade-in.ng-enter {
   animation: fade-in 0.4s; }
 
-div.loading-progress.spinner.ng-enter {
+div.loading-progress.spinner.fade-in.ng-enter {
   animation: fade-in 0.5s; }
 
 div.loading-progress div {

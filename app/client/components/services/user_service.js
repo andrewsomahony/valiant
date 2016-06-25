@@ -389,9 +389,9 @@ PictureModel, MediaService) {
                 return ProgressService(0, 1, "Saving user...");
             } else {
                 return Promise(function(resolve, reject, notify) {
-                    var patch = user.createPatch(previousUser, true);    
+                    var patch = user.createPatch(previousUser, true);  
                     if (!patch.length) {
-                       resolve();    
+                       resolve(user);   
                     } else {
                        HttpService.patch(ApiUrlService([
                            {
@@ -407,7 +407,7 @@ PictureModel, MediaService) {
                            
                            UserService.updateCurrentAndRequestedUsersIfSame(newUser);
                            
-                           resolve({user: newUser});
+                           resolve(newUser);
                        })
                        .catch(function(e) {
                            reject(e);
@@ -418,12 +418,12 @@ PictureModel, MediaService) {
         });
 
         return Promise(function(resolve, reject, notify) {
-            SerialPromise.withNotify(promiseFnArray)
+            SerialPromise.withNotify(promiseFnArray, null, ['user'], true)
             .then(function(data) {
                 // The user gets returned
                 // because the server could update
                 // values that we don't patch (like updated_at)
-                resolve(data.user);
+                resolve(user);
             }, null, function(progress) {
                 notify(progress);
             })
