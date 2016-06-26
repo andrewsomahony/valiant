@@ -78,6 +78,17 @@ registerService('factory', name, [function() {
          paramArray: {
             questionId: ""
          }
+      },
+      'Workout': {
+         url: "workout",
+         sub_api: {
+            'New': {
+               url: "new"
+            }
+         },
+         paramArray: {
+            workoutId: ""
+         }
       }
    };
 

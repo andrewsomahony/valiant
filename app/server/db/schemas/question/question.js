@@ -38,7 +38,7 @@ var QuestionSchema = new Schema({
       type: [PictureSchema],
       default: []
    },
-   creator: {
+   _creator: {
       type: Schema.Types.ObjectId,
       ref: 'User'
    }

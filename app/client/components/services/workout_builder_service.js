@@ -5,7 +5,10 @@ var registerService = require('services/register');
 var name = 'services.workout_builder';
 
 registerService('factory', name, [require('models/workout_builder/workout'),
-function(WorkoutModel) {
+                                  require('services/http_service'),
+                                  require('services/api_url'),
+                                  require('services/promise'),
+function(WorkoutModel, HttpService, ApiUrlService, Promise) {
    function WorkoutBuilderService() {
 
    }
@@ -55,6 +58,20 @@ function(WorkoutModel) {
       } else {
          return "" + total;
       }
+   }
+
+   WorkoutBuilderService.createWorkout = function(workoutModel) {
+      return Promise(function(resolve, reject, notify) {
+         HttpService.post(ApiUrlService([
+            {name: 'Workout'}, {name: 'New'}]),
+         null, {workout: workoutModel.toObject(true)})
+         .then(function(newWorkout) {
+            resolve(new WorkoutModel(newWorkout, true));
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });
    }
 
    return WorkoutBuilderService;

@@ -36,15 +36,7 @@ router.route('/')
         
         Q.all(usersArray.map(function(u) {
             return Promise(function(resolve, reject, notify) {
-                var user = new User({
-                    email: u.email,
-                    first_name: u.first_name,
-                    last_name: u.last_name,
-                    profile_picture_url: u.profile_picture_url,
-                    questions: [],
-                    facebook_id: u.facebook_id,
-                    is_connected_to_facebook: u.is_connected_to_facebook
-                });
+                var user = new User(u);
                 
                 user.save(function(error, document) {
                     if (error) {

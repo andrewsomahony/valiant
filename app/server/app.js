@@ -26,8 +26,11 @@ var verifyRoute = require('./routes/verify');
 var checkRoute = require('./routes/check');
 var userRoute = require('./routes/user/root');
 var s3Route = require('./routes/s3');
+var workoutRoute = require(__base + 'routes/workout/root');
 
 var UserModel = require('./db/models/user/user');
+var WorkoutModel = require('./db/models/workout/workout');
+var QuestionModel = require('./db/models/question/question');
 
 var app = express();
 var appConfig = require('./config/config');
@@ -148,6 +151,7 @@ if (false === appIsActive) {
     
     app.use('/api/users', userRoute);
     app.use('/api/s3', s3Route);
+    app.use('/api/workout', workoutRoute);
     
     app.use(function(request, result, next) {
        if (request.isAjax) {

@@ -7,7 +7,8 @@ var name = 'workout';
 registerDirective(name, [require('models/workout_builder/workout'),
                          require('services/workout_builder_service'),
                          require('services/scope_service'),
-function(WorkoutModel, SetBuilderService, ScopeService) {
+                         require('services/promise'),
+function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
    return {
       restrict: "E",
       scope: {
@@ -102,27 +103,44 @@ function(WorkoutModel, SetBuilderService, ScopeService) {
             }
          }
 
+         // Whoever is linked into this directive
+         // has the option to override these actions, or just
+         // ignore them entirely.
+
          $scope.editClicked = function() {
-            if (true === $scope.canEditInline) {
-               $scope.setIsEditing(true);
-            }
-            $scope.onEditClicked({workout: $scope.model});
+            Promise.when($scope.onEditClicked({workout: $scope.model}))
+            .then(function() {
+               if (true === $scope.canEditInline) {
+                  $scope.setIsEditing(true);
+               }
+            });
          }
 
          $scope.deleteClicked = function() {
-            $scope.onDeleteClicked({workout: $scope.model});
+            Promise.when($scope.onDeleteClicked({workout: $scope.model}))
+            .then(function() {
+
+            });
          }
 
          $scope.saveClicked = function() {
-            $scope.setIsEditing(false);
-            $scope.model.fromModel($scope.editingWorkout);
+            var previousModel = $scope.model.clone();
 
-            $scope.onSaveClicked({workout: $scope.model});
+            $scope.model.fromModel($scope.editingWorkout);
+            Promise.when($scope.onSaveClicked({workout: $scope.model}))
+            .then(function() {
+               $scope.setIsEditing(false);
+            })
+            .catch(function() {
+               $scope.model.fromModel(previousModel);
+            });
          }
 
          $scope.cancelClicked = function() {
-            $scope.setIsEditing(false);
-            $scope.onCancelClicked({workout: $scope.model});
+            Promise.when($scope.onCancelClicked({workout: $scope.model}))
+            .then(function() {
+               $scope.setIsEditing(false);
+            });
          }
       }
    };

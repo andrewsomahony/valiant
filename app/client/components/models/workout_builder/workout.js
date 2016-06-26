@@ -7,7 +7,8 @@ var name = 'models.workout';
 
 registerModel(name, [require('models/base'),
                      require('models/workout_builder/set'),
-function(BaseModel, SetModel) {
+                     require('models/user'),
+function(BaseModel, SetModel, UserModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -16,8 +17,17 @@ function(BaseModel, SetModel) {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
                name: "",
-               sets: [{__model__: SetModel}]
+               sets: [{__model__: SetModel}],
+               creator: {__model__: UserModel}
             })
+         },
+         localFields: function() {
+            return ['creator']
+         },
+         serverMappings: function() {
+            return {
+               "creator": "_creator"
+            }
          }
       },
 

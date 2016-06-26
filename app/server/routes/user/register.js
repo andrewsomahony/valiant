@@ -17,24 +17,27 @@ router.route('/register')
     Responder.methodNotAllowed(result);
 })
 .post(function(request, result) {
-    var u = Request.getBodyVariable(request, 'user');
-    
-    var user = new User(u);
-        
-    User.register(user, u.password, function(error, newUser) {
-        if (error) {
-            Responder.badRequest(result, error);
-        } else {
-            newUser.sendAuthenticationEmail(function(error, u) {
-                if (error) {
-                    Responder.badRequest(result, error);
-                } else {
-                    Responder.created(result, u.frontEndObject());
-                }
-            });
+   var userParam = Request.getBodyVariable(request, 'user');
+
+   if (!u) {
+      Responder.badRequest(result, "Missing user param!");
+   } else {    
+      var user = new User(userParam);
             
-        }
-    });
+      User.register(user, userParam.password, function(error, newUser) {
+         if (error) {
+            Responder.badRequest(result, error);
+         } else {
+            newUser.sendAuthenticationEmail(function(error, u) {
+               if (error) {
+                  Responder.badRequest(result, error);
+               } else {
+                  Responder.created(result, u.frontEndObject());
+               }
+            });    
+         }
+      });
+   }
 })
 .delete(function(request, result) {
     Responder.methodNotAllowed(result);

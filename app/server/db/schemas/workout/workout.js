@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var WorkoutMethods = require('./plugins/methods');
 
 var Schema = mongoose.Schema;
 
@@ -14,7 +15,13 @@ var WorkoutSchema = new Schema({
    sets: {
       type: [SetSchema],
       default: []
+   },
+   _creator: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
    }
 });
+
+WorkoutSchema.plugin(WorkoutMethods);
 
 module.exports = WorkoutSchema;

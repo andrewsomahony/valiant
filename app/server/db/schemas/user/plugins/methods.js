@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function(schema, options) {
    options = options || {};
    
@@ -28,7 +30,6 @@ module.exports = function(schema, options) {
             first_name: this.first_name,
             last_name: this.last_name,
             profile_picture: this.profile_picture,
-            //profile_picture_url: this.profile_picture_url,
             access_type: this.access_type,
             questions: this.questions,
             notifications: this.notifications,
@@ -43,6 +44,15 @@ module.exports = function(schema, options) {
             object['pending_email'] = this.pending_email;
             object['pending_email_token'] = this.pending_email_token;
          }
+
+         object.workouts = this.workouts.map(function(workout) {
+            return workout.frontEndObject();
+         });
+
+         object.questions = this.questions.map(function(question) {
+            // !!! TODO Give this a frontEndObject method
+            return question;
+         })
          
          return object;
       }
