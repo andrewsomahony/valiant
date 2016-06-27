@@ -100,7 +100,6 @@ module.exports = function(schema, options) {
 
          if (this.questions) {
             object.questions = this.questions.map(function(question) {
-               // !!! TODO Give this a frontEndObject method
                return question.frontEndObject();
             });
          }
