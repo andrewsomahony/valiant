@@ -1,5 +1,11 @@
 'use strict';
 
+var WorkoutModel = require(__base + 'db/models/workout/workout');
+var QuestionModel = require(__base + 'db/models/question/question');
+
+var Q = require('q');
+var Promise = require(__base + '/lib/promise');
+
 module.exports = function(schema, options) {
    options = options || {};
    
@@ -13,6 +19,47 @@ module.exports = function(schema, options) {
    
    schema.methods.isUser = function(otherUser) {
       return this.getId().equals(otherUser.getId());
+   }
+
+   schema.methods.populateRefs = function() {
+      var populatePromises = [];
+
+      var self = this;
+
+      populatePromises.push(Promise(function(resolve, reject) {
+         WorkoutModel.find({_creator: self.getId()})
+         .populate('_creator')
+         .exec(function(error, workouts) {
+            if (error) {
+               reject(error);
+            } else {
+               self.workouts = workouts;
+               resolve();
+            }
+         });
+      }));
+
+      populatePromises.push(Promise(function(resolve, reject) {
+         QuestionModel.find({_creator: self.getId()})
+         .exec(function(error, questions) {
+            if (error) {
+               reject(error);
+            } else {
+               self.questions = questions;
+               resolve();
+            }
+         })
+      }));
+
+      return Promise(function(resolve, reject) {
+         Q.all(populatePromises)
+         .then(function() {
+            resolve();
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });
    }
    
    // We don't need to return everything

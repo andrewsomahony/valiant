@@ -66,26 +66,28 @@ PictureModel, MediaService) {
             if ('main.page.user.default' === state) {
                 if (!params.userId) {
                     reject(ErrorService.localError("Missing user id!"));
-                } else {  
-                    if (currentUser &&
-                        currentUser.id === params.userId) {
-                        // If the requested user is us, no need
-                        // to hit the server again.
-                        currentRequestedUser = currentUser.clone();
-                        currentRequestedUserIsNotAccessible = false;
-                        currentRequestedUserIsNotFound = false;
-                    } else {                          
-                        promiseFnArray.push(function(existingData, index, forNotify) {
-                            if (true === forNotify) {
-                                return ProgressService(0, 1);
-                            } else {
-                                return Promise(function(resolve, reject, notify) {
+                } else {                          
+                    promiseFnArray.push(function(existingData, index, forNotify) {
+                        if (true === forNotify) {
+                            return ProgressService(0, 1);
+                        } else {
+                            return Promise(function(resolve, reject, notify) {
+                                // If we have a current user and it's the same as
+                                // the one requested, we just need to clone, not hit the server again.
+                                
+                                if (currentUser && currentUser.id === params.userId) {
+                                    currentRequestedUser = currentUser.clone();
+                                    currentRequestedUserIsNotAccessible = false;
+                                    currentRequestedUserIsNotFound = false;
+                                    resolve();                                        
+                                } else {
                                     HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
                                     .then(function(user) {
                                         currentRequestedUserIsNotAccessible = false;
                                         currentRequestedUserIsNotFound = false;
                                         
                                         currentRequestedUser = new UserModel(user.data, true);
+                                        console.log("CURRENT REQUETED USER", currentRequestedUser);
                                         resolve({});    
                                     })
                                     .catch(function(error) {
@@ -110,13 +112,11 @@ PictureModel, MediaService) {
                                         } else {
                                             reject(error);
                                         }
-                                    });                                  
-                                })
-                            
-                            }
-                        });  
-                    }     
-
+                                    });    
+                                }                              
+                            })
+                        }
+                    });  
                 }
             }
             

@@ -65,8 +65,8 @@ function(WorkoutModel, HttpService, ApiUrlService, Promise) {
          HttpService.post(ApiUrlService([
             {name: 'Workout'}, {name: 'New'}]),
          null, {workout: workoutModel.toObject(true)})
-         .then(function(newWorkout) {
-            resolve(new WorkoutModel(newWorkout, true));
+         .then(function(data) {
+            resolve(new WorkoutModel(data.data, true));
          })
          .catch(function(error) {
             reject(error);

@@ -24,7 +24,7 @@
          </file-reader>      
       </div>
    </div>
-   
+
    <div class="edit-container profile-name-container" ng-if="!isChangingPassword && !isChangingEmail">
       <span ng-if="!isEditingProfile" ng-bind="currentEditingUser.fullName()"></span>
       <div class="top-edit-control" ng-if="isEditingProfile">
@@ -109,6 +109,8 @@
          <a ng-click="activateChangePassword()">Change Password</a>
          &nbsp;|&nbsp;
          <a ng-click="activateChangeEmail()">Change E-Mail</a>
+         &nbsp;|&nbsp;
+         <a ng-click="activateChangePrivacy()">Privacy Settings</a>
       </span>
       
       <span ng-if="isEditingProfile && !isSaving">

@@ -93,6 +93,7 @@ function(id, promise) {
          
         mapValue: function(value, defaultValue, isServer) {
             isServer = utils.isUndefinedOrNull(isServer) ? false : isServer;
+
             var isUndefined = utils.isUndefinedOrNull(value);
 
             var Class = this.getClassyFieldClass(defaultValue);
@@ -113,7 +114,7 @@ function(id, promise) {
                         (utils.objectIsClassy(value, Class) ? value.clone() : new Class(value, isServer));
                 }
             } else {
-               return isUndefined ? defaultValue : value;
+               return utils.clone(isUndefined ? defaultValue : value);
             }         
          },
           
@@ -232,7 +233,7 @@ function(id, promise) {
          config = config || {};
          isFromServer = true === utils.isUndefinedOrNull(isFromServer) ? false : isFromServer;
 
-         var fields = this.$ownClass.fields()
+         var fields = this.$ownClass.fields();
 
          Object.keys(fields).forEach(function(key) {
             // We clone because the static properties can be empty arrays or objects,
@@ -242,8 +243,8 @@ function(id, promise) {
 
             if (true === this.$ownClass.isManualKey(key)) {
                this[key] = utils.clone(fields[key])
-            } else {    
-               this[key] = utils.clone(this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer)); 
+            } else {
+               this[key] = this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer); 
             }
 
          }, this);           

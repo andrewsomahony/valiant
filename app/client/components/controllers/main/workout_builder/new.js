@@ -22,6 +22,7 @@ ErrorModal, Promise) {
       return Promise(function(resolve, reject) {
          WorkoutBuilderService.createWorkout($scope.currentWorkout)
          .then(function(newWorkout) {
+            console.log(newWorkout);
             $scope.currentWorkout.setInternalVariable('is_unborn', false);
             resolve();
             // Redirect to the main workout view page

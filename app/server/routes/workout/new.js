@@ -28,8 +28,13 @@ router.route('/new')
             if (error) {
                Responder.badRequest(result, error);
             } else {
-               w._creator = null;
-               Responder.ok(result, w.frontEndObject());
+               w.populate({path: '_creator'}, function(error, populatedWorkout) {
+                  if (error) {
+                     Responder.badRequest(error);
+                  } else {
+                     Responder.ok(result, populatedWorkout.frontEndObject());
+                  }
+               });
             }
          });
       }

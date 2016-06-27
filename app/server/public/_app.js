@@ -987,6 +987,7 @@ ErrorModal, Promise) {
       return Promise(function(resolve, reject) {
          WorkoutBuilderService.createWorkout($scope.currentWorkout)
          .then(function(newWorkout) {
+            console.log(newWorkout);
             $scope.currentWorkout.setInternalVariable('is_unborn', false);
             resolve();
             // Redirect to the main workout view page
@@ -3578,6 +3579,7 @@ function(id, promise) {
          
         mapValue: function(value, defaultValue, isServer) {
             isServer = utils.isUndefinedOrNull(isServer) ? false : isServer;
+
             var isUndefined = utils.isUndefinedOrNull(value);
 
             var Class = this.getClassyFieldClass(defaultValue);
@@ -3598,7 +3600,7 @@ function(id, promise) {
                         (utils.objectIsClassy(value, Class) ? value.clone() : new Class(value, isServer));
                 }
             } else {
-               return isUndefined ? defaultValue : value;
+               return utils.clone(isUndefined ? defaultValue : value);
             }         
          },
           
@@ -3717,7 +3719,7 @@ function(id, promise) {
          config = config || {};
          isFromServer = true === utils.isUndefinedOrNull(isFromServer) ? false : isFromServer;
 
-         var fields = this.$ownClass.fields()
+         var fields = this.$ownClass.fields();
 
          Object.keys(fields).forEach(function(key) {
             // We clone because the static properties can be empty arrays or objects,
@@ -3727,8 +3729,8 @@ function(id, promise) {
 
             if (true === this.$ownClass.isManualKey(key)) {
                this[key] = utils.clone(fields[key])
-            } else {    
-               this[key] = utils.clone(this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer)); 
+            } else {
+               this[key] = this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer); 
             }
 
          }, this);           
@@ -4477,9 +4479,18 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
                pictures: [{__model__: PictureModel}],
                comments: [{__model__: CommentModel}],
                preview_pictures: [{__model__: PictureModel}],
-               youtube_video: {__model__: VideoModel}
+               youtube_video: {__model__: VideoModel},
+               creator: {__alias__: "models.user"}
             });
-         }
+         },
+         localFields: function() {
+            return this.staticMerge(this.callSuper(), ['creator']);
+         },
+         serverMappings: function() {
+            return this.staticMerge(this.callSuper(), {
+               "creator": "_creator"
+            });
+         }         
       },
       
       init: function(config, isFromServer) {
@@ -4604,11 +4615,12 @@ var classy = require('classy');
 var name = 'models.user';
 
 registerModel(name, [require('models/base'),
-                     require('models/question'),
                      require('models/notification'),
                      require('models/picture'),
-function(BaseModel, QuestionModel, NotificationModel,
-PictureModel) {
+                     require('models/question'),
+                     require('models/workout_builder/workout'),
+function(BaseModel, NotificationModel,
+PictureModel, QuestionModel, WorkoutModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -4627,7 +4639,9 @@ PictureModel) {
                is_visible_to_users: true,
                is_visible_to_public: true,
                pending_email: "",
-               pending_email_token: ""
+               pending_email_token: "",
+               workouts: [{__model__: WorkoutModel}],
+               questions: [{__model__: QuestionModel}]
             });
          }
       },
@@ -4651,7 +4665,7 @@ PictureModel) {
 }]);
 
 module.exports = name;
-},{"classy":208,"models/base":59,"models/notification":67,"models/picture":68,"models/question":70,"models/register":71}],74:[function(require,module,exports){
+},{"classy":208,"models/base":59,"models/notification":67,"models/picture":68,"models/question":70,"models/register":71,"models/workout_builder/workout":78}],74:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('./register');
@@ -4943,8 +4957,7 @@ var name = 'models.workout';
 
 registerModel(name, [require('models/base'),
                      require('models/workout_builder/set'),
-                     require('models/user'),
-function(BaseModel, SetModel, UserModel) {
+function(BaseModel, SetModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -4954,16 +4967,17 @@ function(BaseModel, SetModel, UserModel) {
             return this.staticMerge(this.callSuper(), {
                name: "",
                sets: [{__model__: SetModel}],
-               creator: {__model__: UserModel}
+               creator: {__alias__: "models.user"}
             })
          },
          localFields: function() {
-            return ['creator']
+            return this.staticMerge(this.callSuper(), 
+            ['creator']);
          },
          serverMappings: function() {
-            return {
+            return this.staticMerge(this.callSuper(), {
                "creator": "_creator"
-            }
+            });
          }
       },
 
@@ -4983,7 +4997,7 @@ function(BaseModel, SetModel, UserModel) {
 }]);
 
 module.exports = name;
-},{"classy":208,"models/base":59,"models/register":71,"models/user":73,"models/workout_builder/set":75}],79:[function(require,module,exports){
+},{"classy":208,"models/base":59,"models/register":71,"models/workout_builder/set":75}],79:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8573,26 +8587,28 @@ PictureModel, MediaService) {
             if ('main.page.user.default' === state) {
                 if (!params.userId) {
                     reject(ErrorService.localError("Missing user id!"));
-                } else {  
-                    if (currentUser &&
-                        currentUser.id === params.userId) {
-                        // If the requested user is us, no need
-                        // to hit the server again.
-                        currentRequestedUser = currentUser.clone();
-                        currentRequestedUserIsNotAccessible = false;
-                        currentRequestedUserIsNotFound = false;
-                    } else {                          
-                        promiseFnArray.push(function(existingData, index, forNotify) {
-                            if (true === forNotify) {
-                                return ProgressService(0, 1);
-                            } else {
-                                return Promise(function(resolve, reject, notify) {
+                } else {                          
+                    promiseFnArray.push(function(existingData, index, forNotify) {
+                        if (true === forNotify) {
+                            return ProgressService(0, 1);
+                        } else {
+                            return Promise(function(resolve, reject, notify) {
+                                // If we have a current user and it's the same as
+                                // the one requested, we just need to clone, not hit the server again.
+                                
+                                if (currentUser && currentUser.id === params.userId) {
+                                    currentRequestedUser = currentUser.clone();
+                                    currentRequestedUserIsNotAccessible = false;
+                                    currentRequestedUserIsNotFound = false;
+                                    resolve();                                        
+                                } else {
                                     HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
                                     .then(function(user) {
                                         currentRequestedUserIsNotAccessible = false;
                                         currentRequestedUserIsNotFound = false;
                                         
                                         currentRequestedUser = new UserModel(user.data, true);
+                                        console.log("CURRENT REQUETED USER", currentRequestedUser);
                                         resolve({});    
                                     })
                                     .catch(function(error) {
@@ -8617,13 +8633,11 @@ PictureModel, MediaService) {
                                         } else {
                                             reject(error);
                                         }
-                                    });                                  
-                                })
-                            
-                            }
-                        });  
-                    }     
-
+                                    });    
+                                }                              
+                            })
+                        }
+                    });  
                 }
             }
             
@@ -9264,8 +9278,8 @@ function(WorkoutModel, HttpService, ApiUrlService, Promise) {
          HttpService.post(ApiUrlService([
             {name: 'Workout'}, {name: 'New'}]),
          null, {workout: workoutModel.toObject(true)})
-         .then(function(newWorkout) {
-            resolve(new WorkoutModel(newWorkout, true));
+         .then(function(data) {
+            resolve(new WorkoutModel(data.data, true));
          })
          .catch(function(error) {
             reject(error);
@@ -84288,17 +84302,17 @@ $templateCache.put("directives/workout_builder/set_element_renderer.html","<div 
 $templateCache.put("directives/workout_builder/set_renderer.html","<div ng-if=\"!isEditing && !model.is_unborn\" class=\"display\">\n   <div class=\"options\">\n      <span font-awesome-icon-text class=\"bullet\" icon=\"fa-circle\">\n      </span>\n      <span class=\"notes\" ng-bind=\"getSetNotes()\"></span>\n      <span class=\"quantity\" ng-bind=\"getSetQuantity()\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n         <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n      </span>\n   </div>\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in model.elements\">\n         <set-element model=\"element\"\n            is-editable=\"false\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>  \n   </div> \n\n   <div class=\"total\" ng-if=\"showTotalWhenNotEditing\">\n      <span font-awesome-icon-text icon=\"fa-arrow-right\" text=\"{{model.getTotalDistance()}}\">\n      </span>\n   </div>\n\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"options\">\n      <div class=\"option\">\n         <input type=\"text\" class=\"quantity form-control\" placeholder=\"Rounds\" ng-model=\"editingSet.quantity\" />\n      </div>\n      <div class=\"option\">\n         <input type=\"text\" class=\"form-control notes\" placeholder=\"Notes\" ng-model=\"editingSet.notes\" />\n      </div>\n   </div>\n\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in editingSet.elements\">\n         <set-element\n            model=\"element\"\n            on-save-clicked=\"saveSetElement(element)\"\n            on-delete-clicked=\"deleteSetElement(element)\"\n            on-cancel-clicked=\"cancelSetElement(element)\"\n            is-editable=\"true\"\n            can-edit-inline=\"true\"\n            is-initially-editing=\"{{element.is_unborn}}\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>\n      <a ng-click=\"newSetElement()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Swim\"></span>\n         </span>\n      </a>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{editingSet.getTotalDistance()}}\">\n      </span>\n   </div>\n\n   <div class=\"bottom-options\">\n      <a class=\"left\"\n         ng-click=\"saveClicked()\" ng-bind=\"saveButtonText || \'Save Set\'\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\" ng-bind=\"cancelButtonText || \'Cancel\'\"></a>\n   </div>\n</div>");
 $templateCache.put("directives/workout_builder/speed_time_renderer.html","<div ng-if=\"!isEditing\" class=\"display\">\n   <span font-awesome-icon-text icon=\"{{isInterval ? \'fa-clock-o\' : \'fa-bed\'}}\">\n   </span>\n   <span class=\"display\" ng-bind=\"model.name\"></span>\n   <span class=\"display\" ng-bind=\"getTimeString()\"></span>\n\n   <span class=\"display\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n   </span>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">     \n   <div class=\"form\">\n      <span class=\"edit-icon\" font-awesome-icon-text icon=\"{{isInterval ? \'fa-clock-o\' : \'fa-bed\'}}\">\n      </span>\n\n      <input type=\"text\" class=\"form-control\" ng-model=\"editingModel.name\" placeholder=\"Speed\" />\n      \n      <select ng-model=\"editingModel.time.hour\"\n                  ng-options=\"time for time in hours\"\n                  class=\"form-control\">\n            <option value=\"\">--Hour--</option>\n      </select>\n\n      <select ng-model=\"editingModel.time.minute\"\n                  ng-options=\"time for time in minutes\"\n                  class=\"form-control\">\n            <option value=\"\">--Minute--</option>\n      </select>\n\n      <select ng-model=\"editingModel.time.second\"\n                  ng-options=\"time for time in seconds\"\n                  class=\"form-control\">\n            <option value=\"\">--Second--</option>\n      </select>\n   </div>\n   <div class=\"bottom-options\">\n      <a class=\"left\" ng-bind=\"saveButtonText || (isInterval ? \'Save Interval\' : \'Save Rest\')\" ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-bind=\"cancelButtonText || \'Cancel\'\" ng-click=\"cancelClicked()\"></a>\n   </div>\n</div>");
 $templateCache.put("directives/workout_builder/workout_renderer.html","<div ng-if=\"!isEditing\" class=\"display\">\n   <div class=\"options\">\n      <span class=\"name\" ng-bind=\"model.name\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n         <a class=\"right\" ng-click=\"deleteClicked()\">Delete</a>\n      </span>   \n   </div>\n\n   <div class=\"list sets\">\n      <div class=\"set-container\" \n           ng-repeat=\"set in model.sets\">\n         <set model=\"set\"\n              show-total-when-not-editing=\"true\"\n              is-editable=\"false\">\n         </set>   \n         <div class=\"running-total\" ng-if=\"$index < model.sets.length - 1\">\n            <span font-awesome-icon-text\n                  icon=\"fa-arrow-right\"\n                  text=\"{{getRunningTotal(model, $index)}}\">\n            </span>                      \n         </div>               \n      </div>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{model.getTotalDistance()}}\">\n      </span>                   \n   </div> \n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\">\n   <div class=\"options\">\n      <input class=\"form-control name\" placeholder=\"Name\" type=\"text\" ng-model=\"editingWorkout.name\" />\n   </div>\n   <div class=\"list sets\">\n      <div ng-repeat=\"set in editingWorkout.sets\">\n         <set model=\"set\"\n            on-save-clicked=\"saveSet(set)\"\n            on-cancel-clicked=\"cancelSet(set)\"\n            on-delete-clicked=\"deleteSet(set)\"\n            on-edit-clicked=\"editSet(set)\"\n            show-total-when-not-editing=\"true\"\n            is-initially-editing=\"{{set.is_unborn}}\"\n            can-edit-inline=\"{{canEditSetsInline}}\"\n            is-editable=\"true\">\n         </set>   \n         <div class=\"running-total\"\n              ng-if=\"$index < editingWorkout.sets.length - 1\">\n            <span font-awesome-icon-text\n                  icon=\"fa-arrow-right\"\n                  text=\"{{getRunningTotal(editingWorkout, $index)}}\">\n            </span>                      \n         </div>           \n      </div>\n      <a ng-click=\"newSet()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Set\"></span>\n         </span>\n      </a>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{editingWorkout.getTotalDistance()}}\">\n      </span>                   \n   </div>\n\n   <div class=\"bottom-options\">\n      <a class=\"left\" \n         ng-bind=\"saveButtonText\" \n         ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\">Cancel</a>\n   </div>\n\n</div>");
-$templateCache.put("modals/full/confirm_modal_full.html","<div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n      </div>\n      <div class=\"modal-body\" ng-bind=\"content\"></div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onNoClicked()\">No</button>\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onYesClicked()\">Yes</button>\n      </div>\n    </div>\n  </div>\n</div>\n");
-$templateCache.put("modals/full/youtube_url_modal_full.html","<div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n      </div>\n      <div class=\"modal-body\">\n         <input type=\"text\" \n               placeholder=\"Youtube URL\"\n               class=\"form-control\" \n               ng-model=\"url.url\" />         \n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onCancelClicked()\">Cancel</button>\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onOkClicked()\">Ok</button>\n      </div>\n    </div>\n  </div>\n</div>\n");
-$templateCache.put("modals/partials/confirm_modal.html","<span ng-bind=\"message\"></span>");
-$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
-$templateCache.put("modals/partials/youtube_url_modal.html","");
 $templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
 $templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
 $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n   <div class=\"logo-container\">\n      <a ui-sref=\"main.page.home.default\" class=\"cancel-underline\">\n          <img class=\"logo\" src=\"images/temp_logo.jpg\" />\n      </a>\n   </div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
 $templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n   <div class=\"nav-sub-container\">\n      <nav>\n         <a class=\"link about cancel-underline old-underline\" ui-sref=\"main.page.about.default\">About</a>\n         <a class=\"link blog cancel-underline old-underline\" ui-sref=\"main.page.blog.default\">Blog</a>\n         <a class=\"link question cancel-underline old-underline\" ui-sref=\"main.page.question.ask\">Coaching</a>\n         <a class=\"link contact cancel-underline old-underline\" ui-sref=\"main.page.contact.default\">Contact</a>\n      </nav>\n   </div>\n</div>");
 $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"login-button\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"profile-name-and-picture cancel-underline\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"login-button cancel-underline\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("partials/main/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\"\n   ng-bind=\"unauthorizedMessage\">\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
+$templateCache.put("modals/full/confirm_modal_full.html","<div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n      </div>\n      <div class=\"modal-body\" ng-bind=\"content\"></div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onNoClicked()\">No</button>\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onYesClicked()\">Yes</button>\n      </div>\n    </div>\n  </div>\n</div>\n");
+$templateCache.put("modals/full/youtube_url_modal_full.html","<div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n      </div>\n      <div class=\"modal-body\">\n         <input type=\"text\" \n               placeholder=\"Youtube URL\"\n               class=\"form-control\" \n               ng-model=\"url.url\" />         \n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onCancelClicked()\">Cancel</button>\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onOkClicked()\">Ok</button>\n      </div>\n    </div>\n  </div>\n</div>\n");
+$templateCache.put("modals/partials/confirm_modal.html","<span ng-bind=\"message\"></span>");
+$templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
+$templateCache.put("modals/partials/youtube_url_modal.html","");
 $templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
 $templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
 $templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
@@ -84318,7 +84332,7 @@ $templateCache.put("partials/main/register/content.html","<div class=\"registrat
 $templateCache.put("partials/main/register/register.html","<div class=\"register\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div loading-progress \n            type=\"spinner\"\n            class=\"resetting-in-progress\"\n            ng-if=\"resettingInProgress\"\n            message=\"Setting password...\">\n      </div>\n   </form>\n</div>");
 $templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"edit-container profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/*\"\n            process-exif=\"true\"\n            create=\"profilePicturePicker\"\n            on-created=\"onProfilePictureSelectCreated(elementId)\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n         <div>\n            <input type=\"text\"\n                  placeholder=\"First Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"text\"\n                  placeholder=\"Last Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword\">\n      <div ng-if=\"!isChangingEmail\">\n         <span class=\"email-text\"\n               ng-bind=\"currentEditingUser.email\"></span>\n      </div>\n\n      <div ng-if=\"currentEditingUser.pending_email\">\n         <span class=\"pending-email-text\">\n            <span ng-bind=\"currentEditingUser.pending_email\"></span>\n            <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n            <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n         </span>\n      </div>     \n      \n      <div ng-if=\"isChangingEmail\">\n         <div ng-class=\"getEmailEditControlClass()\">\n            <input type=\"email\"\n                  placeholder=\"New E-Mail\"\n                  class=\"form-control profile-email-input\"\n                  ng-model=\"emailChangeData.email\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n      <div class=\"top-edit-control\">\n         <div>\n            <input type=\"password\"\n                  placeholder=\"Old Password\"\n                  class=\"form-control profile-old-password-input\"\n                  ng-model=\"passwordChangeData.old_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"password\"\n                  placeholder=\"New Password\"\n                  class=\"form-control profile-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>       \n            <input type=\"password\"\n                  placeholder=\"Repeat New Password\"\n                  class=\"form-control profile-repeat-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password_repeat\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>         \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-options-container\">\n      <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n         <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n      </span>\n      \n      <div loading-progress \n            type=\"spinner\"\n            class=\"saving-message fade-in\"\n            ng-if=\"isSaving\"\n            message=\"{{getSavingUserMessage()}}\">\n      </div>\n      \n      <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n         <span ng-bind=\"postSavingMessage\"></span>\n      </div>\n      \n      <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n         <span ng-bind=\"errorMessage\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
+$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"edit-container profile-picture-container\">\n      <div class=\"profile-picture-display\">\n         <span class=\"hidden-xs\">\n            <profile-picture user=\"currentEditingUser\" width=\"300px\"></profile-picture>\n         </span>\n         <span class=\"hidden-lg hidden-md hidden-sm\">\n            <profile-picture user=\"currentEditingUser\" width=\"150px\"></profile-picture>\n         </span>\n      </div>\n      <br />\n      <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n         <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n         <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n         <file-reader\n            supports-multiple=\"false\"\n            accept=\"image/*\"\n            process-exif=\"true\"\n            create=\"profilePicturePicker\"\n            on-created=\"onProfilePictureSelectCreated(elementId)\"\n            on-files-added=\"onProfilePictureSelectSuccess(files)\"\n            on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n            on-files-error=\"onProfilePictureSelectError(error)\">\n         </file-reader>      \n      </div>\n   </div>\n\n   <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail\">\n      <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n      <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n         <div>\n            <input type=\"text\"\n                  placeholder=\"First Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.first_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"text\"\n                  placeholder=\"Last Name\"\n                  class=\"form-control profile-name-input\"\n                  ng-model=\"currentEditingUser.last_name\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword\">\n      <div ng-if=\"!isChangingEmail\">\n         <span class=\"email-text\"\n               ng-bind=\"currentEditingUser.email\"></span>\n      </div>\n\n      <div ng-if=\"currentEditingUser.pending_email\">\n         <span class=\"pending-email-text\">\n            <span ng-bind=\"currentEditingUser.pending_email\"></span>\n            <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n            <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n         </span>\n      </div>     \n      \n      <div ng-if=\"isChangingEmail\">\n         <div ng-class=\"getEmailEditControlClass()\">\n            <input type=\"email\"\n                  placeholder=\"New E-Mail\"\n                  class=\"form-control profile-email-input\"\n                  ng-model=\"emailChangeData.email\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n      <div class=\"top-edit-control\">\n         <div>\n            <input type=\"password\"\n                  placeholder=\"Old Password\"\n                  class=\"form-control profile-old-password-input\"\n                  ng-model=\"passwordChangeData.old_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>\n            <input type=\"password\"\n                  placeholder=\"New Password\"\n                  class=\"form-control profile-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>\n         <div>       \n            <input type=\"password\"\n                  placeholder=\"Repeat New Password\"\n                  class=\"form-control profile-repeat-new-password-input\"\n                  ng-model=\"passwordChangeData.new_password_repeat\"\n                  ng-model-options=\"{updateOn: \'blur\'}\"\n                  required />\n         </div>         \n      </div>\n   </div>\n   \n   <div class=\"edit-container profile-options-container\">\n      <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail\">\n         <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePassword()\">Change Password</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n         &nbsp;|&nbsp;\n         <a ng-click=\"activateChangePrivacy()\">Privacy Settings</a>\n      </span>\n      \n      <span ng-if=\"isEditingProfile && !isSaving\">\n         <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n         <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingPassword && !isSaving\">\n         <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n      </span>\n      \n      <span ng-if=\"isChangingEmail && !isSaving\">\n         <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n         <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n      </span>\n      \n      <div loading-progress \n            type=\"spinner\"\n            class=\"saving-message fade-in\"\n            ng-if=\"isSaving\"\n            message=\"{{getSavingUserMessage()}}\">\n      </div>\n      \n      <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n         <span ng-bind=\"postSavingMessage\"></span>\n      </div>\n      \n      <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n         <span ng-bind=\"errorMessage\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
 $templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/workout_builder/content.html","");
 $templateCache.put("partials/main/workout_builder/new.html","<div class=\"new-workout\">\n   <div ng-if=\"!currentWorkout\"\n        class=\"create-new-workout\">\n      <a ng-click=\"newWorkout()\">Create new workout</a>\n   </div>\n\n   <div ng-if=\"currentWorkout\"\n        class=\"workout-container\">\n      <workout model=\"currentWorkout\"\n               save-button-text=\"Create Workout\" \n               cancel-button-text=\"Cancel\"\n               on-save-clicked=\"workoutSave(workout)\"\n               on-delete-clicked=\"workoutDelete(workout)\"\n               on-cancel-clicked=\"workoutCancel(workout)\"\n               is-editable=\"true\"\n               is-initially-editing=\"true\"\n               can-edit-sets-inline=\"true\"\n               can-edit-inline=\"true\">\n      </workout>    \n   </div>\n\n   <div ng-if=\"currentWorkout\"\n        class=\"print\">\n      <workout model=\"currentWorkout\"\n               is-editable=\"false\">\n      </workout>\n   </div>\n</div>");

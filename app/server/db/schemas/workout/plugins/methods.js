@@ -7,9 +7,9 @@ module.exports = function(schema, options) {
          sets: this.sets
       }
 
-      //if (this._creator) {
-      //   object._creator = this._creator.frontEndObject();
-      //}
+      if (this.populated("_creator")) {
+         object._creator = this._creator.frontEndObject();
+      }
 
       return object;
    }

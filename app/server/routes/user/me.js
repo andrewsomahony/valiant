@@ -26,15 +26,14 @@ router.route('/me')
         
         Responder.forbidden(result, "Not logged in");
     } else {
-        var user = Request.getUser(request);
-        User.populate(user, [{path: 'questions'}, {path: 'workouts'}], function(error, populatedUser) {
-           if (error) {
-              Responder.badRequest(result, error);
-           } else {
-              Responder.ok(result, populatedUser.frontEndObject());
-           }
+        var currentUser = Request.getUser(request);
+        currentUser.populateRefs()
+        .then(function() {
+            Responder.ok(result, currentUser.frontEndObject());
         })
-        
+        .catch(function(error) {
+            Responder.badRequest(result, error);
+        });        
     }
 })
 .post(function(request, result) {

@@ -76,7 +76,14 @@ router.route('/:userId')
                 Responder.notFound(result);
             } else { 
                 if (true === Permissions.ableToSeeUser(request, user)) {
-                   Responder.ok(result, user.frontEndObject());    
+                   user.populateRefs()
+                   .then(function() {
+                      Responder.ok(result, user.frontEndObject());
+                   })
+                   .catch(function(error) {
+                      Responder.badRequest(result, error);
+                   })
+                       
                 } else {
                     Responder.forbidden(result);
                 }

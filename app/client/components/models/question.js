@@ -31,9 +31,18 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
                pictures: [{__model__: PictureModel}],
                comments: [{__model__: CommentModel}],
                preview_pictures: [{__model__: PictureModel}],
-               youtube_video: {__model__: VideoModel}
+               youtube_video: {__model__: VideoModel},
+               creator: {__alias__: "models.user"}
             });
-         }
+         },
+         localFields: function() {
+            return this.staticMerge(this.callSuper(), ['creator']);
+         },
+         serverMappings: function() {
+            return this.staticMerge(this.callSuper(), {
+               "creator": "_creator"
+            });
+         }         
       },
       
       init: function(config, isFromServer) {

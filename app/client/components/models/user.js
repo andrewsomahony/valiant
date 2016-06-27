@@ -7,11 +7,12 @@ var classy = require('classy');
 var name = 'models.user';
 
 registerModel(name, [require('models/base'),
-                     require('models/question'),
                      require('models/notification'),
                      require('models/picture'),
-function(BaseModel, QuestionModel, NotificationModel,
-PictureModel) {
+                     require('models/question'),
+                     require('models/workout_builder/workout'),
+function(BaseModel, NotificationModel,
+PictureModel, QuestionModel, WorkoutModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -30,7 +31,9 @@ PictureModel) {
                is_visible_to_users: true,
                is_visible_to_public: true,
                pending_email: "",
-               pending_email_token: ""
+               pending_email_token: "",
+               workouts: [{__model__: WorkoutModel}],
+               questions: [{__model__: QuestionModel}]
             });
          }
       },
