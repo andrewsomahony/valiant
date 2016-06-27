@@ -22,18 +22,18 @@ router.route('/new')
          Responder.badRequest(result, "Missing workout variable!");
       } else {
          var workout = new WorkoutModel(workoutParam);
-         workout._creator = Request.getUser(request);
+         workout._creator = Request.getUser(request).getId();
 
          workout.save(function(error, w) {
             if (error) {
                Responder.badRequest(result, error);
             } else {
-               w.populate({path: '_creator'}, function(error, populatedWorkout) {
-                  if (error) {
-                     Responder.badRequest(error);
-                  } else {
-                     Responder.ok(result, populatedWorkout.frontEndObject());
-                  }
+               w.populateCreator()
+               .then(function() {
+                  Responder.ok(result, w.frontEndObject());
+               })
+               .catch(function(error) {
+                  Responder.badRequest(result, error);
                });
             }
          });

@@ -67,25 +67,63 @@ router.use(require('./new'));
 
 router.route('/:workoutId')
 .get(function(request, result) {
-   WorkoutModel.findById(Request.getUrlParamVariable(request, 'workoutId'),
-   function(error, workout) {
-      if (error) {
-         Responder.badRequest(result, error);
-      } else {
-         if (!workout) {
-            Responder.notFound(result);
+   var workoutId = Request.getUrlParamVariable(request, 'workoutId');
+
+   if (!workoutId) {
+      Responder.badRequest(result, "Missing workout id!");
+   } else {
+      WorkoutModel.findById(workoutId)
+      .populate('_creator')
+      .exec(function(error, workout) {
+         if (error) {
+            Responder.badRequest(result, error);
          } else {
-            if (!Permissions.ableToSeeWorkout(request, workout)) {
-               Responder.forbidden(result);
+            if (!workout) {
+               Responder.notFound(result);
             } else {
-               Responder.ok(result, workout);
+               if (!Permissions.ableToSeeWorkout(request, workout)) {
+                  Responder.forbidden(result);
+               } else {
+                  Responder.ok(result, workout);
+               }
             }
          }
-      }
-   })
+      });
+   }
 })
 .patch(function(request, result) {
+   var workoutId = Request.getUrlParamVariable(request, 'workoutId');
+   var patchData = Request.getBodyVariable(request, 'data');
 
+   if (!workoutId) {
+      Responder.badRequest(result, "Missing workout id!");
+   } else if (!patchData) {
+      Responder.badRequest(result, "Missing patch data!");
+   } else {
+      WorkoutModel.findById(workoutId)
+      .populate('_creator')
+      .exec(function(error, workout) {
+         if (error) {
+            Responder.badRequest(result, error);
+         } else {
+            if (!workout) {
+               Responder.badRequest(result, "Can't find workout!");
+            } else {
+               if (false === Permissions.ableToEditWorkout(request, workout)) {
+                  Responder.forbidden(result);
+               } else {
+                  workout.patch(patchData, function(error) {
+                     if (error) {
+                        Responder.badRequest(result, error);
+                     } else {
+                        Responder.ok(result, workout.frontEndObject());
+                     }
+                  });
+               }
+            }
+         }
+      })
+   }
 })
 .post(function(request, result) {
    Responder.methodNotAllowed(result);

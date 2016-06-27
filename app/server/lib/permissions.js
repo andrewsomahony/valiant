@@ -8,6 +8,26 @@ function Permissions() {
    
 }
 
+Permissions.ableToSeeWorkout = function(request, workout) {
+   var creator = workout.getCreator();
+   if (!creator) {
+      console.log("Permissions.ableToSeeWorkout: Workout _creator variable not populated!");
+      return false;
+   } else {
+      return Permissions.ableToSeeUser(request, creator);
+   }
+}
+
+Permissions.ableToEditWorkout = function(request, workout) {
+   var creator = workout.getCreator();
+   if (!creator) {
+      console.log("Permissions.ableToEditWorkout: Workout _creator variable not populated!");
+      return false;
+   } else {
+      return Permissions.ableToEditUser(request, creator);
+   }
+}
+
 Permissions.ableToEditUser = function(request, user) {
    if (false === this.isLoggedIn(request)) {
        return false;
