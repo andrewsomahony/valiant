@@ -1,8 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose');
-
 var Schema = mongoose.Schema;
+
+var patchPlugin = require('mongoose-json-patch');
+var questionMethods = require('./plugins/methods');
 
 var VideoSchema = require(__base + 'db/schemas/video/video');
 var PictureSchema = require(__base + 'db/schemas/picture/picture');
@@ -49,5 +51,8 @@ var QuestionSchema = new Schema({
         updatedAt: 'updated_at'
     }
 });
+
+QuestionSchema.plugin(patchPlugin);
+QuestionSchema.plugin(questionMethods);
 
 module.exports = QuestionSchema;

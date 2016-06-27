@@ -48,6 +48,7 @@ PictureModel, MediaService) {
                             HttpService.get(ApiUrlService([{name: 'User'}, {name: 'Me'}]))
                             .then(function(user) {
                                 currentUser = new UserModel(user.data, true);
+                                console.log("CURRENT USER", currentUser);
                                 resolve({});
                             })
                             .catch(function(error) {
@@ -74,7 +75,7 @@ PictureModel, MediaService) {
                             return Promise(function(resolve, reject, notify) {
                                 // If we have a current user and it's the same as
                                 // the one requested, we just need to clone, not hit the server again.
-                                
+
                                 if (currentUser && currentUser.id === params.userId) {
                                     currentRequestedUser = currentUser.clone();
                                     currentRequestedUserIsNotAccessible = false;

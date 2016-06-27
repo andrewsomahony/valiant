@@ -1,9 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var WorkoutMethods = require('./plugins/methods');
-
 var Schema = mongoose.Schema;
+
+var workoutMethods = require('./plugins/methods');
+var patchPlugin = require('mongoose-json-patch');
 
 var SetSchema = require(__base + 'db/schemas/set/set');
 
@@ -22,6 +23,7 @@ var WorkoutSchema = new Schema({
    }
 });
 
-WorkoutSchema.plugin(WorkoutMethods);
+WorkoutSchema.plugin(workoutMethods);
+WorkoutSchema.plugin(patchPlugin);
 
 module.exports = WorkoutSchema;

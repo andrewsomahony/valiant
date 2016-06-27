@@ -92,14 +92,18 @@ module.exports = function(schema, options) {
             object['pending_email_token'] = this.pending_email_token;
          }
 
-         object.workouts = this.workouts.map(function(workout) {
-            return workout.frontEndObject();
-         });
+         if (this.workouts) {
+            object.workouts = this.workouts.map(function(workout) {
+               return workout.frontEndObject();
+            });
+         }
 
-         object.questions = this.questions.map(function(question) {
-            // !!! TODO Give this a frontEndObject method
-            return question;
-         })
+         if (this.questions) {
+            object.questions = this.questions.map(function(question) {
+               // !!! TODO Give this a frontEndObject method
+               return question.frontEndObject();
+            });
+         }
          
          return object;
       }
