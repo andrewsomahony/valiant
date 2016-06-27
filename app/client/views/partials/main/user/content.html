@@ -25,7 +25,7 @@
       </div>
    </div>
 
-   <div class="edit-container profile-name-container" ng-if="!isChangingPassword && !isChangingEmail">
+   <div class="edit-container profile-name-container" ng-if="!isChangingPassword && !isChangingEmail && !isChangingPrivacySettings">
       <span ng-if="!isEditingProfile" ng-bind="currentEditingUser.fullName()"></span>
       <div class="top-edit-control" ng-if="isEditingProfile">
          <div>
@@ -47,7 +47,7 @@
       </div>
    </div>
    
-   <div class="edit-container profile-email-address-container" ng-if="!isEditingProfile && !isChangingPassword">
+   <div class="edit-container profile-email-address-container" ng-if="!isEditingProfile && !isChangingPassword && !isChangingPrivacySettings">
       <div ng-if="!isChangingEmail">
          <span class="email-text"
                ng-bind="currentEditingUser.email"></span>
@@ -101,16 +101,32 @@
          </div>         
       </div>
    </div>
+
+   <div class="edit-container profile-privacy-container" ng-if="isChangingPrivacySettings">
+      <div class="form-group">
+         <div class="fa-checkbox">
+            <input type="checkbox" class="fa-square-checkbox" ng-model="currentEditingUser.is_visible_to_public" />
+            <label>Visible to the public?</label>
+         </div>
+      </div>
+
+      <div class="form-group">
+         <div class="fa-checkbox">
+            <input type="checkbox" class="fa-square-checkbox" ng-model="currentEditingUser.is_visible_to_users" />
+            <label>Visible to other users?</label>
+         </div>
+      </div>            
+   </div>
    
    <div class="edit-container profile-options-container">
-      <span ng-if="canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail">
+      <span ng-if="canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail && !isChangingPrivacySettings">
          <a ng-click="activateEditingProfile()">Edit Profile</a>
          &nbsp;|&nbsp;
          <a ng-click="activateChangePassword()">Change Password</a>
          &nbsp;|&nbsp;
          <a ng-click="activateChangeEmail()">Change E-Mail</a>
          &nbsp;|&nbsp;
-         <a ng-click="activateChangePrivacy()">Privacy Settings</a>
+         <a ng-click="activateChangePrivacySettings()">Privacy Settings</a>
       </span>
       
       <span ng-if="isEditingProfile && !isSaving">
@@ -126,6 +142,11 @@
       <span ng-if="isChangingEmail && !isSaving">
          <a class="save-cancel-left save-email" ng-click="changeEmail()">Change</a>
          <a class="save-cancel-right cancel-change-email" ng-click="cancelChangeEmail()">Back</a>
+      </span>
+
+      <span ng-if="isChangingPrivacySettings && !isSaving">
+         <a class="left save-privacy-settings" ng-click="changePrivacySettings()">Change</a>
+         <a class="right cancel-privacy-settings" ng-click="cancelChangePrivacySettings()">Back</a>
       </span>
       
       <div loading-progress 

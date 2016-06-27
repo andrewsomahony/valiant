@@ -9648,7 +9648,9 @@ html, body {
   min-height: 100%;
   overflow: hidden;
   position: relative; }
-  html input, body input {
+  html input[type="text"], html input[type="password"],
+  html input[type="email"], body input[type="text"], body input[type="password"],
+  body input[type="email"] {
     font-size: 1.0em !important;
     height: 2.3em !important; }
   html input[type="text"], html input[type="password"],
@@ -9903,9 +9905,8 @@ div.main {
 }*/ }
         div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.status-message {
           margin-bottom: 16px; }
-        div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.login-links a {
-          margin-bottom: 4px;
-          display: block; }
+        div.main div.mobile-scroll div.main-content div.content div.login div.sub-content div.login-links p {
+          margin-bottom: 6px; }
       div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;
@@ -9924,13 +9925,15 @@ div.main {
         @media screen and (max-width: 760px) {
           div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.sign-up {
             margin-top: 20px; } }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.edit-container div.top-edit-control {
-        margin-top: 12px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.edit-container input.form-control {
-        display: inline-block;
-        width: 150px;
-        font-size: 14px;
-        height: 30px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.edit-container {
+        text-align: center; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.edit-container div.top-edit-control {
+          margin-top: 12px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.edit-container input.form-control {
+          display: inline-block;
+          width: 150px;
+          font-size: 14px;
+          height: 30px; }
       div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-display {
@@ -9983,6 +9986,10 @@ div.main {
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-password-container input.form-control {
           width: 270px;
           margin-bottom: 8px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-privacy-container {
+        margin-top: 8px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-privacy-container div.form-group {
+          margin-bottom: 6px; }
       div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container a {

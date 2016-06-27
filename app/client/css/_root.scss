@@ -5,7 +5,8 @@ html, body {
     overflow: hidden;
     position: relative;
     
-    input {
+    input[type="text"], input[type="password"],
+    input[type="email"] {
        font-size: 1.0em !important;
        height: 2.3em !important;
     }

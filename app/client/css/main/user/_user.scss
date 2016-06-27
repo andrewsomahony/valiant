@@ -12,6 +12,7 @@ div.user {
             font-size: 14px;
             height: 30px;
          }
+         text-align: center;
       }
       
       div.profile-picture-container {
@@ -101,6 +102,13 @@ div.user {
          input.form-control {
             width: 270px;
             margin-bottom: 8px;
+         }
+      }
+
+      div.profile-privacy-container {
+         margin-top: 8px;
+         div.form-group {
+            margin-bottom: 6px;
          }
       }
       

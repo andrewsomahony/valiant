@@ -11,9 +11,10 @@ registerController(name, ['$scope',
                           require('services/profile_picture_service'),
                           require('services/picture_service'),
                           require('services/file_reader_activator_service'),
+                          require('services/promise'),
 function($scope, UserService, UserModel, StateService,
 ProfilePictureService, PictureService,
-FileReaderActivatorService) {
+FileReaderActivatorService, Promise) {
    // Clone what we get from the UserService
    // to allow for editing and such
    
@@ -32,6 +33,7 @@ FileReaderActivatorService) {
    $scope.isEditingProfile = false;
    $scope.isChangingPassword = false;
    $scope.isChangingEmail = false;
+   $scope.isChangingPrivacySettings = false;
    
    $scope.isSaving = false;
    $scope.savingMessage = "";
@@ -103,26 +105,38 @@ FileReaderActivatorService) {
          return "top-edit-control";
       }
    }
+
+   // Multiple things might want to use
+   // the saveUser method of the UserService,
+   // as it's just a patch
    
-   $scope.saveProfile = function() {
-      $scope.setIsSaving(true);
-      $scope.setPostSavingMessage(null);
-      
-      UserService.saveUser($scope.currentEditingUser,
-                  $scope.previousEditingUser)
-      .then(function(newUser) {
-         $scope.finishEditing(newUser);
-         $scope.isEditingProfile = false;
-         $scope.error(null);
-      }, null, function(progress) {
-         $scope.savingProgress = progress;
+   $scope.saveUser = function() {
+      return Promise(function(resolve, reject, notify) {
+         UserService.saveUser($scope.currentEditingUser,
+            $scope.previousEditingUser)
+         .then(function(newUser) {
+            $scope.finishEditing(newUser);
+            $scope.error(null);
+
+            resolve(newUser);
+         })
+         .catch(function(error) {
+            $scope.error(error);
+         })
       })
-      .catch(function(e) {
-         $scope.error(e);
+   }
+
+   $scope.saveProfile = function() {
+      $scope.setIsSaving(true, "Saving...");
+      $scope.setPostSavingMessage(null);
+
+      $scope.saveUser()
+      .then(function() {
+         $scope.isEditingProfile = false;
       })
       .finally(function() {
          $scope.setIsSaving(false);
-      })
+      });
    }
    
    $scope.changePassword = function() {
@@ -166,6 +180,7 @@ FileReaderActivatorService) {
    
    $scope.resendPendingEmailVerificationEmail = function() {
       $scope.setIsSaving(true, "Resending...");
+      $scope.setPostSavingMessage(null);
       
       UserService.resendPendingEmailVerificationEmail($scope.currentEditingUser)
       .then(function(newUser) {
@@ -182,7 +197,8 @@ FileReaderActivatorService) {
    
    $scope.cancelPendingEmailVerification = function() {
       $scope.setIsSaving(true, "Cancelling...");
-      
+      $scope.setPostSavingMessage(null);
+
       UserService.cancelPendingEmailVerification($scope.currentEditingUser)
       .then(function(newUser) {
          $scope.currentEditingUser = newUser;
@@ -194,10 +210,22 @@ FileReaderActivatorService) {
          $scope.setIsSaving(false);
       });
    }
+
+   $scope.changePrivacySettings = function() {
+      $scope.setIsSaving(true, "Changing Privacy Settings...");
+      $scope.setPostSavingMessage(null);
+
+      $scope.saveUser()
+      .then(function() {
+         $scope.isChangingPrivacySettings = false;
+      })
+      .finally(function() {
+         $scope.setIsSaving(false);
+      })
+   }
      
    $scope.changeProfilePicture = function() {
       FileReaderActivatorService.activateFileReader($scope.profilePicturePicker);
-      //$scope.profilePicturePickerIsActive.active = true;
    }
    
    $scope.resetProfilePicture = function() {
@@ -262,6 +290,16 @@ FileReaderActivatorService) {
       $scope.clearEmailFields();
       
       $scope.activateEditing();
+   }
+
+   $scope.activateChangePrivacySettings = function() {
+      $scope.isChangingPrivacySettings = true;
+      $scope.activateEditing();
+   }
+
+   $scope.cancelChangePrivacySettings = function() {
+      $scope.isChangingPrivacySettings = false;
+      $scope.cancelEditing();
    }
    
    $scope.cancelEditing = function() {
