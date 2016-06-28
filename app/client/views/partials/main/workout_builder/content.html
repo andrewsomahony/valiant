@@ -1,7 +1,7 @@
 <div ng-if="currentEditingWorkout">
    <div class="workout-information">
       <div class="creator">
-         <span class="workout-created-by">Creator: </span>
+         <span class="workout-created-by">Created by </span>
          <a class="cancel-underline" 
             ui-sref="main.page.user.default({userId: currentEditingWorkout.creator.id})">
             <profile-picture user="currentEditingWorkout.creator" width="18px"></profile-picture>
@@ -11,15 +11,23 @@
             class="workout-created-by-name">
          </a>
       </div>
-      <div class="created-on">
-         Created: 
-         <span ng-bind="getWorkoutCreationDateString()">
-         </span>
-      </div>
-      <div class="updated-on">
-         Last Updated: 
-         <span ng-bind="getWorkoutUpdatedDateString()">
-         </span>         
+      <div class="workout-dates">
+         <div class="created-on" ng-if="getWorkoutCreationDateString()">
+            <span class="date-label">
+               on
+            </span>
+            <span class="date-text"
+                  ng-bind="getWorkoutCreationDateString()">
+            </span>
+         </div>
+         <div class="updated-on" ng-if="getWorkoutUpdatedDateString()">
+            <span class="date-label">
+               Modified:
+            </span>
+            <span class="date-text"
+                  ng-bind="getWorkoutUpdatedDateString()">
+            </span>         
+         </div>
       </div>
    </div>
 

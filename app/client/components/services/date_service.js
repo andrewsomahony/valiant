@@ -17,7 +17,11 @@ function() {
    }
 
    DateService.toFormattedString = function(date, formatString) {
-      return date.format(formatString);
+      if (!date.isValid()) {
+         return "";
+      } else {
+         return date.format(formatString);
+      }
    }
 
    DateService.toDefaultFormattedString = function(date) {

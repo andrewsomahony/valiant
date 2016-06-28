@@ -9722,6 +9722,8 @@ html, body {
       float: none !important;
       font-size: 15px !important;
       margin-top: 15px !important; }
+      html .workout-builder .workout-information, body .workout-builder .workout-information {
+        display: none !important; }
       html .workout-builder .workout-container, body .workout-builder .workout-container {
         display: none !important; }
       html .workout-builder .create-new-workout, body .workout-builder .create-new-workout {
@@ -10081,15 +10083,27 @@ div.main {
         @media screen and (min-width: 760px) {
           div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information {
             width: 100%; } }
-        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.creator span.workout-created-by {
-          margin-right: 0.4em;
-          vertical-align: middle; }
-        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.creator a.workout-created-by-name {
-          vertical-align: middle;
-          margin-left: 0.2em; }
-        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.created-on,
-        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.updated-on {
-          font-size: 0.8em; }
+        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.creator {
+          margin-bottom: 0.3em; }
+          div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.creator span.workout-created-by {
+            margin-right: 0.4em;
+            vertical-align: middle; }
+          div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.creator a.workout-created-by-name {
+            vertical-align: middle;
+            margin-left: 0.2em; }
+        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.workout-dates {
+          display: table; }
+          div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.workout-dates div.created-on,
+          div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.workout-dates div.updated-on {
+            font-size: 0.8em;
+            display: table-row; }
+            div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.workout-dates div.created-on span.date-label,
+            div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.workout-dates div.updated-on span.date-label {
+              display: table-cell;
+              padding-right: 0.4em; }
+            div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.workout-dates div.created-on span.date-text,
+            div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.workout-dates div.updated-on span.date-text {
+              display: table-cell; }
       div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-container {
         font-size: 1.5em;
         text-align: left; }

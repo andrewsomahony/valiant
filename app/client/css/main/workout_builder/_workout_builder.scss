@@ -33,9 +33,22 @@ div.workout-builder {
             margin-bottom: 0.3em;
          }
 
-         div.created-on,
-         div.updated-on {
-            font-size: 0.8em;
+         div.workout-dates {
+            display: table;
+
+            div.created-on,
+            div.updated-on {
+               font-size: 0.8em;
+               display: table-row;
+
+               span.date-label {
+                  display: table-cell;
+                  padding-right: 0.4em;
+               }
+               span.date-text {
+                  display: table-cell;
+               }
+            }
          }
 
          display: inline-block;

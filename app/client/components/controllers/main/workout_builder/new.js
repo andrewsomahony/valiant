@@ -9,8 +9,9 @@ require('models/workout_builder/workout'),
 require('services/workout_builder_service'),
 require('services/error_modal'),
 require('services/promise'),
+require('services/state_service'),
 function($scope, WorkoutModel, WorkoutBuilderService,
-ErrorModal, Promise) {
+ErrorModal, Promise, StateService) {
    $scope.currentWorkout = null;
 
    $scope.newWorkout = function() {
@@ -22,10 +23,8 @@ ErrorModal, Promise) {
       return Promise(function(resolve, reject) {
          WorkoutBuilderService.createWorkout($scope.currentWorkout)
          .then(function(newWorkout) {
-            console.log(newWorkout);
-            $scope.currentWorkout.setInternalVariable('is_unborn', false);
             resolve();
-            // Redirect to the main workout view page
+            StateService.go("main.workout_builder", {workoutId: newWorkout.id});
          })
          .catch(function(error) {
             ErrorModal(error);
