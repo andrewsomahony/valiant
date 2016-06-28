@@ -91,7 +91,7 @@ html, body {
     // Everything has to be marked as !important
     // here as it's print media, and seems to be
     // overridden otherwise.
-    
+
     html, body {
         overflow: visible !important;
         width: 100% !important;
@@ -118,7 +118,7 @@ html, body {
         .workout-builder {
             float: none !important;
 
-            font-size: 15px !important;
+            font-size: 12pt !important;
             margin-top: 15px !important;
 
             .workout-information {

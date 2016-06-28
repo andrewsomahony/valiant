@@ -9720,7 +9720,7 @@ html, body {
       float: none !important; }
     html .workout-builder, body .workout-builder {
       float: none !important;
-      font-size: 15px !important;
+      font-size: 12pt !important;
       margin-top: 15px !important; }
       html .workout-builder .workout-information, body .workout-builder .workout-information {
         display: none !important; }
