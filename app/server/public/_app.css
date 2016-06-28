@@ -10057,8 +10057,6 @@ div.main {
           @media screen and (max-width: 760px) {
             div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-question textarea {
               width: 300px; } }
-        div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-media div.ask-media-header {
-          margin-bottom: 0px; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-media div.media-picker-container-row {
           margin-bottom: 12px; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-media div.media-picker-container {
