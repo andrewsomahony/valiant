@@ -11,21 +11,31 @@ registerService('factory',
                 [require('services/modal'),
                  require('models/error'),
                  require('services/scope_service'),
-function(modalService, ErrorModel, ScopeService) {
+                 require('services/promise'),
+function(modalService, ErrorModel, ScopeService, Promise) {
    function errorModalService(error) {
-      var $modalScope = ScopeService.newRootScope();
+      return Promise(function(resolve, reject) {
+         var $modalScope = ScopeService.newRootScope();
 
-      if (true === utils.objectIsTypeOfClass(error, ErrorModel)) {
-          $modalScope.errorMessage = error.toString();
-      } else {
-          $modalScope.errorMessage = error;
-      }
+         if (true === utils.objectIsTypeOfClass(error, ErrorModel)) {
+            $modalScope.errorMessage = error.toString();
+         } else {
+            $modalScope.errorMessage = error;
+         }
 
-      modalService($modalScope, null, 'modals/partials/error_modal.html', {
-         keyboard: false,
-         backdrop: 'static',
-         title: "Error"
+         $modalScope.okClicked = function() {
+            resolve();
+            this.$hide();
+         }
+
+         modalService($modalScope, 'modals/full/error_modal_full.html', 
+         'modals/partials/error_modal.html', {
+            keyboard: false,
+            backdrop: 'static',
+            title: "Error"
+         });
       });
+
    }
 
    return errorModalService;

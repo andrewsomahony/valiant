@@ -25,3 +25,5 @@ require('./workout_builder/set_element_renderer');
 
 require('./font_awesome_centered_icon');
 require('./font_awesome_icon_text');
+
+require('./confirm_click');

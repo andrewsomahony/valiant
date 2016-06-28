@@ -1,6 +1,14 @@
 <span class="about-text">This is about my love for my Beautiful <span ng-bind="name"></span>.</span>
 
-<button ng-click="onTestRequestClick()">Test HTTP</button>
+<button confirm-click="onTestRequestClick()" 
+        confirm-message="Test HTTP?">
+   Test HTTP
+</button>
+
+<button confirm-click="england()"
+        confirm-message="Did England win?">
+   Talk about England
+</button>
 
 <div loading-progress 
    type="pie" 

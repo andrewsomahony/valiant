@@ -19,7 +19,6 @@ function(ModalService, ScopeService, Promise) {
          }         
          
          $scope.onOkClicked = function() {
-            console.log($scope);
             resolve($scope.url);
             this.$hide();
          }

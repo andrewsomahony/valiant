@@ -7,7 +7,9 @@
 
       <span ng-if="isEditable">
          <a class="left" ng-click="editClicked()">Edit</a>
-         <a class="right" ng-click="deleteClicked()">Delete</a>
+         <a class="right" 
+            confirm-click="deleteClicked()"
+            confirm-message="Delete Set?">Delete</a>
       </span>
    </div>
    <div class="list elements">

@@ -15,21 +15,17 @@ registerController(name, ['$scope',
 function($scope, ErrorService, Progress, HttpResponseModel, 
 ErrorModal, HttpService, ConfirmModal) {
     $scope.onTestRequestClick = function() {
-        ConfirmModal("Confirm?")
-        .then(function(yes) {
-            if (yes) {
         HttpService.get('/api/users')
         .then(function(response) {
             console.log(response.data);
         })
         .catch(function(error) {
             ErrorModal(error);
-        });                
-            } else {
-                
-            }
-        })
+        });
+    }
 
+    $scope.england = function() {
+        ErrorModal("No they didn't");
     }
     
     $scope.testProgressModel = Progress(0, 100);
@@ -39,8 +35,7 @@ ErrorModal, HttpService, ConfirmModal) {
             $scope.testProgressModel.current += 1;
         });
         
-        
-        if ($scope.testProgressModel.current === 100) {
+        if (100 === $scope.testProgressModel.current) {
            clearInterval(interval);
            
            $scope.$apply(function() {
