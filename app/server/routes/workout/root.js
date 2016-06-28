@@ -84,7 +84,7 @@ router.route('/:workoutId')
                if (!Permissions.ableToSeeWorkout(request, workout)) {
                   Responder.forbidden(result);
                } else {
-                  Responder.ok(result, workout);
+                  Responder.ok(result, workout.frontEndObject());
                }
             }
          }

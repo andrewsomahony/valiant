@@ -10069,6 +10069,27 @@ div.main {
         margin-right: 0.2em; }
       div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content a.right {
         margin-left: 0.2em; }
+      div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information {
+        display: inline-block;
+        font-size: 1.1em;
+        padding-bottom: 1em;
+        margin-bottom: 1em;
+        border-bottom: 1px solid black; }
+        @media screen and (max-width: 760px) {
+          div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information {
+            width: 50%; } }
+        @media screen and (min-width: 760px) {
+          div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information {
+            width: 100%; } }
+        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.creator span.workout-created-by {
+          margin-right: 0.4em;
+          vertical-align: middle; }
+        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.creator a.workout-created-by-name {
+          vertical-align: middle;
+          margin-left: 0.2em; }
+        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.created-on,
+        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.updated-on {
+          font-size: 0.8em; }
       div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-container {
         font-size: 1.5em;
         text-align: left; }

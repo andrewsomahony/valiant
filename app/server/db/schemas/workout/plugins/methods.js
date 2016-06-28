@@ -42,7 +42,9 @@ module.exports = function(schema, options) {
       var object = {
          name: this.name,
          sets: this.sets,
-         _id: this.id
+         _id: this.id,
+         created_at: this.created_at,
+         updated_at: this.updated_at,         
       }
 
       if (this.populated("_creator")) {

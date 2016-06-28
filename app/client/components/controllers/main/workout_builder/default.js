@@ -7,7 +7,10 @@ var name = 'controllers.main.workout_builder.default';
 registerController(name, ['$scope',
                           require('services/workout_builder_service'),
                           require('services/promise'),
-function($scope, WorkoutBuilderService, Promise) {
+                          require('services/user_service'),
+                          require('services/date_service'),
+function($scope, WorkoutBuilderService, Promise, UserService,
+DateService) {
 
    $scope.currentEditingWorkout = WorkoutBuilderService.getCurrentWorkout() ?
    WorkoutBuilderService.getCurrentWorkout().clone() : null;
@@ -17,6 +20,23 @@ function($scope, WorkoutBuilderService, Promise) {
    $scope.errorMessage = "";
 
    $scope.postSavingMessage = "";
+
+   $scope.canEditWorkout = function() {
+      if ($scope.currentEditingWorkout.creator.id === 
+            UserService.getCurrentUserId()) {
+         return true;
+      } else {
+         return false;
+      }
+   }
+
+   $scope.getWorkoutCreationDateString = function() {
+      return DateService.dateStringToFormattedString($scope.currentEditingWorkout.created_at);
+   }
+
+   $scope.getWorkoutUpdatedDateString = function() {
+      return DateService.dateStringToFormattedString($scope.currentEditingWorkout.updated_at);
+   }
 
    $scope.setIsSaving = function(isSaving, message) {
       $scope.isSaving = isSaving;

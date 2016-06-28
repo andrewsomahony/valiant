@@ -1,4 +1,28 @@
 <div ng-if="currentEditingWorkout">
+   <div class="workout-information">
+      <div class="creator">
+         <span class="workout-created-by">Creator: </span>
+         <a class="cancel-underline" 
+            ui-sref="main.page.user.default({userId: currentEditingWorkout.creator.id})">
+            <profile-picture user="currentEditingWorkout.creator" width="18px"></profile-picture>
+         </a>
+         <a ui-sref="main.page.user.default({userId: currentEditingWorkout.creator.id})"
+            ng-bind="currentEditingWorkout.creator.fullName()"
+            class="workout-created-by-name">
+         </a>
+      </div>
+      <div class="created-on">
+         Created: 
+         <span ng-bind="getWorkoutCreationDateString()">
+         </span>
+      </div>
+      <div class="updated-on">
+         Last Updated: 
+         <span ng-bind="getWorkoutUpdatedDateString()">
+         </span>         
+      </div>
+   </div>
+
    <div class="workout-container">
       <workout model="currentEditingWorkout"
                save-button-text="Save Workout" 
@@ -6,7 +30,7 @@
                on-save-clicked="workoutSave(workout)"
                on-delete-clicked="workoutDelete(workout)"
                on-cancel-clicked="workoutCancel(workout)"
-               is-editable="true"
+               is-editable="{{canEditWorkout()}}"
                is-initially-editing="false"
                can-edit-sets-inline="true"
                can-edit-inline="true">

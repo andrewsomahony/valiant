@@ -8,7 +8,7 @@ module.exports = function(schema, options) {
 
       if (this.populated('_creator')) {
          object._creator = this._creator.frontEndObject();
-      }
+      }      
 
       return object;
    }
