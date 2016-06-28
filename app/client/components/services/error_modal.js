@@ -25,7 +25,7 @@ function(modalService, ErrorModel, ScopeService) {
          keyboard: false,
          backdrop: 'static',
          title: "Error"
-      })
+      });
    }
 
    return errorModalService;
