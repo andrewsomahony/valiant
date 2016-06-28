@@ -9661,6 +9661,9 @@ html, body {
   html input.file-reader-picker, body input.file-reader-picker {
     position: absolute;
     left: -7000px; }
+  html div.error, body div.error {
+    font-weight: bold;
+    color: red; }
   html a, body a {
     display: inline-block;
     position: relative; }

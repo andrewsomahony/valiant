@@ -11,10 +11,7 @@ var name = 'services.id'
 registerService('factory', name, [
 function() {
    function IdService(length) {
-      return uuid.v1({
-         msecs: new Date().getTime(),
-         nsecs: 5678
-      });
+      return uuid.v1();
    }
 
    return IdService;

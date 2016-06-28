@@ -41,7 +41,8 @@ module.exports = function(schema, options) {
    schema.methods.frontEndObject = function() {
       var object = {
          name: this.name,
-         sets: this.sets
+         sets: this.sets,
+         _id: this.id
       }
 
       if (this.populated("_creator")) {

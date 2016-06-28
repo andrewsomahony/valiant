@@ -10,9 +10,10 @@ registerService('factory', name, [
     require('services/parallel_promise'),
     require('services/serial_promise'),
     require('services/user_service'),
+    require('services/workout_builder_service'),
     require('services/progress'),
     
-    function(ParallelPromise, SerialPromise, UserService, FacebookService, ProgressService) {
+    function(ParallelPromise, SerialPromise, UserService, WorkoutBuilderService, ProgressService) {
         function DataResolverService(state, params) {
             var promiseFnArray = [];
 
@@ -24,6 +25,7 @@ registerService('factory', name, [
             }
             
             AddServiceResolverFunction(UserService);
+            AddServiceResolverFunction(WorkoutBuilderService);
             
             return ParallelPromise(promiseFnArray.map(function(fn, index) {
                 return function(existingData, index, forNotify) {

@@ -88,6 +88,7 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
          }
 
          $scope.deleteSet = function(set) {
+            console.log(set);
             $scope.editingWorkout.deleteFromChildArray('sets', set);
             if (false === $scope.canEditSetsInline) {
                $scope.onDeleteSet({set: set});

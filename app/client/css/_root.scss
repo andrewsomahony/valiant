@@ -5,6 +5,10 @@ html, body {
     overflow: hidden;
     position: relative;
     
+    // Bootstrap wants to override these
+    // two properties of inputs, so we have
+    // to mark them with !important.
+
     input[type="text"], input[type="password"],
     input[type="email"] {
        font-size: 1.0em !important;
@@ -20,6 +24,11 @@ html, body {
     input.file-reader-picker {
         position: absolute;
         left: -7000px;
+    }
+
+    div.error {
+       font-weight: bold;
+       color: red;
     }
 
     a {

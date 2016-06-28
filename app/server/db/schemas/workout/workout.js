@@ -29,6 +29,18 @@ var WorkoutSchema = new Schema({
     }
 });
 
+WorkoutSchema.pre('save', function(next) {
+   // This is an array, so we need to
+   // save it all the time.
+
+   this.sets = this.sets.filter(function(s) {
+       return s ? true : false;
+   })
+   
+   this.markModified('sets');
+   next();
+});
+
 WorkoutSchema.plugin(workoutMethods);
 WorkoutSchema.plugin(patchPlugin);
 

@@ -21,4 +21,16 @@ var SetSchema = new Schema({
    }
 });
 
+SetSchema.pre('save', function(next) {
+   // This is an array, so we need to
+   // save it all the time.
+   
+   this.elements = this.elements.filter(function(e) {
+       return e ? true : false;
+   })
+
+   this.markModified('elements');
+   next();
+});
+
 module.exports = SetSchema;
