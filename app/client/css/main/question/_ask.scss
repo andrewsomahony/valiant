@@ -1,31 +1,33 @@
 div.ask {
+   font-size: 14px;
+
    text-align: center;
    
    $form_input_width: 300px;
    
    label {
-      margin: 0px;
+      margin: 0;
    }
    
    .ask-group {   
       .ask-header {
-         font-size: 20px;
+         font-size: 1.42em;
          font-weight: bold;
-         margin-bottom: 8px;
+         margin-bottom: 0.57em;
       }
       
       .ask-sub-header {
-         font-size: 13px;
+         font-size: 0.93em;
          font-weight: bold;
-         margin-bottom: 4px;
+         margin-bottom: 0.28em;
       }
       
       .ask-element {
-         margin-top: 4px;
-         margin-bottom: 4px;
+         margin-top: 0.28em;
+         margin-bottom: 0.28em;
       }
       
-      margin-bottom: 15px;
+      margin-bottom: 1.07em
    }
    
    div.ask-topic {      
@@ -36,19 +38,18 @@ div.ask {
       input.form-control {
          display: inline-block;
          width: $form_input_width;
-         font-size: 14px;
       }
    }
    
    div.ask-question {
       div.ask-question-header {
-         margin-bottom: 0px;
+         margin-bottom: 0;
       }
       
       textarea {
          resize: none;
          font-weight: normal;;
-         font-size: 14px;
+         font-size: 1em;
          
          display: inline-block;
          
@@ -65,13 +66,12 @@ div.ask {
    }
    
    div.ask-media {
-      
       div.media-picker-container-row {
-         margin-bottom: 12px;
+         margin-bottom: 0.857em;
       }
       
       div.media-picker-container {
-         margin-right: 12px;
+         margin-right: 0.857em;
          display: inline-block;
          vertical-align: top;
       }

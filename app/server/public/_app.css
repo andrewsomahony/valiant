@@ -10021,34 +10021,34 @@ div.main {
         margin-left: 8px;
         font-size: 13px; }
       div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask {
+        font-size: 14px;
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask label {
-          margin: 0px; }
+          margin: 0; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask .ask-group {
-          margin-bottom: 15px; }
+          margin-bottom: 1.07em; }
           div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask .ask-group .ask-header {
-            font-size: 20px;
+            font-size: 1.42em;
             font-weight: bold;
-            margin-bottom: 8px; }
+            margin-bottom: 0.57em; }
           div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask .ask-group .ask-sub-header {
-            font-size: 13px;
+            font-size: 0.93em;
             font-weight: bold;
-            margin-bottom: 4px; }
+            margin-bottom: 0.28em; }
           div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask .ask-group .ask-element {
-            margin-top: 4px;
-            margin-bottom: 4px; }
+            margin-top: 0.28em;
+            margin-bottom: 0.28em; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-topic select {
           width: 300px; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-topic input.form-control {
           display: inline-block;
-          width: 300px;
-          font-size: 14px; }
+          width: 300px; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-question div.ask-question-header {
-          margin-bottom: 0px; }
+          margin-bottom: 0; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-question textarea {
           resize: none;
           font-weight: normal;
-          font-size: 14px;
+          font-size: 1em;
           display: inline-block;
           height: 200px; }
           @media screen and (min-width: 760px) {
@@ -10058,9 +10058,9 @@ div.main {
             div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-question textarea {
               width: 300px; } }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-media div.media-picker-container-row {
-          margin-bottom: 12px; }
+          margin-bottom: 0.857em; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.ask div.ask-media div.media-picker-container {
-          margin-right: 12px;
+          margin-right: 0.857em;
           display: inline-block;
           vertical-align: top; }
       div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content input.form-control {
