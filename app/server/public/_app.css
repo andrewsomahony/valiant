@@ -9930,34 +9930,58 @@ div.main {
         @media screen and (max-width: 760px) {
           div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.sign-up {
             margin-top: 20px; } }
-      @media screen and (min-width: 760px) {
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.user-display {
-          margin-left: 2em;
-          text-align: left;
-          display: inline-block;
-          width: 29%; } }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display {
-        padding-left: 1em;
-        padding-top: 1em; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area {
+        padding-bottom: 2em; }
         @media screen and (min-width: 760px) {
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display {
-            vertical-align: top;
-            display: inline-block;
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area {
+            border-bottom: 1px solid black; } }
+        @media screen and (min-width: 760px) {
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.user-display {
             margin-left: 2em;
-            width: 62%; } }
+            text-align: left;
+            display: inline-block;
+            width: 29%; } }
         @media screen and (max-width: 760px) {
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display {
-            text-align: center; } }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display a {
-          margin-bottom: 0.6em; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.user-display {
+            border-bottom: 1px solid black;
+            padding-bottom: 2em; } }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display {
+          padding-left: 1em;
+          padding-top: 1em; }
           @media screen and (min-width: 760px) {
-            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display a.large {
-              font-size: 2.6em; } }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display {
+              vertical-align: top;
+              display: inline-block;
+              margin-left: 2em;
+              width: 62%; } }
           @media screen and (max-width: 760px) {
-            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display a.large {
-              font-size: 1.2em; } }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display a.small {
-            font-size: 1em; }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display {
+              text-align: center;
+              border-bottom: 1px solid black;
+              padding-top: 2em;
+              padding-bottom: 2em; } }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area {
+            height: 58%;
+            margin-bottom: 0.7em; }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area {
+              display: inline-block;
+              margin-right: 1em; }
+              div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area div.widget-container {
+                display: inline-block; }
+                div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area div.widget-container div.title {
+                  font-weight: bold;
+                  margin-bottom: 0.5em;
+                  text-align: center; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a {
+            margin-bottom: 0.6em; }
+            @media screen and (min-width: 760px) {
+              div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a.large {
+                font-size: 2.6em; } }
+            @media screen and (max-width: 760px) {
+              div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a.large {
+                font-size: 1.2em; } }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a.small {
+              font-size: 1em; }
       div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.edit-container {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.edit-container div.top-edit-control {
@@ -10406,3 +10430,36 @@ div.font-awesome-centered-icon {
 
 .workout div.display .list.sets .running-total {
   margin-bottom: 1.1em; }
+
+.workout-widget {
+  border: 1px solid black;
+  position: relative; }
+  .workout-widget .title {
+    width: 100%;
+    height: 30%;
+    display: inline-block;
+    margin-top: 0.1em;
+    border-bottom: 1px solid black;
+    font-weight: bold;
+    font-size: 1.0em;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow-y: hidden; }
+    .workout-widget .title span {
+      margin-left: 0.1em;
+      margin-right: 0.1em;
+      vertical-align: middle; }
+  .workout-widget .distance {
+    padding-top: 0.9em;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    font-size: 2.7em;
+    text-align: center; }
+    .workout-widget .distance span {
+      vertical-align: middle;
+      display: inline-block; }
+      .workout-widget .distance span.padding {
+        height: 100%; }

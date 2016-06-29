@@ -1,0 +1,48 @@
+.workout-widget {
+   border: 1px solid black;
+   position: relative;
+
+   .title {
+      width: 100%;
+      height: 30%;
+      display: inline-block;
+      
+      margin-top: 0.1em;
+
+      border-bottom: 1px solid black;
+
+      font-weight: bold;
+      font-size: 1.0em;
+      text-align: center;
+
+      text-overflow: ellipsis;
+      //white-space: nowrap;
+	   overflow-y: hidden;
+
+      span {
+         margin-left: 0.1em;
+         margin-right: 0.1em;         
+         vertical-align: middle;
+      }
+   }
+   
+   .distance {
+      padding-top: 0.9em;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      font-size: 2.7em;
+      text-align: center;
+
+      span {
+         vertical-align: middle;
+         display: inline-block;
+
+         &.padding {
+            height: 100%;
+         }  
+      }
+   }
+}

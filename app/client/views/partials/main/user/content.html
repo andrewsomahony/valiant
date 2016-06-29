@@ -1,197 +1,216 @@
 <div ng-if="currentEditingUser">
-   <div class="user-display">
-      <div class="edit-container profile-picture-container">
-            <div class="profile-picture-display">
-            <span class="hidden-xs">
-                  <profile-picture user="currentEditingUser" width="100%"></profile-picture>
-            </span>
-            <span class="hidden-lg hidden-md hidden-sm">
-                  <profile-picture user="currentEditingUser" width="150px"></profile-picture>
-            </span>
-            </div>
-            <br />
-            <div class="profile-picture-change" ng-if="isEditingProfile">
-            <a class="change-profile-picture" ng-click="changeProfilePicture()">Change</a>
-            <a class="reset-profile-picture" ng-click="resetProfilePicture()">Reset</a>
-            <file-reader
-                  supports-multiple="false"
-                  accept="image/*"
-                  process-exif="true"
-                  create="profilePicturePicker"
-                  on-created="onProfilePictureSelectCreated(elementId)"
-                  on-files-added="onProfilePictureSelectSuccess(files)"
-                  on-files-progress="onProfilePictureSelectProgress(progress)"
-                  on-files-error="onProfilePictureSelectError(error)">
-            </file-reader>      
-            </div>
-      </div>
-
-      <div class="edit-container profile-name-container" ng-if="!isChangingPassword && !isChangingEmail && !isChangingPrivacySettings">
-            <span ng-if="!isEditingProfile" ng-bind="currentEditingUser.fullName()"></span>
-            <div class="top-edit-control" ng-if="isEditingProfile">
-            <div>
-                  <input type="text"
-                        placeholder="First Name"
-                        class="form-control profile-name-input"
-                        ng-model="currentEditingUser.first_name"
-                        ng-model-options="{updateOn: 'blur'}"
-                        required />
-            </div>
-            <div>
-                  <input type="text"
-                        placeholder="Last Name"
-                        class="form-control profile-name-input"
-                        ng-model="currentEditingUser.last_name"
-                        ng-model-options="{updateOn: 'blur'}"
-                        required />
-            </div>
-            </div>
-      </div>
-      
-      <div class="edit-container profile-email-address-container" ng-if="!isEditingProfile && !isChangingPassword && !isChangingPrivacySettings">
-            <div ng-if="!isChangingEmail">
-            <span class="email-text"
-                  ng-bind="currentEditingUser.email"></span>
-            </div>
-
-            <div ng-if="currentEditingUser.pending_email">
-            <span class="pending-email-text">
-                  <span ng-bind="currentEditingUser.pending_email"></span>
-                  <a class="left" ng-click="resendPendingEmailVerificationEmail()">Resend</a>
-                  <a class="right" ng-click="cancelPendingEmailVerification()">Cancel</a>
-            </span>
-            </div>     
-            
-            <div ng-if="isChangingEmail">
-            <div ng-class="getEmailEditControlClass()">
-                  <input type="email"
-                        placeholder="New E-Mail"
-                        class="form-control profile-email-input"
-                        ng-model="emailChangeData.email"
-                        ng-model-options="{updateOn: 'blur'}"
-                        required />
-            </div>
-            </div>
-      </div>
-      
-      <div class="edit-container profile-password-container" ng-if="isChangingPassword">
-            <div class="top-edit-control">
-            <div>
-                  <input type="password"
-                        placeholder="Old Password"
-                        class="form-control profile-old-password-input"
-                        ng-model="passwordChangeData.old_password"
-                        ng-model-options="{updateOn: 'blur'}"
-                        required />
-            </div>
-            <div>
-                  <input type="password"
-                        placeholder="New Password"
-                        class="form-control profile-new-password-input"
-                        ng-model="passwordChangeData.new_password"
-                        ng-model-options="{updateOn: 'blur'}"
-                        required />
-            </div>
-            <div>       
-                  <input type="password"
-                        placeholder="Repeat New Password"
-                        class="form-control profile-repeat-new-password-input"
-                        ng-model="passwordChangeData.new_password_repeat"
-                        ng-model-options="{updateOn: 'blur'}"
-                        required />
-            </div>         
-            </div>
-      </div>
-
-      <div class="edit-container profile-privacy-container" ng-if="isChangingPrivacySettings">
-            <div class="form-group">
-            <div class="fa-checkbox">
-                  <input type="checkbox" class="fa-square-checkbox" ng-model="currentEditingUser.is_visible_to_public" />
-                  <label>Visible to the public?</label>
-            </div>
-            </div>
-
-            <div class="form-group">
-            <div class="fa-checkbox">
-                  <input type="checkbox" class="fa-square-checkbox" ng-model="currentEditingUser.is_visible_to_users" />
-                  <label>Visible to other users?</label>
-            </div>
-            </div>            
-      </div>
-      
-      <div class="edit-container profile-options-container">
-            <span ng-if="canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail && !isChangingPrivacySettings">
-            <a ng-click="activateEditingProfile()">Edit Profile</a>
-            &nbsp;|&nbsp;
-            <a ng-click="activateChangePassword()">Change Password</a>
-            &nbsp;|&nbsp;
-            <a ng-click="activateChangeEmail()">Change E-Mail</a>
-            &nbsp;|&nbsp;
-            <a ng-click="activateChangePrivacySettings()">Privacy Settings</a>
-            </span>
-            
-            <span ng-if="isEditingProfile && !isSaving">
-            <a class="save-cancel-left save-changes" ng-click="saveProfile()">Save</a>
-            <a class="save-cancel-right cancel-edit" ng-click="cancelEditing()">Back</a>
-            </span>
-            
-            <span ng-if="isChangingPassword && !isSaving">
-            <a class="save-cancel-left save-password" ng-click="changePassword()">Change</a>
-            <a class="save-cancel-right cancel-change-password" ng-click="cancelChangePassword()">Back</a>
-            </span>
-            
-            <span ng-if="isChangingEmail && !isSaving">
-            <a class="save-cancel-left save-email" ng-click="changeEmail()">Change</a>
-            <a class="save-cancel-right cancel-change-email" ng-click="cancelChangeEmail()">Back</a>
-            </span>
-
-            <span ng-if="isChangingPrivacySettings && !isSaving">
-            <a class="left save-privacy-settings" ng-click="changePrivacySettings()">Change</a>
-            <a class="right cancel-privacy-settings" ng-click="cancelChangePrivacySettings()">Back</a>
-            </span>
-            
-            <div loading-progress 
-                  type="spinner"
-                  class="saving-message fade-in"
-                  ng-if="isSaving"
-                  message="{{getSavingUserMessage()}}">
-            </div>
-            
-            <div ng-if="postSavingMessage" class="post-saving-message">
-            <span ng-bind="postSavingMessage"></span>
-            </div>
-            
-            <div ng-if="errorMessage" class="saving-error-message">
-            <span ng-bind="errorMessage"></span>
-            </div>
-      </div>
-   </div>
-   <div class="options-display">
-      <div class="options-area workout">
-         <a ui-sref="main.page.workout_builder.new"
-         class="large">
-               <span font-awesome-icon-text
-                     icon="fa-plus"
-                     text="Create New Workout"></span>
+   <div class="top-area">
+      <div class="user-display">
+         <div class="edit-container profile-picture-container">
+               <div class="profile-picture-display">
+               <span class="hidden-xs">
+                     <profile-picture 
+                        user="currentEditingUser" 
+                        width="100%"
+                        max-height="{{getUserInfoHeight()}}">
+                     </profile-picture>
                </span>
-         </a>
+               <span class="hidden-lg hidden-md hidden-sm">
+                     <profile-picture 
+                        user="currentEditingUser" 
+                        width="150px">
+                     </profile-picture>
+               </span>
+               </div>
+               <br />
+               <div class="profile-picture-change" ng-if="isEditingProfile">
+               <a class="change-profile-picture" ng-click="changeProfilePicture()">Change</a>
+               <a class="reset-profile-picture" ng-click="resetProfilePicture()">Reset</a>
+               <file-reader
+                     supports-multiple="false"
+                     accept="image/*"
+                     process-exif="true"
+                     create="profilePicturePicker"
+                     on-created="onProfilePictureSelectCreated(elementId)"
+                     on-files-added="onProfilePictureSelectSuccess(files)"
+                     on-files-progress="onProfilePictureSelectProgress(progress)"
+                     on-files-error="onProfilePictureSelectError(error)">
+               </file-reader>      
+               </div>
+         </div>
+
+         <div class="edit-container profile-name-container" ng-if="!isChangingPassword && !isChangingEmail && !isChangingPrivacySettings">
+               <span ng-if="!isEditingProfile" ng-bind="currentEditingUser.fullName()"></span>
+               <div class="top-edit-control" ng-if="isEditingProfile">
+               <div>
+                     <input type="text"
+                           placeholder="First Name"
+                           class="form-control profile-name-input"
+                           ng-model="currentEditingUser.first_name"
+                           ng-model-options="{updateOn: 'blur'}"
+                           required />
+               </div>
+               <div>
+                     <input type="text"
+                           placeholder="Last Name"
+                           class="form-control profile-name-input"
+                           ng-model="currentEditingUser.last_name"
+                           ng-model-options="{updateOn: 'blur'}"
+                           required />
+               </div>
+               </div>
+         </div>
+         
+         <div class="edit-container profile-email-address-container" ng-if="!isEditingProfile && !isChangingPassword && !isChangingPrivacySettings">
+               <div ng-if="!isChangingEmail">
+               <span class="email-text"
+                     ng-bind="currentEditingUser.email"></span>
+               </div>
+
+               <div ng-if="currentEditingUser.pending_email">
+               <span class="pending-email-text">
+                     <span ng-bind="currentEditingUser.pending_email"></span>
+                     <a class="left" ng-click="resendPendingEmailVerificationEmail()">Resend</a>
+                     <a class="right" ng-click="cancelPendingEmailVerification()">Cancel</a>
+               </span>
+               </div>     
+               
+               <div ng-if="isChangingEmail">
+               <div ng-class="getEmailEditControlClass()">
+                     <input type="email"
+                           placeholder="New E-Mail"
+                           class="form-control profile-email-input"
+                           ng-model="emailChangeData.email"
+                           ng-model-options="{updateOn: 'blur'}"
+                           required />
+               </div>
+               </div>
+         </div>
+         
+         <div class="edit-container profile-password-container" ng-if="isChangingPassword">
+               <div class="top-edit-control">
+               <div>
+                     <input type="password"
+                           placeholder="Old Password"
+                           class="form-control profile-old-password-input"
+                           ng-model="passwordChangeData.old_password"
+                           ng-model-options="{updateOn: 'blur'}"
+                           required />
+               </div>
+               <div>
+                     <input type="password"
+                           placeholder="New Password"
+                           class="form-control profile-new-password-input"
+                           ng-model="passwordChangeData.new_password"
+                           ng-model-options="{updateOn: 'blur'}"
+                           required />
+               </div>
+               <div>       
+                     <input type="password"
+                           placeholder="Repeat New Password"
+                           class="form-control profile-repeat-new-password-input"
+                           ng-model="passwordChangeData.new_password_repeat"
+                           ng-model-options="{updateOn: 'blur'}"
+                           required />
+               </div>         
+               </div>
+         </div>
+
+         <div class="edit-container profile-privacy-container" ng-if="isChangingPrivacySettings">
+               <div class="form-group">
+               <div class="fa-checkbox">
+                     <input type="checkbox" class="fa-square-checkbox" ng-model="currentEditingUser.is_visible_to_public" />
+                     <label>Visible to the public?</label>
+               </div>
+               </div>
+
+               <div class="form-group">
+               <div class="fa-checkbox">
+                     <input type="checkbox" class="fa-square-checkbox" ng-model="currentEditingUser.is_visible_to_users" />
+                     <label>Visible to other users?</label>
+               </div>
+               </div>            
+         </div>
+         
+         <div class="edit-container profile-options-container">
+               <span ng-if="canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail && !isChangingPrivacySettings">
+               <a ng-click="activateEditingProfile()">Edit Profile</a>
+               &nbsp;|&nbsp;
+               <a ng-click="activateChangePassword()">Change Password</a>
+               &nbsp;|&nbsp;
+               <a ng-click="activateChangeEmail()">Change E-Mail</a>
+               &nbsp;|&nbsp;
+               <a ng-click="activateChangePrivacySettings()">Privacy Settings</a>
+               </span>
+               
+               <span ng-if="isEditingProfile && !isSaving">
+               <a class="save-cancel-left save-changes" ng-click="saveProfile()">Save</a>
+               <a class="save-cancel-right cancel-edit" ng-click="cancelEditing()">Back</a>
+               </span>
+               
+               <span ng-if="isChangingPassword && !isSaving">
+               <a class="save-cancel-left save-password" ng-click="changePassword()">Change</a>
+               <a class="save-cancel-right cancel-change-password" ng-click="cancelChangePassword()">Back</a>
+               </span>
+               
+               <span ng-if="isChangingEmail && !isSaving">
+               <a class="save-cancel-left save-email" ng-click="changeEmail()">Change</a>
+               <a class="save-cancel-right cancel-change-email" ng-click="cancelChangeEmail()">Back</a>
+               </span>
+
+               <span ng-if="isChangingPrivacySettings && !isSaving">
+               <a class="left save-privacy-settings" ng-click="changePrivacySettings()">Change</a>
+               <a class="right cancel-privacy-settings" ng-click="cancelChangePrivacySettings()">Back</a>
+               </span>
+               
+               <div loading-progress 
+                     type="spinner"
+                     class="saving-message fade-in"
+                     ng-if="isSaving"
+                     message="{{getSavingUserMessage()}}">
+               </div>
+               
+               <div ng-if="postSavingMessage" class="post-saving-message">
+               <span ng-bind="postSavingMessage"></span>
+               </div>
+               
+               <div ng-if="errorMessage" class="saving-error-message">
+               <span ng-bind="errorMessage"></span>
+               </div>
+         </div>
       </div>
-      <div class="options-area question">
-         <a ui-sref="main.page.question.ask"
+      <div class="options-display">
+         <div class="options-area workout">
+            <div class="widget-area">
+               <div class="widget-container">
+                  <div class="title">Latest Workout</div>
+                  <div workout-widget
+                     size="150px"
+                     style="display:inline-block;"
+                     workout="currentEditingUser.workouts[0]">
+                  </div>
+               </div>
+            </div>
+            <a ui-sref="main.page.workout_builder.new"
             class="large">
-               <span font-awesome-icon-text
-                     icon="fa-question"
-                     text="Ask a Question"></span>
-               </span>
-         </a>
-      </div>
-      <div class="options-area upload">
-         <a class="large">
-               <span font-awesome-icon-text
-                     icon="fa-upload"
-                     text="Upload Workout Data"></span>
-               </span>
-         </a>
+                  <span font-awesome-icon-text
+                        icon="fa-plus"
+                        text="Create New Workout"></span>
+                  </span>
+            </a>
+         </div>
+         <div class="options-area question">
+            <a ui-sref="main.page.question.ask"
+               class="large">
+                  <span font-awesome-icon-text
+                        icon="fa-question"
+                        text="Ask a Question"></span>
+                  </span>
+            </a>
+         </div>
+         <div class="options-area upload">
+            <a class="large">
+                  <span font-awesome-icon-text
+                        icon="fa-upload"
+                        text="Upload Workout Data"></span>
+                  </span>
+            </a>
+         </div>
       </div>
    </div>
 </div>

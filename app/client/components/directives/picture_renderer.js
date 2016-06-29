@@ -15,6 +15,9 @@ function(ScopeService, $compile) {
          //centered: "@",
          width: "@",
          height: "@",
+
+         maxWidth: "@",
+         maxHeight: "@",
         // showUploading: "@"
       },
       link: function($scope, $element, $attributes) {
@@ -37,9 +40,17 @@ function(ScopeService, $compile) {
                if ($scope.width) {
                   style['width'] = $scope.width;
                   style['height'] = 'auto';
+
+                  if ($scope.maxHeight) {
+                    style['max-height'] = $scope.maxHeight;
+                  }
                } else if ($scope.height) {
                   style['width'] = 'auto';
                   style['height'] = $scope.height;
+
+                  if ($scope.maxWidth) {
+                    style['max-width'] = $scope.maxWidth;
+                  }
                } else {
                   style['width'] = 'auto';
                   style['height'] = 'auto';
@@ -87,7 +98,14 @@ function(ScopeService, $compile) {
                
                style['max-width'] = '100%';
                style['max-height'] = '100%';
-            } 
+            } else {
+               if ($scope.maxWidth) {
+                  style['max-width'] = $scope.maxWidth;
+               }
+               if ($scope.maxHeight) {
+                  style['max-height'] = $scope.maxHeight;
+               }
+            }
             
             return style;           
          }

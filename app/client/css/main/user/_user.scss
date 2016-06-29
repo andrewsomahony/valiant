@@ -1,43 +1,78 @@
 div.user {
    div.sub-content {
       
-      div.user-display {
+      div.top-area {
          @media screen and (min-width: $min-sm-screen-width) {
-            margin-left: 2em;
-            text-align: left;
-            display: inline-block;
-            width: 29%;
-         }         
-      }
-
-      div.options-display {
-         @media screen and (min-width: $min-sm-screen-width) {
-            vertical-align: top;
-            display: inline-block;
-            margin-left: 2em;
-            width: 62%;
+            border-bottom: 1px solid black;  
          }
-         @media screen and (max-width: $min-sm-screen-width) {
-            text-align: center;
+         padding-bottom: 2em;
+
+         div.user-display {
+            @media screen and (min-width: $min-sm-screen-width) {
+               margin-left: 2em;
+               text-align: left;
+               display: inline-block;
+               width: 29%;
+            }
+            @media screen and (max-width: $min-sm-screen-width) {
+               border-bottom: 1px solid black;
+               padding-bottom: 2em;
+            } 
          }
 
-         a {
-            &.large {
-               @media screen and (min-width: $min-sm-screen-width) {
-                  font-size: 2.6em;
-               }
-               @media screen and (max-width: $min-sm-screen-width) {
-                  font-size: 1.2em;
+         div.options-display {
+            @media screen and (min-width: $min-sm-screen-width) {
+               vertical-align: top;
+               display: inline-block;
+               margin-left: 2em;
+               width: 62%;
+            }
+
+            @media screen and (max-width: $min-sm-screen-width) {
+               text-align: center;
+               border-bottom: 1px solid black;
+
+               padding-top: 2em;
+               padding-bottom: 2em;
+            }
+            div.options-area {
+               height: 58%;
+               margin-bottom: 0.7em;
+
+               div.widget-area {
+                  display: inline-block;
+                  margin-right: 1em;
+
+                  div.widget-container {
+                     display: inline-block;
+
+                     div.title {
+                        font-weight: bold;
+                        margin-bottom: 0.5em;
+                        text-align: center;
+                     }
+                  }
                }
             }
-            &.small {
-               font-size: 1em;
-            }
-            margin-bottom: 0.6em;
-         }
 
-         padding-left: 1em;
-         padding-top: 1em;
+            a {
+               &.large {
+                  @media screen and (min-width: $min-sm-screen-width) {
+                     font-size: 2.6em;
+                  }
+                  @media screen and (max-width: $min-sm-screen-width) {
+                     font-size: 1.2em;
+                  }
+               }
+               &.small {
+                  font-size: 1em;
+               }
+               margin-bottom: 0.6em;
+            }
+
+            padding-left: 1em;
+            padding-top: 1em;
+         }
       }
 
       div.edit-container {

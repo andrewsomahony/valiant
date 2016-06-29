@@ -53,6 +53,38 @@ FileReaderActivatorService, Promise) {
    $scope.emailChangeData = {
       email: ""
    };
+
+   $scope.getWidgetAreaHeight = function() {
+      return "58%";
+   }
+
+   $scope.getWidgetAreaStyle = function() {
+      var style = {};
+
+      style['height'] = $scope.getWidgetAreaHeight();
+
+      return style;
+   }
+
+   $scope.getUserInfoHeight = function() {
+      return "450px";
+   }
+
+   $scope.getUserDisplayStyle = function() {
+      var style = {};
+
+      style['height'] = $scope.getUserInfoHeight();
+
+      return style;
+   }
+
+   $scope.getUserOptionsStyle = function() {
+      var style = {};
+
+      style['height'] = $scope.getUserInfoHeight();
+
+      return style;
+   }
    
    $scope.error = function(errorObject) {
       if (!errorObject) {

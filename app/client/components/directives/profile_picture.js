@@ -11,7 +11,8 @@ function(PictureModel) {
       scope: {
          user: "<",
          //width: "@",
-         //height: "@"
+         //height: "@",
+         maxHeight: "@"
       },
       templateUrl: "directives/profile_picture.html",
       link: function($scope, $element, $attributes) {
