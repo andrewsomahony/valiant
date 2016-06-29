@@ -9930,6 +9930,34 @@ div.main {
         @media screen and (max-width: 760px) {
           div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.sign-up {
             margin-top: 20px; } }
+      @media screen and (min-width: 760px) {
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.user-display {
+          margin-left: 2em;
+          text-align: left;
+          display: inline-block;
+          width: 29%; } }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display {
+        padding-left: 1em;
+        padding-top: 1em; }
+        @media screen and (min-width: 760px) {
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display {
+            vertical-align: top;
+            display: inline-block;
+            margin-left: 2em;
+            width: 62%; } }
+        @media screen and (max-width: 760px) {
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display {
+            text-align: center; } }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display a {
+          margin-bottom: 0.6em; }
+          @media screen and (min-width: 760px) {
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display a.large {
+              font-size: 2.6em; } }
+          @media screen and (max-width: 760px) {
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display a.large {
+              font-size: 1.2em; } }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.options-display a.small {
+            font-size: 1em; }
       div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.edit-container {
         text-align: center; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.edit-container div.top-edit-control {
@@ -9939,83 +9967,73 @@ div.main {
           width: 150px;
           font-size: 14px;
           height: 30px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container {
-        text-align: center; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-display {
-          border: 1px solid black;
-          display: inline-block; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change {
-          display: inline-block; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change a {
-            font-size: 12px; }
-            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change a.change-profile-picture {
-              margin-right: 4px; }
-            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change a.reset-profile-picture {
-              margin-left: 4px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-name-container {
-        text-align: center; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-name-container span {
-          font-size: 24px;
-          font-weight: bold; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-name-container input.form-control {
-          width: 270px;
-          margin-bottom: 8px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-display {
+        border: 1px solid black;
+        display: inline-block; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change {
+        display: inline-block; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change a {
+          font-size: 12px; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change a.change-profile-picture {
+            margin-right: 4px; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-picture-container div.profile-picture-change a.reset-profile-picture {
+            margin-left: 4px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-name-container span {
+        font-size: 24px;
+        font-weight: bold; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-name-container input.form-control {
+        width: 270px;
+        margin-bottom: 8px; }
       div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-editing-padding {
         height: 8px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container {
-        text-align: center; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .email-text {
-          font-size: 16px;
-          font-weight: bold; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text {
-          font-size: 12px;
-          font-weight: bold; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text::before {
-            content: "<"; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text::after {
-            content: ">"; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text span {
-            margin-right: 2px; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text a {
-            font-weight: normal; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container input.form-control {
-          width: 270px; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .has-changed-email {
-          font-size: 12px;
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .email-text {
+        font-size: 16px;
+        font-weight: bold; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text {
+        font-size: 12px;
+        font-weight: bold; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text::before {
+          content: "<"; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text::after {
+          content: ">"; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text span {
+          margin-right: 2px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .pending-email-text a {
           font-weight: normal; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .has-resent-verification-email {
-          font-size: 12px;
-          font-weight: normal; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-password-container {
-        text-align: center; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-password-container input.form-control {
-          width: 270px;
-          margin-bottom: 8px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container input.form-control {
+        width: 270px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .has-changed-email {
+        font-size: 12px;
+        font-weight: normal; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-email-address-container .has-resent-verification-email {
+        font-size: 12px;
+        font-weight: normal; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-password-container input.form-control {
+        width: 270px;
+        margin-bottom: 8px; }
       div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-privacy-container {
         margin-top: 8px; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-privacy-container div.form-group {
           margin-bottom: 6px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container {
-        text-align: center; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container a {
-          font-size: 12px;
-          font-weight: normal; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container a.save-cancel-left {
-            margin-right: 3px; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container a.save-cancel-right {
-            margin-left: 3px; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.saving-message {
-          font-size: 13px;
-          font-weight: normal; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.post-saving-message {
-          font-size: 13px;
-          font-weight: normal;
-          margin-top: 8px; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.saving-error-message {
-          font-size: 13px;
-          font-weight: bold;
-          color: red;
-          margin-top: 8px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container a {
+        font-size: 12px;
+        font-weight: normal; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container a.save-cancel-left {
+          margin-right: 3px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container a.save-cancel-right {
+          margin-left: 3px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.saving-message {
+        font-size: 13px;
+        font-weight: normal; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.post-saving-message {
+        font-size: 13px;
+        font-weight: normal;
+        margin-top: 8px; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.profile-options-container div.saving-error-message {
+        font-size: 13px;
+        font-weight: bold;
+        color: red;
+        margin-top: 8px; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;

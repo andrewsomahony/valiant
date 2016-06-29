@@ -27,10 +27,6 @@ SetSchema.pre('save', function(next) {
    // save it all the time.
    
    this.elements = utils.filterOutUndefinedOrNull(this.elements);
-   /*
-   this.elements = this.elements.filter(function(e) {
-       return e ? true : false;
-   })*/
 
    this.markModified('elements');
    next();

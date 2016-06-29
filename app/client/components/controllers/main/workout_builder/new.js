@@ -12,7 +12,7 @@ require('services/promise'),
 require('services/state_service'),
 function($scope, WorkoutModel, WorkoutBuilderService,
 ErrorModal, Promise, StateService) {
-   $scope.currentWorkout = null;
+   $scope.currentWorkout = new WorkoutModel();
 
    $scope.newWorkout = function() {
       $scope.currentWorkout = new WorkoutModel();
