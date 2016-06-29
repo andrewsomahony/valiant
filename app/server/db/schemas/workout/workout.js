@@ -3,6 +3,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var utils = require(__base + 'lib/utils')
+
 var workoutMethods = require('./plugins/methods');
 var patchPlugin = require('mongoose-json-patch');
 
@@ -33,9 +35,7 @@ WorkoutSchema.pre('save', function(next) {
    // This is an array, so we need to
    // save it all the time.
 
-   this.sets = this.sets.filter(function(s) {
-       return s ? true : false;
-   })
+   this.sets = utils.filterOutUndefinedOrNull(this.sets);
    
    this.markModified('sets');
    next();

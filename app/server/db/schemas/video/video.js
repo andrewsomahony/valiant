@@ -33,4 +33,12 @@ var VideoSchema = new Schema({
     _id: false
 });
 
+VideoSchema.pre('save', function(next) {
+   // This is a mixed field, so we need to
+   // save it all the time.
+   
+   this.markModified('metadata');
+   next();
+})
+
 module.exports = VideoSchema;

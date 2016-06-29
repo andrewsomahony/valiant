@@ -1,6 +1,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var utils = require(__base + 'lib/utils');
 
 var Schema = mongoose.Schema;
 
@@ -42,16 +43,11 @@ var SetElementSchema = new Schema({
 });
 
 SetElementSchema.pre('save', function(next) {
-   // This is an array, so we need to
-   // save it all the time.
+   // These are arrays, so we need to
+   // save them all the time.
    
-   this.intervals = this.intervals.filter(function(i) {
-       return i ? true : false;
-   })
-
-   this.rests = this.rests.filter(function(r) {
-       return r ? true : false;
-   })
+   this.intervals = utils.filterOutUndefinedOrNull(this.intervals);
+   this.rests = utils.filterOutUndefinedOrNull(this.rests);
 
    this.markModified('intervals');
    this.markModified('rests');

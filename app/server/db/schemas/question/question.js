@@ -52,6 +52,15 @@ var QuestionSchema = new Schema({
     }
 });
 
+QuestionSchema.pre('save', function(next) {
+  this.markModified('pictures');
+  this.markModified('comments');
+  this.markModified('preview_pictures');
+  this.markModified('videos');
+  
+  next();
+});
+
 QuestionSchema.plugin(patchPlugin);
 QuestionSchema.plugin(questionMethods);
 
