@@ -15,16 +15,19 @@ function($compile) {
       link: function($scope, $element, $attributes) {
          $element.addClass('workout-widget');
 
+         $scope.$watch('size', function(newValue) {
+            if (!newValue) {
+               $scope.size = '250px';
+            }
+         })
+
          $scope.getWidgetStyle = function() {
             var style = {};
 
-            if ($scope.size) {
-               style['width'] = $scope.size;
-               style['height'] = $scope.size;
-            } else {
-               style['width'] = '250px';
-               style['height'] = '250px';
-            }
+            style['width'] = $scope.size;
+            style['height'] = $scope.size;
+            style['font-size'] = parseInt($scope.size) * 0.7;
+
             return style;
          }
 
@@ -44,17 +47,41 @@ function($compile) {
          $element.append($compile($titleDiv)($scope));
 
          var $distanceDiv = angular.element("<div></div>");
-         $distanceDiv.addClass("distance");
+         $distanceDiv.addClass("description");
 
          var $distanceDivPadding = angular.element("<span></span>");
          $distanceDivPadding.addClass('padding');
 
          $distanceDiv.append($compile($distanceDivPadding)($scope));
 
+         var $distanceDivTextDiv = angular.element("<div></div>");
+         $distanceDivTextDiv.addClass('text-container');
+
          var $distanceDivSpan = angular.element("<span></span>");
+         $distanceDivSpan.addClass('distance');
          $distanceDivSpan.attr('ng-bind', 'workout.getTotalDistance()');
 
-         $distanceDiv.append($compile($distanceDivSpan)($scope));
+         $distanceDivTextDiv.append($compile($distanceDivSpan)($scope));
+        
+         $distanceDivTextDiv.append(angular.element("<br />"));
+
+         var $workoutStrokeSpan = angular.element("<span></span>");
+         $workoutStrokeSpan.addClass('stroke');
+
+         var $workoutStrokeImage = angular.element("<img />");
+         $workoutStrokeImage.attr('src', '/images/freestyle.jpg');
+
+         $workoutStrokeSpan.append($compile($workoutStrokeImage)($scope));
+         
+         $workoutStrokeImage = angular.element("<img />");
+         $workoutStrokeImage.attr('src', '/images/freestyle.jpg');
+
+         $workoutStrokeSpan.append($compile($workoutStrokeImage)($scope));
+
+         $distanceDivTextDiv.append($compile($workoutStrokeSpan)($scope));
+
+         $distanceDiv.append($compile($distanceDivTextDiv)($scope));
+
          $element.append($compile($distanceDiv)($scope));
 
          $element.attr('ng-style', 'getWidgetStyle()');
