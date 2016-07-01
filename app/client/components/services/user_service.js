@@ -76,45 +76,38 @@ PictureModel, MediaService) {
                                 // If we have a current user and it's the same as
                                 // the one requested, we just need to clone, not hit the server again.
 
-                                if (currentUser && currentUser.id === params.userId) {
-                                    currentRequestedUser = currentUser.clone();
+                                HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
+                                .then(function(user) {
                                     currentRequestedUserIsNotAccessible = false;
                                     currentRequestedUserIsNotFound = false;
-                                    resolve();                                        
-                                } else {
-                                    HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
-                                    .then(function(user) {
-                                        currentRequestedUserIsNotAccessible = false;
-                                        currentRequestedUserIsNotFound = false;
-                                        
-                                        currentRequestedUser = new UserModel(user.data, true);
-                                        console.log("CURRENT REQUETED USER", currentRequestedUser);
-                                        resolve({});    
-                                    })
-                                    .catch(function(error) {
-                                        // We need to check the error code:
-                                        // If we are forbidden to view this user
-                                        // for whatever reason, we need to set something
-                                        // within our service so we can figure out what to
-                                        // display on the page.
-                                        
-                                        // Basically, we don't want to reject, as this error
-                                        // doesn't need a modal box displayed, instead it needs
-                                        // something displayed on the page itself, but we need to
-                                        // tell the page controller what to do.
-                                        
-                                        currentRequestedUser = null;
-                                        if (true === ErrorService.isForbidden(error)) {
-                                            currentRequestedUserIsNotAccessible = true;
-                                            resolve();
-                                        } else if (true === ErrorService.isNotFound(error)) {
-                                            currentRequestedUserIsNotFound = true;
-                                            resolve();
-                                        } else {
-                                            reject(error);
-                                        }
-                                    });    
-                                }                              
+                                    
+                                    currentRequestedUser = new UserModel(user.data, true);
+                                    console.log("CURRENT REQUETED USER", currentRequestedUser);
+                                    resolve({});    
+                                })
+                                .catch(function(error) {
+                                    // We need to check the error code:
+                                    // If we are forbidden to view this user
+                                    // for whatever reason, we need to set something
+                                    // within our service so we can figure out what to
+                                    // display on the page.
+                                    
+                                    // Basically, we don't want to reject, as this error
+                                    // doesn't need a modal box displayed, instead it needs
+                                    // something displayed on the page itself, but we need to
+                                    // tell the page controller what to do.
+                                    
+                                    currentRequestedUser = null;
+                                    if (true === ErrorService.isForbidden(error)) {
+                                        currentRequestedUserIsNotAccessible = true;
+                                        resolve();
+                                    } else if (true === ErrorService.isNotFound(error)) {
+                                        currentRequestedUserIsNotFound = true;
+                                        resolve();
+                                    } else {
+                                        reject(error);
+                                    }
+                                });                                
                             })
                         }
                     });  

@@ -2,6 +2,12 @@
    border: 1px solid black;
    position: relative;
 
+   &.link {
+      &:hover {
+         cursor: pointer;
+      }
+   }
+
    .title {
       width: 100%;
       display: inline-block;

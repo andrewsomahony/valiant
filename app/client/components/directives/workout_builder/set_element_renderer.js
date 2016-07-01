@@ -44,13 +44,13 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
          })
 
          $scope.types = 
-            SetBuilderService.getSetTypesArray();
+            SetBuilderService.getSetTypeNamesArray();
 
          $scope.strokeModifications = 
-            SetBuilderService.getSetStrokeModificationsArray();
+            SetBuilderService.getSetStrokeModificationNamesArray();
 
          $scope.strokes = 
-            SetBuilderService.getSetStrokesArray();
+            SetBuilderService.getSetStrokeNamesArray();
 
          $scope.getEditDivClass = function() {
             var classes = [];

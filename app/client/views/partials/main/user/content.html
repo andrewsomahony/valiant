@@ -178,38 +178,43 @@
          <div class="options-area workout">
             <div class="widget-area">
                <div class="widget-container">
-                  <div class="title">Latest Workout</div>
                   <div workout-widget
                      size="150px"
-                     style="display:inline-block;"
-                     workout="currentEditingUser.workouts[0]">
+                     is-link="true"
+                     workout="currentEditingUser.workouts[1]">
                   </div>
                </div>
             </div>
-            <a ui-sref="main.page.workout_builder.new"
-            class="large">
+            <div class="link-area">
+               <a ui-sref="main.page.workout_builder.new"
+                  class="large">
                   <span font-awesome-icon-text
                         icon="fa-plus"
                         text="Create New Workout"></span>
                   </span>
-            </a>
+               </a>
+            </div>
          </div>
          <div class="options-area question">
-            <a ui-sref="main.page.question.ask"
-               class="large">
-                  <span font-awesome-icon-text
-                        icon="fa-question"
-                        text="Ask a Question"></span>
-                  </span>
-            </a>
+            <div class="link-area">
+               <a ui-sref="main.page.question.ask"
+                  class="large">
+                     <span font-awesome-icon-text
+                           icon="fa-question"
+                           text="Ask a Question"></span>
+                     </span>
+               </a>
+            </div>
          </div>
          <div class="options-area upload">
-            <a class="large">
-                  <span font-awesome-icon-text
-                        icon="fa-upload"
-                        text="Upload Workout Data"></span>
-                  </span>
-            </a>
+            <div class="link-area">
+               <a class="large">
+                     <span font-awesome-icon-text
+                           icon="fa-upload"
+                           text="Upload Workout Data"></span>
+                     </span>
+               </a>
+            </div>
          </div>
       </div>
    </div>

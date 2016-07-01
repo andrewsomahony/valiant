@@ -107,15 +107,14 @@
       },
 
       findInArray: function(array, sentinelFn) {
-         var returnValue;
+         var returnValue = null;
+
          array.every(function(element) {
-            if (true === sentinelFn(element))
-            {
+            if (true === sentinelFn(element)) {
                returnValue = element;
                return false;
             }
-            else
-            {
+            else {
                return true;
             }
          })
@@ -126,8 +125,7 @@
          var returnValue = []
 
          array.forEach(function(element) {
-            if (true === sentinelFn(element))
-            {
+            if (true === sentinelFn(element)) {
                returnValue.push(element)
             }
          });
@@ -135,17 +133,33 @@
          return returnValue
       },
 
+      findValueInArray: function(array, value) {
+         return this.findInArray(array, function(e) {
+             return e === value;
+         });
+      },
+
+      removeDuplicatesFromArray: function(array) {
+         var returnArray = [];
+         var self = this;
+
+         array.forEach(function(element) {
+            if (!self.findValueInArray(returnArray, element)) {
+               returnArray.push(element);
+            }
+         });
+         return returnArray;
+      },
+
       indexOf: function(array, sentinelFn) {
          var returnValue = null;
 
          array.every(function(element, index) {
-            if (true === sentinelFn(element))
-            {
+            if (true === sentinelFn(element)) {
                returnValue = index;
                return false;
             }
-            else
-            {
+            else {
                return true;
             }
          })
@@ -174,8 +188,7 @@
       runInArray: function(array, sentinelFn, fn) {
          sentinelFn = sentinelFn || function(e) {return true;}
          array.forEach(function(element) {
-            if (true === sentinelFn(element))
-            {
+            if (true === sentinelFn(element)) {
                fn.call(element)
             }
          })
@@ -244,11 +257,11 @@
             var obj = sentinelFn.call(thisPointer, element, index);
 
             if (false === self.isUndefinedOrNull(obj)) {
-               newArray.push(obj)
+               newArray.push(obj);
             }
          })
 
-         return newArray
+         return newArray;
       },
 
       merge: function(array) {

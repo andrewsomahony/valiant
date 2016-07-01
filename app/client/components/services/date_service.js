@@ -25,7 +25,7 @@ function() {
    }
 
    DateService.toDefaultFormattedString = function(date) {
-      return DateService.toFormattedString(date, "dddd, MMMM Do YYYY, h:mm:ss a z");
+      return DateService.toFormattedString(date, "MMMM Do YYYY");
    }
 
    DateService.dateStringToFormattedString = function(dateString) {

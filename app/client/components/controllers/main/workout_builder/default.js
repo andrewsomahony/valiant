@@ -30,10 +30,6 @@ DateService) {
       }
    }
 
-   $scope.getWorkoutCreationDateString = function() {
-      return DateService.dateStringToFormattedString($scope.currentEditingWorkout.created_at);
-   }
-
    $scope.getWorkoutUpdatedDateString = function() {
       return DateService.dateStringToFormattedString($scope.currentEditingWorkout.updated_at);
    }

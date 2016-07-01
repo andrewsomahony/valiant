@@ -13,12 +13,13 @@ div.workout-builder {
       }
 
       div.workout-information {
-         @media screen and (max-width: $min-sm-screen-width) {
-            width: 50%;
-         }
-         @media screen and (min-width: $min-sm-screen-width) {
-            width: 100%;
-         }
+         display: inline-block;
+         width: 100%;
+         font-size: 1.1em;
+
+         padding-bottom: 1em;
+         margin-bottom: 1em;
+         border-bottom: 1px solid black;
 
          div.creator {
             span.workout-created-by {
@@ -50,13 +51,6 @@ div.workout-builder {
                }
             }
          }
-
-         display: inline-block;
-         font-size: 1.1em;
-
-         padding-bottom: 1em;
-         margin-bottom: 1em;
-         border-bottom: 1px solid black;
       }
 
       div.workout-container {

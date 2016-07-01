@@ -5,15 +5,22 @@ var registerDirective = require('directives/register');
 var name = 'workoutWidget';
 
 registerDirective(name, ['$compile',
-function($compile) {
+                         require('services/scope_service'),
+                         require('services/state_service'),
+                         require('services/workout_builder_service'),
+function($compile, ScopeService, StateService, WorkoutBuilderService) {
    return {
       restrict: "A",
       scope: {
          workout: "<",
-         size: "@"
+         size: "@",
+         //isLink: "@"
       },
       link: function($scope, $element, $attributes) {
          $element.addClass('workout-widget');
+
+         ScopeService.watchBool($scope, $attributes,
+          'isLink', false);
 
          $scope.$watch('size', function(newValue) {
             if (!newValue) {
@@ -33,8 +40,18 @@ function($compile) {
 
          $scope.getWidgetClass = function() {
             var classes = [];
+            
+            if (true === $scope.isLink) {
+               classes.push('link');
+            }
 
             return classes;
+         }
+
+         $scope.onWidgetClicked = function() {
+            if (true === $scope.isLink) {
+               StateService.go('main.workout_builder', {workoutId: $scope.workout.id});
+            }
          }
 
          var $titleDiv = angular.element("<div></div>");
@@ -68,15 +85,14 @@ function($compile) {
          var $workoutStrokeSpan = angular.element("<span></span>");
          $workoutStrokeSpan.addClass('stroke');
 
-         var $workoutStrokeImage = angular.element("<img />");
-         $workoutStrokeImage.attr('src', '/images/freestyle.jpg');
+         var strokeIcons = WorkoutBuilderService.getWorkoutIcons($scope.workout);
 
-         $workoutStrokeSpan.append($compile($workoutStrokeImage)($scope));
-         
-         $workoutStrokeImage = angular.element("<img />");
-         $workoutStrokeImage.attr('src', '/images/freestyle.jpg');
+         strokeIcons.forEach(function(icon) {
+            var $workoutStrokeImage = angular.element("<img />");
+            $workoutStrokeImage.attr('ng-src', icon);
 
-         $workoutStrokeSpan.append($compile($workoutStrokeImage)($scope));
+            $workoutStrokeSpan.append($compile($workoutStrokeImage)($scope));
+         });
 
          $distanceDivTextDiv.append($compile($workoutStrokeSpan)($scope));
 
@@ -86,6 +102,7 @@ function($compile) {
 
          $element.attr('ng-style', 'getWidgetStyle()');
          $element.attr('ng-class', 'getWidgetClass()');
+         $element.attr('ng-click', 'onWidgetClicked()');
 
          $element.removeAttr('workout-widget');
          $compile($element)($scope);
