@@ -35,7 +35,7 @@ PictureModel, MediaService) {
         return Promise(function(resolve, reject, notify) {
             var promiseFnArray = [];
             
-            if (!currentUser) {
+            //if (!currentUser) {
                 // If we don't have a user, check to see if
                 // we are logged in and we can get a profile.
                 // This happens mostly on forced page reload.
@@ -48,7 +48,7 @@ PictureModel, MediaService) {
                             HttpService.get(ApiUrlService([{name: 'User'}, {name: 'Me'}]))
                             .then(function(user) {
                                 currentUser = new UserModel(user.data, true);
-                                console.log("CURRENT USER", currentUser);
+                                //console.log("CURRENT USER", currentUser);
                                 resolve({});
                             })
                             .catch(function(error) {
@@ -62,7 +62,7 @@ PictureModel, MediaService) {
                         })
                     }
                 });
-            }
+            //}
             
             if ('main.page.user.default' === state) {
                 if (!params.userId) {
