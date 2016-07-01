@@ -206,12 +206,25 @@ ErrorService) {
 
       workout.sets.forEach(function(set) {
          set.elements.forEach(function(element) {
-            var e = utils.findInArray(array, function(a) {
-               return element[attribute] === a.name;
-            });
+            if ('modifications' === attribute) {
+               element['modifications'].forEach(function(modification) {
+                  var e = utils.findInArray(array, function(a) {
+                     return modification.name === a.name;
+                  });
 
-            if (e) {
-               returnArray.push(e);
+                  if (e) {
+                     returnArray.push(e);
+                  }
+               });
+               
+            } else {
+               var e = utils.findInArray(array, function(a) {
+                  return element[attribute] === a.name;
+               });
+
+               if (e) {
+                  returnArray.push(e);
+               }
             }
          })
       });  
@@ -227,6 +240,18 @@ ErrorService) {
       });
    }
 
+   WorkoutBuilderService.getSetElementModificationIcon = function(modification) {
+      var foundModification = utils.findInArray(setStrokeModifications, function(m) {
+         return m.name === modification.name;
+      });
+
+      if (foundModification) {
+         return foundModification.icon;
+      } else {
+         return null;
+      }
+   }
+
    WorkoutBuilderService.getWorkoutStrokes = function(workout) {
       return WorkoutBuilderService.getWorkoutElementsByAttribute(workout, setStrokes, 'stroke');
    }
@@ -237,7 +262,7 @@ ErrorService) {
       var icons = utils.merge([],
          WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setTypes, 'type'),
          WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokes, 'stroke'),
-         WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokeModifications, 'stroke_modification')
+         WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokeModifications, 'modifications')
       );
 
       if (!icons.length) {
@@ -245,18 +270,6 @@ ErrorService) {
       } else {
          return utils.removeDuplicatesFromArray(icons);
       }
-   }
-
-   WorkoutBuilderService.getWorkoutStrokeIcons = function(workout) {
-      var strokeArray = WorkoutBuilderService.getWorkoutStrokes(workout);
-
-      if (!strokeArray.length) {
-         return [defaultSwimIcon];
-      }
-
-      return utils.map(strokeArray, function(stroke) {
-         return stroke.icon || null;
-      });
    }
 
    WorkoutBuilderService.createWorkout = function(workoutModel) {

@@ -1,0 +1,26 @@
+.set-element-modification {
+   div.edit {
+      font-size: 0.9em;
+      div.form {
+         select {
+            display: inline-block;
+            width: 100%;
+         }         
+         margin-bottom: 0.22em;
+      }
+   }
+
+   div.display {
+      font-size: 1em;
+      span {
+         margin-left: 0.40em;
+
+         &.icon {
+            img {
+               width: 1.1em;
+               height: 1.1em;
+            }
+         }
+      }
+   }
+}

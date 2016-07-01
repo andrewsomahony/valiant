@@ -85,14 +85,8 @@ function($compile, ScopeService, StateService, WorkoutBuilderService) {
          var $workoutStrokeSpan = angular.element("<span></span>");
          $workoutStrokeSpan.addClass('stroke');
 
-         var strokeIcons = WorkoutBuilderService.getWorkoutIcons($scope.workout);
-
-         strokeIcons.forEach(function(icon) {
-            var $workoutStrokeImage = angular.element("<img />");
-            $workoutStrokeImage.attr('ng-src', icon);
-
-            $workoutStrokeSpan.append($compile($workoutStrokeImage)($scope));
-         });
+         $workoutStrokeSpan.attr('workout-icons', 'workout');
+         $workoutStrokeSpan.attr('size', '2em');
 
          $distanceDivTextDiv.append($compile($workoutStrokeSpan)($scope));
 

@@ -9,7 +9,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('animations'), []);
-},{"angular":145,"info":128}],3:[function(require,module,exports){
+},{"angular":148,"info":131}],3:[function(require,module,exports){
 'use strict';
 
 require('./root');
@@ -111,7 +111,7 @@ ErrorModal, HttpService, ConfirmModal) {
 }]);
 
 module.exports = name;
-},{"../../register":30,"models/http_response":66,"services/confirm_modal_service":84,"services/error":91,"services/error_modal":92,"services/http_service":99,"services/progress":112,"utils":133}],6:[function(require,module,exports){
+},{"../../register":30,"models/http_response":68,"services/confirm_modal_service":87,"services/error":94,"services/error_modal":95,"services/http_service":102,"services/progress":115,"utils":136}],6:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -125,7 +125,7 @@ function($scope, ErrorPageService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"services/error_page_service":93}],7:[function(require,module,exports){
+},{"controllers/register":30,"services/error_page_service":96}],7:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -236,7 +236,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"services/error_modal":92,"services/state_service":123,"services/user_service":124,"utils":133}],11:[function(require,module,exports){
+},{"controllers/register":30,"services/error_modal":95,"services/state_service":126,"services/user_service":127,"utils":136}],11:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -271,7 +271,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"services/error_modal":92,"services/user_service":124}],12:[function(require,module,exports){
+},{"controllers/register":30,"services/error_modal":95,"services/user_service":127}],12:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -328,7 +328,7 @@ function($scope, UserService, ErrorModal) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"services/error_modal":92,"services/user_service":124}],14:[function(require,module,exports){
+},{"controllers/register":30,"services/error_modal":95,"services/user_service":127}],14:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -397,7 +397,7 @@ FFMpegService, ErrorModal, QuestionTypeService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"models/question":72,"services/device_service":89,"services/error_modal":92,"services/ffmpeg_service":95,"services/parallel_promise":107,"services/promise":113,"services/question_service":115,"services/question_type_service":116,"services/s3_uploader_service":120,"utils":133}],15:[function(require,module,exports){
+},{"controllers/register":30,"models/question":74,"services/device_service":92,"services/error_modal":95,"services/ffmpeg_service":98,"services/parallel_promise":110,"services/promise":116,"services/question_service":118,"services/question_type_service":119,"services/s3_uploader_service":123,"utils":136}],15:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -524,7 +524,7 @@ FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"models/user":75,"services/error_modal":92,"services/file_reader_activator_service":96,"services/picture_service":110,"services/profile_picture_service":111,"services/progress":112,"services/promise":113,"services/serial_promise":122,"services/state_service":123,"services/user_service":124}],19:[function(require,module,exports){
+},{"controllers/register":30,"models/user":77,"services/error_modal":95,"services/file_reader_activator_service":99,"services/picture_service":113,"services/profile_picture_service":114,"services/progress":115,"services/promise":116,"services/serial_promise":125,"services/state_service":126,"services/user_service":127}],19:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -578,7 +578,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"services/error_modal":92,"services/state_service":123,"services/user_service":124}],21:[function(require,module,exports){
+},{"controllers/register":30,"services/error_modal":95,"services/state_service":126,"services/user_service":127}],21:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -631,7 +631,7 @@ function($scope, UserService, ErrorModal, StateService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"services/error_modal":92,"services/state_service":123,"services/user_service":124}],23:[function(require,module,exports){
+},{"controllers/register":30,"services/error_modal":95,"services/state_service":126,"services/user_service":127}],23:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -1002,7 +1002,7 @@ FileReaderActivatorService, Promise) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"models/user":75,"services/file_reader_activator_service":96,"services/picture_service":110,"services/profile_picture_service":111,"services/promise":113,"services/state_service":123,"services/user_service":124}],24:[function(require,module,exports){
+},{"controllers/register":30,"models/user":77,"services/file_reader_activator_service":99,"services/picture_service":113,"services/profile_picture_service":114,"services/promise":116,"services/state_service":126,"services/user_service":127}],24:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -1078,7 +1078,8 @@ DateService) {
 
          WorkoutBuilderService.saveWorkout($scope.currentEditingWorkout, WorkoutBuilderService.getCurrentWorkout())
          .then(function(newWorkout) {
-            $scope.currentEditingWorkout = newWorkout.clone();
+            $scope.currentEditingWorkout.fromModel(newWorkout);
+            console.log(WorkoutBuilderService.getWorkoutIcons($scope.currentEditingWorkout));
             $scope.setPostSavingMessage("Workout saved!");
             resolve();
          })
@@ -1117,7 +1118,7 @@ DateService) {
 }])
 
 module.exports = name;
-},{"controllers/register":30,"services/date_service":88,"services/promise":113,"services/user_service":124,"services/workout_builder_service":126}],26:[function(require,module,exports){
+},{"controllers/register":30,"services/date_service":91,"services/promise":116,"services/user_service":127,"services/workout_builder_service":129}],26:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -1163,7 +1164,7 @@ ErrorModal, Promise, StateService) {
 }])
 
 module.exports = name;
-},{"controllers/register":30,"models/workout_builder/workout":80,"services/error_modal":92,"services/promise":113,"services/state_service":123,"services/workout_builder_service":126}],27:[function(require,module,exports){
+},{"controllers/register":30,"models/workout_builder/workout":83,"services/error_modal":95,"services/promise":116,"services/state_service":126,"services/workout_builder_service":129}],27:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -1196,7 +1197,7 @@ var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('controllers'), []);
-},{"angular":145,"info":128}],30:[function(require,module,exports){
+},{"angular":148,"info":131}],30:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -1304,7 +1305,7 @@ ErrorPageService) {
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"services/error_modal":92,"services/error_page_service":93,"services/permission_service":108,"services/state_service":123,"services/user_service":124,"utils":133}],32:[function(require,module,exports){
+},{"controllers/register":30,"services/error_modal":95,"services/error_page_service":96,"services/permission_service":111,"services/state_service":126,"services/user_service":127,"utils":136}],32:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1367,7 +1368,7 @@ function(ConfirmModalService, $compile) {
 }]);
 
 module.exports = name;
-},{"directives/register":47,"services/confirm_modal_service":84}],34:[function(require,module,exports){
+},{"directives/register":47,"services/confirm_modal_service":87}],34:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1404,7 +1405,7 @@ function(PromiseService, HttpService, ApiUrlService) {
 }]);
 
 module.exports = name;
-},{"directives/register":47,"services/api_url":81,"services/http_service":99,"services/promise":113}],35:[function(require,module,exports){
+},{"directives/register":47,"services/api_url":84,"services/http_service":102,"services/promise":116}],35:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1521,7 +1522,7 @@ ScopeService, IdService) {
 }])
 
 module.exports = name;
-},{"directives/register":47,"models/file":65,"services/error":91,"services/file_reader_service":97,"services/file_type_validator_service":98,"services/id":100,"services/image_service":101,"services/mime_service":104,"services/parallel_promise":107,"services/progress":112,"services/promise":113,"services/scope_service":121,"services/serial_promise":122,"utils":133}],36:[function(require,module,exports){
+},{"directives/register":47,"models/file":67,"services/error":94,"services/file_reader_service":100,"services/file_type_validator_service":101,"services/id":103,"services/image_service":104,"services/mime_service":107,"services/parallel_promise":110,"services/progress":115,"services/promise":116,"services/scope_service":124,"services/serial_promise":125,"utils":136}],36:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1621,6 +1622,7 @@ require('./workout_builder/workout_renderer');
 require('./workout_builder/speed_time_renderer');
 require('./workout_builder/set_renderer');
 require('./workout_builder/set_element_renderer');
+require('./workout_builder/set_element_modification_renderer');
 
 require('./font_awesome_centered_icon');
 require('./font_awesome_icon_text');
@@ -1628,7 +1630,8 @@ require('./font_awesome_icon_text');
 require('./confirm_click');
 
 require('./workout_widget');
-},{"./compare_to":32,"./confirm_click":33,"./email_in_use":34,"./file_reader":35,"./font_awesome_centered_icon":36,"./font_awesome_icon_text":37,"./loading_progress":39,"./media_picker":40,"./media_renderer":41,"./overlay":43,"./picture_media_picker":44,"./picture_renderer":45,"./profile_picture":46,"./video_media_picker":48,"./video_renderer":49,"./workout_builder/set_element_renderer":50,"./workout_builder/set_renderer":51,"./workout_builder/speed_time_renderer":52,"./workout_builder/workout_renderer":53,"./workout_widget":54,"./youtube_media_picker":55,"./youtube_renderer":56}],39:[function(require,module,exports){
+require('./workout_icons');
+},{"./compare_to":32,"./confirm_click":33,"./email_in_use":34,"./file_reader":35,"./font_awesome_centered_icon":36,"./font_awesome_icon_text":37,"./loading_progress":39,"./media_picker":40,"./media_renderer":41,"./overlay":43,"./picture_media_picker":44,"./picture_renderer":45,"./profile_picture":46,"./video_media_picker":48,"./video_renderer":49,"./workout_builder/set_element_modification_renderer":50,"./workout_builder/set_element_renderer":51,"./workout_builder/set_renderer":52,"./workout_builder/speed_time_renderer":53,"./workout_builder/workout_renderer":54,"./workout_icons":55,"./workout_widget":56,"./youtube_media_picker":57,"./youtube_renderer":58}],39:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -1969,7 +1972,7 @@ registerDirective(name, ['$compile',
 ])
 
 module.exports = name;
-},{"directives/register":47,"services/css_service":85,"utils":133}],40:[function(require,module,exports){
+},{"directives/register":47,"services/css_service":88,"utils":136}],40:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2085,7 +2088,7 @@ function(ScopeService, FileReaderActivatorService) {
 }]);
 
 module.exports = name;
-},{"directives/register":47,"services/file_reader_activator_service":96,"services/scope_service":121}],41:[function(require,module,exports){
+},{"directives/register":47,"services/file_reader_activator_service":99,"services/scope_service":124}],41:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2134,14 +2137,14 @@ function($compile, ScopeService) {
 ]);
 
 module.exports = name;
-},{"directives/register":47,"services/scope_service":121,"utils":133}],42:[function(require,module,exports){
+},{"directives/register":47,"services/scope_service":124,"utils":136}],42:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('directives'), []);
-},{"angular":145,"info":128}],43:[function(require,module,exports){
+},{"angular":148,"info":131}],43:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2291,7 +2294,7 @@ Promise, SerialPromise, $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":47,"services/picture_proportional_resize_service":109,"services/picture_service":110,"services/promise":113,"services/serial_promise":122}],45:[function(require,module,exports){
+},{"directives/register":47,"services/picture_proportional_resize_service":112,"services/picture_service":113,"services/promise":116,"services/serial_promise":125}],45:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2435,7 +2438,7 @@ function(ScopeService, $compile) {
 ]);
 
 module.exports = name;
-},{"directives/register":47,"services/scope_service":121}],46:[function(require,module,exports){
+},{"directives/register":47,"services/scope_service":124}],46:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2471,7 +2474,7 @@ function(PictureModel) {
 }])
 
 module.exports = name;
-},{"directives/register":47,"models/picture":70}],47:[function(require,module,exports){
+},{"directives/register":47,"models/picture":72}],47:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -2614,7 +2617,7 @@ $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":47,"services/progress":112,"services/promise":113,"services/serial_promise":122,"services/video_service":125,"utils":133}],49:[function(require,module,exports){
+},{"directives/register":47,"services/progress":115,"services/promise":116,"services/serial_promise":125,"services/video_service":128,"utils":136}],49:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2882,7 +2885,110 @@ function(ScopeService, ProgressService, $compile) {
 }]);
 
 module.exports = name;
-},{"directives/register":47,"services/progress":112,"services/scope_service":121}],50:[function(require,module,exports){
+},{"directives/register":47,"services/progress":115,"services/scope_service":124}],50:[function(require,module,exports){
+'use strict';
+
+var registerDirective = require('directives/register');
+
+var name = 'setElementModification';
+
+registerDirective(name, [require('models/workout_builder/set_element_modification'),
+                         require('services/scope_service'),
+                         require('services/workout_builder_service'),
+function(SetElementModificationModel, ScopeService, WorkoutBuilderService) {
+   return {
+      restrict: "E",
+      scope: {
+         model: "=",
+
+         /*
+         isEditable: "@",
+         isInitiallyEditing: "@",
+         canEditInline: "@",*/
+
+         saveButtonText: "@",
+         cancelButtonText: "@",
+
+         onSaveClicked: "&",
+         onCancelClicked: "&",
+         onDeleteClicked: "&",
+         onEditClicked: "&"
+      },
+      templateUrl: "directives/workout_builder/set_element_modification_renderer.html",
+      link: function($scope, $element, $attributes) {
+         $element.addClass('set-element-modification');
+
+         $scope.hasCheckedInitiallyEditing = false;
+
+         ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
+         ScopeService.watchBool($scope, $attributes, 'isEditable', true);
+         ScopeService.watchBool($scope, $attributes, 'isInitiallyEditing', false, function(newValue) {
+            // We only want to run this once
+            if (!$scope.hasCheckedInitiallyEditing) {
+               $scope.hasCheckedInitiallyEditing = true;
+               if (true === $scope.isInitiallyEditing) {
+                  $scope.editClicked();
+               }
+            }
+         });   
+
+         $scope.getEditDivClass = function() {
+            var classes = [];
+
+            if (true === $scope.canEditInline) {
+               classes.push('inline');
+            }
+
+            return classes;
+         }
+
+         $scope.getModificationIcon = function() {
+            return WorkoutBuilderService.getSetElementModificationIcon($scope.model);
+         }
+
+         $scope.getModificationList = function() {
+            return WorkoutBuilderService.getSetStrokeModificationNamesArray();
+         }
+
+         $scope.setIsEditing = function(isEditing) {
+            $scope.isEditing = isEditing;
+            if (true === isEditing) {
+               if (!$scope.editingModel) {
+                  $scope.editingModel = new SetElementModificationModel();
+               }
+               $scope.editingModel.fromModel($scope.model);
+            }
+            $scope.model.setInternalVariable('is_editing', isEditing);
+         }
+
+         $scope.editClicked = function() {
+            if (true === $scope.canEditInline) {
+               $scope.setIsEditing(true);
+            }
+            $scope.onEditClicked({modification: $scope.model});
+         }
+
+         $scope.deleteClicked = function() {
+            $scope.onDeleteClicked({modification: $scope.model});
+         }
+
+         $scope.cancelClicked = function() {
+            $scope.setIsEditing(false);
+            $scope.onCancelClicked({modification: $scope.model});
+         }
+
+         $scope.saveClicked = function() {
+            $scope.model.fromModel($scope.editingModel);
+            $scope.setIsEditing(false);
+
+            $scope.onSaveClicked({modification: $scope.model});
+         }            
+      }
+   }
+}])
+
+module.exports = name;
+},{"directives/register":47,"models/workout_builder/set_element_modification":81,"services/scope_service":124,"services/workout_builder_service":129}],51:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3024,6 +3130,25 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
             }
          }
 
+         $scope.deleteModification = function(modification) {
+            $scope.editingElement.deleteFromChildArray('modifications', modification);
+         }
+
+         $scope.saveModification = function(modification) {
+            modification.setInternalVariable('is_unborn', false);
+         }
+
+         $scope.cancelModification = function(modification) {
+            if (true === modification.getInternalVariable('is_unborn')) {
+               $scope.deleteModification(modification);
+            }
+         }
+
+         $scope.newModification = function() {
+            var modification = $scope.editingElement.pushOntoChildArray('modifications');
+            modification.setInternalVariable('is_unborn', true);
+         }
+
          $scope.getElementQuantityAndDistance = function() {
             return "" + $scope.model.quantity + "x" + $scope.model.distance;
          }
@@ -3045,7 +3170,7 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":47,"models/workout_builder/set_element":78,"services/scope_service":121,"services/workout_builder_service":126}],51:[function(require,module,exports){
+},{"directives/register":47,"models/workout_builder/set_element":80,"services/scope_service":124,"services/workout_builder_service":129}],52:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3169,7 +3294,7 @@ function(SetModel, ScopeService, SetBuilderService) {
       }
    };
 }])
-},{"directives/register":47,"models/workout_builder/set":77,"services/scope_service":121,"services/workout_builder_service":126}],52:[function(require,module,exports){
+},{"directives/register":47,"models/workout_builder/set":79,"services/scope_service":124,"services/workout_builder_service":129}],53:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3304,7 +3429,7 @@ function(SpeedTimeModel, ScopeService, $timeout) {
 }]);
 
 module.exports = name;
-},{"directives/register":47,"models/workout_builder/speed_time":79,"services/scope_service":121,"utils":133}],53:[function(require,module,exports){
+},{"directives/register":47,"models/workout_builder/speed_time":82,"services/scope_service":124,"utils":136}],54:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3395,7 +3520,6 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
          }
 
          $scope.deleteSet = function(set) {
-            console.log(set);
             $scope.editingWorkout.deleteFromChildArray('sets', set);
             if (false === $scope.canEditSetsInline) {
                $scope.onDeleteSet({set: set});
@@ -3455,7 +3579,62 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
 }]);
 
 module.exports = name;
-},{"directives/register":47,"models/workout_builder/workout":80,"services/promise":113,"services/scope_service":121,"services/workout_builder_service":126}],54:[function(require,module,exports){
+},{"directives/register":47,"models/workout_builder/workout":83,"services/promise":116,"services/scope_service":124,"services/workout_builder_service":129}],55:[function(require,module,exports){
+'use strict';
+
+var registerDirective = require('directives/register');
+
+var name = 'workoutIcons';
+
+registerDirective(name, ['$compile',
+                         require('services/workout_builder_service'),
+function($compile, WorkoutBuilderService) {
+   return {
+      restrict: "A",
+      scope: {
+         workoutIcons: "<",
+         size: "@"
+      },
+      link: function($scope, $element, $attributes) {
+         $element.addClass('workout-icons');
+
+         $scope.$watch('size', function(newValue) {
+            if (!newValue) {
+               $scope.size = '30px';
+            }
+         });
+
+         $scope.getImageStyle = function() {
+            var style = {};
+
+            style['width'] = $scope.size;
+            style['height'] = $scope.size;
+            style['margin-right'] = '0.2em';
+
+            return style;
+         }
+
+         $scope.$watch('workoutIcons', function(newValue) {
+            $element.empty();
+         var strokeIcons = WorkoutBuilderService.getWorkoutIcons($scope.workoutIcons);
+         strokeIcons.forEach(function(icon) {
+            var $workoutStrokeImage = angular.element("<img />");
+            $workoutStrokeImage.attr('ng-src', icon);
+            $workoutStrokeImage.attr('ng-style', 'getImageStyle()');
+
+            $element.append($compile($workoutStrokeImage)($scope));
+         });
+
+         $element.removeAttr('workout-icons');
+         $compile($element)($scope);
+         }, true);
+
+      }
+   }
+}]);
+
+module.exports = name;
+},{"directives/register":47,"services/workout_builder_service":129}],56:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3543,14 +3722,8 @@ function($compile, ScopeService, StateService, WorkoutBuilderService) {
          var $workoutStrokeSpan = angular.element("<span></span>");
          $workoutStrokeSpan.addClass('stroke');
 
-         var strokeIcons = WorkoutBuilderService.getWorkoutIcons($scope.workout);
-
-         strokeIcons.forEach(function(icon) {
-            var $workoutStrokeImage = angular.element("<img />");
-            $workoutStrokeImage.attr('ng-src', icon);
-
-            $workoutStrokeSpan.append($compile($workoutStrokeImage)($scope));
-         });
+         $workoutStrokeSpan.attr('workout-icons', 'workout');
+         $workoutStrokeSpan.attr('size', '2em');
 
          $distanceDivTextDiv.append($compile($workoutStrokeSpan)($scope));
 
@@ -3569,7 +3742,7 @@ function($compile, ScopeService, StateService, WorkoutBuilderService) {
 }])
 
 module.exports = name;
-},{"directives/register":47,"services/scope_service":121,"services/state_service":123,"services/workout_builder_service":126}],55:[function(require,module,exports){
+},{"directives/register":47,"services/scope_service":124,"services/state_service":126,"services/workout_builder_service":129}],57:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3629,7 +3802,7 @@ function(YoutubeUrlModalService, VideoModel, $timeout) {
 }])
 
 module.exports = name;
-},{"directives/register":47,"models/video":76,"services/youtube_url_modal_service":127,"utils":133}],56:[function(require,module,exports){
+},{"directives/register":47,"models/video":78,"services/youtube_url_modal_service":130,"utils":136}],58:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -3776,18 +3949,18 @@ function($compile, $timeout, ErrorService, ScopeService) {
 }]);
 
 module.exports = name;
-},{"directives/register":47,"services/error":91,"services/scope_service":121,"utils":133}],57:[function(require,module,exports){
+},{"directives/register":47,"services/error":94,"services/scope_service":124,"utils":136}],59:[function(require,module,exports){
 'use strict';
 
 require('./trusted');
-},{"./trusted":60}],58:[function(require,module,exports){
+},{"./trusted":62}],60:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var info = require('info');
 
 module.exports = angular.module(info.moduleName('filters'), []);
-},{"angular":145,"info":128}],59:[function(require,module,exports){
+},{"angular":148,"info":131}],61:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -3795,7 +3968,7 @@ var m = require('./module');
 module.exports = function(name, params) {
     m.filter(name, params);
 }
-},{"./module":58}],60:[function(require,module,exports){
+},{"./module":60}],62:[function(require,module,exports){
 'use strict';
 
 var registerFilter = require('filters/register');
@@ -3810,7 +3983,7 @@ function($sce) {
 }]);
 
 module.exports = name;
-},{"filters/register":59}],61:[function(require,module,exports){
+},{"filters/register":61}],63:[function(require,module,exports){
 'use strict'
 
 var m = require('./module')
@@ -4226,7 +4399,7 @@ function(id, promise) {
 }])
 
 module.exports = name
-},{"../services/id":100,"../services/promise":113,"./module":68,"classy":211,"rfc6902":307,"utils":133}],62:[function(require,module,exports){
+},{"../services/id":103,"../services/promise":116,"./module":70,"classy":214,"rfc6902":310,"utils":136}],64:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4274,7 +4447,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/register":73}],63:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/register":75}],65:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4303,7 +4476,7 @@ function(BaseModel) {
 }]);
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/register":73}],64:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/register":75}],66:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -4342,7 +4515,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":61,"classy":211,"models/register":73,"utils":133}],65:[function(require,module,exports){
+},{"./base":63,"classy":214,"models/register":75,"utils":136}],67:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4518,7 +4691,7 @@ ErrorService) {
 module.exports = name;
 
 
-},{"classy":211,"models/base":61,"models/register":73,"services/data_url_service":87,"services/error":91,"services/file_reader_service":97,"services/promise":113}],66:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/register":75,"services/data_url_service":90,"services/error":94,"services/file_reader_service":100,"services/promise":116}],68:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4573,7 +4746,7 @@ statusText – {string} – HTTP status text of the response.
 }]);
 
 module.exports = name;
-},{"./base":61,"classy":211,"models/register":73}],67:[function(require,module,exports){
+},{"./base":63,"classy":214,"models/register":75}],69:[function(require,module,exports){
 'use strict';
 
 require('./user');
@@ -4581,14 +4754,14 @@ require('./video');
 require('./picture');
 require('./notification');
 require('./comment');
-},{"./comment":63,"./notification":69,"./picture":70,"./user":75,"./video":76}],68:[function(require,module,exports){
+},{"./comment":65,"./notification":71,"./picture":72,"./user":77,"./video":78}],70:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('models'), []);
-},{"angular":145,"info":128}],69:[function(require,module,exports){
+},{"angular":148,"info":131}],71:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4618,7 +4791,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/register":73}],70:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/register":75}],72:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4731,7 +4904,7 @@ function(BaseModel) {
 }])
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/register":73}],71:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/register":75}],73:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('./register');
@@ -4772,7 +4945,7 @@ function(baseModel) {
 }])
 
 module.exports = name;
-},{"./base":61,"./register":73,"classy":211,"models/base":61}],72:[function(require,module,exports){
+},{"./base":63,"./register":75,"classy":214,"models/base":63}],74:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4840,7 +5013,7 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
 ]);
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/comment":63,"models/picture":70,"models/register":73,"models/video":76}],73:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/comment":65,"models/picture":72,"models/register":75,"models/video":78}],75:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -4848,7 +5021,7 @@ var m = require('./module');
 module.exports = function(name, params) {
     m.factory(name, params);
 }
-},{"./module":68}],74:[function(require,module,exports){
+},{"./module":70}],76:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('./register');
@@ -4932,7 +5105,7 @@ function(BaseModel) {
 }]);
 
 module.exports = name;
-},{"./register":73,"classy":211,"models/base":61,"utils":133}],75:[function(require,module,exports){
+},{"./register":75,"classy":214,"models/base":63,"utils":136}],77:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('models/register');
@@ -4987,12 +5160,24 @@ PictureModel, QuestionModel, WorkoutModel) {
          } else {
             this.profile_picture.fromModel(picture);
          }
+      },
+
+      // The workout array is automatically
+      // sorted by updated_at, with the most recent
+      // one at the top.
+
+      getLatestWorkout: function() {
+         if (this.workouts.length) {
+            return this.workouts[0];
+         } else {
+            return null;
+         }
       }
    })   
 }]);
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/notification":69,"models/picture":70,"models/question":72,"models/register":73,"models/workout_builder/workout":80}],76:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/notification":71,"models/picture":72,"models/question":74,"models/register":75,"models/workout_builder/workout":83}],78:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('./register');
@@ -5163,7 +5348,7 @@ function(BaseModel, PictureModel) {
 }])
 
 module.exports = name;
-},{"./register":73,"classy":211,"models/base":61,"models/picture":70,"utils":133}],77:[function(require,module,exports){
+},{"./register":75,"classy":214,"models/base":63,"models/picture":72,"utils":136}],79:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -5206,7 +5391,7 @@ function(BaseModel, SetElementModel) {
 }]);
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/register":73,"models/workout_builder/set_element":78}],78:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/register":75,"models/workout_builder/set_element":80}],80:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -5216,7 +5401,8 @@ var name = 'models.set_element';
 
 registerModel(name, [require('models/base'),
                      require('models/workout_builder/speed_time'),
-function(BaseModel, SpeedTimeModel) {
+                     require('models/workout_builder/set_element_modification'),
+function(BaseModel, SpeedTimeModel, SetElementModificationModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -5229,7 +5415,7 @@ function(BaseModel, SpeedTimeModel) {
                distance: "",
                type: "",
                stroke: "",
-               stroke_modification: "",
+               modifications: [{__model__: SetElementModificationModel}],
                intervals: [{__model__: SpeedTimeModel}],
                rests: [{__model__: SpeedTimeModel}]
             })
@@ -5243,7 +5429,36 @@ function(BaseModel, SpeedTimeModel) {
 }]);
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/register":73,"models/workout_builder/speed_time":79}],79:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/register":75,"models/workout_builder/set_element_modification":81,"models/workout_builder/speed_time":82}],81:[function(require,module,exports){
+'use strict';
+
+var registerModel = require('models/register');
+var classy = require('classy');
+
+var name = 'models.set_element_modification';
+
+registerModel(name, [require('models/base'),
+function(BaseModel) {
+   return classy.define({
+      extend: BaseModel,
+      alias: name,
+
+      statics: {
+         fields: function() {
+            return this.staticMerge(this.callSuper(), {
+               name: ""
+            })
+         }
+      },
+
+      init: function(config, isFromServer) {
+         this.callSuper();
+      }
+   });
+}]);
+
+module.exports = name;
+},{"classy":214,"models/base":63,"models/register":75}],82:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -5274,7 +5489,7 @@ function(BaseModel, TimeModel) {
 }]);
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/register":73,"models/time":74}],80:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/register":75,"models/time":76}],83:[function(require,module,exports){
 'use strict'
 
 var registerModel = require('models/register');
@@ -5324,7 +5539,7 @@ function(BaseModel, SetModel) {
 }]);
 
 module.exports = name;
-},{"classy":211,"models/base":61,"models/register":73,"models/workout_builder/set":77}],81:[function(require,module,exports){
+},{"classy":214,"models/base":63,"models/register":75,"models/workout_builder/set":79}],84:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5471,7 +5686,7 @@ registerService('factory', name, [function() {
 }]);
 
 module.exports = name;
-},{"services/register":118,"utils":133}],82:[function(require,module,exports){
+},{"services/register":121,"utils":136}],85:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5543,7 +5758,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":118}],83:[function(require,module,exports){
+},{"services/register":121}],86:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5640,7 +5855,7 @@ function(PictureService, Promise, CanvasModel) {
 ])
 
 module.exports = name;
-},{"models/canvas":62,"services/picture_service":110,"services/promise":113,"services/register":118}],84:[function(require,module,exports){
+},{"models/canvas":64,"services/picture_service":113,"services/promise":116,"services/register":121}],87:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5678,7 +5893,7 @@ function(ModalService, Promise, ScopeService) {
 }]);
 
 module.exports = name;
-},{"services/modal":105,"services/promise":113,"services/register":118,"services/scope_service":121}],85:[function(require,module,exports){
+},{"services/modal":108,"services/promise":116,"services/register":121,"services/scope_service":124}],88:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5705,7 +5920,7 @@ function() {
 ])
 
 module.exports = name;
-},{"services/register":118}],86:[function(require,module,exports){
+},{"services/register":121}],89:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5751,7 +5966,7 @@ registerService('factory', name, [
 ]);
 
 module.exports = name;
-},{"services/parallel_promise":107,"services/progress":112,"services/register":118,"services/serial_promise":122,"services/user_service":124,"services/workout_builder_service":126,"utils":133}],87:[function(require,module,exports){
+},{"services/parallel_promise":110,"services/progress":115,"services/register":121,"services/serial_promise":125,"services/user_service":127,"services/workout_builder_service":129,"utils":136}],90:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5820,7 +6035,7 @@ function(Base64Service, Promise) {
 }]);
 
 module.exports = name;
-},{"services/base64_service":82,"services/promise":113,"services/register":118}],88:[function(require,module,exports){
+},{"services/base64_service":85,"services/promise":116,"services/register":121}],91:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5860,7 +6075,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"moment-timezone":286,"services/register":118}],89:[function(require,module,exports){
+},{"moment-timezone":289,"services/register":121}],92:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5903,7 +6118,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"device-detector":241,"services/register":118}],90:[function(require,module,exports){
+},{"device-detector":244,"services/register":121}],93:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -5989,7 +6204,7 @@ ErrorService) {
 }]);
 
 module.exports = name;
-},{"services/error":91,"services/file_reader_service":97,"services/progress":112,"services/promise":113,"services/register":118,"services/serial_promise":122}],91:[function(require,module,exports){
+},{"services/error":94,"services/file_reader_service":100,"services/progress":115,"services/promise":116,"services/register":121,"services/serial_promise":125}],94:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6043,7 +6258,7 @@ function(ErrorModel, HttpResponseModel) {
 }]);
 
 module.exports = name;
-},{"models/error":64,"models/http_response":66,"services/register":118}],92:[function(require,module,exports){
+},{"models/error":66,"models/http_response":68,"services/register":121}],95:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6088,7 +6303,7 @@ function(modalService, ErrorModel, ScopeService, Promise) {
 }])
 
 module.exports = name
-},{"models/error":64,"services/modal":105,"services/promise":113,"services/register":118,"services/scope_service":121,"utils":133}],93:[function(require,module,exports){
+},{"models/error":66,"services/modal":108,"services/promise":116,"services/register":121,"services/scope_service":124,"utils":136}],96:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6127,7 +6342,7 @@ function(StateService, ErrorService) {
 }]);
 
 module.exports = name;
-},{"services/error":91,"services/register":118,"services/state_service":123}],94:[function(require,module,exports){
+},{"services/error":94,"services/register":121,"services/state_service":126}],97:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6284,7 +6499,7 @@ Promise, ProgressService, FileModel) {
 }]);
 
 module.exports = name;
-},{"exif-js":268,"exif-orient":269,"models/file":65,"services/data_url_service":87,"services/dom_image_service":90,"services/file_reader_service":97,"services/progress":112,"services/promise":113,"services/register":118,"services/serial_promise":122,"utils":133}],95:[function(require,module,exports){
+},{"exif-js":271,"exif-orient":272,"models/file":67,"services/data_url_service":90,"services/dom_image_service":93,"services/file_reader_service":100,"services/progress":115,"services/promise":116,"services/register":121,"services/serial_promise":125,"utils":136}],98:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6877,7 +7092,7 @@ ErrorService, MimeService) {
 module.exports = name;
 
 
-},{"models/file":65,"services/error":91,"services/mime_service":104,"services/progress":112,"services/promise":113,"services/register":118,"utils":133}],96:[function(require,module,exports){
+},{"models/file":67,"services/error":94,"services/mime_service":107,"services/progress":115,"services/promise":116,"services/register":121,"utils":136}],99:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -6961,7 +7176,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":118}],97:[function(require,module,exports){
+},{"services/register":121}],100:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7083,7 +7298,7 @@ DataUrlService) {
 ]);
 
 module.exports = name;
-},{"services/data_url_service":87,"services/error":91,"services/parallel_promise":107,"services/progress":112,"services/promise":113,"services/register":118,"services/serial_promise":122}],98:[function(require,module,exports){
+},{"services/data_url_service":90,"services/error":94,"services/parallel_promise":110,"services/progress":115,"services/promise":116,"services/register":121,"services/serial_promise":125}],101:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7130,7 +7345,7 @@ function(MimeService, Promise, DOMImageService) {
 }]);
 
 module.exports = name;
-},{"services/dom_image_service":90,"services/mime_service":104,"services/promise":113,"services/register":118}],99:[function(require,module,exports){
+},{"services/dom_image_service":93,"services/mime_service":107,"services/promise":116,"services/register":121}],102:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7225,7 +7440,7 @@ function($http, PromiseService, HttpResponseModel, ErrorService) {
 }]);
 
 module.exports = name;
-},{"models/http_response":66,"services/error":91,"services/promise":113,"services/register":118,"utils":133}],100:[function(require,module,exports){
+},{"models/http_response":68,"services/error":94,"services/promise":116,"services/register":121,"utils":136}],103:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7246,7 +7461,7 @@ function() {
 }])
 
 module.exports = name
-},{"node-uuid":291,"services/register":118}],101:[function(require,module,exports){
+},{"node-uuid":294,"services/register":121}],104:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7432,11 +7647,11 @@ ErrorService, FileModel) {
 
 module.exports = name;
 
-},{"html5-canvas-image-resizer":276,"models/file":65,"services/data_url_service":87,"services/dom_image_service":90,"services/error":91,"services/exif_service":94,"services/file_reader_service":97,"services/progress":112,"services/promise":113,"services/register":118,"services/serial_promise":122}],102:[function(require,module,exports){
+},{"html5-canvas-image-resizer":279,"models/file":67,"services/data_url_service":90,"services/dom_image_service":93,"services/error":94,"services/exif_service":97,"services/file_reader_service":100,"services/progress":115,"services/promise":116,"services/register":121,"services/serial_promise":125}],105:[function(require,module,exports){
 'use strict';
 
 require('services/data_resolver');
-},{"services/data_resolver":86}],103:[function(require,module,exports){
+},{"services/data_resolver":89}],106:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7505,7 +7720,7 @@ Promise, Progress) {
 }])
 
 module.exports = name;
-},{"models/picture":70,"models/video":76,"services/progress":112,"services/promise":113,"services/register":118,"services/s3_uploader_service":120,"utils":133}],104:[function(require,module,exports){
+},{"models/picture":72,"models/video":78,"services/progress":115,"services/promise":116,"services/register":121,"services/s3_uploader_service":123,"utils":136}],107:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7578,7 +7793,7 @@ function() {
 }]);
 
 module.exports = name;
-},{"mimeType":283,"services/register":118}],105:[function(require,module,exports){
+},{"mimeType":286,"services/register":121}],108:[function(require,module,exports){
 var registerService = require('services/register');
 var utils = require('utils');
 
@@ -7612,14 +7827,14 @@ function($modal, $templateCache) {
 }])
 
 module.exports = name
-},{"services/register":118,"utils":133}],106:[function(require,module,exports){
+},{"services/register":121,"utils":136}],109:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
 var appInfo = require('info');
 
 module.exports = angular.module(appInfo.moduleName('services'), []);
-},{"angular":145,"info":128}],107:[function(require,module,exports){
+},{"angular":148,"info":131}],110:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -7722,7 +7937,7 @@ function(promise, progress, ProgressModel, $q) {
 }])
 
 module.exports = name;
-},{"./module":106,"models/progress":71,"services/progress":112,"services/promise":113,"utils":133}],108:[function(require,module,exports){
+},{"./module":109,"models/progress":73,"services/progress":115,"services/promise":116,"utils":136}],111:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7751,7 +7966,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":118}],109:[function(require,module,exports){
+},{"services/register":121}],112:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7832,7 +8047,7 @@ SerialPromise, ProgressService, ErrorService) {
 module.exports = name;
 
 
-},{"models/file":65,"services/dom_image_service":90,"services/error":91,"services/image_service":101,"services/progress":112,"services/promise":113,"services/register":118,"services/serial_promise":122}],110:[function(require,module,exports){
+},{"models/file":67,"services/dom_image_service":93,"services/error":94,"services/image_service":104,"services/progress":115,"services/promise":116,"services/register":121,"services/serial_promise":125}],113:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7920,7 +8135,7 @@ SerialPromise, ProgressService, FileReaderService, DOMImageService) {
 }])
 
 module.exports = name;
-},{"models/file":65,"models/picture":70,"services/dom_image_service":90,"services/file_reader_service":97,"services/image_service":101,"services/progress":112,"services/promise":113,"services/register":118,"services/serial_promise":122}],111:[function(require,module,exports){
+},{"models/file":67,"models/picture":72,"services/dom_image_service":93,"services/file_reader_service":100,"services/image_service":104,"services/progress":115,"services/promise":116,"services/register":121,"services/serial_promise":125}],114:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -7945,7 +8160,7 @@ function(PictureProportionalResizeService) {
 
 module.exports = name;
 
-},{"services/picture_proportional_resize_service":109,"services/register":118}],112:[function(require,module,exports){
+},{"services/picture_proportional_resize_service":112,"services/register":121}],115:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -7981,7 +8196,7 @@ function(progressModel) {
 }])
 
 module.exports = name;
-},{"../models/progress":71,"./module":106}],113:[function(require,module,exports){
+},{"../models/progress":73,"./module":109}],116:[function(require,module,exports){
 'use strict';
 
 var registerService = require('./register');
@@ -8013,7 +8228,7 @@ function($q) {
 }])
 
 module.exports = name;
-},{"./register":118}],114:[function(require,module,exports){
+},{"./register":121}],117:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8243,7 +8458,7 @@ PictureModel, QuestionTypeService, Promise, SerialPromise) {
 }]);
 
 module.exports = name;
-},{"models/file":65,"models/picture":70,"services/canvas_service":83,"services/picture_service":110,"services/promise":113,"services/question_type_service":116,"services/random_number_service":117,"services/register":118,"services/serial_promise":122,"utils":133}],115:[function(require,module,exports){
+},{"models/file":67,"models/picture":72,"services/canvas_service":86,"services/picture_service":113,"services/promise":116,"services/question_type_service":119,"services/random_number_service":120,"services/register":121,"services/serial_promise":125,"utils":136}],118:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8338,7 +8553,7 @@ MediaService, QuestionPreviewPictureService) {
 }])
 
 module.exports = name;
-},{"services/http_service":99,"services/media_service":103,"services/parallel_promise":107,"services/progress":112,"services/promise":113,"services/question_preview_picture_service":114,"services/register":118,"services/serial_promise":122,"utils":133}],116:[function(require,module,exports){
+},{"services/http_service":102,"services/media_service":106,"services/parallel_promise":110,"services/progress":115,"services/promise":116,"services/question_preview_picture_service":117,"services/register":121,"services/serial_promise":125,"utils":136}],119:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8367,7 +8582,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"services/register":118}],117:[function(require,module,exports){
+},{"services/register":121}],120:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8391,7 +8606,7 @@ function() {
 ]);
 
 module.exports = name;
-},{"chance":191,"services/register":118}],118:[function(require,module,exports){
+},{"chance":194,"services/register":121}],121:[function(require,module,exports){
 'use strict';
 
 var m = require('./module');
@@ -8407,7 +8622,7 @@ module.exports = function(type, name, params) {
         throw new Error("services.register: Invalid service type! " + name);   
     }
 }
-},{"./module":106}],119:[function(require,module,exports){
+},{"./module":109}],122:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8450,7 +8665,7 @@ function(ApiUrlService, Promise, ErrorService, HttpService) {
 }])
 
 module.exports = name;
-},{"services/api_url":81,"services/error":91,"services/http_service":99,"services/promise":113,"services/register":118}],120:[function(require,module,exports){
+},{"services/api_url":84,"services/error":94,"services/http_service":102,"services/promise":116,"services/register":121}],123:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8568,7 +8783,7 @@ function(FileModel, S3SignUrlService, Promise,
 }]);
 
 module.exports = name;
-},{"models/file":65,"models/picture":70,"models/video":76,"services/error":91,"services/progress":112,"services/promise":113,"services/register":118,"services/s3_sign_url_service":119,"services/serial_promise":122}],121:[function(require,module,exports){
+},{"models/file":67,"models/picture":72,"models/video":78,"services/error":94,"services/progress":115,"services/promise":116,"services/register":121,"services/s3_sign_url_service":122,"services/serial_promise":125}],124:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8619,7 +8834,7 @@ function($rootScope) {
 ])
 
 module.exports = name;
-},{"services/register":118,"utils":133}],122:[function(require,module,exports){
+},{"services/register":121,"utils":136}],125:[function(require,module,exports){
 'use strict';
 
 var m = require('./module')
@@ -8796,7 +9011,7 @@ function(promise, progress, ProgressModel) {
 }])
 
 module.exports = name;
-},{"./module":106,"models/progress":71,"services/progress":112,"services/promise":113,"utils":133}],123:[function(require,module,exports){
+},{"./module":109,"models/progress":73,"services/progress":115,"services/promise":116,"utils":136}],126:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -8894,7 +9109,7 @@ function($state) {
 }]);
 
 module.exports = name;
-},{"services/register":118,"utils":133}],124:[function(require,module,exports){
+},{"services/register":121,"utils":136}],127:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -9446,7 +9661,7 @@ PictureModel, MediaService) {
 ]);
 
 module.exports = name;
-},{"models/picture":70,"models/user":75,"services/api_url":81,"services/error":91,"services/http_service":99,"services/media_service":103,"services/progress":112,"services/promise":113,"services/register":118,"services/s3_uploader_service":120,"services/serial_promise":122,"utils":133}],125:[function(require,module,exports){
+},{"models/picture":72,"models/user":77,"services/api_url":84,"services/error":94,"services/http_service":102,"services/media_service":106,"services/progress":115,"services/promise":116,"services/register":121,"services/s3_uploader_service":123,"services/serial_promise":125,"utils":136}],128:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -9580,7 +9795,7 @@ PictureService) {
 }]);
 
 module.exports = name;
-},{"models/file":65,"models/video":76,"services/ffmpeg_service":95,"services/picture_service":110,"services/progress":112,"services/promise":113,"services/register":118,"services/serial_promise":122}],126:[function(require,module,exports){
+},{"models/file":67,"models/video":78,"services/ffmpeg_service":98,"services/picture_service":113,"services/progress":115,"services/promise":116,"services/register":121,"services/serial_promise":125}],129:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -9789,12 +10004,25 @@ ErrorService) {
 
       workout.sets.forEach(function(set) {
          set.elements.forEach(function(element) {
-            var e = utils.findInArray(array, function(a) {
-               return element[attribute] === a.name;
-            });
+            if ('modifications' === attribute) {
+               element['modifications'].forEach(function(modification) {
+                  var e = utils.findInArray(array, function(a) {
+                     return modification.name === a.name;
+                  });
 
-            if (e) {
-               returnArray.push(e);
+                  if (e) {
+                     returnArray.push(e);
+                  }
+               });
+               
+            } else {
+               var e = utils.findInArray(array, function(a) {
+                  return element[attribute] === a.name;
+               });
+
+               if (e) {
+                  returnArray.push(e);
+               }
             }
          })
       });  
@@ -9810,6 +10038,18 @@ ErrorService) {
       });
    }
 
+   WorkoutBuilderService.getSetElementModificationIcon = function(modification) {
+      var foundModification = utils.findInArray(setStrokeModifications, function(m) {
+         return m.name === modification.name;
+      });
+
+      if (foundModification) {
+         return foundModification.icon;
+      } else {
+         return null;
+      }
+   }
+
    WorkoutBuilderService.getWorkoutStrokes = function(workout) {
       return WorkoutBuilderService.getWorkoutElementsByAttribute(workout, setStrokes, 'stroke');
    }
@@ -9820,7 +10060,7 @@ ErrorService) {
       var icons = utils.merge([],
          WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setTypes, 'type'),
          WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokes, 'stroke'),
-         WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokeModifications, 'stroke_modification')
+         WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokeModifications, 'modifications')
       );
 
       if (!icons.length) {
@@ -9828,18 +10068,6 @@ ErrorService) {
       } else {
          return utils.removeDuplicatesFromArray(icons);
       }
-   }
-
-   WorkoutBuilderService.getWorkoutStrokeIcons = function(workout) {
-      var strokeArray = WorkoutBuilderService.getWorkoutStrokes(workout);
-
-      if (!strokeArray.length) {
-         return [defaultSwimIcon];
-      }
-
-      return utils.map(strokeArray, function(stroke) {
-         return stroke.icon || null;
-      });
    }
 
    WorkoutBuilderService.createWorkout = function(workoutModel) {
@@ -9890,7 +10118,7 @@ ErrorService) {
 ]);
 
 module.exports = name;
-},{"models/workout_builder/workout":80,"services/api_url":81,"services/error":91,"services/http_service":99,"services/promise":113,"services/register":118,"utils":133}],127:[function(require,module,exports){
+},{"models/workout_builder/workout":83,"services/api_url":84,"services/error":94,"services/http_service":102,"services/promise":116,"services/register":121,"utils":136}],130:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -9929,14 +10157,14 @@ function(ModalService, ScopeService, Promise) {
 }]);
 
 module.exports = name;
-},{"services/modal":105,"services/promise":113,"services/register":118,"services/scope_service":121}],128:[function(require,module,exports){
+},{"services/modal":108,"services/promise":116,"services/register":121,"services/scope_service":124}],131:[function(require,module,exports){
 module.exports = {
     name: 'valiant',
     moduleName: function(name) {
         return this.name + "." + name;
     }
 }
-},{}],129:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 'use strict';
 
 var angular = require('angular');
@@ -9972,7 +10200,7 @@ module.exports = angular.module(appInfo.name, [
     'ngMessages',
     'ngAnimate'
 ]);
-},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":38,"../components/filters/init":57,"../components/models/init":67,"../components/services/init":102,"../views/_views":331,"angular":145,"angular-animate":136,"angular-messages":138,"angular-route":140,"angular-strap":141,"angular-strap-tpl-modal":142,"angular-ui-router":143,"info":128}],130:[function(require,module,exports){
+},{"../components/animations/init":1,"../components/controllers/init":3,"../components/directives/init":38,"../components/filters/init":59,"../components/models/init":69,"../components/services/init":105,"../views/_views":334,"angular":148,"angular-animate":139,"angular-messages":141,"angular-route":143,"angular-strap":144,"angular-strap-tpl-modal":145,"angular-ui-router":146,"info":131}],133:[function(require,module,exports){
 'use strict';
 
 function boot() {
@@ -9986,7 +10214,7 @@ function boot() {
 }
 
 module.exports = boot
-},{"../info":128,"./app":129,"./config":131,"./routes":132}],131:[function(require,module,exports){
+},{"../info":131,"./app":132,"./config":134,"./routes":135}],134:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -10002,7 +10230,7 @@ app.config(['$httpProvider', function($httpProvider) {
         
     $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 }]);
-},{"./app":129}],132:[function(require,module,exports){
+},{"./app":132}],135:[function(require,module,exports){
 'use strict';
 
 var app = require('./app');
@@ -10384,7 +10612,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
        }
    })
 }]);
-},{"./app":129,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/error/default":6,"controllers/main/error/error":7,"controllers/main/home/default":8,"controllers/main/home/home":9,"controllers/main/login/default":10,"controllers/main/login/forgot_password":11,"controllers/main/login/login":12,"controllers/main/login/unverified":13,"controllers/main/question/ask":14,"controllers/main/question/default":15,"controllers/main/question/question":16,"controllers/main/question/unauthorized":17,"controllers/main/register/default":18,"controllers/main/register/register":19,"controllers/main/reset_password/default":20,"controllers/main/reset_password/reset_password":21,"controllers/main/top_bar":22,"controllers/main/user/default":23,"controllers/main/user/user":24,"controllers/main/workout_builder/default":25,"controllers/main/workout_builder/new":26,"controllers/main/workout_builder/unauthorized":27,"controllers/main/workout_builder/workout_builder":28}],133:[function(require,module,exports){
+},{"./app":132,"controllers/main/about/about":4,"controllers/main/about/default":5,"controllers/main/error/default":6,"controllers/main/error/error":7,"controllers/main/home/default":8,"controllers/main/home/home":9,"controllers/main/login/default":10,"controllers/main/login/forgot_password":11,"controllers/main/login/login":12,"controllers/main/login/unverified":13,"controllers/main/question/ask":14,"controllers/main/question/default":15,"controllers/main/question/question":16,"controllers/main/question/unauthorized":17,"controllers/main/register/default":18,"controllers/main/register/register":19,"controllers/main/reset_password/default":20,"controllers/main/reset_password/reset_password":21,"controllers/main/top_bar":22,"controllers/main/user/default":23,"controllers/main/user/user":24,"controllers/main/workout_builder/default":25,"controllers/main/workout_builder/new":26,"controllers/main/workout_builder/unauthorized":27,"controllers/main/workout_builder/workout_builder":28}],136:[function(require,module,exports){
 
 
 /*
@@ -10803,7 +11031,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
 /*'undefined' !== typeof exports ? ('undefined' !== typeof module ? module.exports : exports) : window*/
 
 
-},{}],134:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 require('domready')(function() {
     console.log("DOM IS READY!");
     
@@ -10811,7 +11039,7 @@ require('domready')(function() {
     bootFn();
 })
 
-},{"./init/boot":130,"domready":248}],135:[function(require,module,exports){
+},{"./init/boot":133,"domready":251}],138:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.6
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -14961,11 +15189,11 @@ angular.module('ngAnimate', [])
 
 })(window, window.angular);
 
-},{}],136:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 require('./angular-animate');
 module.exports = 'ngAnimate';
 
-},{"./angular-animate":135}],137:[function(require,module,exports){
+},{"./angular-animate":138}],140:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.5
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -15689,11 +15917,11 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-},{}],138:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 require('./angular-messages');
 module.exports = 'ngMessages';
 
-},{"./angular-messages":137}],139:[function(require,module,exports){
+},{"./angular-messages":140}],142:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.3
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -16717,11 +16945,11 @@ function ngViewFillContentFactory($compile, $controller, $route) {
 
 })(window, window.angular);
 
-},{}],140:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 require('./angular-route');
 module.exports = 'ngRoute';
 
-},{"./angular-route":139}],141:[function(require,module,exports){
+},{"./angular-route":142}],144:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -21060,7 +21288,7 @@ module.exports = 'ngRoute';
   });
   angular.module('mgcrea.ngStrap', [ 'mgcrea.ngStrap.modal', 'mgcrea.ngStrap.aside', 'mgcrea.ngStrap.alert', 'mgcrea.ngStrap.button', 'mgcrea.ngStrap.select', 'mgcrea.ngStrap.datepicker', 'mgcrea.ngStrap.timepicker', 'mgcrea.ngStrap.navbar', 'mgcrea.ngStrap.tooltip', 'mgcrea.ngStrap.popover', 'mgcrea.ngStrap.dropdown', 'mgcrea.ngStrap.typeahead', 'mgcrea.ngStrap.scrollspy', 'mgcrea.ngStrap.affix', 'mgcrea.ngStrap.tab', 'mgcrea.ngStrap.collapse' ]);
 })(window, document);
-},{}],142:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 /**
  * angular-strap
  * @version v2.3.8 - 2016-03-31
@@ -21073,7 +21301,7 @@ module.exports = 'ngRoute';
 angular.module('mgcrea.ngStrap.modal').run([ '$templateCache', function($templateCache) {
   $templateCache.put('modal/modal.tpl.html', '<div class="modal" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header" ng-show="title"><button type="button" class="close" aria-label="Close" ng-click="$hide()"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" ng-bind="title"></h4></div><div class="modal-body" ng-bind="content"></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="$hide()">Close</button></div></div></div></div>');
 } ]);
-},{}],143:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.2.18
@@ -25613,7 +25841,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],144:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.0
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -56042,11 +56270,11 @@ $provide.value("$locale", {
 })(window, document);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],145:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":144}],146:[function(require,module,exports){
+},{"./angular":147}],149:[function(require,module,exports){
 var asn1 = exports;
 
 asn1.bignum = require('bn.js');
@@ -56057,7 +56285,7 @@ asn1.constants = require('./asn1/constants');
 asn1.decoders = require('./asn1/decoders');
 asn1.encoders = require('./asn1/encoders');
 
-},{"./asn1/api":147,"./asn1/base":149,"./asn1/constants":153,"./asn1/decoders":155,"./asn1/encoders":158,"bn.js":161}],147:[function(require,module,exports){
+},{"./asn1/api":150,"./asn1/base":152,"./asn1/constants":156,"./asn1/decoders":158,"./asn1/encoders":161,"bn.js":164}],150:[function(require,module,exports){
 var asn1 = require('../asn1');
 var inherits = require('inherits');
 
@@ -56118,7 +56346,7 @@ Entity.prototype.encode = function encode(data, enc, /* internal */ reporter) {
   return this._getEncoder(enc).encode(data, reporter);
 };
 
-},{"../asn1":146,"inherits":279,"vm":330}],148:[function(require,module,exports){
+},{"../asn1":149,"inherits":282,"vm":333}],151:[function(require,module,exports){
 var inherits = require('inherits');
 var Reporter = require('../base').Reporter;
 var Buffer = require('buffer').Buffer;
@@ -56236,7 +56464,7 @@ EncoderBuffer.prototype.join = function join(out, offset) {
   return out;
 };
 
-},{"../base":149,"buffer":189,"inherits":279}],149:[function(require,module,exports){
+},{"../base":152,"buffer":192,"inherits":282}],152:[function(require,module,exports){
 var base = exports;
 
 base.Reporter = require('./reporter').Reporter;
@@ -56244,7 +56472,7 @@ base.DecoderBuffer = require('./buffer').DecoderBuffer;
 base.EncoderBuffer = require('./buffer').EncoderBuffer;
 base.Node = require('./node');
 
-},{"./buffer":148,"./node":150,"./reporter":151}],150:[function(require,module,exports){
+},{"./buffer":151,"./node":153,"./reporter":154}],153:[function(require,module,exports){
 var Reporter = require('../base').Reporter;
 var EncoderBuffer = require('../base').EncoderBuffer;
 var DecoderBuffer = require('../base').DecoderBuffer;
@@ -56869,7 +57097,7 @@ Node.prototype._isPrintstr = function isPrintstr(str) {
   return /^[A-Za-z0-9 '\(\)\+,\-\.\/:=\?]*$/.test(str);
 };
 
-},{"../base":149,"minimalistic-assert":284}],151:[function(require,module,exports){
+},{"../base":152,"minimalistic-assert":287}],154:[function(require,module,exports){
 var inherits = require('inherits');
 
 function Reporter(options) {
@@ -56973,7 +57201,7 @@ ReporterError.prototype.rethrow = function rethrow(msg) {
   return this;
 };
 
-},{"inherits":279}],152:[function(require,module,exports){
+},{"inherits":282}],155:[function(require,module,exports){
 var constants = require('../constants');
 
 exports.tagClass = {
@@ -57017,7 +57245,7 @@ exports.tag = {
 };
 exports.tagByName = constants._reverse(exports.tag);
 
-},{"../constants":153}],153:[function(require,module,exports){
+},{"../constants":156}],156:[function(require,module,exports){
 var constants = exports;
 
 // Helper
@@ -57038,7 +57266,7 @@ constants._reverse = function reverse(map) {
 
 constants.der = require('./der');
 
-},{"./der":152}],154:[function(require,module,exports){
+},{"./der":155}],157:[function(require,module,exports){
 var inherits = require('inherits');
 
 var asn1 = require('../../asn1');
@@ -57361,13 +57589,13 @@ function derDecodeLen(buf, primitive, fail) {
   return len;
 }
 
-},{"../../asn1":146,"inherits":279}],155:[function(require,module,exports){
+},{"../../asn1":149,"inherits":282}],158:[function(require,module,exports){
 var decoders = exports;
 
 decoders.der = require('./der');
 decoders.pem = require('./pem');
 
-},{"./der":154,"./pem":156}],156:[function(require,module,exports){
+},{"./der":157,"./pem":159}],159:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -57419,7 +57647,7 @@ PEMDecoder.prototype.decode = function decode(data, options) {
   return DERDecoder.prototype.decode.call(this, input, options);
 };
 
-},{"../../asn1":146,"./der":154,"buffer":189,"inherits":279}],157:[function(require,module,exports){
+},{"../../asn1":149,"./der":157,"buffer":192,"inherits":282}],160:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -57715,13 +57943,13 @@ function encodeTag(tag, primitive, cls, reporter) {
   return res;
 }
 
-},{"../../asn1":146,"buffer":189,"inherits":279}],158:[function(require,module,exports){
+},{"../../asn1":149,"buffer":192,"inherits":282}],161:[function(require,module,exports){
 var encoders = exports;
 
 encoders.der = require('./der');
 encoders.pem = require('./pem');
 
-},{"./der":157,"./pem":159}],159:[function(require,module,exports){
+},{"./der":160,"./pem":162}],162:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -57746,7 +57974,7 @@ PEMEncoder.prototype.encode = function encode(data, options) {
   return out.join('\n');
 };
 
-},{"../../asn1":146,"./der":157,"buffer":189,"inherits":279}],160:[function(require,module,exports){
+},{"../../asn1":149,"./der":160,"buffer":192,"inherits":282}],163:[function(require,module,exports){
 'use strict'
 
 exports.toByteArray = toByteArray
@@ -57862,7 +58090,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],161:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 (function (module, exports) {
   'use strict';
 
@@ -61282,7 +61510,7 @@ function fromByteArray (uint8) {
   };
 })(typeof module === 'undefined' || module, this);
 
-},{}],162:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 var r;
 
 module.exports = function rand(len) {
@@ -61341,9 +61569,9 @@ if (typeof window === 'object') {
   }
 }
 
-},{}],163:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 
-},{}],164:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 (function (Buffer){
 // based on the aes implimentation in triple sec
 // https://github.com/keybase/triplesec
@@ -61524,7 +61752,7 @@ AES.prototype._doCryptBlock = function (M, keySchedule, SUB_MIX, SBOX) {
 exports.AES = AES
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],165:[function(require,module,exports){
+},{"buffer":192}],168:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -61625,7 +61853,7 @@ function xorTest (a, b) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":164,"./ghash":169,"buffer":189,"buffer-xor":188,"cipher-base":192,"inherits":279}],166:[function(require,module,exports){
+},{"./aes":167,"./ghash":172,"buffer":192,"buffer-xor":191,"cipher-base":195,"inherits":282}],169:[function(require,module,exports){
 var ciphers = require('./encrypter')
 exports.createCipher = exports.Cipher = ciphers.createCipher
 exports.createCipheriv = exports.Cipheriv = ciphers.createCipheriv
@@ -61638,7 +61866,7 @@ function getCiphers () {
 }
 exports.listCiphers = exports.getCiphers = getCiphers
 
-},{"./decrypter":167,"./encrypter":168,"./modes":170}],167:[function(require,module,exports){
+},{"./decrypter":170,"./encrypter":171,"./modes":173}],170:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -61779,7 +62007,7 @@ exports.createDecipher = createDecipher
 exports.createDecipheriv = createDecipheriv
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":164,"./authCipher":165,"./modes":170,"./modes/cbc":171,"./modes/cfb":172,"./modes/cfb1":173,"./modes/cfb8":174,"./modes/ctr":175,"./modes/ecb":176,"./modes/ofb":177,"./streamCipher":178,"buffer":189,"cipher-base":192,"evp_bytestokey":267,"inherits":279}],168:[function(require,module,exports){
+},{"./aes":167,"./authCipher":168,"./modes":173,"./modes/cbc":174,"./modes/cfb":175,"./modes/cfb1":176,"./modes/cfb8":177,"./modes/ctr":178,"./modes/ecb":179,"./modes/ofb":180,"./streamCipher":181,"buffer":192,"cipher-base":195,"evp_bytestokey":270,"inherits":282}],171:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -61905,7 +62133,7 @@ exports.createCipheriv = createCipheriv
 exports.createCipher = createCipher
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":164,"./authCipher":165,"./modes":170,"./modes/cbc":171,"./modes/cfb":172,"./modes/cfb1":173,"./modes/cfb8":174,"./modes/ctr":175,"./modes/ecb":176,"./modes/ofb":177,"./streamCipher":178,"buffer":189,"cipher-base":192,"evp_bytestokey":267,"inherits":279}],169:[function(require,module,exports){
+},{"./aes":167,"./authCipher":168,"./modes":173,"./modes/cbc":174,"./modes/cfb":175,"./modes/cfb1":176,"./modes/cfb8":177,"./modes/ctr":178,"./modes/ecb":179,"./modes/ofb":180,"./streamCipher":181,"buffer":192,"cipher-base":195,"evp_bytestokey":270,"inherits":282}],172:[function(require,module,exports){
 (function (Buffer){
 var zeros = new Buffer(16)
 zeros.fill(0)
@@ -62007,7 +62235,7 @@ function xor (a, b) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],170:[function(require,module,exports){
+},{"buffer":192}],173:[function(require,module,exports){
 exports['aes-128-ecb'] = {
   cipher: 'AES',
   key: 128,
@@ -62180,7 +62408,7 @@ exports['aes-256-gcm'] = {
   type: 'auth'
 }
 
-},{}],171:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 var xor = require('buffer-xor')
 
 exports.encrypt = function (self, block) {
@@ -62199,7 +62427,7 @@ exports.decrypt = function (self, block) {
   return xor(out, pad)
 }
 
-},{"buffer-xor":188}],172:[function(require,module,exports){
+},{"buffer-xor":191}],175:[function(require,module,exports){
 (function (Buffer){
 var xor = require('buffer-xor')
 
@@ -62234,7 +62462,7 @@ function encryptStart (self, data, decrypt) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"buffer-xor":188}],173:[function(require,module,exports){
+},{"buffer":192,"buffer-xor":191}],176:[function(require,module,exports){
 (function (Buffer){
 function encryptByte (self, byteParam, decrypt) {
   var pad
@@ -62272,7 +62500,7 @@ function shiftIn (buffer, value) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],174:[function(require,module,exports){
+},{"buffer":192}],177:[function(require,module,exports){
 (function (Buffer){
 function encryptByte (self, byteParam, decrypt) {
   var pad = self._cipher.encryptBlock(self._prev)
@@ -62291,7 +62519,7 @@ exports.encrypt = function (self, chunk, decrypt) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],175:[function(require,module,exports){
+},{"buffer":192}],178:[function(require,module,exports){
 (function (Buffer){
 var xor = require('buffer-xor')
 
@@ -62326,7 +62554,7 @@ exports.encrypt = function (self, chunk) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"buffer-xor":188}],176:[function(require,module,exports){
+},{"buffer":192,"buffer-xor":191}],179:[function(require,module,exports){
 exports.encrypt = function (self, block) {
   return self._cipher.encryptBlock(block)
 }
@@ -62334,7 +62562,7 @@ exports.decrypt = function (self, block) {
   return self._cipher.decryptBlock(block)
 }
 
-},{}],177:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 (function (Buffer){
 var xor = require('buffer-xor')
 
@@ -62354,7 +62582,7 @@ exports.encrypt = function (self, chunk) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"buffer-xor":188}],178:[function(require,module,exports){
+},{"buffer":192,"buffer-xor":191}],181:[function(require,module,exports){
 (function (Buffer){
 var aes = require('./aes')
 var Transform = require('cipher-base')
@@ -62383,7 +62611,7 @@ StreamCipher.prototype._final = function () {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./aes":164,"buffer":189,"cipher-base":192,"inherits":279}],179:[function(require,module,exports){
+},{"./aes":167,"buffer":192,"cipher-base":195,"inherits":282}],182:[function(require,module,exports){
 var ebtk = require('evp_bytestokey')
 var aes = require('browserify-aes/browser')
 var DES = require('browserify-des')
@@ -62458,7 +62686,7 @@ function getCiphers () {
 }
 exports.listCiphers = exports.getCiphers = getCiphers
 
-},{"browserify-aes/browser":166,"browserify-aes/modes":170,"browserify-des":180,"browserify-des/modes":181,"evp_bytestokey":267}],180:[function(require,module,exports){
+},{"browserify-aes/browser":169,"browserify-aes/modes":173,"browserify-des":183,"browserify-des/modes":184,"evp_bytestokey":270}],183:[function(require,module,exports){
 (function (Buffer){
 var CipherBase = require('cipher-base')
 var des = require('des.js')
@@ -62505,7 +62733,7 @@ DES.prototype._final = function () {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"cipher-base":192,"des.js":235,"inherits":279}],181:[function(require,module,exports){
+},{"buffer":192,"cipher-base":195,"des.js":238,"inherits":282}],184:[function(require,module,exports){
 exports['des-ecb'] = {
   key: 8,
   iv: 0
@@ -62531,7 +62759,7 @@ exports['des-ede'] = {
   iv: 0
 }
 
-},{}],182:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 (function (Buffer){
 var bn = require('bn.js');
 var randomBytes = require('randombytes');
@@ -62575,7 +62803,7 @@ function getr(priv) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"bn.js":161,"buffer":189,"randombytes":306}],183:[function(require,module,exports){
+},{"bn.js":164,"buffer":192,"randombytes":309}],186:[function(require,module,exports){
 (function (Buffer){
 'use strict'
 exports['RSA-SHA224'] = exports.sha224WithRSAEncryption = {
@@ -62651,7 +62879,7 @@ exports['RSA-MD5'] = exports.md5WithRSAEncryption = {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],184:[function(require,module,exports){
+},{"buffer":192}],187:[function(require,module,exports){
 (function (Buffer){
 var _algos = require('./algos')
 var createHash = require('create-hash')
@@ -62758,7 +62986,7 @@ module.exports = {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./algos":183,"./sign":186,"./verify":187,"buffer":189,"create-hash":230,"inherits":279,"stream":317}],185:[function(require,module,exports){
+},{"./algos":186,"./sign":189,"./verify":190,"buffer":192,"create-hash":233,"inherits":282,"stream":320}],188:[function(require,module,exports){
 'use strict'
 exports['1.3.132.0.10'] = 'secp256k1'
 
@@ -62772,7 +63000,7 @@ exports['1.3.132.0.34'] = 'p384'
 
 exports['1.3.132.0.35'] = 'p521'
 
-},{}],186:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 (function (Buffer){
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var createHmac = require('create-hmac')
@@ -62961,7 +63189,7 @@ module.exports.getKey = getKey
 module.exports.makeKey = makeKey
 
 }).call(this,require("buffer").Buffer)
-},{"./curves":185,"bn.js":161,"browserify-rsa":182,"buffer":189,"create-hmac":233,"elliptic":249,"parse-asn1":295}],187:[function(require,module,exports){
+},{"./curves":188,"bn.js":164,"browserify-rsa":185,"buffer":192,"create-hmac":236,"elliptic":252,"parse-asn1":298}],190:[function(require,module,exports){
 (function (Buffer){
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var curves = require('./curves')
@@ -63068,7 +63296,7 @@ function checkValue (b, q) {
 module.exports = verify
 
 }).call(this,require("buffer").Buffer)
-},{"./curves":185,"bn.js":161,"buffer":189,"elliptic":249,"parse-asn1":295}],188:[function(require,module,exports){
+},{"./curves":188,"bn.js":164,"buffer":192,"elliptic":252,"parse-asn1":298}],191:[function(require,module,exports){
 (function (Buffer){
 module.exports = function xor (a, b) {
   var length = Math.min(a.length, b.length)
@@ -63082,7 +63310,7 @@ module.exports = function xor (a, b) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],189:[function(require,module,exports){
+},{"buffer":192}],192:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -64548,14 +64776,14 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":160,"ieee754":277,"isarray":190}],190:[function(require,module,exports){
+},{"base64-js":163,"ieee754":280,"isarray":193}],193:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],191:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 (function (Buffer){
 //  Chance.js 1.0.1
 //  http://chancejs.com
@@ -67647,7 +67875,7 @@ module.exports = Array.isArray || function (arr) {
 })();
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],192:[function(require,module,exports){
+},{"buffer":192}],195:[function(require,module,exports){
 (function (Buffer){
 var Transform = require('stream').Transform
 var inherits = require('inherits')
@@ -67741,7 +67969,7 @@ CipherBase.prototype._toString = function (value, enc, final) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"inherits":279,"stream":317,"string_decoder":328}],193:[function(require,module,exports){
+},{"buffer":192,"inherits":282,"stream":320,"string_decoder":331}],196:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -67819,9 +68047,9 @@ module.exports = require('./define')({
         }
     }
 })
-},{"./core":201,"./define":204,"./utils/copy":219}],194:[function(require,module,exports){
+},{"./core":204,"./define":207,"./utils/copy":222}],197:[function(require,module,exports){
 module.exports = {}
-},{}],195:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 'use strict'
 
 var copy = require('../utils/copy').copy
@@ -67903,7 +68131,7 @@ var assignClassProperty = function(Class, propName, propDescriptor, config){
 }
 
 module.exports = assignClassProperty
-},{"../utils/copy":219,"./canDefineProperty":197,"./canGetOwnPropertyDescriptor":198,"./modifyFn":202}],196:[function(require,module,exports){
+},{"../utils/copy":222,"./canDefineProperty":200,"./canGetOwnPropertyDescriptor":201,"./modifyFn":205}],199:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -68051,7 +68279,7 @@ module.exports = function(){
         buildOverridenFn : buildOverridenFn
     }
 }()
-},{}],197:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
@@ -68068,13 +68296,13 @@ module.exports = (function(){
     return false
 
 })()
-},{}],198:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 'use strict'
 
 module.exports = (function(){
     return 'getOwnPropertyDescriptor' in Object && typeof Object.getOwnPropertyDescriptor == 'function'
 })()
-},{}],199:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 'use strict'
 
 var canGetOwnPropertyDescriptor = require('./canGetOwnPropertyDescriptor')
@@ -68093,7 +68321,7 @@ function copy(source, target){
 }
 
 module.exports = canGetOwnPropertyDescriptor? copy: function(){}
-},{"./canGetOwnPropertyDescriptor":198}],200:[function(require,module,exports){
+},{"./canGetOwnPropertyDescriptor":201}],203:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -68119,7 +68347,7 @@ module.exports = function(){
         return child
     }
 }()
-},{}],201:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -68340,7 +68568,7 @@ module.exports = function(){
         BaseClass        : Base
     }
 }()
-},{"../utils/copy":219,"./assignClassProperty":195,"./canDefineProperty":197,"./canGetOwnPropertyDescriptor":198,"./copyDescriptors":199,"./extend":200,"newify":290}],202:[function(require,module,exports){
+},{"../utils/copy":222,"./assignClassProperty":198,"./canDefineProperty":200,"./canGetOwnPropertyDescriptor":201,"./copyDescriptors":202,"./extend":203,"newify":293}],205:[function(require,module,exports){
 var callSuperRe     = /\bcallSuper|callSuperWith\b/
 var callOverridenRe = /\bcallOverriden|callOverridenWith\b/
 
@@ -68368,7 +68596,7 @@ function modify(name, fn, superTarget, superClass, target, getterSetterConfig){
 }
 
 module.exports = modify
-},{"./buildClassFunctions":196}],203:[function(require,module,exports){
+},{"./buildClassFunctions":199}],206:[function(require,module,exports){
 var SLICE = Array.prototype.slice
 
 var getClass = require('./getClass')
@@ -68401,7 +68629,7 @@ module.exports = function(alias /* args... */){
 
     return newify(Class, args)
 }
-},{"./getClass":208,"newify":290}],204:[function(require,module,exports){
+},{"./getClass":211,"newify":293}],207:[function(require,module,exports){
 var getClass     = require('./getClass')
 var processClass = require('./processClass')
 
@@ -68457,7 +68685,7 @@ module.exports = function(parentClass, classConfig){
         processClass(Class)
     })
 }
-},{"./Registry":194,"./core":201,"./getClass":208,"./processClass":215,"./processors/ClassProcessor":216}],205:[function(require,module,exports){
+},{"./Registry":197,"./core":204,"./getClass":211,"./processClass":218,"./processors/ClassProcessor":219}],208:[function(require,module,exports){
 var define = require('./define')
 var copyIf = require('./utils/copy').copyIf
 
@@ -68467,7 +68695,7 @@ module.exports = function(members){
 
     return define(copyIf({ extend: 'z.mixin'}, members))
 }
-},{"./define":204,"./utils/copy":219}],206:[function(require,module,exports){
+},{"./define":207,"./utils/copy":222}],209:[function(require,module,exports){
 /**
  * @method destroyClass
  *
@@ -68491,7 +68719,7 @@ module.exports = function(Class){
         Class.destroy()
     }
 }
-},{"./core":201,"./getClass":208}],207:[function(require,module,exports){
+},{"./core":204,"./getClass":211}],210:[function(require,module,exports){
 
 module.exports = function(config){
 
@@ -68506,7 +68734,7 @@ module.exports = function(config){
 
     return define(config)
 }
-},{"./define":204}],208:[function(require,module,exports){
+},{"./define":207}],211:[function(require,module,exports){
 /**
  * @method getClass
  *
@@ -68534,7 +68762,7 @@ module.exports = function getClass(alias){
     return REGISTRY[alias]
 
 }
-},{"./Registry":194,"./core":201}],209:[function(require,module,exports){
+},{"./Registry":197,"./core":204}],212:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -68578,7 +68806,7 @@ module.exports = function(config){
 
     return new klass(config)
 }
-},{"./core":201,"./getClass":208}],210:[function(require,module,exports){
+},{"./core":204,"./getClass":211}],213:[function(require,module,exports){
 var BaseClass = require('./core').BaseClass
 var getClass  = require('./getClass')
 
@@ -68604,7 +68832,7 @@ module.exports = function(alias){
         return Class
     }
 }
-},{"./core":201,"./getClass":208}],211:[function(require,module,exports){
+},{"./core":204,"./getClass":211}],214:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -68663,7 +68891,7 @@ module.exports = function(){
         isClassLike        : isSameOrSubclassOf
     }
 }()
-},{"./Mixin":193,"./Registry":194,"./core":201,"./create":203,"./define":204,"./defineMixin":205,"./destroyClass":206,"./getClass":208,"./getInstance":209,"./getParentClass":210,"./isSubclassOf":212,"./override":213,"./processors/MixinProcessor":217,"./utils/copy":219}],212:[function(require,module,exports){
+},{"./Mixin":196,"./Registry":197,"./core":204,"./create":206,"./define":207,"./defineMixin":208,"./destroyClass":209,"./getClass":211,"./getInstance":212,"./getParentClass":213,"./isSubclassOf":215,"./override":216,"./processors/MixinProcessor":220,"./utils/copy":222}],215:[function(require,module,exports){
 var getClass = require('./getClass')
 
 module.exports = function(subClass, superClass, config){
@@ -68687,7 +68915,7 @@ module.exports = function(subClass, superClass, config){
 
     return !!subClass
 }
-},{"./getClass":208}],213:[function(require,module,exports){
+},{"./getClass":211}],216:[function(require,module,exports){
 var getClass = require('./getClass')
 
 /**
@@ -68718,7 +68946,7 @@ module.exports = function(Class, classConfig){
 
     return TheClass
 }
-},{"./getClass":208}],214:[function(require,module,exports){
+},{"./getClass":211}],217:[function(require,module,exports){
 module.exports = function(config){
 
     'use strict'
@@ -68726,7 +68954,7 @@ module.exports = function(config){
     //this refers to a Class
     return require('./core').overrideClass(this, config)
 }
-},{"./core":201}],215:[function(require,module,exports){
+},{"./core":204}],218:[function(require,module,exports){
 var copyKeys = require('./utils/copy').copyKeys
 
 function aliasMethods(config){
@@ -68767,7 +68995,7 @@ module.exports = function(Class){
         Class.init()
     }
 }
-},{"./extendClass":207,"./overrideClass":214,"./processors/ClassProcessor":216,"./unregisterClass":218,"./utils/copy":219}],216:[function(require,module,exports){
+},{"./extendClass":210,"./overrideClass":217,"./processors/ClassProcessor":219,"./unregisterClass":221,"./utils/copy":222}],219:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -68808,7 +69036,7 @@ module.exports = function(){
 
     return result
 }()
-},{"./MixinProcessor":217}],217:[function(require,module,exports){
+},{"./MixinProcessor":220}],220:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -69195,7 +69423,7 @@ module.exports = function(){
 
     }
 }()
-},{"../core":201,"../getClass":208,"../utils/copy":219,"../utils/function":220}],218:[function(require,module,exports){
+},{"../core":204,"../getClass":211,"../utils/copy":222,"../utils/function":223}],221:[function(require,module,exports){
 var REGISTRY = require('./Registry')
 
 module.exports = function unregisterClass(){
@@ -69209,7 +69437,7 @@ module.exports = function unregisterClass(){
 
     delete REGISTRY[alias]
 }
-},{"./Registry":194}],219:[function(require,module,exports){
+},{"./Registry":197}],222:[function(require,module,exports){
 /*
 
  This file is part of the ZippyUI Framework
@@ -69221,7 +69449,7 @@ module.exports = function unregisterClass(){
 
  */
 module.exports = require('copy-utils')
-},{"copy-utils":227}],220:[function(require,module,exports){
+},{"copy-utils":230}],223:[function(require,module,exports){
 module.exports = function(){
 
     var SLICE = Array.prototype.slice
@@ -69278,7 +69506,7 @@ module.exports = function(){
         bindArgsArray: bindArgsArray
     }
 }()
-},{}],221:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -69309,7 +69537,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],222:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 'use strict'
 
 var HAS_OWN       = Object.prototype.hasOwnProperty
@@ -69341,7 +69569,7 @@ module.exports = function(source, destination){
 
     return destination
 }
-},{}],223:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -69393,7 +69621,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyList":225}],224:[function(require,module,exports){
+},{"./copyList":228}],227:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -69454,7 +69682,7 @@ module.exports = function(source, destination, namedKeys){
 
     return destination
 }
-},{"./copyListIf":226}],225:[function(require,module,exports){
+},{"./copyListIf":229}],228:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -69494,7 +69722,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],226:[function(require,module,exports){
+},{}],229:[function(require,module,exports){
 'use strict'
 
 var STR_UNDEFINED = 'undefined'
@@ -69536,7 +69764,7 @@ module.exports = function(source, destination, list){
 
     return destination
 }
-},{}],227:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 module.exports = function(){
 
     'use strict'
@@ -69733,7 +69961,7 @@ module.exports = function(){
     }
 
 }()
-},{"./copy":221,"./copyIf":222,"./copyKeys":223,"./copyKeysIf":224,"./copyList":225,"./copyListIf":226}],228:[function(require,module,exports){
+},{"./copy":224,"./copyIf":225,"./copyKeys":226,"./copyKeysIf":227,"./copyList":228,"./copyListIf":229}],231:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -69844,7 +70072,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":280}],229:[function(require,module,exports){
+},{"../../is-buffer/index.js":283}],232:[function(require,module,exports){
 (function (Buffer){
 var elliptic = require('elliptic');
 var BN = require('bn.js');
@@ -69970,7 +70198,7 @@ function formatReturnValue(bn, enc, len) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"bn.js":161,"buffer":189,"elliptic":249}],230:[function(require,module,exports){
+},{"bn.js":164,"buffer":192,"elliptic":252}],233:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var inherits = require('inherits')
@@ -70026,7 +70254,7 @@ module.exports = function createHash (alg) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./md5":232,"buffer":189,"cipher-base":192,"inherits":279,"ripemd160":308,"sha.js":310}],231:[function(require,module,exports){
+},{"./md5":235,"buffer":192,"cipher-base":195,"inherits":282,"ripemd160":311,"sha.js":313}],234:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var intSize = 4;
@@ -70063,7 +70291,7 @@ function hash(buf, fn, hashSize, bigEndian) {
 }
 exports.hash = hash;
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],232:[function(require,module,exports){
+},{"buffer":192}],235:[function(require,module,exports){
 'use strict';
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
@@ -70220,7 +70448,7 @@ function bit_rol(num, cnt)
 module.exports = function md5(buf) {
   return helpers.hash(buf, core_md5, 16);
 };
-},{"./helpers":231}],233:[function(require,module,exports){
+},{"./helpers":234}],236:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var createHash = require('create-hash/browser');
@@ -70292,7 +70520,7 @@ module.exports = function createHmac(alg, key) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"create-hash/browser":230,"inherits":279,"stream":317}],234:[function(require,module,exports){
+},{"buffer":192,"create-hash/browser":233,"inherits":282,"stream":320}],237:[function(require,module,exports){
 'use strict'
 
 exports.randomBytes = exports.rng = exports.pseudoRandomBytes = exports.prng = require('randombytes')
@@ -70371,7 +70599,7 @@ var publicEncrypt = require('public-encrypt')
   }
 })
 
-},{"browserify-cipher":179,"browserify-sign":184,"browserify-sign/algos":183,"create-ecdh":229,"create-hash":230,"create-hmac":233,"diffie-hellman":244,"pbkdf2":297,"public-encrypt":300,"randombytes":306}],235:[function(require,module,exports){
+},{"browserify-cipher":182,"browserify-sign":187,"browserify-sign/algos":186,"create-ecdh":232,"create-hash":233,"create-hmac":236,"diffie-hellman":247,"pbkdf2":300,"public-encrypt":303,"randombytes":309}],238:[function(require,module,exports){
 'use strict';
 
 exports.utils = require('./des/utils');
@@ -70380,7 +70608,7 @@ exports.DES = require('./des/des');
 exports.CBC = require('./des/cbc');
 exports.EDE = require('./des/ede');
 
-},{"./des/cbc":236,"./des/cipher":237,"./des/des":238,"./des/ede":239,"./des/utils":240}],236:[function(require,module,exports){
+},{"./des/cbc":239,"./des/cipher":240,"./des/des":241,"./des/ede":242,"./des/utils":243}],239:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -70447,7 +70675,7 @@ proto._update = function _update(inp, inOff, out, outOff) {
   }
 };
 
-},{"inherits":279,"minimalistic-assert":284}],237:[function(require,module,exports){
+},{"inherits":282,"minimalistic-assert":287}],240:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -70590,7 +70818,7 @@ Cipher.prototype._finalDecrypt = function _finalDecrypt() {
   return this._unpad(out);
 };
 
-},{"minimalistic-assert":284}],238:[function(require,module,exports){
+},{"minimalistic-assert":287}],241:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -70735,7 +70963,7 @@ DES.prototype._decrypt = function _decrypt(state, lStart, rStart, out, off) {
   utils.rip(l, r, out, off);
 };
 
-},{"../des":235,"inherits":279,"minimalistic-assert":284}],239:[function(require,module,exports){
+},{"../des":238,"inherits":282,"minimalistic-assert":287}],242:[function(require,module,exports){
 'use strict';
 
 var assert = require('minimalistic-assert');
@@ -70792,7 +71020,7 @@ EDE.prototype._update = function _update(inp, inOff, out, outOff) {
 EDE.prototype._pad = DES.prototype._pad;
 EDE.prototype._unpad = DES.prototype._unpad;
 
-},{"../des":235,"inherits":279,"minimalistic-assert":284}],240:[function(require,module,exports){
+},{"../des":238,"inherits":282,"minimalistic-assert":287}],243:[function(require,module,exports){
 'use strict';
 
 exports.readUInt32BE = function readUInt32BE(bytes, off) {
@@ -71050,11 +71278,11 @@ exports.padSplit = function padSplit(num, size, group) {
   return out.join(' ');
 };
 
-},{}],241:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 exports = module.exports = require('./src/device-detector');
 exports.version = require('./package').version;
 
-},{"./package":242,"./src/device-detector":243}],242:[function(require,module,exports){
+},{"./package":245,"./src/device-detector":246}],245:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -71156,7 +71384,7 @@ module.exports={
   "version": "0.1.32"
 }
 
-},{}],243:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 /**
  * Device Detector
  * GitHub : git@github.com:ndaidong/device-detector.git
@@ -71493,7 +71721,7 @@ module.exports={
   }
 })();
 
-},{}],244:[function(require,module,exports){
+},{}],247:[function(require,module,exports){
 (function (Buffer){
 var generatePrime = require('./lib/generatePrime')
 var primes = require('./lib/primes.json')
@@ -71539,7 +71767,7 @@ exports.DiffieHellmanGroup = exports.createDiffieHellmanGroup = exports.getDiffi
 exports.createDiffieHellman = exports.DiffieHellman = createDiffieHellman
 
 }).call(this,require("buffer").Buffer)
-},{"./lib/dh":245,"./lib/generatePrime":246,"./lib/primes.json":247,"buffer":189}],245:[function(require,module,exports){
+},{"./lib/dh":248,"./lib/generatePrime":249,"./lib/primes.json":250,"buffer":192}],248:[function(require,module,exports){
 (function (Buffer){
 var BN = require('bn.js');
 var MillerRabin = require('miller-rabin');
@@ -71707,7 +71935,7 @@ function formatReturnValue(bn, enc) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./generatePrime":246,"bn.js":161,"buffer":189,"miller-rabin":282,"randombytes":306}],246:[function(require,module,exports){
+},{"./generatePrime":249,"bn.js":164,"buffer":192,"miller-rabin":285,"randombytes":309}],249:[function(require,module,exports){
 var randomBytes = require('randombytes');
 module.exports = findPrime;
 findPrime.simpleSieve = simpleSieve;
@@ -71814,7 +72042,7 @@ function findPrime(bits, gen) {
 
 }
 
-},{"bn.js":161,"miller-rabin":282,"randombytes":306}],247:[function(require,module,exports){
+},{"bn.js":164,"miller-rabin":285,"randombytes":309}],250:[function(require,module,exports){
 module.exports={
     "modp1": {
         "gen": "02",
@@ -71849,7 +72077,7 @@ module.exports={
         "prime": "ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dbe115974a3926f12fee5e438777cb6a932df8cd8bec4d073b931ba3bc832b68d9dd300741fa7bf8afc47ed2576f6936ba424663aab639c5ae4f5683423b4742bf1c978238f16cbe39d652de3fdb8befc848ad922222e04a4037c0713eb57a81a23f0c73473fc646cea306b4bcbc8862f8385ddfa9d4b7fa2c087e879683303ed5bdd3a062b3cf5b3a278a66d2a13f83f44f82ddf310ee074ab6a364597e899a0255dc164f31cc50846851df9ab48195ded7ea1b1d510bd7ee74d73faf36bc31ecfa268359046f4eb879f924009438b481c6cd7889a002ed5ee382bc9190da6fc026e479558e4475677e9aa9e3050e2765694dfc81f56e880b96e7160c980dd98edd3dfffffffffffffffff"
     }
 }
-},{}],248:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 /*!
   * domready (c) Dustin Diaz 2014 - License MIT
   */
@@ -71881,7 +72109,7 @@ module.exports={
 
 });
 
-},{}],249:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 'use strict';
 
 var elliptic = exports;
@@ -71897,7 +72125,7 @@ elliptic.curves = require('./elliptic/curves');
 elliptic.ec = require('./elliptic/ec');
 elliptic.eddsa = require('./elliptic/eddsa');
 
-},{"../package.json":265,"./elliptic/curve":252,"./elliptic/curves":255,"./elliptic/ec":256,"./elliptic/eddsa":259,"./elliptic/hmac-drbg":262,"./elliptic/utils":264,"brorand":162}],250:[function(require,module,exports){
+},{"../package.json":268,"./elliptic/curve":255,"./elliptic/curves":258,"./elliptic/ec":259,"./elliptic/eddsa":262,"./elliptic/hmac-drbg":265,"./elliptic/utils":267,"brorand":165}],253:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -72250,7 +72478,7 @@ BasePoint.prototype.dblp = function dblp(k) {
   return r;
 };
 
-},{"../../elliptic":249,"bn.js":161}],251:[function(require,module,exports){
+},{"../../elliptic":252,"bn.js":164}],254:[function(require,module,exports){
 'use strict';
 
 var curve = require('../curve');
@@ -72662,7 +72890,7 @@ Point.prototype.eq = function eq(other) {
 Point.prototype.toP = Point.prototype.normalize;
 Point.prototype.mixedAdd = Point.prototype.add;
 
-},{"../../elliptic":249,"../curve":252,"bn.js":161,"inherits":279}],252:[function(require,module,exports){
+},{"../../elliptic":252,"../curve":255,"bn.js":164,"inherits":282}],255:[function(require,module,exports){
 'use strict';
 
 var curve = exports;
@@ -72672,7 +72900,7 @@ curve.short = require('./short');
 curve.mont = require('./mont');
 curve.edwards = require('./edwards');
 
-},{"./base":250,"./edwards":251,"./mont":253,"./short":254}],253:[function(require,module,exports){
+},{"./base":253,"./edwards":254,"./mont":256,"./short":257}],256:[function(require,module,exports){
 'use strict';
 
 var curve = require('../curve');
@@ -72850,7 +73078,7 @@ Point.prototype.getX = function getX() {
   return this.x.fromRed();
 };
 
-},{"../../elliptic":249,"../curve":252,"bn.js":161,"inherits":279}],254:[function(require,module,exports){
+},{"../../elliptic":252,"../curve":255,"bn.js":164,"inherits":282}],257:[function(require,module,exports){
 'use strict';
 
 var curve = require('../curve');
@@ -73761,7 +73989,7 @@ JPoint.prototype.isInfinity = function isInfinity() {
   return this.z.cmpn(0) === 0;
 };
 
-},{"../../elliptic":249,"../curve":252,"bn.js":161,"inherits":279}],255:[function(require,module,exports){
+},{"../../elliptic":252,"../curve":255,"bn.js":164,"inherits":282}],258:[function(require,module,exports){
 'use strict';
 
 var curves = exports;
@@ -73968,7 +74196,7 @@ defineCurve('secp256k1', {
   ]
 });
 
-},{"../elliptic":249,"./precomputed/secp256k1":263,"hash.js":270}],256:[function(require,module,exports){
+},{"../elliptic":252,"./precomputed/secp256k1":266,"hash.js":273}],259:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -74192,7 +74420,7 @@ EC.prototype.getKeyRecoveryParam = function(e, signature, Q, enc) {
   throw new Error('Unable to find valid recovery factor');
 };
 
-},{"../../elliptic":249,"./key":257,"./signature":258,"bn.js":161}],257:[function(require,module,exports){
+},{"../../elliptic":252,"./key":260,"./signature":261,"bn.js":164}],260:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -74301,7 +74529,7 @@ KeyPair.prototype.inspect = function inspect() {
          ' pub: ' + (this.pub && this.pub.inspect()) + ' >';
 };
 
-},{"bn.js":161}],258:[function(require,module,exports){
+},{"bn.js":164}],261:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -74438,7 +74666,7 @@ Signature.prototype.toDER = function toDER(enc) {
   return utils.encode(res, enc);
 };
 
-},{"../../elliptic":249,"bn.js":161}],259:[function(require,module,exports){
+},{"../../elliptic":252,"bn.js":164}],262:[function(require,module,exports){
 'use strict';
 
 var hash = require('hash.js');
@@ -74558,7 +74786,7 @@ EDDSA.prototype.isPoint = function isPoint(val) {
   return val instanceof this.pointClass;
 };
 
-},{"../../elliptic":249,"./key":260,"./signature":261,"hash.js":270}],260:[function(require,module,exports){
+},{"../../elliptic":252,"./key":263,"./signature":264,"hash.js":273}],263:[function(require,module,exports){
 'use strict';
 
 var elliptic = require('../../elliptic');
@@ -74656,7 +74884,7 @@ KeyPair.prototype.getPublic = function getPublic(enc) {
 
 module.exports = KeyPair;
 
-},{"../../elliptic":249}],261:[function(require,module,exports){
+},{"../../elliptic":252}],264:[function(require,module,exports){
 'use strict';
 
 var BN = require('bn.js');
@@ -74724,7 +74952,7 @@ Signature.prototype.toHex = function toHex() {
 
 module.exports = Signature;
 
-},{"../../elliptic":249,"bn.js":161}],262:[function(require,module,exports){
+},{"../../elliptic":252,"bn.js":164}],265:[function(require,module,exports){
 'use strict';
 
 var hash = require('hash.js');
@@ -74840,7 +75068,7 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
   return utils.encode(res, enc);
 };
 
-},{"../elliptic":249,"hash.js":270}],263:[function(require,module,exports){
+},{"../elliptic":252,"hash.js":273}],266:[function(require,module,exports){
 module.exports = {
   doubles: {
     step: 4,
@@ -75622,7 +75850,7 @@ module.exports = {
   }
 };
 
-},{}],264:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 'use strict';
 
 var utils = exports;
@@ -75797,7 +76025,7 @@ function intFromLE(bytes) {
 utils.intFromLE = intFromLE;
 
 
-},{"bn.js":161}],265:[function(require,module,exports){
+},{"bn.js":164}],268:[function(require,module,exports){
 module.exports={
   "_args": [
     [
@@ -75898,7 +76126,7 @@ module.exports={
   "version": "6.2.3"
 }
 
-},{}],266:[function(require,module,exports){
+},{}],269:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -76198,7 +76426,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],267:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 (function (Buffer){
 var md5 = require('create-hash/md5')
 module.exports = EVP_BytesToKey
@@ -76270,7 +76498,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"create-hash/md5":232}],268:[function(require,module,exports){
+},{"buffer":192,"create-hash/md5":235}],271:[function(require,module,exports){
 (function() {
 
     var debug = false;
@@ -77077,7 +77305,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
 }.call(this));
 
 
-},{}],269:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory)
@@ -77183,7 +77411,7 @@ function EVP_BytesToKey (password, salt, keyLen, ivLen) {
   }
 }));
 
-},{}],270:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 var hash = exports;
 
 hash.utils = require('./hash/utils');
@@ -77200,7 +77428,7 @@ hash.sha384 = hash.sha.sha384;
 hash.sha512 = hash.sha.sha512;
 hash.ripemd160 = hash.ripemd.ripemd160;
 
-},{"./hash/common":271,"./hash/hmac":272,"./hash/ripemd":273,"./hash/sha":274,"./hash/utils":275}],271:[function(require,module,exports){
+},{"./hash/common":274,"./hash/hmac":275,"./hash/ripemd":276,"./hash/sha":277,"./hash/utils":278}],274:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 var assert = utils.assert;
@@ -77293,7 +77521,7 @@ BlockHash.prototype._pad = function pad() {
   return res;
 };
 
-},{"../hash":270}],272:[function(require,module,exports){
+},{"../hash":273}],275:[function(require,module,exports){
 var hmac = exports;
 
 var hash = require('../hash');
@@ -77343,7 +77571,7 @@ Hmac.prototype.digest = function digest(enc) {
   return this.outer.digest(enc);
 };
 
-},{"../hash":270}],273:[function(require,module,exports){
+},{"../hash":273}],276:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 
@@ -77489,7 +77717,7 @@ var sh = [
   8, 5, 12, 9, 12, 5, 14, 6, 8, 13, 6, 5, 15, 13, 11, 11
 ];
 
-},{"../hash":270}],274:[function(require,module,exports){
+},{"../hash":273}],277:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 var assert = utils.assert;
@@ -78055,7 +78283,7 @@ function g1_512_lo(xh, xl) {
   return r;
 }
 
-},{"../hash":270}],275:[function(require,module,exports){
+},{"../hash":273}],278:[function(require,module,exports){
 var utils = exports;
 var inherits = require('inherits');
 
@@ -78314,7 +78542,7 @@ function shr64_lo(ah, al, num) {
 };
 exports.shr64_lo = shr64_lo;
 
-},{"inherits":279}],276:[function(require,module,exports){
+},{"inherits":282}],279:[function(require,module,exports){
 // inspired by http://webreflection.blogspot.com/2010/12/100-client-side-image-resizing.html
 /* 
 
@@ -78370,7 +78598,7 @@ module.exports = function (canvas) {
 
 
 
-},{}],277:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -78456,7 +78684,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],278:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 
 var indexOf = [].indexOf;
 
@@ -78467,7 +78695,7 @@ module.exports = function(arr, obj){
   }
   return -1;
 };
-},{}],279:[function(require,module,exports){
+},{}],282:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -78492,7 +78720,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],280:[function(require,module,exports){
+},{}],283:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
@@ -78511,12 +78739,12 @@ module.exports = function (obj) {
     ))
 }
 
-},{}],281:[function(require,module,exports){
+},{}],284:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],282:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 var bn = require('bn.js');
 var brorand = require('brorand');
 
@@ -78631,7 +78859,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
   return false;
 };
 
-},{"bn.js":161,"brorand":162}],283:[function(require,module,exports){
+},{"bn.js":164,"brorand":165}],286:[function(require,module,exports){
 //
 // mimetype.js - A catalog object of mime types based on file extensions
 //
@@ -79399,7 +79627,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
 	return self;
 }(this));
 
-},{"path":296}],284:[function(require,module,exports){
+},{"path":299}],287:[function(require,module,exports){
 module.exports = assert;
 
 function assert(val, msg) {
@@ -79412,7 +79640,7 @@ assert.equal = function assertEqual(l, r, msg) {
     throw new Error(msg || ('Assertion failed: ' + l + ' != ' + r));
 };
 
-},{}],285:[function(require,module,exports){
+},{}],288:[function(require,module,exports){
 module.exports={
 	"version": "2016d",
 	"zones": [
@@ -80008,11 +80236,11 @@ module.exports={
 		"Pacific/Pohnpei|Pacific/Ponape"
 	]
 }
-},{}],286:[function(require,module,exports){
+},{}],289:[function(require,module,exports){
 var moment = module.exports = require("./moment-timezone");
 moment.tz.load(require('./data/packed/latest.json'));
 
-},{"./data/packed/latest.json":285,"./moment-timezone":287}],287:[function(require,module,exports){
+},{"./data/packed/latest.json":288,"./moment-timezone":290}],290:[function(require,module,exports){
 //! moment-timezone.js
 //! version : 0.5.4
 //! author : Tim Wood
@@ -80615,7 +80843,7 @@ moment.tz.load(require('./data/packed/latest.json'));
 	return moment;
 }));
 
-},{"moment":288}],288:[function(require,module,exports){
+},{"moment":291}],291:[function(require,module,exports){
 //! moment.js
 //! version : 2.13.0
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -84656,7 +84884,7 @@ moment.tz.load(require('./data/packed/latest.json'));
     return _moment;
 
 }));
-},{}],289:[function(require,module,exports){
+},{}],292:[function(require,module,exports){
 module.exports = function(){
 
     'use strict';
@@ -84685,13 +84913,13 @@ module.exports = function(){
     }
 
 }()
-},{}],290:[function(require,module,exports){
+},{}],293:[function(require,module,exports){
 var getInstantiatorFunction = require('./getInstantiatorFunction')
 
 module.exports = function(fn, args){
 	return getInstantiatorFunction(args.length)(fn, args)
 }
-},{"./getInstantiatorFunction":289}],291:[function(require,module,exports){
+},{"./getInstantiatorFunction":292}],294:[function(require,module,exports){
 (function (Buffer){
 //     uuid.js
 //
@@ -84967,7 +85195,7 @@ module.exports = function(fn, args){
 })('undefined' !== typeof window ? window : null);
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"crypto":234}],292:[function(require,module,exports){
+},{"buffer":192,"crypto":237}],295:[function(require,module,exports){
 module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.2": "aes-128-cbc",
 "2.16.840.1.101.3.4.1.3": "aes-128-ofb",
@@ -84981,7 +85209,7 @@ module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.43": "aes-256-ofb",
 "2.16.840.1.101.3.4.1.44": "aes-256-cfb"
 }
-},{}],293:[function(require,module,exports){
+},{}],296:[function(require,module,exports){
 // from https://github.com/indutny/self-signed/blob/gh-pages/lib/asn1.js
 // Fedor, you are amazing.
 
@@ -85100,7 +85328,7 @@ exports.signature = asn1.define('signature', function () {
   )
 })
 
-},{"asn1.js":146}],294:[function(require,module,exports){
+},{"asn1.js":149}],297:[function(require,module,exports){
 (function (Buffer){
 // adapted from https://github.com/apatil/pemstrip
 var findProc = /Proc-Type: 4,ENCRYPTED\r?\nDEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)\r?\n\r?\n([0-9A-z\n\r\+\/\=]+)\r?\n/m
@@ -85134,7 +85362,7 @@ module.exports = function (okey, password) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"browserify-aes":166,"buffer":189,"evp_bytestokey":267}],295:[function(require,module,exports){
+},{"browserify-aes":169,"buffer":192,"evp_bytestokey":270}],298:[function(require,module,exports){
 (function (Buffer){
 var asn1 = require('./asn1')
 var aesid = require('./aesid.json')
@@ -85239,7 +85467,7 @@ function decrypt (data, password) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"./aesid.json":292,"./asn1":293,"./fixProc":294,"browserify-aes":166,"buffer":189,"pbkdf2":297}],296:[function(require,module,exports){
+},{"./aesid.json":295,"./asn1":296,"./fixProc":297,"browserify-aes":169,"buffer":192,"pbkdf2":300}],299:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -85467,7 +85695,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":299}],297:[function(require,module,exports){
+},{"_process":302}],300:[function(require,module,exports){
 (function (Buffer){
 var createHmac = require('create-hmac')
 var MAX_ALLOC = Math.pow(2, 30) - 1 // default in iojs
@@ -85551,7 +85779,7 @@ function pbkdf2Sync (password, salt, iterations, keylen, digest) {
 }
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"create-hmac":233}],298:[function(require,module,exports){
+},{"buffer":192,"create-hmac":236}],301:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -85575,7 +85803,7 @@ function nextTick(fn) {
 }
 
 }).call(this,require('_process'))
-},{"_process":299}],299:[function(require,module,exports){
+},{"_process":302}],302:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -85668,7 +85896,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],300:[function(require,module,exports){
+},{}],303:[function(require,module,exports){
 exports.publicEncrypt = require('./publicEncrypt');
 exports.privateDecrypt = require('./privateDecrypt');
 
@@ -85679,7 +85907,7 @@ exports.privateEncrypt = function privateEncrypt(key, buf) {
 exports.publicDecrypt = function publicDecrypt(key, buf) {
   return exports.privateDecrypt(key, buf, true);
 };
-},{"./privateDecrypt":302,"./publicEncrypt":303}],301:[function(require,module,exports){
+},{"./privateDecrypt":305,"./publicEncrypt":306}],304:[function(require,module,exports){
 (function (Buffer){
 var createHash = require('create-hash');
 module.exports = function (seed, len) {
@@ -85698,7 +85926,7 @@ function i2ops(c) {
   return out;
 }
 }).call(this,require("buffer").Buffer)
-},{"buffer":189,"create-hash":230}],302:[function(require,module,exports){
+},{"buffer":192,"create-hash":233}],305:[function(require,module,exports){
 (function (Buffer){
 var parseKeys = require('parse-asn1');
 var mgf = require('./mgf');
@@ -85809,7 +86037,7 @@ function compare(a, b){
   return dif;
 }
 }).call(this,require("buffer").Buffer)
-},{"./mgf":301,"./withPublic":304,"./xor":305,"bn.js":161,"browserify-rsa":182,"buffer":189,"create-hash":230,"parse-asn1":295}],303:[function(require,module,exports){
+},{"./mgf":304,"./withPublic":307,"./xor":308,"bn.js":164,"browserify-rsa":185,"buffer":192,"create-hash":233,"parse-asn1":298}],306:[function(require,module,exports){
 (function (Buffer){
 var parseKeys = require('parse-asn1');
 var randomBytes = require('randombytes');
@@ -85907,7 +86135,7 @@ function nonZero(len, crypto) {
   return out;
 }
 }).call(this,require("buffer").Buffer)
-},{"./mgf":301,"./withPublic":304,"./xor":305,"bn.js":161,"browserify-rsa":182,"buffer":189,"create-hash":230,"parse-asn1":295,"randombytes":306}],304:[function(require,module,exports){
+},{"./mgf":304,"./withPublic":307,"./xor":308,"bn.js":164,"browserify-rsa":185,"buffer":192,"create-hash":233,"parse-asn1":298,"randombytes":309}],307:[function(require,module,exports){
 (function (Buffer){
 var bn = require('bn.js');
 function withPublic(paddedMsg, key) {
@@ -85920,7 +86148,7 @@ function withPublic(paddedMsg, key) {
 
 module.exports = withPublic;
 }).call(this,require("buffer").Buffer)
-},{"bn.js":161,"buffer":189}],305:[function(require,module,exports){
+},{"bn.js":164,"buffer":192}],308:[function(require,module,exports){
 module.exports = function xor(a, b) {
   var len = a.length;
   var i = -1;
@@ -85929,7 +86157,7 @@ module.exports = function xor(a, b) {
   }
   return a
 };
-},{}],306:[function(require,module,exports){
+},{}],309:[function(require,module,exports){
 (function (process,global,Buffer){
 'use strict'
 
@@ -85969,7 +86197,7 @@ function randomBytes (size, cb) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"_process":299,"buffer":189}],307:[function(require,module,exports){
+},{"_process":302,"buffer":192}],310:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.rfc6902 = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
 "use strict";
@@ -86715,7 +86943,7 @@ var Pointer = exports.Pointer = (function () {
 },{}]},{},[4])(4)
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],308:[function(require,module,exports){
+},{}],311:[function(require,module,exports){
 (function (Buffer){
 /*
 CryptoJS v3.1.2
@@ -86929,7 +87157,7 @@ function ripemd160 (message) {
 module.exports = ripemd160
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],309:[function(require,module,exports){
+},{"buffer":192}],312:[function(require,module,exports){
 (function (Buffer){
 // prototype class for hash functions
 function Hash (blockSize, finalSize) {
@@ -87002,7 +87230,7 @@ Hash.prototype._update = function () {
 module.exports = Hash
 
 }).call(this,require("buffer").Buffer)
-},{"buffer":189}],310:[function(require,module,exports){
+},{"buffer":192}],313:[function(require,module,exports){
 var exports = module.exports = function SHA (algorithm) {
   algorithm = algorithm.toLowerCase()
 
@@ -87019,7 +87247,7 @@ exports.sha256 = require('./sha256')
 exports.sha384 = require('./sha384')
 exports.sha512 = require('./sha512')
 
-},{"./sha":311,"./sha1":312,"./sha224":313,"./sha256":314,"./sha384":315,"./sha512":316}],311:[function(require,module,exports){
+},{"./sha":314,"./sha1":315,"./sha224":316,"./sha256":317,"./sha384":318,"./sha512":319}],314:[function(require,module,exports){
 (function (Buffer){
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-0, as defined
@@ -87116,7 +87344,7 @@ Sha.prototype._hash = function () {
 module.exports = Sha
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":309,"buffer":189,"inherits":279}],312:[function(require,module,exports){
+},{"./hash":312,"buffer":192,"inherits":282}],315:[function(require,module,exports){
 (function (Buffer){
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-1, as defined
@@ -87218,7 +87446,7 @@ Sha1.prototype._hash = function () {
 module.exports = Sha1
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":309,"buffer":189,"inherits":279}],313:[function(require,module,exports){
+},{"./hash":312,"buffer":192,"inherits":282}],316:[function(require,module,exports){
 (function (Buffer){
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
@@ -87274,7 +87502,7 @@ Sha224.prototype._hash = function () {
 module.exports = Sha224
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":309,"./sha256":314,"buffer":189,"inherits":279}],314:[function(require,module,exports){
+},{"./hash":312,"./sha256":317,"buffer":192,"inherits":282}],317:[function(require,module,exports){
 (function (Buffer){
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
@@ -87412,7 +87640,7 @@ Sha256.prototype._hash = function () {
 module.exports = Sha256
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":309,"buffer":189,"inherits":279}],315:[function(require,module,exports){
+},{"./hash":312,"buffer":192,"inherits":282}],318:[function(require,module,exports){
 (function (Buffer){
 var inherits = require('inherits')
 var SHA512 = require('./sha512')
@@ -87472,7 +87700,7 @@ Sha384.prototype._hash = function () {
 module.exports = Sha384
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":309,"./sha512":316,"buffer":189,"inherits":279}],316:[function(require,module,exports){
+},{"./hash":312,"./sha512":319,"buffer":192,"inherits":282}],319:[function(require,module,exports){
 (function (Buffer){
 var inherits = require('inherits')
 var Hash = require('./hash')
@@ -87735,7 +87963,7 @@ Sha512.prototype._hash = function () {
 module.exports = Sha512
 
 }).call(this,require("buffer").Buffer)
-},{"./hash":309,"buffer":189,"inherits":279}],317:[function(require,module,exports){
+},{"./hash":312,"buffer":192,"inherits":282}],320:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -87864,10 +88092,10 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":266,"inherits":279,"readable-stream/duplex.js":318,"readable-stream/passthrough.js":324,"readable-stream/readable.js":325,"readable-stream/transform.js":326,"readable-stream/writable.js":327}],318:[function(require,module,exports){
+},{"events":269,"inherits":282,"readable-stream/duplex.js":321,"readable-stream/passthrough.js":327,"readable-stream/readable.js":328,"readable-stream/transform.js":329,"readable-stream/writable.js":330}],321:[function(require,module,exports){
 module.exports = require("./lib/_stream_duplex.js")
 
-},{"./lib/_stream_duplex.js":319}],319:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":322}],322:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -87951,7 +88179,7 @@ function forEach (xs, f) {
   }
 }
 
-},{"./_stream_readable":321,"./_stream_writable":323,"core-util-is":228,"inherits":279,"process-nextick-args":298}],320:[function(require,module,exports){
+},{"./_stream_readable":324,"./_stream_writable":326,"core-util-is":231,"inherits":282,"process-nextick-args":301}],323:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -87980,7 +88208,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
   cb(null, chunk);
 };
 
-},{"./_stream_transform":322,"core-util-is":228,"inherits":279}],321:[function(require,module,exports){
+},{"./_stream_transform":325,"core-util-is":231,"inherits":282}],324:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -88959,7 +89187,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require('_process'))
-},{"./_stream_duplex":319,"_process":299,"buffer":189,"core-util-is":228,"events":266,"inherits":279,"isarray":281,"process-nextick-args":298,"string_decoder/":328,"util":163}],322:[function(require,module,exports){
+},{"./_stream_duplex":322,"_process":302,"buffer":192,"core-util-is":231,"events":269,"inherits":282,"isarray":284,"process-nextick-args":301,"string_decoder/":331,"util":166}],325:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -89158,7 +89386,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./_stream_duplex":319,"core-util-is":228,"inherits":279}],323:[function(require,module,exports){
+},{"./_stream_duplex":322,"core-util-is":231,"inherits":282}],326:[function(require,module,exports){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
@@ -89689,10 +89917,10 @@ function endWritable(stream, state, cb) {
   state.ended = true;
 }
 
-},{"./_stream_duplex":319,"buffer":189,"core-util-is":228,"events":266,"inherits":279,"process-nextick-args":298,"util-deprecate":329}],324:[function(require,module,exports){
+},{"./_stream_duplex":322,"buffer":192,"core-util-is":231,"events":269,"inherits":282,"process-nextick-args":301,"util-deprecate":332}],327:[function(require,module,exports){
 module.exports = require("./lib/_stream_passthrough.js")
 
-},{"./lib/_stream_passthrough.js":320}],325:[function(require,module,exports){
+},{"./lib/_stream_passthrough.js":323}],328:[function(require,module,exports){
 var Stream = (function (){
   try {
     return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
@@ -89706,13 +89934,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":319,"./lib/_stream_passthrough.js":320,"./lib/_stream_readable.js":321,"./lib/_stream_transform.js":322,"./lib/_stream_writable.js":323}],326:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":322,"./lib/_stream_passthrough.js":323,"./lib/_stream_readable.js":324,"./lib/_stream_transform.js":325,"./lib/_stream_writable.js":326}],329:[function(require,module,exports){
 module.exports = require("./lib/_stream_transform.js")
 
-},{"./lib/_stream_transform.js":322}],327:[function(require,module,exports){
+},{"./lib/_stream_transform.js":325}],330:[function(require,module,exports){
 module.exports = require("./lib/_stream_writable.js")
 
-},{"./lib/_stream_writable.js":323}],328:[function(require,module,exports){
+},{"./lib/_stream_writable.js":326}],331:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -89935,7 +90163,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":189}],329:[function(require,module,exports){
+},{"buffer":192}],332:[function(require,module,exports){
 (function (global){
 
 /**
@@ -90006,7 +90234,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],330:[function(require,module,exports){
+},{}],333:[function(require,module,exports){
 var indexOf = require('indexof');
 
 var Object_keys = function (obj) {
@@ -90146,7 +90374,7 @@ exports.createContext = Script.createContext = function (context) {
     return copy;
 };
 
-},{"indexof":278}],331:[function(require,module,exports){
+},{"indexof":281}],334:[function(require,module,exports){
 angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("admin.html","<div class=\"container admin\">\n    <div class=\"row\">\n        <div ui-view=\"header\" class=\"header\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"content\" class=\"content\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"footer\" class=\"footer\"></div>\n    </div>\n</div>");
 $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div class=\"row\">\n        <div class=\"top-bar col-xs-12 col-md-12 col-lg-12\" ui-view=\"top_bar\"></div>\n    </div>\n    \n    <div class=\"mobile-scroll\" style=\"height:100%;\">\n      <div class=\"mobile-container\">\n         <div class=\"row\">\n            <div ui-view=\"header\" class=\"header\"></div>\n         </div>    \n         \n         <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12 hidden-xs large-header-padding\"></div>\n            <div class=\"hidden-lg hidden-md hidden-sm col-xs-12 mobile-header-padding\"></div>\n         </div>\n         \n         <div class=\"main-content\">\n            <div class=\"row\">\n               <div class=\"mobile-ad-space hidden-lg hidden-md hidden-sm col-xs-12\">\n                  <img src=\"./images/temp_mobile_ad.png\" />\n               </div>\n            </div>\n            \n            <div class=\"row row-eq-height\" style=\"height: 100%;\">\n                  <!--<div class=\"content-padding col-md-1 col-lg-1 col-sm-1 hidden-xs\"></div>-->\n                  <div ui-view=\"content\" class=\"content col-md-9 col-lg-9 col-sm-9 col-xs-12\" style=\"min-height:100%;\"></div>\n                  <div ui-view=\"ad_space_right\" class=\"ad-space col-lg-3 col-sm-3 col-md-3 hidden-xs\" style=\"min-height:100%;\">\n                     <div class=\"ad-container\">\n                        <div class=\"ad\">\n                            <img src=\"./images/temp_ad1.jpg\" />\n                        </div>\n                        <div class=\"ad ad1\">\n                            <img src=\"./images/temp_ad2.png\" />\n                        </div>\n                     </div>\n                     <div class=\"copyright\">\n                        Andrew O\'Mahony (c) 2016\n                     </div>\n                  </div>\n            </div>\n         </div>\n      </div>\n    </div>\n</div>");
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
@@ -90156,8 +90384,9 @@ $templateCache.put("directives/profile_picture.html","<div media-renderer=\"pict
 $templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\"\n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\"\n        ng-click=\"activateFileReader()\"  \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-video-camera fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div> \n   <div class=\"progress-message\">\n      <span ng-bind=\"getProgressMessage()\"></span>\n   </div>\n</div>\n\n\n<div class=\"fade-in has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"video\"\n           model=\"model\"\n           width=\"95%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"video-container\"\n           can-preload=\"true\"\n           show-uploading=\"false\"\n           can-hide-while-loading=\"false\"\n           information=\"videoInformation\"\n           on-event=\"onVideoEvent(name)\">\n      </div>\n      \n      <div class=\"media-container-options video-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"video/mp4,video/x-m4v,video/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onVideoSelectSuccess(files)\"\n   on-files-progress=\"onVideoSelectProgress(progress)\"\n   on-files-error=\"onVideoSelectError(error)\">\n</file-reader> ");
 $templateCache.put("directives/youtube_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\" \n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        ng-click=\"activateUrlModal()\"\n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-youtube fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div>\n</div>\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"youtube\"\n         fitted=\"true\"\n         centered=\"true\"\n         model=\"model\"\n         class=\"youtube-container\"\n         width=\"{{getYoutubeRendererWidth()}}\"\n         on-error=\"onYoutubeRendererError(error)\">\n      </div>\n\n      <div class=\"media-container-options youtube-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateUrlModal()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>  \n   </div>\n</div>");
 $templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
-$templateCache.put("directives/workout_builder/set_element_renderer.html","<div ng-if=\"!isEditing\" class=\"display\">\n   <span font-awesome-icon-text class=\"bullet\" icon=\"fa-circle-o\">\n   </span>\n   <span ng-bind=\"getElementQuantityAndDistance()\"></span>\n   <span ng-bind=\"getElementStroke()\"></span>\n   <span ng-bind=\"model.type\"></span>\n   <span class=\"notes\" ng-bind=\"getElementNotes()\" ng-if=\"model.notes\"></span>\n   <span class=\"inline-menu\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" \n         confirm-click=\"deleteClicked()\"\n         confirm-message=\"Delete Swim?\">Delete</a>\n   </span>\n\n   <div class=\"list intervals\">\n      <div ng-repeat=\"interval in model.intervals\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"interval\" \n                              is-interval=\"true\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n   <div class=\"list rests\">\n      <div ng-repeat=\"rest in model.rests\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"rest\" \n                              is-interval=\"false\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"element\">\n      <input class=\"distance form-control\" type=\"text\" placeholder=\"Distance\" ng-model=\"editingElement.distance\" />\n   </div>\n\n   <div class=\"element\">\n      <input class=\"quantity form-control\" type=\"text\" placeholder=\"Quantity\" ng-model=\"editingElement.quantity\" />\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in strokes\" \n            ng-model=\"editingElement.stroke\">\n         <option value=\"\">---Select Stroke---</option>\n      </select>\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in strokeModifications\" \n            ng-model=\"editingElement.stroke_modification\">\n         <option value=\"\">---Select Stroke Modification---</option>\n      </select>\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in types\" \n            ng-model=\"editingElement.type\">\n         <option value=\"\">---Select Type---</option>\n      </select>\n   </div>\n\n   <div class=\"element list intervals\">\n      <div ng-repeat=\"interval in editingElement.intervals\">\n         <speed-time model=\"interval\" \n                           is-interval=\"true\"\n                           is-editable=\"true\"\n                           can-edit-inline=\"true\"\n                           is-initially-editing=\"{{interval.is_unborn}}\"\n                           on-save-clicked=\"saveInterval(speedTime)\"\n                           on-cancel-clicked=\"cancelInterval(speedTime)\"\n                           on-delete-clicked=\"deleteInterval(speedTime)\">\n         </speed-time>\n      </div>  \n      <a ng-click=\"newInterval()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Interval\"></span>\n         </span>\n      </a>\n   </div>\n   \n   <div class=\"element list rests\">\n      <div ng-repeat=\"rest in editingElement.rests\">\n         <speed-time model=\"rest\" \n                     is-interval=\"false\"\n                     can-edit-inline=\"true\"\n                     is-initially-editing=\"{{rest.is_unborn}}\"\n                     on-save-clicked=\"saveRest(speedTime)\"\n                     on-cancel-clicked=\"cancelRest(speedTime)\"\n                     on-delete-clicked=\"deleteRest(speedTime)\"></speed-time>\n      </div>  \n      <a ng-click=\"newRest()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Rest\"></span>\n         </span>\n      </a>                   \n   </div>\n  \n\n   <div class=\"element\">\n      <input class=\"notes form-control\" type=\"text\" placeholder=\"Notes\" ng-model=\"editingElement.notes\" />\n   </div>\n\n   <div class=\"bottom-options\">\n      <a ng-click=\"saveClicked()\" class=\"left\" ng-bind=\"saveButtonText || \'Save Swim\'\"></a>\n      <a ng-click=\"cancelClicked()\" class=\"right\" ng-bind=\"saveButtonText || \'Cancel\'\"></a>\n   </div>\n</div>");
-$templateCache.put("directives/workout_builder/set_renderer.html","<div ng-if=\"!isEditing && !model.is_unborn\" class=\"display\">\n   <div class=\"options\">\n      <span font-awesome-icon-text class=\"bullet\" icon=\"fa-circle\">\n      </span>\n      <span class=\"notes\" ng-bind=\"getSetNotes()\"></span>\n      <span class=\"quantity\" ng-bind=\"getSetQuantity()\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n         <a class=\"right\" \n            confirm-click=\"deleteClicked()\"\n            confirm-message=\"Delete Set?\">Delete</a>\n      </span>\n   </div>\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in model.elements\">\n         <set-element model=\"element\"\n            is-editable=\"false\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>  \n   </div> \n\n   <div class=\"total\" ng-if=\"showTotalWhenNotEditing\">\n      <span font-awesome-icon-text icon=\"fa-arrow-right\" text=\"{{model.getTotalDistance()}}\">\n      </span>\n   </div>\n\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"options\">\n      <div class=\"option\">\n         <input type=\"text\" class=\"quantity form-control\" placeholder=\"Rounds\" ng-model=\"editingSet.quantity\" />\n      </div>\n      <div class=\"option\">\n         <input type=\"text\" class=\"form-control notes\" placeholder=\"Notes\" ng-model=\"editingSet.notes\" />\n      </div>\n   </div>\n\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in editingSet.elements\">\n         <set-element\n            model=\"element\"\n            on-save-clicked=\"saveSetElement(element)\"\n            on-delete-clicked=\"deleteSetElement(element)\"\n            on-cancel-clicked=\"cancelSetElement(element)\"\n            is-editable=\"true\"\n            can-edit-inline=\"true\"\n            is-initially-editing=\"{{element.is_unborn}}\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>\n      <a ng-click=\"newSetElement()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Swim\"></span>\n         </span>\n      </a>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{editingSet.getTotalDistance()}}\">\n      </span>\n   </div>\n\n   <div class=\"bottom-options\">\n      <a class=\"left\"\n         ng-click=\"saveClicked()\" ng-bind=\"saveButtonText || \'Save Set\'\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\" ng-bind=\"cancelButtonText || \'Cancel\'\"></a>\n   </div>\n</div>");
+$templateCache.put("directives/workout_builder/set_element_modification_renderer.html","<div ng-if=\"!isEditing\" class=\"display\">\n   <span class=\"icon\">\n      <img ng-src=\"{{getModificationIcon()}}\" />\n   </span>\n   <span class=\"display\" ng-bind=\"model.name\"></span>\n\n   <span class=\"display\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" \n         confirm-click=\"deleteClicked()\"\n         confirm-message=\"Delete Modification?\">Delete</a>\n   </span>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">     \n   <div class=\"form\">\n      <select ng-model=\"editingModel.name\"\n                  ng-options=\"modification for modification in getModificationList()\"\n                  class=\"form-control\">\n            <option value=\"\">--Select Modification--</option>\n      </select>\n   </div>\n   <div class=\"bottom-options\">\n      <a class=\"left\" ng-bind=\"saveButtonText || \'Save Modification\'\" ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-bind=\"cancelButtonText || \'Cancel\'\" ng-click=\"cancelClicked()\"></a>\n   </div>\n</div>");
+$templateCache.put("directives/workout_builder/set_element_renderer.html","<div ng-if=\"!isEditing\" class=\"display\">\n   <span font-awesome-icon-text class=\"bullet\" icon=\"fa-circle-o\">\n   </span>\n   <span ng-bind=\"getElementQuantityAndDistance()\"></span>\n   <span ng-bind=\"getElementStroke()\"></span>\n   <span ng-bind=\"model.type\"></span>\n   <span class=\"notes\" ng-bind=\"getElementNotes()\" ng-if=\"model.notes\"></span>\n   <span class=\"inline-menu\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" \n         confirm-click=\"deleteClicked()\"\n         confirm-message=\"Delete Swim?\">Delete</a>\n   </span>\n\n   <div class=\"list modifications\">\n      <div ng-repeat=\"modification in model.modifications\">\n         <set-element-modification model=\"modification\"\n                                    is-editable=\"false\">\n         </set-element-modification>\n      </div>\n   </div>\n\n   <div class=\"list intervals\">\n      <div ng-repeat=\"interval in model.intervals\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"interval\" \n                              is-interval=\"true\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n   <div class=\"list rests\">\n      <div ng-repeat=\"rest in model.rests\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"rest\" \n                              is-interval=\"false\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"element\">\n      <input class=\"distance form-control\" type=\"text\" placeholder=\"Distance\" ng-model=\"editingElement.distance\" />\n   </div>\n\n   <div class=\"element\">\n      <input class=\"quantity form-control\" type=\"text\" placeholder=\"Quantity\" ng-model=\"editingElement.quantity\" />\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in strokes\" \n            ng-model=\"editingElement.stroke\">\n         <option value=\"\">---Select Stroke---</option>\n      </select>\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in types\" \n            ng-model=\"editingElement.type\">\n         <option value=\"\">---Select Type---</option>\n      </select>\n   </div>\n\n   <div class=\"element list modifications\">\n      <div ng-repeat=\"modification in editingElement.modifications\">\n         <set-element-modification model=\"modification\"\n                                       is-editable=\"true\"\n                                       can-edit-inline=\"true\"\n                                       is-initially-editing=\"{{modification.is_unborn}}\"\n                                       on-save-clicked=\"saveModification(modification)\"\n                                       on-cancel-clicked=\"cancelModification(modification)\"\n                                       on-delete-clicked=\"deleteModification(modification)\">\n         </set-element-modification>\n      </div>\n      <a ng-click=\"newModification()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Modification\"></span>\n         </span>\n      </a>      \n   </div>\n\n   <div class=\"element list intervals\">\n      <div ng-repeat=\"interval in editingElement.intervals\">\n         <speed-time model=\"interval\" \n                           is-interval=\"true\"\n                           is-editable=\"true\"\n                           can-edit-inline=\"true\"\n                           is-initially-editing=\"{{interval.is_unborn}}\"\n                           on-save-clicked=\"saveInterval(speedTime)\"\n                           on-cancel-clicked=\"cancelInterval(speedTime)\"\n                           on-delete-clicked=\"deleteInterval(speedTime)\">\n         </speed-time>\n      </div>  \n      <a ng-click=\"newInterval()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Interval\"></span>\n         </span>\n      </a>\n   </div>\n   \n   <div class=\"element list rests\">\n      <div ng-repeat=\"rest in editingElement.rests\">\n         <speed-time model=\"rest\" \n                     is-interval=\"false\"\n                     can-edit-inline=\"true\"\n                     is-initially-editing=\"{{rest.is_unborn}}\"\n                     on-save-clicked=\"saveRest(speedTime)\"\n                     on-cancel-clicked=\"cancelRest(speedTime)\"\n                     on-delete-clicked=\"deleteRest(speedTime)\"></speed-time>\n      </div>  \n      <a ng-click=\"newRest()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Rest\"></span>\n         </span>\n      </a>                   \n   </div>\n  \n\n   <div class=\"element\">\n      <input class=\"notes form-control\" type=\"text\" placeholder=\"Notes\" ng-model=\"editingElement.notes\" />\n   </div>\n\n   <div class=\"bottom-options\">\n      <a ng-click=\"saveClicked()\" class=\"left\" ng-bind=\"saveButtonText || \'Save Swim\'\"></a>\n      <a ng-click=\"cancelClicked()\" class=\"right\" ng-bind=\"saveButtonText || \'Cancel\'\"></a>\n   </div>\n</div>");
+$templateCache.put("directives/workout_builder/set_renderer.html","<div ng-if=\"!isEditing && !model.is_unborn\" class=\"display\">\n   <div class=\"options\">\n      <span font-awesome-icon-text class=\"bullet\" icon=\"fa-circle\">\n      </span>\n      <span class=\"notes\" ng-bind=\"getSetNotes()\"></span>\n      <span class=\"quantity\" ng-bind=\"getSetQuantity()\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n         <a class=\"right\" \n            confirm-click=\"deleteClicked()\"\n            confirm-message=\"Delete Set?\">Delete</a>\n      </span>\n   </div>\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in model.elements\">\n         <set-element model=\"element\"\n            is-editable=\"false\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>  \n   </div> \n\n   <div class=\"total\" ng-if=\"showTotalWhenNotEditing\">\n      <span font-awesome-icon-text icon=\"fa-arrow-right\" text=\"{{model.getTotalDistance()}}\">\n      </span>\n   </div>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"options\">\n      <div class=\"option\">\n         <input type=\"text\" class=\"quantity form-control\" placeholder=\"Rounds\" ng-model=\"editingSet.quantity\" />\n      </div>\n      <div class=\"option\">\n         <input type=\"text\" class=\"form-control notes\" placeholder=\"Notes\" ng-model=\"editingSet.notes\" />\n      </div>\n   </div>\n\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in editingSet.elements\">\n         <set-element\n            model=\"element\"\n            on-save-clicked=\"saveSetElement(element)\"\n            on-delete-clicked=\"deleteSetElement(element)\"\n            on-cancel-clicked=\"cancelSetElement(element)\"\n            is-editable=\"true\"\n            can-edit-inline=\"true\"\n            is-initially-editing=\"{{element.is_unborn}}\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>\n      <a ng-click=\"newSetElement()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Swim\"></span>\n         </span>\n      </a>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{editingSet.getTotalDistance()}}\">\n      </span>\n   </div>\n\n   <div class=\"bottom-options\">\n      <a class=\"left\"\n         ng-click=\"saveClicked()\" ng-bind=\"saveButtonText || \'Save Set\'\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\" ng-bind=\"cancelButtonText || \'Cancel\'\"></a>\n   </div>\n</div>");
 $templateCache.put("directives/workout_builder/speed_time_renderer.html","<div ng-if=\"!isEditing\" class=\"display\">\n   <span font-awesome-icon-text icon=\"{{isInterval ? \'fa-clock-o\' : \'fa-bed\'}}\">\n   </span>\n   <span class=\"display\" ng-bind=\"model.name\"></span>\n   <span class=\"display\" ng-bind=\"getTimeString()\"></span>\n\n   <span class=\"display\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" \n         confirm-click=\"deleteClicked()\"\n         confirm-message=\"{{isInterval ? \'Delete Interval?\' : \'Delete Rest?\'}}\">Delete</a>\n   </span>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">     \n   <div class=\"form\">\n      <span class=\"edit-icon\" font-awesome-icon-text icon=\"{{isInterval ? \'fa-clock-o\' : \'fa-bed\'}}\">\n      </span>\n\n      <input type=\"text\" class=\"form-control\" ng-model=\"editingModel.name\" placeholder=\"Speed\" />\n      \n      <select ng-model=\"editingModel.time.hour\"\n                  ng-options=\"time for time in hours\"\n                  class=\"form-control\">\n            <option value=\"\">--Hour--</option>\n      </select>\n\n      <select ng-model=\"editingModel.time.minute\"\n                  ng-options=\"time for time in minutes\"\n                  class=\"form-control\">\n            <option value=\"\">--Minute--</option>\n      </select>\n\n      <select ng-model=\"editingModel.time.second\"\n                  ng-options=\"time for time in seconds\"\n                  class=\"form-control\">\n            <option value=\"\">--Second--</option>\n      </select>\n   </div>\n   <div class=\"bottom-options\">\n      <a class=\"left\" ng-bind=\"saveButtonText || (isInterval ? \'Save Interval\' : \'Save Rest\')\" ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-bind=\"cancelButtonText || \'Cancel\'\" ng-click=\"cancelClicked()\"></a>\n   </div>\n</div>");
 $templateCache.put("directives/workout_builder/workout_renderer.html","<div ng-if=\"!isEditing\" class=\"display\">\n   <div class=\"options\">\n      <span class=\"name\" ng-bind=\"model.name\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n         <a class=\"right\" \n            confirm-click=\"deleteClicked()\" \n            confirm-message=\"Delete Workout?\">\n            Delete\n         </a>\n      </span>   \n   </div>\n\n   <div class=\"list sets\">\n      <div class=\"set-container\" \n           ng-repeat=\"set in model.sets\">\n         <set model=\"set\"\n              show-total-when-not-editing=\"true\"\n              is-editable=\"false\">\n         </set>   \n         <div class=\"running-total\" ng-if=\"$index < model.sets.length - 1\">\n            <span font-awesome-icon-text\n                  icon=\"fa-arrow-right\"\n                  text=\"{{getRunningTotal(model, $index)}}\">\n            </span>                      \n         </div>               \n      </div>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{model.getTotalDistance()}}\">\n      </span>                   \n   </div> \n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\">\n   <div class=\"options\">\n      <input class=\"form-control name\" placeholder=\"Name\" type=\"text\" ng-model=\"editingWorkout.name\" />\n   </div>\n   <div class=\"list sets\">\n      <div ng-repeat=\"set in editingWorkout.sets\">\n         <set model=\"set\"\n            on-save-clicked=\"saveSet(set)\"\n            on-cancel-clicked=\"cancelSet(set)\"\n            on-delete-clicked=\"deleteSet(set)\"\n            on-edit-clicked=\"editSet(set)\"\n            show-total-when-not-editing=\"true\"\n            is-initially-editing=\"{{set.is_unborn}}\"\n            can-edit-inline=\"{{canEditSetsInline}}\"\n            is-editable=\"true\">\n         </set>   \n         <div class=\"running-total\"\n              ng-if=\"$index < editingWorkout.sets.length - 1\">\n            <span font-awesome-icon-text\n                  icon=\"fa-arrow-right\"\n                  text=\"{{getRunningTotal(editingWorkout, $index)}}\">\n            </span>                      \n         </div>           \n      </div>\n      <a ng-click=\"newSet()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Set\"></span>\n         </span>\n      </a>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{editingWorkout.getTotalDistance()}}\">\n      </span>                   \n   </div>\n\n   <div class=\"bottom-options\">\n      <a class=\"left\" \n         ng-bind=\"saveButtonText\" \n         ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\">Cancel</a>\n   </div>\n\n</div>");
 $templateCache.put("modals/full/confirm_modal_full.html","<div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n      </div>\n      <div class=\"modal-body\" ng-bind=\"content\"></div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onNoClicked()\">No</button>\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onYesClicked()\">Yes</button>\n      </div>\n    </div>\n  </div>\n</div>\n");
@@ -90191,9 +90420,9 @@ $templateCache.put("partials/main/register/content.html","<div class=\"registrat
 $templateCache.put("partials/main/register/register.html","<div class=\"register\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/reset_password/content.html","<div class=\"col-lg-6 col-md-6 col-sm-6 col-xs-12 reset-password-form\">\n   <form name=\"resetPasswordForm\">\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_password.$touched && resetPasswordForm.reset_password_repeat_password.$invalid }\">\n         <label for=\"reset_password_password\">\n            <span>New Password (6 characters or more)</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_password.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_password\" \n                ng-model=\"formData.password\"\n                ng-model-options=\"{updateOn: \'blur\'}\"\n                minlength=\"6\"\n                required />\n      </div>\n\n      <div class=\"form-group\"\n           ng-class=\"{ \'has-error\': resetPasswordForm.reset_password_repeat.$touched && resetPasswordForm.reset_password_repeat.$invalid }\">  \n         <label for=\"reset_password_repeat\">\n            <span>Repeat New Password</span>\n            <span class=\"form-errors\" \n                  ng-messages=\"resetPasswordForm.reset_password_repeat.$error\"\n                  ng-if=\"resetPasswordForm.reset_password_password.$touched\">\n               <span ng-messages-include=\"messages/registration.html\"></span>\n            </span>\n         </label>\n         <input type=\"password\" \n                class=\"form-control\" \n                name=\"reset_password_repeat\" \n                ng-model=\"formData.repeat_password\"\n                ng-model-options=\"{updateOn: \'keyup\'}\"\n                compare-to=\"formData.password\" />\n      </div>\n      \n      <div class=\"form-group\" ng-if=\"!resettingInProgress\">\n         <button ng-disabled=\"resetPasswordForm.$invalid\" ng-click=\"resetPassword()\">Set Password</button>\n      </div>\n      \n      <div loading-progress \n            type=\"spinner\"\n            class=\"resetting-in-progress\"\n            ng-if=\"resettingInProgress\"\n            message=\"Setting password...\">\n      </div>\n   </form>\n</div>");
 $templateCache.put("partials/main/reset_password/reset_password.html","<div class=\"reset-password\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"top-area\">\n      <div class=\"user-display\">\n         <div class=\"edit-container profile-picture-container\">\n               <div class=\"profile-picture-display\">\n               <span class=\"hidden-xs\">\n                     <profile-picture \n                        user=\"currentEditingUser\" \n                        width=\"100%\"\n                        max-height=\"{{getUserInfoHeight()}}\">\n                     </profile-picture>\n               </span>\n               <span class=\"hidden-lg hidden-md hidden-sm\">\n                     <profile-picture \n                        user=\"currentEditingUser\" \n                        width=\"150px\">\n                     </profile-picture>\n               </span>\n               </div>\n               <br />\n               <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n               <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n               <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n               <file-reader\n                     supports-multiple=\"false\"\n                     accept=\"image/*\"\n                     process-exif=\"true\"\n                     create=\"profilePicturePicker\"\n                     on-created=\"onProfilePictureSelectCreated(elementId)\"\n                     on-files-added=\"onProfilePictureSelectSuccess(files)\"\n                     on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n                     on-files-error=\"onProfilePictureSelectError(error)\">\n               </file-reader>      \n               </div>\n         </div>\n\n         <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail && !isChangingPrivacySettings\">\n               <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n               <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n               <div>\n                     <input type=\"text\"\n                           placeholder=\"First Name\"\n                           class=\"form-control profile-name-input\"\n                           ng-model=\"currentEditingUser.first_name\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               <div>\n                     <input type=\"text\"\n                           placeholder=\"Last Name\"\n                           class=\"form-control profile-name-input\"\n                           ng-model=\"currentEditingUser.last_name\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               </div>\n         </div>\n         \n         <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword && !isChangingPrivacySettings\">\n               <div ng-if=\"!isChangingEmail\">\n               <span class=\"email-text\"\n                     ng-bind=\"currentEditingUser.email\"></span>\n               </div>\n\n               <div ng-if=\"currentEditingUser.pending_email\">\n               <span class=\"pending-email-text\">\n                     <span ng-bind=\"currentEditingUser.pending_email\"></span>\n                     <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n                     <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n               </span>\n               </div>     \n               \n               <div ng-if=\"isChangingEmail\">\n               <div ng-class=\"getEmailEditControlClass()\">\n                     <input type=\"email\"\n                           placeholder=\"New E-Mail\"\n                           class=\"form-control profile-email-input\"\n                           ng-model=\"emailChangeData.email\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               </div>\n         </div>\n         \n         <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n               <div class=\"top-edit-control\">\n               <div>\n                     <input type=\"password\"\n                           placeholder=\"Old Password\"\n                           class=\"form-control profile-old-password-input\"\n                           ng-model=\"passwordChangeData.old_password\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               <div>\n                     <input type=\"password\"\n                           placeholder=\"New Password\"\n                           class=\"form-control profile-new-password-input\"\n                           ng-model=\"passwordChangeData.new_password\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               <div>       \n                     <input type=\"password\"\n                           placeholder=\"Repeat New Password\"\n                           class=\"form-control profile-repeat-new-password-input\"\n                           ng-model=\"passwordChangeData.new_password_repeat\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>         \n               </div>\n         </div>\n\n         <div class=\"edit-container profile-privacy-container\" ng-if=\"isChangingPrivacySettings\">\n               <div class=\"form-group\">\n               <div class=\"fa-checkbox\">\n                     <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"currentEditingUser.is_visible_to_public\" />\n                     <label>Visible to the public?</label>\n               </div>\n               </div>\n\n               <div class=\"form-group\">\n               <div class=\"fa-checkbox\">\n                     <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"currentEditingUser.is_visible_to_users\" />\n                     <label>Visible to other users?</label>\n               </div>\n               </div>            \n         </div>\n         \n         <div class=\"edit-container profile-options-container\">\n               <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail && !isChangingPrivacySettings\">\n               <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n               &nbsp;|&nbsp;\n               <a ng-click=\"activateChangePassword()\">Change Password</a>\n               &nbsp;|&nbsp;\n               <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n               &nbsp;|&nbsp;\n               <a ng-click=\"activateChangePrivacySettings()\">Privacy Settings</a>\n               </span>\n               \n               <span ng-if=\"isEditingProfile && !isSaving\">\n               <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n               <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n               </span>\n               \n               <span ng-if=\"isChangingPassword && !isSaving\">\n               <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n               <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n               </span>\n               \n               <span ng-if=\"isChangingEmail && !isSaving\">\n               <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n               <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n               </span>\n\n               <span ng-if=\"isChangingPrivacySettings && !isSaving\">\n               <a class=\"left save-privacy-settings\" ng-click=\"changePrivacySettings()\">Change</a>\n               <a class=\"right cancel-privacy-settings\" ng-click=\"cancelChangePrivacySettings()\">Back</a>\n               </span>\n               \n               <div loading-progress \n                     type=\"spinner\"\n                     class=\"saving-message fade-in\"\n                     ng-if=\"isSaving\"\n                     message=\"{{getSavingUserMessage()}}\">\n               </div>\n               \n               <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n               <span ng-bind=\"postSavingMessage\"></span>\n               </div>\n               \n               <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n               <span ng-bind=\"errorMessage\"></span>\n               </div>\n         </div>\n      </div>\n      <div class=\"options-display\">\n         <div class=\"options-area workout\">\n            <div class=\"widget-area\">\n               <div class=\"widget-container\">\n                  <div workout-widget\n                     size=\"150px\"\n                     is-link=\"true\"\n                     workout=\"currentEditingUser.workouts[0]\">\n                  </div>\n               </div>\n            </div>\n            <div class=\"link-area\">\n               <a ui-sref=\"main.page.workout_builder.new\"\n                  class=\"large\">\n                  <span font-awesome-icon-text\n                        icon=\"fa-plus\"\n                        text=\"Create New Workout\"></span>\n                  </span>\n               </a>\n            </div>\n         </div>\n         <div class=\"options-area question\">\n            <div class=\"link-area\">\n               <a ui-sref=\"main.page.question.ask\"\n                  class=\"large\">\n                     <span font-awesome-icon-text\n                           icon=\"fa-question\"\n                           text=\"Ask a Question\"></span>\n                     </span>\n               </a>\n            </div>\n         </div>\n         <div class=\"options-area upload\">\n            <div class=\"link-area\">\n               <a class=\"large\">\n                     <span font-awesome-icon-text\n                           icon=\"fa-upload\"\n                           text=\"Upload Workout Data\"></span>\n                     </span>\n               </a>\n            </div>\n         </div>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
+$templateCache.put("partials/main/user/content.html","<div ng-if=\"currentEditingUser\">\n   <div class=\"top-area\">\n      <div class=\"user-display\">\n         <div class=\"edit-container profile-picture-container\">\n               <div class=\"profile-picture-display\">\n               <span class=\"hidden-xs\">\n                     <profile-picture \n                        user=\"currentEditingUser\" \n                        width=\"100%\"\n                        max-height=\"{{getUserInfoHeight()}}\">\n                     </profile-picture>\n               </span>\n               <span class=\"hidden-lg hidden-md hidden-sm\">\n                     <profile-picture \n                        user=\"currentEditingUser\" \n                        width=\"150px\">\n                     </profile-picture>\n               </span>\n               </div>\n               <br />\n               <div class=\"profile-picture-change\" ng-if=\"isEditingProfile\">\n               <a class=\"change-profile-picture\" ng-click=\"changeProfilePicture()\">Change</a>\n               <a class=\"reset-profile-picture\" ng-click=\"resetProfilePicture()\">Reset</a>\n               <file-reader\n                     supports-multiple=\"false\"\n                     accept=\"image/*\"\n                     process-exif=\"true\"\n                     create=\"profilePicturePicker\"\n                     on-created=\"onProfilePictureSelectCreated(elementId)\"\n                     on-files-added=\"onProfilePictureSelectSuccess(files)\"\n                     on-files-progress=\"onProfilePictureSelectProgress(progress)\"\n                     on-files-error=\"onProfilePictureSelectError(error)\">\n               </file-reader>      \n               </div>\n         </div>\n\n         <div class=\"edit-container profile-name-container\" ng-if=\"!isChangingPassword && !isChangingEmail && !isChangingPrivacySettings\">\n               <span ng-if=\"!isEditingProfile\" ng-bind=\"currentEditingUser.fullName()\"></span>\n               <div class=\"top-edit-control\" ng-if=\"isEditingProfile\">\n               <div>\n                     <input type=\"text\"\n                           placeholder=\"First Name\"\n                           class=\"form-control profile-name-input\"\n                           ng-model=\"currentEditingUser.first_name\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               <div>\n                     <input type=\"text\"\n                           placeholder=\"Last Name\"\n                           class=\"form-control profile-name-input\"\n                           ng-model=\"currentEditingUser.last_name\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               </div>\n         </div>\n         \n         <div class=\"edit-container profile-email-address-container\" ng-if=\"!isEditingProfile && !isChangingPassword && !isChangingPrivacySettings\">\n               <div ng-if=\"!isChangingEmail\">\n               <span class=\"email-text\"\n                     ng-bind=\"currentEditingUser.email\"></span>\n               </div>\n\n               <div ng-if=\"currentEditingUser.pending_email\">\n               <span class=\"pending-email-text\">\n                     <span ng-bind=\"currentEditingUser.pending_email\"></span>\n                     <a class=\"left\" ng-click=\"resendPendingEmailVerificationEmail()\">Resend</a>\n                     <a class=\"right\" ng-click=\"cancelPendingEmailVerification()\">Cancel</a>\n               </span>\n               </div>     \n               \n               <div ng-if=\"isChangingEmail\">\n               <div ng-class=\"getEmailEditControlClass()\">\n                     <input type=\"email\"\n                           placeholder=\"New E-Mail\"\n                           class=\"form-control profile-email-input\"\n                           ng-model=\"emailChangeData.email\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               </div>\n         </div>\n         \n         <div class=\"edit-container profile-password-container\" ng-if=\"isChangingPassword\">\n               <div class=\"top-edit-control\">\n               <div>\n                     <input type=\"password\"\n                           placeholder=\"Old Password\"\n                           class=\"form-control profile-old-password-input\"\n                           ng-model=\"passwordChangeData.old_password\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               <div>\n                     <input type=\"password\"\n                           placeholder=\"New Password\"\n                           class=\"form-control profile-new-password-input\"\n                           ng-model=\"passwordChangeData.new_password\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>\n               <div>       \n                     <input type=\"password\"\n                           placeholder=\"Repeat New Password\"\n                           class=\"form-control profile-repeat-new-password-input\"\n                           ng-model=\"passwordChangeData.new_password_repeat\"\n                           ng-model-options=\"{updateOn: \'blur\'}\"\n                           required />\n               </div>         \n               </div>\n         </div>\n\n         <div class=\"edit-container profile-privacy-container\" ng-if=\"isChangingPrivacySettings\">\n               <div class=\"form-group\">\n               <div class=\"fa-checkbox\">\n                     <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"currentEditingUser.is_visible_to_public\" />\n                     <label>Visible to the public?</label>\n               </div>\n               </div>\n\n               <div class=\"form-group\">\n               <div class=\"fa-checkbox\">\n                     <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"currentEditingUser.is_visible_to_users\" />\n                     <label>Visible to other users?</label>\n               </div>\n               </div>            \n         </div>\n         \n         <div class=\"edit-container profile-options-container\">\n               <span ng-if=\"canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail && !isChangingPrivacySettings\">\n               <a ng-click=\"activateEditingProfile()\">Edit Profile</a>\n               &nbsp;|&nbsp;\n               <a ng-click=\"activateChangePassword()\">Change Password</a>\n               &nbsp;|&nbsp;\n               <a ng-click=\"activateChangeEmail()\">Change E-Mail</a>\n               &nbsp;|&nbsp;\n               <a ng-click=\"activateChangePrivacySettings()\">Privacy Settings</a>\n               </span>\n               \n               <span ng-if=\"isEditingProfile && !isSaving\">\n               <a class=\"save-cancel-left save-changes\" ng-click=\"saveProfile()\">Save</a>\n               <a class=\"save-cancel-right cancel-edit\" ng-click=\"cancelEditing()\">Back</a>\n               </span>\n               \n               <span ng-if=\"isChangingPassword && !isSaving\">\n               <a class=\"save-cancel-left save-password\" ng-click=\"changePassword()\">Change</a>\n               <a class=\"save-cancel-right cancel-change-password\" ng-click=\"cancelChangePassword()\">Back</a>\n               </span>\n               \n               <span ng-if=\"isChangingEmail && !isSaving\">\n               <a class=\"save-cancel-left save-email\" ng-click=\"changeEmail()\">Change</a>\n               <a class=\"save-cancel-right cancel-change-email\" ng-click=\"cancelChangeEmail()\">Back</a>\n               </span>\n\n               <span ng-if=\"isChangingPrivacySettings && !isSaving\">\n               <a class=\"left save-privacy-settings\" ng-click=\"changePrivacySettings()\">Change</a>\n               <a class=\"right cancel-privacy-settings\" ng-click=\"cancelChangePrivacySettings()\">Back</a>\n               </span>\n               \n               <div loading-progress \n                     type=\"spinner\"\n                     class=\"saving-message fade-in\"\n                     ng-if=\"isSaving\"\n                     message=\"{{getSavingUserMessage()}}\">\n               </div>\n               \n               <div ng-if=\"postSavingMessage\" class=\"post-saving-message\">\n               <span ng-bind=\"postSavingMessage\"></span>\n               </div>\n               \n               <div ng-if=\"errorMessage\" class=\"saving-error-message\">\n               <span ng-bind=\"errorMessage\"></span>\n               </div>\n         </div>\n      </div>\n      <div class=\"options-display\">\n         <div class=\"options-area workout\">\n            <div class=\"widget-area\" ng-if=\"currentEditingUser.getLatestWorkout()\">\n               <div class=\"widget-container\">\n                  <div workout-widget\n                     size=\"150px\"\n                     is-link=\"true\"\n                     workout=\"currentEditingUser.getLatestWorkout()\">\n                  </div>\n               </div>\n            </div>\n            <div class=\"link-area\">\n               <a ui-sref=\"main.page.workout_builder.new\"\n                  class=\"large\">\n                  <span font-awesome-icon-text\n                        icon=\"fa-plus\"\n                        text=\"New Workout\"></span>\n                  </span>\n               </a>\n            </div>\n         </div>\n         <div class=\"options-area question\">\n            <div class=\"link-area\">\n               <a ui-sref=\"main.page.question.ask\"\n                  class=\"large\">\n                     <span font-awesome-icon-text\n                           icon=\"fa-question\"\n                           text=\"Ask a Question\"></span>\n                     </span>\n               </a>\n            </div>\n         </div>\n         <div class=\"options-area upload\">\n            <div class=\"link-area\">\n               <a class=\"large\">\n                     <span font-awesome-icon-text\n                           icon=\"fa-upload\"\n                           text=\"Upload Workout Data\"></span>\n                     </span>\n               </a>\n            </div>\n         </div>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingUser\">\n   <span ng-bind=\"getStaticErrorMessage()\"></span>\n</div>");
 $templateCache.put("partials/main/user/user.html","<div class=\"user\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/workout_builder/content.html","<div ng-if=\"currentEditingWorkout\">\n   <div class=\"workout-information\">\n      <div class=\"creator\">\n         <span class=\"workout-created-by\">Created by </span>\n         <a class=\"cancel-underline\" \n            ui-sref=\"main.page.user.default({userId: currentEditingWorkout.creator.id})\">\n            <profile-picture user=\"currentEditingWorkout.creator\" width=\"18px\"></profile-picture>\n         </a>\n         <a ui-sref=\"main.page.user.default({userId: currentEditingWorkout.creator.id})\"\n            ng-bind=\"currentEditingWorkout.creator.fullName()\"\n            class=\"workout-created-by-name\">\n         </a>\n      </div>\n      <div class=\"workout-dates\">\n         <div class=\"updated-on\" ng-if=\"getWorkoutUpdatedDateString()\">\n            <span class=\"date-label\">\n               Last Modified:\n            </span>\n            <span class=\"date-text\"\n                  ng-bind=\"getWorkoutUpdatedDateString()\">\n            </span>         \n         </div>\n      </div>\n   </div>\n\n   <div class=\"workout-container\">\n      <workout model=\"currentEditingWorkout\"\n               save-button-text=\"Save Workout\" \n               cancel-button-text=\"Cancel\"\n               on-save-clicked=\"workoutSave(workout)\"\n               on-delete-clicked=\"workoutDelete(workout)\"\n               on-cancel-clicked=\"workoutCancel(workout)\"\n               is-editable=\"{{canEditWorkout()}}\"\n               is-initially-editing=\"false\"\n               can-edit-sets-inline=\"true\"\n               can-edit-inline=\"true\">\n      </workout>    \n   </div>\n\n   <div class=\"print\">\n      <workout model=\"currentEditingWorkout\"\n               is-editable=\"false\">\n      </workout>\n   </div>\n\n   <div loading-progress \n         type=\"spinner\"\n         class=\"saving-message fade-in\"\n         ng-if=\"isSaving\"\n         message=\"{{getSavingMessage()}}\">\n   </div>\n\n   <div ng-if=\"errorMessage\" class=\"error workout-error-message\" ng-bind=\"errorMessage\">\n   </div>   \n\n   <div ng-if=\"postSavingMessage\" \n        class=\"workout-post-saving-message\"\n        ng-bind=\"postSavingMessage\">\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingWorkout\">\n   <div class=\"error\" ng-bind=\"getStaticErrorMessage()\">\n   </div>\n</div>");
+$templateCache.put("partials/main/workout_builder/content.html","<div ng-if=\"currentEditingWorkout\">\n   <div class=\"workout-information\">\n      <div class=\"creator\">\n         <span class=\"workout-created-by\">Created by </span>\n         <a class=\"cancel-underline\" \n            ui-sref=\"main.page.user.default({userId: currentEditingWorkout.creator.id})\">\n            <profile-picture user=\"currentEditingWorkout.creator\" width=\"18px\"></profile-picture>\n         </a>\n         <a ui-sref=\"main.page.user.default({userId: currentEditingWorkout.creator.id})\"\n            ng-bind=\"currentEditingWorkout.creator.fullName()\"\n            class=\"workout-created-by-name\">\n         </a>\n      </div>\n      <div class=\"workout-dates\">\n         <div class=\"updated-on\" ng-if=\"getWorkoutUpdatedDateString()\">\n            <span class=\"date-label\">\n               Last Modified:\n            </span>\n            <span class=\"date-text\"\n                  ng-bind=\"getWorkoutUpdatedDateString()\">\n            </span>         \n         </div>\n      </div>\n      <div class=\"workout-icons\" workout-icons=\"currentEditingWorkout\" size=\"3em\">\n      </div>\n   </div>\n\n   <div class=\"workout-container\">\n      <workout model=\"currentEditingWorkout\"\n               save-button-text=\"Save Workout\" \n               cancel-button-text=\"Cancel\"\n               on-save-clicked=\"workoutSave(workout)\"\n               on-delete-clicked=\"workoutDelete(workout)\"\n               on-cancel-clicked=\"workoutCancel(workout)\"\n               is-editable=\"{{canEditWorkout()}}\"\n               is-initially-editing=\"false\"\n               can-edit-sets-inline=\"true\"\n               can-edit-inline=\"true\">\n      </workout>    \n   </div>\n\n   <div class=\"print\">\n      <div class=\"workout-icons\" workout-icons=\"currentEditingWorkout\" size=\"3em\">\n      </div>         \n      <workout model=\"currentEditingWorkout\"\n               is-editable=\"false\">\n      </workout>\n   </div>\n\n   <div loading-progress \n         type=\"spinner\"\n         class=\"saving-message fade-in\"\n         ng-if=\"isSaving\"\n         message=\"{{getSavingMessage()}}\">\n   </div>\n\n   <div ng-if=\"errorMessage\" class=\"error workout-error-message\" ng-bind=\"errorMessage\">\n   </div>   \n\n   <div ng-if=\"postSavingMessage\" \n        class=\"workout-post-saving-message\"\n        ng-bind=\"postSavingMessage\">\n   </div>\n</div>\n\n<div ng-if=\"!currentEditingWorkout\">\n   <div class=\"error\" ng-bind=\"getStaticErrorMessage()\">\n   </div>\n</div>");
 $templateCache.put("partials/main/workout_builder/new.html","<div class=\"new-workout\">\n   <div ng-if=\"!currentWorkout\"\n        class=\"create-new-workout\">\n      <a ng-click=\"newWorkout()\">Create new workout</a>\n   </div>\n\n   <div ng-if=\"currentWorkout\"\n        class=\"workout-container\">\n      <workout model=\"currentWorkout\"\n               save-button-text=\"Create Workout\" \n               cancel-button-text=\"Cancel\"\n               on-save-clicked=\"workoutSave(workout)\"\n               on-delete-clicked=\"workoutDelete(workout)\"\n               on-cancel-clicked=\"workoutCancel(workout)\"\n               is-editable=\"true\"\n               is-initially-editing=\"true\"\n               can-edit-sets-inline=\"true\"\n               can-edit-inline=\"true\">\n      </workout>    \n   </div>\n\n<!--\n   <div ng-if=\"currentWorkout\"\n        class=\"print\">\n      <workout model=\"currentWorkout\"\n               is-editable=\"false\">\n      </workout>\n   </div> -->\n</div>");
 $templateCache.put("partials/main/workout_builder/workout_builder.html","<div class=\"workout-builder\">\n   <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");}]);
-},{}]},{},[134]);
+},{}]},{},[137]);

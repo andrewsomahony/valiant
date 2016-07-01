@@ -29,6 +29,7 @@ module.exports = function(schema, options) {
       populatePromises.push(Promise(function(resolve, reject) {
          WorkoutModel.find({_creator: self.getId()})
          .populate('_creator')
+         .sort({updated_at: -1})
          .exec(function(error, workouts) {
             if (error) {
                reject(error);
@@ -41,6 +42,8 @@ module.exports = function(schema, options) {
 
       populatePromises.push(Promise(function(resolve, reject) {
          QuestionModel.find({_creator: self.getId()})
+         .populate('_creator')
+         .sort({updated_at: -1})
          .exec(function(error, questions) {
             if (error) {
                reject(error);

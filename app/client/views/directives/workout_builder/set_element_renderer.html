@@ -12,6 +12,14 @@
          confirm-message="Delete Swim?">Delete</a>
    </span>
 
+   <div class="list modifications">
+      <div ng-repeat="modification in model.modifications">
+         <set-element-modification model="modification"
+                                    is-editable="false">
+         </set-element-modification>
+      </div>
+   </div>
+
    <div class="list intervals">
       <div ng-repeat="interval in model.intervals"
             ng-if="showIntervalsAndRests">
@@ -47,17 +55,29 @@
    </div>
 
    <div class="element">
-      <select class="form-control" ng-options="name for name in strokeModifications" 
-            ng-model="editingElement.stroke_modification">
-         <option value="">---Select Stroke Modification---</option>
-      </select>
-   </div>
-
-   <div class="element">
       <select class="form-control" ng-options="name for name in types" 
             ng-model="editingElement.type">
          <option value="">---Select Type---</option>
       </select>
+   </div>
+
+   <div class="element list modifications">
+      <div ng-repeat="modification in editingElement.modifications">
+         <set-element-modification model="modification"
+                                       is-editable="true"
+                                       can-edit-inline="true"
+                                       is-initially-editing="{{modification.is_unborn}}"
+                                       on-save-clicked="saveModification(modification)"
+                                       on-cancel-clicked="cancelModification(modification)"
+                                       on-delete-clicked="deleteModification(modification)">
+         </set-element-modification>
+      </div>
+      <a ng-click="newModification()">
+         <span font-awesome-icon-text
+               icon="fa-plus"
+               text="Modification"></span>
+         </span>
+      </a>      
    </div>
 
    <div class="element list intervals">

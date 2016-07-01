@@ -1,17 +1,15 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var utils = require(__base + 'lib/utils');
 
 var Schema = mongoose.Schema;
 
-var TimeSchema = require(__base + 'db/schemas/time/time');
-
-var SpeedTimeSchema = new Schema({
+var SetElementModificationSchema = new Schema({
    name: {
       type: String,
       default: ""
-   },
-   time: TimeSchema
+   }
 },
 {
     timestamps: {
@@ -21,4 +19,4 @@ var SpeedTimeSchema = new Schema({
     _id: false
 });
 
-module.exports = SpeedTimeSchema;
+module.exports = SetElementModificationSchema;

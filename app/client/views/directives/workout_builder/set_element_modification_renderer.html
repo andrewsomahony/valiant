@@ -1,0 +1,27 @@
+<div ng-if="!isEditing" class="display">
+   <span class="icon">
+      <img ng-src="{{getModificationIcon()}}" />
+   </span>
+   <span class="display" ng-bind="model.name"></span>
+
+   <span class="display" ng-if="isEditable">
+      <a class="left" ng-click="editClicked()">Edit</a>
+      <a class="right" 
+         confirm-click="deleteClicked()"
+         confirm-message="Delete Modification?">Delete</a>
+   </span>
+</div>
+
+<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">     
+   <div class="form">
+      <select ng-model="editingModel.name"
+                  ng-options="modification for modification in getModificationList()"
+                  class="form-control">
+            <option value="">--Select Modification--</option>
+      </select>
+   </div>
+   <div class="bottom-options">
+      <a class="left" ng-bind="saveButtonText || 'Save Modification'" ng-click="saveClicked()"></a>
+      <a class="right" ng-bind="cancelButtonText || 'Cancel'" ng-click="cancelClicked()"></a>
+   </div>
+</div>

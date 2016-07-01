@@ -11,7 +11,8 @@
 
    div.list {
       &.intervals,
-      &.rests {
+      &.rests,
+      &.modifications {
          margin-left: 1.1em;
       }
    }

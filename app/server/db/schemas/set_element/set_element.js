@@ -6,6 +6,7 @@ var utils = require(__base + 'lib/utils');
 var Schema = mongoose.Schema;
 
 var SpeedTimeSchema = require(__base + 'db/schemas/speed_time/speed_time');
+var SetElementModificationSchema = require(__base + 'db/schemas/set_element_modification/set_element_modification');
 
 var SetElementSchema = new Schema({
    notes: {
@@ -28,9 +29,9 @@ var SetElementSchema = new Schema({
       type: String,
       default: ""
    },
-   stroke_modification: {
-      type: String,
-      default: ""
+   modifications: {
+      type: [SetElementModificationSchema],
+      default: []
    },
    intervals: {
       type: [SpeedTimeSchema],
@@ -40,6 +41,13 @@ var SetElementSchema = new Schema({
       type: [SpeedTimeSchema],
       default: []
    }
+}, 
+{
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    },
+    _id: false
 });
 
 SetElementSchema.pre('save', function(next) {
@@ -48,9 +56,11 @@ SetElementSchema.pre('save', function(next) {
    
    this.intervals = utils.filterOutUndefinedOrNull(this.intervals);
    this.rests = utils.filterOutUndefinedOrNull(this.rests);
+   this.modifications = utils.filterOutUndefinedOrNull(this.modifications);
 
    this.markModified('intervals');
    this.markModified('rests');
+   this.markModified('modifications');
    next();
 });
 

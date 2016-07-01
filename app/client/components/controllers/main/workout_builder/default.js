@@ -60,7 +60,7 @@ DateService) {
 
          WorkoutBuilderService.saveWorkout($scope.currentEditingWorkout, WorkoutBuilderService.getCurrentWorkout())
          .then(function(newWorkout) {
-            $scope.currentEditingWorkout = newWorkout.clone();
+            $scope.currentEditingWorkout.fromModel(newWorkout);
             $scope.setPostSavingMessage("Workout saved!");
             resolve();
          })

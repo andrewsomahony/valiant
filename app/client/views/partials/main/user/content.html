@@ -176,12 +176,12 @@
       </div>
       <div class="options-display">
          <div class="options-area workout">
-            <div class="widget-area">
+            <div class="widget-area" ng-if="currentEditingUser.getLatestWorkout()">
                <div class="widget-container">
                   <div workout-widget
                      size="150px"
                      is-link="true"
-                     workout="currentEditingUser.workouts[0]">
+                     workout="currentEditingUser.getLatestWorkout()">
                   </div>
                </div>
             </div>
@@ -190,7 +190,7 @@
                   class="large">
                   <span font-awesome-icon-text
                         icon="fa-plus"
-                        text="Create New Workout"></span>
+                        text="New Workout"></span>
                   </span>
                </a>
             </div>

@@ -22,6 +22,7 @@ require('./workout_builder/workout_renderer');
 require('./workout_builder/speed_time_renderer');
 require('./workout_builder/set_renderer');
 require('./workout_builder/set_element_renderer');
+require('./workout_builder/set_element_modification_renderer');
 
 require('./font_awesome_centered_icon');
 require('./font_awesome_icon_text');
@@ -29,3 +30,4 @@ require('./font_awesome_icon_text');
 require('./confirm_click');
 
 require('./workout_widget');
+require('./workout_icons');

@@ -139,6 +139,25 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
             }
          }
 
+         $scope.deleteModification = function(modification) {
+            $scope.editingElement.deleteFromChildArray('modifications', modification);
+         }
+
+         $scope.saveModification = function(modification) {
+            modification.setInternalVariable('is_unborn', false);
+         }
+
+         $scope.cancelModification = function(modification) {
+            if (true === modification.getInternalVariable('is_unborn')) {
+               $scope.deleteModification(modification);
+            }
+         }
+
+         $scope.newModification = function() {
+            var modification = $scope.editingElement.pushOntoChildArray('modifications');
+            modification.setInternalVariable('is_unborn', true);
+         }
+
          $scope.getElementQuantityAndDistance = function() {
             return "" + $scope.model.quantity + "x" + $scope.model.distance;
          }

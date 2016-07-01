@@ -52,6 +52,18 @@ PictureModel, QuestionModel, WorkoutModel) {
          } else {
             this.profile_picture.fromModel(picture);
          }
+      },
+
+      // The workout array is automatically
+      // sorted by updated_at, with the most recent
+      // one at the top.
+
+      getLatestWorkout: function() {
+         if (this.workouts.length) {
+            return this.workouts[0];
+         } else {
+            return null;
+         }
       }
    })   
 }]);

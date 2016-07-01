@@ -20,6 +20,13 @@ var SetSchema = new Schema({
       type: [SetElementSchema],
       default: []
    }
+},
+{
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    },
+    _id: false
 });
 
 SetSchema.pre('save', function(next) {

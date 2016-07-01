@@ -7,7 +7,8 @@ var name = 'models.set_element';
 
 registerModel(name, [require('models/base'),
                      require('models/workout_builder/speed_time'),
-function(BaseModel, SpeedTimeModel) {
+                     require('models/workout_builder/set_element_modification'),
+function(BaseModel, SpeedTimeModel, SetElementModificationModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
@@ -20,7 +21,7 @@ function(BaseModel, SpeedTimeModel) {
                distance: "",
                type: "",
                stroke: "",
-               stroke_modification: "",
+               modifications: [{__model__: SetElementModificationModel}],
                intervals: [{__model__: SpeedTimeModel}],
                rests: [{__model__: SpeedTimeModel}]
             })
