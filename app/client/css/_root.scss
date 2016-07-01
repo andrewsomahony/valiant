@@ -131,6 +131,12 @@ html, body {
             .create-new-workout {
                 display: none !important;
             }
+
+            .print {
+                .workout-icons {
+                    margin-bottom: 0.8em;
+                }
+            }
         }
     }
 }

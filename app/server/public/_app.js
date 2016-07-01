@@ -1079,7 +1079,6 @@ DateService) {
          WorkoutBuilderService.saveWorkout($scope.currentEditingWorkout, WorkoutBuilderService.getCurrentWorkout())
          .then(function(newWorkout) {
             $scope.currentEditingWorkout.fromModel(newWorkout);
-            console.log(WorkoutBuilderService.getWorkoutIcons($scope.currentEditingWorkout));
             $scope.setPostSavingMessage("Workout saved!");
             resolve();
          })
@@ -3616,17 +3615,18 @@ function($compile, WorkoutBuilderService) {
 
          $scope.$watch('workoutIcons', function(newValue) {
             $element.empty();
-         var strokeIcons = WorkoutBuilderService.getWorkoutIcons($scope.workoutIcons);
-         strokeIcons.forEach(function(icon) {
-            var $workoutStrokeImage = angular.element("<img />");
-            $workoutStrokeImage.attr('ng-src', icon);
-            $workoutStrokeImage.attr('ng-style', 'getImageStyle()');
+            
+            var strokeIcons = WorkoutBuilderService.getWorkoutIcons($scope.workoutIcons);
+            strokeIcons.forEach(function(icon) {
+               var $workoutStrokeImage = angular.element("<img />");
+               $workoutStrokeImage.attr('ng-src', icon);
+               $workoutStrokeImage.attr('ng-style', 'getImageStyle()');
 
-            $element.append($compile($workoutStrokeImage)($scope));
-         });
+               $element.append($compile($workoutStrokeImage)($scope));
+            });
 
-         $element.removeAttr('workout-icons');
-         $compile($element)($scope);
+            $element.removeAttr('workout-icons');
+            $compile($element)($scope);
          }, true);
 
       }
@@ -9858,8 +9858,8 @@ ErrorService) {
          icon: "images/snorkel.png"
       },
       {
-         name: "Choice",
-         icon: defaultSwimIcon
+         name: "Fins",
+         icon: "images/fins.png"
       }
    ];
 

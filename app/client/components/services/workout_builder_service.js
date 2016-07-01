@@ -60,8 +60,8 @@ ErrorService) {
          icon: "images/snorkel.png"
       },
       {
-         name: "Choice",
-         icon: defaultSwimIcon
+         name: "Fins",
+         icon: "images/fins.png"
       }
    ];
 

@@ -9727,7 +9727,9 @@ html, body {
       html .workout-builder .workout-container, body .workout-builder .workout-container {
         display: none !important; }
       html .workout-builder .create-new-workout, body .workout-builder .create-new-workout {
-        display: none !important; } }
+        display: none !important; }
+      html .workout-builder .print .workout-icons, body .workout-builder .print .workout-icons {
+        margin-bottom: 0.8em; } }
 
 /*
 @screen-xs:                  480px;
