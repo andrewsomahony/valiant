@@ -10463,7 +10463,8 @@ div.font-awesome-centered-icon {
         top: -0.6em; }
         .workout-widget .description div.text-container span.stroke img {
           width: 2em;
-          height: 2em; }
+          height: 2em;
+          margin-right: 0.2em; }
     .workout-widget .description span.padding {
       display: inline-block;
       vertical-align: middle;
