@@ -64,6 +64,15 @@ html, body {
           }
        }
     }    
+
+    .centered {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;        
+    }
     
     div.profile-picture {
         display: inline-block;
@@ -153,11 +162,12 @@ html, body {
 @import "directives/font_awesome_centered_icon";
 @import "directives/font_awesome_icon_text";
 
+@import "directives/workout_builder/workout_renderer";
+@import "directives/workout_builder/set_renderer";
 @import "directives/workout_builder/set_element_renderer";
 @import "directives/workout_builder/set_element_modification_renderer";
 @import "directives/workout_builder/speed_time_renderer";
-@import "directives/workout_builder/set_renderer";
-@import "directives/workout_builder/workout_renderer";
+
 
 @import "directives/workout_widget";
 @import "directives/question_widget";

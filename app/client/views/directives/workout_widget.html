@@ -1,0 +1,19 @@
+<div ng-style="getWidgetStyle()"
+     ng-class="getWidgetClass()"
+     ng-click="onWidgetClicked()">
+   <div class="title">
+      <span ng-bind="workout.name">
+      </span>
+   </div>
+
+   <div class="description">
+      <div class="text-container centered">
+         <span class="distance"
+               ng-bind="workout.getTotalDistance()">
+         </span>
+         <br />
+         <span class="stroke" workout-icons="workout" size="2em">
+         </span>
+      </div>
+   </div>
+</div>

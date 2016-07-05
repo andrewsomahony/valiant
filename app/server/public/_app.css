@@ -9685,6 +9685,13 @@ html, body {
         margin-top: 0.22em; }
       html a:hover.cancel-underline.old-underline, html a:active.cancel-underline.old-underline, body a:hover.cancel-underline.old-underline, body a:active.cancel-underline.old-underline {
         text-decoration: underline; }
+  html .centered, body .centered {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto; }
   html div.profile-picture, body div.profile-picture {
     display: inline-block; }
   html div.loading-progress, body div.loading-progress {
@@ -10289,13 +10296,15 @@ div.loading-progress .timer.fill > .slice > .pie {
   position: relative; }
   .media-renderer.picture-renderer {
     vertical-align: middle; }
-  .media-renderer.fitted .centered {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto; }
+  .media-renderer.fitted {
+    /*.centered {
+         position: absolute;
+         top: 0;
+         right: 0;
+         bottom: 0;
+         left: 0;
+         margin: auto;      
+      }*/ }
   .media-renderer:not(.fitted) img, .media-renderer:not(.fitted) video, .media-renderer:not(.fitted) iframe {
     width: 100%;
     height: 100%; }
@@ -10318,6 +10327,65 @@ div.font-awesome-centered-icon {
 
 .font-awesome-icon-text span.text {
   margin-left: 0.35em; }
+
+.workout a {
+  font-size: 0.9em; }
+
+.workout .list.sets {
+  margin-left: 0.95em; }
+  .workout .list.sets div.running-total {
+    margin-left: -0.95em; }
+
+.workout .font-awesome-icon-text span.icon {
+  font-size: 0.9em; }
+
+.workout div.edit div.options {
+  margin-bottom: 0.44em; }
+  .workout div.edit div.options div.option {
+    margin-bottom: 0.44em; }
+
+.workout div.display div.options {
+  margin-bottom: 0.44em; }
+
+.workout div.display .list.sets .running-total {
+  margin-bottom: 1.1em; }
+
+.set a {
+  font-size: 0.9em; }
+
+.set .font-awesome-icon-text.bullet {
+  font-size: 0.68em; }
+
+.set .font-awesome-icon-text span.icon {
+  font-size: 0.9em; }
+
+.set div.list.elements {
+  margin-left: 0.5em; }
+
+.set div.options {
+  margin-bottom: 0em !important; }
+
+.set div.edit.inline {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+  border-top: 2px dotted black;
+  border-bottom: 2px dotted black; }
+  .set div.edit.inline div.bottom-options {
+    margin-bottom: -0.35em; }
+
+.set div.edit div.options {
+  margin-bottom: 0.44em; }
+  .set div.edit div.options div.option {
+    margin-bottom: 0.44em; }
+    .set div.edit div.options div.option input.quantity {
+      width: 100%; }
+    .set div.edit div.options div.option input.notes {
+      width: 100%; }
+
+.set div.display div.options {
+  margin-bottom: 0.1em; }
 
 .set-element .font-awesome-icon-text.bullet {
   font-size: 0.8em; }
@@ -10383,65 +10451,6 @@ div.font-awesome-centered-icon {
   .speed-time div.display span.display {
     margin-right: 0.44em; }
 
-.set a {
-  font-size: 0.9em; }
-
-.set .font-awesome-icon-text.bullet {
-  font-size: 0.68em; }
-
-.set .font-awesome-icon-text span.icon {
-  font-size: 0.9em; }
-
-.set div.list.elements {
-  margin-left: 0.5em; }
-
-.set div.options {
-  margin-bottom: 0em !important; }
-
-.set div.edit.inline {
-  margin-top: 0.6em;
-  margin-bottom: 0.6em;
-  padding-top: 0.4em;
-  padding-bottom: 0.4em;
-  border-top: 2px dotted black;
-  border-bottom: 2px dotted black; }
-  .set div.edit.inline div.bottom-options {
-    margin-bottom: -0.35em; }
-
-.set div.edit div.options {
-  margin-bottom: 0.44em; }
-  .set div.edit div.options div.option {
-    margin-bottom: 0.44em; }
-    .set div.edit div.options div.option input.quantity {
-      width: 100%; }
-    .set div.edit div.options div.option input.notes {
-      width: 100%; }
-
-.set div.display div.options {
-  margin-bottom: 0.1em; }
-
-.workout a {
-  font-size: 0.9em; }
-
-.workout .list.sets {
-  margin-left: 0.95em; }
-  .workout .list.sets div.running-total {
-    margin-left: -0.95em; }
-
-.workout .font-awesome-icon-text span.icon {
-  font-size: 0.9em; }
-
-.workout div.edit div.options {
-  margin-bottom: 0.44em; }
-  .workout div.edit div.options div.option {
-    margin-bottom: 0.44em; }
-
-.workout div.display div.options {
-  margin-bottom: 0.44em; }
-
-.workout div.display .list.sets .running-total {
-  margin-bottom: 1.1em; }
-
 .workout-widget {
   border: 1px solid black;
   position: relative; }
@@ -10472,15 +10481,13 @@ div.font-awesome-centered-icon {
     text-align: center; }
     .workout-widget .description div.text-container {
       display: inline-block;
-      vertical-align: middle; }
+      vertical-align: middle;
+      height: 60%; }
       .workout-widget .description div.text-container span.distance {
         font-size: 2.7em; }
       .workout-widget .description div.text-container br {
         font-size: 0.1em; }
       .workout-widget .description div.text-container span.stroke {
         position: relative;
-        top: -0.6em; }
-    .workout-widget .description span.padding {
-      display: inline-block;
-      vertical-align: middle;
-      height: 100%; }
+        top: -0.6em;
+        padding-left: 0.05em; }

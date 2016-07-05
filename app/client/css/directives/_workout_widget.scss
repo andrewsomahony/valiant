@@ -41,8 +41,20 @@
       text-align: center;
 
       div.text-container {
+         // For some reason, we can't use
+         // ghost element vertical-align to
+         // center the content vertically, due
+         // to the workout-icons directive somehow
+         // messing up the DOM or something...so we have
+         // to hack in the absolute positioning trick...
+         // it does look a bit better, but this could need looking
+         // at later.
+
          display: inline-block;
          vertical-align: middle;
+         height: 60%;
+
+
 
          span.distance {
             font-size: 2.7em;
@@ -53,13 +65,8 @@
          span.stroke {
             position: relative;
             top: -0.6em;
+            padding-left: 0.05em;
          }
-      }
-
-      span.padding {
-         display: inline-block;
-         vertical-align: middle;
-         height: 100%; 
       }
    }
 }
