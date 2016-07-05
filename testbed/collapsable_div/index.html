@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+   
+<head>
+   <title>CSS Animations and Transitions Test</title>
+   <script src="./ready.js" type="text/javascript"></script>
+
+   <link rel="stylesheet" type="text/css" href="./bootstrap.css"></link>
+
+   <style type="text/css">
+      html, body {
+         width: 100%;
+         height: 100%;
+      }
+
+      .main {
+         width: 100%;
+         height: 100%;
+      }
+
+      .collapse {
+         display: inline-block;
+         width: 50%;
+
+         font-size: 20px;
+
+         position: absolute;
+         top: 100px;
+         left: 100px;
+      }
+
+      .collapse .title {
+         margin-bottom: 0.5em;
+      }
+
+      .collapse .title span:hover {
+         cursor: pointer;
+      }
+
+      .collapse .content {
+         display: inline-block;
+         width: 100%;
+
+         overflow-y: hidden;
+         overflow-x: scroll;
+
+         transition: height 400ms;
+         
+         vertical-align: top;
+      }
+
+      .collapse .content .options {
+         margin-bottom: 0.5em;
+      }
+
+      .collapse .content .options input {
+         width: 50%;
+         height: 1.7em;
+         font-size: 1.0em;
+      }
+
+      .collapse .content .collapse-content img {
+         margin-right: 0.4em;
+         margin-bottom: 0.4em;
+         width: 200px;
+         height: auto;
+      }
+
+   </style>
+
+   <script type="text/javascript">
+
+      function getElementByClassName(className) {
+         var nodes = document.querySelectorAll(className);
+         if (nodes.length) {
+            return nodes[0];
+         } else {
+            return null;
+         }
+      }
+
+      var isVisible = false;
+
+      domready(function() {
+         getElementByClassName('.title').addEventListener('click', function() {
+            if (!isVisible) {
+               getElementByClassName(".content").classList.add("visible");
+               getElementByClassName(".content").style.height = getElementByClassName(".content").scrollHeight + "px";
+            } else {
+               getElementByClassName(".content").classList.remove("visible");
+               getElementByClassName(".content").style.height = "0px";
+            }
+            isVisible = !isVisible;
+         });
+
+         getElementByClassName(".content").style.height = "0px";
+      });
+   </script>
+</head>
+
+<body>
+   <div class="main">
+      <div class="collapse">
+         <div class="title">
+            <span>My Questions</span>
+         </div>
+         <div class="content">
+            <div class="options">
+               <input class="form-control" type="text" placeholder="Search" />
+            </div>
+            <div class="collapse-content">
+               <img src="./temp.jpg" />
+               <img src="./temp.jpg" />
+               <img src="./temp.jpg" />
+               <img src="./temp.jpg" />
+               <img src="./temp.jpg" />
+               <img src="./temp.jpg" />
+               <img src="./temp.jpg" />
+               <img src="./temp.jpg" />
+               <img src="./temp.jpg" />
+               <img src="./temp.jpg" />
+            </div>
+         </div>
+      </div>
+   </div>
+</body>
+
+</html>
