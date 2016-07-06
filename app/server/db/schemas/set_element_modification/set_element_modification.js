@@ -9,6 +9,10 @@ var SetElementModificationSchema = new Schema({
    name: {
       type: String,
       default: ""
+   },
+   is_optional: {
+      type: Boolean,
+      default: false
    }
 },
 {

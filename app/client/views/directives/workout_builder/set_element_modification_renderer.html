@@ -2,7 +2,7 @@
    <span class="icon">
       <img ng-src="{{getModificationIcon()}}" />
    </span>
-   <span class="display" ng-bind="model.name"></span>
+   <span class="display" ng-bind="formatModificationName(model)"></span>
 
    <span class="display" ng-if="isEditable">
       <a class="left" ng-click="editClicked()">Edit</a>
@@ -14,11 +14,18 @@
 
 <div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">     
    <div class="form">
+      <span class="edit-icon" font-awesome-icon-text icon="fa-cogs">
+      </span>
+
       <select ng-model="editingModel.name"
                   ng-options="modification for modification in getModificationList()"
                   class="form-control">
             <option value="">--Select Modification--</option>
       </select>
+      <span class="is-optional fa-checkbox">
+         <input type="checkbox" class="fa-square-checkbox" ng-model="editingModel.is_optional" />
+         <label>Optional?</label>
+      </span>
    </div>
    <div class="bottom-options">
       <a class="left" ng-bind="saveButtonText || 'Save Modification'" ng-click="saveClicked()"></a>

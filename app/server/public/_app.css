@@ -10391,7 +10391,7 @@ div.font-awesome-centered-icon {
   font-size: 0.8em; }
   .set-element div.edit div.element {
     margin-bottom: 0.44em; }
-    .set-element div.edit div.element input {
+    .set-element div.edit div.element input:not([type="checkbox"]) {
       display: inline-block;
       width: 100%; }
     .set-element div.edit div.element select {
@@ -10408,9 +10408,16 @@ div.font-awesome-centered-icon {
   font-size: 0.9em; }
   .set-element-modification div.edit div.form {
     margin-bottom: 0.22em; }
+    .set-element-modification div.edit div.form span.edit-icon {
+      font-size: 1.1em;
+      margin-right: 0.44em; }
     .set-element-modification div.edit div.form select {
       display: inline-block;
-      width: 100%; }
+      width: 80%; }
+    .set-element-modification div.edit div.form span.is-optional {
+      margin-left: 1em; }
+      .set-element-modification div.edit div.form span.is-optional label {
+        margin-left: -0.5em; }
 
 .set-element-modification div.display {
   font-size: 1em; }

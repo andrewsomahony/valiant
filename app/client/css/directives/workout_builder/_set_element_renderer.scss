@@ -20,7 +20,7 @@
    div.edit {
       font-size: 0.8em;
       div.element {
-         input {
+         input:not([type="checkbox"]) {
             display: inline-block;
             width: 100%;
          }

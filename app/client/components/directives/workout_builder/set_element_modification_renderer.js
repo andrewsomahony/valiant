@@ -60,6 +60,17 @@ Promise) {
             return WorkoutBuilderService.getSetElementModificationIcon($scope.model);
          }
 
+         $scope.formatModificationName = function(model) {
+            var returnString = "";
+
+            returnString += model.name;
+            if (model.is_optional) {
+               returnString += " (Optional)";
+            } 
+            
+            return returnString;
+         }
+
          $scope.getModificationList = function() {
             return WorkoutBuilderService.getSetStrokeModificationNamesArray();
          }

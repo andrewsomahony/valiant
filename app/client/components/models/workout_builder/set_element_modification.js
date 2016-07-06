@@ -14,7 +14,8 @@ function(BaseModel) {
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
-               name: ""
+               name: "",
+               is_optional: false
             })
          }
       },

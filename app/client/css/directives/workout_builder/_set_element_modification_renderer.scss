@@ -2,10 +2,20 @@
    div.edit {
       font-size: 0.9em;
       div.form {
+         span.edit-icon {
+            font-size: 1.1em;
+            margin-right: 0.44em;
+         }
          select {
             display: inline-block;
-            width: 100%;
-         }         
+            width: 80%;
+         }
+         span.is-optional {
+            margin-left: 1em;
+            label {
+               margin-left: -0.5em;
+            }
+         }
          margin-bottom: 0.22em;
       }
    }
