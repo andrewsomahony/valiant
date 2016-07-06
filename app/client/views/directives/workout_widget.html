@@ -7,7 +7,8 @@
    </div>
 
    <div class="description">
-      <div class="text-container centered">
+      <div class="text-container centered"
+           ng-style="getTextContainerStyle()">
          <span class="distance"
                ng-bind="workout.getTotalDistance()">
          </span>

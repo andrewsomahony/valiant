@@ -7,8 +7,10 @@ var name = 'setElement';
 registerDirective(name, [require('models/workout_builder/set_element'),
                          require('services/scope_service'),
                          require('services/workout_builder_service'),
+                         require('services/promise'),
                          '$timeout',
-function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
+function(SetElementModel, ScopeService, SetBuilderService, 
+Promise, $timeout) {
    return {
       restrict: "E",
       scope: {
@@ -27,6 +29,10 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
          $element.addClass('set-element');
 
          $scope.hasCheckedInitiallyEditing = false;
+
+         $scope.numberOfPendingModificationsToBeSaved = 0;
+         $scope.numberOfPendingRestsToBeSaved = 0;
+         $scope.numberOfPendingIntervalsToBeSaved = 0;
 
          ScopeService.watchBool($scope, $attributes, 'isDetached', false);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', false);
@@ -74,11 +80,80 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
             $scope.model.setInternalVariable('is_editing', isEditing);
          }
 
-         $scope.saveClicked = function() {
-            $scope.model.fromModel($scope.editingElement);
-            $scope.onSaveClicked({element: $scope.model});
+         $scope.saveTriggered = function() {
+            return Promise(function(resolve, reject) {
+               if (!$scope.isEditing) {
+                  resolve(true);
+               } else {
+                  $scope.saveClicked()
+                  .then(function(isDone) {
+                     resolve(isDone);
+                  });
+               }
+            });
+         }
 
-            $scope.setIsEditing(false);
+         function CheckPendingChildElements() {
+            return Promise(function(resolve, reject) {
+               if (!$scope.numberOfPendingIntervalsToBeSaved &&
+                   !$scope.numberOfPendingModificationsToBeSaved &&
+                   !$scope.numberOfPendingRestsToBeSaved) {
+                  $scope.saveElement()
+                  .then(function() {
+                     resolve(true);
+                  })
+                  .catch(function() {
+                     resolve(false);
+                  })
+               } else {
+                  resolve(false);
+               }
+            });           
+         }
+
+         $scope.saveClicked = function() {
+            return Promise(function(resolve, reject) {
+               $scope.numberOfPendingModificationsToBeSaved = 0;
+               $scope.editingElement.modifications.forEach(function(modification) {
+                  modification.setInternalVariable('save_triggered', true);
+                  $scope.numberOfPendingModificationsToBeSaved += 1;
+               });
+
+               $scope.numberOfPendingRestsToBeSaved = 0;
+               $scope.editingElement.rests.forEach(function(rest) {
+                  rest.setInternalVariable('save_triggered', true);
+                  $scope.numberOfPendingRestsToBeSaved += 1;
+               });
+               
+               $scope.numberOfPendingIntervalsToBeSaved = 0;
+               $scope.editingElement.intervals.forEach(function(interval) {
+                  interval.setInternalVariable('save_triggered', true);
+                  $scope.numberOfPendingIntervalsToBeSaved += 1;
+               });
+
+               CheckPendingChildElements()
+               .then(function(isDone) {
+                  resolve(isDone);
+               });
+            })
+
+         }
+
+         $scope.saveElement = function() {
+            return Promise(function(resolve, reject) {
+               var previousModel = $scope.model.clone();
+
+               $scope.model.fromModel($scope.editingElement);
+               Promise.when($scope.onSaveClicked({element: $scope.model}))
+               .then(function() {
+                  $scope.setIsEditing(false);
+                  resolve();
+               })
+               .catch(function(error) {
+                  $scope.model.fromModel(previousModel);
+                  reject(error);
+               });
+            });
          }
 
          $scope.editClicked = function() {
@@ -174,6 +249,53 @@ function(SetElementModel, ScopeService, SetBuilderService, $timeout) {
          $scope.getElementNotes = function() {
             return "[" + $scope.model.notes + "]";
          }
+
+         $scope.$on('interval.save_trigger_handled', function(event) {
+            event.stopPropagation();
+
+            $scope.numberOfPendingIntervalsToBeSaved -= 1;
+            CheckPendingChildElements()
+            .then(function(isDone) {
+               if (true === isDone) {
+                  ScopeService.emitMessage($scope, 'element.save_trigger_handled');
+               }
+            })
+         });
+
+         $scope.$on('rest.save_trigger_handled', function(event) {
+            event.stopPropagation();
+
+            $scope.numberOfPendingRestsToBeSaved -= 1;
+            CheckPendingChildElements()
+            .then(function(isDone) {
+               if (true === isDone) {
+                  ScopeService.emitMessage($scope, 'element.save_trigger_handled');
+               }
+            })
+         });
+
+         $scope.$on('modification.save_trigger_handled', function(event) {
+            event.stopPropagation();
+
+            $scope.numberOfPendingModificationsToBeSaved -= 1;
+            CheckPendingChildElements()
+            .then(function(isDone) {
+               if (true === isDone) {
+                  ScopeService.emitMessage($scope, 'element.save_trigger_handled');
+               }
+            })
+         });
+
+         $scope.$watch('model.save_triggered', function(newValue, oldValue) {
+            if (newValue != oldValue && newValue) {
+               $scope.saveTriggered()
+               .then(function(isDone) {
+                  if (true === isDone) {
+                     ScopeService.emitMessage($scope, 'element.save_trigger_handled');
+                  }
+               });
+            }
+         })
       }
    }
 }])

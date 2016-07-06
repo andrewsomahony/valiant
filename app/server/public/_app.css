@@ -10453,7 +10453,7 @@ div.font-awesome-centered-icon {
     margin-top: 0.1em;
     border-bottom: 1px solid black;
     font-weight: bold;
-    font-size: 0.9em;
+    font-size: 1.1em;
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -10473,12 +10473,12 @@ div.font-awesome-centered-icon {
     .workout-widget .description div.text-container {
       display: inline-block;
       vertical-align: middle;
-      height: 60%; }
+      padding-left: 0.1em;
+      padding-right: 0.1em; }
       .workout-widget .description div.text-container span.distance {
         font-size: 2.7em; }
       .workout-widget .description div.text-container br {
         font-size: 0.1em; }
       .workout-widget .description div.text-container span.stroke {
         position: relative;
-        top: -0.6em;
-        padding-left: 0.05em; }
+        top: -0.6em; }

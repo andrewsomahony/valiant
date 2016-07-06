@@ -58,6 +58,26 @@ function($compile, ScopeService, StateService, WorkoutBuilderService) {
             return classes;
          }
 
+         // A stupid hack to sort of center the 
+         // distance and icons vertically within the widget,
+         // as we can't do it with the ghost span method :-/
+
+         $scope.getTextContainerStyle = function() {
+            var style = {};
+
+            var icons = WorkoutBuilderService.getWorkoutIcons($scope.workout);
+
+            if (icons.length > 8) {
+               style['height'] = '70%';
+            } else if (icons.length > 4) {
+               style['height'] = '60%';
+            } else {
+               style['height'] = '50%';
+            }
+
+            return style;
+         }
+
          $scope.onWidgetClicked = function() {
             if (true === $scope.isLink) {
                StateService.go('main.workout_builder', {workoutId: $scope.workout.id});

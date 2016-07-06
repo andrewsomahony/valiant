@@ -7,7 +7,9 @@ var name = 'setElementModification';
 registerDirective(name, [require('models/workout_builder/set_element_modification'),
                          require('services/scope_service'),
                          require('services/workout_builder_service'),
-function(SetElementModificationModel, ScopeService, WorkoutBuilderService) {
+                         require('services/promise'),
+function(SetElementModificationModel, ScopeService, WorkoutBuilderService,
+Promise) {
    return {
       restrict: "E",
       scope: {
@@ -89,12 +91,58 @@ function(SetElementModificationModel, ScopeService, WorkoutBuilderService) {
             $scope.onCancelClicked({modification: $scope.model});
          }
 
-         $scope.saveClicked = function() {
-            $scope.model.fromModel($scope.editingModel);
-            $scope.setIsEditing(false);
+         $scope.saveTriggered = function() {
+            return Promise(function(resolve, reject) {
+               if (!$scope.isEditing) {
+                  resolve(true);
+               } else {
+                  $scope.saveClicked()
+                  .then(function(isDone) {
+                     resolve(isDone);
+                  });
+               }
+            });
+         }
 
-            $scope.onSaveClicked({modification: $scope.model});
-         }            
+         $scope.saveClicked = function() {
+            return Promise(function(resolve, reject) {
+               $scope.saveModification()
+               .then(function() {
+                  resolve(true);
+               })
+               .catch(function() {
+                  resolve(false);
+               })
+            })
+         } 
+
+         $scope.saveModification = function() {
+            return Promise(function(resolve, reject) {
+               var previousModel = $scope.model.clone();
+
+               $scope.model.fromModel($scope.editingModel);
+               Promise.when($scope.onSaveClicked({modification: $scope.model}))
+               .then(function() {
+                  $scope.setIsEditing(false);
+                  resolve();
+               })
+               .catch(function(error) {
+                  $scope.model.fromModel(previousModel);
+                  reject(error);
+               })
+            });
+         }
+
+         $scope.$watch('model.save_triggered', function(newValue, oldValue) {
+            if (newValue != oldValue && newValue) {
+               $scope.saveTriggered()
+               .then(function(isDone) {
+                  if (true === isDone) {
+                     ScopeService.emitMessage($scope, 'modification.save_trigger_handled');
+                  }
+               })
+            }
+         })           
       }
    }
 }])

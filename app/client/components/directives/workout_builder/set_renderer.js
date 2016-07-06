@@ -7,7 +7,9 @@ var name = 'set';
 registerDirective(name, [require('models/workout_builder/set'),
                          require('services/scope_service'),
                          require('services/workout_builder_service'),
-function(SetModel, ScopeService, SetBuilderService) {
+                         require('services/promise'),
+function(SetModel, ScopeService, WorkoutBuilderService,
+Promise) {
    return {
       restrict: 'E',
       scope: {
@@ -29,6 +31,8 @@ function(SetModel, ScopeService, SetBuilderService) {
          $element.addClass('set');
 
          $scope.hasCheckedInitiallyEditing = false;
+
+         $scope.numberOfPendingElementsToBeSaved = 0;
 
          ScopeService.watchBool($scope, $attributes, 'isDetached', false);
          ScopeService.watchBool($scope, $attributes, 'showTotalWhenNotEditing', false);
@@ -67,21 +71,65 @@ function(SetModel, ScopeService, SetBuilderService) {
             $scope.onCancelClicked({set: $scope.model});
          }
 
-         $scope.saveClicked = function() {
-            var previousModel = $scope.model.clone();
-            
-            $scope.setIsEditing(false);
-            $scope.model.fromModel($scope.editingSet);
-
-            Promise.when($scope.onSaveClicked({set: $scope.model}))
-            .then(function() {
-                $scope.setIsEditing(false);
-            })
-            .catch(function(error) {
-                $scope.model.fromModel(previousModel);
+         $scope.saveTriggered = function() {
+            return Promise(function(resolve, reject) {
+               if (!$scope.isEditing) {
+                  resolve(true);
+               } else {
+                  $scope.saveClicked()
+                  .then(function(isDone) {
+                     resolve(isDone);
+                  });
+               }
             });
-            
-            //$scope.onSaveClicked({set: $scope.model});
+         }
+
+         function CheckPendingElements() {
+            return Promise(function(resolve, reject) {
+               if (!$scope.numberOfPendingElementsToBeSaved) {
+                  $scope.saveSet()
+                  .then(function() {
+                     resolve(true);
+                  })
+                  .catch(function() {
+                     resolve(false);
+                  })
+               } else {
+                  resolve(false);
+               }
+            })
+         }
+
+         $scope.saveClicked = function() {
+            return Promise(function(resolve, reject) {              
+               $scope.numberOfPendingElementsToBeSaved = 0;
+               $scope.editingSet.elements.forEach(function(element) {
+                  element.setInternalVariable('save_triggered', true);
+                  $scope.numberOfPendingElementsToBeSaved += 1;
+               });
+
+               CheckPendingElements()
+               .then(function(isDone) {
+                  resolve(isDone);
+               })
+            });
+         }
+
+         $scope.saveSet = function() {
+            return Promise(function(resolve, reject) {
+               var previousModel = $scope.model.clone();
+               
+               $scope.model.fromModel($scope.editingSet);
+               Promise.when($scope.onSaveClicked({set: $scope.model}))
+               .then(function() {
+                  $scope.setIsEditing(false);
+                  resolve();
+               })
+               .catch(function(error) {
+                  $scope.model.fromModel(previousModel);
+                  reject(error);
+               });               
+            })
          }
 
          $scope.deleteClicked = function() {
@@ -108,14 +156,14 @@ function(SetModel, ScopeService, SetBuilderService) {
          }
 
          $scope.getSetTotal = function() {
-            return SetBuilderService.formatSetTotalString($scope.editingSet.getTotalDistance());
+            return WorkoutBuilderService.formatSetTotalString($scope.editingSet.getTotalDistance());
          }
 
          $scope.getSetQuantity = function() {
-            return SetBuilderService.formatQuantityString($scope.model.quantity);
+            return WorkoutBuilderService.formatQuantityString($scope.model.quantity);
          }
          $scope.getSetNotes = function() {
-            return SetBuilderService.formatNotesString($scope.model.notes);
+            return WorkoutBuilderService.formatNotesString($scope.model.notes);
          }
 
          $scope.getEditDivClass = function() {
@@ -129,13 +177,30 @@ function(SetModel, ScopeService, SetBuilderService) {
             return classes;
          }
 
+         $scope.$on('element.save_trigger_handled', function(event) {
+            event.stopPropagation();
+
+            $scope.numberOfPendingElementsToBeSaved -= 1;
+
+            CheckPendingElements()
+            .then(function(isDone) {
+               if (true === isDone) {
+                  ScopeService.emitMessage($scope, 'set.save_trigger_handled');
+               }
+            })
+         });
+
          $scope.$watch('model.save_triggered', function(newValue, oldValue) {
-             if (newValue && newValue != oldValue) {
-                // The parent workout has told us to save
+             if (newValue != oldValue && newValue) {
+                 // The parent workout has told us to save
                 // whatever we have pending, and tell them when it's done
 
-                $scope.saveClicked();
-                ScopeService.emitMessage($scope, 'set.save_trigger_handled');
+                $scope.saveTriggered()
+                .then(function(isDone) {
+                   if (true === isDone) {
+                     ScopeService.emitMessage($scope, 'set.save_trigger_handled')
+                   }
+                });
              }
          })
       }

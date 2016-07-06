@@ -35,6 +35,8 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
 
          $scope.hasCheckedInitiallyEditing = false;
 
+         $scope.numberOfPendingSetsToBeSaved = 0;
+
          ScopeService.watchBool($scope, $attributes, 'canEditSetsInline', true);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
@@ -123,31 +125,54 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
             });
          }
 
-         $scope.saveClicked = function() {
-            var needsToWaitForSave = false;
-            /*$scope.editingWorkout.sets.forEach(function(set) {
-               if (true === set.getInternalVariable('is_editing')) {
-                  set.setInternalVariable('save_triggered');
-                  needsToWaitForSave = true;
+         function CheckPendingSets() {
+            return Promise(function(resolve, reject) {
+               if (!$scope.numberOfPendingSetsToBeSaved) {
+                  $scope.saveWorkout()
+                  .then(function() {
+                     resolve(true);
+                  })
+                  .catch(function() {
+                     resolve(false);
+                  })
+               } else {
+                  // If we still have pending sets to be saved,
+                  // then we say we aren't done yet.
+                  resolve(false);
                }
-            });*/
+            })
+         }
 
-            if (!needsToWaitForSave) {
-               $scope.saveWorkout();
-            }
+         $scope.saveClicked = function() {
+            return Promise(function(resolve, reject) {
+               $scope.numberOfPendingSetsToBeSaved = 0;
+               $scope.editingWorkout.sets.forEach(function(set) {
+                  set.setInternalVariable('save_triggered', true);
+                  $scope.numberOfPendingSetsToBeSaved += 1;
+               });
+
+               CheckPendingSets()
+               .then(function(isDone) {
+                  resolve(isDone);
+               });
+            });
          }
 
          $scope.saveWorkout = function() {
-            var previousModel = $scope.model.clone();
+            return Promise(function(resolve, reject) {
+               var previousModel = $scope.model.clone();
 
-            $scope.model.fromModel($scope.editingWorkout);
-            Promise.when($scope.onSaveClicked({workout: $scope.model}))
-            .then(function() {
-               $scope.setIsEditing(false);
-            })
-            .catch(function(error) {
-               // Do something with this error?
-               $scope.model.fromModel(previousModel);
+               $scope.model.fromModel($scope.editingWorkout);
+               Promise.when($scope.onSaveClicked({workout: $scope.model}))
+               .then(function() {
+                  $scope.setIsEditing(false);
+                  resolve(true);
+               })
+               .catch(function(error) {
+                  // Do something with this error?
+                  $scope.model.fromModel(previousModel);
+                  reject(error);
+               });
             });
          }
 
@@ -161,7 +186,8 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
          $scope.$on('set.save_trigger_handled', function(event) {
             event.stopPropagation();
 
-            $scope.saveWorkout();
+            $scope.numberOfPendingSetsToBeSaved -= 1;
+            CheckPendingSets();
          });
       }
    };

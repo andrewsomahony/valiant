@@ -8,8 +8,9 @@ var name = 'speedTime';
 
 registerDirective(name, [require('models/workout_builder/speed_time'),
                          require('services/scope_service'),
+                         require('services/promise'),
                          '$timeout',
-function(SpeedTimeModel, ScopeService, $timeout) {
+function(SpeedTimeModel, ScopeService, Promise, $timeout) {
    return {
       restrict: "E",
       scope: {
@@ -121,12 +122,60 @@ function(SpeedTimeModel, ScopeService, $timeout) {
             $scope.onCancelClicked({speedTime: $scope.model});
          }
 
-         $scope.saveClicked = function() {
-            $scope.model.fromModel($scope.editingModel);
-            $scope.setIsEditing(false);
-
-            $scope.onSaveClicked({speedTime: $scope.model});
+         $scope.saveTriggered = function() {
+            return Promise(function(resolve, reject) {
+               if (!$scope.isEditing) {
+                  resolve(true);
+               } else {
+                  $scope.saveClicked()
+                  .then(function(isDone) {
+                     resolve(isDone);
+                  });
+               }
+            })
          }
+
+         $scope.saveClicked = function() {
+            return Promise(function(resolve, reject) {
+               $scope.saveSpeedTime()
+               .then(function() {
+                  resolve(true);
+               })
+               .catch(function() {
+                  resolve(false);
+               });
+            })
+         }
+
+         $scope.saveSpeedTime = function() {
+            return Promise(function(resolve, reject) {
+               var previousModel = $scope.model.clone();
+
+               $scope.model.fromModel($scope.editingModel);
+               Promise.when($scope.onSaveClicked({speedTime: $scope.model}))
+               .then(function() {
+                  $scope.setIsEditing(false);
+                  resolve();
+               })
+               .catch(function(error) {
+                  $scope.model.fromModel(previousModel);
+                  reject(error);
+               })
+            })            
+         }
+
+         $scope.$watch('model.save_triggered', function(newValue, oldValue) {
+            if (newValue != oldValue && newValue) {
+               $scope.saveTriggered()
+               .then(function(isDone) {
+                  if (true === isDone) {
+                     ScopeService.emitMessage($scope, 
+                     $scope.isInterval ? 'interval.save_trigger_handled'
+                        : 'rest.save_trigger_handled');
+                  }
+               })
+            }
+         });
       }
    }
 }]);
