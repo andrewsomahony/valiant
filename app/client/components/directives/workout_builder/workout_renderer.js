@@ -124,6 +124,20 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
          }
 
          $scope.saveClicked = function() {
+            var needsToWaitForSave = false;
+            /*$scope.editingWorkout.sets.forEach(function(set) {
+               if (true === set.getInternalVariable('is_editing')) {
+                  set.setInternalVariable('save_triggered');
+                  needsToWaitForSave = true;
+               }
+            });*/
+
+            if (!needsToWaitForSave) {
+               $scope.saveWorkout();
+            }
+         }
+
+         $scope.saveWorkout = function() {
             var previousModel = $scope.model.clone();
 
             $scope.model.fromModel($scope.editingWorkout);
@@ -131,7 +145,8 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
             .then(function() {
                $scope.setIsEditing(false);
             })
-            .catch(function() {
+            .catch(function(error) {
+               // Do something with this error?
                $scope.model.fromModel(previousModel);
             });
          }
@@ -142,6 +157,12 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
                $scope.setIsEditing(false);
             });
          }
+
+         $scope.$on('set.save_trigger_handled', function(event) {
+            event.stopPropagation();
+
+            $scope.saveWorkout();
+         });
       }
    };
 }]);

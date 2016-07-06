@@ -68,10 +68,20 @@ function(SetModel, ScopeService, SetBuilderService) {
          }
 
          $scope.saveClicked = function() {
-            $scope.setIsEditing(false);
+            var previousModel = $scope.model.clone();
             
+            $scope.setIsEditing(false);
             $scope.model.fromModel($scope.editingSet);
-            $scope.onSaveClicked({set: $scope.model});
+
+            Promise.when($scope.onSaveClicked({set: $scope.model}))
+            .then(function() {
+                $scope.setIsEditing(false);
+            })
+            .catch(function(error) {
+                $scope.model.fromModel(previousModel);
+            });
+            
+            //$scope.onSaveClicked({set: $scope.model});
          }
 
          $scope.deleteClicked = function() {
@@ -118,6 +128,16 @@ function(SetModel, ScopeService, SetBuilderService) {
 
             return classes;
          }
+
+         $scope.$watch('model.save_triggered', function(newValue, oldValue) {
+             if (newValue && newValue != oldValue) {
+                // The parent workout has told us to save
+                // whatever we have pending, and tell them when it's done
+
+                $scope.saveClicked();
+                ScopeService.emitMessage($scope, 'set.save_trigger_handled');
+             }
+         })
       }
    };
 }])

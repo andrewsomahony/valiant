@@ -12,6 +12,21 @@ function($rootScope) {
       
    }
 
+   function MakeScopeMessage(type, data) {
+      return {
+         type: type,
+         data: data
+      };
+   }
+
+   ScopeService.broadcastMessage = function($scope, name, message) {
+      $scope.$broadcast(name, message);
+   }
+
+   ScopeService.emitMessage = function($scope, name, message) {
+      $scope.$emit(name, message);
+   }
+
    ScopeService.watchBool = function($scope, 
    $attributes, variableName, defaultValue, callbackFn) {
       $scope.$watch($attributes[variableName], function(newValue) {
