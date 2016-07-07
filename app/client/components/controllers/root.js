@@ -94,6 +94,12 @@ ErrorPageService) {
     });
     
     $rootScope.$on('$viewContentLoaded', function(e) {
+        // This is a hack of sorts to make sure that
+        // we scroll to the top of the page when it's loaded.
+
+        // The non-scrolling happens more on mobile than on desktop,
+        // so we need this.
+
         dom_utils.findElementByClassName('.mobile-scroll').scrollTop = 1;
     });
 }]);

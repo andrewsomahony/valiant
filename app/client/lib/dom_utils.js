@@ -26,9 +26,14 @@
 
          var pixelsPerStep = Math.max(MIN_PIXELS_PER_STEP,
                                        (targetY - scrollContainer.scrollTop) / MAX_SCROLL_STEPS);
-
+         
+         var originalTargetY = targetY;
          var stepFunc = function() {
-            scrollContainer.scrollTop =
+            var maxScrollY = scrollContainer.scrollHeight - scrollContainer.offsetHeight;
+
+            targetY = Math.min(originalTargetY, maxScrollY);
+
+            scrollContainer.scrollTop  =
                   Math.min(targetY, pixelsPerStep + scrollContainer.scrollTop);
 
             if (scrollContainer.scrollTop >= targetY) {

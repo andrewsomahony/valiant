@@ -71,7 +71,9 @@ function(ScopeService) {
             $contentDiv[0].style.height = $contentDiv[0].scrollHeight + "px";
 
             if (true === $scope.scrollToWhenOpened) {
-               dom_utils.smoothScroll($element[0]);
+               setTimeout(function() {
+                  dom_utils.smoothScroll($element[0]);
+               }, 100);
             }
 
             $scope.onOpened();
