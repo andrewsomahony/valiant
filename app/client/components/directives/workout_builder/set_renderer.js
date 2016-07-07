@@ -47,6 +47,14 @@ Promise) {
             }
          });
 
+         $scope.error = function(e) {
+            if (!e) {
+               $scope.errorMessage = "";
+            } else {
+               $scope.errorMessage = e.toString(false);
+            }
+         }
+
          $scope.setIsEditing = function(isEditing) {
             $scope.isEditing = isEditing;
             if (isEditing) {
@@ -119,6 +127,8 @@ Promise) {
             return Promise(function(resolve, reject) {
                var previousModel = $scope.model.clone();
                
+               $scope.error(null);
+
                $scope.model.fromModel($scope.editingSet);
                Promise.when($scope.onSaveClicked({set: $scope.model}))
                .then(function() {
@@ -126,6 +136,8 @@ Promise) {
                   resolve();
                })
                .catch(function(error) {
+                  $scope.error(error);
+
                   $scope.model.fromModel(previousModel);
                   reject(error);
                });               

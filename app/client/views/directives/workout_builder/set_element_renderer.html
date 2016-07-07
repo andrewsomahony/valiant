@@ -36,6 +36,11 @@
                               is-editable="false"></speed-time-display>
       </div>
    </div>
+
+   <div ng-bind="errorMessage" 
+        ng-if="errorMessage"
+        class="error">
+   </div>
 </div>
 
 <div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
@@ -126,5 +131,10 @@
    <div class="bottom-options">
       <a ng-click="saveClicked()" class="left" ng-bind="saveButtonText || 'Save Swim'"></a>
       <a ng-click="cancelClicked()" class="right" ng-bind="saveButtonText || 'Cancel'"></a>
+   </div>
+
+   <div ng-bind="errorMessage" 
+        ng-if="errorMessage"
+        class="error">
    </div>
 </div>

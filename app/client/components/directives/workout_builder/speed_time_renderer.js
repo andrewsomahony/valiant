@@ -58,6 +58,14 @@ function(SpeedTimeModel, ScopeService, Promise, $timeout) {
             }
          });
 
+         $scope.error = function(e) {
+            if (!e) {
+               $scope.errorMessage = "";
+            } else {
+               $scope.errorMessage = e.toString(false);
+            }
+         }
+
          $scope.getEditDivClass = function() {
             var classes = [];
 
@@ -151,6 +159,8 @@ function(SpeedTimeModel, ScopeService, Promise, $timeout) {
             return Promise(function(resolve, reject) {
                var previousModel = $scope.model.clone();
 
+               $scope.error(null);
+
                $scope.model.fromModel($scope.editingModel);
                Promise.when($scope.onSaveClicked({speedTime: $scope.model}))
                .then(function() {
@@ -158,6 +168,8 @@ function(SpeedTimeModel, ScopeService, Promise, $timeout) {
                   resolve();
                })
                .catch(function(error) {
+                  $scope.error(error);
+                  
                   $scope.model.fromModel(previousModel);
                   reject(error);
                })

@@ -65,8 +65,9 @@ DateService) {
             resolve();
          })
          .catch(function(error) {
-            $scope.error(error);
-            reject();
+            // The workout-renderer directive
+            // will display the error
+            reject(error);
          })
          .finally(function() {
             $scope.setIsSaving(false);
@@ -80,7 +81,7 @@ DateService) {
    } 
 
    $scope.getSavingMessage = function() {
-      return $scope.savingMessage;
+      return $scope.savingMessage || "Saving workout...";
    }
 
    $scope.getStaticErrorMessage = function() {

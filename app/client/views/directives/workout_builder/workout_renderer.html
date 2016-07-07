@@ -34,6 +34,11 @@
             text="{{model.getTotalDistance()}}">
       </span>                   
    </div> 
+
+   <div ng-bind="errorMessage" 
+        ng-if="errorMessage"
+        class="error">
+   </div>
 </div>
 
 <div ng-if="isEditing" class="edit">
@@ -82,4 +87,8 @@
       <a class="right" ng-click="cancelClicked()">Cancel</a>
    </div>
 
+   <div ng-bind="errorMessage" 
+        ng-if="errorMessage"
+        class="error">
+   </div>
 </div>

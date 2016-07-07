@@ -36,6 +36,12 @@ function($http, PromiseService, HttpResponseModel, ErrorService) {
                     }
                 } else if ('string' === typeof data) {
                     text = data;
+                } else {
+                    if (-1 === httpResponse.status) {
+                        text = "Cannot connect to server";
+                    } else {
+                        text = "Unknown error";
+                    }
                 }
                 
                 ErrorService.rejectDeferred(text, httpResponse.status, reject);    

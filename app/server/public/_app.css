@@ -10322,6 +10322,10 @@ div.font-awesome-centered-icon {
 .workout a {
   font-size: 0.9em; }
 
+.workout .error {
+  margin-top: 0.5em;
+  font-size: 0.7em; }
+
 .workout .list.sets {
   margin-left: 0.95em; }
   .workout .list.sets div.running-total {

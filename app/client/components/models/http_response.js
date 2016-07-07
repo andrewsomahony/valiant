@@ -22,7 +22,7 @@ statusText – {string} – HTTP status text of the response.
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
-                data: "",
+                data: null,
                 status: -1,
                 config: {
                     

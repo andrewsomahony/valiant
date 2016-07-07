@@ -58,6 +58,14 @@ Promise, $timeout) {
          $scope.strokes = 
             SetBuilderService.getSetStrokeNamesArray();
 
+         $scope.error = function(e) {
+            if (!e) {
+               $scope.errorMessage = "";
+            } else {
+               $scope.errorMessage = e.toString(false);
+            }
+         }
+
          $scope.getEditDivClass = function() {
             var classes = [];
 
@@ -143,6 +151,8 @@ Promise, $timeout) {
             return Promise(function(resolve, reject) {
                var previousModel = $scope.model.clone();
 
+               $scope.error(null);
+
                $scope.model.fromModel($scope.editingElement);
                Promise.when($scope.onSaveClicked({element: $scope.model}))
                .then(function() {
@@ -150,6 +160,8 @@ Promise, $timeout) {
                   resolve();
                })
                .catch(function(error) {
+                  $scope.error(error);
+
                   $scope.model.fromModel(previousModel);
                   reject(error);
                });

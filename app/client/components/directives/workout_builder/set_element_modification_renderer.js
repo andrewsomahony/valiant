@@ -46,6 +46,14 @@ Promise) {
             }
          });   
 
+         $scope.error = function(e) {
+            if (!e) {
+               $scope.errorMessage = "";
+            } else {
+               $scope.errorMessage = e.toString(false);
+            }
+         }
+
          $scope.getEditDivClass = function() {
             var classes = [];
 
@@ -131,6 +139,8 @@ Promise) {
             return Promise(function(resolve, reject) {
                var previousModel = $scope.model.clone();
 
+               $scope.error(null);
+
                $scope.model.fromModel($scope.editingModel);
                Promise.when($scope.onSaveClicked({modification: $scope.model}))
                .then(function() {
@@ -138,6 +148,8 @@ Promise) {
                   resolve();
                })
                .catch(function(error) {
+                  $scope.error(error);
+                  
                   $scope.model.fromModel(previousModel);
                   reject(error);
                })

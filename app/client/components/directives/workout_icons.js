@@ -32,7 +32,7 @@ function($compile, WorkoutBuilderService) {
             return style;
          }
 
-         $scope.$watch('workoutIcons', function(newValue) {
+         $scope.$watch('workoutIcons', function(newValue, oldValue) {
             $element.empty();
             
             var strokeIcons = WorkoutBuilderService.getWorkoutIcons($scope.workoutIcons);

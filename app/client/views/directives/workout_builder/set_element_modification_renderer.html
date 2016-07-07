@@ -10,6 +10,11 @@
          confirm-click="deleteClicked()"
          confirm-message="Delete Modification?">Delete</a>
    </span>
+
+   <div ng-bind="errorMessage" 
+        ng-if="errorMessage"
+        class="error">
+   </div>
 </div>
 
 <div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">     
@@ -30,5 +35,10 @@
    <div class="bottom-options">
       <a class="left" ng-bind="saveButtonText || 'Save Modification'" ng-click="saveClicked()"></a>
       <a class="right" ng-bind="cancelButtonText || 'Cancel'" ng-click="cancelClicked()"></a>
+   </div>
+
+   <div ng-bind="errorMessage" 
+        ng-if="errorMessage"
+        class="error">
    </div>
 </div>

@@ -25,6 +25,11 @@
       <span font-awesome-icon-text icon="fa-arrow-right" text="{{model.getTotalDistance()}}">
       </span>
    </div>
+
+   <div ng-bind="errorMessage" 
+        ng-if="errorMessage"
+        class="error">
+   </div> 
 </div>
 
 <div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
@@ -70,4 +75,10 @@
          ng-click="saveClicked()" ng-bind="saveButtonText || 'Save Set'"></a>
       <a class="right" ng-click="cancelClicked()" ng-bind="cancelButtonText || 'Cancel'"></a>
    </div>
+
+   <div ng-bind="errorMessage" 
+        ng-if="errorMessage"
+        class="error">
+   </div> 
 </div>
+

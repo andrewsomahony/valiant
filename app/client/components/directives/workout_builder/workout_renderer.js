@@ -8,7 +8,9 @@ registerDirective(name, [require('models/workout_builder/workout'),
                          require('services/workout_builder_service'),
                          require('services/scope_service'),
                          require('services/promise'),
-function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
+                         require('services/error'),
+function(WorkoutModel, SetBuilderService, ScopeService, Promise,
+ErrorService) {
    return {
       restrict: "E",
       scope: {
@@ -49,6 +51,14 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
                }
             }
          });
+
+         $scope.error = function(e) {
+            if (!e) {
+               $scope.errorMessage = "";
+            } else {
+               $scope.errorMessage = e.toString(false);
+            }
+         }
 
          $scope.getRunningTotal = function(model, index) {
             var runningTotal = 0;
@@ -161,6 +171,7 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
          $scope.saveWorkout = function() {
             return Promise(function(resolve, reject) {
                var previousModel = $scope.model.clone();
+               $scope.error(null);
 
                $scope.model.fromModel($scope.editingWorkout);
                Promise.when($scope.onSaveClicked({workout: $scope.model}))
@@ -169,7 +180,9 @@ function(WorkoutModel, SetBuilderService, ScopeService, Promise) {
                   resolve(true);
                })
                .catch(function(error) {
-                  // Do something with this error?
+                  console.log(error);
+                  $scope.error(error);
+
                   $scope.model.fromModel(previousModel);
                   reject(error);
                });
