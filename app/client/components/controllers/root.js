@@ -2,6 +2,7 @@
 
 var registerController = require('controllers/register');
 var utils = require('utils');
+var dom_utils = require('dom_utils');
 
 var name = 'controllers.root';
 
@@ -19,7 +20,7 @@ ErrorPageService) {
     $rootScope.$on('$stateNotFound', function(e, unfoundState, fromState, fromParams) {        
     });
     
-    $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {              
+    $rootScope.$on('$stateChangeSuccess', function(e, toState, toParams, fromState, fromParams) {    
         if (true === PermissionService.stateRequiresLogin(toState.name) &&
             false === UserService.isLoggedIn()) {
                 
@@ -93,6 +94,7 @@ ErrorPageService) {
     });
     
     $rootScope.$on('$viewContentLoaded', function(e) {
+        dom_utils.findElementByClassName('.mobile-scroll').scrollTop = 1;
     });
 }]);
 

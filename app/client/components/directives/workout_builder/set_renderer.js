@@ -2,6 +2,8 @@
 
 var registerDirective = require('directives/register');
 
+var dom_utils = require('dom_utils');
+
 var name = 'set';
 
 registerDirective(name, [require('models/workout_builder/set'),
@@ -72,6 +74,8 @@ Promise) {
                $scope.setIsEditing(true);
             }
             $scope.onEditClicked({set: $scope.model});
+
+            dom_utils.smoothScroll($element[0]);
          }
 
          $scope.cancelClicked = function() {

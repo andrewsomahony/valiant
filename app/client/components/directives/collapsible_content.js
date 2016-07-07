@@ -2,6 +2,8 @@
 
 var registerDirective = require('directives/register');
 
+var dom_utils = require('dom_utils');
+
 var name = 'collapsibleContent';
 
 registerDirective(name, [require('services/scope_service'),
@@ -9,8 +11,11 @@ function(ScopeService) {
    return {
       restrict: "E",
       scope: {
-         title: "@"
-         //allowsSearch: "@"
+         title: "@",
+         //allowsSearch: "@",
+         //scrollToWhenOpened: "@"
+         onOpened: "&",
+         onClosed: "&"
       },
       templateUrl: "directives/collapsible_content.html",
       transclude: true,
@@ -21,6 +26,7 @@ function(ScopeService) {
          $scope.isOpen = false;
 
          ScopeService.watchBool($scope, $attributes, 'allowsSearch', false);
+         ScopeService.watchBool($scope, $attributes, 'scrollToWhenOpened', false);
 
          // For some reason, $element.children()
          // returns a NodeList, instead of an actual array
@@ -63,11 +69,19 @@ function(ScopeService) {
          function Expand() {
             var $contentDiv = GetContentDiv();
             $contentDiv[0].style.height = $contentDiv[0].scrollHeight + "px";
+
+            if (true === $scope.scrollToWhenOpened) {
+               dom_utils.smoothScroll($element[0]);
+            }
+
+            $scope.onOpened();
          }
 
          function Collapse() {
             var $contentDiv = GetContentDiv();
             $contentDiv[0].style.height = "0px";
+            
+            $scope.onClosed();
          }
 
          $scope.toggleOpen = function() {

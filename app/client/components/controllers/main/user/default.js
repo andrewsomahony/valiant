@@ -351,6 +351,13 @@ FileReaderActivatorService, Promise) {
       $scope.isChangingEmail = false;
       $scope.setPostSavingMessage(null);
    }
+
+   $scope.onQuestionsOpened = function() {
+   }
+
+   $scope.onQuestionsClosed = function() {
+
+   }
    
    $scope.getStaticErrorMessage = function() {
       if ($scope.currentEditingUser) {

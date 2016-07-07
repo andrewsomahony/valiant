@@ -222,9 +222,11 @@
    <div class="content-area">
       <collapsible-content
            class="workout-list"
-           style="width:100%;display:inline-block;"
            title="My Workouts"
-           allows-search="true">
+           allows-search="true"
+           scroll-to-when-opened="true"
+           on-opened="onQuestionsOpened"
+           on-closed="onQuestionsClosed">
          
          <workout-widget
             ng-repeat="workout in currentEditingUser.workouts"
@@ -232,7 +234,6 @@
             is-link="true"
             workout="workout">
          </workout-widget>
-
       </collapsible-content>
    </div>
 </div>

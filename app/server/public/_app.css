@@ -10519,6 +10519,7 @@ div.font-awesome-centered-icon {
 .collapsible-content div.content {
   display: inline-block;
   width: 100%;
+  overflow: hidden;
   transition: height 400ms;
   vertical-align: top; }
   .collapsible-content div.content div.options {
