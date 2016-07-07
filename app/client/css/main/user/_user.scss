@@ -1,6 +1,8 @@
 div.user {
    div.sub-content {
       div.top-area {
+         padding-bottom: 0.5em;
+
          @media screen and (min-width: $min-sm-screen-width) {
             border-bottom: 1px solid black;  
          }
@@ -14,7 +16,7 @@ div.user {
             }
             @media screen and (max-width: $min-sm-screen-width) {
                border-bottom: 1px solid black;
-               padding-bottom: 2em;
+               padding-bottom: 1em;
             } 
          }
 
@@ -217,9 +219,8 @@ div.user {
           }
       }
       div.content-area {
-        padding-top: 1em;
-
         @media screen and (min-width: $min-sm-screen-width) {
+          padding-top: 1em;
           padding-left: 1em;
         }
 

@@ -9939,142 +9939,143 @@ div.main {
         @media screen and (max-width: 760px) {
           div.main div.mobile-scroll div.main-content div.content div.register div.sub-content div.registration-form div.sign-up {
             margin-top: 20px; } }
-      @media screen and (min-width: 760px) {
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area {
-          border-bottom: 1px solid black; } }
-      @media screen and (min-width: 760px) {
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.user-display {
-          margin-left: 2em;
-          text-align: left;
-          display: inline-block;
-          width: 29%; } }
-      @media screen and (max-width: 760px) {
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.user-display {
-          border-bottom: 1px solid black;
-          padding-bottom: 2em; } }
-      @media screen and (min-width: 760px) {
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display {
-          vertical-align: top;
-          display: inline-block;
-          margin-left: 2em;
-          width: 62%; } }
-      @media screen and (max-width: 760px) {
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display {
-          text-align: center;
-          border-bottom: 1px solid black;
-          padding-top: 1em; } }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area {
-        margin-bottom: 0.7em; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area {
-          display: inline-block;
-          vertical-align: middle;
-          margin-right: 1em; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area div.widget-container {
-            display: inline-block; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area .workout-widget {
-            display: inline-block; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.link-area {
-          display: inline-block;
-          vertical-align: middle; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a {
-        margin-bottom: 0.6em; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area {
+        padding-bottom: 0.5em; }
         @media screen and (min-width: 760px) {
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a.large {
-            font-size: 2.6em; } }
-        @media screen and (max-width: 760px) {
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a.large {
-            font-size: 1.2em; } }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a.small {
-          font-size: 1em; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.edit-container {
-        text-align: center; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.edit-container div.top-edit-control {
-          margin-top: 12px; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.edit-container input.form-control {
-          display: inline-block;
-          width: 150px;
-          font-size: 14px;
-          height: 30px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-display {
-        border: 1px solid black;
-        display: inline-block; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-change {
-        display: inline-block; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-change a {
-          font-size: 12px; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-change a.change-profile-picture {
-            margin-right: 4px; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-change a.reset-profile-picture {
-            margin-left: 4px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-name-container span {
-        font-size: 24px;
-        font-weight: bold; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-name-container input.form-control {
-        width: 270px;
-        margin-bottom: 8px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-editing-padding {
-        height: 8px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .email-text {
-        font-size: 16px;
-        font-weight: bold; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text {
-        font-size: 12px;
-        font-weight: bold; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text::before {
-          content: "<"; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text::after {
-          content: ">"; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text span {
-          margin-right: 2px; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text a {
-          font-weight: normal; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container input.form-control {
-        width: 270px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .has-changed-email {
-        font-size: 12px;
-        font-weight: normal; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .has-resent-verification-email {
-        font-size: 12px;
-        font-weight: normal; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-password-container input.form-control {
-        width: 270px;
-        margin-bottom: 8px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-privacy-container {
-        margin-top: 8px; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-privacy-container div.form-group {
-          margin-bottom: 6px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container a {
-        font-size: 12px;
-        font-weight: normal; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container a.save-cancel-left {
-          margin-right: 3px; }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container a.save-cancel-right {
-          margin-left: 3px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container div.saving-message {
-        font-size: 13px;
-        font-weight: normal; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container div.post-saving-message {
-        font-size: 13px;
-        font-weight: normal;
-        margin-top: 8px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container div.saving-error-message {
-        font-size: 13px;
-        font-weight: bold;
-        color: red;
-        margin-top: 8px; }
-      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area {
-        padding-top: 1em; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area {
+            border-bottom: 1px solid black; } }
         @media screen and (min-width: 760px) {
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area {
-            padding-left: 1em; } }
-        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area div.workout-list {
-          width: 100%;
-          font-size: 1.3em;
-          display: inline-block; }
-          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area div.workout-list div.workout-widget {
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.user-display {
+            margin-left: 2em;
+            text-align: left;
             display: inline-block;
-            margin-left: 0.4em;
-            margin-bottom: 0.4em; }
+            width: 29%; } }
+        @media screen and (max-width: 760px) {
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.user-display {
+            border-bottom: 1px solid black;
+            padding-bottom: 1em; } }
+        @media screen and (min-width: 760px) {
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display {
+            vertical-align: top;
+            display: inline-block;
+            margin-left: 2em;
+            width: 62%; } }
+        @media screen and (max-width: 760px) {
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display {
+            text-align: center;
+            border-bottom: 1px solid black;
+            padding-top: 1em; } }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area {
+          margin-bottom: 0.7em; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 1em; }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area div.widget-container {
+              display: inline-block; }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area .workout-widget {
+              display: inline-block; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.link-area {
+            display: inline-block;
+            vertical-align: middle; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a {
+          margin-bottom: 0.6em; }
+          @media screen and (min-width: 760px) {
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a.large {
+              font-size: 2.6em; } }
+          @media screen and (max-width: 760px) {
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a.large {
+              font-size: 1.2em; } }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display a.small {
+            font-size: 1em; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.edit-container {
+          text-align: center; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.edit-container div.top-edit-control {
+            margin-top: 12px; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.edit-container input.form-control {
+            display: inline-block;
+            width: 150px;
+            font-size: 14px;
+            height: 30px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-display {
+          border: 1px solid black;
+          display: inline-block; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-change {
+          display: inline-block; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-change a {
+            font-size: 12px; }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-change a.change-profile-picture {
+              margin-right: 4px; }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-picture-container div.profile-picture-change a.reset-profile-picture {
+              margin-left: 4px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-name-container span {
+          font-size: 24px;
+          font-weight: bold; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-name-container input.form-control {
+          width: 270px;
+          margin-bottom: 8px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-editing-padding {
+          height: 8px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .email-text {
+          font-size: 16px;
+          font-weight: bold; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text {
+          font-size: 12px;
+          font-weight: bold; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text::before {
+            content: "<"; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text::after {
+            content: ">"; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text span {
+            margin-right: 2px; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .pending-email-text a {
+            font-weight: normal; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container input.form-control {
+          width: 270px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .has-changed-email {
+          font-size: 12px;
+          font-weight: normal; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-email-address-container .has-resent-verification-email {
+          font-size: 12px;
+          font-weight: normal; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-password-container input.form-control {
+          width: 270px;
+          margin-bottom: 8px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-privacy-container {
+          margin-top: 8px; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-privacy-container div.form-group {
+            margin-bottom: 6px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container a {
+          font-size: 12px;
+          font-weight: normal; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container a.save-cancel-left {
+            margin-right: 3px; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container a.save-cancel-right {
+            margin-left: 3px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container div.saving-message {
+          font-size: 13px;
+          font-weight: normal; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container div.post-saving-message {
+          font-size: 13px;
+          font-weight: normal;
+          margin-top: 8px; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.profile-options-container div.saving-error-message {
+          font-size: 13px;
+          font-weight: bold;
+          color: red;
+          margin-top: 8px; }
+      @media screen and (min-width: 760px) {
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area {
+          padding-top: 1em;
+          padding-left: 1em; } }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area div.workout-list {
+        width: 100%;
+        font-size: 1.3em;
+        display: inline-block; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area div.workout-list div.workout-widget {
+          display: inline-block;
+          margin-left: 0.4em;
+          margin-bottom: 0.4em; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;
@@ -10441,6 +10442,8 @@ div.font-awesome-centered-icon {
     .set-element-modification div.display span.icon img {
       width: 1.1em;
       height: 1.1em; }
+    .set-element-modification div.display span.display.name {
+      vertical-align: middle; }
 
 .speed-time .font-awesome-icon-text span.icon {
   font-size: 0.9em; }

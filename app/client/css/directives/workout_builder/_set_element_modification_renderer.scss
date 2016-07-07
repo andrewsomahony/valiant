@@ -31,6 +31,12 @@
                height: 1.1em;
             }
          }
+
+         &.display {
+            &.name {
+               vertical-align: middle;
+            }
+         }
       }
    }
 }
