@@ -176,14 +176,19 @@ function(SpeedTimeModel, ScopeService, Promise, $timeout) {
             })            
          }
 
+         function DoneSaving() {
+            $scope.model.setInternalVariable('save_triggered', false);
+            ScopeService.emitMessage($scope, 
+                $scope.isInterval ? 'interval.save_trigger_handled'
+                    : 'rest.save_trigger_handled');
+         }
+
          $scope.$watch('model.save_triggered', function(newValue, oldValue) {
             if (newValue != oldValue && newValue) {
                $scope.saveTriggered()
                .then(function(isDone) {
                   if (true === isDone) {
-                     ScopeService.emitMessage($scope, 
-                     $scope.isInterval ? 'interval.save_trigger_handled'
-                        : 'rest.save_trigger_handled');
+                     DoneSaving();
                   }
                })
             }

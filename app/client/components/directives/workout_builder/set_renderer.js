@@ -189,6 +189,11 @@ Promise) {
             return classes;
          }
 
+         function DoneSaving() {
+            $scope.model.setInternalVariable('save_triggered', false);
+            ScopeService.emitMessage($scope, 'set.save_trigger_handled');
+         }
+
          $scope.$on('element.save_trigger_handled', function(event) {
             event.stopPropagation();
 
@@ -197,7 +202,7 @@ Promise) {
             CheckPendingElements()
             .then(function(isDone) {
                if (true === isDone) {
-                  ScopeService.emitMessage($scope, 'set.save_trigger_handled');
+                  DoneSaving();
                }
             })
          });
@@ -210,7 +215,7 @@ Promise) {
                 $scope.saveTriggered()
                 .then(function(isDone) {
                    if (true === isDone) {
-                     ScopeService.emitMessage($scope, 'set.save_trigger_handled')
+                     DoneSaving();
                    }
                 });
              }

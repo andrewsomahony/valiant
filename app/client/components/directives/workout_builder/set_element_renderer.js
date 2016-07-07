@@ -262,6 +262,11 @@ Promise, $timeout) {
             return "[" + $scope.model.notes + "]";
          }
 
+         function DoneSaving() {
+            $scope.model.setInternalVariable('save_triggered', false);
+            ScopeService.emitMessage($scope, 'element.save_trigger_handled');
+         }         
+
          $scope.$on('interval.save_trigger_handled', function(event) {
             event.stopPropagation();
 
@@ -269,7 +274,7 @@ Promise, $timeout) {
             CheckPendingChildElements()
             .then(function(isDone) {
                if (true === isDone) {
-                  ScopeService.emitMessage($scope, 'element.save_trigger_handled');
+                  DoneSaving();
                }
             })
          });
@@ -281,7 +286,7 @@ Promise, $timeout) {
             CheckPendingChildElements()
             .then(function(isDone) {
                if (true === isDone) {
-                  ScopeService.emitMessage($scope, 'element.save_trigger_handled');
+                  DoneSaving();
                }
             })
          });
@@ -293,7 +298,7 @@ Promise, $timeout) {
             CheckPendingChildElements()
             .then(function(isDone) {
                if (true === isDone) {
-                  ScopeService.emitMessage($scope, 'element.save_trigger_handled');
+                  DoneSaving();
                }
             })
          });
@@ -303,7 +308,7 @@ Promise, $timeout) {
                $scope.saveTriggered()
                .then(function(isDone) {
                   if (true === isDone) {
-                     ScopeService.emitMessage($scope, 'element.save_trigger_handled');
+                     DoneSaving();
                   }
                });
             }

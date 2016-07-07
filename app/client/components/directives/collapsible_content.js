@@ -22,6 +22,9 @@ function(ScopeService) {
 
          ScopeService.watchBool($scope, $attributes, 'allowsSearch', false);
 
+         // For some reason, $element.children()
+         // returns a NodeList, instead of an actual array
+
          function GetContentDiv() {
             var $contentDiv = null;
 
