@@ -218,6 +218,23 @@
          </div>
       </div>
    </div>
+
+   <div class="content-area">
+      <collapsible-content
+           class="workout-list"
+           style="width:100%;display:inline-block;"
+           title="My Workouts"
+           allows-search="true">
+         
+         <workout-widget
+            ng-repeat="workout in currentEditingUser.workouts"
+            size="150px"
+            is-link="true"
+            workout="workout">
+         </workout-widget>
+
+      </collapsible-content>
+   </div>
 </div>
 
 <div ng-if="!currentEditingUser">

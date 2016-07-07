@@ -31,3 +31,5 @@ require('./confirm_click');
 
 require('./workout_widget');
 require('./workout_icons');
+
+require('./collapsible_content');

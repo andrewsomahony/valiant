@@ -1,0 +1,28 @@
+.collapsible-content {
+   div.title {
+      display: inline-block;
+      width: 100%;
+
+      span.icon {
+         &:hover {
+            cursor: pointer;
+         }
+      }
+
+      margin-bottom: 0.5em;
+   }
+   div.content {
+      display: inline-block;
+      width: 100%;
+
+      transition: height 400ms;   
+      vertical-align: top;
+
+      div.options {
+         margin-bottom: 0.5em;
+         input.search {
+            width: 50%;
+         }
+      }
+   }
+}

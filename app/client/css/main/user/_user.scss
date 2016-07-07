@@ -1,6 +1,5 @@
 div.user {
    div.sub-content {
-      
       div.top-area {
          @media screen and (min-width: $min-sm-screen-width) {
             border-bottom: 1px solid black;  
@@ -73,150 +72,163 @@ div.user {
                margin-bottom: 0.6em;
             }
          }
-      }
-
-      div.edit-container {
-         div.top-edit-control {
-            margin-top: 12px;
-         }
-
-         input.form-control {
-            display: inline-block;
-            width: 150px;
-            font-size: 14px;
-            height: 30px;
-         }
-         text-align: center;
-      }
       
-      div.profile-picture-container {
-         //text-align: center;
-         div.profile-picture-display {
-            border: 1px solid black;
-            display: inline-block;
-         }
-         
-         div.profile-picture-change {
-            display: inline-block;
-            a {
-               font-size: 12px;
-               
-               &.change-profile-picture {
-                  margin-right: 4px;
-               }
-               &.reset-profile-picture {
-                  margin-left: 4px;
-               }
+          div.edit-container {
+            div.top-edit-control {
+                margin-top: 12px;
             }
-         }
-      }
 
-      div.profile-name-container {
-        // text-align: center;
-         span {
-            font-size: 24px;
-            font-weight: bold;
-         }
-         
-         input.form-control {
-            width: 270px;
-            margin-bottom: 8px;
-         }
-      }
-      
-      div.profile-editing-padding {
-         height: 8px;
-      }
-      
-      div.profile-email-address-container {
-       //  text-align: center;
-         .email-text {
-            font-size: 16px;
-            font-weight: bold;
-         }
-         
-         .pending-email-text {
-            font-size: 12px;
-            font-weight: bold;
-            
-            &::before {
-               content: "<";
+            input.form-control {
+                display: inline-block;
+                width: 150px;
+                font-size: 14px;
+                height: 30px;
             }
-            &::after {
-               content: ">";
+            text-align: center;
+          }
+          
+          div.profile-picture-container {
+            //text-align: center;
+            div.profile-picture-display {
+                border: 1px solid black;
+                display: inline-block;
             }
             
+            div.profile-picture-change {
+                display: inline-block;
+                a {
+                  font-size: 12px;
+                  
+                  &.change-profile-picture {
+                      margin-right: 4px;
+                  }
+                  &.reset-profile-picture {
+                      margin-left: 4px;
+                  }
+                }
+            }
+          }
+
+          div.profile-name-container {
+            // text-align: center;
             span {
-               margin-right: 2px;
+                font-size: 24px;
+                font-weight: bold;
             }
             
-            a {
-               font-weight: normal;
+            input.form-control {
+                width: 270px;
+                margin-bottom: 8px;
             }
-         }
-         
-         input.form-control {
-            width: 270px;
-         }
-         
-         .has-changed-email {
-            font-size: 12px;
-            font-weight: normal;
-         }
-         
-         .has-resent-verification-email {
-            font-size: 12px;
-            font-weight: normal;
-         }
-      }
-      
-      div.profile-password-container {
-         //text-align: center;
-         
-         input.form-control {
-            width: 270px;
-            margin-bottom: 8px;
-         }
-      }
+          }
+          
+          div.profile-editing-padding {
+            height: 8px;
+          }
+          
+          div.profile-email-address-container {
+          //  text-align: center;
+            .email-text {
+                font-size: 16px;
+                font-weight: bold;
+            }
+            
+            .pending-email-text {
+                font-size: 12px;
+                font-weight: bold;
+                
+                &::before {
+                  content: "<";
+                }
+                &::after {
+                  content: ">";
+                }
+                
+                span {
+                  margin-right: 2px;
+                }
+                
+                a {
+                  font-weight: normal;
+                }
+            }
+            
+            input.form-control {
+                width: 270px;
+            }
+            
+            .has-changed-email {
+                font-size: 12px;
+                font-weight: normal;
+            }
+            
+            .has-resent-verification-email {
+                font-size: 12px;
+                font-weight: normal;
+            }
+          }
+          
+          div.profile-password-container {
+            //text-align: center;
+            
+            input.form-control {
+                width: 270px;
+                margin-bottom: 8px;
+            }
+          }
 
-      div.profile-privacy-container {
-         margin-top: 8px;
-         div.form-group {
-            margin-bottom: 6px;
-         }
-      }
-      
-      div.profile-options-container {
-        // text-align: center;
-         a {
-            font-size: 12px;
-            font-weight: normal;
+          div.profile-privacy-container {
+            margin-top: 8px;
+            div.form-group {
+                margin-bottom: 6px;
+            }
+          }
+          
+          div.profile-options-container {
+            // text-align: center;
+            a {
+                font-size: 12px;
+                font-weight: normal;
+                
+                &.save-cancel-left {
+                  margin-right: 3px;
+                }
+                &.save-cancel-right {
+                  margin-left: 3px;
+                }
+            }
             
-            &.save-cancel-left {
-               margin-right: 3px;
+            div.saving-message {
+                font-size: 13px;
+                font-weight: normal;
             }
-            &.save-cancel-right {
-               margin-left: 3px;
+            
+            div.post-saving-message {
+                font-size: 13px;
+                font-weight: normal;  
+                margin-top: 8px;
             }
-         }
-         
-         div.saving-message {
-            font-size: 13px;
-            font-weight: normal;
-         }
-         
-         div.post-saving-message {
-            font-size: 13px;
-            font-weight: normal;  
-            margin-top: 8px;
-         }
-         
-         div.saving-error-message {
-            font-size: 13px;
-            font-weight: bold;
-            color: red;
-            margin-top: 8px;
-         }
+            
+            div.saving-error-message {
+                font-size: 13px;
+                font-weight: bold;
+                color: red;
+                margin-top: 8px;
+            }
+          }
+      }
+      div.content-area {
+        div.workout-list {
+          width: 100%;
+          font-size: 1.2em;
+          display: inline-block;
+
+          div.workout-widget {
+            display: inline-block;
+            margin-left: 0.4em;
+            margin-bottom: 0.4em;
+          }          
+        }
       }
    }
 }

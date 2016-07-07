@@ -1,0 +1,17 @@
+<div>
+   <div class="title">
+      <span font-awesome-icon-text 
+            class="icon"
+            text="{{title}}" 
+            icon="{{isOpen ? 'fa-caret-down' : 'fa-caret-right'}}"
+            ng-click="toggleOpen()">
+      </span>
+   </div>
+   <div class="content">
+      <div class="options" ng-if="allowsSearch">
+         <input class="search form-control" type="text" placeholder="Search" />
+      </div>
+      <div class="collapse-content">
+      </div>
+   </div>
+</div>
