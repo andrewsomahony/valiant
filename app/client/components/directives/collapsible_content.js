@@ -25,8 +25,6 @@ function(ScopeService) {
          function GetContentDiv() {
             var $contentDiv = null;
 
-            console.log($element.children());
-
             [].every.call($element.children(), function(node) {
                var $node = angular.element(node);
                if (true === $node.hasClass('content')) {

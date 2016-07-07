@@ -4,7 +4,6 @@ div.user {
          @media screen and (min-width: $min-sm-screen-width) {
             border-bottom: 1px solid black;  
          }
-         padding-bottom: 2em;
 
          div.user-display {
             @media screen and (min-width: $min-sm-screen-width) {
@@ -218,9 +217,15 @@ div.user {
           }
       }
       div.content-area {
+        padding-top: 1em;
+
+        @media screen and (min-width: $min-sm-screen-width) {
+          padding-left: 1em;
+        }
+
         div.workout-list {
           width: 100%;
-          font-size: 1.2em;
+          font-size: 1.3em;
           display: inline-block;
 
           div.workout-widget {
