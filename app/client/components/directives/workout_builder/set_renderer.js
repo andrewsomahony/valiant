@@ -155,8 +155,8 @@ Promise) {
              $scope.onDeleteClicked({set: $scope.model});
          }
 
-         $scope.newSetElement = function() {
-            var newModel = $scope.editingSet.pushOntoChildArray('elements');
+         $scope.newSetElement = function(index) {
+            var newModel = $scope.editingSet.addToChildArrayAtIndex('elements', index);
             newModel.setInternalVariable('is_unborn', true);
          }
 

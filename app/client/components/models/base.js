@@ -371,7 +371,18 @@ function(id, promise) {
          return this.pushObjectOntoChildArray(variableName, {}, isServer);
       },
 
+      addToChildArrayAtIndex: function(variableName, index, isServer) {
+         return this.addObjectToChildArrayAtIndex(variableName, {}, index, isServer);
+      },
+
       pushObjectOntoChildArray: function(variableName, object, isFromServer) {
+         return this.addObjectToChildArrayAtIndex(variableName, object, null, isFromServer);
+      },
+      
+      // If index is null, then it's assumed to be the end
+      // of the array
+
+      addObjectToChildArrayAtIndex: function(variableName, object, index, isForServer) {
          var defaultValue = this.$ownClass.fields()[variableName];
 
          if (!defaultValue) {
@@ -386,14 +397,22 @@ function(id, promise) {
                throw new Error("pushOntoChildArray: Invalid class ", variableName);
             }
 
-            var obj = new Class(object, isFromServer);
-            this[variableName].push(obj);
+            if (true === utils.isUndefinedOrNull(index)) {
+               index = this[variableName].length;
+            }
+
+            var obj = new Class(object, isForServer);
+            this[variableName].splice(index, 0, obj);
             return obj;
          }
-      },    
+      },
 
       pushModelOntoChildArray: function(variableName, model, isForServer) {
          return this.pushObjectOntoChildArray(variableName, model.toObject(isForServer), isForServer);
+      },
+
+      addModelToChildArrayAtIndex: function(variableName, model, index, isForServer) {
+          return this.addObjectToChildArrayAtIndex(variableName, model.toObject(isForServer), index, isForServer);
       },
 
       deleteFromChildArray: function(variableName, model) {

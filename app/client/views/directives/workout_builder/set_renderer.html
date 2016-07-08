@@ -44,6 +44,12 @@
 
    <div class="list elements">
       <div ng-repeat="element in editingSet.elements">
+         <a ng-click="newSetElement($index)">
+            <span font-awesome-icon-text
+                  icon="fa-angle-double-right"
+                  text="Swim"></span>
+            </span>
+         </a>
          <set-element
             model="element"
             on-save-clicked="saveSetElement(element)"

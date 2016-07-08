@@ -88,8 +88,8 @@ ErrorService) {
             $scope.model.setInternalVariable('is_editing', isEditing);
          }
 
-         $scope.newSet = function() {
-            var set = $scope.editingWorkout.pushOntoChildArray('sets');
+         $scope.newSet = function(index) {
+            var set = $scope.editingWorkout.addToChildArrayAtIndex('sets', index);
             set.setInternalVariable('is_unborn', true);
          }
 

@@ -47,6 +47,12 @@
    </div>
    <div class="list sets">
       <div ng-repeat="set in editingWorkout.sets">
+         <a ng-click="newSet($index)">
+            <span font-awesome-icon-text
+                  icon="fa-angle-double-right"
+                  text="Set"></span>
+            </span>
+         </a>
          <set model="set"
             on-save-clicked="saveSet(set)"
             on-cancel-clicked="cancelSet(set)"
