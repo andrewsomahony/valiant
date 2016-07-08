@@ -2,7 +2,12 @@
    var DomUtils = {
       // Lifted from:
       // http://stackoverflow.com/questions/18071046/smooth-scroll-to-specific-div-on-click
-      smoothScroll: function(element, isInstant) {
+      smoothScroll: function(element, isInstant, extraHeight) {
+         // The extra height is height we know we're gonna have in the child div.
+         // This is for animating elements.
+
+         extraHeight = extraHeight || 0;
+
          var MIN_PIXELS_PER_STEP = 16;
          var MAX_SCROLL_STEPS = 30;
          var target = element;
@@ -31,12 +36,15 @@
          var pixelsPerStep = Math.max(MIN_PIXELS_PER_STEP,
                                        (targetY - scrollContainer.scrollTop) / MAX_SCROLL_STEPS);
          
+         var maxScrollHeight = scrollContainer.scrollHeight + extraHeight;
+
          var originalTargetY = targetY;
          var stepFunc = function() {
-            var maxScrollY = scrollContainer.scrollHeight - scrollContainer.offsetHeight;
+            var maxScrollY = maxScrollHeight - scrollContainer.clientHeight;
 
             targetY = Math.min(originalTargetY, maxScrollY);
 
+            var prevScrollTop = scrollContainer.scrollTop;
             scrollContainer.scrollTop  =
                   Math.min(targetY, pixelsPerStep + scrollContainer.scrollTop);
 

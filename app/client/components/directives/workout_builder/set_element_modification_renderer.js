@@ -8,8 +8,9 @@ registerDirective(name, [require('models/workout_builder/set_element_modificatio
                          require('services/scope_service'),
                          require('services/workout_builder_service'),
                          require('services/promise'),
+                         '$timeout',
 function(SetElementModificationModel, ScopeService, WorkoutBuilderService,
-Promise) {
+Promise, $timeout) {
    return {
       restrict: "E",
       scope: {
@@ -101,7 +102,9 @@ Promise) {
             if (true === $scope.canEditInline) {
                $scope.setIsEditing(true);
                if (true === $scope.scrollToWhenEdited) {
-                  dom_utils.smoothScroll($element[0]);
+                  $timeout(function() {
+                     dom_utils.smoothScroll($element[0]);
+                  });
                }
             }
             $scope.onEditClicked({modification: $scope.model});

@@ -7,7 +7,8 @@ var dom_utils = require('dom_utils');
 var name = 'collapsibleContent';
 
 registerDirective(name, [require('services/scope_service'),
-function(ScopeService) {
+                         require('services/device_service'),
+function(ScopeService, DeviceService) {
    return {
       restrict: "E",
       scope: {
@@ -71,14 +72,10 @@ function(ScopeService) {
             $contentDiv[0].style.height = $contentDiv[0].scrollHeight + "px";
 
             if (true === $scope.scrollToWhenOpened) {
-               // We need this delay here, because we have
-               // a transition animation that occurs to open the
-               // content.  If we don't wait a bit, the scroll animation
-               // jumps ahead of the expanding animation, and stops.
+               // The -30 offset is needed, otherwise the scrolling happens
+               // indefinitely :-/
 
-               setTimeout(function() {
-                  dom_utils.smoothScroll($element[0]);
-               }, 100);
+               dom_utils.smoothScroll($element[0], false, $contentDiv[0].scrollHeight - 30);
             }
 
             $scope.onOpened();

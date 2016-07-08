@@ -177,7 +177,9 @@ Promise, $timeout) {
             if (true === $scope.canEditInline) {
                $scope.setIsEditing(true);
                 if (true === $scope.scrollToWhenEdited) {
-                   dom_utils.smoothScroll($element[0]);
+                   $timeout(function() {
+                      dom_utils.smoothScroll($element[0]);
+                   });
                 }
             }
             $scope.onEditClicked({element: $scope.model});

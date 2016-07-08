@@ -11,8 +11,9 @@ registerDirective(name, [require('models/workout_builder/workout'),
                          require('services/scope_service'),
                          require('services/promise'),
                          require('services/error'),
+                         '$timeout',
 function(WorkoutModel, SetBuilderService, ScopeService, Promise,
-ErrorService) {
+ErrorService, $timeout) {
    return {
       restrict: "E",
       scope: {
@@ -130,7 +131,9 @@ ErrorService) {
                   $scope.setIsEditing(true);
 
                   if (true === $scope.scrollToWhenEdited) {
-                     dom_utils.smoothScroll($element[0]);
+                     $timeout(function() {
+                        dom_utils.smoothScroll($element[0]);
+                     });
                   }
                }
             });

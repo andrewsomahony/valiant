@@ -10,8 +10,10 @@ registerDirective(name, [require('models/workout_builder/set'),
                          require('services/scope_service'),
                          require('services/workout_builder_service'),
                          require('services/promise'),
+                         require('services/clipboard_service'),
+                         '$timeout',
 function(SetModel, ScopeService, WorkoutBuilderService,
-Promise) {
+Promise, ClipboardService, $timeout) {
    return {
       restrict: 'E',
       scope: {
@@ -51,6 +53,21 @@ Promise) {
             }
          });
 
+         $scope.hasClipboardData = function() {
+            return ClipboardService.canPaste(SetModel);
+         }
+
+         $scope.copySet = function() {
+            ClipboardService.copy($scope.model);
+         }
+
+         $scope.pasteSet = function() {
+            if (!$scope.isEditing) {
+               throw new Error("Trying to paste a set while not editing!");
+            }
+            $scope.editingSet.fromModel(ClipboardService.paste());
+         }
+
          $scope.error = function(e) {
             if (!e) {
                $scope.errorMessage = "";
@@ -75,7 +92,9 @@ Promise) {
                 true === $scope.isDetached) {
                $scope.setIsEditing(true);
                if (true === $scope.scrollToWhenEdited) {
-                  dom_utils.smoothScroll($element[0]);
+                  $timeout(function() {
+                     dom_utils.smoothScroll($element[0]);
+                  });
                }
             }
             $scope.onEditClicked({set: $scope.model});

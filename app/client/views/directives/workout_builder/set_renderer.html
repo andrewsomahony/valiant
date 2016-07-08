@@ -10,6 +10,8 @@
          <a class="right" 
             confirm-click="deleteClicked()"
             confirm-message="Delete Set?">Delete</a>
+         <a class="right"
+            ng-click="copySet()">Copy</a>
       </span>
    </div>
    <div class="list elements">
@@ -33,6 +35,9 @@
 </div>
 
 <div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
+   <div class="paste" ng-if="hasClipboardData()">
+      <a ng-click="pasteSet()">Paste Set</a>
+   </div>
    <div class="options">
       <div class="option">
          <input type="text" class="quantity form-control" placeholder="Rounds" ng-model="editingSet.quantity" />
