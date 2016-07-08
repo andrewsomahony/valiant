@@ -86,6 +86,16 @@
       domready(function() {
         // console.log(document.querySelectorAll(".balls"));
 
+        var array = ["I", "Love", "My", "Baby"];
+
+        array.splice(array.length, 0, "Pearl");
+
+        console.log(array);
+
+        array.splice(1, 0, "Andrew");
+
+        console.log(array);
+
          getElementByClassName('.title').addEventListener('click', function() {
             if (!isVisible) {
                getElementByClassName(".content").classList.add("visible");
