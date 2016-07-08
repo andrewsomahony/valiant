@@ -71,6 +71,7 @@
          <set-element-modification model="modification"
                                        is-editable="true"
                                        can-edit-inline="true"
+                                       scroll-to-when-edited="false"
                                        is-initially-editing="{{modification.is_unborn}}"
                                        on-save-clicked="saveModification(modification)"
                                        on-cancel-clicked="cancelModification(modification)"
@@ -92,6 +93,7 @@
                            is-editable="true"
                            can-edit-inline="true"
                            is-initially-editing="{{interval.is_unborn}}"
+                           scroll-to-when-edited="false"
                            on-save-clicked="saveInterval(speedTime)"
                            on-cancel-clicked="cancelInterval(speedTime)"
                            on-delete-clicked="deleteInterval(speedTime)">
@@ -110,6 +112,7 @@
          <speed-time model="rest" 
                      is-interval="false"
                      can-edit-inline="true"
+                     scroll-to-when-edited="false"
                      is-initially-editing="{{rest.is_unborn}}"
                      on-save-clicked="saveRest(speedTime)"
                      on-cancel-clicked="cancelRest(speedTime)"

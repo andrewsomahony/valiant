@@ -10,6 +10,10 @@
          do {
             scrollContainer = scrollContainer.parentNode;
             if (!scrollContainer) return;
+            // If this container doesn't scroll,
+            // modifying it won't work, and its scrollTop
+            // value will stay at 0.
+            
             scrollContainer.scrollTop += 1;
          } while (scrollContainer.scrollTop == 0);
 

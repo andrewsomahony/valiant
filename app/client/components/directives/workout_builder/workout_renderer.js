@@ -2,6 +2,8 @@
 
 var registerDirective = require('directives/register');
 
+var dom_utils = require('dom_utils');
+
 var name = 'workout';
 
 registerDirective(name, [require('models/workout_builder/workout'),
@@ -26,6 +28,7 @@ ErrorService) {
          onCancelSet: "&",
          onDeleteSet: "&",
 
+         //scrollToWhenEdited: "@"
          //canEditSetsInline
          //isInitiallyEditing: "@",
          //isEditable: "@",
@@ -39,6 +42,7 @@ ErrorService) {
 
          $scope.numberOfPendingSetsToBeSaved = 0;
 
+         ScopeService.watchBool($scope, $attributes, 'scrollToWhenEdited', true);
          ScopeService.watchBool($scope, $attributes, 'canEditSetsInline', true);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
@@ -124,6 +128,10 @@ ErrorService) {
             .then(function() {
                if (true === $scope.canEditInline) {
                   $scope.setIsEditing(true);
+
+                  if (true === $scope.scrollToWhenEdited) {
+                     dom_utils.smoothScroll($element[0]);
+                  }
                }
             });
          }

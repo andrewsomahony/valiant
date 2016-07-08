@@ -26,7 +26,7 @@ function(ScopeService) {
          $scope.isOpen = false;
 
          ScopeService.watchBool($scope, $attributes, 'allowsSearch', false);
-         ScopeService.watchBool($scope, $attributes, 'scrollToWhenOpened', false);
+         ScopeService.watchBool($scope, $attributes, 'scrollToWhenOpened', true);
 
          // For some reason, $element.children()
          // returns a NodeList, instead of an actual array
@@ -71,6 +71,11 @@ function(ScopeService) {
             $contentDiv[0].style.height = $contentDiv[0].scrollHeight + "px";
 
             if (true === $scope.scrollToWhenOpened) {
+               // We need this delay here, because we have
+               // a transition animation that occurs to open the
+               // content.  If we don't wait a bit, the scroll animation
+               // jumps ahead of the expanding animation, and stops.
+
                setTimeout(function() {
                   dom_utils.smoothScroll($element[0]);
                }, 100);

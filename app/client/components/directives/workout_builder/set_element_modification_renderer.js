@@ -20,6 +20,8 @@ Promise) {
          isInitiallyEditing: "@",
          canEditInline: "@",*/
 
+         //scrollToWhenEdited
+
          saveButtonText: "@",
          cancelButtonText: "@",
 
@@ -34,6 +36,7 @@ Promise) {
 
          $scope.hasCheckedInitiallyEditing = false;
 
+         ScopeService.watchBool($scope, $attributes, 'scrollToWhenEdited', true);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
          ScopeService.watchBool($scope, $attributes, 'isInitiallyEditing', false, function(newValue) {
@@ -97,6 +100,9 @@ Promise) {
          $scope.editClicked = function() {
             if (true === $scope.canEditInline) {
                $scope.setIsEditing(true);
+               if (true === $scope.scrollToWhenEdited) {
+                  dom_utils.smoothScroll($element[0]);
+               }
             }
             $scope.onEditClicked({modification: $scope.model});
          }

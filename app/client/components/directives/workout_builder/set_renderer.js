@@ -23,6 +23,7 @@ Promise) {
          onCancelClicked: "&",
          onDeleteClicked: "&",
          
+         //scrollToWhenEdited: "@"
          //showTotalWhenNotEditing: "@"
          //canEditInline: "@",
          //isEditable: "@",
@@ -36,6 +37,7 @@ Promise) {
 
          $scope.numberOfPendingElementsToBeSaved = 0;
 
+         ScopeService.watchBool($scope, $attributes, 'scrollToWhenEdited', true);
          ScopeService.watchBool($scope, $attributes, 'isDetached', false);
          ScopeService.watchBool($scope, $attributes, 'showTotalWhenNotEditing', false);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', false);
@@ -72,10 +74,11 @@ Promise) {
             if (true === $scope.canEditInline ||
                 true === $scope.isDetached) {
                $scope.setIsEditing(true);
+               if (true === $scope.scrollToWhenEdited) {
+                  dom_utils.smoothScroll($element[0]);
+               }
             }
             $scope.onEditClicked({set: $scope.model});
-
-            dom_utils.smoothScroll($element[0]);
          }
 
          $scope.cancelClicked = function() {

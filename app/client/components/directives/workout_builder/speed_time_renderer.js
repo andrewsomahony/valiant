@@ -3,6 +3,7 @@
 var registerDirective = require('directives/register');
 
 var utils = require('utils');
+var dom_utils = require('dom_utils');
 
 var name = 'speedTime';
 
@@ -30,6 +31,8 @@ function(SpeedTimeModel, ScopeService, Promise, $timeout) {
          isInitiallyEditing: "@",
          canEditInline: "@",*/
 
+         //scrollToWhenEdited
+
          saveButtonText: "@",
          cancelButtonText: "@",
 
@@ -44,6 +47,7 @@ function(SpeedTimeModel, ScopeService, Promise, $timeout) {
 
          $scope.hasCheckedInitiallyEditing = false;
 
+         ScopeService.watchBool($scope, $attributes, 'scrollToWhenEdited', true);
          ScopeService.watchBool($scope, $attributes, 'isDetached', false);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
          ScopeService.watchBool($scope, $attributes, 'isInterval', false);
@@ -90,21 +94,21 @@ function(SpeedTimeModel, ScopeService, Promise, $timeout) {
 
          $scope.hours = utils.map(utils.loopedIntegerArray(60), function(i) {
             if (i > 0) {
-               return utils.numberToString(i);
+               return i;
             } else {
                return null;
             }
          });
          $scope.minutes = utils.map(utils.loopedIntegerArray(60), function(i) {
             if (i > 0) {
-               return utils.numberToString(i);
+               return i;
             } else {
                return null;
             }
          });
          $scope.seconds = utils.map(utils.loopedIntegerArray(60), function(i) {
             if (i > 0) {
-               return utils.numberToString(i);
+               return i;
             } else {
                return null;
             }
@@ -117,6 +121,9 @@ function(SpeedTimeModel, ScopeService, Promise, $timeout) {
          $scope.editClicked = function() {
             if (true === $scope.canEditInline) {
                $scope.setIsEditing(true);
+               if (true === $scope.scrollToWhenEdited) {
+                  dom_utils.smoothScroll($element[0]);
+               }
             }
             $scope.onEditClicked({speedTime: $scope.model});
          }

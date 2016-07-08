@@ -10455,10 +10455,10 @@ div.font-awesome-centered-icon {
     .speed-time div.edit div.form span.edit-icon {
       font-size: 1.1em;
       margin-right: 0.44em; }
-    .speed-time div.edit div.form input {
+    .speed-time div.edit div.form input.name {
       display: inline-block;
       width: 25%; }
-    .speed-time div.edit div.form select {
+    .speed-time div.edit div.form select.time {
       display: inline-block;
       width: 20%; }
 

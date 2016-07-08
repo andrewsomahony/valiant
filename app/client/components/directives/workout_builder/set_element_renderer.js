@@ -2,6 +2,8 @@
 
 var registerDirective = require('directives/register');
 
+var dom_utils = require('dom_utils');
+
 var name = 'setElement';
 
 registerDirective(name, [require('models/workout_builder/set_element'),
@@ -22,6 +24,8 @@ Promise, $timeout) {
          onSaveClicked: "&",
          onDeleteClicked: "&",
          onEditClicked: "&",
+
+         //scrollToWhenEdited
       },
       
       templateUrl: "directives/workout_builder/set_element_renderer.html",
@@ -34,6 +38,7 @@ Promise, $timeout) {
          $scope.numberOfPendingRestsToBeSaved = 0;
          $scope.numberOfPendingIntervalsToBeSaved = 0;
 
+         ScopeService.watchBool($scope, $attributes, 'scrollToWhenEdited', true);
          ScopeService.watchBool($scope, $attributes, 'isDetached', false);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', false);
          ScopeService.watchBool($scope, $attributes, 'showIntervalsAndRests', true);
@@ -171,6 +176,9 @@ Promise, $timeout) {
          $scope.editClicked = function() {
             if (true === $scope.canEditInline) {
                $scope.setIsEditing(true);
+                if (true === $scope.scrollToWhenEdited) {
+                   dom_utils.smoothScroll($element[0]);
+                }
             }
             $scope.onEditClicked({element: $scope.model});
          }
