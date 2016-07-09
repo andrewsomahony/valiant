@@ -9,6 +9,8 @@
       <a class="right" 
          confirm-click="deleteClicked()"
          confirm-message="Delete Modification?">Delete</a>
+      <a class="right"
+         clipboard-copy-link="model"></a>
    </span>
 
    <div ng-bind="errorMessage" 
@@ -17,7 +19,11 @@
    </div>
 </div>
 
-<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">     
+<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()"> 
+   <div class="paste"
+        clipboard-paste="editingModel"
+        name="Modification">
+   </div>    
    <div class="form">
       <span class="edit-icon" font-awesome-icon-text icon="fa-cogs">
       </span>
