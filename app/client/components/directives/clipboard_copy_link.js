@@ -21,7 +21,12 @@ function(ClipboardService, $compile) {
             }
          }
 
+         $scope.copyModel = function() {
+            ClipboardService.copy($scope.clipboardCopyLink);
+         }
+
          $element.attr('ng-bind', 'getContent()');
+         $element.attr('ng-click', 'copyModel()');
 
          $element.removeAttr('clipboard-copy-link');
          $compile($element)($scope);

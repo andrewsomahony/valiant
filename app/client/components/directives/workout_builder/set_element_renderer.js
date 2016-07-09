@@ -10,9 +10,10 @@ registerDirective(name, [require('models/workout_builder/set_element'),
                          require('services/scope_service'),
                          require('services/workout_builder_service'),
                          require('services/promise'),
+                         require('services/clipboard_service'),
                          '$timeout',
 function(SetElementModel, ScopeService, SetBuilderService, 
-Promise, $timeout) {
+Promise, ClipboardService, $timeout) {
    return {
       restrict: "E",
       scope: {
@@ -53,6 +54,14 @@ Promise, $timeout) {
             }
 
          })
+
+         $scope.hasClipboardData = function() {
+            return ClipboardService.canPaste(SetElementModel);
+         }
+
+         $scope.pasteSetElement = function() {
+            $scope.editingElement.fromModel(ClipboardService.paste());
+         }
 
          $scope.types = 
             SetBuilderService.getSetTypeNamesArray();

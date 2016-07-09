@@ -11,8 +11,7 @@
          confirm-click="deleteClicked()"
          confirm-message="Delete Swim?">Delete</a>
       <a class="right"
-         clipboard-copy-link="model"
-         ng-click="copySetElement()">
+         clipboard-copy-link="model">
       </a>
    </span>
 
@@ -48,6 +47,9 @@
 </div>
 
 <div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
+   <div class="paste" ng-if="hasClipboardData()">
+      <a ng-click="pasteSetElement()">Paste Swim</a>
+   </div>
    <div class="element">
       <input class="distance form-control" type="text" placeholder="Distance" ng-model="editingElement.distance" />
    </div>
