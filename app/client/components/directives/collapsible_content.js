@@ -75,7 +75,7 @@ function(ScopeService, DeviceService) {
                // The -30 offset is needed, otherwise the scrolling happens
                // indefinitely :-/
 
-               dom_utils.smoothScroll($element[0], false, $contentDiv[0].scrollHeight - 30);
+               dom_utils.smoothScroll($element[0], false, $contentDiv[0].scrollHeight, -30);
             }
 
             $scope.onOpened();

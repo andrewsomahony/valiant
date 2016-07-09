@@ -228,6 +228,15 @@ function(id, promise) {
       getInternalVariable: function(name) {
           return this[name];
       },
+
+      isEqualToModel: function(model) {
+         if (!model) {
+            return false;
+         } else {
+            return this.getInternalVariable('local_id') 
+               === model.getInternalVariable('local_id');
+         }
+      },
       
       fromObject: function(config, isFromServer) {
          config = config || {};
@@ -423,8 +432,9 @@ function(id, promise) {
             throw new Error("deleteFromChildArray: Variable is not an array", variableName);
          } else {
             utils.inlineDeleteFromArray(arr, function(e) {
-               return e.getInternalVariable('local_id') 
-                === model.getInternalVariable('local_id');
+               return e.isEqualToModel(model);
+               /*return e.getInternalVariable('local_id') 
+                === model.getInternalVariable('local_id');*/
             });
          }
       }
