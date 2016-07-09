@@ -9,6 +9,8 @@
       <a class="right" 
          confirm-click="deleteClicked()"
          confirm-message="{{isInterval ? 'Delete Interval?' : 'Delete Rest?'}}">Delete</a>
+      <a class="right"
+         clipboard-copy-link="model"></a>
    </span>
 
    <div ng-bind="errorMessage" 
@@ -17,7 +19,11 @@
    </div>
 </div>
 
-<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">     
+<div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">    
+   <div class="paste"
+        clipboard-paste="editingModel"
+        name="{{isInterval ? 'Interval' : 'Rest'}}">
+   </div> 
    <div class="form">
       <span class="edit-icon" font-awesome-icon-text icon="{{isInterval ? 'fa-clock-o' : 'fa-bed'}}">
       </span>

@@ -47,9 +47,9 @@
 </div>
 
 <div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
-   <div class="paste" ng-if="hasClipboardData()">
-      <a ng-click="pasteSetElement()">Paste Swim</a>
-   </div>
+   <div class="paste" 
+        clipboard-paste="editingElement"
+        name="Swim"></div>
    <div class="element">
       <input class="distance form-control" type="text" placeholder="Distance" ng-model="editingElement.distance" />
    </div>

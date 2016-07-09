@@ -53,20 +53,14 @@ Promise, ClipboardService, $timeout) {
             }
          });
 
+/*
          $scope.hasClipboardData = function() {
             return ClipboardService.canPaste(SetModel);
          }
 
-         $scope.copySet = function() {
-            ClipboardService.copy($scope.model);
-         }
-
          $scope.pasteSet = function() {
-            if (!$scope.isEditing) {
-               throw new Error("Trying to paste a set while not editing!");
-            }
             $scope.editingSet.fromModel(ClipboardService.paste());
-         }
+         }*/
 
          $scope.error = function(e) {
             if (!e) {

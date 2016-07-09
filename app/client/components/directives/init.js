@@ -35,3 +35,4 @@ require('./workout_icons');
 require('./collapsible_content');
 
 require('./clipboard_copy_link');
+require('./clipboard_paste');

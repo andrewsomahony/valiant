@@ -36,9 +36,9 @@
 </div>
 
 <div ng-if="isEditing" class="edit" ng-class="getEditDivClass()">
-   <div class="paste" ng-if="hasClipboardData()">
-      <a ng-click="pasteSet()">Paste Set</a>
-   </div>
+   <div class="paste" 
+        clipboard-paste="editingSet"
+        name="Set"></div>
    <div class="options">
       <div class="option">
          <input type="text" class="quantity form-control" placeholder="Rounds" ng-model="editingSet.quantity" />
