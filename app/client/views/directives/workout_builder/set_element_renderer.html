@@ -3,7 +3,6 @@
    </span>
    <span ng-bind="getElementQuantityAndDistance()"></span>
    <span ng-bind="getElementStroke()"></span>
-   <span ng-bind="model.type"></span>
    <span class="notes" ng-bind="getElementNotes()" ng-if="model.notes"></span>
    <span class="inline-menu" ng-if="isEditable">
       <a class="left" ng-click="editClicked()">Edit</a>
@@ -62,13 +61,6 @@
       <select class="form-control" ng-options="name for name in strokes" 
             ng-model="editingElement.stroke">
          <option value="">---Select Stroke---</option>
-      </select>
-   </div>
-
-   <div class="element">
-      <select class="form-control" ng-options="name for name in types" 
-            ng-model="editingElement.type">
-         <option value="">---Select Type---</option>
       </select>
    </div>
 

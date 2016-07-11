@@ -23,7 +23,7 @@ ErrorService) {
 
    var defaultSwimIcon = "images/swim_default.png";
 
-   var setTypes = [
+   var setStrokeModifications = [
       {
          name: "Swim",
          icon: defaultSwimIcon
@@ -32,13 +32,6 @@ ErrorService) {
          name: "Kick",
          icon: "images/kick.png"
       },
-      {
-         name: "Choice",
-         icon: defaultSwimIcon
-      }
-   ];
-
-   var setStrokeModifications = [
       {
          name: "Scull",
          icon: "images/scull.png"
@@ -159,12 +152,6 @@ ErrorService) {
       }
    }
 
-   WorkoutBuilderService.getSetTypeNamesArray = function() {
-      return utils.map(setTypes, function(type) {
-         return type.name;
-      });
-   }
-
    WorkoutBuilderService.getSetStrokeModificationNamesArray = function() {
       return utils.map(setStrokeModifications, function(modification) {
          return modification.name;
@@ -260,7 +247,6 @@ ErrorService) {
       var icons = [];
 
       var icons = utils.merge([],
-         WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setTypes, 'type'),
          WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokes, 'stroke'),
          WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokeModifications, 'modifications')
       );

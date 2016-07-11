@@ -21,10 +21,6 @@ var SetElementSchema = new Schema({
       type: Number,
       default: 0
    },
-   type: {
-      type: String,
-      default: ""
-   },
    stroke: {
       type: String,
       default: ""

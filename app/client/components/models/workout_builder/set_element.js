@@ -19,7 +19,6 @@ function(BaseModel, SpeedTimeModel, SetElementModificationModel) {
                notes: "",
                quantity: "",
                distance: "",
-               type: "",
                stroke: "",
                modifications: [{__model__: SetElementModificationModel}],
                intervals: [{__model__: SpeedTimeModel}],

@@ -63,9 +63,6 @@ Promise, ClipboardService, $timeout) {
             $scope.editingElement.fromModel(ClipboardService.paste());
          }
 
-         $scope.types = 
-            SetBuilderService.getSetTypeNamesArray();
-
          $scope.strokeModifications = 
             SetBuilderService.getSetStrokeModificationNamesArray();
 
