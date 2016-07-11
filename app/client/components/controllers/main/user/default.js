@@ -358,6 +358,10 @@ FileReaderActivatorService, Promise) {
    $scope.onQuestionsClosed = function() {
 
    }
+
+   $scope.inlineDeleteWorkout = function(workout) {
+      console.log("INLINE DELETE", workout);
+   }
    
    $scope.getStaticErrorMessage = function() {
       if ($scope.currentEditingUser) {

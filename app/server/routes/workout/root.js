@@ -132,7 +132,35 @@ router.route('/:workoutId')
    Responder.methodNotAllowed(result);
 })
 .delete(function(request, result) {
-   Responder.methodNotAllowed(result);
+   var workoutId = Request.getUrlParamVariable(request, 'workoutId');
+
+   if (!workoutId) {
+      Responder.badRequest(result, "Missing workout id!");
+   } else {
+      WorkoutModel.findById(workoutId)
+      .populate("_creator")
+      .exec(function(error, workout) {
+         if (error) {
+            Responder.badRequest(result, error);
+         } else {
+            if (!workout) {
+               Responder.notFound(result);
+            } else {
+               if (!Permissions.ableToEditWorkout(request, workout)) {
+                  Responder.forbidden(result);
+               } else {
+                  WorkoutModel.remove({_id: workoutId}, function(error) {
+                     if (error) {
+                        Responder.badRequest(result, error);
+                     } else {
+                        Responder.noContent(result);
+                     }
+                  });
+               }
+            }
+         }
+      });
+   }
 })
 
 module.exports = router;

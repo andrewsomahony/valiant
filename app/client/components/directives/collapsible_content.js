@@ -75,6 +75,9 @@ function(ScopeService, DeviceService) {
                // The -30 offset is needed, otherwise the scrolling happens
                // indefinitely :-/
 
+               // I may have to scale this by the viewport height,
+               // which I can get from the $window height
+
                dom_utils.smoothScroll($element[0], false, $contentDiv[0].scrollHeight, -30);
             }
 

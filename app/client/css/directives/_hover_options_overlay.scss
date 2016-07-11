@@ -1,0 +1,16 @@
+.hover-options-overlay {
+   display: inline-block;
+
+   background: transparent;
+   position: absolute;
+
+   .options-button {
+      display: inline-block;
+      position: absolute;
+      
+      img {
+         width: 100%;
+         height: 100%;
+      }
+   }
+}

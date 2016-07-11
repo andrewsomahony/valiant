@@ -9,8 +9,10 @@ registerController(name, ['$scope',
                           require('services/promise'),
                           require('services/user_service'),
                           require('services/date_service'),
+								  require('services/state_service'),
+								  require('services/error_modal'),
 function($scope, WorkoutBuilderService, Promise, UserService,
-DateService) {
+DateService, StateService, ErrorModal) {
 
    $scope.currentEditingWorkout = WorkoutBuilderService.getCurrentWorkout() ?
    WorkoutBuilderService.getCurrentWorkout().clone() : null;
@@ -77,7 +79,18 @@ DateService) {
    }  
 
    $scope.workoutDelete = function(workout) {
+		// Although this can return a promise,
+		// it doesn't really need to.
 
+      WorkoutBuilderService.deleteWorkout($scope.currentEditingWorkout)
+      .then(function() {
+         StateService.go("main.user", 
+				{userId: UserService.getCurrentUserId()});
+      })
+		.catch(function(error) {
+			ErrorModal(error);
+			$scope.error(error);
+		});
    } 
 
    $scope.getSavingMessage = function() {

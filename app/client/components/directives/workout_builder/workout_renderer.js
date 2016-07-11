@@ -143,6 +143,9 @@ ErrorService, $timeout) {
             Promise.when($scope.onDeleteClicked({workout: $scope.model}))
             .then(function() {
 
+            })
+            .catch(function(error) {
+               
             });
          }
 

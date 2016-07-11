@@ -232,8 +232,15 @@
             ng-repeat="workout in currentEditingUser.workouts"
             size="150px"
             is-link="true"
+            hover-options-overlay
+            button-size="25px"
+            can-delete="true"
+            can-view="true"
+            on-delete="inlineDeleteWorkout(workout)"
+            on-view="inlineViewWorkout(workout)"
             workout="workout">
          </workout-widget>
+
       </collapsible-content>
    </div>
 </div>

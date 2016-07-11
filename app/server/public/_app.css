@@ -10161,6 +10161,8 @@ div.main {
       div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-container {
         font-size: 1.5em;
         text-align: left; }
+        div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-container div.error {
+          font-size: 0.8em; }
       div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.new-workout div.create-new-workout {
         text-align: center;
         font-size: 2em;
@@ -10526,3 +10528,14 @@ div.font-awesome-centered-icon {
     margin-bottom: 0.5em; }
     .collapsible-content div.content div.options input.search {
       width: 50%; }
+
+.hover-options-overlay {
+  display: inline-block;
+  background: transparent;
+  position: absolute; }
+  .hover-options-overlay .options-button {
+    display: inline-block;
+    position: absolute; }
+    .hover-options-overlay .options-button img {
+      width: 100%;
+      height: 100%; }

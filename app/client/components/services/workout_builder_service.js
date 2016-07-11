@@ -298,7 +298,21 @@ ErrorService) {
    }
 
    WorkoutBuilderService.deleteWorkout = function(workout) {
-
+      return Promise(function(resolve, reject, notify) {
+         HttpService.delete(ApiUrlService([
+            {
+               name: 'Workout',
+               paramArray: [workout.id]
+            }
+         ]))
+         .then(function() {
+            currentWorkout = null;
+            resolve();
+         })
+         .catch(function(error) {
+            reject(error);
+         });
+      })
    }
 
    return WorkoutBuilderService;
