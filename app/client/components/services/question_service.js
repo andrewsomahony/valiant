@@ -20,6 +20,8 @@ MediaService, QuestionPreviewPictureService) {
    }
    
    QuestionService.ask = function(questionModel) {
+      var previousQuestionModel = questionModel.clone();
+
       var serialPromiseFnArray = [
          function(existingData, index, forNotify) {
             return Promise(function(resolve, reject, notify) {
@@ -83,6 +85,7 @@ MediaService, QuestionPreviewPictureService) {
             notify(progress);
          })
          .catch(function(error) {
+            questionModel.fromModel(previousQuestionModel);
             reject(error);
          });
       });
