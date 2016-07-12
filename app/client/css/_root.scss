@@ -156,6 +156,8 @@ html, body {
 @import "main/main";
 @import "admin/admin";
 
+@import "modals/workout_modal";
+
 @import "directives/media_picker";
 @import "directives/loading_progress";
 @import "directives/media_renderer";

@@ -9959,7 +9959,8 @@ div.main {
             vertical-align: top;
             display: inline-block;
             margin-left: 2em;
-            width: 62%; } }
+            width: 62%;
+            padding-top: 0.2em; } }
         @media screen and (max-width: 760px) {
           div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display {
             text-align: center;
@@ -10074,8 +10075,8 @@ div.main {
         display: inline-block; }
         div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area div.workout-list div.workout-widget {
           display: inline-block;
-          margin-left: 0.4em;
-          margin-bottom: 0.4em; }
+          margin-left: 0.5em;
+          margin-bottom: 0.5em; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;
@@ -10203,6 +10204,9 @@ div.admin {
     color: green; }
   div.admin div.footer span.logout-link {
     font-size: 10px; }
+
+.workout-modal {
+  font-size: 0.9em; }
 
 div.media-picker {
   display: inline-block; }

@@ -26,6 +26,7 @@ div.user {
                display: inline-block;
                margin-left: 2em;
                width: 62%;
+               padding-top: 0.2em;
             }
 
             @media screen and (max-width: $min-sm-screen-width) {
@@ -231,8 +232,8 @@ div.user {
 
           div.workout-widget {
             display: inline-block;
-            margin-left: 0.4em;
-            margin-bottom: 0.4em;
+            margin-left: 0.5em;
+            margin-bottom: 0.5em;
           }          
         }
       }

@@ -12,9 +12,10 @@ registerController(name, ['$scope',
                           require('services/picture_service'),
                           require('services/file_reader_activator_service'),
                           require('services/promise'),
+                          require('services/workout_modal_service'),
 function($scope, UserService, UserModel, StateService,
 ProfilePictureService, PictureService,
-FileReaderActivatorService, Promise) {
+FileReaderActivatorService, Promise, WorkoutModal) {
    // Clone what we get from the UserService
    // to allow for editing and such
    
@@ -361,6 +362,10 @@ FileReaderActivatorService, Promise) {
 
    $scope.inlineDeleteWorkout = function(workout) {
       console.log("INLINE DELETE", workout);
+   }
+
+   $scope.inlineViewWorkout = function(workout) {
+      WorkoutModal(workout);
    }
    
    $scope.getStaticErrorMessage = function() {

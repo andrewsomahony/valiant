@@ -85,6 +85,12 @@ function(ScopeService, $compile, $parse) {
          $scope.getViewButtonStyle = function() {
             var style = $scope.getGenericButtonStyle();
 
+            var sizeOffset = parseInt($attributes.buttonSize) / 4;
+            var visualOffset = parseInt($attributes.buttonSize) / 8;
+
+            style['top'] = -sizeOffset + "px";
+            style['right'] = (-sizeOffset - visualOffset) + "px";
+
             return style;
          }
 
@@ -107,19 +113,28 @@ function(ScopeService, $compile, $parse) {
             var $deleteButton = angular.element("<div></div>");
             $deleteButton.addClass('options-button');
 
-            $deleteButton.attr('ng-style', 'getDeleteButtonStyle()');
             $deleteButton.attr('ng-click', 'onDeleteClicked($event)');
+            $deleteButton.attr('ng-style', 'getDeleteButtonStyle()');
 
             var $deleteImage = angular.element("<img />");
             $deleteImage.attr('ng-src', 'images/close.png');
 
-            $deleteButton.append($compile($deleteImage)($scope));
-
-            $overlayElement.append($compile($deleteButton)($scope));
+            $deleteButton.append($deleteImage);
+            $overlayElement.append($deleteButton);
          }
 
          if (true === $scope.canView) {
+            var $viewButton = angular.element("<div></div>");
+            $viewButton.addClass('options-button');
 
+            $viewButton.attr('ng-click', 'onViewClicked($event)');
+            $viewButton.attr('ng-style', 'getViewButtonStyle()');
+
+            var $viewImage = angular.element("<img />");
+            $viewImage.attr('ng-src', 'images/eye.png');
+
+            $viewButton.append($viewImage);
+            $overlayElement.append($viewButton);
          }
 
          $element.append($compile($overlayElement)($scope));
