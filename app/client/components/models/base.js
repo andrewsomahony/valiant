@@ -433,8 +433,6 @@ function(id, promise) {
          } else {
             utils.inlineDeleteFromArray(arr, function(e) {
                return e.isEqualToModel(model);
-               /*return e.getInternalVariable('local_id') 
-                === model.getInternalVariable('local_id');*/
             });
          }
       }

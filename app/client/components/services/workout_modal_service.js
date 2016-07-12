@@ -21,8 +21,6 @@ function(ModalService, ScopeService, Promise) {
 
          ModalService($modalScope, "modals/full/workout_modal.html",
             null, {
-            keyboard: false,
-            backdrop: "static",
             title: workoutModel.name
          });
       });

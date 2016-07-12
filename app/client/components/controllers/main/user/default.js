@@ -13,9 +13,12 @@ registerController(name, ['$scope',
                           require('services/file_reader_activator_service'),
                           require('services/promise'),
                           require('services/workout_modal_service'),
+                          require('services/error_modal'),
+                          require('services/confirm_modal_service'),
 function($scope, UserService, UserModel, StateService,
 ProfilePictureService, PictureService,
-FileReaderActivatorService, Promise, WorkoutModal) {
+FileReaderActivatorService, Promise, WorkoutModal,
+ErrorModal, ConfirmModal) {
    // Clone what we get from the UserService
    // to allow for editing and such
    
@@ -361,7 +364,19 @@ FileReaderActivatorService, Promise, WorkoutModal) {
    }
 
    $scope.inlineDeleteWorkout = function(workout) {
-      console.log("INLINE DELETE", workout);
+      ConfirmModal("Delete workout?")
+      .then(function(yes) { 
+         if (yes) {     
+            UserService.inlineDeleteWorkout($scope.currentEditingUser, 
+               workout)
+            .then(function() {
+
+            })
+            .catch(function(error) {
+               ErrorModal(error);
+            });
+         }
+      })
    }
 
    $scope.inlineViewWorkout = function(workout) {

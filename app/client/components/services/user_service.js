@@ -17,9 +17,10 @@ registerService('factory', name, [
                                     require('services/s3_uploader_service'),
                                     require('models/picture'),
                                     require('services/media_service'),
+                                    require('services/workout_builder_service'),
 function(Promise, HttpService, UserModel, ApiUrlService,
 ErrorService, ProgressService, SerialPromise, S3UploaderService,
-PictureModel, MediaService) {    
+PictureModel, MediaService, WorkoutBuilderService) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
     var currentRequestedUser = null;
@@ -527,6 +528,27 @@ PictureModel, MediaService) {
                });
            }
         });        
+    }
+
+    UserService.inlineDeleteWorkout = function(user, workout) {
+       return Promise(function(resolve, reject) {
+          if (!utils.findInArray(user.workouts, function(w) {
+             return w.isEqualToModel(workout);
+          })) {
+             reject(ErrorService.localError("Workout does not belong to user!"));
+          } else {
+             WorkoutBuilderService.deleteWorkout(workout)
+             .then(function() {
+                user.deleteFromChildArray('workouts', workout);
+                UserService.updateCurrentAndRequestedUsersIfSame(user);
+                resolve();
+             })
+             .catch(function(error) {
+                reject(error);
+             })
+          }
+       });
+
     }
     
     UserService.getUser = function(userId) {
