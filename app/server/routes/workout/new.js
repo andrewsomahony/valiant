@@ -15,7 +15,7 @@ router.route('/new')
 })
 .post(function(request, result) {
    if (!Permissions.isLoggedIn(request)) {
-      Responder.notAllowed(result);
+      Responder.forbidden(result);
    } else {
       var workoutParam = Request.getBodyVariable(request, 'workout');
       if (!workoutParam) {
@@ -30,7 +30,7 @@ router.route('/new')
             } else {
                w.populateCreator()
                .then(function() {
-                  Responder.ok(result, w.frontEndObject());
+                  Responder.created(result, w.frontEndObject());
                })
                .catch(function(error) {
                   Responder.badRequest(result, error);

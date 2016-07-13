@@ -12,6 +12,8 @@ var userMethods = require('./plugins/methods');
 var userPendingEmailAuthentication = require('./plugins/pending_email_auth');
 var userChangePassword = require('./plugins/change_password');
 
+var genericMethods = require(__base + 'db/schemas/plugins/methods');
+
 var patchPlugin = require('mongoose-json-patch');
 
 var UserLoginService = require(__base + 'lib/user_login');
@@ -83,6 +85,7 @@ var UserSchema = new Schema({
     }
 });
 
+UserSchema.plugin(genericMethods);
 UserSchema.plugin(userMethods);
 
 var userOptions = {

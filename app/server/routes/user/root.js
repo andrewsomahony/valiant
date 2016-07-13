@@ -66,30 +66,38 @@ router.use(require('./forgot_password'));
 router.use(require('./change_password'));
 router.use(require('./me'));
 
+router.param('userId', function(request, result, next, id) {
+   if (!id) {
+      Responder.badRequest("Missing user id!");
+   } else {
+      User.findById(id, function(error, user) {
+         if (error) {
+            Responder.badRequest(result, error);
+         } else {
+            if (!user) {
+               Responder.notFound(result);
+            } else {
+               request.requestedUser = user;
+               next();
+            }
+         }
+      })
+   }
+});
+
 router.route('/:userId')
 .get(function(request, result) {
-    User.findById(Request.getUrlParamVariable(request, 'userId'), function(error, user) {
-        if (error) {
-            Responder.badRequest(result, error);
-        } else {
-            if (!user) {
-                Responder.notFound(result);
-            } else { 
-                if (true === Permissions.ableToSeeUser(request, user)) {
-                   user.populateRefs()
-                   .then(function() {
-                      Responder.ok(result, user.frontEndObject());
-                   })
-                   .catch(function(error) {
-                      Responder.badRequest(result, error);
-                   })
-                       
-                } else {
-                    Responder.forbidden(result);
-                }
-            }
-        }
-    });
+   if (true === Permissions.ableToSeeUser(request, request.requestedUser)) {
+      request.requestedUser.populateRefs()
+      .then(function() {
+         Responder.ok(result, request.requestedUser.frontEndObject());
+      })
+      .catch(function(error) {
+         Responder.badRequest(result, error);
+      })  
+   } else {
+      Responder.forbidden(result);
+   }
 })
 .patch(function(request, result) {
     var patchData = Request.getBodyVariable(request, 'data');
@@ -97,27 +105,17 @@ router.route('/:userId')
     if (!patchData) {
         Responder.badRequest(result, "Missing patch data!");
     } else {
-        User.findById(Request.getUrlParamVariable(request, 'userId'), function(error, user) {
-            if (error) {
+       if (false === Permissions.ableToEditUser(request, request.requestedUser)) {
+          Responder.forbidden(result);
+       } else {
+          request.requestedUser.patch(patchData, function(error) {
+             if (error) {
                 Responder.badRequest(result, error);
-            } else {
-                if (!user) {
-                   Responder.notFound(result, "Can't find user!");
-                } else {
-                   if (false === Permissions.ableToEditUser(request, user)) {
-                      Responder.forbidden(result);
-                   } else {
-                      user.patch(patchData, function(error) {
-                         if (error) {
-                            Responder.badRequest(result, error);
-                         } else {
-                            Responder.ok(result, user.frontEndObject());
-                         }
-                      });
-                   }
-                }
-            }
-        })
+             } else {
+                Responder.ok(result, request.requestedUser.frontEndObject());
+             }
+          });
+       }
     }
 })
 .post(function(request, result) {

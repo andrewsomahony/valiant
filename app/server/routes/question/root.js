@@ -42,7 +42,7 @@ router.route('/')
    Responder.methodNotAllowed(result);
 });
 
-router.use("./ask");
+router.use(require("./ask"));
 
 router.param('questionId', function(request, result, next, id) {
    if (!id) {
@@ -81,3 +81,5 @@ router.route('/:questionId')
 .delete(function(request, result) {
 
 });
+
+module.exports = router;

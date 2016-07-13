@@ -8,11 +8,7 @@ var Promise = require(__base + '/lib/promise');
 
 module.exports = function(schema, options) {
    options = options || {};
-   
-   schema.methods.getId = function() {
-      return this._id;
-   }
-   
+
    schema.methods.hasPendingEmail = function() {
       return this.pending_email;
    }

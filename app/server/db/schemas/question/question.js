@@ -4,6 +4,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var patchPlugin = require('mongoose-json-patch');
+var genericMethods = require(__base + 'db/schemas/plugins/methods');
+var creatorMethods = require(__base + 'db/schemas/plugins/creator');
+
 var questionMethods = require('./plugins/methods');
 
 var VideoSchema = require(__base + 'db/schemas/video/video');
@@ -61,6 +64,8 @@ QuestionSchema.pre('save', function(next) {
   next();
 });
 
+QuestionSchema.plugin(genericMethods);
+QuestionSchema.plugin(creatorMethods);
 QuestionSchema.plugin(patchPlugin);
 QuestionSchema.plugin(questionMethods);
 

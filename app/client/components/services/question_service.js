@@ -13,8 +13,10 @@ registerService('factory', name, [require('services/http_service'),
                                   require('services/progress'),
                                   require('services/media_service'),
                                   require('services/question_preview_picture_service'),
+                                  require('services/api_url'),
+                                  require('models/question'),
 function(HttpService, ParallelPromise, SerialPromise, Promise, Progress,
-MediaService, QuestionPreviewPictureService) {
+MediaService, QuestionPreviewPictureService, ApiUrlService, QuestionModel) {
    function QuestionService() {
       
    }
@@ -71,7 +73,20 @@ MediaService, QuestionPreviewPictureService) {
             if (false === forNotify) {
                return Promise(function(resolve, reject, notify) {
                   // Create the new question here
-                  resolve({question: questionModel});
+                  HttpService.post(ApiUrlService([
+                     {
+                        name: 'Question'
+                     },
+                     {
+                        name: 'Ask'
+                     }
+                  ]), null, {question: questionModel.toObject(true)})
+                  .then(function(data) {
+                     resolve({question: new QuestionModel(data.data, true)})
+                  })
+                  .catch(function(error) {
+                     reject(error);
+                  })
                })
             }
          }

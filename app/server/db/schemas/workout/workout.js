@@ -8,6 +8,9 @@ var utils = require(__base + 'lib/utils')
 var workoutMethods = require('./plugins/methods');
 var patchPlugin = require('mongoose-json-patch');
 
+var genericMethods = require(__base + 'db/schemas/plugins/methods');
+var creatorMethods = require(__base + 'db/schemas/plugins/creator');
+
 var SetSchema = require(__base + 'db/schemas/set/set');
 
 var WorkoutSchema = new Schema({
@@ -40,6 +43,9 @@ WorkoutSchema.pre('save', function(next) {
    this.markModified('sets');
    next();
 });
+
+WorkoutSchema.plugin(genericMethods);
+WorkoutSchema.plugin(creatorMethods);
 
 WorkoutSchema.plugin(workoutMethods);
 WorkoutSchema.plugin(patchPlugin);
