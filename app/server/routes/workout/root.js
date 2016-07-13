@@ -19,7 +19,9 @@ router.route('/')
    if (!Permissions.isAdmin(request)) {
       Responder.forbidden(result);
    } else {
-      WorkoutModel.find(function(error, workouts) {
+      WorkoutModel.find()
+      .populate("_creator")
+      .exec(function(error, workouts) {
          if (error) {
             Responder.badRequest(result, error);
          } else {
@@ -65,15 +67,12 @@ router.route('/')
 
 router.use(require('./new'));
 
-router.route('/:workoutId')
-.get(function(request, result) {
-   var workoutId = Request.getUrlParamVariable(request, 'workoutId');
-
-   if (!workoutId) {
+router.param('workoutId', function(request, result, next, id) {
+   if (!id) {
       Responder.badRequest(result, "Missing workout id!");
    } else {
-      WorkoutModel.findById(workoutId)
-      .populate('_creator')
+      WorkoutModel.findById(id)
+      .populate("_creator")
       .exec(function(error, workout) {
          if (error) {
             Responder.badRequest(result, error);
@@ -81,48 +80,35 @@ router.route('/:workoutId')
             if (!workout) {
                Responder.notFound(result);
             } else {
-               if (!Permissions.ableToSeeWorkout(request, workout)) {
-                  Responder.forbidden(result);
-               } else {
-                  Responder.ok(result, workout.frontEndObject());
-               }
-            }
-         }
-      });
-   }
-})
-.patch(function(request, result) {
-   var workoutId = Request.getUrlParamVariable(request, 'workoutId');
-   var patchData = Request.getBodyVariable(request, 'data');
-
-   if (!workoutId) {
-      Responder.badRequest(result, "Missing workout id!");
-   } else if (!patchData) {
-      Responder.badRequest(result, "Missing patch data!");
-   } else {
-      WorkoutModel.findById(workoutId)
-      .populate('_creator')
-      .exec(function(error, workout) {
-         if (error) {
-            Responder.badRequest(result, error);
-         } else {
-            if (!workout) {
-               Responder.badRequest(result, "Can't find workout!");
-            } else {
-               if (false === Permissions.ableToEditWorkout(request, workout)) {
-                  Responder.forbidden(result);
-               } else {
-                  workout.patch(patchData, function(error) {
-                     if (error) {
-                        Responder.badRequest(result, error);
-                     } else {
-                        Responder.ok(result, workout.frontEndObject());
-                     }
-                  });
-               }
+               request.workout = workout;
+               next();
             }
          }
       })
+   }
+});
+
+router.route('/:workoutId')
+.get(function(request, result) {
+   if (!Permissions.ableToSeeWorkout(request, request.workout)) {
+      Responder.forbidden(result);
+   } else {
+      Responder.ok(result, request.workout.frontEndObject());
+   }
+})
+.patch(function(request, result) {
+   var patchData = Request.getBodyVariable(request, 'data');
+
+   if (false === Permissions.ableToEditWorkout(request, request.workout)) {
+      Responder.forbidden(result);
+   } else {
+      request.workout.patch(patchData, function(error) {
+         if (error) {
+            Responder.badRequest(result, error);
+         } else {
+            Responder.ok(result, request.workout.frontEndObject());
+         }
+      });
    }
 })
 .post(function(request, result) {
@@ -132,32 +118,14 @@ router.route('/:workoutId')
    Responder.methodNotAllowed(result);
 })
 .delete(function(request, result) {
-   var workoutId = Request.getUrlParamVariable(request, 'workoutId');
-
-   if (!workoutId) {
-      Responder.badRequest(result, "Missing workout id!");
+   if (!Permissions.ableToEditWorkout(request, request.workout)) {
+      Responder.forbidden(result);
    } else {
-      WorkoutModel.findById(workoutId)
-      .populate("_creator")
-      .exec(function(error, workout) {
+      WorkoutModel.remove({_id: request.workout._id}, function(error) {
          if (error) {
             Responder.badRequest(result, error);
          } else {
-            if (!workout) {
-               Responder.notFound(result);
-            } else {
-               if (!Permissions.ableToEditWorkout(request, workout)) {
-                  Responder.forbidden(result);
-               } else {
-                  WorkoutModel.remove({_id: workoutId}, function(error) {
-                     if (error) {
-                        Responder.badRequest(result, error);
-                     } else {
-                        Responder.noContent(result);
-                     }
-                  });
-               }
-            }
+            Responder.noContent(result);
          }
       });
    }

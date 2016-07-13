@@ -10423,6 +10423,8 @@ div.font-awesome-centered-icon {
   font-size: 0.9em; }
   .set-element div.display span {
     margin-left: 0.22em; }
+    .set-element div.display span:not(.bullet, .icon) {
+      vertical-align: middle; }
     .set-element div.display span.notes {
       font-size: 0.9em; }
 

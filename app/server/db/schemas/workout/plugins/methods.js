@@ -35,7 +35,6 @@ module.exports = function(schema, options) {
             }
          })
       });
-
    }
 
    schema.methods.frontEndObject = function() {

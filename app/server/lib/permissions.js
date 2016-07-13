@@ -8,6 +8,26 @@ function Permissions() {
    
 }
 
+Permissions.ableToSeeQuestion = function(request, question) {
+   var creator = question.getCreator();
+   if (!creator) {
+      console.log("Permissions.ableToSeeQuestion: Question _creator variable not populated!");
+      return false;
+   } else {
+      return Permissions.ableToSeeUser(request, creator);
+   }
+}
+
+Permissions.ableToEditQuestion = function(request, question) {
+   var creator = question.getCreator();
+   if (!creator) {
+      console.log("Permissions.ableToEditQuestion: Question _creator variable not populated!");
+      return false;
+   } else {
+      return Permissions.ableToEditUser(request, creator);
+   }
+}
+
 Permissions.ableToSeeWorkout = function(request, workout) {
    var creator = workout.getCreator();
    if (!creator) {

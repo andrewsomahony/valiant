@@ -41,7 +41,7 @@ function($compile, WorkoutBuilderService) {
                $workoutStrokeImage.attr('ng-src', icon);
                $workoutStrokeImage.attr('ng-style', 'getImageStyle()');
 
-               $element.append($compile($workoutStrokeImage)($scope));
+               $element.append($workoutStrokeImage);
             });
 
             $element.removeAttr('workout-icons');

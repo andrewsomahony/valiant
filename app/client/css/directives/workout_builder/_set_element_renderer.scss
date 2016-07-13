@@ -34,6 +34,10 @@
    div.display {
       font-size: 0.9em;
       span {
+         &:not(.bullet, .icon) {
+            vertical-align: middle;
+         }
+
          margin-left: 0.22em;
          &.notes {
             font-size: 0.9em;
