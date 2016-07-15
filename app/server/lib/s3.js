@@ -39,7 +39,7 @@ function signPutRequest(key, contentType, acl, expires) {
          Bucket: bucket,
          Key: key,
          ContentType: contentType,
-         Expires: expires || 60,
+         Expires: expires || (60 * 15),
          ACL: acl
       };
  

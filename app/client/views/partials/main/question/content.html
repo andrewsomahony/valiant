@@ -1,5 +1,5 @@
 <div ng-if="currentEditingQuestion">
-   <div class="question-section topic">
+   <div class="title">
       <span ng-bind="getQuestionTopic()">
       </span>
    </div>
@@ -8,7 +8,7 @@
       </span>
    </div>
    <div class="question-section media">
-      <div class="media-title">
+      <div class="title">
          <span>Media</span>
       </div>
       <div class="media-area">
@@ -59,8 +59,13 @@
    </div>
 
    <div class="question-section comments">
+      <div class="title">
+         <span>Comments</span>
+      </div>
    </div>
 </div>
 
-<div ng-if="!currentEditingQuestion">
+<div ng-if="!currentEditingQuestion" 
+     ng-bind="getStaticErrorMessage()"
+     class="error">
 </div>

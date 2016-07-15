@@ -54,8 +54,12 @@ router.param('questionId', function(request, result, next, id) {
          if (error) {
             Responder.badRequest(result, error);
          } else {
-            request.question = question;
-            next();
+            if (!question) {
+               Responder.notFound(result);
+            } else {
+               request.question = question;
+               next();
+            }
          }
       });
    }
