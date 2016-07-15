@@ -15,10 +15,81 @@ registerService('factory', name, [require('services/http_service'),
                                   require('services/question_preview_picture_service'),
                                   require('services/api_url'),
                                   require('models/question'),
+                                  require('services/error'),
 function(HttpService, ParallelPromise, SerialPromise, Promise, Progress,
-MediaService, QuestionPreviewPictureService, ApiUrlService, QuestionModel) {
+MediaService, QuestionPreviewPictureService, ApiUrlService, QuestionModel,
+ErrorService) {
    function QuestionService() {
       
+   }
+
+   var currentQuestion = null;
+   var currentQuestionIsNotAccessible = false;
+   var currentQuestionIsNotFound = false;
+
+   QuestionService.setCurrentQuestion = function(q) {
+      currentQuestion = q;
+      if (q) {
+         currentQuestionIsNotAccessible = false;
+         currentQuestionIsNotFound = false;
+      }
+   }
+
+   QuestionService.updateCurrentQuestionIfSame = function(q) {
+      if (currentQuestion) {
+         if (currentQuestion.id === q.id) {
+            currentQuestion.fromModel(q);
+         }
+      }
+   }
+
+   QuestionService.getCurrentQuestion = function() {
+      return currentQuestion;
+   }
+
+   QuestionService.currentQuestionIsNotAccesible = function() {
+      return currentQuestionIsNotAccessible;
+   }
+
+   QuestionService.currentQuestionIsNotFound = function() {
+      return currentQuestionIsNotFound;
+   }
+
+   QuestionService.dataResolverFn = function(state, params) {
+      if ('main.page.question.default' === state) {
+         return Promise(function(resolve, reject) {
+            if (!params.questionId) {
+               reject(ErrorService.localError("Missing question id!"));
+            } else {
+               QuestionService.getQuestion(params.questionId)
+               .then(function(question) {
+                  QuestionService.setCurrentQuestion(question);
+                  resolve();
+               })
+               .catch(function(error) {
+                  QuestionService.setCurrentQuestion(null);
+
+                  // Just like with the user, if we get an error,
+                  // we want to display feedback on the page itself as to what
+                  // went wrong, so we allow the request to finish (by resolving),
+                  // but we set some internal stuff so we can get a better idea of what
+                  // happened, so we can show the user on the page.
+
+                  if (true === ErrorService.isForbidden(error)) {
+                     currentQuestionIsNotAccesible = true;
+                     resolve();
+                  } else if (true === ErrorService.isNotFound(error)) {
+                     currentQuestionIsNotFound = true;
+                     resolve();
+                  } else {
+                     reject(error);
+                  }
+               })
+            }
+         });
+      } else {
+         QuestionService.setCurrentQuestion(null);
+      }
    }
    
    QuestionService.ask = function(questionModel) {
@@ -103,6 +174,18 @@ MediaService, QuestionPreviewPictureService, ApiUrlService, QuestionModel) {
             questionModel.fromModel(previousQuestionModel);
             reject(error);
          });
+      });
+   }
+
+   QuestionService.getQuestion = function(questionId) {
+      return Promise(function(resolve, reject) {
+         HttpService.get(ApiUrlService.getObjectUrl('Question', questionId))
+         .then(function(data) {
+            resolve(new QuestionModel(data.data, true));
+         })
+         .catch(function(error) {
+            reject(error);
+         })
       });
    }
    

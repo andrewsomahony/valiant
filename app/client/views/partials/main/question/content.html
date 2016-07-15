@@ -1,1 +1,66 @@
-This is the question view page!
+<div ng-if="currentEditingQuestion">
+   <div class="question-section topic">
+      <span ng-bind="getQuestionTopic()">
+      </span>
+   </div>
+   <div class="question-section text">
+      <span ng-bind="getQuestionText()">
+      </span>
+   </div>
+   <div class="question-section media">
+      <div class="media-title">
+         <span>Media</span>
+      </div>
+      <div class="media-area">
+         <div ng-repeat="picture in currentEditingQuestion.pictures"
+            class="media-container"
+            ng-if="picture.url"
+            ng-style="getMediaContainerStyle()">
+            <div media-renderer="picture"
+               model="picture"
+               width="88%"
+               height="98%"
+               fitted="true"
+               centered="true"
+               show-uploading="false"
+               class="picture-container">
+            </div>
+         </div>
+
+         <div ng-repeat="video in currentEditingQuestion.videos"
+            class="media-container"
+            ng-if="video.url"
+            ng-style="getMediaContainerStyle()">
+            <div media-renderer="video"
+               model="video"
+               width="95%"
+               fitted="true"
+               centered="true"
+               can-hide-while-loading="false"
+               can-preload="true"
+               show-uploading="false"
+               class="video-container">
+            </div>
+         </div>
+
+         <div class="media-container youtube"
+              ng-if="currentEditingQuestion.youtube_video.url"
+              ng-style="getYoutubeMediaContainerStyle()">
+            <div media-renderer="youtube"
+               model="currentEditingQuestion.youtube_video"
+               width="{{mediaContainerSize}}"
+               fitted="true"
+               centered="true"
+               on-error="onYoutubeRendererError(error)"
+               class="youtube-container">
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <div class="question-section comments">
+   </div>
+</div>
+
+<div ng-if="!currentEditingQuestion">
+</div>

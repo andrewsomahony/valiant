@@ -16,9 +16,10 @@ registerController(name, ['$scope',
                           require('services/ffmpeg_service'),
                           require('services/error_modal'),
                           require('services/question_type_service'),
+                          require('services/state_service'),
 function($scope, QuestionService, QuestionModel,
 DeviceService, S3UploaderService, Promise, ParallelPromise,
-FFMpegService, ErrorModal, QuestionTypeService) {
+FFMpegService, ErrorModal, QuestionTypeService, StateService) {
    $scope.questionTopicOptions = utils.map(QuestionTypeService.getQuestionTypes(), function(type) {
       return type.name;
    });
@@ -49,7 +50,7 @@ FFMpegService, ErrorModal, QuestionTypeService) {
 
       QuestionService.ask($scope.currentQuestion)
       .then(function(newQuestion) {
-         console.log(newQuestion);
+         StateService.go('main.question', {questionId: newQuestion.id});
       })
       .catch(function(error) {
          $scope.currentQuestion.fromModel(previousQuestion);
@@ -59,7 +60,6 @@ FFMpegService, ErrorModal, QuestionTypeService) {
       .finally(function() {
          $scope.isAskingQuestion = false;
       })
-      //console.log($scope.currentQuestion);
    }
    
    $scope.allocateNewQuestion();

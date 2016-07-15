@@ -147,8 +147,10 @@ ErrorService) {
    }
 
    WorkoutBuilderService.updateCurrentWorkoutIfSame = function(workout) {
-      if (workout.id === currentWorkout.id) {
-         currentWorkout = workout.clone();
+      if (currentWorkout) {
+         if (workout.id === currentWorkout.id) {
+            currentWorkout.fromModel(workout);// = workout.clone();
+         }
       }
    }
 

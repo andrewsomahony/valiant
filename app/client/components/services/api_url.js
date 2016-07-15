@@ -139,6 +139,15 @@ registerService('factory', name, [function() {
       
       return returnUrl;
    }
+
+   ApiUrlService.getObjectUrl = function(name, id) {
+      return ApiUrlService([
+          {
+              name: name,
+              paramArray: [id]
+          }
+       ]);
+   }
    
    return ApiUrlService;
 }]);

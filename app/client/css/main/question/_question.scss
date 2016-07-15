@@ -1,5 +1,55 @@
 div.question {
-   div.sub-content {      
+   div.sub-content {
+      div.question-section {
+         text-align: center;
+         margin-bottom: 0.8em;
+
+         &.topic {
+            font-size: 1.4em;
+            font-weight: bold;
+         }
+
+         &.text {
+            text-align: center;
+
+            span {
+               display: inline-block;
+               width: 90%;
+            }
+            font-size: 1.3em;
+         }
+
+         &.media {
+            margin-top: 2em;
+            div.media-title {
+               font-size: 1.4em;
+               font-weight: bold;
+               margin-bottom: 0.8em;
+            }
+
+            div.media-area {
+               display: inline-block;
+               width: 90%;
+
+               div.media-container {
+                  vertical-align: top;
+                  display: inline-block;
+
+                  .picture-container,
+                  .video-container,
+                  .youtube-container {
+                     width: 100%;
+                     height: 100%;
+                  }
+               }
+            }
+         }
+
+         &.comments {
+
+         }
+      }
+
       @import "ask";
    }
 }
