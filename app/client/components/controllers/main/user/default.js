@@ -167,7 +167,10 @@ ErrorModal, ConfirmModal) {
       $scope.setPostSavingMessage(null);
 
       $scope.saveUser()
-      .then(function() {
+      .then(function(newUser) {
+         // !!! Do we need this?
+         $scope.currentEditingUser.fromModel(newUser);
+         
          $scope.isEditingProfile = false;
       })
       .finally(function() {

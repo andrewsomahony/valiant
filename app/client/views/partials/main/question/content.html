@@ -62,6 +62,26 @@
       <div class="title">
          <span>Comments</span>
       </div>
+      <div class="add-comment">
+        <a ng-click="addComment()">
+          <span font-awesome-icon-text
+                icon="fa-plus" 
+                text="Comment">
+          </span>
+        </a>
+      </div>
+      <div class="comment-area">
+        <div class="comment-container"
+             ng-repeat="comment in currentEditingQuestion.comments">
+           <comment
+              model="comment"
+              is-editable="{{comment.is_unborn}}"
+              is-initially-editing="{{comment.is_unborn}}"
+              on-save-clicked="saveComment(comment)"
+              on-cancel-clicked="cancelComment(comment)">
+           </comment>
+        </div>   
+      </div>      
    </div>
 </div>
 

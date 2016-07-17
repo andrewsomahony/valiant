@@ -14,9 +14,31 @@ function(BaseModel) {
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
-               text: ""
+               text: "",
+               // Also accepts a plain ID
+               creator: {__alias__: "models.user"} 
+            });
+         },
+         serverMappings: function() {
+            return this.staticMerge(this.callSuper(), {
+               "creator": "_creator"
             });
          }
+      },
+
+      // So, as comments are PATCHED in with whatever
+      // object they're a part of (question, etc), we don't
+      // want to ever send the populated creator data, only an ID.
+
+      toObject: function(isForServer) {
+         var returnValue = this.callSuper();
+
+         if (isForServer) {
+            if (utils.isPlainObject(returnValue['_creator'])) {
+               delete returnValue['_creator'];
+            }
+         }
+         return returnValue;
       },
       
       init: function(config, isFromServer) {

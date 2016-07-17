@@ -50,6 +50,12 @@ router.param('questionId', function(request, result, next, id) {
    } else {
       QuestionModel.findById(id)
       .populate("_creator")
+      .populate({
+         path: "comments",
+         populate: {
+            path: "_creator"
+         }
+      })
       .exec(function(error, question) {
          if (error) {
             Responder.badRequest(result, error);

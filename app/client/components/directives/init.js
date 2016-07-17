@@ -38,3 +38,5 @@ require('./clipboard_copy_link');
 require('./clipboard_paste');
 
 require('./hover_options_overlay');
+
+require('./comment');

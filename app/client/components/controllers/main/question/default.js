@@ -11,7 +11,7 @@ registerController(name, ['$scope',
 function($scope, QuestionService) {
    $scope.currentEditingQuestion = QuestionService.getCurrentQuestion() ?
       QuestionService.getCurrentQuestion().clone() : null;
-   
+
    $scope.mediaContainerSize = "300px";
 
    $scope.getMediaContainerStyle = function() {
@@ -27,8 +27,6 @@ function($scope, QuestionService) {
       var style = $scope.getMediaContainerStyle();
 
       style['height'] = "" + utils.round(parseInt(style['width']) / 1.809) + "px";
-
-      console.log(style);
 
       return style;
    }
@@ -47,6 +45,22 @@ function($scope, QuestionService) {
 
    $scope.onYoutubeRendererError = function(error) {
 
+   }
+
+   $scope.addComment = function() {
+      var obj = $scope.currentEditingQuestion.addToChildArrayAtIndex('comments', 0);
+      obj.setInternalVariable('is_unborn', true);
+   }
+
+   $scope.saveComment = function(comment) {
+      //var patchData = $scope.currentEditingQuestion.createPatch(QuestionService.getCurrentQuestion(),
+      //         true);
+   }
+
+   $scope.cancelComment = function(comment) {
+      if (true === comment.getInternalVariable('is_unborn')) {
+         $scope.currentEditingQuestion.deleteFromChildArray('comments', comment);
+      }
    }
 
    $scope.getStaticErrorMessage = function() {

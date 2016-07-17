@@ -35,6 +35,10 @@ PictureModel, QuestionModel, WorkoutModel) {
                workouts: [{__model__: WorkoutModel}],
                questions: [{__model__: QuestionModel}]
             });
+         },
+         localFields: function() {
+            return this.staticMerge(this.callSuper(), 
+               ['workouts', 'questions']);
          }
       },
 

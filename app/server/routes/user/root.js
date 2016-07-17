@@ -112,7 +112,13 @@ router.route('/:userId')
              if (error) {
                 Responder.badRequest(result, error);
              } else {
-                Responder.ok(result, request.requestedUser.frontEndObject());
+                 request.requestedUser.populateRefs()
+                 .then(function() {
+                    Responder.ok(result, request.requestedUser.frontEndObject());
+                 })
+                 .catch(function(error) {
+                     Responder.badRequest(result, error);
+                 })
              }
           });
        }

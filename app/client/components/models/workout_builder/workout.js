@@ -22,7 +22,7 @@ function(BaseModel, SetModel) {
          },
          localFields: function() {
             return this.staticMerge(this.callSuper(), 
-            ['creator']);
+               ['creator']);
          },
          serverMappings: function() {
             return this.staticMerge(this.callSuper(), {

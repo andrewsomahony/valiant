@@ -44,6 +44,21 @@ div.question {
 
          &.comments {
             margin-top: 2em;
+            font-size: 1.2em;
+
+            div.comment-area {
+               display: inline-block;
+               width: 90%;
+
+               .comment-container {
+                  //display: inline-block;
+                  //width: 100%;
+                  .comment {
+                     display: inline-block;
+                     width: 100%;
+                  }
+               }
+            }
          }
       }
 

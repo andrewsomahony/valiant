@@ -1,0 +1,24 @@
+<div ng-if="!isEditing" class="display">
+   <span ng-bind="model.text"
+         class="text">
+   </span>
+</div>
+
+<div ng-if="isEditing" class="edit>
+   <div class="text">
+      <textarea 
+         class="form-control"
+         ng-model="editingComment.text">
+      </textarea>
+   </div>
+   <div class="options">
+      <a class="left" 
+         ng-click="saveClicked()"
+         ng-bind="{{saveButtonText || 'Save'}}">
+      </a>
+      <a class="right"
+         ng-click="cancelClicked()"
+         ng-bind="{{cancelButtonText || 'Cancel'}}">
+      </a>
+   </div>
+</div>
