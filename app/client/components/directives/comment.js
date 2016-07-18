@@ -2,12 +2,17 @@
 
 var registerDirective = require('directives/register');
 
+var dom_utils = require('dom_utils');
+
 var name = 'comment';
 
 registerDirective(name, [require('services/scope_service'),
                          require('models/comment'),
                          require('services/promise'),
-function(ScopeService, CommentModel, Promise) {
+                         require('services/date_service'),
+                         '$timeout',
+function(ScopeService, CommentModel, Promise,
+DateService, $timeout) {
    return {
       restrict: "E",
       scope: {
@@ -17,8 +22,13 @@ function(ScopeService, CommentModel, Promise) {
          onCancelClicked: "&",
 
          saveButtonText: "@",
-         cancelButtonText: "@"
+         cancelButtonText: "@",
+
+         //isEditable
+         //isInitiallyEditing
+         //scrollToWhenEdited
       },
+      replace: true,
       templateUrl: "directives/comment.html",
       link: function($scope, $element, $attributes) {
          $element.addClass("comment");
@@ -26,6 +36,13 @@ function(ScopeService, CommentModel, Promise) {
          $scope.hasCheckedInitiallyEditing = false;
          $scope.isEditing = false;
 
+         // !!! The order of these matters, if
+         // !!! we call editClicked within the isInitiallyEditing
+         // !!! callback, scrollToWhenEdited will only be set to true
+         // !!! if it's checked first.
+
+         ScopeService.watchBool($scope, $attributes,
+            'scrollToWhenEdited', true);
          ScopeService.watchBool($scope, $attributes,
             'isEditable', true);
          ScopeService.watchBool($scope, $attributes,
@@ -37,6 +54,10 @@ function(ScopeService, CommentModel, Promise) {
                }
             }
          });
+
+         $scope.getDateString = function() {
+            return "on " + DateService.dateStringToFormattedString($scope.model.created_at);
+         }
 
          $scope.setIsEditing = function(isEditing) {
             $scope.isEditing = isEditing;
@@ -51,6 +72,11 @@ function(ScopeService, CommentModel, Promise) {
 
          $scope.editClicked = function() {
             $scope.setIsEditing(true);
+            if (true === $scope.scrollToWhenEdited) {
+               $timeout(function() {
+                  dom_utils.smoothScroll($element[0]);
+               });
+            }
          }
 
          $scope.saveClicked = function() {

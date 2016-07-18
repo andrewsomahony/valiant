@@ -1,24 +1,36 @@
-<div ng-if="!isEditing" class="display">
-   <span ng-bind="model.text"
-         class="text">
-   </span>
-</div>
-
-<div ng-if="isEditing" class="edit>
-   <div class="text">
-      <textarea 
-         class="form-control"
-         ng-model="editingComment.text">
-      </textarea>
+<div>
+   <div ng-if="!isEditing" class="display">
+      <div class="creator">
+         <a class="cancel-underline" 
+            ui-sref="main.page.user.default({userId: model.creator.id})">
+            <profile-picture user="model.creator" width="18px"></profile-picture>
+         </a>
+         <a ui-sref="main.page.user.default({userId: model.creator.id})"
+            ng-bind="model.creator.fullName()"
+            class="workout-created-by-name">
+         </a>
+         <span class="date" ng-bind="getDateString()"></span>
+      </div>
+      <div class="text" ng-bind="model.text">
+      </div>
    </div>
-   <div class="options">
-      <a class="left" 
-         ng-click="saveClicked()"
-         ng-bind="{{saveButtonText || 'Save'}}">
-      </a>
-      <a class="right"
-         ng-click="cancelClicked()"
-         ng-bind="{{cancelButtonText || 'Cancel'}}">
-      </a>
+
+   <div ng-if="isEditing" class="edit">
+      <div class="text">
+         <textarea 
+            class="form-control"
+            ng-model="editingComment.text">
+         </textarea>
+      </div>
+      <div class="options">
+         <a class="left" 
+            ng-click="saveClicked()"
+            ng-bind="saveButtonText || 'Save'">
+         </a>
+         <a class="right"
+            ng-click="cancelClicked()"
+            ng-bind="cancelButtonText || 'Cancel'">
+         </a>
+      </div>
    </div>
 </div>

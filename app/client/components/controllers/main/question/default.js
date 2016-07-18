@@ -55,6 +55,7 @@ function($scope, QuestionService) {
    $scope.saveComment = function(comment) {
       //var patchData = $scope.currentEditingQuestion.createPatch(QuestionService.getCurrentQuestion(),
       //         true);
+      comment.setInternalVariable('is_unborn', false);
    }
 
    $scope.cancelComment = function(comment) {

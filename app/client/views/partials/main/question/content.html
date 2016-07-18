@@ -1,5 +1,22 @@
 <div ng-if="currentEditingQuestion">
+   <div class="question-section creator">
+     <div class="asked-by subtitle">Asked by:</div>
+     <a class="cancel-underline"
+        ui-sref="main.page.user.default({userId: currentEditingQuestion.creator.id})">
+        <profile-picture user="currentEditingQuestion.creator" width="18px">
+        </profile-picture>
+     </a>
+     <a
+        class="name" 
+        ng-bind="currentEditingQuestion.creator.fullName()"
+        ui-sref="main.page.user.default({userId: currentEditingQuestion.creator.id})">
+     </a>
+   </div>
+
    <div class="title">
+      <div class="topic subtitle">
+        Topic:
+      </div>
       <span ng-bind="getQuestionTopic()">
       </span>
    </div>

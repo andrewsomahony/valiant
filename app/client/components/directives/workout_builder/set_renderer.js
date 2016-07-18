@@ -53,15 +53,6 @@ Promise, ClipboardService, $timeout) {
             }
          });
 
-/*
-         $scope.hasClipboardData = function() {
-            return ClipboardService.canPaste(SetModel);
-         }
-
-         $scope.pasteSet = function() {
-            $scope.editingSet.fromModel(ClipboardService.paste());
-         }*/
-
          $scope.error = function(e) {
             if (!e) {
                $scope.errorMessage = "";

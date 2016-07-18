@@ -6,14 +6,27 @@ div.question {
          font-size: 1.4em;
          font-weight: bold;
          margin-bottom: 0.8em;
+
+         .subtitle {
+            font-size: 0.8em;
+            font-weight: normal;
+         }
       }
 
       div.question-section {
          text-align: center;
 
-         &.text {
-            text-align: center;
+         &.creator {
+            font-size: 1.2em;
 
+            a.name {
+               vertical-align: middle;
+               margin-left: 0.3em;
+            }
+            margin-bottom: 0.4em;
+         }
+
+         &.text {
             span {
                display: inline-block;
                width: 90%;
@@ -46,16 +59,27 @@ div.question {
             margin-top: 2em;
             font-size: 1.2em;
 
+            div.title {
+               margin-bottom: 0.3em;
+            }
+
+            div.add-comment {
+               margin-bottom: 0.3em;
+            }
+
             div.comment-area {
                display: inline-block;
                width: 90%;
 
                .comment-container {
-                  //display: inline-block;
-                  //width: 100%;
+                  display: inline-block;
+                  width: 100%;
+                  height: 200px;
+
                   .comment {
                      display: inline-block;
                      width: 100%;
+                     height: 100%;
                   }
                }
             }
