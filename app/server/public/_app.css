@@ -10612,7 +10612,8 @@ div.font-awesome-centered-icon {
       margin-left: 0.2em; }
     .comment .display .creator span.date {
       vertical-align: middle;
-      margin-left: 0.2em; }
+      margin-left: 0.2em;
+      font-size: 0.85em; }
   .comment .edit {
     height: 100%; }
     .comment .edit .text textarea {
