@@ -49,15 +49,10 @@ router.param('questionId', function(request, result, next, id) {
       Responder.badRequest(result, "Missing question id!");
    } else {
       QuestionModel.findById(id)
-      .populate("_creator")
-      .populate({
-         path: "comments",
-         populate: {
-            path: "_creator"
-         }
-      })
+      .populate("_creator comments._creator")
       .exec(function(error, question) {
          if (error) {
+           // console.log(error);
             Responder.badRequest(result, error);
          } else {
             if (!question) {
@@ -86,7 +81,30 @@ router.route('/:questionId')
    Responder.methodNotAllowed(result);
 })
 .patch(function(request, result) {
-
+   if (!Permissions.ableToEditQuestion(request, request.question)) {
+      Responder.forbidden(result);
+   } else {
+      var patchData = Request.getBodyVariable(request, 'data');
+      if (!patchData) {
+         Responder.badRequest(result, "Missing patch data!");
+      } else {
+         request.question.patch(patchData, function(error) {
+            if (error) {
+               Responder.badRequest(result, error);
+            } else {
+               request.question
+               .populate("comments._creator", 
+               function(error, question) {
+                  if (error) {
+                     Responder.badRequest(result, error);
+                  } else {
+                     Responder.ok(result, question.frontEndObject());
+                  }
+               });
+            }
+         })
+      }
+   }
 })
 .delete(function(request, result) {
 

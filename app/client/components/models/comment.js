@@ -31,13 +31,15 @@ function(BaseModel) {
       // want to ever send the populated creator data, only an ID.
 
       toObject: function(isForServer) {
-         var returnValue = this.callSuper();
+         console.log("IS FOR SERVER", isForServer);
+         var returnValue = this.callSuper(isForServer);
 
          if (isForServer) {
             if (utils.isPlainObject(returnValue['_creator'])) {
                delete returnValue['_creator'];
             }
          }
+         console.log("RETURN", returnValue);
          return returnValue;
       },
       

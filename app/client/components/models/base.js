@@ -34,7 +34,9 @@ function(id, promise) {
                    return true;
                }
             }
-            ret[model.$ownClass.mapKey(key, isForServer)] = ModelToObject(model.$ownClass.mapValue(model[key], fields[key], isForServer), isForServer);//!utils.isUndefinedOrNull(model[key]) ? model[key] : fields[key], isForServer)         
+            ret[model.$ownClass.mapKey(key, isForServer)] = 
+                ModelToObject(model[key], isForServer);//model.$ownClass.mapValue(model[key], fields[key], isForServer), isForServer);
+            //!utils.isUndefinedOrNull(model[key]) ? model[key] : fields[key], isForServer)         
          });
 
          return ret;
@@ -362,9 +364,11 @@ function(id, promise) {
          if (false === utils.objectIsClassy(otherModel, this.$ownClass)) {
             throw new Error("createPatch: Objects not of same type!"); 
          } else {
+             console.log("WTF?", isForServer);
             var ourObject = this.toObject(isForServer);
             var otherObject = otherModel.toObject(isForServer);
              
+             console.log("HELLO", ourObject, otherObject);
             return patchService.createPatch(otherObject, 
                                     ourObject);
          }

@@ -1,16 +1,9 @@
 <div ng-if="currentEditingQuestion">
    <div class="question-section creator">
      <div class="asked-by subtitle">Asked by:</div>
-     <a class="cancel-underline"
-        ui-sref="main.page.user.default({userId: currentEditingQuestion.creator.id})">
-        <profile-picture user="currentEditingQuestion.creator" width="18px">
-        </profile-picture>
-     </a>
-     <a
-        class="name" 
-        ng-bind="currentEditingQuestion.creator.fullName()"
-        ui-sref="main.page.user.default({userId: currentEditingQuestion.creator.id})">
-     </a>
+     <user-link user="currentEditingQuestion.creator" 
+                picture-size="1.3em">
+     </user-link>
    </div>
 
    <div class="title">
@@ -25,9 +18,6 @@
       </span>
    </div>
    <div class="question-section media">
-      <div class="title">
-         <span>Media</span>
-      </div>
       <div class="media-area">
          <div ng-repeat="picture in currentEditingQuestion.pictures"
             class="media-container"
@@ -41,6 +31,8 @@
                centered="true"
                show-uploading="false"
                class="picture-container">
+            </div>
+            <div class="description" ng-bind="picture.description">
             </div>
          </div>
 
@@ -58,11 +50,13 @@
                show-uploading="false"
                class="video-container">
             </div>
+            <div class="description" ng-bind="video.description">
+            </div>
          </div>
 
          <div class="media-container youtube"
               ng-if="currentEditingQuestion.youtube_video.url"
-              ng-style="getYoutubeMediaContainerStyle()">
+              ng-style="getMediaContainerStyle()">
             <div media-renderer="youtube"
                model="currentEditingQuestion.youtube_video"
                width="{{mediaContainerSize}}"
@@ -71,14 +65,13 @@
                on-error="onYoutubeRendererError(error)"
                class="youtube-container">
             </div>
+            <div class="description" ng-bind="currentEditingQuestion.youtube_video.description">
+            </div>            
          </div>
       </div>
    </div>
 
    <div class="question-section comments">
-      <div class="title">
-         <span>Comments</span>
-      </div>
       <div class="add-comment">
         <a ng-click="addComment()">
           <span font-awesome-icon-text
@@ -95,7 +88,8 @@
               is-editable="{{comment.is_unborn}}"
               is-initially-editing="{{comment.is_unborn}}"
               on-save-clicked="saveComment(comment)"
-              on-cancel-clicked="cancelComment(comment)">
+              on-cancel-clicked="cancelComment(comment)"
+              edit-height="200px">
            </comment>
         </div>   
       </div>      

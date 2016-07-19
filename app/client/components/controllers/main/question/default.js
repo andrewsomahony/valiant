@@ -8,11 +8,13 @@ var name = 'controllers.main.question.default';
 
 registerController(name, ['$scope',
                           require('services/question_service'),
-function($scope, QuestionService) {
+                          require('services/user_service'),
+function($scope, QuestionService, UserService) {
    $scope.currentEditingQuestion = QuestionService.getCurrentQuestion() ?
       QuestionService.getCurrentQuestion().clone() : null;
 
    $scope.mediaContainerSize = "300px";
+   $scope.errorMessage = "";
 
    $scope.getMediaContainerStyle = function() {
       var style = {};
@@ -23,6 +25,16 @@ function($scope, QuestionService) {
       return style;
    }
 
+   $scope.error = function(e) {
+      if (!e) {
+         $scope.errorMessage = "";
+      } else {
+         $scope.errorMessage = e.toString(false);
+      }
+   }
+
+   // !!! This is currently unused, not sure
+   // !!! why I had it here.
    $scope.getYoutubeMediaContainerStyle = function() {
       var style = $scope.getMediaContainerStyle();
 
@@ -53,9 +65,20 @@ function($scope, QuestionService) {
    }
 
    $scope.saveComment = function(comment) {
-      //var patchData = $scope.currentEditingQuestion.createPatch(QuestionService.getCurrentQuestion(),
-      //         true);
-      comment.setInternalVariable('is_unborn', false);
+      return Promise(function(resolve, reject) {
+         comment.creator = UserService.getCurrentUserId();
+
+         QuestionService.saveQuestion($scope.currentEditingQuestion,
+            QuestionService.getCurrentQuestion())
+         .then(function(newQuestion) {
+            $scope.currentEditingQuestion.fromModel(newQuestion);
+            resolve();
+         })
+         .catch(function(error) {
+            $scope.error(error);
+            reject(error);
+         })
+      });
    }
 
    $scope.cancelComment = function(comment) {

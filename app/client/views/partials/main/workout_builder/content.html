@@ -2,14 +2,9 @@
    <div class="workout-information">
       <div class="creator">
          <span class="workout-created-by">Created by </span>
-         <a class="cancel-underline" 
-            ui-sref="main.page.user.default({userId: currentEditingWorkout.creator.id})">
-            <profile-picture user="currentEditingWorkout.creator" width="18px"></profile-picture>
-         </a>
-         <a ui-sref="main.page.user.default({userId: currentEditingWorkout.creator.id})"
-            ng-bind="currentEditingWorkout.creator.fullName()"
-            class="workout-created-by-name">
-         </a>
+         <user-link user="currentEditingWorkout.creator" 
+                  picture-size="1.3em">
+         </user-link>         
       </div>
       <div class="workout-dates">
          <div class="updated-on" ng-if="getWorkoutUpdatedDateString()">

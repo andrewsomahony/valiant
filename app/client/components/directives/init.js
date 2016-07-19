@@ -40,3 +40,5 @@ require('./clipboard_paste');
 require('./hover_options_overlay');
 
 require('./comment');
+
+require('./user_link');

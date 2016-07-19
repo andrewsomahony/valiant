@@ -1,0 +1,10 @@
+<a class="cancel-underline"
+   ui-sref="main.page.user.default({userId: user.id})">
+   <profile-picture user="user" width="{{pictureSize}}">
+   </profile-picture>
+</a>
+<a
+   class="name" 
+   ng-bind="user.fullName()"
+   ui-sref="main.page.user.default({userId: user.id})">
+</a>

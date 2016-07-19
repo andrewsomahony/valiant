@@ -39,6 +39,7 @@ module.exports = function(schema, options) {
       populatePromises.push(Promise(function(resolve, reject) {
          QuestionModel.find({_creator: self.getId()})
          .populate('_creator')
+         .populate("comments._creator")
          .sort({updated_at: -1})
          .exec(function(error, questions) {
             if (error) {

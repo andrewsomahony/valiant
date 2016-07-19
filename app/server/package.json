@@ -35,5 +35,7 @@
     "serve-favicon": "~2.3.0",
     "lodash": "^3.7.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "mongoose-deep-populate": "^3.0.0"
+  }
 }

@@ -10,14 +10,14 @@ function(PictureModel) {
       restrict: 'E',
       scope: {
          user: "<",
-         //width: "@",
-         //height: "@",
+         width: "@",
+         height: "@",
          maxHeight: "@"
       },
       templateUrl: "directives/profile_picture.html",
       link: function($scope, $element, $attributes) {
-         $scope.width = $attributes.width || null;
-         $scope.height = $attributes.height || null;
+         //$scope.width = $attributes.width || null;
+         //$scope.height = $attributes.height || null;
          
          var defaultPicture = new PictureModel({url: "images/profile_picture_placeholder.jpg"});
          

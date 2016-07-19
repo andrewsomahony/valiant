@@ -1,21 +1,18 @@
 <div>
    <div ng-if="!isEditing" class="display">
       <div class="creator">
-         <a class="cancel-underline" 
-            ui-sref="main.page.user.default({userId: model.creator.id})">
-            <profile-picture user="model.creator" width="18px"></profile-picture>
-         </a>
-         <a ui-sref="main.page.user.default({userId: model.creator.id})"
-            ng-bind="model.creator.fullName()"
-            class="workout-created-by-name">
-         </a>
+         <user-link user="model.creator"
+                    picture-size="1.3em">
+         </user-link>
          <span class="date" ng-bind="getDateString()"></span>
       </div>
       <div class="text" ng-bind="model.text">
       </div>
+      <div class="options">
+      </div>
    </div>
 
-   <div ng-if="isEditing" class="edit">
+   <div ng-if="isEditing" class="edit" ng-style="getEditDivStyle()">
       <div class="text">
          <textarea 
             class="form-control"

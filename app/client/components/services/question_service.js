@@ -177,6 +177,26 @@ ErrorService) {
       });
    }
 
+   QuestionService.saveQuestion = function(question, oldQuestion) {
+      return Promise(function(resolve, reject, notify) {
+         var patch = question.createPatch(oldQuestion, true);
+         if (!patch.length) {
+            resolve(question);
+         } else {
+            HttpService.patch(ApiUrlService.getObjectUrl('Question', question.id),
+               null, {data: patch})
+            .then(function(data) {
+               var question = new QuestionModel(data.data, true);
+               QuestionService.updateCurrentQuestionIfSame(question);
+               resolve(question);
+            })
+            .catch(function(error) {
+               reject(error);
+            })
+         }
+      });
+   }
+
    QuestionService.getQuestion = function(questionId) {
       return Promise(function(resolve, reject) {
          HttpService.get(ApiUrlService.getObjectUrl('Question', questionId))

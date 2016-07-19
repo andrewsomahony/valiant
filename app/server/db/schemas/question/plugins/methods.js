@@ -1,5 +1,10 @@
 'use strict';
 
+var Promise = require(__base + "lib/promise");
+var Q = require('q');
+
+var QuestionModel = require(__base + 'db/models/question/question');
+
 module.exports = function(schema, options) {
    options = options || {};
 
@@ -29,5 +34,27 @@ module.exports = function(schema, options) {
       })
 
       return object;
+   }
+
+   schema.methods.populateComments = function() {
+      var self = this;
+
+      return Promise(function(resolve, reject) {
+         Q.all(self.comments.map(function(comment) {
+            comment.populate("_creator", function(error, c) {
+               if (error) {
+                  reject(error);
+               } else {
+                  resolve();
+               }
+            });
+         }))
+         .then(function() {
+            resolve();
+         })
+         .catch(function(error) {
+            reject(error);
+         })
+      });
    }
 }

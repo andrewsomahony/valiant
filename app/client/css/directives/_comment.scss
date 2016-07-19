@@ -1,9 +1,8 @@
 .comment {
    text-align: center;
-   height: 100%;
 
    .text {
-      font-size: 1.0em;
+      font-size: 0.8em;
       display: inline-block;
       width: 80%;
       height: 80%;
@@ -11,10 +10,10 @@
 
    .options {
       margin-top: 0.5em;
+      font-size: 0.9em;
    }
 
    .display {
-      height: 100%;
       .creator {
          font-size: 0.9em;
          

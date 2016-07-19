@@ -24,6 +24,8 @@ DateService, $timeout) {
          saveButtonText: "@",
          cancelButtonText: "@",
 
+         editHeight: "@",
+
          //isEditable
          //isInitiallyEditing
          //scrollToWhenEdited
@@ -54,6 +56,14 @@ DateService, $timeout) {
                }
             }
          });
+
+         $scope.getEditDivStyle = function() {
+            var style = {};
+
+            style['height'] = $scope.editHeight || "200px";
+
+            return style;
+         }
 
          $scope.getDateString = function() {
             return "on " + DateService.dateStringToFormattedString($scope.model.created_at);

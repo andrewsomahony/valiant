@@ -9798,18 +9798,18 @@ div.main {
         div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture {
           display: inline-block;
           height: 100%;
-          padding-left: 8px;
-          padding-right: 8px; }
+          padding-left: 0.57em;
+          padding-right: 0.57em; }
           div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture span.profile-picture-mini {
-            margin-right: 2px; }
+            margin-right: 0.14em; }
           div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture span.login-name {
             vertical-align: middle;
             color: white; }
         div.main div.top-bar div.user-details div.login-info a.login-button {
           display: inline-block;
           height: 100%;
-          padding-left: 8px;
-          padding-right: 8px;
+          padding-left: 0.57em;
+          padding-right: 0.57em;
           color: white; }
           div.main div.top-bar div.user-details div.login-info a.login-button span {
             vertical-align: middle; }
@@ -10094,9 +10094,6 @@ div.main {
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.creator {
           font-size: 1.2em;
           margin-bottom: 0.4em; }
-          div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.creator a.name {
-            vertical-align: middle;
-            margin-left: 0.3em; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.text {
           font-size: 1.3em; }
           div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.text span {
@@ -10108,13 +10105,15 @@ div.main {
             display: inline-block;
             width: 90%; }
             div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.media div.media-area div.media-container {
-              vertical-align: top;
               display: inline-block; }
               div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.media div.media-area div.media-container .picture-container,
               div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.media div.media-area div.media-container .video-container,
               div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.media div.media-area div.media-container .youtube-container {
                 width: 100%;
-                height: 100%; }
+                height: 80%;
+                margin-bottom: 0.8em; }
+              div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.media div.media-area div.media-container .description {
+                font-size: 1.0em; }
         div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.comments {
           margin-top: 2em;
           font-size: 1.2em; }
@@ -10128,7 +10127,7 @@ div.main {
             div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.comments div.comment-area .comment-container {
               display: inline-block;
               width: 100%;
-              height: 200px; }
+              margin-bottom: 0.5em; }
               div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.comments div.comment-area .comment-container .comment {
                 display: inline-block;
                 width: 100%;
@@ -10194,9 +10193,6 @@ div.main {
           div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.creator span.workout-created-by {
             margin-right: 0.4em;
             vertical-align: middle; }
-          div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.creator a.workout-created-by-name {
-            vertical-align: middle;
-            margin-left: 0.2em; }
         div.main div.mobile-scroll div.main-content div.content div.workout-builder div.sub-content div.workout-information div.workout-dates {
           display: table;
           margin-bottom: 0.3em; }
@@ -10599,28 +10595,31 @@ div.font-awesome-centered-icon {
       height: 100%; }
 
 .comment {
-  text-align: center;
-  height: 100%; }
+  text-align: center; }
   .comment .text {
-    font-size: 1.0em;
+    font-size: 0.8em;
     display: inline-block;
     width: 80%;
     height: 80%; }
   .comment .options {
-    margin-top: 0.5em; }
-  .comment .display {
-    height: 100%; }
-    .comment .display .creator {
-      font-size: 0.9em;
-      margin-bottom: 0.3em; }
-      .comment .display .creator a.workout-created-by-name {
-        vertical-align: middle;
-        margin-left: 0.2em; }
-      .comment .display .creator span.date {
-        vertical-align: middle;
-        margin-left: 0.2em; }
+    margin-top: 0.5em;
+    font-size: 0.9em; }
+  .comment .display .creator {
+    font-size: 0.9em;
+    margin-bottom: 0.3em; }
+    .comment .display .creator a.workout-created-by-name {
+      vertical-align: middle;
+      margin-left: 0.2em; }
+    .comment .display .creator span.date {
+      vertical-align: middle;
+      margin-left: 0.2em; }
   .comment .edit {
     height: 100%; }
     .comment .edit .text textarea {
       width: 100%;
       height: 100%; }
+
+.user-link a.name {
+  vertical-align: middle;
+  font-size: 0.9em;
+  margin-left: 0.3em; }
