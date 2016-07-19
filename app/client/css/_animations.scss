@@ -6,3 +6,17 @@
       opacity: 1;
    }
 }
+
+.fade-in {
+   &.ng-enter {
+      animation: fade-in 0.8s;          
+      opacity: 0;
+   }
+}
+
+.fade-out {
+   &.ng-leave {
+      animation: fade-in 0.8s reverse;
+      opacity: 1;
+   }
+}

@@ -24,7 +24,7 @@ module.exports = function(schema, options) {
       object.pictures = this.pictures;
       object.preview_pictures = this.preview_pictures;
 
-      if (this.populated('_creator')) {
+      if (this.fieldIsPopulated("_creator")) {
          object._creator = this._creator.frontEndObject();
       }
 

@@ -23,6 +23,11 @@ ErrorService) {
 
    var defaultSwimIcon = "images/swim_default.png";
 
+   var defaultWorkoutElement = {
+      name: "Workout",
+      icon: defaultSwimIcon
+   };
+
    var setStrokeModifications = [
       {
          name: "Swim",
@@ -245,9 +250,24 @@ ErrorService) {
       return WorkoutBuilderService.getWorkoutElementsByAttribute(workout, setStrokes, 'stroke');
    }
 
-   WorkoutBuilderService.getWorkoutIcons = function(workout) {
-      var icons = [];
+   WorkoutBuilderService.getAllWorkoutElements = function(workout) {
+      var elements = utils.merge([],
+         WorkoutBuilderService.getWorkoutElementsByAttribute(workout, setStrokes, 'stroke'),
+         WorkoutBuilderService.getWorkoutElementsByAttribute(workout, setStrokeModifications, 'modifications')   
+      );
 
+      if (!elements.length) {
+         return [defaultWorkoutElement];
+      } else {
+         return utils.removeDuplicatesFromArray(elements);
+      }
+   }
+
+   WorkoutBuilderService.getWorkoutIcons = function(workout) {
+      return utils.map(WorkoutBuilderService.getAllWorkoutElements(workout), function(e) {
+         return e.icon || null;
+      });
+      /*
       var icons = utils.merge([],
          WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokes, 'stroke'),
          WorkoutBuilderService.getWorkoutElementIconsByAttribute(workout, setStrokeModifications, 'modifications')
@@ -257,7 +277,7 @@ ErrorService) {
          return [defaultSwimIcon];
       } else {
          return utils.removeDuplicatesFromArray(icons);
-      }
+      }*/
    }
 
    WorkoutBuilderService.createWorkout = function(workoutModel) {

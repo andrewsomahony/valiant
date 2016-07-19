@@ -6,7 +6,7 @@ module.exports = function(schema, options) {
    options = options || {};
 
    schema.methods.getCreatorId = function() {
-      if (this.populated("_creator")) {
+      if (this.fieldIsPopulated("_creator")) {
          return this._creator.getId();
       } else {
          return this._creator;
@@ -14,7 +14,7 @@ module.exports = function(schema, options) {
    }
 
    schema.methods.getCreator = function() {
-      if (this.populated("_creator")) {
+      if (this.fieldIsPopulated("_creator")) {
          return this._creator;
       } else {
          return null;

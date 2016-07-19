@@ -66,7 +66,10 @@ DateService, $timeout) {
          }
 
          $scope.getDateString = function() {
-            return "on " + DateService.dateStringToFormattedString($scope.model.created_at);
+            return "on " + 
+                   DateService.dateStringToFormattedString($scope.model.created_at, "MMMM Do YYYY") +
+                   " at " +
+                   DateService.dateStringToFormattedString($scope.model.created_at, "h:mm A");
          }
 
          $scope.setIsEditing = function(isEditing) {

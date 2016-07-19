@@ -33,7 +33,7 @@ DateService, StateService, ErrorModal) {
    }
 
    $scope.getWorkoutUpdatedDateString = function() {
-      return DateService.dateStringToFormattedString($scope.currentEditingWorkout.updated_at);
+      return DateService.dateStringToDefaultFormattedString($scope.currentEditingWorkout.updated_at);
    }
 
    $scope.setIsSaving = function(isSaving, message) {

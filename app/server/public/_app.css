@@ -9772,6 +9772,14 @@ html, body {
   to {
     opacity: 1; } }
 
+.fade-in.ng-enter {
+  animation: fade-in 0.8s;
+  opacity: 0; }
+
+.fade-out.ng-leave {
+  animation: fade-in 0.8s reverse;
+  opacity: 1; }
+
 div.main {
   height: 95%; }
   div.main div.top-bar {
@@ -10105,7 +10113,8 @@ div.main {
             display: inline-block;
             width: 90%; }
             div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.media div.media-area div.media-container {
-              display: inline-block; }
+              display: inline-block;
+              vertical-align: top; }
               div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.media div.media-area div.media-container .picture-container,
               div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.media div.media-area div.media-container .video-container,
               div.main div.mobile-scroll div.main-content div.content div.question div.sub-content div.question-section.media div.media-area div.media-container .youtube-container {
@@ -10253,6 +10262,10 @@ div.admin {
   div.admin div.footer span.logout-link {
     font-size: 10px; }
 
+.modal-body {
+  max-height: 30vw;
+  overflow: scroll; }
+
 .workout-modal {
   font-size: 0.9em; }
 
@@ -10267,9 +10280,6 @@ div.media-picker {
       top: -25%; }
   div.media-picker div.has-media {
     display: inline-block; }
-    div.media-picker div.has-media.fade-in.ng-enter {
-      animation: fade-in 0.8s;
-      opacity: 0; }
     @media screen and (max-width: 760px) {
       div.media-picker div.has-media {
         margin-bottom: 4px; } }
@@ -10613,7 +10623,7 @@ div.font-awesome-centered-icon {
     .comment .display .creator span.date {
       vertical-align: middle;
       margin-left: 0.2em;
-      font-size: 0.85em; }
+      font-size: 0.8em; }
   .comment .edit {
     height: 100%; }
     .comment .edit .text textarea {

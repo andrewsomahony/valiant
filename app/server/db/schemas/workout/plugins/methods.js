@@ -12,7 +12,7 @@ module.exports = function(schema, options) {
          updated_at: this.updated_at,         
       }
 
-      if (this.populated("_creator")) {
+      if (this.fieldIsPopulated("_creator")) {
          object._creator = this._creator.frontEndObject();
       }
 

@@ -13,13 +13,6 @@ div.media-picker {
    }
    
    div.has-media {
-      &.fade-in {
-         &.ng-enter {
-            animation: fade-in 0.8s;          
-            opacity: 0;
-         }
-      }
-
       display: inline-block;
       // Mobile needs some padding
       @media screen and (max-width: $min-sm-screen-width) {

@@ -35,10 +35,11 @@ function($compile, WorkoutBuilderService) {
          $scope.$watch('workoutIcons', function(newValue, oldValue) {
             $element.empty();
             
-            var strokeIcons = WorkoutBuilderService.getWorkoutIcons($scope.workoutIcons);
-            strokeIcons.forEach(function(icon) {
+            var elements = WorkoutBuilderService.getAllWorkoutElements($scope.workoutIcons);
+            elements.forEach(function(element) {
                var $workoutStrokeImage = angular.element("<img />");
-               $workoutStrokeImage.attr('ng-src', icon);
+               $workoutStrokeImage.attr('ng-src', element.icon);
+               $workoutStrokeImage.attr('title', element.name);
                $workoutStrokeImage.attr('ng-style', 'getImageStyle()');
 
                $element.append($workoutStrokeImage);

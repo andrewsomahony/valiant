@@ -28,8 +28,12 @@ function() {
       return DateService.toFormattedString(date, "MMMM Do YYYY");
    }
 
-   DateService.dateStringToFormattedString = function(dateString) {
+   DateService.dateStringToDefaultFormattedString = function(dateString) {
       return DateService.toDefaultFormattedString(DateService.fromString(dateString));
+   }
+
+   DateService.dateStringToFormattedString = function(dateString, formatString) {
+      return DateService.toFormattedString(DateService.fromString(dateString), formatString);
    }
 
    return DateService;
