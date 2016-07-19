@@ -13,7 +13,9 @@ module.exports = function(schema, options) {
          "_id": this.getId(),
          "topic": this.topic,
          "custom_topic": this.custom_topic,
-         "text": this.text
+         "text": this.text,
+         "created_at": this.created_at,
+         "updated_at": this.updated_at
       }
 
       // These currently don't have frontEndObject
@@ -56,5 +58,29 @@ module.exports = function(schema, options) {
             reject(error);
          })
       });
+   }
+
+   schema.methods.setCommentCreatorsIfEmpty = function(creatorId) {
+      // This goes through and sees what 
+      // comments don't have any _creator variable
+      // set, and sets them to the given creatorId
+      var self = this;
+
+      return Promise(function(resolve, reject) {
+         self.comments.forEach(function(c) {
+            if (!c._creator) {
+               c._creator = creatorId;
+            }
+         });
+
+         self.save(function(error) {
+            if (error) {
+               reject(error);
+            } else {
+               resolve(self);
+            }
+         });
+      });
+
    }
 }

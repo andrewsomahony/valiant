@@ -26,7 +26,9 @@ function(id, promise) {
 
          Object.keys(fields).forEach(function(key) {
             if (true === isForServer && 
-                ('id' === key)) {
+                ('id' === key ||
+                 'created_at' === key ||
+                 'updated_at' === key)) {
                // If our "id" is empty, we don't
                // want to send it.
                
@@ -135,6 +137,9 @@ function(id, promise) {
          localFields: function() {
             return [];
          },
+         /*receiveOnlyFields: function() {
+            return [];
+         },*/
          // Fields NOT serialized to/from JSON
          temporaryFields: function() {
             return [];
@@ -162,7 +167,13 @@ function(id, promise) {
                if (true === fields.hasOwnProperty(localField)) {
                   delete fields[localField]
                }
-            })
+            });
+
+            /*this.receiveOnlyFields().forEach(function(receiveOnlyField) {
+                if (true === fields.hasOwnProperty(receiveOnlyField)) {
+                   delete fields[receiveOnlyField];
+                }
+            });*/
 
             return fields;
          },

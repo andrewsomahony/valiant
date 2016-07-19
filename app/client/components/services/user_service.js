@@ -14,12 +14,13 @@ registerService('factory', name, [
                                     require('services/error'),
                                     require('services/progress'),
                                     require('services/serial_promise'),
+                                    require('services/parallel_promise'),
                                     require('services/s3_uploader_service'),
                                     require('models/picture'),
                                     require('services/media_service'),
                                     require('services/workout_builder_service'),
 function(Promise, HttpService, UserModel, ApiUrlService,
-ErrorService, ProgressService, SerialPromise, S3UploaderService,
+ErrorService, ProgressService, SerialPromise, ParallelPromise, S3UploaderService,
 PictureModel, MediaService, WorkoutBuilderService) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
@@ -36,47 +37,37 @@ PictureModel, MediaService, WorkoutBuilderService) {
         return Promise(function(resolve, reject, notify) {
             var promiseFnArray = [];
             
-            //if (!currentUser) {
-                // If we don't have a user, check to see if
-                // we are logged in and we can get a profile.
-                // This happens mostly on forced page reload.
-                
-                promiseFnArray.push(function(existingData, index, forNotify) {
-                    if (true === forNotify) {
-                        return ProgressService(0, 1);
-                    } else {
-                        return Promise(function(resolve, reject, notify) {
-                            HttpService.get(ApiUrlService([{name: 'User'}, {name: 'Me'}]))
-                            .then(function(user) {
-                                currentUser = new UserModel(user.data, true);
-                                //console.log("CURRENT USER", currentUser);
-                                resolve({});
-                            })
-                            .catch(function(error) {
-                                if (true === ErrorService.isForbidden(error)) {
-                                    // Means we aren't logged in
-                                    resolve({});
-                                } else {
-                                    reject(error);
-                                }
-                            })
+            promiseFnArray.push(function(forNotify) {
+                if (true === forNotify) {
+                    return ProgressService(0, 1);
+                } else {
+                    return Promise(function(resolve, reject, notify) {
+                        HttpService.get(ApiUrlService([{name: 'User'}, {name: 'Me'}]))
+                        .then(function(user) {
+                            currentUser = new UserModel(user.data, true);
+                            resolve({});
                         })
-                    }
-                });
-            //}
+                        .catch(function(error) {
+                            if (true === ErrorService.isForbidden(error)) {
+                                // Means we aren't logged in
+                                resolve({});
+                            } else {
+                                reject(error);
+                            }
+                        })
+                    })
+                }
+            });
             
             if ('main.page.user.default' === state) {
                 if (!params.userId) {
                     reject(ErrorService.localError("Missing user id!"));
                 } else {                          
-                    promiseFnArray.push(function(existingData, index, forNotify) {
+                    promiseFnArray.push(function(forNotify) {
                         if (true === forNotify) {
                             return ProgressService(0, 1);
                         } else {
                             return Promise(function(resolve, reject, notify) {
-                                // If we have a current user and it's the same as
-                                // the one requested, we just need to clone, not hit the server again.
-
                                 HttpService.get(ApiUrlService({name: 'User', paramArray: [params.userId]}))
                                 .then(function(user) {
                                     currentRequestedUserIsNotAccessible = false;
@@ -118,7 +109,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
             if (!promiseFnArray.length) {
                 resolve({});
             } else {
-                SerialPromise.withNotify(promiseFnArray)
+                ParallelPromise.withNotify(promiseFnArray)
                 .then(function() {
                     resolve({});
                 })

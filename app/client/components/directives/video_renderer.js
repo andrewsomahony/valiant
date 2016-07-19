@@ -221,7 +221,7 @@ function(ScopeService, ProgressService, $compile) {
          $element.attr('ng-class', 'getElementClass()');
          
          var $videoElement = angular.element('<video></video>');
-         $videoElement.attr('src', "{{model.url | trusted}}");
+         $videoElement.attr('ng-src', "{{model.url | trusted}}");
          $videoElement.attr('ng-class', 'getVideoClass()');
          $videoElement.attr('ng-style', 'getVideoStyle()');
          $videoElement.attr('controls', '');
@@ -239,12 +239,12 @@ function(ScopeService, ProgressService, $compile) {
             $loadingMediaDiv.attr('font-awesome-params', 'fa fa-refresh fa-spin fa-4x fa-fw');
             $loadingMediaDiv.attr('ng-if', 'isPreloading');
             
-            $element.append($compile($loadingMediaDiv)($scope));
+            $element.append($loadingMediaDiv);
          }    
          
          bindVideoEvents($videoElement);
          
-         $element.append($compile($videoElement)($scope));
+         $element.append($videoElement);
          
          if (true === $scope.showLoading) {
             var $loadingElement = angular.element("<div></div>");
@@ -255,7 +255,7 @@ function(ScopeService, ProgressService, $compile) {
             $loadingElement.attr('show-percentage', 'false');
             $loadingElement.attr('progress-object', 'model.upload_progress');
             
-            $element.append($compile($loadingElement)($scope)); 
+            $element.append($loadingElement); 
          }
          
          $element.removeAttr('video-renderer');

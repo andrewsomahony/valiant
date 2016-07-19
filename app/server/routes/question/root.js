@@ -92,15 +92,19 @@ router.route('/:questionId')
             if (error) {
                Responder.badRequest(result, error);
             } else {
-               request.question
-               .populate("comments._creator", 
-               function(error, question) {
-                  if (error) {
-                     Responder.badRequest(result, error);
-                  } else {
-                     Responder.ok(result, question.frontEndObject());
-                  }
-               });
+               request.question.setCommentCreatorsIfEmpty(Request.getUser(request).getId())
+               .then(function(q) {
+                  q.populate("comments._creator", function(error, populatedQuestion) {
+                     if (error) {
+                        Responder.badRequest(result, error);
+                     } else {
+                        Responder.ok(result, populatedQuestion.frontEndObject());
+                     }
+                  });
+               })
+               .catch(function(error) {
+                  Responder.badRequest(result, error);
+               })
             }
          })
       }
