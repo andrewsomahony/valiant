@@ -4,7 +4,9 @@ var WorkoutModel = require(__base + 'db/models/workout/workout');
 var QuestionModel = require(__base + 'db/models/question/question');
 
 var Q = require('q');
-var Promise = require(__base + '/lib/promise');
+var Promise = require(__base + 'lib/promise');
+
+var utils = require(__base + 'lib/utils');
 
 module.exports = function(schema, options) {
    options = options || {};
@@ -45,8 +47,18 @@ module.exports = function(schema, options) {
                reject(error);
             } else {
                // !!! Not populating the comments?
-               self.questions = questions;
-               resolve();
+               Q.all(utils.map(questions, function(q) {
+                  return q.populateComments();
+               }))
+               .then(function() {
+                  self.questions = questions;
+                  resolve();
+               })
+               .catch(function(error) {
+                  reject(error);
+               });
+               //self.questions = questions;
+               //resolve();
             }
          })
       }));
