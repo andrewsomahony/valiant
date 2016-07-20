@@ -163,18 +163,6 @@ function(id, promise) {
             fields = fields || this.fields()
 
             utils.removeKeysFromObject(fields, this.localFields());
-            /*
-            this.localFields().forEach(function(localField) {
-               if (true === fields.hasOwnProperty(localField)) {
-                  delete fields[localField]
-               }
-            });*/
-
-            /*this.receiveOnlyFields().forEach(function(receiveOnlyField) {
-                if (true === fields.hasOwnProperty(receiveOnlyField)) {
-                   delete fields[receiveOnlyField];
-                }
-            });*/
 
             return fields;
          },
@@ -183,21 +171,23 @@ function(id, promise) {
             fields = fields || this.fields()
 
             utils.removeKeysFromObject(fields, this.temporaryFields());
-            /*
-            this.temporaryFields().forEach(function(temporaryField) {
-               if (true === fields.hasOwnProperty(temporaryField)) {
-                  delete fields[temporaryField]
-               }
-            })*/
 
             return fields;
          },
 
          mapKey: function(key, isForServer) {
             isForServer = utils.isUndefinedOrNull(isForServer) ? false : isForServer;
-             
+
+            if (!isForServer) {
+               return key;
+            } else {
+               return true === this.serverMappings().hasOwnProperty(key) ? this.serverMappings()[key] : key; 
+            }
+            
+            // !!! Why did the commented-out code work?
+            /*
             return true === isForServer && 
-                   true === this.serverMappings().hasOwnProperty(key) ? this.serverMappings()[key] : key;
+                   true === this.serverMappings().hasOwnProperty(key) ? this.serverMappings()[key] : key;*/
          },
 
          isManualKey: function(key) {
@@ -229,6 +219,24 @@ function(id, promise) {
          // or anything.  Each object retains their own
          this.setInternalVariable('event_handlers', {});
          this.setInternalVariable('local_id', id());
+      },
+
+      initializeManualField: function(fieldName) {
+         if (this.type) {
+            if (this[fieldName] &&
+                utils.isPlainObject(this[fieldName])) {
+                var className = "models." + this.type.toLowerCase();
+
+                var Class = classy.getClass(className);
+                if (Class) {
+                   this[fieldName] = new Class(this[fieldName], true);
+                } else {
+                   console.warn("Missing class for manual field!", className);
+                }
+            }
+         } else {
+            console.warn("Trying to initialize manual field on an object without a type field!", fieldName);
+         }
       },
 
       // If we want to get/set variables outside of
@@ -267,7 +275,7 @@ function(id, promise) {
             // NOTE: BACKBONE AND UNDERSCORE DO NOT CLONE (BUG)
 
             if (true === this.$ownClass.isManualKey(key)) {
-               this[key] = utils.clone(fields[key])
+               this[key] = utils.clone(config[this.$ownClass.mapKey(key, isFromServer)] || fields[key]);
             } else {
                this[key] = this.$ownClass.mapValue(config[this.$ownClass.mapKey(key, isFromServer)], fields[key], isFromServer); 
             }

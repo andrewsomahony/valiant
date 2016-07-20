@@ -9712,12 +9712,14 @@ html, body {
     html .mobile-header-padding,
     html .mobile-ad-space,
     html .ad-space,
+    html .error,
     html a, body .top-bar,
     body .header,
     body .large-header-padding,
     body .mobile-header-padding,
     body .mobile-ad-space,
     body .ad-space,
+    body .error,
     body a {
       display: none !important; }
     html .print, body .print {
@@ -9734,6 +9736,8 @@ html, body {
       html .workout-builder .workout-container, body .workout-builder .workout-container {
         display: none !important; }
       html .workout-builder .create-new-workout, body .workout-builder .create-new-workout {
+        display: none !important; }
+      html .workout-builder .workout-post-saving-message, body .workout-builder .workout-post-saving-message {
         display: none !important; }
       html .workout-builder .print .workout-icons, body .workout-builder .print .workout-icons {
         margin-bottom: 0.8em; } }

@@ -3,6 +3,8 @@
 var registerModel = require('models/register');
 var classy = require('classy');
 
+var utils = require('utils');
+
 var name = 'models.comment';
 
 registerModel(name, [require('models/base'),
@@ -22,7 +24,8 @@ function(BaseModel) {
          },
          serverMappings: function() {
             return this.staticMerge(this.callSuper(), {
-               "creator": "_creator"
+               "creator": "_creator",
+               "parent": "_parent"
             });
          },
          localFields: function() {
@@ -39,6 +42,8 @@ function(BaseModel) {
       
       init: function(config, isFromServer) {
          this.callSuper();
+
+         this.initializeManualField("parent");
       }
    });
 }]);

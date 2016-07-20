@@ -15,13 +15,18 @@ function(BaseModel) {
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
-               text: ""
+               text: "",
+               type: "",
+               creator: {__alias__: "models.user"},
+               parent: null,
             });
          }
       },
       
       init: function(config, isFromServer) {
          this.callSuper();
+
+         this.initializeManualField("parent");
       }
    });
 }])

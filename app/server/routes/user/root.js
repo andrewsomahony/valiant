@@ -90,7 +90,7 @@ router.route('/:userId')
    if (true === Permissions.ableToSeeUser(request, request.requestedUser)) {
       request.requestedUser.populateRefs()
       .then(function() {
-         Responder.ok(result, request.requestedUser.frontEndObject());
+         Responder.ok(result, request.requestedUser.frontEndObject(['notifications']));
       })
       .catch(function(error) {
          Responder.badRequest(result, error);

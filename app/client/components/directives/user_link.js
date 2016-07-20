@@ -16,7 +16,6 @@ function(ScopeService, $compile) {
       templateUrl: "directives/user_link.html",
       link: function($scope, $element, $attributes) {
          $element.addClass('user-link');
-         console.log($scope);
       }
    }
 }]);

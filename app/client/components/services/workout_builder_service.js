@@ -86,7 +86,7 @@ ErrorService) {
       },
       {
          name: "Choice",
-         icon: defaultSwimIcon
+         icon: "images/choice.png"
       } 
    ];
 

@@ -34,7 +34,11 @@ module.exports = function(schema, options) {
       }
 
       object.comments = utils.map(this.comments, function(comment) {
-         return comment.frontEndObject(['_parent']);
+         // When we are sending the comment array
+         // as part of the question object, we don't need
+         // to send the _parent variable as well.
+
+         return comment.frontEndObject([]);
       });
 
       utils.removeKeysFromObject(object, valuesToSkip);

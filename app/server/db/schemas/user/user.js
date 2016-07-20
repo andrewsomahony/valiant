@@ -65,10 +65,10 @@ var UserSchema = new Schema({
         }],
         default: []
     },
-    notifications: {
+    /*notifications: {
         type: [NotificationSchema],
         default: []
-    },
+    },*/
     facebook_id: {
         type: String,
         default: ""

@@ -29,7 +29,13 @@ router.route('/me')
         var currentUser = Request.getUser(request);
         currentUser.populateRefs()
         .then(function() {
-            Responder.ok(result, currentUser.frontEndObject());
+            currentUser.populateNotifications()
+            .then(function() {
+               Responder.ok(result, currentUser.frontEndObject());
+            })
+            .catch(function(error) {
+                Responder.badRequest(result, error);
+            })
         })
         .catch(function(error) {
             Responder.badRequest(result, error);

@@ -2,6 +2,7 @@
 
 var WorkoutModel = require(__base + 'db/models/workout/workout');
 var QuestionModel = require(__base + 'db/models/question/question');
+var NotificationModel = require(__base + "db/models/notification/notification");
 
 var Q = require('q');
 var Promise = require(__base + 'lib/promise');
@@ -17,6 +18,24 @@ module.exports = function(schema, options) {
    
    schema.methods.isUser = function(otherUser) {
       return this.getId().equals(otherUser.getId());
+   }
+
+   schema.methods.populateNotifications = function() {
+      var self = this;
+
+      return Promise(function(resolve, reject) {
+         NotificationModel.find({_creator: self.getId()})
+         .populate("_creator")
+         .populate("_parent")
+         .exec(function(error, notifications) {
+            if (error) {
+               reject(error);
+            } else {
+               self.notifications = notifications;
+               resolve();
+            }
+         });
+      })
    }
 
    schema.methods.populateRefs = function() {
@@ -72,7 +91,7 @@ module.exports = function(schema, options) {
    }
    
    // We don't need to return everything
-   schema.methods.frontEndObject = function() {
+   schema.methods.frontEndObject = function(valuesToSkip) {
       if (!this.isAuthenticated) {
          return {
             email: this.email,
@@ -112,6 +131,8 @@ module.exports = function(schema, options) {
                return question.frontEndObject();
             });
          }
+
+         utils.removeKeysFromObject(object, valuesToSkip);
          
          return object;
       }

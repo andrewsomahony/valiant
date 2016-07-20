@@ -111,6 +111,7 @@ html, body {
         .mobile-header-padding,
         .mobile-ad-space,
         .ad-space,
+        .error,
         a {
             display: none !important;
         }
@@ -139,6 +140,10 @@ html, body {
             }
             .create-new-workout {
                 display: none !important;
+            }
+
+            .workout-post-saving-message {
+               display: none !important;
             }
 
             .print {
