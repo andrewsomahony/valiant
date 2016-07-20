@@ -10,6 +10,7 @@ var Request = require(__base + 'lib/request');
 
 var User = require(__base + 'db/models/user/user');
 var QuestionModel = require(__base + 'db/models/question/question');
+var CommentModel = require(__base + 'db/models/comment/comment');
 
 var Q = require('q');
 
@@ -52,14 +53,19 @@ router.param('questionId', function(request, result, next, id) {
       .populate("_creator comments._creator")
       .exec(function(error, question) {
          if (error) {
-           // console.log(error);
             Responder.badRequest(result, error);
          } else {
             if (!question) {
                Responder.notFound(result);
             } else {
-               request.question = question;
-               next();
+               question.populateComments()
+               .then(function() {
+                  request.question = question;
+                  next();
+               })
+               .catch(function(error) {
+                  Responder.badRequest(result, error);
+               })
             }
          }
       });
@@ -92,19 +98,7 @@ router.route('/:questionId')
             if (error) {
                Responder.badRequest(result, error);
             } else {
-               request.question.setCommentCreatorsIfEmpty(Request.getUser(request).getId())
-               .then(function(q) {
-                  q.populate("comments._creator", function(error, populatedQuestion) {
-                     if (error) {
-                        Responder.badRequest(result, error);
-                     } else {
-                        Responder.ok(result, populatedQuestion.frontEndObject());
-                     }
-                  });
-               })
-               .catch(function(error) {
-                  Responder.badRequest(result, error);
-               })
+               Responder.ok(result, request.question.frontEndObject());
             }
          })
       }
@@ -113,5 +107,46 @@ router.route('/:questionId')
 .delete(function(request, result) {
 
 });
+
+router.route('/:questionId/comment')
+.get(function(request, result) {
+   // We can use this later to fetch a range?
+   Responder.methodNotAllowed(result);
+})
+.post(function(request, result) {
+   var comment = Request.getBodyVariable(request, 'comment');
+   if (!comment) {
+      Responder.badRequest(result, "Missing comment data!");
+   } else {
+      var commentModel = new CommentModel(comment);
+      commentModel.type = "Question";
+
+      commentModel._creator = Request.getUser(request).getId();
+      commentModel._parent = request.question.getId();
+
+      commentModel.save(function(error, newComment) {
+         if (error) {
+            Responder.badRequest(result, error);
+         } else {
+            newComment.populateCreator()
+            .then(function() {
+               Responder.created(result, newComment.frontEndObject());
+            })
+            .catch(function(error) {
+               Responder.badRequest(result, error);
+            });
+         }
+      });
+   }
+})
+.patch(function(request, result) {
+   Responder.methodNotAllowed(result);
+})
+.put(function(request, result) {
+   Responder.methodNotAllowed(result);
+})
+.delete(function(request, result) {
+   Responder.methodNotAllowed(result);
+})
 
 module.exports = router;

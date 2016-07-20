@@ -15,10 +15,11 @@ registerService('factory', name, [require('services/http_service'),
                                   require('services/question_preview_picture_service'),
                                   require('services/api_url'),
                                   require('models/question'),
+                                  require('models/comment'),
                                   require('services/error'),
 function(HttpService, ParallelPromise, SerialPromise, Promise, Progress,
 MediaService, QuestionPreviewPictureService, ApiUrlService, QuestionModel,
-ErrorService) {
+CommentModel, ErrorService) {
    function QuestionService() {
       
    }
@@ -194,6 +195,26 @@ ErrorService) {
                reject(error);
             })
          }
+      });
+   }
+
+   QuestionService.addCommentToQuestion = function(question, comment) {
+      return Promise(function(resolve, reject, notify) {
+         HttpService.post(ApiUrlService([
+            {
+               name: 'Question',
+               paramArray: [question.id]
+            },
+            {
+               name: 'Comment'
+            }
+         ]), null, {comment: comment.toObject(true)})
+         .then(function(data) {
+            resolve(new CommentModel(data.data, true));
+         })
+         .catch(function(error) {
+            reject(error);
+         });
       });
    }
 

@@ -15,6 +15,8 @@ function(BaseModel) {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
                text: "",
+               type: "",
+               parent: null,
                creator: {__alias__: "models.user"} 
             });
          },
@@ -25,7 +27,12 @@ function(BaseModel) {
          },
          localFields: function() {
             return this.staticMerge(this.callSuper(), [
-               "creator"
+               "creator", "parent", "type"
+            ]);
+         },
+         manualFields: function() {
+            return this.staticMerge(this.callSuper(), [
+               "parent"
             ]);
          }
       },

@@ -73,6 +73,9 @@ registerService('factory', name, [function() {
          sub_api: {
             'Ask': {
                url: "ask"
+            },
+            'Comment': {
+               url: "comment"
             }
          },
          paramArray: {

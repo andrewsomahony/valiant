@@ -247,21 +247,32 @@
          });
       },
 
+      removeKeysFromObject: function(object, keys) {
+         if (keys) {
+            keys.forEach(function(k) {
+                if (object.hasOwnProperty(k)) {
+                    delete object[k];
+                }
+            });
+         }
+      },
+
       map: function(array, sentinelFn, thisPointer) {
          var newArray = [];
-         thisPointer = thisPointer || this;
+         if (array) {
+            thisPointer = thisPointer || this;
 
-         var self = this;
+            var self = this;
 
-         array.forEach(function(element, index) {
-            var obj = sentinelFn.call(thisPointer, element, index);
+            array.forEach(function(element, index) {
+                var obj = sentinelFn.call(thisPointer, element, index);
 
-            if (false === self.isUndefinedOrNull(obj)) {
-               newArray.push(obj);
-            }
-         })
-
-         return newArray;
+                if (false === self.isUndefinedOrNull(obj)) {
+                   newArray.push(obj)
+                }
+            });
+         }
+         return newArray
       },
 
       merge: function(array) {

@@ -35,10 +35,10 @@ var QuestionSchema = new Schema({
       type: [PictureSchema],
       default: []
    },
-   comments: {
+   /*comments: {
       type: [CommentSchema],
       default: []
-   },
+   },*/
    preview_pictures: {
       type: [PictureSchema],
       default: []

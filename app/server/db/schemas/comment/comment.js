@@ -9,11 +9,20 @@ var PictureSchema = require(__base + 'db/schemas/picture/picture');
 
 var genericMethods = require(__base + 'db/schemas/plugins/methods');
 var commentMethods = require('./plugins/methods');
+var creatorMethods = require(__base + 'db/schemas/plugins/creator');
 
 var CommentSchema = new Schema({
    text: {
       type: String,
       default: ""
+   },
+   type: {
+      type: String,
+      default: ""
+   },
+   _parent: {
+      type: Schema.Types.ObjectId,
+      refPath: "type"
    },
    _creator: {
        type: Schema.Types.ObjectId,
@@ -24,10 +33,10 @@ var CommentSchema = new Schema({
     timestamps: {
         createdAt: 'created_at',
         updatedAt: 'updated_at'
-    },
-    _id: false
+    }
 });
 
+CommentSchema.plugin(creatorMethods);
 CommentSchema.plugin(genericMethods);
 CommentSchema.plugin(commentMethods);
 

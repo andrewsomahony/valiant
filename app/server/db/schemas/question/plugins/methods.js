@@ -3,12 +3,15 @@
 var Promise = require(__base + "lib/promise");
 var Q = require('q');
 
+var utils = require(__base + 'lib/utils');
+
 var QuestionModel = require(__base + 'db/models/question/question');
+var CommentModel = require(__base + 'db/models/comment/comment');
 
 module.exports = function(schema, options) {
    options = options || {};
 
-   schema.methods.frontEndObject = function() {
+   schema.methods.frontEndObject = function(valuesToSkip) {
       var object = {
          "_id": this.getId(),
          "topic": this.topic,
@@ -30,10 +33,11 @@ module.exports = function(schema, options) {
          object._creator = this._creator.frontEndObject();
       }
 
-      object.comments = [];
-      this.comments.forEach(function(comment) {
-         object.comments.push(comment.frontEndObject());
-      })
+      object.comments = utils.map(this.comments, function(comment) {
+         return comment.frontEndObject(['_parent']);
+      });
+
+      utils.removeKeysFromObject(object, valuesToSkip);
 
       return object;
    }
@@ -42,21 +46,18 @@ module.exports = function(schema, options) {
       var self = this;
 
       return Promise(function(resolve, reject) {
-         Q.all(self.comments.map(function(comment) {
-            comment.populate("_creator", function(error, c) {
-               if (error) {
-                  reject(error);
-               } else {
-                  resolve();
-               }
-            });
-         }))
-         .then(function() {
-            resolve();
-         })
-         .catch(function(error) {
-            reject(error);
-         })
+         CommentModel.find({_parent: self.getId()})
+         .populate("_creator")
+         .populate("_parent")
+         .sort({updated_at: -1})
+         .exec(function(error, comments) {
+            if (error) {
+               reject(error);
+            } else {
+               self.comments = comments;
+               resolve();
+            }
+         });
       });
    }
 

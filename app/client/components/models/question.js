@@ -36,7 +36,8 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
             });
          },
          localFields: function() {
-            return this.staticMerge(this.callSuper(), ['creator']);
+            return this.staticMerge(this.callSuper(), 
+               ['creator', 'comments']);
          },
          serverMappings: function() {
             return this.staticMerge(this.callSuper(), {

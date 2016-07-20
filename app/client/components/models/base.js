@@ -107,19 +107,18 @@ function(id, promise) {
                     var newArray = [];
                     
                     if (!isUndefined) {
-                       value.forEach(function(element) {
-                           newArray.push(new Class(element, isServer)); 
-                       });
+                        value.forEach(function(element) {
+                            newArray.push(new Class(element, isServer)); 
+                        });
                     }
-                    
                     return newArray;
                 } else {
                     return isUndefined ? new Class() : 
                         (utils.objectIsClassy(value, Class) ? value.clone() : new Class(value, isServer));
                 }
             } else {
-               return utils.clone(isUndefined ? defaultValue : value);
-            }         
+                return utils.clone(isUndefined ? defaultValue : value);
+            }       
          },
           
          // Utility function so each class doesn't need to require utils
@@ -163,11 +162,13 @@ function(id, promise) {
          filterToServerFields: function(fields) {
             fields = fields || this.fields()
 
+            utils.removeKeysFromObject(fields, this.localFields());
+            /*
             this.localFields().forEach(function(localField) {
                if (true === fields.hasOwnProperty(localField)) {
                   delete fields[localField]
                }
-            });
+            });*/
 
             /*this.receiveOnlyFields().forEach(function(receiveOnlyField) {
                 if (true === fields.hasOwnProperty(receiveOnlyField)) {
@@ -181,11 +182,13 @@ function(id, promise) {
          filterToSerializationFields: function(fields) {
             fields = fields || this.fields()
 
+            utils.removeKeysFromObject(fields, this.temporaryFields());
+            /*
             this.temporaryFields().forEach(function(temporaryField) {
                if (true === fields.hasOwnProperty(temporaryField)) {
                   delete fields[temporaryField]
                }
-            })
+            })*/
 
             return fields;
          },

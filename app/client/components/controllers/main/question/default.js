@@ -66,20 +66,16 @@ function($scope, QuestionService, UserService) {
 
    $scope.saveComment = function(comment) {
       return Promise(function(resolve, reject) {
-         //comment.creator = UserService.getCurrentUserId();
-
-         QuestionService.saveQuestion($scope.currentEditingQuestion,
-            QuestionService.getCurrentQuestion())
-         .then(function(newQuestion) {
-            console.log($scope.currentEditingQuestion, newQuestion);
-            $scope.currentEditingQuestion.comments = newQuestion.comments;
-            //$scope.currentEditingQuestion.fromModel(newQuestion);
+         QuestionService.addCommentToQuestion($scope.currentEditingQuestion,
+            comment)
+         .then(function(newComment) {
+            comment.fromModel(newComment);
             resolve();
          })
          .catch(function(error) {
             $scope.error(error);
             reject(error);
-         })
+         });
       });
    }
 
