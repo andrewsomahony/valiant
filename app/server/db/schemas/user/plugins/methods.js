@@ -46,7 +46,6 @@ module.exports = function(schema, options) {
             if (error) {
                reject(error);
             } else {
-               // !!! Not populating the comments?
                Q.all(utils.map(questions, function(q) {
                   return q.populateComments();
                }))
@@ -57,8 +56,6 @@ module.exports = function(schema, options) {
                .catch(function(error) {
                   reject(error);
                });
-               //self.questions = questions;
-               //resolve();
             }
          })
       }));
