@@ -50,7 +50,7 @@ router.param('questionId', function(request, result, next, id) {
       Responder.badRequest(result, "Missing question id!");
    } else {
       QuestionModel.findById(id)
-      .populate("_creator comments._creator")
+      .populate("_creator")
       .exec(function(error, question) {
          if (error) {
             Responder.badRequest(result, error);
@@ -128,13 +128,28 @@ router.route('/:questionId/comment')
          if (error) {
             Responder.badRequest(result, error);
          } else {
-            newComment.populateCreator()
+            var notificationPromise = null;
+           // if (!Request.getUser(request).isUser(request.question._creator)) {
+               var notificationPromise = request.question._creator.addNotification(
+                  "question_comment",
+                  Request.getUser(request),
+                  request.question
+               );
+           // }
+
+            Promise.when(notificationPromise)
             .then(function() {
-               Responder.created(result, newComment.frontEndObject());
+               newComment.populateCreator()
+               .then(function() {
+                  Responder.created(result, newComment.frontEndObject());
+               })
+               .catch(function(error) {
+                  Responder.badRequest(result, error);
+               });
             })
             .catch(function(error) {
                Responder.badRequest(result, error);
-            });
+            })
          }
       });
    }

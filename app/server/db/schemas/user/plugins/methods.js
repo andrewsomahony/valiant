@@ -6,6 +6,7 @@ var NotificationModel = require(__base + "db/models/notification/notification");
 
 var Q = require('q');
 var Promise = require(__base + 'lib/promise');
+var ValiantError = require(__base + 'lib/error');
 
 var utils = require(__base + 'lib/utils');
 
@@ -25,6 +26,7 @@ module.exports = function(schema, options) {
 
       return Promise(function(resolve, reject) {
          NotificationModel.find({_creator: self.getId()})
+         .sort({updated_at: -1})
          .populate("_creator")
          .populate("_parent")
          .exec(function(error, notifications) {
@@ -89,6 +91,33 @@ module.exports = function(schema, options) {
          })
       });
    }
+
+   // Types:
+   // "question_comment"
+
+   schema.methods.addNotification = function(type, creator, parent) {
+      return Promise(function(resolve, reject) {
+         var notification = new NotificationModel();
+
+         if ('question_comment' === type) {
+            notification.type = 'Question';
+            notification._creator = creator.getId();
+            notification._parent = parent.getId();
+
+            notification.text = "commented on your question";
+
+            notification.save(function(error, n) {
+               if (error) {
+                  reject(error);
+               } else {
+                  resolve(n);
+               }
+            })
+         } else {
+            reject(ValiantError.withMessage("Unknown notification type " + type));
+         }
+      });
+   }
    
    // We don't need to return everything
    schema.methods.frontEndObject = function(valuesToSkip) {
@@ -129,6 +158,12 @@ module.exports = function(schema, options) {
          if (this.questions) {
             object.questions = this.questions.map(function(question) {
                return question.frontEndObject();
+            });
+         }
+
+         if (this.notifications) {
+            object.notifications = this.notifications.map(function(notification) {
+               return notification.frontEndObject();
             });
          }
 

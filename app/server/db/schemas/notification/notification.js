@@ -2,6 +2,10 @@
 
 var mongoose = require('mongoose');
 
+var genericMethods = require(__base + "db/schemas/plugins/methods");
+var notificationMethods = require('./plugins/methods');
+var creatorMethods = require(__base + 'db/schemas/plugins/creator');
+
 var Schema = mongoose.Schema;
 
 var NotificationSchema = new Schema({
@@ -20,6 +24,10 @@ var NotificationSchema = new Schema({
    _creator: {
       type: Schema.Types.ObjectId,
       ref: "User"
+   },
+   is_unread: {
+      type: Boolean,
+      default: true
    }
 },
 {
@@ -28,5 +36,9 @@ var NotificationSchema = new Schema({
         updatedAt: 'updated_at'
     }
 });
+
+NotificationSchema.plugin(genericMethods);
+NotificationSchema.plugin(creatorMethods);
+NotificationSchema.plugin(notificationMethods);
 
 module.exports = NotificationSchema;

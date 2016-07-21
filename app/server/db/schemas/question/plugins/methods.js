@@ -38,7 +38,7 @@ module.exports = function(schema, options) {
          // as part of the question object, we don't need
          // to send the _parent variable as well.
 
-         return comment.frontEndObject([]);
+         return comment.frontEndObject(["_parent"]);
       });
 
       utils.removeKeysFromObject(object, valuesToSkip);

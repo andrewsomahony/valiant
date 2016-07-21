@@ -234,8 +234,6 @@ function(id, promise) {
                    console.warn("Missing class for manual field!", className);
                 }
             }
-         } else {
-            console.warn("Trying to initialize manual field on an object without a type field!", fieldName);
          }
       },
 
@@ -386,11 +384,9 @@ function(id, promise) {
          if (false === utils.objectIsClassy(otherModel, this.$ownClass)) {
             throw new Error("createPatch: Objects not of same type!"); 
          } else {
-             console.log("WTF?", isForServer);
             var ourObject = this.toObject(isForServer);
             var otherObject = otherModel.toObject(isForServer);
              
-             console.log("HELLO", ourObject, otherObject);
             return patchService.createPatch(otherObject, 
                                     ourObject);
          }

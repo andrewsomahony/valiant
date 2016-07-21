@@ -19,6 +19,7 @@ function(BaseModel) {
                type: "",
                creator: {__alias__: "models.user"},
                parent: null,
+               is_unread: true
             });
          }
       },

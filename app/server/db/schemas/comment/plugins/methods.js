@@ -10,6 +10,7 @@ module.exports = function(schema, options) {
       valuesToSkip = valuesToSkip || [];
 
       var object = {
+         _id: this._id,
          text: this.text,
          type: this.type,
          created_at: this.created_at,

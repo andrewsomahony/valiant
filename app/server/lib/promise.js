@@ -8,4 +8,8 @@ function Promise(fn) {
    return deferred.promise;
 }
 
+Promise.when = function(p) {
+   return Q.when(p);
+}
+
 module.exports = Promise;
