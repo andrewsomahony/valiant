@@ -4,6 +4,8 @@ var registerModel = require('models/register');
 
 var classy = require('classy');
 
+var utils = require('utils');
+
 var name = 'models.user';
 
 registerModel(name, [require('models/base'),
@@ -33,7 +35,8 @@ PictureModel, QuestionModel, WorkoutModel) {
                pending_email: "",
                pending_email_token: "",
                workouts: [{__model__: WorkoutModel}],
-               questions: [{__model__: QuestionModel}]
+               questions: [{__model__: QuestionModel}],
+               notifications: [{__model__: NotificationModel}]
             });
          },
          localFields: function() {
@@ -68,6 +71,12 @@ PictureModel, QuestionModel, WorkoutModel) {
          } else {
             return null;
          }
+      },
+
+      getUnreadNotifications: function() {
+         return utils.grep(this.notifications, function(n) {
+            return n.is_unread;
+         });
       }
    })   
 }]);

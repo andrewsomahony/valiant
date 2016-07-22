@@ -1,3 +1,5 @@
+@import "variables";
+
 html, body {
     font-family: Arial, Helvetica, sans-serif;
     height: 100%;
@@ -29,6 +31,16 @@ html, body {
     div.error {
        font-weight: bold;
        color: red;
+    }
+
+    .hover-options-overlay {
+        @media screen and (max-width: $min-sm-screen-width) {
+           display: none !important;
+        }
+
+        @media screen and (max-width: $min-md-screen-width) {
+           display: none !important;
+        }
     }
 
     a {
@@ -155,7 +167,6 @@ html, body {
     }
 }
 
-@import "variables";
 @import "animations";
 
 @import "main/main";

@@ -34,6 +34,10 @@ function($scope, UserService, ErrorModal, StateService) {
         });
     }
 
+    $scope.getNumberOfUnreadNotifications = function() {
+       return $scope.getLoggedInUser().getUnreadNotifications().length;
+    }
+
 }]);
 
 module.exports = name;

@@ -10,7 +10,7 @@ div.top-bar {
         position: absolute;
         
         top: 50%;
-        right: 0px;
+        right: 0.5em;
         
         height: 24px;
         margin-top: -12px;
@@ -27,37 +27,64 @@ div.top-bar {
                
                &:focus {
                    text-decoration: none;
-               }                
-            }
-            
-            a.profile-name-and-picture {
-               display: inline-block;
-               height: 100%;
-               
-               padding-left: 0.57em;
-               padding-right: 0.57em;
-                              
-               span.profile-picture-mini {
-                  margin-right: 0.14em;
+               }
+
+               &.button {
+                  display: inline-block;
+                  height: 100%;
+                
+                  padding-left: 0.57em;
+                  padding-right: 0.57em;                  
+               }    
+
+               .number {
+                  font-size: 10px;
+                  position: absolute;
+                  top: 1px;
+                  right: 1px;
+                  background: blue;
+                  color: white;
+                  z-index: 9999;
+                  border-radius: 2px;
+                  font-family: 'helvetica neue', helvetica, arial, sans-serif;                  
+                  line-height: 1.3;
+                  min-height: 13px;
+                  padding: 1px 3px;
+               }        
+                        
+               &.profile-name-and-picture {               
+                  span.profile-picture-mini {
+                     margin-right: 0.14em;
+                  }
+                    
+                  span.login-name {
+                     vertical-align: middle;
+                     color: white;
+                  }                
+               }
+
+               &.notifications-icon {
+                // It doesn't quite look right
+                // without this...
+                  position: relative;
+                  left: -0.08em;
+                  top: -0.05em;
+
+                  span.icon {
+                     vertical-align: middle;
+                     color: white;
+                     font-size: 1.2em;
+                     position: relative;
+                     top: -0.04em;                     
+                  }
                }
                 
-               span.login-name {
-                  vertical-align: middle;
-                  color: white;
-               }                
-            }
-            
-            a.login-button {
-                display: inline-block;
-                height: 100%;
-                
-                padding-left: 0.57em;
-                padding-right: 0.57em;
-                
-                span {
-                    vertical-align: middle;
+               &.login-button {
+                    span {
+                        vertical-align: middle;
+                    }
+                    color: white;
                 }
-                color: white;
             }
         }
     }

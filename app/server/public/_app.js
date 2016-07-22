@@ -715,6 +715,10 @@ function($scope, UserService, ErrorModal, StateService) {
         });
     }
 
+    $scope.getNumberOfUnreadNotifications = function() {
+       return $scope.getLoggedInUser().getUnreadNotifications().length;
+    }
+
 }]);
 
 module.exports = name;
@@ -6323,6 +6327,8 @@ var registerModel = require('models/register');
 
 var classy = require('classy');
 
+var utils = require('utils');
+
 var name = 'models.user';
 
 registerModel(name, [require('models/base'),
@@ -6352,7 +6358,8 @@ PictureModel, QuestionModel, WorkoutModel) {
                pending_email: "",
                pending_email_token: "",
                workouts: [{__model__: WorkoutModel}],
-               questions: [{__model__: QuestionModel}]
+               questions: [{__model__: QuestionModel}],
+               notifications: [{__model__: NotificationModel}]
             });
          },
          localFields: function() {
@@ -6387,12 +6394,18 @@ PictureModel, QuestionModel, WorkoutModel) {
          } else {
             return null;
          }
+      },
+
+      getUnreadNotifications: function() {
+         return utils.grep(this.notifications, function(n) {
+            return n.is_unread;
+         });
       }
    })   
 }]);
 
 module.exports = name;
-},{"classy":223,"models/base":69,"models/notification":77,"models/picture":78,"models/question":80,"models/register":81,"models/workout_builder/workout":89}],84:[function(require,module,exports){
+},{"classy":223,"models/base":69,"models/notification":77,"models/picture":78,"models/question":80,"models/register":81,"models/workout_builder/workout":89,"utils":145}],84:[function(require,module,exports){
 'use strict';
 
 var registerModel = require('./register');
@@ -92017,7 +92030,7 @@ $templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>
 $templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
 $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n   <div class=\"logo-container\">\n      <a ui-sref=\"main.page.home.default\" class=\"cancel-underline\">\n          <img class=\"logo\" src=\"images/temp_logo.jpg\" />\n      </a>\n   </div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
 $templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n   <div class=\"nav-sub-container\">\n      <nav>\n         <a class=\"link about cancel-underline old-underline\" ui-sref=\"main.page.about.default\">About</a>\n         <a class=\"link blog cancel-underline old-underline\" ui-sref=\"main.page.blog.default\">Blog</a>\n         <a class=\"link question cancel-underline old-underline\" ui-sref=\"main.page.question.ask\">Coaching</a>\n         <a class=\"link contact cancel-underline old-underline\" ui-sref=\"main.page.contact.default\">Contact</a>\n      </nav>\n   </div>\n</div>");
-$templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"login-button cancel-underline\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"profile-name-and-picture cancel-underline\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"login-button cancel-underline\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
+$templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"button login-button cancel-underline\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"button profile-name-and-picture cancel-underline\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <a class=\"button notifications-icon cancel-underline\">\n            <span font-awesome-icon-text\n                  icon=\"{{getNumberOfUnreadNotifications() ? \'fa-comment\' : \'fa-comment-o\'}}\"\n                  class=\"icon\">\n            </span>\n               <span class=\"number\"\n                     ng-bind=\"getNumberOfUnreadNotifications()\">\n               </span>\n         </a>\n         <a class=\"login-button cancel-underline\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("partials/main/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\"\n   ng-bind=\"unauthorizedMessage\">\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
 $templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
