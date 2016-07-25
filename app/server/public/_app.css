@@ -9907,6 +9907,17 @@ html, body {
   animation: fade-in 0.8s reverse;
   opacity: 1; }
 
+#loading-bar .bar {
+  background: white; }
+
+#loading-bar-spinner {
+  position: absolute;
+  top: 7px;
+  left: 6px; }
+  #loading-bar-spinner .spinner-icon {
+    border-top-color: white;
+    border-left-color: white; }
+
 div.main {
   height: 95%; }
   div.main div.top-bar {

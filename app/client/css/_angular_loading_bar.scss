@@ -1,0 +1,16 @@
+#loading-bar {
+   .bar {
+      background: white;
+   }
+}
+
+#loading-bar-spinner {
+   position: absolute;
+   top: 7px;
+   left: 6px;
+
+   .spinner-icon {
+      border-top-color: white;
+      border-left-color: white;
+   }
+}
