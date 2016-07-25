@@ -16,14 +16,15 @@
             </span>
             <span class="login-name" ng-bind="getFirstName()"></span>
          </a>
-         <a class="button notifications-icon cancel-underline">
+         <a class="button notifications-icon cancel-underline"
+            ng-click="toggleNotificationsWindow($event)">
             <span font-awesome-icon-text
                   icon="{{getNumberOfUnreadNotifications() ? 'fa-comment' : 'fa-comment-o'}}"
                   class="icon">
             </span>
-               <span class="number"
-                     ng-bind="getNumberOfUnreadNotifications()">
-               </span>
+            <span class="number"
+                  ng-bind="getNumberOfUnreadNotifications()">
+            </span>
          </a>
          <a class="login-button cancel-underline" ng-click="logout()">
             <span>Logout</span>

@@ -9838,7 +9838,7 @@ div.main {
           color: white; }
         div.main div.top-bar div.user-details div.login-info a.notifications-icon {
           position: relative;
-          left: -0.08em;
+          left: -0.3em;
           top: -0.05em; }
           div.main div.top-bar div.user-details div.login-info a.notifications-icon span.icon {
             vertical-align: middle;
@@ -10298,6 +10298,12 @@ div.admin {
 
 .workout-modal {
   font-size: 0.9em; }
+
+.popover:focus {
+  outline-style: none; }
+
+div.popover.notifications {
+  color: red; }
 
 div.media-picker {
   display: inline-block; }

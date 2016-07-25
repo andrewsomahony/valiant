@@ -56,6 +56,7 @@
     "info": "./info.js",
     "utils": "./lib/utils.js",
     "dom_utils": "./lib/dom_utils.js",
-    "angular-strap-tpl-modal": "./node_modules/angular-strap/dist/modules/modal.tpl.js"
+    "angular-strap-tpl-modal": "./node_modules/angular-strap/dist/modules/modal.tpl.js",
+    "angular-strap-tpl-popover": "./node_modules/angular-strap/dist/modules/popover.tpl.js"
   }
 }

@@ -1,0 +1,7 @@
+.popover {
+   &:focus {
+      outline-style: none;
+   }
+}
+
+@import "notifications";

@@ -7,6 +7,7 @@ require('angular-animate');
 
 require('angular-strap');
 require('angular-strap-tpl-modal');
+require('angular-strap-tpl-popover');
 
 require('../views/_views');
 
@@ -29,6 +30,8 @@ module.exports = angular.module(appInfo.name, [
     appInfo.moduleName('views'),
     require('angular-ui-router'),
     'mgcrea.ngStrap.modal',
+    'mgcrea.ngStrap.tooltip',
+    'mgcrea.ngStrap.popover',
     require('angular-route'),
     'ngMessages',
     'ngAnimate'
