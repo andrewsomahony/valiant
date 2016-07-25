@@ -10,19 +10,6 @@ registerController(name, ['$scope',
                           '$popover',
 function($scope, UserService, ErrorModal, StateService, 
 ScopeService, $popover) {
-    
-   var $notificationsScope = ScopeService.newRootScope(true, $scope);
-
-    var notificationsPopover/* = $popover(null, {
-         trigger: "manual",
-         animation: "",
-         placement: "bottom",
-         autoClose: true,
-         templateUrl: "popovers/full/notifications_full.html",
-         contentTemplate: "popovers/partials/notifications.html",
-         scope: $notificationsScope
-    });*/
-    
     $scope.isLoggedIn = function() {
         return UserService.isLoggedIn();
     }
@@ -47,14 +34,6 @@ ScopeService, $popover) {
         .catch(function(error) {
             ErrorModal(error);
         });
-    }
-
-    $scope.toggleNotificationsWindow = function(event) {
-      // notificationsPopover.$toggle();
-    }
-
-    $scope.getNumberOfUnreadNotifications = function() {
-       return $scope.getLoggedInUser().getUnreadNotifications().length;
     }
 
 }]);

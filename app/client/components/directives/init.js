@@ -42,3 +42,5 @@ require('./hover_options_overlay');
 require('./comment');
 
 require('./user_link');
+
+require('./notifications_button');
