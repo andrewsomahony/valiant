@@ -25,12 +25,17 @@ function(id, promise) {
          }
 
          Object.keys(fields).forEach(function(key) {
+             // !!! We need to have an array
+             // !!! for these three keys (and whichever others in the future)
+             // !!! whose values are always SET by the server.
+             // !!! We need this in multiple places!
+             
             if (true === isForServer && 
                 ('id' === key ||
                  'created_at' === key ||
                  'updated_at' === key)) {
-               // If our "id" is empty, we don't
-               // want to send it.
+               // If these fields are empty, we don't
+               // want to send them to be updated.
                
                if (!model[key]) {
                    return true;

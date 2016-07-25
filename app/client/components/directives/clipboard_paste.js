@@ -15,6 +15,10 @@ function(ClipboardService, $compile) {
       },
       link: function($scope, $element, $attributes) {
          $scope.paste = function() {
+            // !!! Somehow we need to take into account
+            // !!! the values we don't want to overwrite or set,
+            // !!! such as the server-maintainted variables (id, created_at, updated_at)
+            
             $scope.clipboardPaste.fromModel(ClipboardService.paste());
          }
 
