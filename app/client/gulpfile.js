@@ -30,6 +30,7 @@ var JS = ['./main.js'];
 var CSS = ['./node_modules/bootstrap/dist/css/bootstrap.css', 
            './node_modules/font-awesome/css/font-awesome.css',
            './node_modules/angular-motion/dist/angular-motion.css', 
+           './node_modules/angular-loading-bar/build/loading-bar.css',
            './css/**/*.css', './css/app.scss'];
 var VIEWS = ['./views/**/*.html'];
 

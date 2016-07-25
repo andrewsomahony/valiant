@@ -33,6 +33,7 @@ module.exports = angular.module(appInfo.name, [
     'mgcrea.ngStrap.tooltip',
     'mgcrea.ngStrap.popover',
     require('angular-route'),
+    require('angular-loading-bar'),
     'ngMessages',
     'ngAnimate'
 ]);
