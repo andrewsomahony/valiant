@@ -1,5 +1,53 @@
 div.popover {
+   .popover-content {
+      padding: 0;
+   }
+
    &.notifications {
-      color: red;
+      color: black;
+
+      a {
+         &:hover {
+            // top_bar.css overrides this in
+            // selector importance, so we need
+            // to specifically specify this.
+            background: transparent !important;
+         }
+      }
+
+      width: 500px;
+      
+      .notification {
+         padding-left: 0.7em;
+         padding-right: 0.7em;
+
+         padding-top: 0.7em;
+         padding-bottom: 0.7em;
+
+         display: inline-block;
+         width: 100%;
+         height: 5.3em;
+
+         margin-bottom: 1px;
+
+         cursor: pointer;
+
+         div.message {
+            span.user {
+               .user-link {
+                  vertical-align: middle;
+               }
+            }
+
+            span.text {
+               font-size: 0.9em;
+               vertical-align: middle;
+            }
+         }
+         div.time {
+            font-size: 0.7em;
+            color: #737373;
+         }
+      }
    }
 }

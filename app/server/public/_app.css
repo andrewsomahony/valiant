@@ -9808,42 +9808,25 @@ div.main {
       div.main div.top-bar div.user-details div.login-info {
         display: inline-block;
         height: 100%; }
-        div.main div.top-bar div.user-details div.login-info a {
-          /*
-               &.notifications-icon {
-                // It doesn't quite look right
-                // without this...
-                  position: relative;
-                  left: -0.3em;
-                  top: -0.05em;
-
-                  span.icon {
-                     vertical-align: middle;
-                     color: white;
-                     font-size: 1.2em;
-                     position: relative;
-                     top: -0.04em;                     
-                  }
-               }*/ }
-          div.main div.top-bar div.user-details div.login-info a:hover {
-            background: #333333;
-            text-decoration: none; }
-          div.main div.top-bar div.user-details div.login-info a:focus {
-            text-decoration: none; }
-          div.main div.top-bar div.user-details div.login-info a.button {
-            display: inline-block;
-            height: 100%;
-            padding-left: 0.57em;
-            padding-right: 0.57em; }
-          div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture span.profile-picture-mini {
-            margin-right: 0.14em; }
-          div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture span.login-name {
-            vertical-align: middle;
-            color: white; }
-          div.main div.top-bar div.user-details div.login-info a.login-button {
-            color: white; }
-            div.main div.top-bar div.user-details div.login-info a.login-button span {
-              vertical-align: middle; }
+        div.main div.top-bar div.user-details div.login-info a:hover {
+          background: #333333;
+          text-decoration: none; }
+        div.main div.top-bar div.user-details div.login-info a:focus {
+          text-decoration: none; }
+        div.main div.top-bar div.user-details div.login-info a.button {
+          display: inline-block;
+          height: 100%;
+          padding-left: 0.57em;
+          padding-right: 0.57em; }
+        div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture span.profile-picture-mini {
+          margin-right: 0.14em; }
+        div.main div.top-bar div.user-details div.login-info a.profile-name-and-picture span.login-name {
+          vertical-align: middle;
+          color: white; }
+        div.main div.top-bar div.user-details div.login-info a.login-button {
+          color: white; }
+          div.main div.top-bar div.user-details div.login-info a.login-button span {
+            vertical-align: middle; }
   @media screen and (max-width: 760px) {
     div.main div.mobile-scroll {
       overflow-y: scroll;
@@ -10296,8 +10279,32 @@ div.admin {
 .popover:focus {
   outline-style: none; }
 
+div.popover .popover-content {
+  padding: 0; }
+
 div.popover.notifications {
-  color: red; }
+  color: black;
+  width: 500px; }
+  div.popover.notifications a:hover {
+    background: transparent !important; }
+  div.popover.notifications .notification {
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+    display: inline-block;
+    width: 100%;
+    height: 5.3em;
+    margin-bottom: 1px;
+    cursor: pointer; }
+    div.popover.notifications .notification div.message span.user .user-link {
+      vertical-align: middle; }
+    div.popover.notifications .notification div.message span.text {
+      font-size: 0.9em;
+      vertical-align: middle; }
+    div.popover.notifications .notification div.time {
+      font-size: 0.7em;
+      color: #737373; }
 
 div.media-picker {
   display: inline-block; }

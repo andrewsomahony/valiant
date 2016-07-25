@@ -141,9 +141,6 @@ function(id, promise) {
          localFields: function() {
             return [];
          },
-         /*receiveOnlyFields: function() {
-            return [];
-         },*/
          // Fields NOT serialized to/from JSON
          temporaryFields: function() {
             return [];

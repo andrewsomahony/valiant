@@ -2781,8 +2781,10 @@ var registerDirective = require('directives/register');
 var name = 'notificationsButton';
 
 registerDirective(name, [require('services/scope_service'),
+                         require('services/date_service'),
+                         require('services/state_service'),
                          '$popover',
-function(ScopeService, $popover) {
+function(ScopeService, DateService, StateService, $popover) {
    return {
       restrict: 'E',
       replace: true,
@@ -2791,9 +2793,6 @@ function(ScopeService, $popover) {
          user: "<"
       },
       link: function($scope, $element, $attributes) {
-         var notificationsScope = ScopeService.newRootScope(true, $scope);
-
-         console.log($element);
          var notificationsPopover = $popover($element, {
             trigger: "manual",
             animation: "",
@@ -2801,11 +2800,53 @@ function(ScopeService, $popover) {
             autoClose: true,
             templateUrl: "popovers/full/notifications_full.html",
             contentTemplate: "popovers/partials/notifications.html",
-            scope: notificationsScope
+            scope: $scope.$new() // Give the popover access to this scope.
          });
 
          $scope.getNumberOfUnreadNotifications = function() {
             return $scope.user.getUnreadNotifications().length;
+         }
+
+         $scope.getNotificationTime = function(notification) {
+            return DateService.dateStringToDefaultFormattedString(notification.created_at);
+         }
+
+         $scope.notificationHasParentLink = function(notification) {
+            var lowerCaseType = notification.type.toLowerCase();
+            return notification.parent &&
+                   ('question' === lowerCaseType);
+         }
+
+         $scope.getNotificationStyle = function(notification, isLast) {
+            var style = {};
+
+            if (!isLast) {
+               style['border-bottom'] = '1px solid black';
+            }
+
+            if (true === notification.is_unread) {
+               style['background-color'] = '#e6ffff';
+            }
+
+            if (true === $scope.notificationHasParentLink(notification)) {
+               style['cursor'] = 'pointer';
+            }
+
+            return style;
+         }
+
+         $scope.notificationClicked = function(notification) {
+            var lowerCaseType = notification.type.toLowerCase();
+
+            var url = "main." + lowerCaseType + ".default";
+            var params = {};
+            var paramKey = lowerCaseType + "Id";
+
+            params[paramKey] = notification.parent.id;
+            
+            notificationsPopover.hide();
+            
+            StateService.go(url, params);
          }
 
          $scope.toggleNotificationsWindow = function() {
@@ -2817,7 +2858,7 @@ function(ScopeService, $popover) {
 ]);
 
 module.exports = name;
-},{"directives/register":53,"services/scope_service":132}],49:[function(require,module,exports){
+},{"directives/register":53,"services/date_service":99,"services/scope_service":132,"services/state_service":134}],49:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -5311,9 +5352,6 @@ function(id, promise) {
          localFields: function() {
             return [];
          },
-         /*receiveOnlyFields: function() {
-            return [];
-         },*/
          // Fields NOT serialized to/from JSON
          temporaryFields: function() {
             return [];
@@ -6046,6 +6084,18 @@ function(BaseModel) {
                parent: null,
                is_unread: true
             });
+         },
+         localFields: function() {
+            return this.staticMerge(this.callSuper(),
+               ["parent", "creator"]);
+         },
+         serverMappings: function() {
+            return this.staticMerge(this.callSuper(),
+               {
+                  "creator": "_creator",
+                  "parent": "_parent"
+               }
+            );
          }
       },
       
@@ -92103,11 +92153,11 @@ $templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n
 $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"button login-button cancel-underline\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"button profile-name-and-picture cancel-underline\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <!-- Need to make this a directive! -->\n         <notifications-button \n            class=\"button cancel-underline\"\n            user=\"getLoggedInUser()\">\n         </notifications-button>\n         <a class=\"login-button cancel-underline\" ng-click=\"logout()\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("partials/main/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\"\n   ng-bind=\"unauthorizedMessage\">\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("popovers/full/notifications_full.html","<div class=\"popover notifications\" tabindex=\"-1\">\n   <div class=\"arrow\"></div>\n   <h3 class=\"popover-title\" ng-bind=\"title\" ng-show=\"title\"></h3>\n   <div class=\"popover-content\" ng-bind=\"content\"></div>\n</div>");
-$templateCache.put("popovers/partials/notifications.html","<span>\n   Hello!\n</span>");
-$templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button confirm-click=\"onTestRequestClick()\" \n        confirm-message=\"Test HTTP?\">\n   Test HTTP\n</button>\n\n<button confirm-click=\"england()\"\n        confirm-message=\"Did England win?\">\n   Talk about England\n</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
+$templateCache.put("popovers/partials/notifications.html","<div ng-repeat=\"notification in user.notifications\"\n     class=\"notification\"\n     ng-style=\"getNotificationStyle(notification, $last)\"\n     ng-click=\"notificationClicked(notification)\">\n   <div class=\"message\">\n      <span class=\"user\">\n         <user-link user=\"notification.creator\"\n                  picture-size=\"1.2em\">\n         </user-link>\n      </span>\n      <span class=\"text\"\n            ng-bind=\"notification.text\">\n      </span>\n   </div>\n   <div class=\"time\"\n        ng-bind=\"getNotificationTime(notification)\">\n   </div>\n</div>");
 $templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
 $templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
+$templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button confirm-click=\"onTestRequestClick()\" \n        confirm-message=\"Test HTTP?\">\n   Test HTTP\n</button>\n\n<button confirm-click=\"england()\"\n        confirm-message=\"Did England win?\">\n   Talk about England\n</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
 $templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
 $templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");

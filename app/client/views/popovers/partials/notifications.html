@@ -1,3 +1,18 @@
-<span>
-   Hello!
-</span>
+<div ng-repeat="notification in user.notifications"
+     class="notification"
+     ng-style="getNotificationStyle(notification, $last)"
+     ng-click="notificationClicked(notification)">
+   <div class="message">
+      <span class="user">
+         <user-link user="notification.creator"
+                  picture-size="1.2em">
+         </user-link>
+      </span>
+      <span class="text"
+            ng-bind="notification.text">
+      </span>
+   </div>
+   <div class="time"
+        ng-bind="getNotificationTime(notification)">
+   </div>
+</div>

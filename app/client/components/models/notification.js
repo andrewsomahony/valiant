@@ -21,6 +21,18 @@ function(BaseModel) {
                parent: null,
                is_unread: true
             });
+         },
+         localFields: function() {
+            return this.staticMerge(this.callSuper(),
+               ["parent", "creator"]);
+         },
+         serverMappings: function() {
+            return this.staticMerge(this.callSuper(),
+               {
+                  "creator": "_creator",
+                  "parent": "_parent"
+               }
+            );
          }
       },
       
