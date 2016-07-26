@@ -15,6 +15,7 @@ var userChangePassword = require('./plugins/change_password');
 var genericMethods = require(__base + 'db/schemas/plugins/methods');
 
 var patchPlugin = require('mongoose-json-patch');
+var userPatchPlugin = require(__base + 'db/schemas/plugins/patch');
 
 var UserLoginService = require(__base + 'lib/user_login');
 
@@ -51,6 +52,7 @@ var UserSchema = new Schema({
         type: Boolean,
         default: true
     },
+    /*
     questions: {
         type: [{
                  type: Schema.Types.ObjectId, 
@@ -63,10 +65,6 @@ var UserSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Workout'
         }],
-        default: []
-    },
-    /*notifications: {
-        type: [NotificationSchema],
         default: []
     },*/
     facebook_id: {
@@ -109,5 +107,6 @@ UserSchema.plugin(userResetPassword, userOptions);
 UserSchema.plugin(userChangePassword, userOptions);
 
 UserSchema.plugin(patchPlugin);
+UserSchema.plugin(userPatchPlugin);
 
 module.exports = UserSchema;

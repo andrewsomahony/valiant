@@ -7,6 +7,8 @@ var Promise = require(__base + 'lib/promise');
 var Responder = require(__base + 'lib/responder');
 var Request = require(__base + 'lib/request');
 
+var Model = require(__base + 'lib/model');
+
 var User = require(__base + 'db/models/user/user');
 
 router.route('/register')
@@ -19,10 +21,10 @@ router.route('/register')
 .post(function(request, result) {
    var userParam = Request.getBodyVariable(request, 'user');
 
-   if (!u) {
+   if (!userParam) {
       Responder.badRequest(result, "Missing user param!");
    } else {    
-      var user = new User(userParam);
+      var user = Model.userCreateModel(User, userParam);//new User(userParam);
             
       User.register(user, userParam.password, function(error, newUser) {
          if (error) {

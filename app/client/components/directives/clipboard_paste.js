@@ -15,11 +15,14 @@ function(ClipboardService, $compile) {
       },
       link: function($scope, $element, $attributes) {
          $scope.paste = function() {
-            // !!! Somehow we need to take into account
-            // !!! the values we don't want to overwrite or set,
-            // !!! such as the server-maintainted variables (id, created_at, updated_at)
+            // We make a "new" model that doesn't have
+            // an id, created_at, or updated_at overriden
+            // by what's on the clipboard.  We don't want clones
+            // of the ID, for a start, but as this is a new object,
+            // we want it to have its own properties that it either
+            // starts with, or gets when it's saved to the server.
             
-            $scope.clipboardPaste.fromModel(ClipboardService.paste());
+            $scope.clipboardPaste.newModel(ClipboardService.paste());
          }
 
          $scope.canPaste = function() {

@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var patchPlugin = require('mongoose-json-patch');
+var userPatchPlugin = require(__base + 'db/schemas/plugins/patch');
 var genericMethods = require(__base + 'db/schemas/plugins/methods');
 var creatorMethods = require(__base + 'db/schemas/plugins/creator');
 
@@ -35,10 +36,6 @@ var QuestionSchema = new Schema({
       type: [PictureSchema],
       default: []
    },
-   /*comments: {
-      type: [CommentSchema],
-      default: []
-   },*/
    preview_pictures: {
       type: [PictureSchema],
       default: []
@@ -67,6 +64,7 @@ QuestionSchema.pre('save', function(next) {
 QuestionSchema.plugin(genericMethods);
 QuestionSchema.plugin(creatorMethods);
 QuestionSchema.plugin(patchPlugin);
+QuestionSchema.plugin(userPatchPlugin);
 QuestionSchema.plugin(questionMethods);
 
 module.exports = QuestionSchema;

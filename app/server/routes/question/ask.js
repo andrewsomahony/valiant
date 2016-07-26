@@ -8,6 +8,8 @@ var Responder = require(__base + 'lib/responder');
 var Permissions = require(__base + 'lib/permissions');
 var Request = require(__base + 'lib/request');
 
+var Model = require(__base + 'lib/model');
+
 var QuestionModel = require(__base + 'db/models/question/question');
 
 router.route('/ask')
@@ -23,7 +25,7 @@ router.route('/ask')
       if (!questionData) {
          Responder.badRequest(result, "Missing question data!");
       } else {
-         var question = new QuestionModel(questionData);
+         var question = Model.userCreateModel(QuestionModel, questionData);//new QuestionModel(questionData);
          question._creator = Request.getUser(request).getId();
 
          question.save(function(error, q) {

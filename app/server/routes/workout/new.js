@@ -7,6 +7,8 @@ var Responder = require(__base + 'lib/responder');
 var Permissions = require(__base + 'lib/permissions');
 var Request = require(__base + 'lib/request');
 
+var Model = require(__base + 'lib/model');
+
 var WorkoutModel = require(__base + 'db/models/workout/workout');
 
 router.route('/new')
@@ -21,7 +23,7 @@ router.route('/new')
       if (!workoutParam) {
          Responder.badRequest(result, "Missing workout variable!");
       } else {
-         var workout = new WorkoutModel(workoutParam);
+         var workout = Model.userCreateModel(WorkoutModel, workoutParam);
          workout._creator = Request.getUser(request).getId();
 
          workout.save(function(error, w) {

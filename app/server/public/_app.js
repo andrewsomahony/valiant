@@ -1505,11 +1505,14 @@ function(ClipboardService, $compile) {
       },
       link: function($scope, $element, $attributes) {
          $scope.paste = function() {
-            // !!! Somehow we need to take into account
-            // !!! the values we don't want to overwrite or set,
-            // !!! such as the server-maintainted variables (id, created_at, updated_at)
+            // We make a "new" model that doesn't have
+            // an id, created_at, or updated_at overriden
+            // by what's on the clipboard.  We don't want clones
+            // of the ID, for a start, but as this is a new object,
+            // we want it to have its own properties that it either
+            // starts with, or gets when it's saved to the server.
             
-            $scope.clipboardPaste.fromModel(ClipboardService.paste());
+            $scope.clipboardPaste.newModel(ClipboardService.paste());
          }
 
          $scope.canPaste = function() {
@@ -5241,7 +5244,7 @@ function(id, promise) {
              // !!! whose values are always SET by the server.
              // !!! We need this in multiple places!
              
-            if (true === isForServer && 
+            /*if (true === isForServer && 
                 ('id' === key ||
                  'created_at' === key ||
                  'updated_at' === key)) {
@@ -5251,7 +5254,7 @@ function(id, promise) {
                if (!model[key]) {
                    return true;
                }
-            }
+            }*/
             ret[model.$ownClass.mapKey(key, isForServer)] = 
                 ModelToObject(model[key], isForServer);//model.$ownClass.mapValue(model[key], fields[key], isForServer), isForServer);
             //!utils.isUndefinedOrNull(model[key]) ? model[key] : fields[key], isForServer)         
@@ -5347,6 +5350,13 @@ function(id, promise) {
                created_at: "",
                updated_at: ""
             }
+         },
+         serverFields: function() {
+             return [
+                'id',
+                'created_at',
+                'updated_at'
+             ];
          },
          // Fields NOT to send to the server
          localFields: function() {
@@ -5499,6 +5509,17 @@ function(id, promise) {
             throw new Error("base.fromModel: Incompatible class! " + model.$ownClass);
          } else {
             this.fromObject(model.toObject());
+         }
+      },
+
+      newModel: function(model) {
+         if (!utils.objectIsClassy(model, this.$ownClass)) {
+            throw new Error("base.newModel: Incompatible class!" + model.$ownClass);
+         } else {
+            var object = model.toObject();
+            utils.removeKeysFromObject(object, this.$ownClass.serverFields());
+
+            this.fromObject(object);
          }
       },
 
@@ -92502,10 +92523,10 @@ $templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></d
 $templateCache.put("partials/main/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\"\n   ng-bind=\"unauthorizedMessage\">\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("popovers/full/notifications_full.html","<div class=\"popover notifications\" tabindex=\"-1\">\n   <div class=\"arrow\"></div>\n   <h3 class=\"popover-title\" ng-bind=\"title\" ng-show=\"title\"></h3>\n   <div class=\"popover-content\" ng-bind=\"content\"></div>\n</div>");
 $templateCache.put("popovers/partials/notifications.html","<div ng-repeat=\"notification in user.notifications\"\n     class=\"notification\"\n     ng-style=\"getNotificationStyle(notification, $last)\"\n     ng-click=\"notificationClicked(notification)\">\n   <div class=\"message\">\n      <span class=\"user\">\n         <user-link user=\"notification.creator\"\n                  picture-size=\"1.2em\">\n         </user-link>\n      </span>\n      <span class=\"text\"\n            ng-bind=\"notification.text\">\n      </span>\n   </div>\n   <div class=\"time\"\n        ng-bind=\"getNotificationTime(notification)\">\n   </div>\n</div>");
-$templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button confirm-click=\"onTestRequestClick()\" \n        confirm-message=\"Test HTTP?\">\n   Test HTTP\n</button>\n\n<button confirm-click=\"england()\"\n        confirm-message=\"Did England win?\">\n   Talk about England\n</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
 $templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
 $templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
+$templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
+$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button confirm-click=\"onTestRequestClick()\" \n        confirm-message=\"Test HTTP?\">\n   Test HTTP\n</button>\n\n<button confirm-click=\"england()\"\n        confirm-message=\"Did England win?\">\n   Talk about England\n</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
 $templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
 $templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");

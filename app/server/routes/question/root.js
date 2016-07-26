@@ -94,7 +94,7 @@ router.route('/:questionId')
       if (!patchData) {
          Responder.badRequest(result, "Missing patch data!");
       } else {
-         request.question.patch(patchData, function(error) {
+         request.question.userPatch(patchData, function(error) {
             if (error) {
                Responder.badRequest(result, error);
             } else {

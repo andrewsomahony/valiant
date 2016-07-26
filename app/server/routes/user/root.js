@@ -108,7 +108,7 @@ router.route('/:userId')
        if (false === Permissions.ableToEditUser(request, request.requestedUser)) {
           Responder.forbidden(result);
        } else {
-          request.requestedUser.patch(patchData, function(error) {
+          request.requestedUser.userPatch(patchData, function(error) {
              if (error) {
                 Responder.badRequest(result, error);
              } else {

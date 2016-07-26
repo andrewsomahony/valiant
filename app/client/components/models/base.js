@@ -30,7 +30,7 @@ function(id, promise) {
              // !!! whose values are always SET by the server.
              // !!! We need this in multiple places!
              
-            if (true === isForServer && 
+            /*if (true === isForServer && 
                 ('id' === key ||
                  'created_at' === key ||
                  'updated_at' === key)) {
@@ -40,7 +40,7 @@ function(id, promise) {
                if (!model[key]) {
                    return true;
                }
-            }
+            }*/
             ret[model.$ownClass.mapKey(key, isForServer)] = 
                 ModelToObject(model[key], isForServer);//model.$ownClass.mapValue(model[key], fields[key], isForServer), isForServer);
             //!utils.isUndefinedOrNull(model[key]) ? model[key] : fields[key], isForServer)         
@@ -136,6 +136,13 @@ function(id, promise) {
                created_at: "",
                updated_at: ""
             }
+         },
+         serverFields: function() {
+             return [
+                'id',
+                'created_at',
+                'updated_at'
+             ];
          },
          // Fields NOT to send to the server
          localFields: function() {
@@ -288,6 +295,17 @@ function(id, promise) {
             throw new Error("base.fromModel: Incompatible class! " + model.$ownClass);
          } else {
             this.fromObject(model.toObject());
+         }
+      },
+
+      newModel: function(model) {
+         if (!utils.objectIsClassy(model, this.$ownClass)) {
+            throw new Error("base.newModel: Incompatible class!" + model.$ownClass);
+         } else {
+            var object = model.toObject();
+            utils.removeKeysFromObject(object, this.$ownClass.serverFields());
+
+            this.fromObject(object);
          }
       },
 

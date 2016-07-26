@@ -7,6 +7,7 @@ var utils = require(__base + 'lib/utils')
 
 var workoutMethods = require('./plugins/methods');
 var patchPlugin = require('mongoose-json-patch');
+var userPatchPlugin = require(__base + 'db/schemas/plugins/patch');
 
 var genericMethods = require(__base + 'db/schemas/plugins/methods');
 var creatorMethods = require(__base + 'db/schemas/plugins/creator');
@@ -49,5 +50,6 @@ WorkoutSchema.plugin(creatorMethods);
 
 WorkoutSchema.plugin(workoutMethods);
 WorkoutSchema.plugin(patchPlugin);
+WorkoutSchema.plugin(userPatchPlugin);
 
 module.exports = WorkoutSchema;

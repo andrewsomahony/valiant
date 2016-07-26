@@ -102,7 +102,7 @@ router.route('/:workoutId')
    if (false === Permissions.ableToEditWorkout(request, request.workout)) {
       Responder.forbidden(result);
    } else {
-      request.workout.patch(patchData, function(error) {
+      request.workout.userPatch(patchData, function(error) {
          if (error) {
             Responder.badRequest(result, error);
          } else {
