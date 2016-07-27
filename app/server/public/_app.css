@@ -10415,24 +10415,46 @@ div.popover.notifications {
   width: 500px; }
   div.popover.notifications a:hover {
     background: transparent !important; }
-  div.popover.notifications .notification {
-    padding-left: 0.7em;
-    padding-right: 0.7em;
-    padding-top: 0.7em;
-    padding-bottom: 0.7em;
+  div.popover.notifications .notification-scroll {
     display: inline-block;
     width: 100%;
-    height: 5.3em;
-    margin-bottom: 1px;
-    cursor: pointer; }
-    div.popover.notifications .notification div.message span.user .user-link {
-      vertical-align: middle; }
-    div.popover.notifications .notification div.message span.text {
-      font-size: 0.9em;
-      vertical-align: middle; }
-    div.popover.notifications .notification div.time {
-      font-size: 0.7em;
-      color: #737373; }
+    max-height: 26.5em;
+    overflow: scroll; }
+    div.popover.notifications .notification-scroll.empty {
+      height: 26.5em; }
+    div.popover.notifications .notification-scroll .empty-content {
+      position: relative;
+      text-align: center;
+      display: inline-block;
+      width: 100%;
+      height: 100%; }
+      div.popover.notifications .notification-scroll .empty-content span.padding {
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle; }
+      div.popover.notifications .notification-scroll .empty-content span.empty-message {
+        display: inline-block;
+        vertical-align: middle;
+        color: #8c8c8c;
+        font-size: 1.7em; }
+    div.popover.notifications .notification-scroll .notification {
+      padding-left: 0.7em;
+      padding-right: 0.7em;
+      padding-top: 0.7em;
+      padding-bottom: 0.7em;
+      display: inline-block;
+      width: 100%;
+      height: 5.3em;
+      margin-bottom: 1px;
+      cursor: pointer; }
+      div.popover.notifications .notification-scroll .notification div.message span.user .user-link {
+        vertical-align: middle; }
+      div.popover.notifications .notification-scroll .notification div.message span.text {
+        font-size: 0.9em;
+        vertical-align: middle; }
+      div.popover.notifications .notification-scroll .notification div.time {
+        font-size: 0.7em;
+        color: #737373; }
 
 div.media-picker {
   display: inline-block; }

@@ -29,6 +29,7 @@ module.exports = function(schema, options) {
          .sort({updated_at: -1})
          .populate("_creator")
          .populate("_parent")
+         .limit(10)
          .exec(function(error, notifications) {
             if (error) {
                reject(error);
@@ -40,12 +41,10 @@ module.exports = function(schema, options) {
       })
    }
 
-   schema.methods.populateRefs = function() {
-      var populatePromises = [];
-
+   schema.methods.populateWorkouts = function() {
       var self = this;
 
-      populatePromises.push(Promise(function(resolve, reject) {
+      return Promise(function(resolve, reject) {
          WorkoutModel.find({_creator: self.getId()})
          .populate('_creator')
          .sort({updated_at: -1})
@@ -57,9 +56,13 @@ module.exports = function(schema, options) {
                resolve();
             }
          });
-      }));
+      });
+   }
 
-      populatePromises.push(Promise(function(resolve, reject) {
+   schema.methods.populateQuestions = function() {
+      var self = this;
+
+      return Promise(function(resolve, reject) {
          QuestionModel.find({_creator: self.getId()})
          .populate('_creator')
          .sort({updated_at: -1})
@@ -79,7 +82,15 @@ module.exports = function(schema, options) {
                });
             }
          })
-      }));
+      })
+   }
+
+   schema.methods.populateRefs = function() {
+      var populatePromises = [];
+
+      populatePromises.push(this.populateWorkouts());
+      populatePromises.push(this.populateQuestions());
+      populatePromises.push(this.populateNotifications());
 
       return Promise(function(resolve, reject) {
          Q.all(populatePromises)

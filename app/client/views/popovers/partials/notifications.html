@@ -1,18 +1,33 @@
-<div ng-repeat="notification in user.notifications"
-     class="notification"
-     ng-style="getNotificationStyle(notification, $last)"
-     ng-click="notificationClicked(notification)">
-   <div class="message">
-      <span class="user">
-         <user-link user="notification.creator"
-                  picture-size="1.2em">
-         </user-link>
-      </span>
-      <span class="text"
-            ng-bind="notification.text">
-      </span>
+<div ng-if="!user.notifications.length">
+   <div class="notification-scroll empty">
+      <div class="empty-content">
+         <span class="empty-message">
+            No notifications
+         </span>
+         <span class="padding"></span>
+      </div>
    </div>
-   <div class="time"
-        ng-bind="getNotificationTime(notification)">
+</div>
+
+<div ng-if="user.notifications.length">
+   <div class="notification-scroll">
+      <div ng-repeat="notification in user.notifications"
+         class="notification"
+         ng-style="getNotificationStyle(notification, $last)"
+         ng-click="notificationClicked(notification)">
+         <div class="message">
+            <span class="user">
+               <user-link user="notification.creator"
+                        picture-size="1.2em">
+               </user-link>
+            </span>
+            <span class="text"
+                  ng-bind="notification.text">
+            </span>
+         </div>
+         <div class="time"
+            ng-bind="getNotificationTime(notification)">
+         </div>
+      </div>
    </div>
 </div>

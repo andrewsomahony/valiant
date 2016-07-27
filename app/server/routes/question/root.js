@@ -8,6 +8,8 @@ var Responder = require(__base + 'lib/responder');
 var Permissions = require(__base + 'lib/permissions');
 var Request = require(__base + 'lib/request');
 
+var Model = require(__base + 'lib/model');
+
 var User = require(__base + 'db/models/user/user');
 var QuestionModel = require(__base + 'db/models/question/question');
 var CommentModel = require(__base + 'db/models/comment/comment');
@@ -118,7 +120,8 @@ router.route('/:questionId/comment')
    if (!comment) {
       Responder.badRequest(result, "Missing comment data!");
    } else {
-      var commentModel = new CommentModel(comment);
+      var commentModel = Model.userCreateModel(CommentModel, comment);
+      //new CommentModel(comment);
       commentModel.type = "Question";
 
       commentModel._creator = Request.getUser(request).getId();
@@ -130,7 +133,7 @@ router.route('/:questionId/comment')
          } else {
             var notificationPromise = null;
             if (!Request.getUser(request).isUser(request.question._creator)) {
-               var notificationPromise = request.question._creator.addNotification(
+               notificationPromise = request.question._creator.addNotification(
                   "question_comment",
                   Request.getUser(request),
                   request.question
