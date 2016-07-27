@@ -25,6 +25,7 @@ function userCreateModel(Class, object) {
    var newObject = utils.clone(object);
 
    removeServerVariablesFromObject(newObject);
+   console.log(object, newObject);
 
    return new Class(newObject);
 }
@@ -38,6 +39,10 @@ function removeServerVariablesFromObject(object) {
    utils.forEachKey(object, function(k) {
       if (true === utils.isPlainObject(object[k])) {
          removeServerVariablesFromObject(object[k]);
+      } else if (true === utils.isArray(object[k])) {
+         object[k].forEach(function(arrayObject) {
+            removeServerVariablesFromObject(arrayObject);
+         });
       }
    });
 }
