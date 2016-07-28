@@ -6,10 +6,9 @@ registerController(name, ['$scope',
                           require('services/user_service'),
                           require('services/error_modal'),
                           require('services/state_service'),
-                          require('services/scope_service'),
-                          '$popover',
+                          '$timeout',
 function($scope, UserService, ErrorModal, StateService, 
-ScopeService, $popover) {
+$timeout) {
     $scope.isLoggedIn = function() {
         return UserService.isLoggedIn();
     }
@@ -36,6 +35,24 @@ ScopeService, $popover) {
         });
     }
 
+    function SetCheckTimeout() {
+      var checkInterval = 10000;
+
+      $timeout(function() {
+         CheckUser();
+      }, checkInterval);
+    }
+
+    function CheckUser() {
+       UserService.check($scope.getLoggedInUser())
+       .then(function() {
+          SetCheckTimeout();
+       })    
+       .catch(function(error) {
+       })
+    }
+
+    SetCheckTimeout();
 }]);
 
 module.exports = name;

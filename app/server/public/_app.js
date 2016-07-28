@@ -691,10 +691,9 @@ registerController(name, ['$scope',
                           require('services/user_service'),
                           require('services/error_modal'),
                           require('services/state_service'),
-                          require('services/scope_service'),
-                          '$popover',
+                          '$timeout',
 function($scope, UserService, ErrorModal, StateService, 
-ScopeService, $popover) {
+$timeout) {
     $scope.isLoggedIn = function() {
         return UserService.isLoggedIn();
     }
@@ -721,10 +720,28 @@ ScopeService, $popover) {
         });
     }
 
+    function SetCheckTimeout() {
+      var checkInterval = 10000;
+
+      $timeout(function() {
+         CheckUser();
+      }, checkInterval);
+    }
+
+    function CheckUser() {
+       UserService.check($scope.getLoggedInUser())
+       .then(function() {
+          SetCheckTimeout();
+       })    
+       .catch(function(error) {
+       })
+    }
+
+    SetCheckTimeout();
 }]);
 
 module.exports = name;
-},{"controllers/register":30,"services/error_modal":103,"services/scope_service":132,"services/state_service":134,"services/user_service":135}],23:[function(require,module,exports){
+},{"controllers/register":30,"services/error_modal":103,"services/state_service":134,"services/user_service":135}],23:[function(require,module,exports){
 'use strict';
 
 var registerController = require('controllers/register');
@@ -5422,6 +5439,22 @@ function(id, promise) {
             return utils.findInArray(this.validEvents(), function(eventName) {
                return e === eventName
             })
+         },
+
+         allocateArray: function(objectArray, count, isFromServer) {
+            var returnArray = [];
+
+            var self = this;
+            if (objectArray) {
+              returnArray = utils.map(objectArray, function(object) {
+                 return new self(object, isFromServer);
+              });
+            } else {
+               for (var i = 0; i < count; i++) {
+                  returnArray.push(new self({}, isFromServer));
+               }
+            }
+            return returnArray;
          }
       },
 
@@ -6056,6 +6089,14 @@ statusText – {string} – HTTP status text of the response.
 
       init: function(config, isFromServer) {
          this.callSuper()
+      },
+
+      isNoContent: function() {
+         return 204 === this.status;
+      },
+
+      isOk: function() {
+         return 200 === this.status;
       }
    })    
 }]);
@@ -10713,6 +10754,7 @@ registerService('factory', name, [
                                     require('services/promise'),
                                     require('services/http_service'),
                                     require('models/user'),
+                                    require('models/notification'),
                                     require('services/api_url'),
                                     require('services/error'),
                                     require('services/progress'),
@@ -10722,7 +10764,7 @@ registerService('factory', name, [
                                     require('models/picture'),
                                     require('services/media_service'),
                                     require('services/workout_builder_service'),
-function(Promise, HttpService, UserModel, ApiUrlService,
+function(Promise, HttpService, UserModel, NotificationModel, ApiUrlService,
 ErrorService, ProgressService, SerialPromise, ParallelPromise, S3UploaderService,
 PictureModel, MediaService, WorkoutBuilderService) {    
     var currentUser = null;
@@ -10840,7 +10882,8 @@ PictureModel, MediaService, WorkoutBuilderService) {
     // user.
     
     UserService.updateCurrentUserIfSame = function(user) {
-        if (user.id === currentUser.id) {
+        if (currentUser &&
+            user.id === currentUser.id) {
             currentUser = user.clone();
         }
     }
@@ -10856,7 +10899,8 @@ PictureModel, MediaService, WorkoutBuilderService) {
     // See the comment for updateCurrentUserIfSame
     
     UserService.updateCurrentRequestedUserIfSame = function(user) {
-        if (user.id === currentRequestedUser.id) {
+        if (currentRequestedUser &&
+            user.id === currentRequestedUser.id) {
             currentRequestedUser = user.clone();
         }
     }
@@ -11242,7 +11286,34 @@ PictureModel, MediaService, WorkoutBuilderService) {
              })
           }
        });
+    }
 
+    UserService.check = function(user) {
+       return Promise(function(resolve, reject) {
+           HttpService.get(ApiUrlService([
+               {
+                   name: 'User',
+                   paramArray: [user.id]
+               },
+               {
+                   name: 'Check'
+               }
+           ]))
+           .then(function(response) {
+              if (true === response.isOk()) {
+                 if (response.data.notifications) {
+                    user.notifications = NotificationModel.allocateArray(
+                        response.data.notifications, 
+                        null, true);
+                 }
+                 UserService.updateCurrentAndRequestedUsersIfSame(user);
+              }
+              resolve(user);
+           })
+           .catch(function(error) {
+               reject(error);
+           })
+       })
     }
     
     UserService.getUser = function(userId) {
@@ -11265,7 +11336,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
 ]);
 
 module.exports = name;
-},{"models/picture":79,"models/user":84,"services/api_url":91,"services/error":102,"services/http_service":110,"services/media_service":114,"services/parallel_promise":118,"services/progress":123,"services/promise":124,"services/register":129,"services/s3_uploader_service":131,"services/serial_promise":133,"services/workout_builder_service":137,"utils":146}],136:[function(require,module,exports){
+},{"models/notification":78,"models/picture":79,"models/user":84,"services/api_url":91,"services/error":102,"services/http_service":110,"services/media_service":114,"services/parallel_promise":118,"services/progress":123,"services/promise":124,"services/register":129,"services/s3_uploader_service":131,"services/serial_promise":133,"services/workout_builder_service":137,"utils":146}],136:[function(require,module,exports){
 'use strict';
 
 var registerService = require('services/register');
@@ -92521,7 +92592,7 @@ $templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>
 $templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
 $templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n   <div class=\"logo-container\">\n      <a ui-sref=\"main.page.home.default\" class=\"cancel-underline\">\n          <img class=\"logo\" src=\"images/temp_logo.jpg\" />\n      </a>\n   </div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
 $templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n   <div class=\"nav-sub-container\">\n      <nav>\n         <a class=\"link about cancel-underline old-underline\" ui-sref=\"main.page.about.default\">About</a>\n         <a class=\"link blog cancel-underline old-underline\" ui-sref=\"main.page.blog.default\">Blog</a>\n         <a class=\"link question cancel-underline old-underline\" ui-sref=\"main.page.question.ask\">Coaching</a>\n         <a class=\"link contact cancel-underline old-underline\" ui-sref=\"main.page.contact.default\">Contact</a>\n      </nav>\n   </div>\n</div>");
-$templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"button login-button cancel-underline\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"button profile-name-and-picture cancel-underline\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <notifications-button \n            class=\"button cancel-underline\"\n            user=\"getLoggedInUser()\">\n         </notifications-button>\n         <a class=\"login-button cancel-underline\" \n            confirm-click=\"logout()\"\n            confirm-message=\"Logout?\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
+$templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"button login-button cancel-underline\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"button profile-name-and-picture cancel-underline\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <notifications-button \n            class=\"button cancel-underline fade-in fade-out\"\n            user=\"getLoggedInUser()\">\n         </notifications-button>\n         <a class=\"login-button cancel-underline\" \n            confirm-click=\"logout()\"\n            confirm-message=\"Logout?\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("partials/main/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\"\n   ng-bind=\"unauthorizedMessage\">\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("popovers/full/notifications_full.html","<div class=\"popover notifications\" tabindex=\"-1\">\n   <div class=\"arrow\"></div>\n   <h3 class=\"popover-title\" ng-bind=\"title\" ng-show=\"title\"></h3>\n   <div class=\"popover-content\" ng-bind=\"content\"></div>\n</div>");
 $templateCache.put("popovers/partials/notifications.html","<div ng-if=\"!user.notifications.length\">\n   <div class=\"notification-scroll empty\">\n      <div class=\"empty-content\">\n         <span class=\"empty-message\">\n            No notifications\n         </span>\n         <span class=\"padding\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"user.notifications.length\">\n   <div class=\"notification-scroll\">\n      <div ng-repeat=\"notification in user.notifications\"\n         class=\"notification\"\n         ng-style=\"getNotificationStyle(notification, $last)\"\n         ng-click=\"notificationClicked(notification)\">\n         <div class=\"message\">\n            <span class=\"user\">\n               <user-link user=\"notification.creator\"\n                        picture-size=\"1.2em\">\n               </user-link>\n            </span>\n            <span class=\"text\"\n                  ng-bind=\"notification.text\">\n            </span>\n         </div>\n         <div class=\"time\"\n            ng-bind=\"getNotificationTime(notification)\">\n         </div>\n      </div>\n   </div>\n</div>");

@@ -47,6 +47,14 @@ statusText – {string} – HTTP status text of the response.
 
       init: function(config, isFromServer) {
          this.callSuper()
+      },
+
+      isNoContent: function() {
+         return 204 === this.status;
+      },
+
+      isOk: function() {
+         return 200 === this.status;
       }
    })    
 }]);

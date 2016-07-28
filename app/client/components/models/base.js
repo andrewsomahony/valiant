@@ -196,6 +196,22 @@ function(id, promise) {
             return utils.findInArray(this.validEvents(), function(eventName) {
                return e === eventName
             })
+         },
+
+         allocateArray: function(objectArray, count, isFromServer) {
+            var returnArray = [];
+
+            var self = this;
+            if (objectArray) {
+              returnArray = utils.map(objectArray, function(object) {
+                 return new self(object, isFromServer);
+              });
+            } else {
+               for (var i = 0; i < count; i++) {
+                  returnArray.push(new self({}, isFromServer));
+               }
+            }
+            return returnArray;
          }
       },
 

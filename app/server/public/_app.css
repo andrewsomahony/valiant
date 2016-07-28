@@ -9899,11 +9899,11 @@ html, body {
   to {
     opacity: 1; } }
 
-.fade-in.ng-enter {
+.fade-in.ng-enter, .fade-in.ng-hide-remove {
   animation: fade-in 0.8s;
   opacity: 0; }
 
-.fade-out.ng-leave {
+.fade-out.ng-leave, .fade-out.ng-hide-add {
   animation: fade-in 0.8s reverse;
   opacity: 1; }
 

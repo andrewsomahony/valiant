@@ -25,7 +25,6 @@ function userCreateModel(Class, object) {
    var newObject = utils.clone(object);
 
    removeServerVariablesFromObject(newObject);
-   console.log(object, newObject);
 
    return new Class(newObject);
 }

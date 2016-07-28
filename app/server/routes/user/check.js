@@ -23,40 +23,36 @@ router.route('/check')
    } else {
       request.requestedUser.populateNotifications()
       .then(function() {
-         if (error) {
-            Responder.badRequest(result, error);
-         } else {
-            var hasNewNotifications = false;
-            if (currentUser.checked_at) {
-               request.requestedUser.notifications.every(function(notification) {
-                  if (DateObject.dateIsBefore(currentUser.checked_at, notification.updated_at)) {
-                     hasNewNotifications = true;
-                     return false;
-                  } else {
-                     return true;
-                  }
-               });
-            } else {
-               hasNewNotifications = true;
-            }
-
-            currentUser.checked_at = DateObject.newISODateString();
-            currentUser.save(function(error) {
-               if (error) {
-                  Responder.badRequest(result, error);
+         var hasNewNotifications = false;
+         if (currentUser.checked_at) {
+            request.requestedUser.notifications.every(function(notification) {
+               if (DateObject.dateIsBefore(currentUser.checked_at, notification.updated_at)) {
+                  hasNewNotifications = true;
+                  return false;
                } else {
-                  if (true === hasNewNotifications) {
-                     Responder.ok(result, 
-                        {notifications: request.requestedUser.notifications.map(function(n) {
-                           return n.frontEndObject();
-                        })
-                     });
-                  } else {
-                     Responder.noContent(result);
-                  }
+                  return true;
                }
             });
+         } else {
+            hasNewNotifications = true;
          }
+
+         currentUser.checked_at = DateObject.newISODateString();
+         currentUser.save(function(error) {
+            if (error) {
+               Responder.badRequest(result, error);
+            } else {
+               if (true === hasNewNotifications) {
+                  Responder.ok(result, 
+                     {notifications: request.requestedUser.notifications.map(function(n) {
+                        return n.frontEndObject();
+                     })
+                  });
+               } else {
+                  Responder.noContent(result);
+               }
+            }
+         });
       })
       .catch(function(error) {
          Responder.badRequest(result, error);

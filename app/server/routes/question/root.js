@@ -132,13 +132,13 @@ router.route('/:questionId/comment')
             Responder.badRequest(result, error);
          } else {
             var notificationPromise = null;
-            if (!Request.getUser(request).isUser(request.question._creator)) {
+            //if (!Request.getUser(request).isUser(request.question._creator)) {
                notificationPromise = request.question._creator.addNotification(
                   "question_comment",
                   Request.getUser(request),
                   request.question
                );
-            }
+            //}
 
             Promise.when(notificationPromise)
             .then(function() {

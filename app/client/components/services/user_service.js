@@ -10,6 +10,7 @@ registerService('factory', name, [
                                     require('services/promise'),
                                     require('services/http_service'),
                                     require('models/user'),
+                                    require('models/notification'),
                                     require('services/api_url'),
                                     require('services/error'),
                                     require('services/progress'),
@@ -19,7 +20,7 @@ registerService('factory', name, [
                                     require('models/picture'),
                                     require('services/media_service'),
                                     require('services/workout_builder_service'),
-function(Promise, HttpService, UserModel, ApiUrlService,
+function(Promise, HttpService, UserModel, NotificationModel, ApiUrlService,
 ErrorService, ProgressService, SerialPromise, ParallelPromise, S3UploaderService,
 PictureModel, MediaService, WorkoutBuilderService) {    
     var currentUser = null;
@@ -137,7 +138,8 @@ PictureModel, MediaService, WorkoutBuilderService) {
     // user.
     
     UserService.updateCurrentUserIfSame = function(user) {
-        if (user.id === currentUser.id) {
+        if (currentUser &&
+            user.id === currentUser.id) {
             currentUser = user.clone();
         }
     }
@@ -153,7 +155,8 @@ PictureModel, MediaService, WorkoutBuilderService) {
     // See the comment for updateCurrentUserIfSame
     
     UserService.updateCurrentRequestedUserIfSame = function(user) {
-        if (user.id === currentRequestedUser.id) {
+        if (currentRequestedUser &&
+            user.id === currentRequestedUser.id) {
             currentRequestedUser = user.clone();
         }
     }
@@ -539,7 +542,34 @@ PictureModel, MediaService, WorkoutBuilderService) {
              })
           }
        });
+    }
 
+    UserService.check = function(user) {
+       return Promise(function(resolve, reject) {
+           HttpService.get(ApiUrlService([
+               {
+                   name: 'User',
+                   paramArray: [user.id]
+               },
+               {
+                   name: 'Check'
+               }
+           ]))
+           .then(function(response) {
+              if (true === response.isOk()) {
+                 if (response.data.notifications) {
+                    user.notifications = NotificationModel.allocateArray(
+                        response.data.notifications, 
+                        null, true);
+                 }
+                 UserService.updateCurrentAndRequestedUsersIfSame(user);
+              }
+              resolve(user);
+           })
+           .catch(function(error) {
+               reject(error);
+           })
+       })
     }
     
     UserService.getUser = function(userId) {
