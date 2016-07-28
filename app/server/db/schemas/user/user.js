@@ -52,21 +52,6 @@ var UserSchema = new Schema({
         type: Boolean,
         default: true
     },
-    /*
-    questions: {
-        type: [{
-                 type: Schema.Types.ObjectId, 
-                 ref: 'Question' 
-              }],
-        default: []
-    },
-    workouts: {
-        type: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Workout'
-        }],
-        default: []
-    },*/
     facebook_id: {
         type: String,
         default: ""
@@ -74,6 +59,10 @@ var UserSchema = new Schema({
     is_connected_to_facebook: {
         type: Boolean,
         default: false
+    },
+    checked_at: {
+        type: Date,
+        default: ""
     }
 },
 {

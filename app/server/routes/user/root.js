@@ -134,4 +134,6 @@ router.route('/:userId')
     Responder.methodNotAllowed(result);
 });
 
+router.use("/:userId", require("./check"));
+
 module.exports = router;

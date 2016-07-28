@@ -46,6 +46,9 @@ registerService('factory', name, [function() {
                         url: "reset"
                     }
                 }
+            },
+            'Check': {
+               url: "check"
             }
          },
          paramArray: {

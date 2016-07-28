@@ -16,12 +16,13 @@
             </span>
             <span class="login-name" ng-bind="getFirstName()"></span>
          </a>
-         <!-- Need to make this a directive! -->
          <notifications-button 
             class="button cancel-underline"
             user="getLoggedInUser()">
          </notifications-button>
-         <a class="login-button cancel-underline" ng-click="logout()">
+         <a class="login-button cancel-underline" 
+            confirm-click="logout()"
+            confirm-message="Logout?">
             <span>Logout</span>
          </a>
       </div>

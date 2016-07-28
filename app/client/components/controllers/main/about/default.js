@@ -12,9 +12,26 @@ registerController(name, ['$scope',
                           require('services/error_modal'),
                           require('services/http_service'),
                           require('services/confirm_modal_service'),
+                          require('services/api_url'),
+                          require('services/user_service'),
 function($scope, ErrorService, Progress, HttpResponseModel, 
-ErrorModal, HttpService, ConfirmModal) {
+ErrorModal, HttpService, ConfirmModal, ApiUrlService, UserService) {
     $scope.onTestRequestClick = function() {
+        /*HttpService.get(ApiUrlService([
+            {
+                name: 'User',
+                paramArray: [UserService.getCurrentUser().id]
+            },
+            {
+                name: 'Check'
+            }
+        ]))
+        .then(function(data) {
+            console.log(data);
+        })
+        .catch(function(error) {
+            ErrorModal(error);
+        })*/
         HttpService.get('/api/users')
         .then(function(response) {
             console.log(response.data);
