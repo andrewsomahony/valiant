@@ -76,6 +76,12 @@ function(ScopeService, DateService, StateService, $popover) {
          $scope.toggleNotificationsWindow = function() {
             notificationsPopover.toggle();
          }
+
+         $scope.$watch("getNumberOfUnreadNotifications()", function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+               console.log("NEW NOTIFICATIONS", newValue);
+            }
+         });
       }
    }
 }
