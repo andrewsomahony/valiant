@@ -5,28 +5,38 @@ var registerDirective = require('directives/register');
 var name = 'confirmClick';
 
 registerDirective(name, [require('services/confirm_modal_service'),
+                         require('services/scope_service'),
                          '$compile',
-function(ConfirmModalService, $compile) {
+                         '$parse',
+function(ConfirmModalService, ScopeService, $compile, $parse) {
    return {
       restrict: "A",
-      scope: {
+      /*scope: {
          confirmClick: "&",
          confirmMessage: "@"
-      },
+      },*/
       link: function($scope, $element, $attributes) {
-         $scope.onConfirmClick = function() {
-            ConfirmModalService($scope.confirmMessage)
+         var $newScope = ScopeService.newScope($scope);
+
+         $newScope.onClick = $parse($attributes.confirmClick);
+
+         $newScope.onConfirmClick = function() {
+            ConfirmModalService($newScope.message)
             .then(function(yes) {
                if (yes) {
-                  $scope.confirmClick();
+                  $newScope.onClick($scope);
                }
             });
          }
          
-         $element.attr('ng-click', 'onConfirmClick()');
+         $attributes.$observe('confirmMessage', function(m) {
+            $newScope.message = m;
          
-         $element.removeAttr('confirm-click');
-         $compile($element)($scope);
+            $element.attr('ng-click', 'onConfirmClick()');
+            
+            $element.removeAttr('confirm-click');
+            $compile($element)($newScope);
+         });
       }
    }
 }]);

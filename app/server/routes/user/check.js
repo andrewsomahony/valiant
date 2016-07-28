@@ -14,12 +14,46 @@ var NotificationModel = require(__base + 'db/models/notification/notification');
 
 router.route('/check')
 .get(function(request, result) {
-   var user = Request.getUser(request);
+   var currentUser = Request.getUser(request);
 
-   Responder.ok(result, {tempMessage: "Hello"});
+   if (!currentUser.isUser(request.requestedUser)) {
+      Responder.forbidden(result);
+   } else {
+      request.requestedUser.populateNotifications()
+      .then(function() {
+         if (error) {
+            Responder.badRequest(result, error);
+         } else {
+            var hasNewNotifications = false;
+            request.requestedUser.notifications.forEach(function(notification) {
+               
+            });
+
+            currentUser.checked_at = new ISODate();
+            currentUser.save(function(error) {
+               if (error) {
+                  Responder.badRequest(result, error);
+               } else {
+                  if (true === hasNewNotifications) {
+                     Responder.ok(result, 
+                        {notifications: request.requestedUser.notifications.map(function(n) {
+                           return n.frontEndObject();
+                        })
+                     });
+                  } else {
+                     Responder.noContent(result);
+                  }
+               }
+            });
+         }
+      })
+      .catch(function(error) {
+         Responder.badRequest(result, error);
+      })
+   }
 })
 .post(function(request, result) {
-
+   Responder.methodNotAllowed(result);
 })
 .put(function(request, result) {
    Responder.methodNotAllowed(result);

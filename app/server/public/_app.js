@@ -81,21 +81,6 @@ registerController(name, ['$scope',
 function($scope, ErrorService, Progress, HttpResponseModel, 
 ErrorModal, HttpService, ConfirmModal, ApiUrlService, UserService) {
     $scope.onTestRequestClick = function() {
-        /*HttpService.get(ApiUrlService([
-            {
-                name: 'User',
-                paramArray: [UserService.getCurrentUser().id]
-            },
-            {
-                name: 'Check'
-            }
-        ]))
-        .then(function(data) {
-            console.log(data);
-        })
-        .catch(function(error) {
-            ErrorModal(error);
-        })*/
         HttpService.get('/api/users')
         .then(function(response) {
             console.log(response.data);
@@ -104,6 +89,8 @@ ErrorModal, HttpService, ConfirmModal, ApiUrlService, UserService) {
             ErrorModal(error);
         });
     }
+
+    $scope.englandVariable = "Did England win?";
 
     $scope.england = function() {
         ErrorModal("No they didn't");
@@ -1830,34 +1817,44 @@ var registerDirective = require('directives/register');
 var name = 'confirmClick';
 
 registerDirective(name, [require('services/confirm_modal_service'),
+                         require('services/scope_service'),
                          '$compile',
-function(ConfirmModalService, $compile) {
+                         '$parse',
+function(ConfirmModalService, ScopeService, $compile, $parse) {
    return {
       restrict: "A",
-      scope: {
+      /*scope: {
          confirmClick: "&",
          confirmMessage: "@"
-      },
+      },*/
       link: function($scope, $element, $attributes) {
-         $scope.onConfirmClick = function() {
-            ConfirmModalService($scope.confirmMessage)
+         var $newScope = ScopeService.newScope($scope);
+
+         $newScope.onClick = $parse($attributes.confirmClick);
+
+         $newScope.onConfirmClick = function() {
+            ConfirmModalService($newScope.message)
             .then(function(yes) {
                if (yes) {
-                  $scope.confirmClick();
+                  $newScope.onClick($scope);
                }
             });
          }
          
-         $element.attr('ng-click', 'onConfirmClick()');
+         $attributes.$observe('confirmMessage', function(m) {
+            $newScope.message = m;
          
-         $element.removeAttr('confirm-click');
-         $compile($element)($scope);
+            $element.attr('ng-click', 'onConfirmClick()');
+            
+            $element.removeAttr('confirm-click');
+            $compile($element)($newScope);
+         });
       }
    }
 }]);
 
 module.exports = name;
-},{"directives/register":53,"services/confirm_modal_service":95}],38:[function(require,module,exports){
+},{"directives/register":53,"services/confirm_modal_service":95,"services/scope_service":132}],38:[function(require,module,exports){
 'use strict';
 
 var registerDirective = require('directives/register');
@@ -2108,15 +2105,17 @@ function(ScopeService, $compile, $parse) {
          buttonSize: "@"
       },*/
       link: function($scope, $element, $attributes) {
-         $scope.canDelete = ScopeService.parseBool($attributes.canDelete, true);
-         $scope.canView = ScopeService.parseBool($attributes.canView, true);
+         var $newScope = ScopeService.newScope($scope);
 
-         var onDelete = $parse($attributes['onDelete']);
-         var onView = $parse($attributes['onView']);
+         $newScope.canDelete = ScopeService.parseBool($attributes.canDelete, true);
+         $newScope.canView = ScopeService.parseBool($attributes.canView, true);
 
-         $scope.canShowButtons = false;
+         $newScope.onDelete = $parse($attributes.onDelete);
+         $newScope.onView = $parse($attributes.onView);
 
-         $scope.getOverlayElementStyle = function() {
+         $newScope.canShowButtons = false;
+
+         $newScope.getOverlayElementStyle = function() {
             var style = {};
 
             style['top'] = "0px";
@@ -2127,28 +2126,24 @@ function(ScopeService, $compile, $parse) {
             return style;
          }
 
-         $scope.onDeleteClicked = function(e) {
+         $newScope.onDeleteClicked = function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            if (onDelete) {
-               onDelete($scope);
-            }
+            $newScope.onDelete($scope);
          }
 
-         $scope.onViewClicked = function(e) {
+         $newScope.onViewClicked = function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            if (onView) {
-               onView($scope);
-            }
+            $newScope.onView($scope);
          }
 
-         $scope.getGenericButtonStyle = function() {
+         $newScope.getGenericButtonStyle = function() {
             var style = {};
 
-            if ($scope.canShowButtons) {
+            if ($newScope.canShowButtons) {
                style['display'] = 'inline-block';
             } else {
                style['display'] = 'none';
@@ -2160,8 +2155,8 @@ function(ScopeService, $compile, $parse) {
             return style;
          }
 
-         $scope.getDeleteButtonStyle = function() {
-            var style = $scope.getGenericButtonStyle();
+         $newScope.getDeleteButtonStyle = function() {
+            var style = $newScope.getGenericButtonStyle();
 
             var sizeOffset = parseInt($attributes.buttonSize) / 4;
 
@@ -2171,8 +2166,8 @@ function(ScopeService, $compile, $parse) {
             return style;
          }
 
-         $scope.getViewButtonStyle = function() {
-            var style = $scope.getGenericButtonStyle();
+         $newScope.getViewButtonStyle = function() {
+            var style = $newScope.getGenericButtonStyle();
 
             var sizeOffset = parseInt($attributes.buttonSize) / 4;
             var visualOffset = parseInt($attributes.buttonSize) / 8;
@@ -2183,12 +2178,12 @@ function(ScopeService, $compile, $parse) {
             return style;
          }
 
-         $scope.onOverlayMouseOver = function() {
-            $scope.canShowButtons = true;
+         $newScope.onOverlayMouseOver = function() {
+            $newScope.canShowButtons = true;
          }
 
-         $scope.onOverlayMouseOut = function() {
-            $scope.canShowButtons = false;
+         $newScope.onOverlayMouseOut = function() {
+            $newScope.canShowButtons = false;
          }
 
          var $overlayElement = angular.element("<div></div>");
@@ -2198,7 +2193,7 @@ function(ScopeService, $compile, $parse) {
          $overlayElement.attr('ng-mouseover', 'onOverlayMouseOver()');
          $overlayElement.attr('ng-mouseout', 'onOverlayMouseOut()');
 
-         if (true === $scope.canDelete) {
+         if (true === $newScope.canDelete) {
             var $deleteButton = angular.element("<div></div>");
             $deleteButton.addClass('options-button');
 
@@ -2212,7 +2207,7 @@ function(ScopeService, $compile, $parse) {
             $overlayElement.append($deleteButton);
          }
 
-         if (true === $scope.canView) {
+         if (true === $newScope.canView) {
             var $viewButton = angular.element("<div></div>");
             $viewButton.addClass('options-button');
 
@@ -2226,7 +2221,7 @@ function(ScopeService, $compile, $parse) {
             $overlayElement.append($viewButton);
          }
 
-         $element.append($compile($overlayElement)($scope));
+         $element.append($compile($overlayElement)($newScope));
       }
    }
 }
@@ -10419,6 +10414,10 @@ function($rootScope) {
       parent = parent || null;
       
       return $rootScope.$new(isIsolate, parent);
+   }
+
+   ScopeService.newScope = function(parentScope) {
+      return parentScope.$new();
    }
    
    return ScopeService;
@@ -92493,7 +92492,6 @@ exports.createContext = Script.createContext = function (context) {
 },{"indexof":294}],347:[function(require,module,exports){
 angular.module("valiant.views", []).run(["$templateCache", function($templateCache) {$templateCache.put("admin.html","<div class=\"container admin\">\n    <div class=\"row\">\n        <div ui-view=\"header\" class=\"header\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"content\" class=\"content\"></div>\n    </div>\n    <div class=\"row\">\n        <div ui-view=\"footer\" class=\"footer\"></div>\n    </div>\n</div>");
 $templateCache.put("main.html","<div class=\"container-fluid main\">\n    <div class=\"row\">\n        <div class=\"top-bar col-xs-12 col-md-12 col-lg-12\" ui-view=\"top_bar\"></div>\n    </div>\n    \n    <div class=\"mobile-scroll\" style=\"height:100%;\">\n      <div class=\"mobile-container\">\n         <div class=\"row\">\n            <div ui-view=\"header\" class=\"header\"></div>\n         </div>    \n         \n         <div class=\"row\">\n            <div class=\"col-lg-12 col-md-12 col-sm-12 hidden-xs large-header-padding\"></div>\n            <div class=\"hidden-lg hidden-md hidden-sm col-xs-12 mobile-header-padding\"></div>\n         </div>\n         \n         <div class=\"main-content\">\n            <div class=\"row\">\n               <div class=\"mobile-ad-space hidden-lg hidden-md hidden-sm col-xs-12\">\n                  <img src=\"./images/temp_mobile_ad.png\" />\n               </div>\n            </div>\n            \n            <div class=\"row row-eq-height\" style=\"height: 100%;\">\n                  <!--<div class=\"content-padding col-md-1 col-lg-1 col-sm-1 hidden-xs\"></div>-->\n                  <div ui-view=\"content\" class=\"content col-md-9 col-lg-9 col-sm-9 col-xs-12\" style=\"min-height:100%;\"></div>\n                  <div ui-view=\"ad_space_right\" class=\"ad-space col-lg-3 col-sm-3 col-md-3 hidden-xs\" style=\"min-height:100%;\">\n                     <div class=\"ad-container\">\n                        <div class=\"ad\">\n                            <img src=\"./images/temp_ad1.jpg\" />\n                        </div>\n                        <div class=\"ad ad1\">\n                            <img src=\"./images/temp_ad2.png\" />\n                        </div>\n                     </div>\n                     <div class=\"copyright\">\n                        Andrew O\'Mahony (c) 2016\n                     </div>\n                  </div>\n            </div>\n         </div>\n      </div>\n    </div>\n</div>");
-$templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
 $templateCache.put("directives/collapsible_content.html","<div>\n   <div class=\"title\">\n      <span font-awesome-icon-text \n            class=\"icon\"\n            text=\"{{title}}\" \n            icon=\"{{isOpen ? \'fa-caret-down\' : \'fa-caret-right\'}}\"\n            ng-click=\"toggleOpen()\">\n      </span>\n   </div>\n   <div class=\"content\">\n      <div class=\"options\" ng-if=\"allowsSearch\">\n         <input class=\"search form-control\" type=\"text\" placeholder=\"Search\" />\n      </div>\n      <div class=\"collapse-content\">\n      </div>\n   </div>\n</div>");
 $templateCache.put("directives/comment.html","<div>\n   <div ng-if=\"!isEditing\" class=\"display\">\n      <div class=\"creator\">\n         <user-link user=\"model.creator\"\n                    picture-size=\"1.3em\">\n         </user-link>\n         <span class=\"date\" ng-bind=\"getDateString()\"></span>\n      </div>\n      <div class=\"text\" ng-bind=\"model.text\">\n      </div>\n      <div class=\"options\">\n      </div>\n   </div>\n\n   <div ng-if=\"isEditing\" class=\"edit\" ng-style=\"getEditDivStyle()\">\n      <div class=\"text\">\n         <textarea \n            class=\"form-control\"\n            ng-model=\"editingComment.text\">\n         </textarea>\n      </div>\n      <div class=\"options\">\n         <a class=\"left\" \n            ng-click=\"saveClicked()\"\n            ng-bind=\"saveButtonText || \'Save\'\">\n         </a>\n         <a class=\"right\"\n            ng-click=\"cancelClicked()\"\n            ng-bind=\"cancelButtonText || \'Cancel\'\">\n         </a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("directives/facebook_button.html","<span class=\"facebook-button\" ng-if=\"facebookIsReady()\">\n    <button ng-if=\"!isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"loginToFacebook()\">Login with Facebook</button>\n    <button ng-if=\"isLoggedIn() && !isLoggedIntoFacebook()\" ng-click=\"connectToFacebook()\">Connect to Facebook</button>\n    <button ng-if=\"isLoggedIn() && isLoggedIntoFacebook()\" ng-click=\"disconnectFromFacebook()\">Disconnect with Facebook</button>\n</span>");
@@ -92505,6 +92503,7 @@ $templateCache.put("directives/user_link.html","<a class=\"cancel-underline\"\n 
 $templateCache.put("directives/video_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\"\n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\"\n        ng-click=\"activateFileReader()\"  \n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-video-camera fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div> \n   <div class=\"progress-message\">\n      <span ng-bind=\"getProgressMessage()\"></span>\n   </div>\n</div>\n\n\n<div class=\"fade-in has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"video\"\n           model=\"model\"\n           width=\"95%\"\n           fitted=\"true\"\n           centered=\"true\"\n           class=\"video-container\"\n           can-preload=\"true\"\n           show-uploading=\"false\"\n           can-hide-while-loading=\"false\"\n           information=\"videoInformation\"\n           on-event=\"onVideoEvent(name)\">\n      </div>\n      \n      <div class=\"media-container-options video-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateFileReader()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>\n      \n      <div ng-if=\"model.upload_progress\">\n         <div loading-progress\n              type=\"overlay_circle\"\n              show-percentage=\"false\"\n              progress-object=\"model.upload_progress\">\n         </div>\n      </div>\n              \n   </div>\n</div>\n\n<file-reader\n   supports-multiple=\"false\"\n   accept=\"video/mp4,video/x-m4v,video/*\"\n   create=\"fileReaderCreator\"\n   on-created=\"onFileReaderCreated(elementId)\"\n   on-files-added=\"onVideoSelectSuccess(files)\"\n   on-files-progress=\"onVideoSelectProgress(progress)\"\n   on-files-error=\"onVideoSelectError(error)\">\n</file-reader> ");
 $templateCache.put("directives/workout_widget.html","<div ng-style=\"getWidgetStyle()\"\n     ng-class=\"getWidgetClass()\"\n     ng-click=\"onWidgetClicked()\">\n   <div class=\"title\">\n      <span ng-bind=\"workout.name\">\n      </span>\n   </div>\n\n   <div class=\"description\">\n      <div class=\"text-container centered\"\n           ng-style=\"getTextContainerStyle()\">\n         <span class=\"distance\"\n               ng-bind=\"workout.getTotalDistance()\">\n         </span>\n         <br />\n         <span class=\"stroke\" workout-icons=\"workout\" size=\"2em\">\n         </span>\n      </div>\n   </div>\n</div>");
 $templateCache.put("directives/youtube_media_picker.html","<div class=\"no-media\" \n     ng-if=\"!hasMedia()\" \n     ng-style=\"getRootNoMediaDivStyle()\">\n   <div ng-if=\"!isLoadingMedia\" \n        ng-click=\"activateUrlModal()\"\n        font-awesome-centered-icon \n        font-awesome-params=\"fa fa-youtube fa-5x\">\n   </div>\n   \n   <div ng-if=\"isLoadingMedia\"\n        font-awesome-centered-icon\n        font-awesome-params=\"fa fa-refresh fa-spin fa-4x fa-fw\">\n   </div>\n</div>\n\n<div class=\"has-media\" ng-if=\"hasMedia()\" ng-style=\"getHasMediaDivStyle()\">\n   <div class=\"media-container\">\n      <div media-renderer=\"youtube\"\n         fitted=\"true\"\n         centered=\"true\"\n         model=\"model\"\n         class=\"youtube-container\"\n         width=\"{{getYoutubeRendererWidth()}}\"\n         on-error=\"onYoutubeRendererError(error)\">\n      </div>\n\n      <div class=\"media-container-options youtube-container-options\">\n         <div class=\"media-container-option-description\">\n            <input class=\"form-control\" \n                   ng-model=\"model.description\"\n                   ng-if=\"!isReadOnly\"\n                   placeholder=\"Quick Description\" />\n            <span ng-if=\"isReadOnly\" ng-bind=\"model.description\"></span>\n         </div>\n         <div ng-if=\"!isReadOnly\">\n            <span class=\"media-container-option-left\">\n               <a ng-click=\"activateUrlModal()\">Change</a>\n            </span>\n            <span class=\"media-container-option-right\">\n               <a ng-click=\"deleteModel()\">Delete</a>\n            </span>\n         </div>\n      </div>  \n   </div>\n</div>");
+$templateCache.put("messages/registration.html","<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"email\">Invalid format</span>\n<span class=\"form-error\" ng-message=\"emailInUse\">Already in use</span>\n<span class=\"form-error\" ng-message=\"required\">Required</span>\n<span class=\"form-error\" ng-message=\"minlength\">Not long enough</span>\n<span class=\"form-error\" ng-message=\"compareTo\">Passwords must match!</span>\n");
 $templateCache.put("directives/workout_builder/set_element_modification_renderer.html","<div ng-if=\"!isEditing\" class=\"display\">\n   <span class=\"icon\">\n      <img ng-src=\"{{getModificationIcon()}}\" />\n   </span>\n   <span class=\"display name\" ng-bind=\"formatModificationName(model)\"></span>\n\n   <span class=\"display\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" \n         confirm-click=\"deleteClicked()\"\n         confirm-message=\"Delete Modification?\">Delete</a>\n      <a class=\"right\"\n         clipboard-copy-link=\"model\"></a>\n   </span>\n\n   <div ng-bind=\"errorMessage\" \n        ng-if=\"errorMessage\"\n        class=\"error\">\n   </div>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\"> \n   <div class=\"paste\"\n        clipboard-paste=\"editingModel\"\n        name=\"Modification\">\n   </div>    \n   <div class=\"form\">\n      <span class=\"edit-icon\" font-awesome-icon-text icon=\"fa-cogs\">\n      </span>\n\n      <select ng-model=\"editingModel.name\"\n                  ng-options=\"modification for modification in getModificationList()\"\n                  class=\"form-control\">\n         <option value=\"\">--Select Modification--</option>\n      </select>\n      <span class=\"is-optional fa-checkbox\">\n         <input type=\"checkbox\" class=\"fa-square-checkbox\" ng-model=\"editingModel.is_optional\" />\n         <label>Optional?</label>\n      </span>\n   </div>\n   <div class=\"bottom-options\">\n      <a class=\"left\" ng-bind=\"saveButtonText || \'Save Modification\'\" ng-click=\"saveClicked()\"></a>\n      <a class=\"right\" ng-bind=\"cancelButtonText || \'Cancel\'\" ng-click=\"cancelClicked()\"></a>\n   </div>\n\n   <div ng-bind=\"errorMessage\" \n        ng-if=\"errorMessage\"\n        class=\"error\">\n   </div>\n</div>");
 $templateCache.put("directives/workout_builder/set_element_renderer.html","<div ng-if=\"!isEditing\" class=\"display\">\n   <span font-awesome-icon-text class=\"bullet\" icon=\"fa-circle-o\">\n   </span>\n   <span ng-bind=\"getElementQuantityAndDistance()\"></span>\n   <span ng-bind=\"getElementStroke()\"></span>\n   <span class=\"notes\" ng-bind=\"getElementNotes()\" ng-if=\"model.notes\"></span>\n   <span class=\"inline-menu\" ng-if=\"isEditable\">\n      <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n      <a class=\"right\" \n         confirm-click=\"deleteClicked()\"\n         confirm-message=\"Delete Swim?\">Delete</a>\n      <a class=\"right\"\n         clipboard-copy-link=\"model\">\n      </a>\n   </span>\n\n   <div class=\"list modifications\">\n      <div ng-repeat=\"modification in model.modifications\">\n         <set-element-modification model=\"modification\"\n                                    is-editable=\"false\">\n         </set-element-modification>\n      </div>\n   </div>\n\n   <div class=\"list intervals\">\n      <div ng-repeat=\"interval in model.intervals\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"interval\" \n                              is-interval=\"true\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n   <div class=\"list rests\">\n      <div ng-repeat=\"rest in model.rests\"\n            ng-if=\"showIntervalsAndRests\">\n            <speed-time model=\"rest\" \n                              is-interval=\"false\"\n                              is-editable=\"false\"></speed-time-display>\n      </div>\n   </div>\n\n   <div ng-bind=\"errorMessage\" \n        ng-if=\"errorMessage\"\n        class=\"error\">\n   </div>\n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"paste\" \n        clipboard-paste=\"editingElement\"\n        name=\"Swim\"></div>\n   <div class=\"element\">\n      <input class=\"distance form-control\" type=\"text\" placeholder=\"Distance\" ng-model=\"editingElement.distance\" />\n   </div>\n\n   <div class=\"element\">\n      <input class=\"quantity form-control\" type=\"text\" placeholder=\"Quantity\" ng-model=\"editingElement.quantity\" />\n   </div>\n\n   <div class=\"element\">\n      <select class=\"form-control\" ng-options=\"name for name in strokes\" \n            ng-model=\"editingElement.stroke\">\n         <option value=\"\">---Select Stroke---</option>\n      </select>\n   </div>\n\n   <div class=\"element list modifications\">\n      <div ng-repeat=\"modification in editingElement.modifications\">\n         <set-element-modification model=\"modification\"\n                                       is-editable=\"true\"\n                                       can-edit-inline=\"true\"\n                                       scroll-to-when-edited=\"false\"\n                                       is-initially-editing=\"{{modification.is_unborn}}\"\n                                       on-save-clicked=\"saveModification(modification)\"\n                                       on-cancel-clicked=\"cancelModification(modification)\"\n                                       on-delete-clicked=\"deleteModification(modification)\">\n         </set-element-modification>\n      </div>\n      <a ng-click=\"newModification()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Modification\"></span>\n         </span>\n      </a>      \n   </div>\n\n   <div class=\"element list intervals\">\n      <div ng-repeat=\"interval in editingElement.intervals\">\n         <speed-time model=\"interval\" \n                           is-interval=\"true\"\n                           is-editable=\"true\"\n                           can-edit-inline=\"true\"\n                           is-initially-editing=\"{{interval.is_unborn}}\"\n                           scroll-to-when-edited=\"false\"\n                           on-save-clicked=\"saveInterval(speedTime)\"\n                           on-cancel-clicked=\"cancelInterval(speedTime)\"\n                           on-delete-clicked=\"deleteInterval(speedTime)\">\n         </speed-time>\n      </div>  \n      <a ng-click=\"newInterval()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Interval\"></span>\n         </span>\n      </a>\n   </div>\n   \n   <div class=\"element list rests\">\n      <div ng-repeat=\"rest in editingElement.rests\">\n         <speed-time model=\"rest\" \n                     is-interval=\"false\"\n                     can-edit-inline=\"true\"\n                     scroll-to-when-edited=\"false\"\n                     is-initially-editing=\"{{rest.is_unborn}}\"\n                     on-save-clicked=\"saveRest(speedTime)\"\n                     on-cancel-clicked=\"cancelRest(speedTime)\"\n                     on-delete-clicked=\"deleteRest(speedTime)\"></speed-time>\n      </div>  \n      <a ng-click=\"newRest()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Rest\"></span>\n         </span>\n      </a>                   \n   </div>\n  \n\n   <div class=\"element\">\n      <input class=\"notes form-control\" type=\"text\" placeholder=\"Notes\" ng-model=\"editingElement.notes\" />\n   </div>\n\n   <div class=\"bottom-options\">\n      <a ng-click=\"saveClicked()\" class=\"left\" ng-bind=\"saveButtonText || \'Save Swim\'\"></a>\n      <a ng-click=\"cancelClicked()\" class=\"right\" ng-bind=\"saveButtonText || \'Cancel\'\"></a>\n   </div>\n\n   <div ng-bind=\"errorMessage\" \n        ng-if=\"errorMessage\"\n        class=\"error\">\n   </div>\n</div>");
 $templateCache.put("directives/workout_builder/set_renderer.html","<div ng-if=\"!isEditing && !model.is_unborn\" class=\"display\">\n   <div class=\"options\">\n      <span font-awesome-icon-text class=\"bullet\" icon=\"fa-circle\">\n      </span>\n      <span class=\"notes\" ng-bind=\"getSetNotes()\"></span>\n      <span class=\"quantity\" ng-bind=\"getSetQuantity()\"></span>\n\n      <span ng-if=\"isEditable\">\n         <a class=\"left\" ng-click=\"editClicked()\">Edit</a>\n         <a class=\"right\" \n            confirm-click=\"deleteClicked()\"\n            confirm-message=\"Delete Set?\">Delete</a>\n         <a class=\"right\"\n            clipboard-copy-link=\"model\"\n            ng-click=\"copySet()\"></a>\n      </span>\n   </div>\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in model.elements\">\n         <set-element model=\"element\"\n            is-editable=\"false\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>  \n   </div> \n\n   <div class=\"total\" ng-if=\"showTotalWhenNotEditing\">\n      <span font-awesome-icon-text icon=\"fa-arrow-right\" text=\"{{model.getTotalDistance()}}\">\n      </span>\n   </div>\n\n   <div ng-bind=\"errorMessage\" \n        ng-if=\"errorMessage\"\n        class=\"error\">\n   </div> \n</div>\n\n<div ng-if=\"isEditing\" class=\"edit\" ng-class=\"getEditDivClass()\">\n   <div class=\"paste\" \n        clipboard-paste=\"editingSet\"\n        name=\"Set\"></div>\n   <div class=\"options\">\n      <div class=\"option\">\n         <input type=\"text\" class=\"quantity form-control\" placeholder=\"Rounds\" ng-model=\"editingSet.quantity\" />\n      </div>\n      <div class=\"option\">\n         <input type=\"text\" class=\"form-control notes\" placeholder=\"Notes\" ng-model=\"editingSet.notes\" />\n      </div>\n   </div>\n\n   <div class=\"list elements\">\n      <div ng-repeat=\"element in editingSet.elements\">\n         <a ng-click=\"newSetElement($index)\">\n            <span font-awesome-icon-text\n                  icon=\"fa-angle-double-right\"\n                  text=\"Swim\"></span>\n            </span>\n         </a>\n         <set-element\n            model=\"element\"\n            on-save-clicked=\"saveSetElement(element)\"\n            on-delete-clicked=\"deleteSetElement(element)\"\n            on-cancel-clicked=\"cancelSetElement(element)\"\n            is-editable=\"true\"\n            can-edit-inline=\"true\"\n            scroll-to-when-edited=\"false\"\n            is-initially-editing=\"{{element.is_unborn}}\"\n            show-intervals-and-rests=\"true\">\n         </set-element>\n      </div>\n      <a ng-click=\"newSetElement()\">\n         <span font-awesome-icon-text\n               icon=\"fa-plus\"\n               text=\"Swim\"></span>\n         </span>\n      </a>\n   </div>\n\n   <div class=\"total\">\n      <span font-awesome-icon-text\n            icon=\"fa-arrow-right\"\n            text=\"{{editingSet.getTotalDistance()}}\">\n      </span>\n   </div>\n\n   <div class=\"bottom-options\">\n      <a class=\"left\"\n         ng-click=\"saveClicked()\" ng-bind=\"saveButtonText || \'Save Set\'\"></a>\n      <a class=\"right\" ng-click=\"cancelClicked()\" ng-bind=\"cancelButtonText || \'Cancel\'\"></a>\n   </div>\n\n   <div ng-bind=\"errorMessage\" \n        ng-if=\"errorMessage\"\n        class=\"error\">\n   </div> \n</div>\n\n");
@@ -92514,22 +92513,22 @@ $templateCache.put("modals/full/confirm_modal_full.html","<div class=\"modal\" t
 $templateCache.put("modals/full/error_modal_full.html","<div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n      </div>\n      <div class=\"modal-body\" ng-bind=\"content\"></div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"okClicked()\">Ok</button>\n      </div>\n    </div>\n  </div>\n</div>");
 $templateCache.put("modals/full/workout_modal.html","<div class=\"modal workout-modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n        <div workout-icons=\"workout\" size=\"1.1em\">\n        </div>\n      </div>\n      <div class=\"modal-body\">\n         <workout model=\"workout\"\n                  is-editable=\"false\">        \n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onOkClicked()\">Ok</button>\n      </div>\n    </div>\n  </div>\n</div>\n");
 $templateCache.put("modals/full/youtube_url_modal_full.html","<div class=\"modal\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\" ng-show=\"title\">\n        <h4 class=\"modal-title\" ng-bind=\"title\"></h4>\n      </div>\n      <div class=\"modal-body\">\n         <input type=\"text\" \n               placeholder=\"Youtube URL\"\n               class=\"form-control\" \n               ng-model=\"url.url\" />         \n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onCancelClicked()\">Cancel</button>\n        <button type=\"button\" class=\"btn btn-default\" ng-click=\"onOkClicked()\">Ok</button>\n      </div>\n    </div>\n  </div>\n</div>\n");
+$templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
+$templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
 $templateCache.put("modals/partials/confirm_modal.html","<span ng-bind=\"message\"></span>");
 $templateCache.put("modals/partials/error_modal.html","<div class=\"error-modal\">\n    <span class=\"error-modal-message\" ng-bind=\"errorMessage\"></span>\n</div>");
 $templateCache.put("modals/partials/workout_modal.html","");
 $templateCache.put("modals/partials/youtube_url_modal.html","");
-$templateCache.put("partials/admin/footer.html","<span class=\"logout-link\"><a>Logout</a></span>");
-$templateCache.put("partials/admin/header.html","<div>Valiant Athletics Admin Page</div>\n");
-$templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n   <div class=\"logo-container\">\n      <a ui-sref=\"main.page.home.default\" class=\"cancel-underline\">\n          <img class=\"logo\" src=\"images/temp_logo.jpg\" />\n      </a>\n   </div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
-$templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n   <div class=\"nav-sub-container\">\n      <nav>\n         <a class=\"link about cancel-underline old-underline\" ui-sref=\"main.page.about.default\">About</a>\n         <a class=\"link blog cancel-underline old-underline\" ui-sref=\"main.page.blog.default\">Blog</a>\n         <a class=\"link question cancel-underline old-underline\" ui-sref=\"main.page.question.ask\">Coaching</a>\n         <a class=\"link contact cancel-underline old-underline\" ui-sref=\"main.page.contact.default\">Contact</a>\n      </nav>\n   </div>\n</div>");
-$templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"button login-button cancel-underline\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"button profile-name-and-picture cancel-underline\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <!-- Need to make this a directive! -->\n         <notifications-button \n            class=\"button cancel-underline\"\n            user=\"getLoggedInUser()\">\n         </notifications-button>\n         <a class=\"login-button cancel-underline\" \n            confirm-click=\"logout()\"\n            confirm-message=\"Logout?\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
-$templateCache.put("partials/main/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\"\n   ng-bind=\"unauthorizedMessage\">\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("popovers/full/notifications_full.html","<div class=\"popover notifications\" tabindex=\"-1\">\n   <div class=\"arrow\"></div>\n   <h3 class=\"popover-title\" ng-bind=\"title\" ng-show=\"title\"></h3>\n   <div class=\"popover-content\" ng-bind=\"content\"></div>\n</div>");
 $templateCache.put("popovers/partials/notifications.html","<div ng-if=\"!user.notifications.length\">\n   <div class=\"notification-scroll empty\">\n      <div class=\"empty-content\">\n         <span class=\"empty-message\">\n            No notifications\n         </span>\n         <span class=\"padding\"></span>\n      </div>\n   </div>\n</div>\n\n<div ng-if=\"user.notifications.length\">\n   <div class=\"notification-scroll\">\n      <div ng-repeat=\"notification in user.notifications\"\n         class=\"notification\"\n         ng-style=\"getNotificationStyle(notification, $last)\"\n         ng-click=\"notificationClicked(notification)\">\n         <div class=\"message\">\n            <span class=\"user\">\n               <user-link user=\"notification.creator\"\n                        picture-size=\"1.2em\">\n               </user-link>\n            </span>\n            <span class=\"text\"\n                  ng-bind=\"notification.text\">\n            </span>\n         </div>\n         <div class=\"time\"\n            ng-bind=\"getNotificationTime(notification)\">\n         </div>\n      </div>\n   </div>\n</div>");
+$templateCache.put("partials/main/header.html","<div class=\"col-md-7 col-xs-12\">\n   <div class=\"logo-container\">\n      <a ui-sref=\"main.page.home.default\" class=\"cancel-underline\">\n          <img class=\"logo\" src=\"images/temp_logo.jpg\" />\n      </a>\n   </div>\n</div>\n\n<div class=\"col-md-5 col-xs-12\">\n    <div class=\"nav-bar\" ui-view=\"nav_bar\"></div>\n</div>\n");
+$templateCache.put("partials/main/nav_bar.html","<div class=\"nav-container\">\n   <div class=\"nav-sub-container\">\n      <nav>\n         <a class=\"link about cancel-underline old-underline\" ui-sref=\"main.page.about.default\">About</a>\n         <a class=\"link blog cancel-underline old-underline\" ui-sref=\"main.page.blog.default\">Blog</a>\n         <a class=\"link question cancel-underline old-underline\" ui-sref=\"main.page.question.ask\">Coaching</a>\n         <a class=\"link contact cancel-underline old-underline\" ui-sref=\"main.page.contact.default\">Contact</a>\n      </nav>\n   </div>\n</div>");
+$templateCache.put("partials/main/top_bar.html","<div class=\"social-links\"></div>\n\n<div class=\"user-details\">\n   <div class=\"login-info\">\n      <div ng-if=\"false === isLoggedIn()\">\n         <a class=\"button login-button cancel-underline\" ui-sref=\"main.page.login.default\">\n            <span>Login</span>\n         </a>\n      </div>\n      \n      <div ng-if=\"true === isLoggedIn()\">\n         <a class=\"button profile-name-and-picture cancel-underline\"\n            ui-sref=\"main.page.user.default({userId: getUserId()})\">\n            <span class=\"profile-picture-mini\">\n               <profile-picture user=\"getLoggedInUser()\" width=\"18px\"></profile-picture>\n            </span>\n            <span class=\"login-name\" ng-bind=\"getFirstName()\"></span>\n         </a>\n         <notifications-button \n            class=\"button cancel-underline\"\n            user=\"getLoggedInUser()\">\n         </notifications-button>\n         <a class=\"login-button cancel-underline\" \n            confirm-click=\"logout()\"\n            confirm-message=\"Logout?\">\n            <span>Logout</span>\n         </a>\n      </div>\n   </div>\n</div>");
+$templateCache.put("partials/main/unauthorized.html","<div class=\"unauthorized\">\n   <div class=\"unauthorized-header\"\n   ng-bind=\"unauthorizedMessage\">\n   </div>\n   \n   <div class=\"unauthorized-login\">\n      <a ui-sref=\"main.page.login.default\">Login</a>\n   </div>\n   \n   <div class=\"unauthorized-register\">\n      <div class=\"unauthorized-noproblem\">\n         Don\'t have an account?  No problem!\n      </div>\n   \n      <div class=\"unauthorized-register-link\">\n         <a ui-sref=\"main.page.register.default\">Get an account</a>\n      </div>\n   </div>\n</div>");
 $templateCache.put("partials/admin/home/content.html","<span class=\"admin-text\">This is the admin page!</span>");
 $templateCache.put("partials/admin/home/home.html","<div class=\"home\">\n    <div ui-view=\"content\" class=\"content\"></div>\n</div>");
 $templateCache.put("partials/main/about/about.html","<div class=\"about\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
-$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button confirm-click=\"onTestRequestClick()\" \n        confirm-message=\"Test HTTP?\">\n   Test HTTP\n</button>\n\n<button confirm-click=\"england()\"\n        confirm-message=\"Did England win?\">\n   Talk about England\n</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
+$templateCache.put("partials/main/about/content.html","<span class=\"about-text\">This is about my love for my Beautiful <span ng-bind=\"name\"></span>.</span>\n\n<button confirm-click=\"onTestRequestClick()\" \n        confirm-message=\"Test HTTP?\">\n   Test HTTP\n</button>\n\n<button confirm-click=\"england()\"\n        confirm-message=\"{{englandVariable}}\">\n   Talk about England\n</button>\n\n<div loading-progress \n   type=\"pie\" \n   color=\"black\" \n   width=\"50px\"\n   progress-object=\"testProgressModel\"\n   style=\"display: inline-block;\">\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n<div>\n<img src=\"./images/temp_image.jpg\" />\n</div>\n");
 $templateCache.put("partials/main/error/content.html","<div class=\"error-header\">An error has occurred</div>\n\n<div class=\"error-message\" ng-bind=\"errorMessage\"></div>\n\n<div class=\"error-navigate\">Click <a ui-sref=\"main.page.home.default\">here</a> to go\nback to the homepage</div>");
 $templateCache.put("partials/main/error/error.html","<div class=\"error\">\n    <div ui-view=\"content\" class=\"sub-content\"></div>\n</div>");
 $templateCache.put("partials/main/home/content.html","<span class=\"home-text\">This is the main page!</span>");

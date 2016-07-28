@@ -88,9 +88,16 @@ router.param('userId', function(request, result, next, id) {
 router.route('/:userId')
 .get(function(request, result) {
    if (true === Permissions.ableToSeeUser(request, request.requestedUser)) {
+      var currentUser = Request.getUser(request);
+
       request.requestedUser.populateRefs()
       .then(function() {
-         Responder.ok(result, request.requestedUser.frontEndObject(['notifications']));
+         var excludedFields = [];
+         if (!currentUser ||
+             !request.requestedUser.isUser(currentUser)) {
+             excludedFields.push('notifications');
+         }
+         Responder.ok(result, request.requestedUser.frontEndObject(excludedFields));
       })
       .catch(function(error) {
          Responder.badRequest(result, error);

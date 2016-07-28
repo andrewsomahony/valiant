@@ -34,7 +34,7 @@ module.exports = function(schema, options) {
             if (error) {
                reject(error);
             } else {
-               self.notifications = notifications;
+               self.notifications = notifications || [];
                resolve();
             }
          });
@@ -52,7 +52,7 @@ module.exports = function(schema, options) {
             if (error) {
                reject(error);
             } else {
-               self.workouts = workouts;
+               self.workouts = workouts || [];
                resolve();
             }
          });
@@ -74,7 +74,7 @@ module.exports = function(schema, options) {
                   return q.populateComments();
                }))
                .then(function() {
-                  self.questions = questions;
+                  self.questions = questions || [];
                   resolve();
                })
                .catch(function(error) {

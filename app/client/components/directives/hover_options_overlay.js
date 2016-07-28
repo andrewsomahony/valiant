@@ -19,15 +19,17 @@ function(ScopeService, $compile, $parse) {
          buttonSize: "@"
       },*/
       link: function($scope, $element, $attributes) {
-         $scope.canDelete = ScopeService.parseBool($attributes.canDelete, true);
-         $scope.canView = ScopeService.parseBool($attributes.canView, true);
+         var $newScope = ScopeService.newScope($scope);
 
-         var onDelete = $parse($attributes['onDelete']);
-         var onView = $parse($attributes['onView']);
+         $newScope.canDelete = ScopeService.parseBool($attributes.canDelete, true);
+         $newScope.canView = ScopeService.parseBool($attributes.canView, true);
 
-         $scope.canShowButtons = false;
+         $newScope.onDelete = $parse($attributes.onDelete);
+         $newScope.onView = $parse($attributes.onView);
 
-         $scope.getOverlayElementStyle = function() {
+         $newScope.canShowButtons = false;
+
+         $newScope.getOverlayElementStyle = function() {
             var style = {};
 
             style['top'] = "0px";
@@ -38,28 +40,24 @@ function(ScopeService, $compile, $parse) {
             return style;
          }
 
-         $scope.onDeleteClicked = function(e) {
+         $newScope.onDeleteClicked = function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            if (onDelete) {
-               onDelete($scope);
-            }
+            $newScope.onDelete($scope);
          }
 
-         $scope.onViewClicked = function(e) {
+         $newScope.onViewClicked = function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            if (onView) {
-               onView($scope);
-            }
+            $newScope.onView($scope);
          }
 
-         $scope.getGenericButtonStyle = function() {
+         $newScope.getGenericButtonStyle = function() {
             var style = {};
 
-            if ($scope.canShowButtons) {
+            if ($newScope.canShowButtons) {
                style['display'] = 'inline-block';
             } else {
                style['display'] = 'none';
@@ -71,8 +69,8 @@ function(ScopeService, $compile, $parse) {
             return style;
          }
 
-         $scope.getDeleteButtonStyle = function() {
-            var style = $scope.getGenericButtonStyle();
+         $newScope.getDeleteButtonStyle = function() {
+            var style = $newScope.getGenericButtonStyle();
 
             var sizeOffset = parseInt($attributes.buttonSize) / 4;
 
@@ -82,8 +80,8 @@ function(ScopeService, $compile, $parse) {
             return style;
          }
 
-         $scope.getViewButtonStyle = function() {
-            var style = $scope.getGenericButtonStyle();
+         $newScope.getViewButtonStyle = function() {
+            var style = $newScope.getGenericButtonStyle();
 
             var sizeOffset = parseInt($attributes.buttonSize) / 4;
             var visualOffset = parseInt($attributes.buttonSize) / 8;
@@ -94,12 +92,12 @@ function(ScopeService, $compile, $parse) {
             return style;
          }
 
-         $scope.onOverlayMouseOver = function() {
-            $scope.canShowButtons = true;
+         $newScope.onOverlayMouseOver = function() {
+            $newScope.canShowButtons = true;
          }
 
-         $scope.onOverlayMouseOut = function() {
-            $scope.canShowButtons = false;
+         $newScope.onOverlayMouseOut = function() {
+            $newScope.canShowButtons = false;
          }
 
          var $overlayElement = angular.element("<div></div>");
@@ -109,7 +107,7 @@ function(ScopeService, $compile, $parse) {
          $overlayElement.attr('ng-mouseover', 'onOverlayMouseOver()');
          $overlayElement.attr('ng-mouseout', 'onOverlayMouseOut()');
 
-         if (true === $scope.canDelete) {
+         if (true === $newScope.canDelete) {
             var $deleteButton = angular.element("<div></div>");
             $deleteButton.addClass('options-button');
 
@@ -123,7 +121,7 @@ function(ScopeService, $compile, $parse) {
             $overlayElement.append($deleteButton);
          }
 
-         if (true === $scope.canView) {
+         if (true === $newScope.canView) {
             var $viewButton = angular.element("<div></div>");
             $viewButton.addClass('options-button');
 
@@ -137,7 +135,7 @@ function(ScopeService, $compile, $parse) {
             $overlayElement.append($viewButton);
          }
 
-         $element.append($compile($overlayElement)($scope));
+         $element.append($compile($overlayElement)($newScope));
       }
    }
 }

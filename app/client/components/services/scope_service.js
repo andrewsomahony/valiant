@@ -57,6 +57,10 @@ function($rootScope) {
       
       return $rootScope.$new(isIsolate, parent);
    }
+
+   ScopeService.newScope = function(parentScope) {
+      return parentScope.$new();
+   }
    
    return ScopeService;
 }
