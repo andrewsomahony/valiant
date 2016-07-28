@@ -10,6 +10,8 @@ var Request = require(__base + 'lib/request');
 
 var User = require(__base + 'db/models/user/user');
 
+var DateObject = require(__base + 'lib/date');
+
 var NotificationModel = require(__base + 'db/models/notification/notification');
 
 router.route('/check')
@@ -25,11 +27,20 @@ router.route('/check')
             Responder.badRequest(result, error);
          } else {
             var hasNewNotifications = false;
-            request.requestedUser.notifications.forEach(function(notification) {
-               
-            });
+            if (currentUser.checked_at) {
+               request.requestedUser.notifications.every(function(notification) {
+                  if (DateObject.dateIsBefore(currentUser.checked_at, notification.updated_at)) {
+                     hasNewNotifications = true;
+                     return false;
+                  } else {
+                     return true;
+                  }
+               });
+            } else {
+               hasNewNotifications = true;
+            }
 
-            currentUser.checked_at = new ISODate();
+            currentUser.checked_at = DateObject.newISODateString();
             currentUser.save(function(error) {
                if (error) {
                   Responder.badRequest(result, error);
