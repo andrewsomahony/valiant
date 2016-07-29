@@ -544,7 +544,13 @@ PictureModel, MediaService, WorkoutBuilderService) {
        });
     }
 
-    UserService.check = function(user) {
+    // Because this checks for changes,
+    // we want the option to NOT update the current
+    // users incase we want to animate something.
+
+    UserService.check = function(user, canUpdate) {
+       canUpdate = utils.checkBoolean(canUpdate, true);
+       
        return Promise(function(resolve, reject) {
            HttpService.get(ApiUrlService([
                {
@@ -562,7 +568,9 @@ PictureModel, MediaService, WorkoutBuilderService) {
                         response.data.notifications, 
                         null, true);
                  }
-                 UserService.updateCurrentAndRequestedUsersIfSame(user);
+                 if (true === canUpdate) {
+                    UserService.updateCurrentAndRequestedUsersIfSame(user);
+                 }
               }
               resolve(user);
            })

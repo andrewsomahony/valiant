@@ -8,7 +8,9 @@ registerDirective(name, [require('services/scope_service'),
                          require('services/date_service'),
                          require('services/state_service'),
                          '$popover',
-function(ScopeService, DateService, StateService, $popover) {
+                         '$timeout',
+function(ScopeService, DateService, StateService, $popover,
+$timeout) {
    return {
       restrict: 'E',
       replace: true,
@@ -76,12 +78,6 @@ function(ScopeService, DateService, StateService, $popover) {
          $scope.toggleNotificationsWindow = function() {
             notificationsPopover.toggle();
          }
-
-         $scope.$watch("getNumberOfUnreadNotifications()", function(newValue, oldValue) {
-            if (newValue !== oldValue) {
-               console.log("NEW NOTIFICATIONS", newValue);
-            }
-         });
       }
    }
 }

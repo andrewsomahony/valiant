@@ -35,6 +35,23 @@ $timeout) {
         });
     }
 
+    $scope.showingNotificationsButton = true;
+
+    function ProcessCheckChange(newUser) {
+       var user = $scope.getLoggedInUser();
+
+       if (newUser.getUnreadNotifications().length !=
+           user.getUnreadNotifications().length) {
+           $scope.showingNotificationsButton = false;
+           $timeout(function() {
+               UserService.updateCurrentAndRequestedUsersIfSame(newUser);
+               $scope.showingNotificationsButton = true;
+           }, 700);
+       } else {
+           UserService.updateCurrentAndRequestedUsersIfSame(newUser);
+       }
+    }
+
     function SetCheckTimeout() {
       var checkInterval = 10000;
 
@@ -44,8 +61,15 @@ $timeout) {
     }
 
     function CheckUser() {
-       UserService.check($scope.getLoggedInUser())
+       var previousUser = $scope.getLoggedInUser().clone();
+
+       // Tell the service not to update the current user
+       // as we want to do some sort of animation to show
+       // the notification change.
+       
+       UserService.check(previousUser, false)
        .then(function() {
+          ProcessCheckChange(previousUser);
           SetCheckTimeout();
        })    
        .catch(function(error) {
