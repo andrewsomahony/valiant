@@ -73,9 +73,15 @@ PictureModel, QuestionModel, WorkoutModel) {
          }
       },
 
+      getNewNotifications: function() {
+         return utils.grep(this.notifications, function(notification) {
+            return notification.is_new;
+         })
+      },
+
       getUnreadNotifications: function() {
-         return utils.grep(this.notifications, function(n) {
-            return n.is_unread;
+         return utils.grep(this.notifications, function(notification) {
+            return notification.is_unread;
          });
       }
    })   

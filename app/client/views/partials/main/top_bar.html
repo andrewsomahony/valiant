@@ -19,6 +19,8 @@
          <notifications-button 
             class="button cancel-underline fade-in fade-out"
             ng-show="showingNotificationsButton"
+            on-popover-open="notificationsOpened()"
+            on-popover-closed="notificationsClosed()"
             user="getLoggedInUser()">
          </notifications-button>
          <a class="login-button cancel-underline" 

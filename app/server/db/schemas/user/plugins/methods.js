@@ -29,12 +29,29 @@ module.exports = function(schema, options) {
          .sort({updated_at: -1})
          .populate("_creator")
          .populate("_parent")
-         .limit(10)
          .exec(function(error, notifications) {
             if (error) {
                reject(error);
             } else {
-               self.notifications = notifications || [];
+               var finalNotifications = [];
+               var maxNotifications = 10;
+
+               if (notifications) {
+                  notifications.every(function(notification) {
+                     if (notification.is_new) {
+                        finalNotifications.push(notification);
+                     } else {
+                        if (finalNotifications.length === maxNotifications) {
+                           return false;
+                        } else {
+                           finalNotifications.push(notification);
+                        }
+                     }
+                     return true;
+                  })
+               }
+
+               self.notifications = finalNotifications;
                resolve();
             }
          });

@@ -11,6 +11,7 @@ module.exports = function(schema, options) {
          text: this.text,
          type: this.type,
          is_unread: this.is_unread,
+         is_new: this.is_new,
          created_at: this.created_at,
          updated_at: this.updated_at,
       };

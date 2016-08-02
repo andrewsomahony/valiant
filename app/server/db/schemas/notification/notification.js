@@ -25,6 +25,10 @@ var NotificationSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "User"
    },
+   is_new: {
+      type: Boolean,
+      default: true
+   },
    is_unread: {
       type: Boolean,
       default: true

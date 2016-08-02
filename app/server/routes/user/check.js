@@ -3,10 +3,14 @@
 var express = require('express');
 var router = express.Router();
 
+var utils = require(__base + 'lib/utils');
+
 var Promise = require(__base + 'lib/promise');
 var Responder = require(__base + 'lib/responder');
 var Permissions = require(__base + 'lib/permissions');
 var Request = require(__base + 'lib/request');
+
+var Q = require('q');
 
 var User = require(__base + 'db/models/user/user');
 
@@ -60,7 +64,49 @@ router.route('/check')
    }
 })
 .post(function(request, result) {
-   Responder.methodNotAllowed(result);
+   var data = Request.getBodyVariable(request, 'data');
+
+   if (!data) {
+      Responder.badRequest(result, "Missing data!");
+   } else {
+      var promiseFnArray = [];
+      if (data.notifications) {
+         // We can't just use a patch with array indexes,
+         // as the notifications aren't embedded, and the array
+         // contents might change in the background.
+
+         utils.merge(promiseFnArray, 
+            utils.map(data.notifications, function(notification) {
+               return Promise(function(resolve, reject) {
+                  NotificationModel.findById(notification._id, function(error, n) {
+                     if (error) {
+                        reject(error);
+                     } else {
+                        n.is_new = notification.is_new;
+                        n.is_unread = notification.is_unread;
+                        
+                        n.save(function(error) {
+                           if (error) {
+                              reject(error);
+                           } else {
+                              resolve();
+                           }
+                        })
+                     }
+                  })
+               })
+            })
+         );
+      }
+
+      Q.all(promiseFnArray)
+      .then(function() {
+         Responder.noContent(result);
+      })
+      .catch(function(error) {
+         Responder.badRequest(result, error);
+      });
+   }
 })
 .put(function(request, result) {
    Responder.methodNotAllowed(result);

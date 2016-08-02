@@ -16,7 +16,9 @@ $timeout) {
       replace: true,
       templateUrl: "directives/notifications_button.html",
       scope: {
-         user: "<"
+         user: "<",
+         onPopoverOpen: "&",
+         onPopoverClosed: "&"
       },
       link: function($scope, $element, $attributes) {
          var notificationsPopover = $popover($element, {
@@ -26,11 +28,11 @@ $timeout) {
             autoClose: true,
             templateUrl: "popovers/full/notifications_full.html",
             contentTemplate: "popovers/partials/notifications.html",
-            scope: $scope.$new() // Give the popover access to this scope.
+            scope: $scope.$new(), // Give the popover access to this scope.
          });
 
-         $scope.getNumberOfUnreadNotifications = function() {
-            return $scope.user.getUnreadNotifications().length;
+         $scope.getNumberOfNewNotifications = function() {
+            return $scope.user.getNewNotifications().length;
          }
 
          $scope.getNotificationTime = function(notification) {
@@ -61,6 +63,26 @@ $timeout) {
             return style;
          }
 
+         $scope.popoverVisible = false;
+
+         function TogglePopover() {
+            $scope.popoverVisible = !$scope.popoverVisible;
+            notificationsPopover.toggle();
+
+            if ($scope.popoverVisible) {
+               $scope.onPopoverOpen();
+            } else {
+               $scope.onPopoverClosed();
+            }
+         }
+
+         function HidePopover() {
+            $scope.popoverVisible = false;
+            notificationsPopover.hide();
+
+            $scope.onPopoverClosed();
+         }
+
          $scope.notificationClicked = function(notification) {
             var lowerCaseType = notification.type.toLowerCase();
 
@@ -70,13 +92,13 @@ $timeout) {
 
             params[paramKey] = notification.parent.id;
             
-            notificationsPopover.hide();
+            HidePopover();
             
             StateService.go(url, params);
          }
 
          $scope.toggleNotificationsWindow = function() {
-            notificationsPopover.toggle();
+            TogglePopover();
          }
       }
    }

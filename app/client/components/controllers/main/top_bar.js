@@ -1,5 +1,7 @@
 var registerController = require('controllers/register');
 
+var utils = require('utils');
+
 var name = 'controllers.main.top_bar';
 
 registerController(name, ['$scope',
@@ -35,21 +37,20 @@ $timeout) {
         });
     }
 
+    $scope.notificationsOpened = function() {
+       UserService.markNotificationsAsOld($scope.getLoggedInUser())
+       .catch(function(error) {
+          ErrorModal(error);
+       });
+    }
+
+    $scope.notificationsClosed = function() {
+    }
+
     $scope.showingNotificationsButton = true;
 
     function ProcessCheckChange(newUser) {
-       var user = $scope.getLoggedInUser();
-
-       if (newUser.getUnreadNotifications().length !=
-           user.getUnreadNotifications().length) {
-           $scope.showingNotificationsButton = false;
-           $timeout(function() {
-               UserService.updateCurrentAndRequestedUsersIfSame(newUser);
-               $scope.showingNotificationsButton = true;
-           }, 700);
-       } else {
-           UserService.updateCurrentAndRequestedUsersIfSame(newUser);
-       }
+       // No change animation currently
     }
 
     function SetCheckTimeout() {
@@ -67,7 +68,7 @@ $timeout) {
        // as we want to do some sort of animation to show
        // the notification change.
        
-       UserService.check(previousUser, false)
+       UserService.check(previousUser, true)
        .then(function() {
           ProcessCheckChange(previousUser);
           SetCheckTimeout();

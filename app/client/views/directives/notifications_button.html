@@ -1,11 +1,11 @@
 <a class="notifications-button"
    ng-click="toggleNotificationsWindow($event)">
    <span font-awesome-icon-text
-         icon="{{getNumberOfUnreadNotifications() ? 'fa-comment' : 'fa-comment-o'}}"
+         icon="{{getNumberOfNewNotifications() ? 'fa-comment' : 'fa-comment-o'}}"
          class="icon">
    </span>
    <span class="number"
-         ng-if="getNumberOfUnreadNotifications()"
-         ng-bind="getNumberOfUnreadNotifications()">
+         ng-if="getNumberOfNewNotifications()"
+         ng-bind="getNumberOfNewNotifications()">
    </span>
 </a>

@@ -229,7 +229,7 @@ function(id, promise) {
          this.setInternalVariable('local_id', id());
       },
 
-      initializeManualField: function(fieldName) {
+      initializeManualField: function(fieldName, isFromServer) {
          if (this.type) {
             if (this[fieldName] &&
                 utils.isPlainObject(this[fieldName])) {
@@ -237,7 +237,7 @@ function(id, promise) {
 
                 var Class = classy.getClass(className);
                 if (Class) {
-                   this[fieldName] = new Class(this[fieldName], true);
+                   this[fieldName] = new Class(this[fieldName], isFromServer);
                 } else {
                    console.warn("Missing class for manual field!", className);
                 }

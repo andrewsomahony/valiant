@@ -19,7 +19,8 @@ function(BaseModel) {
                type: "",
                creator: {__alias__: "models.user"},
                parent: null,
-               is_unread: true
+               is_new: true,
+               is_unread: true,
             });
          },
          localFields: function() {
@@ -39,7 +40,7 @@ function(BaseModel) {
       init: function(config, isFromServer) {
          this.callSuper();
 
-         this.initializeManualField("parent");
+         this.initializeManualField("parent", isFromServer);
       }
    });
 }])

@@ -137,7 +137,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
     // and if so, sets the currentUser to the updated
     // user.
     
-    UserService.updateCurrentUserIfSame = function(user) {
+    function UpdateCurrentUserIfSame(user) {
         if (currentUser &&
             user.id === currentUser.id) {
             currentUser = user.clone();
@@ -154,16 +154,16 @@ PictureModel, MediaService, WorkoutBuilderService) {
     
     // See the comment for updateCurrentUserIfSame
     
-    UserService.updateCurrentRequestedUserIfSame = function(user) {
+    function UpdateCurrentRequestedUserIfSame(user) {
         if (currentRequestedUser &&
             user.id === currentRequestedUser.id) {
             currentRequestedUser = user.clone();
         }
     }
     
-    UserService.updateCurrentAndRequestedUsersIfSame = function(user) {
-        this.updateCurrentUserIfSame(user);
-        this.updateCurrentRequestedUserIfSame(user);
+    function UpdateCurrentAndRequestedUsersIfSame(user) {
+        UpdateCurrentUserIfSame(user);
+        UpdateCurrentRequestedUserIfSame(user);
     }
     
     UserService.currentRequestedUserIsNotAccessible = function() {
@@ -394,7 +394,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
                            // values that we don't patch (like updated_at)
                            var newUser = new UserModel(data.data, true);
                            
-                           UserService.updateCurrentAndRequestedUsersIfSame(newUser);
+                           UpdateCurrentAndRequestedUsersIfSame(newUser);
                            
                            resolve(newUser);
                        })
@@ -434,7 +434,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
           ]), null, {old_password: oldPassword, new_password: newPassword})
           .then(function(data) {
               var user = new UserModel(data.data, true);
-              UserService.updateCurrentAndRequestedUsersIfSame(user);
+              UpdateCurrentAndRequestedUsersIfSame(user);
               resolve(user);
           })
           .catch(function(error) {
@@ -455,7 +455,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
             ]), null, {email: newEmail})
             .then(function(data) {
                 var user = new UserModel(data.data, true);
-                UserService.updateCurrentAndRequestedUsersIfSame(user);                
+                UpdateCurrentAndRequestedUsersIfSame(user);                
                 resolve(user);
             })
             .catch(function(error) {
@@ -484,7 +484,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
              ]), null, {token: pendingEmailToken})
                .then(function(data) {
                    var newUser = new UserModel(data.data, true);
-                   UserService.updateCurrentAndRequestedUsersIfSame(newUser);
+                   UpdateCurrentAndRequestedUsersIfSame(newUser);
                    resolve(newUser);
                })
                .catch(function(error) {
@@ -514,7 +514,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
              ]), null, {token: pendingEmailToken})
                .then(function(data) {
                    var newUser = new UserModel(data.data, true);
-                   UserService.updateCurrentAndRequestedUsersIfSame(newUser);
+                   UpdateCurrentAndRequestedUsersIfSame(newUser);
                    resolve(newUser);
                })
                .catch(function(error) {
@@ -534,7 +534,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
              WorkoutBuilderService.deleteWorkout(workout)
              .then(function() {
                 user.deleteFromChildArray('workouts', workout);
-                UserService.updateCurrentAndRequestedUsersIfSame(user);
+                UpdateCurrentAndRequestedUsersIfSame(user);
                 resolve();
              })
              .catch(function(error) {
@@ -550,7 +550,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
 
     UserService.check = function(user, canUpdate) {
        canUpdate = utils.checkBoolean(canUpdate, true);
-       
+
        return Promise(function(resolve, reject) {
            HttpService.get(ApiUrlService([
                {
@@ -569,7 +569,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
                         null, true);
                  }
                  if (true === canUpdate) {
-                    UserService.updateCurrentAndRequestedUsersIfSame(user);
+                    UpdateCurrentAndRequestedUsersIfSame(user);
                  }
               }
               resolve(user);
@@ -578,6 +578,59 @@ PictureModel, MediaService, WorkoutBuilderService) {
                reject(error);
            })
        })
+    }
+
+    UserService.markNotificationsAsOld = function(user, notifications) {
+       return Promise(function(resolve, reject) {
+         notifications = notifications || user.getNewNotifications();
+
+         if (!notifications.length) {
+            resolve();
+         } else {
+            var clonedNotifications = utils.clone(notifications);
+
+            clonedNotifications.forEach(function(notification) {
+               notification.is_new = false;
+            });
+
+            var postData = {
+               notifications: utils.map(clonedNotifications, function(notification) {
+                  return notification.toObject(true);
+               })
+            };
+
+            HttpService.post(ApiUrlService([
+               {
+                  name: 'User',
+                  paramArray: [user.id]
+               },
+               {
+                  name: 'Check'
+               }
+            ]), null, {data: postData})
+            .then(function() {
+               var userClone = user.clone();
+
+               clonedNotifications.forEach(function(n) {
+                  var userNotification = utils.findInArray(userClone.notifications,
+                  function(element) {
+                     return element.id === n.id;
+                  });
+                  
+                  if (userNotification) {
+                     userNotification.is_new = false;
+                  }
+               });
+
+               UpdateCurrentAndRequestedUsersIfSame(userClone);
+
+               resolve();
+            })
+            .catch(function(error) {
+               reject(error);
+            });
+         }
+       });
     }
     
     UserService.getUser = function(userId) {
