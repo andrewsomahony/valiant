@@ -620,16 +620,7 @@ PictureModel, MediaService, WorkoutBuilderService) {
          })
          .catch(function(error) {
             // Rollback if we can.
-               NotificationModel.rollback(data.notifications, previousData.notifications);
-               /*data.notifications.forEach(function(n) {
-                  var previousNotification = utils.findInArray(previousData.notifications,
-                     function(pn) {
-                        return n.id === pn.id;
-                     });
-                  if (previousNotification) {
-                     n.fromModel(previousNotification);
-                  }
-               })*/
+            NotificationModel.rollback(data.notifications, previousData.notifications);
             reject(error);
          });
       });
