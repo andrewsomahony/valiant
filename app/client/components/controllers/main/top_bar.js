@@ -40,6 +40,7 @@ $timeout) {
     $scope.notificationsOpened = function() {
        UserService.markNotificationsAsOld($scope.getLoggedInUser())
        .catch(function(error) {
+          // Should we silently fail here?
           ErrorModal(error);
        });
     }

@@ -7,9 +7,10 @@ var name = 'notificationsButton';
 registerDirective(name, [require('services/scope_service'),
                          require('services/date_service'),
                          require('services/state_service'),
+                         require('services/user_service'),
                          '$popover',
                          '$timeout',
-function(ScopeService, DateService, StateService, $popover,
+function(ScopeService, DateService, StateService, UserService, $popover,
 $timeout) {
    return {
       restrict: 'E',
@@ -29,6 +30,12 @@ $timeout) {
             templateUrl: "popovers/full/notifications_full.html",
             contentTemplate: "popovers/partials/notifications.html",
             scope: $scope.$new(), // Give the popover access to this scope.
+            onShow: function($popover) {
+               $scope.onPopoverOpen();
+            },
+            onHide: function($popover) {
+               $scope.onPopoverClosed();
+            }
          });
 
          $scope.getNumberOfNewNotifications = function() {
@@ -63,38 +70,32 @@ $timeout) {
             return style;
          }
 
-         $scope.popoverVisible = false;
-
          function TogglePopover() {
-            $scope.popoverVisible = !$scope.popoverVisible;
             notificationsPopover.toggle();
-
-            if ($scope.popoverVisible) {
-               $scope.onPopoverOpen();
-            } else {
-               $scope.onPopoverClosed();
-            }
          }
 
          function HidePopover() {
-            $scope.popoverVisible = false;
             notificationsPopover.hide();
-
-            $scope.onPopoverClosed();
          }
 
          $scope.notificationClicked = function(notification) {
-            var lowerCaseType = notification.type.toLowerCase();
+            UserService.markNotificationsAsRead($scope.user, [notification])
+            .then(function() {
+               var lowerCaseType = notification.type.toLowerCase();
 
-            var url = "main." + lowerCaseType + ".default";
-            var params = {};
-            var paramKey = lowerCaseType + "Id";
+               var url = "main." + lowerCaseType + ".default";
+               var params = {};
+               var paramKey = lowerCaseType + "Id";
 
-            params[paramKey] = notification.parent.id;
-            
-            HidePopover();
-            
-            StateService.go(url, params);
+               params[paramKey] = notification.parent.id;
+               
+               HidePopover();
+               
+               StateService.go(url, params);
+            })
+            .catch(function(error) {
+               ErrorModal(error);
+            });
          }
 
          $scope.toggleNotificationsWindow = function() {

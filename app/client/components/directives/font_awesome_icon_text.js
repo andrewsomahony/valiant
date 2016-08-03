@@ -21,14 +21,14 @@ function($compile) {
 
          $iconSpan.attr('ng-class', 'icon');
 
-         $element.append($compile($iconSpan)($scope));
+         $element.append($iconSpan);
 
          var $textSpan = angular.element("<span></span>");
          $textSpan.addClass('text');
          $textSpan.attr('ng-if', 'text');
          $textSpan.attr('ng-bind', 'text');
 
-         $element.append($compile($textSpan)($scope));
+         $element.append($textSpan);
 
          $element.removeAttr('font-awesome-icon-text');
          $compile($element)($scope);

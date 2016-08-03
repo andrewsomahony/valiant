@@ -20,9 +20,10 @@ registerService('factory', name, [
                                     require('models/picture'),
                                     require('services/media_service'),
                                     require('services/workout_builder_service'),
+                                    '$timeout',
 function(Promise, HttpService, UserModel, NotificationModel, ApiUrlService,
 ErrorService, ProgressService, SerialPromise, ParallelPromise, S3UploaderService,
-PictureModel, MediaService, WorkoutBuilderService) {    
+PictureModel, MediaService, WorkoutBuilderService, $timeout) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
     var currentRequestedUser = null;
@@ -580,6 +581,76 @@ PictureModel, MediaService, WorkoutBuilderService) {
        })
     }
 
+    function PostCheckUser(user, data) {
+      return Promise(function(resolve, reject) {
+         var postData = {};
+
+         if (data.notifications) {
+            postData.notifications = utils.map(data.notifications, function(notification) {
+               return notification.toObject(true);
+            });
+         }
+
+         HttpService.post(ApiUrlService([
+            {
+               name: 'User',
+               paramArray: [user.id]
+            },
+            {
+               name: 'Check'
+            }
+         ]), null, {data: postData})
+         .then(function() {
+            if (data.notifications) {
+               data.notifications.forEach(function(n) {
+                  var userNotification = utils.findInArray(user.notifications,
+                  function(element) {
+                     return element.id === n.id;
+                  });
+                  
+                  if (userNotification) {
+                     userNotification.is_new = n.is_new;
+                     userNotification.is_unread = n.is_unread;
+                  }
+               });
+            }
+
+            UpdateCurrentAndRequestedUsersIfSame(user);
+
+            resolve();
+         })
+         .catch(function(error) {
+            reject(error);
+         });
+      });
+    }
+
+    UserService.markNotificationsAsRead = function(user, notifications) {
+       return Promise(function(resolve, reject) {
+          notifications = notifications || user.getUnreadNotifications();
+
+          if (!notifications.length) {
+             resolve();
+          } else {
+           // var clonedNotifications = utils.clone(notifications);
+
+            notifications.forEach(function(notification) {
+               notification.is_unread = false;
+            });
+
+            PostCheckUser(user, {
+               notifications: notifications
+            })
+            .then(function() {
+               resolve();
+            })
+            .catch(function(error) {
+               reject(error);
+            })
+          }
+       });
+    }
+
     UserService.markNotificationsAsOld = function(user, notifications) {
        return Promise(function(resolve, reject) {
          notifications = notifications || user.getNewNotifications();
@@ -589,45 +660,20 @@ PictureModel, MediaService, WorkoutBuilderService) {
          } else {
             var clonedNotifications = utils.clone(notifications);
 
-            clonedNotifications.forEach(function(notification) {
+            notifications.forEach(function(notification) {
                notification.is_new = false;
             });
+            $timeout(function() {
 
-            var postData = {
-               notifications: utils.map(clonedNotifications, function(notification) {
-                  return notification.toObject(true);
+               PostCheckUser(user, {
+                  notifications: notifications
                })
-            };
-
-            HttpService.post(ApiUrlService([
-               {
-                  name: 'User',
-                  paramArray: [user.id]
-               },
-               {
-                  name: 'Check'
-               }
-            ]), null, {data: postData})
-            .then(function() {
-               var userClone = user.clone();
-
-               clonedNotifications.forEach(function(n) {
-                  var userNotification = utils.findInArray(userClone.notifications,
-                  function(element) {
-                     return element.id === n.id;
-                  });
-                  
-                  if (userNotification) {
-                     userNotification.is_new = false;
-                  }
+               .then(function() {
+                  resolve();
+               })
+               .catch(function(error) {
+                  reject(error);
                });
-
-               UpdateCurrentAndRequestedUsersIfSame(userClone);
-
-               resolve();
-            })
-            .catch(function(error) {
-               reject(error);
             });
          }
        });
