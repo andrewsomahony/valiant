@@ -8,10 +8,11 @@ registerDirective(name, [require('services/scope_service'),
                          require('services/date_service'),
                          require('services/state_service'),
                          require('services/user_service'),
+                         require('services/error_modal'),
                          '$popover',
                          '$timeout',
-function(ScopeService, DateService, StateService, UserService, $popover,
-$timeout) {
+function(ScopeService, DateService, StateService, UserService, 
+ErrorModal, $popover, $timeout) {
    return {
       restrict: 'E',
       replace: true,
@@ -60,7 +61,7 @@ $timeout) {
             }
 
             if (true === notification.is_unread) {
-               style['background-color'] = '#e6ffff';
+               style['background-color'] = '#ccffff';
             }
 
             if (true === $scope.notificationHasParentLink(notification)) {
@@ -79,6 +80,13 @@ $timeout) {
          }
 
          $scope.notificationClicked = function(notification) {
+            // On the notification button click in top_bar.js,
+            // we clone the notification array and mark the original
+            // as all "old", and then $timeout to allow the interface to recompile.
+            
+            // That was all for interface responsiveness: we don't need to do that
+            // much here, as this goes to a new page.
+
             UserService.markNotificationsAsRead($scope.user, [notification])
             .then(function() {
                var lowerCaseType = notification.type.toLowerCase();

@@ -20,10 +20,9 @@ registerService('factory', name, [
                                     require('models/picture'),
                                     require('services/media_service'),
                                     require('services/workout_builder_service'),
-                                    '$timeout',
 function(Promise, HttpService, UserModel, NotificationModel, ApiUrlService,
 ErrorService, ProgressService, SerialPromise, ParallelPromise, S3UploaderService,
-PictureModel, MediaService, WorkoutBuilderService, $timeout) {    
+PictureModel, MediaService, WorkoutBuilderService) {    
     var currentUser = null;
     var currentUnverifiedUser = null;
     var currentRequestedUser = null;
@@ -581,7 +580,7 @@ PictureModel, MediaService, WorkoutBuilderService, $timeout) {
        })
     }
 
-    function PostCheckUser(user, data) {
+    function PostCheckUser(user, data, previousData) {
       return Promise(function(resolve, reject) {
          var postData = {};
 
@@ -620,6 +619,17 @@ PictureModel, MediaService, WorkoutBuilderService, $timeout) {
             resolve();
          })
          .catch(function(error) {
+            // Rollback if we can.
+               NotificationModel.rollback(data.notifications, previousData.notifications);
+               /*data.notifications.forEach(function(n) {
+                  var previousNotification = utils.findInArray(previousData.notifications,
+                     function(pn) {
+                        return n.id === pn.id;
+                     });
+                  if (previousNotification) {
+                     n.fromModel(previousNotification);
+                  }
+               })*/
             reject(error);
          });
       });
@@ -632,7 +642,7 @@ PictureModel, MediaService, WorkoutBuilderService, $timeout) {
           if (!notifications.length) {
              resolve();
           } else {
-           // var clonedNotifications = utils.clone(notifications);
+            var clonedNotifications = NotificationModel.cloneArray(notifications);
 
             notifications.forEach(function(notification) {
                notification.is_unread = false;
@@ -640,6 +650,8 @@ PictureModel, MediaService, WorkoutBuilderService, $timeout) {
 
             PostCheckUser(user, {
                notifications: notifications
+            }, {
+               notifications: clonedNotifications
             })
             .then(function() {
                resolve();
@@ -658,22 +670,22 @@ PictureModel, MediaService, WorkoutBuilderService, $timeout) {
          if (!notifications.length) {
             resolve();
          } else {
-            var clonedNotifications = utils.clone(notifications);
+            var clonedNotifications = NotificationModel.cloneArray(notifications);
 
             notifications.forEach(function(notification) {
                notification.is_new = false;
             });
-            $timeout(function() {
 
-               PostCheckUser(user, {
-                  notifications: notifications
-               })
-               .then(function() {
-                  resolve();
-               })
-               .catch(function(error) {
-                  reject(error);
-               });
+            PostCheckUser(user, {
+               notifications: notifications
+            }, {
+               notifications: clonedNotifications
+            })
+            .then(function() {
+               resolve();
+            })
+            .catch(function(error) {
+               reject(error);
             });
          }
        });

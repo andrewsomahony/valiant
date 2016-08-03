@@ -151,6 +151,13 @@ function(id, promise) {
             return []
          },
 
+         fromModel: function(model) {
+            var returnValue = new this();
+            returnValue.fromModel(model);
+
+            return returnValue;
+         },
+
          filterToServerFields: function(fields) {
             fields = fields || this.fields()
 
@@ -212,6 +219,37 @@ function(id, promise) {
                }
             }
             return returnArray;
+         },
+
+         cloneArray: function(objects) {
+            var self = this;
+            return utils.map(objects, function(object) {
+               if (!utils.objectIsClassy(object, self)) {
+                  throw new Error("BaseModel.cloneArray: Objects aren't the same class!");
+               }
+               return self.fromModel(object);
+            })
+         },
+
+         rollback: function(objects, previousObjects) {
+            objects = objects || [];
+            previousObjects = previousObjects || [];
+
+            if (!utils.isArray(objects)) {
+               objects = [objects];
+            }
+            if (!utils.isArray(previousObjects)) {
+               previousObjects = [previousObjects];
+            }
+
+            objects.forEach(function(object) {
+               var previousObject = utils.findInArray(previousObjects, function(e) {
+                   return e.id === object.id;
+               });
+               if (previousObject) {
+                  object.fromModel(previousObject);
+               }
+            })
          }
       },
 

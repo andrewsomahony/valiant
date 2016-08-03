@@ -10447,6 +10447,8 @@ div.popover.notifications {
       height: 5.3em;
       margin-bottom: 1px;
       cursor: pointer; }
+      div.popover.notifications .notification-scroll .notification:hover {
+        background-color: #e6ffff !important; }
       div.popover.notifications .notification-scroll .notification div.message span.user .user-link {
         vertical-align: middle; }
       div.popover.notifications .notification-scroll .notification div.message span.text {

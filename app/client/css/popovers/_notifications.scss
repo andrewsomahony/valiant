@@ -64,6 +64,13 @@ div.popover {
 
             cursor: pointer;
 
+            &:hover {
+               // We need the important
+               // to override the inline style that we
+               // set with ng-style
+               background-color: #e6ffff !important;
+            }
+
             div.message {
                span.user {
                   .user-link {

@@ -8,9 +8,10 @@ registerController(name, ['$scope',
                           require('services/user_service'),
                           require('services/error_modal'),
                           require('services/state_service'),
+                          require('models/notification'),
                           '$timeout',
 function($scope, UserService, ErrorModal, StateService, 
-$timeout) {
+NotificationModel, $timeout) {
     $scope.isLoggedIn = function() {
         return UserService.isLoggedIn();
     }
@@ -38,10 +39,28 @@ $timeout) {
     }
 
     $scope.notificationsOpened = function() {
-       UserService.markNotificationsAsOld($scope.getLoggedInUser())
-       .catch(function(error) {
-          // Should we silently fail here?
-          ErrorModal(error);
+       // We're doing this set here for interface
+       // responsiveness: give it a chance to recompile
+       // before we make the request.
+
+       var newNotifications = $scope.getLoggedInUser().getNewNotifications();
+       var clonedNotifications = NotificationModel.cloneArray(newNotifications);
+
+       newNotifications
+       .forEach(function(n) {
+           n.is_new = false;
+       });
+
+       // We can pass any array we want, the mark functions
+       // automatically will update the logged in user, and whatever
+       // user we pass in.
+
+       $timeout(function() {
+          UserService.markNotificationsAsOld($scope.getLoggedInUser(), clonedNotifications)
+          .catch(function(error) {
+             // Silent fail: the user will see the notification number not updating
+             NotificationModel.rollback(newNotifications, clonedNotifications);
+          });
        });
     }
 
