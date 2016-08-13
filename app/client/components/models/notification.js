@@ -15,7 +15,7 @@ function(BaseModel) {
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
-               text: "",
+               kind: "",
                type: "",
                creator: {__alias__: "models.user"},
                parent: null,
@@ -25,7 +25,7 @@ function(BaseModel) {
          },
          localFields: function() {
             return this.staticMerge(this.callSuper(),
-               ["parent", "creator"]);
+               ["parent", "creator", "text"]);
          },
          serverMappings: function() {
             return this.staticMerge(this.callSuper(),
@@ -41,6 +41,10 @@ function(BaseModel) {
          this.callSuper();
 
          this.initializeManualField("parent", isFromServer);
+
+         if ('question_comment' === this.kind) {
+            this.text = "commented on your question";
+         }
       }
    });
 }])

@@ -8,7 +8,7 @@ module.exports = function(schema, options) {
    schema.methods.frontEndObject = function(valuesToSkip) {
       var object = {
          _id: this.getId(),
-         text: this.text,
+         kind: this.kind,
          type: this.type,
          is_unread: this.is_unread,
          is_new: this.is_new,

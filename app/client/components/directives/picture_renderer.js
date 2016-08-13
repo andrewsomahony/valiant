@@ -21,6 +21,14 @@ function(ScopeService, $compile) {
         // showUploading: "@"
       },
       link: function($scope, $element, $attributes) {
+         // "fitted" basically means we want to
+         // fit the image so it fits within the element
+         // that we are attaching the directive to.
+         // We can also center it within that element.
+         
+         // Not fitted just means that the div is sized
+         // to fit the image, and can be moved around wherever.
+
          $scope.fitted = ScopeService.parseBool($attributes.fitted, false);
          $scope.centered = ScopeService.parseBool($attributes.centered, false);
          $scope.showUploading = ScopeService.parseBool($attributes.showUploading, true);

@@ -123,16 +123,15 @@ module.exports = function(schema, options) {
    // Types:
    // "question_comment"
 
-   schema.methods.addNotification = function(type, creator, parent) {
+   schema.methods.addNotification = function(kind, creator, parent) {
       return Promise(function(resolve, reject) {
          var notification = new NotificationModel();
 
-         if ('question_comment' === type) {
+         if ('question_comment' === kind) {
             notification.type = 'Question';
+            notification.kind = kind;
             notification._creator = creator.getId();
             notification._parent = parent.getId();
-
-            notification.text = "commented on your question";
 
             notification.save(function(error, n) {
                if (error) {

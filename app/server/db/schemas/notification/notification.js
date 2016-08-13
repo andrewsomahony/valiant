@@ -9,11 +9,11 @@ var creatorMethods = require(__base + 'db/schemas/plugins/creator');
 var Schema = mongoose.Schema;
 
 var NotificationSchema = new Schema({
-   text: {
+   type: {
       type: String,
       default: ""
    },
-   type: {
+   kind: {
       type: String,
       default: ""
    },
