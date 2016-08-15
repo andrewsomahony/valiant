@@ -29,9 +29,9 @@ function(ScopeService, $compile) {
          // Not fitted just means that the div is sized
          // to fit the image, and can be moved around wherever.
 
-         $scope.fitted = ScopeService.parseBool($attributes.fitted, false);
-         $scope.centered = ScopeService.parseBool($attributes.centered, false);
-         $scope.showUploading = ScopeService.parseBool($attributes.showUploading, true);
+         ScopeService.watchBool($scope, $attributes, 'fitted', false);
+         ScopeService.watchBool($scope, $attributes, 'centered', false);
+         ScopeService.watchBool($scope, $attributes, 'showUploading', true);
          
          $scope.getElementStyle = function() {
             var style = {};
@@ -114,7 +114,7 @@ function(ScopeService, $compile) {
                   style['max-height'] = $scope.maxHeight;
                }
             }
-            
+
             return style;           
          }
                   
@@ -126,7 +126,7 @@ function(ScopeService, $compile) {
          $imageElement.attr('ng-class', 'getImageClass()');
          $imageElement.attr('ng-style', 'getImageStyle()');
          
-         $element.append($compile($imageElement)($scope));
+         $element.append($imageElement);
          
          if (true === $scope.showUploading) {
             var $loadingElement = angular.element("<div></div>");
@@ -138,7 +138,7 @@ function(ScopeService, $compile) {
             $loadingElement.attr('show-percentage', 'false');
             $loadingElement.attr('progress-object', 'model.upload_progress');
             
-            $element.append($compile($loadingElement)($scope)); 
+            $element.append($loadingElement); 
          }
          
          $element.removeAttr('picture-renderer');

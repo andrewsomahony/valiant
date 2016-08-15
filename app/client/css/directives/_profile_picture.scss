@@ -1,0 +1,7 @@
+.profile-picture {
+   // So we set these values, but they get overriden
+   // if the "fitted" attribute is not set, as an inline
+   // style will then take over.
+   width: 100%;
+   height: 100%;
+}

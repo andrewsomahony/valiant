@@ -43,7 +43,7 @@ function(BaseModel) {
          this.initializeManualField("parent", isFromServer);
 
          if ('question_comment' === this.kind) {
-            this.text = "commented on your question";
+            this.text = "commented on your question.";
          }
       }
    });

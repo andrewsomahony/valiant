@@ -15,7 +15,8 @@ div.popover {
          }
       }
 
-      width: 500px;
+      width: 350px;
+      max-width: 350px;
 
       .notification-scroll {
          display: inline-block;
@@ -71,21 +72,43 @@ div.popover {
                background-color: #e6ffff !important;
             }
 
-            div.message {
-               span.user {
-                  .user-link {
-                     vertical-align: middle;
-                  }
-               }
+            div.user-picture {
+               display: inline-block;
+               width: 15%;
+               height: 100%;
+               vertical-align: top;
+            }
 
-               span.text {
+            div.words {
+               display: inline-block;
+               width: 61%;
+               height: 100%;
+
+               font-size: 0.9em;
+
+               div.message {
+                  span.text {
+                     span.name {
+                        font-weight: bold;
+                        vertical-align: middle;
+                     }
+                     span.subtext {
+                        vertical-align: middle;
+                     }
+                  }
+                  margin-bottom: 0.2em;
+               }
+               div.time {
                   font-size: 0.9em;
-                  vertical-align: middle;
+                  color: #737373;
                }
             }
-            div.time {
-               font-size: 0.7em;
-               color: #737373;
+
+            div.question-picture {
+               display: inline-block;
+               width: 20%;
+               height: 100%;
+               vertical-align: top;
             }
          }
       }

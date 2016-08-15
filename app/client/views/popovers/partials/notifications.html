@@ -15,19 +15,49 @@
          class="notification"
          ng-style="getNotificationStyle(notification, $last)"
          ng-click="notificationClicked(notification)">
-         <div class="message">
-            <span class="user">
-               <user-link user="notification.creator"
-                        picture-size="1.2em">
-               </user-link>
-            </span>
-            <span class="text"
-                  ng-bind="notification.text">
-            </span>
+         <div class="user-picture">
+            <profile-picture user="notification.creator"
+                           width="100%"
+                           height="100%"
+                           fitted="true"
+                           centered="true"
+                           show-uploading="false">
+            </profile-picture>
          </div>
-         <div class="time"
-            ng-bind="getNotificationTime(notification)">
+         <!--
+         <div class="user-picture"
+              media-renderer="picture"
+              model="notification.creator.profile_picture"
+              width="100%"
+              height="100%"
+              fitted="true"
+              centered="true"
+              show-uploading="false">
          </div>
+         -->
+         <div class="words">
+            <div class="message">
+               <span class="text">
+                  <span class="name"
+                        ng-bind="notification.creator.first_name">
+                  </span>
+                  <span class="subtext"
+                        ng-bind="notification.text">
+                  </span>
+               </span>
+            </div>
+            <div class="time"
+                  ng-bind="getNotificationTime(notification)">
+            </div>
+         </div>
+         <div class="question-picture"
+              media-renderer="picture"
+              model="notification.parent.preview_pictures[0]"
+              width="100%"
+              fitted="true"
+              centered="true"
+              show-uploading="false">
+         </div>         
       </div>
    </div>
 </div>

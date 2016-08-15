@@ -47,11 +47,13 @@ ErrorService, $timeout) {
          ScopeService.watchBool($scope, $attributes, 'canEditSetsInline', true);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
          ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
-         ScopeService.watchBool($scope, $attributes, 'isInitiallyEditing', false, function(newValue) {
+         // All the watchBool calls will have taken place and the scope values
+         // will be set by the time this $watch is called.
+         
+         $scope.$watch($attributes['isInitiallyEditing'], function(newValue) {
             if (!$scope.hasCheckedInitiallyEditing) {
                $scope.hasCheckedInitiallyEditing = true;
-
-               if (true === $scope.isInitiallyEditing) {
+               if (true === newValue) {
                   $scope.editClicked();
                }
             }

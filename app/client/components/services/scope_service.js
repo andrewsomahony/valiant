@@ -29,10 +29,10 @@ function($rootScope) {
 
    ScopeService.watchBool = function($scope, 
    $attributes, variableName, defaultValue, callbackFn) {
-      $scope.$watch($attributes[variableName], function(newValue) {
+      $attributes.$observe(variableName, function(newValue, oldValue) {
          $scope[variableName] = ScopeService.parseBool(newValue, defaultValue);
          if (callbackFn) {
-            callbackFn(newValue);
+            callbackFn($scope[variableName], oldValue);
          }
       });
    }
@@ -44,7 +44,11 @@ function($rootScope) {
          if ('boolean' === typeof bool) {
             return bool;
          } else {
-            return utils.stringToBoolean(bool);
+            if (!bool) {
+               return defaultValue;
+            } else {
+               return utils.stringToBoolean(bool);
+            }
          }
       }
    }

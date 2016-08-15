@@ -10412,7 +10412,8 @@ div.popover .popover-content {
 
 div.popover.notifications {
   color: black;
-  width: 500px; }
+  width: 350px;
+  max-width: 350px; }
   div.popover.notifications a:hover {
     background: transparent !important; }
   div.popover.notifications .notification-scroll {
@@ -10449,14 +10450,31 @@ div.popover.notifications {
       cursor: pointer; }
       div.popover.notifications .notification-scroll .notification:hover {
         background-color: #e6ffff !important; }
-      div.popover.notifications .notification-scroll .notification div.message span.user .user-link {
-        vertical-align: middle; }
-      div.popover.notifications .notification-scroll .notification div.message span.text {
-        font-size: 0.9em;
-        vertical-align: middle; }
-      div.popover.notifications .notification-scroll .notification div.time {
-        font-size: 0.7em;
-        color: #737373; }
+      div.popover.notifications .notification-scroll .notification div.user-picture {
+        display: inline-block;
+        width: 15%;
+        height: 100%;
+        vertical-align: top; }
+      div.popover.notifications .notification-scroll .notification div.words {
+        display: inline-block;
+        width: 61%;
+        height: 100%;
+        font-size: 0.9em; }
+        div.popover.notifications .notification-scroll .notification div.words div.message {
+          margin-bottom: 0.2em; }
+          div.popover.notifications .notification-scroll .notification div.words div.message span.text span.name {
+            font-weight: bold;
+            vertical-align: middle; }
+          div.popover.notifications .notification-scroll .notification div.words div.message span.text span.subtext {
+            vertical-align: middle; }
+        div.popover.notifications .notification-scroll .notification div.words div.time {
+          font-size: 0.9em;
+          color: #737373; }
+      div.popover.notifications .notification-scroll .notification div.question-picture {
+        display: inline-block;
+        width: 20%;
+        height: 100%;
+        vertical-align: top; }
 
 div.media-picker {
   display: inline-block; }
@@ -10847,3 +10865,7 @@ div.font-awesome-centered-icon {
     line-height: 1.3;
     min-height: 13px;
     padding: 1px 3px; }
+
+.profile-picture {
+  width: 100%;
+  height: 100%; }

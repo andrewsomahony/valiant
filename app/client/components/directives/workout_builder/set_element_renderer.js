@@ -44,16 +44,21 @@ Promise, ClipboardService, $timeout) {
          ScopeService.watchBool($scope, $attributes, 'canEditInline', false);
          ScopeService.watchBool($scope, $attributes, 'showIntervalsAndRests', true);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
-         ScopeService.watchBool($scope, $attributes, 'isInitiallyEditing', false, function(newValue) {
-            // We only want to run this once.
-            if (!$scope.hasCheckedInitiallyEditing) {
-               $scope.hasCheckedInitiallyEditing = true;
-               if (true === $scope.isInitiallyEditing) {
-                  $scope.editClicked();
-               }
-            }
 
-         })
+         // All the watchBool calls will have taken place and the scope values
+         // will be set by the time this $watch is called.
+         
+         $timeout(function() {
+            $scope.$watch($attributes['isInitiallyEditing'],
+            function(newValue) {
+               if (!$scope.hasCheckedInitiallyEditing) {
+                  $scope.hasCheckedInitiallyEditing = true;
+                  if (true === newValue) {
+                     $scope.editClicked();
+                  }
+               }
+            });
+         });
 
          $scope.hasClipboardData = function() {
             return ClipboardService.canPaste(SetElementModel);
