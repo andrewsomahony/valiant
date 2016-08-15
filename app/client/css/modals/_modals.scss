@@ -1,6 +1,8 @@
 .modal-body {
-   max-height: 30vw;
-   overflow: scroll;
+   @media screen and (min-width: $min-sm-screen-width) {
+      max-height: 30vw;
+      overflow: scroll;
+   }
 }
 
 @import "workout_modal";

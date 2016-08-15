@@ -41,20 +41,16 @@ Promise, $timeout) {
          ScopeService.watchBool($scope, $attributes, 'canEditInline', true);
          ScopeService.watchBool($scope, $attributes, 'isEditable', true);
 
-         // All the watchBool calls will have taken place and the scope values
-         // will be set by the time this $watch is called.
+         // We call a $timeout here so that all the variables we need are
+         // already in place when we want to start manipulating the DOM
+         // with editClicked.
          
+         ScopeService.watchBool($scope, $attributes, 'isInitiallyEditing', false);
          $timeout(function() {
-            $scope.$watch($attributes['isInitiallyEditing'],
-            function(newValue) {
-               if (!$scope.hasCheckedInitiallyEditing) {
-                  $scope.hasCheckedInitiallyEditing = true;
-                  if (true === newValue) {
-                     $scope.editClicked();
-                  }
-               }
-            });
-         }); 
+             if (true === $scope.isInitiallyEditing) {
+                 $scope.editClicked();
+             }
+         });
 
          $scope.error = function(e) {
             if (!e) {

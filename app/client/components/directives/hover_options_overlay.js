@@ -7,7 +7,8 @@ var name = 'hoverOptionsOverlay';
 registerDirective(name, [require('services/scope_service'),
                          '$compile',
                          '$parse',
-function(ScopeService, $compile, $parse) {
+                         '$timeout',
+function(ScopeService, $compile, $parse, $timeout) {
    return {
       restrict: "A",
       /*scope: {
@@ -21,8 +22,8 @@ function(ScopeService, $compile, $parse) {
       link: function($scope, $element, $attributes) {
          var $newScope = ScopeService.newScope($scope);
 
-         $newScope.canDelete = ScopeService.parseBool($attributes.canDelete, true);
-         $newScope.canView = ScopeService.parseBool($attributes.canView, true);
+         ScopeService.watchBool($newScope, $attributes, 'canDelete', true);
+         ScopeService.watchBool($newScope, $attributes, 'canView', true);
 
          $newScope.onDelete = $parse($attributes.onDelete);
          $newScope.onView = $parse($attributes.onView);
@@ -100,42 +101,44 @@ function(ScopeService, $compile, $parse) {
             $newScope.canShowButtons = false;
          }
 
-         var $overlayElement = angular.element("<div></div>");
-         $overlayElement.addClass('hover-options-overlay');
+         $timeout(function() {
+            var $overlayElement = angular.element("<div></div>");
+            $overlayElement.addClass('hover-options-overlay');
 
-         $overlayElement.attr('ng-style', 'getOverlayElementStyle()');
-         $overlayElement.attr('ng-mouseover', 'onOverlayMouseOver()');
-         $overlayElement.attr('ng-mouseout', 'onOverlayMouseOut()');
+            $overlayElement.attr('ng-style', 'getOverlayElementStyle()');
+            $overlayElement.attr('ng-mouseover', 'onOverlayMouseOver()');
+            $overlayElement.attr('ng-mouseout', 'onOverlayMouseOut()');
 
-         if (true === $newScope.canDelete) {
-            var $deleteButton = angular.element("<div></div>");
-            $deleteButton.addClass('options-button');
+            if (true === $newScope.canDelete) {
+               var $deleteButton = angular.element("<div></div>");
+               $deleteButton.addClass('options-button');
 
-            $deleteButton.attr('ng-click', 'onDeleteClicked($event)');
-            $deleteButton.attr('ng-style', 'getDeleteButtonStyle()');
+               $deleteButton.attr('ng-click', 'onDeleteClicked($event)');
+               $deleteButton.attr('ng-style', 'getDeleteButtonStyle()');
 
-            var $deleteImage = angular.element("<img />");
-            $deleteImage.attr('ng-src', 'images/close.png');
+               var $deleteImage = angular.element("<img />");
+               $deleteImage.attr('ng-src', 'images/close.png');
 
-            $deleteButton.append($deleteImage);
-            $overlayElement.append($deleteButton);
-         }
+               $deleteButton.append($deleteImage);
+               $overlayElement.append($deleteButton);
+            }
 
-         if (true === $newScope.canView) {
-            var $viewButton = angular.element("<div></div>");
-            $viewButton.addClass('options-button');
+            if (true === $newScope.canView) {
+               var $viewButton = angular.element("<div></div>");
+               $viewButton.addClass('options-button');
 
-            $viewButton.attr('ng-click', 'onViewClicked($event)');
-            $viewButton.attr('ng-style', 'getViewButtonStyle()');
+               $viewButton.attr('ng-click', 'onViewClicked($event)');
+               $viewButton.attr('ng-style', 'getViewButtonStyle()');
 
-            var $viewImage = angular.element("<img />");
-            $viewImage.attr('ng-src', 'images/eye.png');
+               var $viewImage = angular.element("<img />");
+               $viewImage.attr('ng-src', 'images/eye.png');
 
-            $viewButton.append($viewImage);
-            $overlayElement.append($viewButton);
-         }
+               $viewButton.append($viewImage);
+               $overlayElement.append($viewButton);
+            }
 
-         $element.append($compile($overlayElement)($newScope));
+            $element.append($compile($overlayElement)($newScope));
+         });
       }
    }
 }

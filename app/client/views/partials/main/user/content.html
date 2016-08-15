@@ -181,12 +181,11 @@
                   <workout-widget
                      size="150px"
                      is-link="true"
-			   workout="currentEditingUser.getLatestWorkout()"
-                     hover-options-overlay
-                     button-size="24px"
-                     can-delete="false"
+			            workout="currentEditingUser.getLatestWorkout()"
+                     has-hover-options-overlay="true"
                      can-view="true"
-                     on-view="inlineViewWorkout(currentEditingUser.getLatestWorkout())">
+                     can-delete="false"
+                     on-view="inlineViewWorkout(workout)">
                   </workout-widget>
                </div>
             </div>
@@ -237,14 +236,11 @@
             ng-repeat="workout in currentEditingUser.workouts"
             size="150px"
             is-link="true"
-
-            hover-options-overlay
-            button-size="24px"
+            has-hover-options-overlay="true"
             can-delete="true"
             can-view="true"
             on-delete="inlineDeleteWorkout(workout)"
             on-view="inlineViewWorkout(workout)"
-
             workout="workout">
          </workout-widget>
 

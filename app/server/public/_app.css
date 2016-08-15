@@ -10397,9 +10397,10 @@ div.admin {
   div.admin div.footer span.logout-link {
     font-size: 10px; }
 
-.modal-body {
-  max-height: 30vw;
-  overflow: scroll; }
+@media screen and (min-width: 760px) {
+  .modal-body {
+    max-height: 30vw;
+    overflow: scroll; } }
 
 .workout-modal {
   font-size: 0.9em; }

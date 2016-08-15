@@ -8,15 +8,22 @@ registerDirective(name, ['$compile',
                          require('services/scope_service'),
                          require('services/state_service'),
                          require('services/workout_builder_service'),
-function($compile, ScopeService, StateService, WorkoutBuilderService) {
+                         '$timeout',
+function($compile, ScopeService, StateService, WorkoutBuilderService,
+$timeout) {
    return {
       restrict: "E",
       scope: {
          workout: "<",
          size: "@",
+         //hasHoverOptionsOverlay: "@",
+         //canDelete: "@",
+         //canView: "@",
+         onDelete: "&",
+         onView: "&",
          //isLink: "@"
       },
-      replace: true,
+      //replace: true,
       templateUrl: "directives/workout_widget.html",
       link: function($scope, $element, $attributes) {
 
@@ -30,6 +37,10 @@ function($compile, ScopeService, StateService, WorkoutBuilderService) {
 
          ScopeService.watchBool($scope, $attributes,
           'isLink', false);
+
+         ScopeService.watchBool($scope, $attributes, "hasHoverOptionsOverlay", false);
+         ScopeService.watchBool($scope, $attributes, 'canDelete', false);
+         ScopeService.watchBool($scope, $attributes, 'canView', false);
 
          $scope.$watch('size', function(newValue) {
             if (!newValue) {
@@ -83,6 +94,29 @@ function($compile, ScopeService, StateService, WorkoutBuilderService) {
                StateService.go('main.workout_builder', {workoutId: $scope.workout.id});
             }
          }
+
+         $scope.onWidgetViewClicked = function() {
+            $scope.onView({workout: $scope.workout});
+         }
+
+         $scope.onWidgetDeleteClicked = function() {
+            $scope.onDelete({workout: $scope.workout});
+         }
+
+         $timeout(function() {
+            if (true === $scope.hasHoverOptionsOverlay) {
+               var $divElement = $element.find('div');
+
+               $divElement.attr('hover-options-overlay', '');
+               $divElement.attr('button-size', '24px');
+               $divElement.attr('can-delete', '{{canDelete}}');
+               $divElement.attr('can-view', '{{canView}}');
+               $divElement.attr('on-delete', 'onWidgetDeleteClicked(workout)');
+               $divElement.attr('on-view', 'onWidgetViewClicked(workout)');
+
+               $compile($divElement)($scope);
+            }
+         });
       }
    }
 }])
