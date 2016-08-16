@@ -10,27 +10,23 @@ registerDirective(name, [require('services/scope_service'),
                          '$timeout',
 function(ScopeService, $compile, $parse, $timeout) {
    return {
-      restrict: "A",
-      /*scope: {
+      restrict: "E",
+      scope: {
          //canDelete: "@",
          //canView: "@",
          onDelete: "&",
          onView: "&",
 
          buttonSize: "@"
-      },*/
+      },
+      templateUrl: "directives/hover_options_overlay.html",
       link: function($scope, $element, $attributes) {
-         var $newScope = ScopeService.newScope($scope);
+         ScopeService.watchBool($scope, $attributes, 'canDelete', true);
+         ScopeService.watchBool($scope, $attributes, 'canView', true);
 
-         ScopeService.watchBool($newScope, $attributes, 'canDelete', true);
-         ScopeService.watchBool($newScope, $attributes, 'canView', true);
+         $scope.canShowButtons = false;
 
-         $newScope.onDelete = $parse($attributes.onDelete);
-         $newScope.onView = $parse($attributes.onView);
-
-         $newScope.canShowButtons = false;
-
-         $newScope.getOverlayElementStyle = function() {
+         $scope.getOverlayElementStyle = function() {
             var style = {};
 
             style['top'] = "0px";
@@ -41,24 +37,24 @@ function(ScopeService, $compile, $parse, $timeout) {
             return style;
          }
 
-         $newScope.onDeleteClicked = function(e) {
+         $scope.onDeleteClicked = function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            $newScope.onDelete($scope);
+            $scope.onDelete();
          }
 
-         $newScope.onViewClicked = function(e) {
+         $scope.onViewClicked = function(e) {
             e.preventDefault();
             e.stopPropagation();
 
-            $newScope.onView($scope);
+            $scope.onView();
          }
 
-         $newScope.getGenericButtonStyle = function() {
+         $scope.getGenericButtonStyle = function() {
             var style = {};
 
-            if ($newScope.canShowButtons) {
+            if ($scope.canShowButtons) {
                style['display'] = 'inline-block';
             } else {
                style['display'] = 'none';
@@ -70,8 +66,8 @@ function(ScopeService, $compile, $parse, $timeout) {
             return style;
          }
 
-         $newScope.getDeleteButtonStyle = function() {
-            var style = $newScope.getGenericButtonStyle();
+         $scope.getDeleteButtonStyle = function() {
+            var style = $scope.getGenericButtonStyle();
 
             var sizeOffset = parseInt($attributes.buttonSize) / 4;
 
@@ -81,8 +77,8 @@ function(ScopeService, $compile, $parse, $timeout) {
             return style;
          }
 
-         $newScope.getViewButtonStyle = function() {
-            var style = $newScope.getGenericButtonStyle();
+         $scope.getViewButtonStyle = function() {
+            var style = $scope.getGenericButtonStyle();
 
             var sizeOffset = parseInt($attributes.buttonSize) / 4;
             var visualOffset = parseInt($attributes.buttonSize) / 8;
@@ -93,52 +89,13 @@ function(ScopeService, $compile, $parse, $timeout) {
             return style;
          }
 
-         $newScope.onOverlayMouseOver = function() {
-            $newScope.canShowButtons = true;
+         $scope.onOverlayMouseOver = function() {
+            $scope.canShowButtons = true;
          }
 
-         $newScope.onOverlayMouseOut = function() {
-            $newScope.canShowButtons = false;
+         $scope.onOverlayMouseOut = function() {
+            $scope.canShowButtons = false;
          }
-
-         $timeout(function() {
-            var $overlayElement = angular.element("<div></div>");
-            $overlayElement.addClass('hover-options-overlay');
-
-            $overlayElement.attr('ng-style', 'getOverlayElementStyle()');
-            $overlayElement.attr('ng-mouseover', 'onOverlayMouseOver()');
-            $overlayElement.attr('ng-mouseout', 'onOverlayMouseOut()');
-
-            if (true === $newScope.canDelete) {
-               var $deleteButton = angular.element("<div></div>");
-               $deleteButton.addClass('options-button');
-
-               $deleteButton.attr('ng-click', 'onDeleteClicked($event)');
-               $deleteButton.attr('ng-style', 'getDeleteButtonStyle()');
-
-               var $deleteImage = angular.element("<img />");
-               $deleteImage.attr('ng-src', 'images/close.png');
-
-               $deleteButton.append($deleteImage);
-               $overlayElement.append($deleteButton);
-            }
-
-            if (true === $newScope.canView) {
-               var $viewButton = angular.element("<div></div>");
-               $viewButton.addClass('options-button');
-
-               $viewButton.attr('ng-click', 'onViewClicked($event)');
-               $viewButton.attr('ng-style', 'getViewButtonStyle()');
-
-               var $viewImage = angular.element("<img />");
-               $viewImage.attr('ng-src', 'images/eye.png');
-
-               $viewButton.append($viewImage);
-               $overlayElement.append($viewButton);
-            }
-
-            $element.append($compile($overlayElement)($newScope));
-         });
       }
    }
 }

@@ -1,0 +1,17 @@
+<div class="hover-options-overlay"
+     ng-style="getOverlayElementStyle()"
+     ng-mouseover="onOverlayMouseOver()"
+     ng-mouseout="onOverlayMouseOut()">
+   <div ng-if="canDelete"
+        class="options-button"
+        ng-click="onDeleteClicked($event)"
+        ng-style="getDeleteButtonStyle()">
+      <img ng-src="images/close.png" />
+   </div>
+   <div ng-if="canView"
+        class="options-button"
+        ng-click="onViewClicked($event)"
+        ng-style="getViewButtonStyle()">
+      <img ng-src="images/eye.png" />
+   </div>
+</div>

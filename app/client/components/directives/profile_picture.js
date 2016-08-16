@@ -2,6 +2,8 @@
 
 var registerDirective = require('directives/register');
 
+var dom_utils = require('dom_utils');
+
 var name = 'profilePicture';
 
 registerDirective(name, [require('models/picture'),
@@ -35,16 +37,17 @@ function(PictureModel, ScopeService, $compile) {
             }
          }
 
-         $scope.getProfilePictureStyle = function() {
-            var style = {};
+         // Because the media-renderer div compiles itself
+         // and therefore overrides any ng- directives on it,
+         // we need to do this here.
 
-            style['display'] = 'inline-block';
-            if (true === $scope.fitted) {
-               style['width'] = '100%';
-               style['height'] = '100%';
+         $scope.$watch('user.is_admin', function(newValue) {
+            if (true === newValue) {
+               $element.find('div').addClass('admin');
+            } else {
+               $element.find('div').removeClass('admin');
             }
-            return style;
-         }
+         });
       }
    }
 }])

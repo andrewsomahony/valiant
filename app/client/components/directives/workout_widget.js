@@ -27,19 +27,6 @@ $parse, $timeout) {
       //replace: true,
       templateUrl: "directives/workout_widget.html",
       compile: function($element, $attributes) {
-         // We put this here as we can alter the DOM
-         // based on an attribute
-         var $divElement = $element.find('div');
-
-         if (true === ScopeService.parseBool($attributes.hasHoverOptionsOverlay, false)) {
-            $divElement.attr('hover-options-overlay', '');
-            $divElement.attr('button-size', '24px');
-            $divElement.attr('can-delete', '{{canDelete}}');
-            $divElement.attr('can-view', '{{canView}}');
-            $divElement.attr('on-view', 'onWidgetViewClicked()');
-            $divElement.attr('on-delete', 'onWidgetDeleteClicked()');
-         }
-
          return {
             post: link
          }
@@ -55,10 +42,9 @@ $parse, $timeout) {
       // hack a different solution in using absolute positioning and centering
       // with margins.
 
-      ScopeService.watchBool($scope, $attributes,
-         'isLink', false);
+      ScopeService.watchBool($scope, $attributes, 'isLink', false);
 
-      //ScopeService.watchBool($scope, $attributes, "hasHoverOptionsOverlay", false);
+      ScopeService.watchBool($scope, $attributes, "hasHoverOptionsOverlay", false);
       ScopeService.watchBool($scope, $attributes, 'canDelete', false);
       ScopeService.watchBool($scope, $attributes, 'canView', false);
 

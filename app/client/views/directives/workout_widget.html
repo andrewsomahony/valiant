@@ -17,4 +17,12 @@
          </span>
       </div>
    </div>
+
+   <hover-options-overlay ng-if="hasHoverOptionsOverlay"
+                          button-size="24px"
+                          can-delete="{{canDelete}}"
+                          can-view="{{canView}}"
+                          on-view="onWidgetViewClicked()"
+                          on-delete="onWidgetDeleteClicked()">
+   </hover-options-overlay>  
 </div>

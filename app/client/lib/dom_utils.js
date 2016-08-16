@@ -67,6 +67,61 @@
          } else {
             return nodeList[0];
          }
+      },
+
+      cssDimensionStringIsPercent: function(dimensionString) {
+         return -1 !== dimensionString.indexOf('%');
+      },
+
+      scaleCSSDimensionString: function(dimensionString, value, how) {
+         var dimensionTypes = [
+            '%',
+            'px',
+            'em',
+            'ex',
+            'cm',
+            'mm',
+            'in',
+            'pt',
+            'pc',
+            'ch',
+            'rem',
+            'vw',
+            'vh',
+            'vmin',
+            'vmax'
+         ];
+         var lowerCaseDimensionString = dimensionString.toLowerCase();
+         var lowerCaseHowString = how.toLowerCase();
+
+         var dimensionType = "";
+         dimensionTypes.every(function(type) {
+            if (-1 !== lowerCaseDimensionString.indexOf(type)) {
+               dimensionType = type;
+               return false;
+            } else {
+               return true;
+            }
+         });
+
+         var dimensionInt = parseInt(dimensionString);
+         var valueInt = parseInt(value);
+
+         var finalValue;
+
+         if ('divide' === lowerCaseHowString) {
+            finalValue = dimensionInt / valueInt;
+         } else if ('multiply' === lowerCaseHowString) {
+            finalValue = dimensionInt * valueInt;
+         } else if ('add' === lowerCaseHowString) {
+            finalValue = dimensionInt + valueInt;
+         } else if ('subtract' === lowerCaseHowString) {
+            finalValue = dimensionInt - valueInt;
+         } else {
+            throw new Error("scaleCSSDimensionString: Unknown math operation!" + how);
+         }
+         
+         return finalValue + dimensionType;
       }
    };
 
