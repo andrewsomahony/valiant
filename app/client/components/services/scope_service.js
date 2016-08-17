@@ -29,6 +29,12 @@ function($rootScope) {
 
    ScopeService.watchBool = function($scope, 
    $attributes, variableName, defaultValue, callbackFn) {
+      if (!$attributes[variableName]) {
+         $scope[variableName] = defaultValue;
+         if (callbackFn) {
+            callbackFn($scope[variableName]);
+         }
+      }
       $attributes.$observe(variableName, function(newValue, oldValue) {
          $scope[variableName] = ScopeService.parseBool(newValue, defaultValue);
          if (callbackFn) {

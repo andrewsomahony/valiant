@@ -38,22 +38,15 @@ DateService, $timeout) {
          $scope.hasCheckedInitiallyEditing = false;
          $scope.isEditing = false;
 
-         // !!! The order of these matters, if
-         // !!! we call editClicked within the isInitiallyEditing
-         // !!! callback, scrollToWhenEdited will only be set to true
-         // !!! if it's checked first.
-
          ScopeService.watchBool($scope, $attributes,
             'scrollToWhenEdited', true);
          ScopeService.watchBool($scope, $attributes,
             'isEditable', true);
          ScopeService.watchBool($scope, $attributes,
-            'isInitiallyEditing', false, function(newValue) {
-            if (!$scope.hasCheckedInitiallyEditing) {
-               $scope.hasCheckedInitiallyEditing = true;
-               if (true === $scope.isInitiallyEditing) {
-                  $scope.editClicked();
-               }
+            'isInitiallyEditing', false);
+         $timeout(function() {
+            if (true === $scope.isInitiallyEditing) {
+               $scope.editClicked();
             }
          });
 
@@ -85,9 +78,16 @@ DateService, $timeout) {
 
          $scope.editClicked = function() {
             $scope.setIsEditing(true);
+            console.log($scope);
             if (true === $scope.scrollToWhenEdited) {
                $timeout(function() {
                   dom_utils.smoothScroll($element[0]);
+                  console.log($element.find('textarea'));
+                  $element.find('textarea')[0].focus();
+               });
+            } else {
+               $timeout(function() {
+                  $element.find('textarea')[0].focus();
                });
             }
          }

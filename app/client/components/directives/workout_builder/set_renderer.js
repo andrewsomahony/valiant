@@ -35,8 +35,6 @@ Promise, ClipboardService, $timeout) {
       link: function($scope, $element, $attributes) {
          $element.addClass('set');
 
-         $scope.hasCheckedInitiallyEditing = false;
-
          $scope.numberOfPendingElementsToBeSaved = 0;
 
          ScopeService.watchBool($scope, $attributes, 'scrollToWhenEdited', true);

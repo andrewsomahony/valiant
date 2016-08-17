@@ -16,6 +16,8 @@ function($scope, QuestionService, UserService) {
    $scope.mediaContainerSize = "300px";
    $scope.errorMessage = "";
 
+   $scope.addingComment = false;
+
    $scope.getMediaContainerStyle = function() {
       var style = {};
 
@@ -60,6 +62,8 @@ function($scope, QuestionService, UserService) {
    }
 
    $scope.addComment = function() {
+      $scope.addingComment = true;
+
       var obj = $scope.currentEditingQuestion.addToChildArrayAtIndex('comments', 0);
       obj.setInternalVariable('is_unborn', true);
    }
@@ -69,6 +73,7 @@ function($scope, QuestionService, UserService) {
          QuestionService.addCommentToQuestion($scope.currentEditingQuestion,
             comment)
          .then(function(newComment) {
+            $scope.addingComment = false;
             comment.fromModel(newComment);
             resolve();
          })
@@ -83,6 +88,7 @@ function($scope, QuestionService, UserService) {
       if (true === comment.getInternalVariable('is_unborn')) {
          $scope.currentEditingQuestion.deleteFromChildArray('comments', comment);
       }
+      $scope.addingComment = false;
    }
 
    $scope.getStaticErrorMessage = function() {

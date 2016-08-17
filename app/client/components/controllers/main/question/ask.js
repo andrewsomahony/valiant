@@ -45,7 +45,6 @@ FFMpegService, ErrorModal, QuestionTypeService, StateService) {
    }
    
    $scope.askQuestion = function() {
-      var previousQuestion = $scope.currentQuestion.clone();
       $scope.isAskingQuestion = true;
 
       QuestionService.ask($scope.currentQuestion)
@@ -53,8 +52,6 @@ FFMpegService, ErrorModal, QuestionTypeService, StateService) {
          StateService.go('main.question', {questionId: newQuestion.id});
       })
       .catch(function(error) {
-         $scope.currentQuestion.fromModel(previousQuestion);
-         console.log($scope.currentQuestion);
          ErrorModal(error);
       })
       .finally(function() {

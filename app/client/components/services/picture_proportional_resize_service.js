@@ -19,7 +19,7 @@ SerialPromise, ProgressService, ErrorService) {
    
    //var maxProfilePictureWidth = 300;
    
-   function calculateHeightForPictureWidth(originalWidth, originalHeight, newWidth) {
+   PictureProportionalResizeService.calculateHeightForPictureWidth = function(originalWidth, originalHeight, newWidth) {
       if (!originalHeight) {
          return 0;
       } else {
@@ -28,7 +28,7 @@ SerialPromise, ProgressService, ErrorService) {
       }
    }
    
-   function calculateWidthForPictureHeight(originalWidth, originalHeight, newHeight) {
+   PictureProportionalResizeService.calculateWidthForPictureHeight = function(originalWidth, originalHeight, newHeight) {
       if (!originalHeight) {
          return 0;
       } else {
@@ -40,10 +40,10 @@ SerialPromise, ProgressService, ErrorService) {
    PictureProportionalResizeService.resizePicture = function(picture, newWidth, newHeight) {
       return Promise(function(resolve, reject, notify) {
          if (newWidth) {
-            newHeight = calculateHeightForPictureWidth(picture.getWidth(), 
+            newHeight = PictureProportionalResizeService.calculateHeightForPictureWidth(picture.getWidth(), 
                   picture.getHeight(), newWidth);
          } else if (newHeight) {
-            newWidth = calculateWidthForPictureHeight(picture.getWidth(),
+            newWidth = PictureProportionalResizeService.calculateWidthForPictureHeight(picture.getWidth(),
                   picture.getHeight(), newHeight);
          } else {
             reject(ErrorService.localError("PictureProportionalResizeService: newWidth and newHeight both null!"));
@@ -51,20 +51,13 @@ SerialPromise, ProgressService, ErrorService) {
                                           
          ImageService.scaleImageFromFileModel(picture.file_model, newWidth, newHeight)
             .then(function(newFileModel) {
-               //var newFileModel = FileModel.fromBlob(data.blob, fileModel.name);
-               /*FileModel.fromBlob(data.blob)
-               .then(function(newFileModel) {*/
-                  picture.setFileModel(newFileModel);
-                  picture.setMetadata({
-                     width: newWidth,
-                     height: newHeight
-                  });
-            
-                  resolve(picture);
-               /*})
-               .catch(function(error) {
-                  reject(error);
-               });*/
+               picture.setFileModel(newFileModel);
+               picture.setMetadata({
+                  width: newWidth,
+                  height: newHeight
+               });
+      
+               resolve(picture);
             })
             .catch(function(error) {
                reject(error);

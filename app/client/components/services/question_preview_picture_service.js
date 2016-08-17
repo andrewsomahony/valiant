@@ -14,8 +14,10 @@ registerService('factory', name, [require('services/canvas_service'),
                                   require('services/question_type_service'),
                                   require('services/promise'),
                                   require('services/serial_promise'),
+                                  require('services/picture_proportional_resize_service'),
 function(CanvasService, PictureService, RandomNumberService, FileModel,
-PictureModel, QuestionTypeService, Promise, SerialPromise) {
+PictureModel, QuestionTypeService, Promise, SerialPromise,
+PictureProportionalResizeService) {
    function QuestionPreviewPictureService() {
 
    }
@@ -104,9 +106,15 @@ PictureModel, QuestionTypeService, Promise, SerialPromise) {
             if (backgroundPicture.getHeight() > backgroundPicture.getWidth()) {
                backgroundColor = "black";
 
-               backgroundPictureRect[0] = (canvasModel.width - backgroundPicture.getWidth()) / 2;
+               // We can have big images here, so we need to figure out
+               // how to proportionally scale them so they can fit onto the canvas.
+
+               var newWidth = PictureProportionalResizeService.calculateWidthForPictureHeight(
+                   backgroundPicture.getWidth(), backgroundPicture.getHeight(), canvasModel.height);
+
+               backgroundPictureRect[0] = (canvasModel.width - newWidth) / 2;
                backgroundPictureRect[1] = 0;
-               backgroundPictureRect[2] = canvasModel.width / 2;
+               backgroundPictureRect[2] = newWidth;
                backgroundPictureRect[3] = canvasModel.height;
             } else {
                backgroundColor = "white";
@@ -129,9 +137,15 @@ PictureModel, QuestionTypeService, Promise, SerialPromise) {
             // with it, otherwise only fill a quarter of it.
 
             if (foregroundPicture.getHeight() > foregroundPicture.getWidth()) {
-               foregroundPictureRect[0] = canvasModel.width / 2;
+               // We can have big images here, so we need to figure out
+               // how to proportionally scale them so they can fit onto the canvas.
+
+               var newWidth = PictureProportionalResizeService.calculateWidthForPictureHeight(
+                   foregroundPicture.getWidth(), foregroundPicture.getHeight(), canvasModel.height);
+
+               foregroundPictureRect[0] = canvasModel.width - newWidth;
                foregroundPictureRect[1] = 0;
-               foregroundPictureRect[2] = canvasModel.width / 2;
+               foregroundPictureRect[2] = newWidth;
                foregroundPictureRect[3] = canvasModel.height;
             } else {
                foregroundPictureRect[0] = canvasModel.width / 2;

@@ -26,7 +26,7 @@ module.exports = function(schema, options) {
 
       return Promise(function(resolve, reject) {
          NotificationModel.find({_creator: self.getId()})
-         .sort({updated_at: -1})
+         .sort({created_at: -1})
          .populate("_creator")
          .populate("_parent")
          .exec(function(error, notifications) {

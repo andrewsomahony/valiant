@@ -172,6 +172,9 @@ CommentModel, ErrorService) {
             notify(progress);
          })
          .catch(function(error) {
+            // We want to revert back to the file models, instead of having
+            // uploaded URL's?
+            // !!! Do we want to do this?
             questionModel.fromModel(previousQuestionModel);
             reject(error);
          });
