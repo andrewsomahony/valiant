@@ -11,53 +11,10 @@
 
 <div ng-if="user.notifications.length">
    <div class="notification-scroll">
-      <div ng-repeat="notification in user.notifications"
-         class="notification"
-         ng-style="getNotificationStyle(notification, $last)"
-         ng-click="notificationClicked(notification)">
-         <div class="user-picture">
-            <profile-picture user="notification.creator"
-                           width="100%"
-                           height="100%"
-                           fitted="true"
-                           centered="true"
-                           show-uploading="false">
-            </profile-picture>
-         </div>
-         <!--
-         <div class="user-picture"
-              media-renderer="picture"
-              model="notification.creator.profile_picture"
-              width="100%"
-              height="100%"
-              fitted="true"
-              centered="true"
-              show-uploading="false">
-         </div>
-         -->
-         <div class="words">
-            <div class="message">
-               <span class="text">
-                  <span class="name"
-                        ng-bind="notification.creator.first_name">
-                  </span>
-                  <span class="subtext"
-                        ng-bind="notification.text">
-                  </span>
-               </span>
-            </div>
-            <div class="time"
-                  ng-bind="getNotificationTime(notification)">
-            </div>
-         </div>
-         <div class="question-picture"
-              media-renderer="picture"
-              model="notification.parent.preview_pictures[0]"
-              width="100%"
-              fitted="true"
-              centered="true"
-              show-uploading="false">
-         </div>         
-      </div>
+      <notification ng-repeat="notification in user.notifications"
+                    model="notification"
+                    on-clicked="notificationClicked(notification)"
+                    is-last="{{$last}}">
+      </notification>
    </div>
 </div>

@@ -16,7 +16,7 @@ module.exports = function(schema, options) {
    schema.methods.hasPendingEmail = function() {
       return this.pending_email;
    }
-   
+
    schema.methods.isUser = function(otherUser) {
       return this.getId().equals(otherUser.getId());
    }
@@ -145,7 +145,7 @@ module.exports = function(schema, options) {
          }
       });
    }
-   
+
    // We don't need to return everything
    schema.methods.frontEndObject = function(valuesToSkip) {
       if (!this.isAuthenticated) {
@@ -170,7 +170,7 @@ module.exports = function(schema, options) {
             is_visible_to_public: this.is_visible_to_public,
             is_admin: this.isAdmin()
          };
-         
+
          if (this.hasPendingEmail()) {
             object['pending_email'] = this.pending_email;
             object['pending_email_token'] = this.pending_email_token;
@@ -195,15 +195,15 @@ module.exports = function(schema, options) {
          }
 
          utils.removeKeysFromObject(object, valuesToSkip);
-         
+
          return object;
       }
    }
-   
+
    schema.methods.isOwner = function() {
       return 'owner' === this.access_type;
    }
-   
+
    schema.methods.isAdmin = function() {
       return 'owner' === this.access_type ||
              'admin' === this.access_type;

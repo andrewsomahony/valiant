@@ -10118,6 +10118,14 @@ div.main {
               display: inline-block; }
             div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.widget-area .workout-widget {
               display: inline-block; }
+          div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.question-area {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 1em; }
+            div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.question-area div.question-container {
+              display: inline-block; }
+              div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.question-area div.question-container .question-widget {
+                display: inline-block; }
           div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.top-area div.options-display div.options-area div.link-area {
             display: inline-block;
             vertical-align: middle; }
@@ -10219,6 +10227,15 @@ div.main {
           display: inline-block;
           margin-left: 0.5em;
           margin-bottom: 0.5em; }
+      div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area div.question-list {
+        width: 100%;
+        font-size: 1.3em;
+        display: inline-block; }
+        div.main div.mobile-scroll div.main-content div.content div.user div.sub-content div.content-area div.question-list div.question-widget {
+          display: inline-block;
+          margin-left: 0.5em;
+          margin-bottom: 0.5em;
+          vertical-align: top; }
       div.main div.mobile-scroll div.main-content div.content div.reset-password div.sub-content div.reset-password-form div.form-group span.form-errors {
         color: red;
         margin-left: 8px;
@@ -10421,7 +10438,68 @@ div.popover.notifications {
     display: inline-block;
     width: 100%;
     max-height: 26.5em;
-    overflow: scroll; }
+    overflow: scroll;
+    /*.notification {
+            padding-left: 0.7em;
+            padding-right: 0.7em;
+
+            padding-top: 0.7em;
+            padding-bottom: 0.7em;
+
+            display: inline-block;
+            width: 100%;
+            height: 5.3em;
+
+            margin-bottom: 1px;
+
+            cursor: pointer;
+
+            &:hover {
+               // We need the important
+               // to override the inline style that we
+               // set with ng-style
+               background-color: #e6ffff !important;
+            }
+
+            div.user-picture {
+               display: inline-block;
+               width: 15%;
+               height: 100%;
+               vertical-align: top;
+            }
+
+            div.words {
+               display: inline-block;
+               width: 61%;
+               height: 100%;
+
+               font-size: 0.9em;
+
+               div.message {
+                  span.text {
+                     span.name {
+                        font-weight: bold;
+                        vertical-align: middle;
+                     }
+                     span.subtext {
+                        vertical-align: middle;
+                     }
+                  }
+                  margin-bottom: 0.2em;
+               }
+               div.time {
+                  font-size: 0.9em;
+                  color: #737373;
+               }
+            }
+
+            div.question-picture {
+               display: inline-block;
+               width: 20%;
+               height: 100%;
+               vertical-align: top;
+            }
+         }*/ }
     div.popover.notifications .notification-scroll.empty {
       height: 26.5em; }
     div.popover.notifications .notification-scroll .empty-content {
@@ -10439,43 +10517,6 @@ div.popover.notifications {
         vertical-align: middle;
         color: #8c8c8c;
         font-size: 1.7em; }
-    div.popover.notifications .notification-scroll .notification {
-      padding-left: 0.7em;
-      padding-right: 0.7em;
-      padding-top: 0.7em;
-      padding-bottom: 0.7em;
-      display: inline-block;
-      width: 100%;
-      height: 5.3em;
-      margin-bottom: 1px;
-      cursor: pointer; }
-      div.popover.notifications .notification-scroll .notification:hover {
-        background-color: #e6ffff !important; }
-      div.popover.notifications .notification-scroll .notification div.user-picture {
-        display: inline-block;
-        width: 15%;
-        height: 100%;
-        vertical-align: top; }
-      div.popover.notifications .notification-scroll .notification div.words {
-        display: inline-block;
-        width: 61%;
-        height: 100%;
-        font-size: 0.9em; }
-        div.popover.notifications .notification-scroll .notification div.words div.message {
-          margin-bottom: 0.2em; }
-          div.popover.notifications .notification-scroll .notification div.words div.message span.text span.name {
-            font-weight: bold;
-            vertical-align: middle; }
-          div.popover.notifications .notification-scroll .notification div.words div.message span.text span.subtext {
-            vertical-align: middle; }
-        div.popover.notifications .notification-scroll .notification div.words div.time {
-          font-size: 0.9em;
-          color: #737373; }
-      div.popover.notifications .notification-scroll .notification div.question-picture {
-        display: inline-block;
-        width: 20%;
-        height: 100%;
-        vertical-align: top; }
 
 div.media-picker {
   display: inline-block; }
@@ -10782,6 +10823,33 @@ div.font-awesome-centered-icon {
         position: relative;
         top: -0.6em; }
 
+.question-widget {
+  border: 1px solid black;
+  position: relative;
+  vertical-align: middle; }
+  .question-widget.link:hover {
+    cursor: pointer; }
+  .question-widget div.title {
+    display: inline-block;
+    width: 100%;
+    height: 15%;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 0.6em; }
+  .question-widget div.picture {
+    display: inline-block;
+    width: 100%;
+    height: 65%; }
+  .question-widget div.text {
+    display: inline-block;
+    width: 100%;
+    height: 19%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow-y: hidden;
+    max-height: 19%;
+    text-align: center; }
+
 .collapsible-content div.title {
   display: inline-block;
   width: 100%;
@@ -10868,6 +10936,44 @@ div.font-awesome-centered-icon {
     line-height: 1.3;
     min-height: 13px;
     padding: 1px 3px; }
+
+.notification {
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  padding-top: 0.7em;
+  padding-bottom: 0.7em;
+  display: inline-block;
+  width: 100%;
+  height: 5.3em;
+  margin-bottom: 1px;
+  cursor: pointer; }
+  .notification:hover {
+    background-color: #e6ffff !important; }
+  .notification div.user-picture {
+    display: inline-block;
+    width: 15%;
+    height: 100%;
+    vertical-align: top; }
+  .notification div.words {
+    display: inline-block;
+    width: 61%;
+    height: 100%;
+    font-size: 0.9em; }
+    .notification div.words div.message {
+      margin-bottom: 0.2em; }
+      .notification div.words div.message span.text span.name {
+        font-weight: bold;
+        vertical-align: middle; }
+      .notification div.words div.message span.text span.subtext {
+        vertical-align: middle; }
+    .notification div.words div.time {
+      font-size: 0.9em;
+      color: #737373; }
+  .notification div.question-picture {
+    display: inline-block;
+    width: 20%;
+    height: 100%;
+    vertical-align: top; }
 
 .profile-picture {
   width: 100%;

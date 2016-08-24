@@ -11,7 +11,7 @@ registerDirective(name, [require('services/scope_service'),
                          require('services/error_modal'),
                          '$popover',
                          '$timeout',
-function(ScopeService, DateService, StateService, UserService, 
+function(ScopeService, DateService, StateService, UserService,
 ErrorModal, $popover, $timeout) {
    return {
       restrict: 'E',
@@ -41,16 +41,6 @@ ErrorModal, $popover, $timeout) {
 
          $scope.getNumberOfNewNotifications = function() {
             return $scope.user.getNewNotifications().length;
-         }
-
-         $scope.getNotificationTime = function(notification) {
-            return DateService.dateStringToDefaultFormattedString(notification.created_at);
-         }
-
-         $scope.notificationHasParentLink = function(notification) {
-            var lowerCaseType = notification.type.toLowerCase();
-            return notification.parent &&
-                   ('question' === lowerCaseType);
          }
 
          $scope.getNotificationStyle = function(notification, isLast) {
@@ -83,7 +73,7 @@ ErrorModal, $popover, $timeout) {
             // On the notification button click in top_bar.js,
             // we clone the notification array and mark the original
             // as all "old", and then $timeout to allow the interface to recompile.
-            
+
             // That was all for interface responsiveness: we don't need to do that
             // much here, as this goes to a new page.
 
@@ -96,9 +86,9 @@ ErrorModal, $popover, $timeout) {
                var paramKey = lowerCaseType + "Id";
 
                params[paramKey] = notification.parent.id;
-               
+
                HidePopover();
-               
+
                StateService.go(url, params);
             })
             .catch(function(error) {

@@ -4,15 +4,15 @@
          <div class="edit-container profile-picture-container">
                <div class="profile-picture-display">
                <span class="hidden-xs">
-                     <profile-picture 
-                        user="currentEditingUser" 
+                     <profile-picture
+                        user="currentEditingUser"
                         width="100%"
                         max-height="{{getUserInfoHeight()}}">
                      </profile-picture>
                </span>
                <span class="hidden-lg hidden-md hidden-sm">
-                     <profile-picture 
-                        user="currentEditingUser" 
+                     <profile-picture
+                        user="currentEditingUser"
                         width="150px">
                      </profile-picture>
                </span>
@@ -30,7 +30,7 @@
                      on-files-added="onProfilePictureSelectSuccess(files)"
                      on-files-progress="onProfilePictureSelectProgress(progress)"
                      on-files-error="onProfilePictureSelectError(error)">
-               </file-reader>      
+               </file-reader>
                </div>
          </div>
 
@@ -55,7 +55,7 @@
                </div>
                </div>
          </div>
-         
+
          <div class="edit-container profile-email-address-container" ng-if="!isEditingProfile && !isChangingPassword && !isChangingPrivacySettings">
                <div ng-if="!isChangingEmail">
                <span class="email-text"
@@ -68,8 +68,8 @@
                      <a class="left" ng-click="resendPendingEmailVerificationEmail()">Resend</a>
                      <a class="right" ng-click="cancelPendingEmailVerification()">Cancel</a>
                </span>
-               </div>     
-               
+               </div>
+
                <div ng-if="isChangingEmail">
                <div ng-class="getEmailEditControlClass()">
                      <input type="email"
@@ -81,7 +81,7 @@
                </div>
                </div>
          </div>
-         
+
          <div class="edit-container profile-password-container" ng-if="isChangingPassword">
                <div class="top-edit-control">
                <div>
@@ -100,14 +100,14 @@
                            ng-model-options="{updateOn: 'blur'}"
                            required />
                </div>
-               <div>       
+               <div>
                      <input type="password"
                            placeholder="Repeat New Password"
                            class="form-control profile-repeat-new-password-input"
                            ng-model="passwordChangeData.new_password_repeat"
                            ng-model-options="{updateOn: 'blur'}"
                            required />
-               </div>         
+               </div>
                </div>
          </div>
 
@@ -124,9 +124,9 @@
                      <input type="checkbox" class="fa-square-checkbox" ng-model="currentEditingUser.is_visible_to_users" />
                      <label>Visible to other users?</label>
                </div>
-               </div>            
+               </div>
          </div>
-         
+
          <div class="edit-container profile-options-container">
                <span ng-if="canChangeUser() && !isEditingProfile && !isChangingPassword && !isChangingEmail && !isChangingPrivacySettings">
                <a ng-click="activateEditingProfile()">Edit Profile</a>
@@ -137,17 +137,17 @@
                &nbsp;|&nbsp;
                <a ng-click="activateChangePrivacySettings()">Privacy Settings</a>
                </span>
-               
+
                <span ng-if="isEditingProfile && !isSaving">
                <a class="save-cancel-left save-changes" ng-click="saveProfile()">Save</a>
                <a class="save-cancel-right cancel-edit" ng-click="cancelEditing()">Back</a>
                </span>
-               
+
                <span ng-if="isChangingPassword && !isSaving">
                <a class="save-cancel-left save-password" ng-click="changePassword()">Change</a>
                <a class="save-cancel-right cancel-change-password" ng-click="cancelChangePassword()">Back</a>
                </span>
-               
+
                <span ng-if="isChangingEmail && !isSaving">
                <a class="save-cancel-left save-email" ng-click="changeEmail()">Change</a>
                <a class="save-cancel-right cancel-change-email" ng-click="cancelChangeEmail()">Back</a>
@@ -157,18 +157,18 @@
                <a class="left save-privacy-settings" ng-click="changePrivacySettings()">Change</a>
                <a class="right cancel-privacy-settings" ng-click="cancelChangePrivacySettings()">Back</a>
                </span>
-               
-               <div loading-progress 
+
+               <div loading-progress
                      type="spinner"
                      class="saving-message fade-in"
                      ng-if="isSaving"
                      message="{{getSavingUserMessage()}}">
                </div>
-               
+
                <div ng-if="postSavingMessage" class="post-saving-message">
                <span ng-bind="postSavingMessage"></span>
                </div>
-               
+
                <div ng-if="errorMessage" class="saving-error-message">
                <span ng-bind="errorMessage"></span>
                </div>
@@ -200,6 +200,16 @@
             </div>
          </div>
          <div class="options-area question">
+            <div class="question-area" ng-if="currentEditingUser.getLatestQuestion()">
+               <div class="question-container">
+                  <question-widget
+                     model="currentEditingUser.getLatestQuestion()"
+                     size="180px"
+                     is-link="true">
+                  </question-widget>
+               </div>
+            </div>
+
             <div class="link-area">
                <a ui-sref="main.page.question.ask"
                   class="large">
@@ -229,8 +239,8 @@
            title="My Workouts"
            allows-search="true"
            scroll-to-when-opened="true"
-           on-opened="onQuestionsOpened"
-           on-closed="onQuestionsClosed">
+           on-opened="onWorkoutsOpened()"
+           on-closed="onWorkoutsClosed()">
 
          <workout-widget
             ng-repeat="workout in currentEditingUser.workouts"
@@ -245,6 +255,22 @@
          </workout-widget>
 
       </collapsible-content>
+
+      <collapsible-content
+           class="question-list"
+           title="My Questions"
+           allows-search="true"
+           scroll-to-when-opened="true"
+           on-opened="onQuestionsOpened()"
+           on-closed="onQuestionsClosed()">
+         <question-widget
+            ng-repeat="question in currentEditingUser.questions"
+            size="180px"
+            is-link="true"
+            model="question">
+         </question-widget>
+      </collapsible-content>
+
    </div>
 </div>
 

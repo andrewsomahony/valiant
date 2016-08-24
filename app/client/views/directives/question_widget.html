@@ -1,0 +1,16 @@
+<div ng-class="getWidgetClass()"
+     ng-style="getWidgetStyle()"
+     ng-click="onWidgetClicked()">
+   <div class="title"
+        ng-bind="question.getTopic()">
+   </div>
+   <div media-renderer="picture"
+        class="picture"
+        model="question.preview_pictures[0]"
+        fitted="true"
+        centered="true">
+   </div>
+   <div class="text"
+        ng-bind="question.text">
+   </div>
+</div>

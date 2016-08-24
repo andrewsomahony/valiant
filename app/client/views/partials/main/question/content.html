@@ -1,7 +1,7 @@
 <div ng-if="currentEditingQuestion">
    <div class="question-section creator">
      <div class="asked-by subtitle">Asked by:</div>
-     <user-link user="currentEditingQuestion.creator" 
+     <user-link user="currentEditingQuestion.creator"
                 picture-size="1.3em">
      </user-link>
    </div>
@@ -66,7 +66,7 @@
                class="youtube-container">
             </div>
             <div class="description" ng-bind="currentEditingQuestion.youtube_video.description">
-            </div>            
+            </div>
          </div>
       </div>
    </div>
@@ -75,7 +75,7 @@
       <div class="add-comment" ng-if="!addingComment">
         <a ng-click="addComment()">
           <span font-awesome-icon-text
-                icon="fa-plus" 
+                icon="fa-plus"
                 text="Comment">
           </span>
         </a>
@@ -91,12 +91,12 @@
               on-cancel-clicked="cancelComment(comment)"
               edit-height="200px">
            </comment>
-        </div>   
-      </div>      
+        </div>
+      </div>
    </div>
 </div>
 
-<div ng-if="!currentEditingQuestion" 
+<div ng-if="!currentEditingQuestion"
      ng-bind="getStaticErrorMessage()"
      class="error">
 </div>

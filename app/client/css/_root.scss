@@ -6,7 +6,7 @@ html, body {
     min-height: 100%;
     overflow: hidden;
     position: relative;
-    
+
     // Bootstrap wants to override these
     // two properties of inputs, so we have
     // to mark them with !important.
@@ -22,7 +22,7 @@ html, body {
         color: black;
         font-weight: normal;
     }
-    
+
     input.file-reader-picker {
         position: absolute;
         left: -7000px;
@@ -75,7 +75,7 @@ html, body {
              }
           }
        }
-    }    
+    }
 
     .centered {
         position: absolute;
@@ -83,23 +83,23 @@ html, body {
         left: 0;
         right: 0;
         bottom: 0;
-        margin: auto;        
+        margin: auto;
     }
-    
+
     div.profile-picture {
         display: inline-block;
     }
-    
+
     div.loading-progress {
        display: inline-block;
-    }    
-    
+    }
+
     div.loading-bar-parent {
         border-width: 1px;
         border-style: solid;
-        
+
         div.loading-bar {
-            
+
         }
     }
 
@@ -116,7 +116,7 @@ html, body {
     html, body {
         overflow: visible !important;
         width: 100% !important;
-    
+
         .top-bar,
         .header,
         .large-header-padding,
@@ -127,7 +127,7 @@ html, body {
         a {
             display: none !important;
         }
-        
+
         .print {
            display: block !important;
         }

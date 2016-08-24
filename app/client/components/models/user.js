@@ -38,7 +38,7 @@ PictureModel, QuestionModel, WorkoutModel) {
             });
          },
          localFields: function() {
-            return this.staticMerge(this.callSuper(), 
+            return this.staticMerge(this.callSuper(),
                ['workouts', 'questions']);
          }
       },
@@ -46,11 +46,11 @@ PictureModel, QuestionModel, WorkoutModel) {
       init: function(config, isFromServer) {
          this.callSuper()
       },
-      
+
       fullName: function() {
          return this.first_name + " " + this.last_name;
       },
-      
+
       setProfilePicture: function(picture) {
          if (!picture) {
             this.profile_picture.fromObject({});
@@ -71,6 +71,14 @@ PictureModel, QuestionModel, WorkoutModel) {
          }
       },
 
+      getLatestQuestion: function() {
+         if (this.questions.length) {
+            return this.questions[0];
+         } else {
+            return null;
+         }
+      },
+
       getNewNotifications: function() {
          return utils.grep(this.notifications, function(notification) {
             return notification.is_new;
@@ -82,7 +90,7 @@ PictureModel, QuestionModel, WorkoutModel) {
             return notification.is_unread;
          });
       }
-   })   
+   })
 }]);
 
 module.exports = name;

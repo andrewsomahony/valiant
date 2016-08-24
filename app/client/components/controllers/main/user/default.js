@@ -21,39 +21,39 @@ FileReaderActivatorService, Promise, WorkoutModal,
 ErrorModal, ConfirmModal) {
    // Clone what we get from the UserService
    // to allow for editing and such
-   
-   $scope.currentEditingUser = 
-      !UserService.getCurrentRequestedUser() ? 
+
+   $scope.currentEditingUser =
+      !UserService.getCurrentRequestedUser() ?
       null :
       UserService.getCurrentRequestedUser().clone();
-   
+
    $scope.previousEditingUser = null;
-   
+
    $scope.profilePicturePicker = FileReaderActivatorService.makeCreationObject();
-   
+
    $scope.tempWidth = "40%";
    $scope.tempHeight = "40%";
-   
+
    $scope.isEditingProfile = false;
    $scope.isChangingPassword = false;
    $scope.isChangingEmail = false;
    $scope.isChangingPrivacySettings = false;
-   
+
    $scope.isSaving = false;
    $scope.savingMessage = "";
-   
+
    $scope.postSavingMessage = "";
-   
+
    $scope.errorMessage = StateService.params()['error'];
-   
+
    $scope.savingProgress = null;
-   
+
    $scope.passwordChangeData = {
       old_password: "",
       new_password: "",
       new_password_repeat: ""
    };
-   
+
    $scope.emailChangeData = {
       email: ""
    };
@@ -89,25 +89,25 @@ ErrorModal, ConfirmModal) {
 
       return style;
    }
-   
+
    $scope.error = function(errorObject) {
       if (!errorObject) {
-         $scope.errorMessage = "";      
+         $scope.errorMessage = "";
       } else {
          $scope.errorMessage = errorObject.toString(false);
       }
    }
-      
+
    $scope.isViewingLoggedInUser = function() {
       if (!this.currentEditingUser) {
          return false;
       }
-      
+
       var currentUser = UserService.getCurrentUser();
-      
+
       return currentUser && currentUser.id === $scope.currentEditingUser.id;
    }
-   
+
    $scope.setIsSaving = function(isSaving, message) {
       $scope.isSaving = isSaving;
       if (isSaving) {
@@ -116,24 +116,24 @@ ErrorModal, ConfirmModal) {
          $scope.savingMessage = "";
       }
    }
-   
+
    $scope.setPostSavingMessage = function(message) {
       $scope.postSavingMessage = message;
    }
-   
+
    $scope.finishEditing = function(newUser) {
       $scope.currentEditingUser = newUser;
       $scope.previousEditingUser = null;
    }
-   
+
    $scope.canChangeUser = function() {
       return this.isViewingLoggedInUser();
    }
-   
+
    $scope.getSavingUserMessage = function() {
       return $scope.savingMessage || "Saving...";
    }
-   
+
    $scope.getEmailEditControlClass = function() {
       if ($scope.currentEditingUser.pending_email) {
          return "";
@@ -145,7 +145,7 @@ ErrorModal, ConfirmModal) {
    // Multiple things might want to use
    // the saveUser method of the UserService,
    // as it's just a patch
-   
+
    $scope.saveUser = function() {
       return Promise(function(resolve, reject, notify) {
          UserService.saveUser($scope.currentEditingUser,
@@ -170,18 +170,18 @@ ErrorModal, ConfirmModal) {
       .then(function(newUser) {
          // !!! Do we need this?
          $scope.currentEditingUser.fromModel(newUser);
-         
+
          $scope.isEditingProfile = false;
       })
       .finally(function() {
          $scope.setIsSaving(false);
       });
    }
-   
+
    $scope.changePassword = function() {
       $scope.setIsSaving(true, "Changing password...");
       $scope.setPostSavingMessage(null);
-      
+
       UserService.changePassword($scope.passwordChangeData.old_password,
             $scope.passwordChangeData.new_password)
       .then(function(newUser) {
@@ -196,11 +196,11 @@ ErrorModal, ConfirmModal) {
          $scope.setIsSaving(false);
       })
    }
-   
+
    $scope.changeEmail = function() {
       $scope.setIsSaving(true, "Changing E-mail...");
       $scope.setPostSavingMessage(null);
-      
+
       UserService.changeEmail($scope.emailChangeData.email)
       .then(function(newUser) {
          $scope.finishEditing(newUser);
@@ -216,15 +216,15 @@ ErrorModal, ConfirmModal) {
          $scope.setIsSaving(false);
       });
    }
-   
+
    $scope.resendPendingEmailVerificationEmail = function() {
       $scope.setIsSaving(true, "Resending...");
       $scope.setPostSavingMessage(null);
-      
+
       UserService.resendPendingEmailVerificationEmail($scope.currentEditingUser)
       .then(function(newUser) {
          $scope.currentEditingUser = newUser;
-         $scope.setPostSavingMessage("Verification e-mail resent");                 
+         $scope.setPostSavingMessage("Verification e-mail resent");
       })
       .catch(function(error) {
          $scope.error(error);
@@ -233,7 +233,7 @@ ErrorModal, ConfirmModal) {
          $scope.setIsSaving(false);
       })
    }
-   
+
    $scope.cancelPendingEmailVerification = function() {
       $scope.setIsSaving(true, "Cancelling...");
       $scope.setPostSavingMessage(null);
@@ -262,20 +262,20 @@ ErrorModal, ConfirmModal) {
          $scope.setIsSaving(false);
       })
    }
-     
+
    $scope.changeProfilePicture = function() {
       FileReaderActivatorService.activateFileReader($scope.profilePicturePicker);
    }
-   
+
    $scope.resetProfilePicture = function() {
       $scope.currentEditingUser.setProfilePicture(null);
    }
-      
+
    $scope.onProfilePictureSelectCreated = function(elementId) {
       console.log("NEW ELEMENT ID", elementId);
       FileReaderActivatorService.fileReaderCreated($scope.profilePicturePicker, elementId);
    }
-   
+
    $scope.onProfilePictureSelectSuccess = function(files) {
       PictureService.getPictureFromFileModel(files[0])
       .then(function(picture) {
@@ -285,49 +285,49 @@ ErrorModal, ConfirmModal) {
          })
          .catch(function(error) {
             $scope.error(error);
-         });         
+         });
       });
    }
-   
+
    $scope.onProfilePictureSelectError = function(error) {
       $scope.error(error);
    }
-   
+
    $scope.onProfilePictureSelectProgress = function(progress) {
-      
+
    }
-   
+
    $scope.clearPasswordFields = function() {
       $scope.passwordChangeData.old_password = "";
       $scope.passwordChangeData.new_password = "";
-      $scope.passwordChangeData.new_password_repeat = "";      
+      $scope.passwordChangeData.new_password_repeat = "";
    }
-   
+
    $scope.clearEmailFields = function() {
-      $scope.emailChangeData.email = "";      
+      $scope.emailChangeData.email = "";
    }
-   
+
    $scope.activateEditing = function() {
-      FileReaderActivatorService.createFileReader($scope.profilePicturePicker);   
+      FileReaderActivatorService.createFileReader($scope.profilePicturePicker);
       $scope.previousEditingUser = $scope.currentEditingUser.clone();
    }
-   
+
    $scope.activateEditingProfile = function() {
       $scope.isEditingProfile = true;
       $scope.activateEditing();
    }
-   
+
    $scope.activateChangePassword = function() {
       $scope.isChangingPassword = true;
       $scope.clearPasswordFields();
 
       $scope.activateEditing();
    }
-   
+
    $scope.activateChangeEmail = function() {
       $scope.isChangingEmail = true;
       $scope.clearEmailFields();
-      
+
       $scope.activateEditing();
    }
 
@@ -340,23 +340,31 @@ ErrorModal, ConfirmModal) {
       $scope.isChangingPrivacySettings = false;
       $scope.cancelEditing();
    }
-   
+
    $scope.cancelEditing = function() {
       $scope.currentEditingUser = $scope.previousEditingUser;
       $scope.previousEditingUser = null;
-      
+
       $scope.isEditingProfile = false;
       $scope.setPostSavingMessage(null);
    }
-   
+
    $scope.cancelChangePassword = function() {
       $scope.isChangingPassword = false;
       $scope.setPostSavingMessage(null);
    }
-   
+
    $scope.cancelChangeEmail = function() {
       $scope.isChangingEmail = false;
       $scope.setPostSavingMessage(null);
+   }
+
+   $scope.onWorkoutsOpened = function() {
+
+   }
+
+   $scope.onWorkoutsClosed = function() {
+      
    }
 
    $scope.onQuestionsOpened = function() {
@@ -368,9 +376,9 @@ ErrorModal, ConfirmModal) {
 
    $scope.inlineDeleteWorkout = function(workout) {
       ConfirmModal("Delete workout?")
-      .then(function(yes) { 
-         if (yes) {     
-            UserService.inlineDeleteWorkout($scope.currentEditingUser, 
+      .then(function(yes) {
+         if (yes) {
+            UserService.inlineDeleteWorkout($scope.currentEditingUser,
                workout)
             .then(function() {
 
@@ -385,17 +393,17 @@ ErrorModal, ConfirmModal) {
    $scope.inlineViewWorkout = function(workout) {
       WorkoutModal(workout);
    }
-   
+
    $scope.getStaticErrorMessage = function() {
       if ($scope.currentEditingUser) {
          return "";
       } else {
          if (UserService.currentRequestedUserIsNotAccessible()) {
-            return "You don't have permission to view this user."   
+            return "You don't have permission to view this user."
          } else if (UserService.currentRequestedUserIsNotFound()) {
-            return "User not found."   
+            return "User not found."
          } else {
-            return "Unknown error";   
+            return "Unknown error";
          }
       }
    }

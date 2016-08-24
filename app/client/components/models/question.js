@@ -14,7 +14,7 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
    return classy.define({
       extend: BaseModel,
       alias: name,
-      
+
       statics: {
          fields: function() {
             return this.staticMerge(this.callSuper(), {
@@ -22,9 +22,9 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
                // IF someone has a question about something
                // that's not in my default drop-down,
                // they can use this one.
-               
+
                // This also can show me how people use
-               // the question page. 
+               // the question page.
                custom_topic: "",
                text: "",
                videos: [{__model__: VideoModel}],
@@ -36,24 +36,28 @@ function(BaseModel, VideoModel, PictureModel, CommentModel) {
             });
          },
          localFields: function() {
-            return this.staticMerge(this.callSuper(), 
+            return this.staticMerge(this.callSuper(),
                ['creator', 'comments']);
          },
          serverMappings: function() {
             return this.staticMerge(this.callSuper(), {
                "creator": "_creator"
             });
-         }         
+         }
       },
-      
+
       init: function(config, isFromServer) {
          this.callSuper();
       },
-      
+
+      getTopic: function() {
+         return this.custom_topic || this.topic;
+      },
+
       allocateVideos: function(numberOfVideos) {
          this.allocateChildArray('videos', numberOfVideos);
       },
-      
+
       allocatePictures: function(numberOfPictures) {
          this.allocateChildArray('pictures', numberOfPictures);
       },

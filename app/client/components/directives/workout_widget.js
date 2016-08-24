@@ -66,7 +66,7 @@ $parse, $timeout) {
 
       $scope.getWidgetClass = function() {
          var classes = [];
-         
+
          classes.push('workout-widget');
          if (true === $scope.isLink) {
             classes.push('link');
@@ -75,7 +75,7 @@ $parse, $timeout) {
          return classes;
       }
 
-      // A stupid hack to sort of center the 
+      // A stupid hack to sort of center the
       // distance and icons vertically within the widget,
       // as we can't do it with the ghost span method :-/
 

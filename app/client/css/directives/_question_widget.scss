@@ -1,0 +1,39 @@
+.question-widget {
+   border: 1px solid black;
+   position: relative;
+   vertical-align: middle;
+
+   &.link {
+      &:hover {
+         cursor: pointer;
+      }
+   }
+
+   div.title {
+      display: inline-block;
+      width: 100%;
+      height: 15%;
+      text-align: center;
+      font-weight: bold;
+      padding-top: 0.6em;
+   }
+
+   div.picture {
+      display: inline-block;
+      width: 100%;
+      height: 65%;
+   }
+
+   div.text {
+      display: inline-block;;
+      width: 100%;
+      height: 19%;
+
+      text-overflow: ellipsis;
+      white-space: nowrap;
+	   overflow-y: hidden;
+      max-height: 19%;
+
+      text-align: center;
+   }
+}

@@ -59,7 +59,7 @@ DateService, $timeout) {
          }
 
          $scope.getDateString = function() {
-            return "on " + 
+            return "on " +
                    DateService.dateStringToFormattedString($scope.model.created_at, "MMMM Do, YYYY") +
                    " at " +
                    DateService.dateStringToFormattedString($scope.model.created_at, "h:mm A");

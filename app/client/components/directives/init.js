@@ -32,6 +32,8 @@ require('./confirm_click');
 require('./workout_widget');
 require('./workout_icons');
 
+require('./question_widget');
+
 require('./collapsible_content');
 
 require('./clipboard_copy_link');
@@ -44,3 +46,4 @@ require('./comment');
 require('./user_link');
 
 require('./notifications_button');
+require('./notification');
