@@ -1,16 +1,20 @@
 <div ng-class="getWidgetClass()"
      ng-style="getWidgetStyle()"
      ng-click="onWidgetClicked()">
-   <div class="title"
+   <div class="section title"
         ng-bind="question.getTopic()">
    </div>
+   <div class="section date"
+        ng-bind="getQuestionDate()">
+   </div>
    <div media-renderer="picture"
-        class="picture"
+        class="section picture"
         model="question.preview_pictures[0]"
         fitted="true"
         centered="true">
    </div>
-   <div class="text"
-        ng-bind="question.text">
+   <div class="section text"
+        ng-bind="question.text"
+        title="{{question.text}}">
    </div>
 </div>

@@ -17,7 +17,6 @@ function(ScopeService, DateService, StateService) {
       },
       templateUrl: "directives/question_widget.html",
       link: function($scope, $element, $attributes) {
-
          ScopeService.watchBool($scope, $attributes, 'isLink', false);
 
          $scope.getWidgetStyle = function() {
@@ -39,6 +38,11 @@ function(ScopeService, DateService, StateService) {
             }
 
             return classes;
+         }
+
+         $scope.getQuestionDate = function() {
+            return DateService.dateStringToDefaultFormattedString(
+               $scope.question.created_at);
          }
 
          $scope.onWidgetClicked = function() {

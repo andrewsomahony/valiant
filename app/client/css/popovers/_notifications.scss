@@ -49,68 +49,6 @@ div.popover {
                font-size: 1.7em;
             }
          }
-
-         /*.notification {
-            padding-left: 0.7em;
-            padding-right: 0.7em;
-
-            padding-top: 0.7em;
-            padding-bottom: 0.7em;
-
-            display: inline-block;
-            width: 100%;
-            height: 5.3em;
-
-            margin-bottom: 1px;
-
-            cursor: pointer;
-
-            &:hover {
-               // We need the important
-               // to override the inline style that we
-               // set with ng-style
-               background-color: #e6ffff !important;
-            }
-
-            div.user-picture {
-               display: inline-block;
-               width: 15%;
-               height: 100%;
-               vertical-align: top;
-            }
-
-            div.words {
-               display: inline-block;
-               width: 61%;
-               height: 100%;
-
-               font-size: 0.9em;
-
-               div.message {
-                  span.text {
-                     span.name {
-                        font-weight: bold;
-                        vertical-align: middle;
-                     }
-                     span.subtext {
-                        vertical-align: middle;
-                     }
-                  }
-                  margin-bottom: 0.2em;
-               }
-               div.time {
-                  font-size: 0.9em;
-                  color: #737373;
-               }
-            }
-
-            div.question-picture {
-               display: inline-block;
-               width: 20%;
-               height: 100%;
-               vertical-align: top;
-            }
-         }*/
       }
    }
 }

@@ -10438,68 +10438,7 @@ div.popover.notifications {
     display: inline-block;
     width: 100%;
     max-height: 26.5em;
-    overflow: scroll;
-    /*.notification {
-            padding-left: 0.7em;
-            padding-right: 0.7em;
-
-            padding-top: 0.7em;
-            padding-bottom: 0.7em;
-
-            display: inline-block;
-            width: 100%;
-            height: 5.3em;
-
-            margin-bottom: 1px;
-
-            cursor: pointer;
-
-            &:hover {
-               // We need the important
-               // to override the inline style that we
-               // set with ng-style
-               background-color: #e6ffff !important;
-            }
-
-            div.user-picture {
-               display: inline-block;
-               width: 15%;
-               height: 100%;
-               vertical-align: top;
-            }
-
-            div.words {
-               display: inline-block;
-               width: 61%;
-               height: 100%;
-
-               font-size: 0.9em;
-
-               div.message {
-                  span.text {
-                     span.name {
-                        font-weight: bold;
-                        vertical-align: middle;
-                     }
-                     span.subtext {
-                        vertical-align: middle;
-                     }
-                  }
-                  margin-bottom: 0.2em;
-               }
-               div.time {
-                  font-size: 0.9em;
-                  color: #737373;
-               }
-            }
-
-            div.question-picture {
-               display: inline-block;
-               width: 20%;
-               height: 100%;
-               vertical-align: top;
-            }
-         }*/ }
+    overflow: scroll; }
     div.popover.notifications .notification-scroll.empty {
       height: 26.5em; }
     div.popover.notifications .notification-scroll .empty-content {
@@ -10826,29 +10765,67 @@ div.font-awesome-centered-icon {
 .question-widget {
   border: 1px solid black;
   position: relative;
-  vertical-align: middle; }
+  vertical-align: middle;
+  /*
+   div.title {
+      display: inline-block;
+      width: 100%;
+      height: 10%;
+      text-align: center;
+      font-weight: bold;
+      padding-top: 0.6em;
+   }
+
+   div.date {
+      display: inline-block;
+      width: 100%;
+      height: 10%;
+      text-align: center;
+      font-size: 0.9em;
+      color: #737373;
+   }
+
+   div.picture {
+      display: inline-block;
+      width: 100%;
+      height: 60%;
+   }*/
+  /*
+   div.text {
+      display: inline-block;;
+      width: 100%;
+      height: 19%;
+
+      text-overflow: ellipsis;
+      white-space: nowrap;
+	   overflow-y: hidden;
+      max-height: 19%;
+
+      text-align: center;
+   }*/ }
   .question-widget.link:hover {
     cursor: pointer; }
-  .question-widget div.title {
+  .question-widget div.section {
     display: inline-block;
     width: 100%;
-    height: 15%;
-    text-align: center;
-    font-weight: bold;
-    padding-top: 0.6em; }
-  .question-widget div.picture {
-    display: inline-block;
-    width: 100%;
-    height: 65%; }
-  .question-widget div.text {
-    display: inline-block;
-    width: 100%;
-    height: 19%;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow-y: hidden;
-    max-height: 19%;
     text-align: center; }
+    .question-widget div.section.title {
+      height: 10%;
+      font-weight: bold;
+      padding-top: 0.6em; }
+    .question-widget div.section.date {
+      height: 10%;
+      font-size: 0.9em;
+      color: #737373; }
+    .question-widget div.section.picture {
+      height: 60%; }
+    .question-widget div.section.text {
+      height: 19%;
+      max-height: 19%;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow-y: hidden;
+      overflow-x: hidden; }
 
 .collapsible-content div.title {
   display: inline-block;
